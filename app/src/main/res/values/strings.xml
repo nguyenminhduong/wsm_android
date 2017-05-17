@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">WSM</string>
+
+    <!-- Common -->
+    <string name="error">Error</string>
+    <string name="retry">Retry</string>
+
+    <!-- Dialog -->
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
+    <string name="allow">Allow</string>
+    <string name="deny">Deny</string>
+    <string name="dont_ask_again">Don\'t ask again</string>
+    <string name="more_info">More Info</string>
+    <string name="choose">Choose</string>
+    <string name="clear">Clear</string>
 </resources>
