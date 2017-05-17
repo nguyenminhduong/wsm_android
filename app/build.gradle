@@ -19,6 +19,15 @@ android {
     versionName rootProject.ext.versionName
 
     vectorDrawables.useSupportLibrary = true
+
+    testApplicationId "${APP_ID + ".test"}"
+    testInstrumentationRunner "${APP_ID + ".test.Instrumentation"}"
+  }
+
+  sourceSets {
+    androidTest {
+      assets.srcDirs = ['src/androidTest/assets']
+    }
   }
 
   dataBinding {
@@ -110,6 +119,8 @@ dependencies {
   testCompile dependencies.junit
   testCompile dependencies.mockito
 
+  androidTestCompile 'info.cukes:cucumber-android:1.2.0@jar'
+  androidTestCompile 'info.cukes:cucumber-picocontainer:1.2.0'
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
