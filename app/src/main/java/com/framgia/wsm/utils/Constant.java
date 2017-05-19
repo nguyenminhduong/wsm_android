@@ -5,6 +5,7 @@ package com.framgia.wsm.utils;
  */
 
 public final class Constant {
+
     private Constant() {
         // No-op
     }
