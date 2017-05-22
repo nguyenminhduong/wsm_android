@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".screen.login.LoginActivity">
+
+        </activity>
+        <activity android:name=".screen.demo.DemoTimeSheetActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

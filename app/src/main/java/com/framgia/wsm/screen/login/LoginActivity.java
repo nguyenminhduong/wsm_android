@@ -26,7 +26,9 @@ public class LoginActivity extends BaseActivity {
                 .build()
                 .inject(this);
 
-        ActivityLoginBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+        ActivityLoginBinding binding =
+                DataBindingUtil.setContentView(this, R.layout.activity_login);
+
         binding.setViewModel((LoginViewModel) mViewModel);
     }
 
