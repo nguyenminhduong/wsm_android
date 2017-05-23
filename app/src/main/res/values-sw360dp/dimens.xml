@@ -40,5 +40,6 @@
     <dimen name="dp_0">0dp</dimen>
     <dimen name="dp_110">110dp</dimen>
     <dimen name="dp_60">60dp</dimen>
+    <dimen name="dp_16">16dp</dimen>
     <dimen name="dp_320">320dp</dimen>
 </resources>

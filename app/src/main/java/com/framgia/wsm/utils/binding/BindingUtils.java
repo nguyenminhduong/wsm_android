@@ -7,6 +7,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
+import android.widget.EditText;
 
 /**
  * Created by le.quang.dao on 20/03/2017.
@@ -49,5 +50,10 @@ public final class BindingUtils {
     public static void setViewPagerAdapter(final ViewPager viewPager,
             final FragmentPagerAdapter adapter) {
         viewPager.setAdapter(adapter);
+    }
+
+    @BindingAdapter("errorText")
+    public static void setErrorText(EditText editText, String text) {
+        editText.setError(text);
     }
 }
