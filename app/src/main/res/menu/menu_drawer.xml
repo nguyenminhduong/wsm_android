@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <item android:title="@string/profile">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/item_personal"
+                    android:title="@string/personal_information"/>
+                <item
+                    android:id="@+id/item_setup_profile"
+                    android:title="@string/setup_profile"/>
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/personal_data">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/item_working_calendar"
+                    android:title="@string/working_calendar"/>
+                <item
+                    android:id="@+id/item_holiday_calendart"
+                    android:title="@string/holiday_calendar"/>
+                <item
+                    android:id="@+id/item_statistic_of_personal"
+                    android:title="@string/statistics_of_personal"/>
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/personal_request">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/item_overtime"
+                    android:title="@string/request_overtime"/>
+                <item
+                    android:id="@+id/item_come_late_leave_early"
+                    android:title="@string/request_come_late_leave_early"/>
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/workspaces_data">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/item_workspace_data"
+                    android:title="@string/workspaces"/>
+            </group>
+        </menu>
+    </item>
+</menu>
