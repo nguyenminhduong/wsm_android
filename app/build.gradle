@@ -111,6 +111,8 @@ dependencies {
   compile dependencies.retrofit2Adapter
   compile dependencies.retrofitGson
   compile dependencies.loggingInterceptor
+  compile dependencies.fab
+  compile dependencies.cardView
 
   annotationProcessor dependencies.dagger2Compile
   compile dependencies.dagger2
