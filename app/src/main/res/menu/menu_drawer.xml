@@ -6,9 +6,11 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/item_personal"
+                    android:icon="@drawable/ic_personal_information"
                     android:title="@string/personal_information"/>
                 <item
                     android:id="@+id/item_setup_profile"
+                    android:icon="@drawable/ic_setup_profile"
                     android:title="@string/setup_profile"/>
             </group>
         </menu>
@@ -19,12 +21,15 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/item_working_calendar"
+                    android:icon="@drawable/ic_working_calendar"
                     android:title="@string/working_calendar"/>
                 <item
-                    android:id="@+id/item_holiday_calendart"
+                    android:id="@+id/item_holiday_calendar"
+                    android:icon="@drawable/ic_holiday_calendar"
                     android:title="@string/holiday_calendar"/>
                 <item
                     android:id="@+id/item_statistic_of_personal"
+                    android:icon="@drawable/ic_statistic_personal"
                     android:title="@string/statistics_of_personal"/>
             </group>
         </menu>
@@ -35,9 +40,11 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/item_overtime"
+                    android:icon="@drawable/ic_request_overtime"
                     android:title="@string/request_overtime"/>
                 <item
                     android:id="@+id/item_come_late_leave_early"
+                    android:icon="@drawable/ic_request_come_late_leave_early"
                     android:title="@string/request_come_late_leave_early"/>
             </group>
         </menu>
@@ -48,6 +55,7 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/item_workspace_data"
+                    android:icon="@drawable/ic_workspaces"
                     android:title="@string/workspaces"/>
             </group>
         </menu>
