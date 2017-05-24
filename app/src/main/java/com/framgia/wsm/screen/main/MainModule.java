@@ -11,23 +11,23 @@ import dagger.Provides;
  * the {@link MainPresenter}.
  */
 @Module
-public class MainModule {
+class MainModule {
 
     private Activity mActivity;
 
-    public MainModule(@NonNull Activity activity) {
+    MainModule(@NonNull Activity activity) {
         this.mActivity = activity;
     }
 
     @ActivityScope
     @Provides
-    public MainContract.ViewModel provideViewModel(MainContract.Presenter presenter) {
+    MainContract.ViewModel provideViewModel(MainContract.Presenter presenter) {
         return new MainViewModel(presenter);
     }
 
     @ActivityScope
     @Provides
-    public MainContract.Presenter providePresenter() {
+    MainContract.Presenter providePresenter() {
         return new MainPresenter();
     }
 }

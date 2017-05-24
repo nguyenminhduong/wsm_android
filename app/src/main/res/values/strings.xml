@@ -32,5 +32,8 @@
     <string name="create_request_ot">Create request OT</string>
     <string name="create_request_leave">Create request leave</string>
     <string name="create_request_off">Create request off</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="please_click_back_again_to_exit">Please click BACK again to exit!</string>
 
 </resources>
