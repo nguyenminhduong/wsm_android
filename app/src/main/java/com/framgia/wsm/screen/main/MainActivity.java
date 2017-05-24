@@ -3,9 +3,6 @@ package com.framgia.wsm.screen.main;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 import com.framgia.wsm.MainApplication;
 import com.framgia.wsm.R;
@@ -36,7 +33,16 @@ public class MainActivity extends BaseActivity {
                 .build();
         mMainComponent.inject(this);
 
-        initView();
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.setViewModel((MainViewModel) mViewModel);
+
+        mHandler = new Handler();
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mIsDoubleTapBack = false;
+            }
+        };
     }
 
     @Override
@@ -54,27 +60,6 @@ public class MainActivity extends BaseActivity {
 
     public MainComponent getMainComponent() {
         return mMainComponent;
-    }
-
-    public void initView() {
-        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.setViewModel((MainViewModel) mViewModel);
-
-        Toolbar toolbar = binding.toolbar;
-        DrawerLayout drawerLayout = binding.drawerLayout;
-
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.setDrawerListener(drawerToggle);
-        drawerToggle.syncState();
-
-        mHandler = new Handler();
-        mRunnable = new Runnable() {
-            @Override
-            public void run() {
-                mIsDoubleTapBack = false;
-            }
-        };
     }
 
     @Override

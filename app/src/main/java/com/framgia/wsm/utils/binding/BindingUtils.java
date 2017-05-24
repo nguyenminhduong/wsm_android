@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
+import com.framgia.wsm.utils.Constant;
 
 /**
  * Created by le.quang.dao on 20/03/2017.
@@ -28,16 +29,22 @@ public final class BindingUtils {
         recyclerView.setAdapter(adapter);
     }
 
-    @BindingAdapter({ "itemSelected" })
+    @BindingAdapter({ "itemSelected", "currentItem" })
     public static void setNavigationItemSelected(NavigationView navigationView,
-            NavigationView.OnNavigationItemSelectedListener listen) {
+            NavigationView.OnNavigationItemSelectedListener listen, int currentItem) {
         navigationView.setNavigationItemSelectedListener(listen);
+        navigationView.setCheckedItem(currentItem);
     }
 
     @BindingAdapter({ "statusDrawerLayout" })
-    public static void setStatusDrawerLayout(DrawerLayout drawerLayout, boolean status) {
-        if (status) {
-            drawerLayout.closeDrawer(GravityCompat.START);
+    public static void setStatusDrawerLayout(DrawerLayout drawerLayout, final String status) {
+        if (status != null) {
+            if (status.equals(Constant.DRAWER_IS_CLOSE)) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+            if (status.equals(Constant.DRAWER_IS_OPEN)) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
         }
     }
 

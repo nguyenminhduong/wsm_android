@@ -17,4 +17,8 @@ public final class Constant {
     public static final String ARGUMENT_LIST_USER = "ARGUMENT_LIST_USER";
 
     public static final String BREAK_LINE = "\n";
+
+    public static final String DRAWER_IS_OPEN = "OPEN";
+
+    public static final String DRAWER_IS_CLOSE = "CLOSE";
 }

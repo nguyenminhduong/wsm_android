@@ -1,7 +1,7 @@
 package com.framgia.wsm.screen.main;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import dagger.Module;
 import dagger.Provides;
@@ -13,21 +13,28 @@ import dagger.Provides;
 @Module
 class MainModule {
 
-    private Activity mActivity;
+    private AppCompatActivity mActivity;
 
-    MainModule(@NonNull Activity activity) {
+    MainModule(@NonNull AppCompatActivity activity) {
         this.mActivity = activity;
     }
 
     @ActivityScope
     @Provides
-    MainContract.ViewModel provideViewModel(MainContract.Presenter presenter) {
-        return new MainViewModel(presenter);
+    MainContract.ViewModel provideViewModel(MainContract.Presenter presenter,
+            MainViewPagerAdapter viewPagerAdapter) {
+        return new MainViewModel(presenter, viewPagerAdapter);
     }
 
     @ActivityScope
     @Provides
     MainContract.Presenter providePresenter() {
         return new MainPresenter();
+    }
+
+    @ActivityScope
+    @Provides
+    MainViewPagerAdapter provideViewPagerAdapter() {
+        return new MainViewPagerAdapter(mActivity.getSupportFragmentManager());
     }
 }
