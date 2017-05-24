@@ -11,6 +11,7 @@ interface MainContract {
      * View.
      */
     interface ViewModel extends BaseViewModel {
+        boolean onBackPressed();
     }
 
     /**
