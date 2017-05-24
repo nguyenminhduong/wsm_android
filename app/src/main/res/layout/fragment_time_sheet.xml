@@ -1,157 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     >
-    <LinearLayout
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.framgia.wsm.screen.timesheet.TimeSheetViewModel"
+            />
+    </data>
+    <FrameLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_white_dark"
-        android:orientation="vertical"
         >
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_5"
-            app:cardCornerRadius="@dimen/dp_5"
+            android:layout_height="match_parent"
+            android:background="@color/color_white_dark"
+            android:orientation="vertical"
             >
-            <com.framgia.wsm.widget.timesheet.TimeSheetView
-                android:id="@+id/timeSheetView"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_320"
-                android:background="@android:color/white"
-                />
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_5"
-            android:layout_marginRight="@dimen/dp_5"
-            android:background="@android:color/white"
-            android:visibility="gone"
-            app:cardCornerRadius="@dimen/dp_5"
-            >
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_margin="@dimen/dp_5"
+                app:cardCornerRadius="@dimen/dp_5"
                 >
-                <TextView
+                <com.framgia.wsm.widget.timesheet.TimeSheetView
+                    android:id="@+id/timeSheetView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="@dimen/dp_10"
-                    android:textSize="@dimen/sp_18"
+                    android:layout_height="@dimen/dp_320"
+                    android:background="@android:color/white"
                     />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_5"
+                android:background="@android:color/white"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/dp_5"
+                >
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/dp_10"
+                    android:orientation="vertical"
                     >
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:gravity="center"
+                        android:padding="@dimen/dp_10"
                         android:textSize="@dimen/sp_18"
                         />
-                    <View
-                        android:layout_width="@dimen/dp_0.5"
-                        android:layout_height="match_parent"
-                        android:background="@color/colorPrimary"
-                        />
-                    <TextView
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:gravity="center"
-                        android:textSize="@dimen/sp_18"
-                        />
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dp_10"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_18"
+                            />
+                        <View
+                            android:layout_width="@dimen/dp_0.5"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorPrimary"
+                            />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_18"
+                            />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
 
-    </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_20"
-        android:layout_marginRight="@dimen/dp_20"
-        android:padding="@dimen/dp_24"
-        >
-        <ImageButton
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_20"
-            android:background="@drawable/md_transparent"
-            android:scaleType="centerCrop"
-            android:tint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_menu_left"
-            />
-        <ImageButton
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_20"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/md_transparent"
-            android:scaleType="centerCrop"
-            android:tint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_menu_right"
-            />
-    </RelativeLayout>
-
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/social_floating_menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom|end"
-        android:padding="@dimen/dp_10"
-        app:menu_animationDelayPerItem="55"
-        app:menu_backgroundColor="@color/color_black_transparent"
-        app:menu_icon="@drawable/fab_add"
-        app:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
-        app:menu_labels_padding="@dimen/dp_10"
-        app:menu_labels_position="left"
-        app:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
-        app:menu_labels_singleLine="false"
-        app:menu_labels_textColor="@android:color/white"
-        app:menu_labels_textSize="@dimen/sp_16"
-        app:menu_openDirection="up"
-        >
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/floating_facebook"
-            android:layout_width="wrap_content"
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/fab_add"
-            app:fab_colorNormal="@color/md_material_blue_800"
-            app:fab_colorPressed="@color/md_material_blue_600"
-            app:fab_colorRipple="@color/color_dark_gray"
-            app:fab_label="@string/create_request_ot"
-            />
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:padding="@dimen/dp_24"
+            >
+            <ImageButton
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_20"
+                android:background="@drawable/md_transparent"
+                android:scaleType="centerCrop"
+                android:tint="@color/colorPrimary"
+                app:srcCompat="@drawable/ic_menu_left"
+                />
+            <ImageButton
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_20"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/md_transparent"
+                android:scaleType="centerCrop"
+                android:tint="@color/colorPrimary"
+                app:srcCompat="@drawable/ic_menu_right"
+                />
+        </RelativeLayout>
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/floating_twitter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/fab_add"
-            app:fab_colorNormal="@color/color_green_lime"
-            app:fab_colorPressed="@color/color_green_dark_sea"
-            app:fab_colorRipple="@color/color_dark_gray"
-            app:fab_label="@string/create_request_leave"
-            />
-        <com.github.clans.fab.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/fab_add"
-            app:fab_colorNormal="@color/color_red_fresh"
-            app:fab_colorPressed="@color/color_red_firebrick"
-            app:fab_colorRipple="@color/color_dark_gray"
-            app:fab_label="@string/create_request_off"
-            />
-    </com.github.clans.fab.FloatingActionMenu>
-</FrameLayout>
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/social_floating_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|end"
+            android:padding="@dimen/dp_10"
+            app:menu_animationDelayPerItem="55"
+            app:menu_backgroundColor="@color/color_black_transparent"
+            app:menu_icon="@drawable/fab_add"
+            app:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+            app:menu_labels_padding="@dimen/dp_10"
+            app:menu_labels_position="left"
+            app:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+            app:menu_labels_singleLine="false"
+            app:menu_labels_textColor="@android:color/white"
+            app:menu_labels_textSize="@dimen/sp_16"
+            app:menu_openDirection="up"
+            >
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/floating_facebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/fab_add"
+                app:fab_colorNormal="@color/md_material_blue_800"
+                app:fab_colorPressed="@color/md_material_blue_600"
+                app:fab_colorRipple="@color/color_dark_gray"
+                app:fab_label="@string/create_request_ot"
+                />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/floating_twitter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/fab_add"
+                app:fab_colorNormal="@color/color_green_lime"
+                app:fab_colorPressed="@color/color_green_dark_sea"
+                app:fab_colorRipple="@color/color_dark_gray"
+                app:fab_label="@string/create_request_leave"
+                />
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/fab_add"
+                app:fab_colorNormal="@color/color_red_fresh"
+                app:fab_colorPressed="@color/color_red_firebrick"
+                app:fab_colorRipple="@color/color_dark_gray"
+                app:fab_label="@string/create_request_off"
+                />
+        </com.github.clans.fab.FloatingActionMenu>
+    </FrameLayout>
+</layout>
