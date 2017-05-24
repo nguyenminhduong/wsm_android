@@ -16,15 +16,17 @@ public class MainActivity extends BaseActivity {
     @Inject
     MainContract.ViewModel mViewModel;
 
+    private MainComponent mMainComponent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DaggerMainComponent.builder()
+        mMainComponent = DaggerMainComponent.builder()
                 .appComponent(((MainApplication) getApplication()).getAppComponent())
                 .mainModule(new MainModule(this))
-                .build()
-                .inject(this);
+                .build();
+        mMainComponent.inject(this);
 
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setViewModel((MainViewModel) mViewModel);
@@ -40,5 +42,9 @@ public class MainActivity extends BaseActivity {
     protected void onStop() {
         mViewModel.onStop();
         super.onStop();
+    }
+
+    public MainComponent getMainComponent() {
+        return mMainComponent;
     }
 }
