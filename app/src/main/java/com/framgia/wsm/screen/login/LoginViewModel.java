@@ -7,6 +7,7 @@ import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.screen.main.MainActivity;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.validator.Rule;
 import com.framgia.wsm.utils.validator.ValidType;
@@ -59,7 +60,8 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
 
     @Override
     public void onLoginSuccess() {
-        //TODO: move to MainScreen
+        mNavigator.startActivity(MainActivity.class);
+        mNavigator.finishActivity();
     }
 
     @Override

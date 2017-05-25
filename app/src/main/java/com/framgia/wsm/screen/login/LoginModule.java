@@ -7,6 +7,7 @@ import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
 import dagger.Module;
 import dagger.Provides;
@@ -34,8 +35,8 @@ public class LoginModule {
     @ActivityScope
     @Provides
     public LoginContract.Presenter providePresenter(UserRepository userRepository,
-            Validator validator) {
-        return new LoginPresenter(userRepository, validator);
+            Validator validator, BaseSchedulerProvider baseSchedulerProvider) {
+        return new LoginPresenter(userRepository, validator, baseSchedulerProvider);
     }
 
     @ActivityScope
