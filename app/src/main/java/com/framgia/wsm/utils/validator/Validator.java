@@ -23,6 +23,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
+import static android.util.Patterns.EMAIL_ADDRESS;
+
 /**
  * Created by le.quang.dao on 16/03/2017.
  */
@@ -203,7 +205,7 @@ public class Validator {
         boolean isValid =
                 !TextUtils.isEmpty(str) && !mNGWordPattern.matcher(str.toLowerCase(Locale.ENGLISH))
                         .find();
-        mMessage = isValid ? "" : mContext.getString(mAllErrorMessage.valueAt(ValidType.NG_WORD));
+        mMessage = isValid ? "" : mContext.getString(mAllErrorMessage.get(ValidType.NG_WORD));
         return mMessage;
     }
 
@@ -212,14 +214,21 @@ public class Validator {
         int value = convertStringToInteger(str);
         boolean isValid = value >= 0 && value <= 100;
         mMessage = isValid ? ""
-                : mContext.getString(mAllErrorMessage.valueAt(ValidType.VALUE_RANGE_0_100));
+                : mContext.getString(mAllErrorMessage.get(ValidType.VALUE_RANGE_0_100));
         return mMessage;
     }
 
     @ValidMethod(type = { ValidType.NON_EMPTY })
     public String validateValueNonEmpty(String value) {
         boolean isValid = !TextUtils.isEmpty(value);
-        mMessage = isValid ? "" : mContext.getString(mAllErrorMessage.valueAt(ValidType.NON_EMPTY));
+        mMessage = isValid ? "" : mContext.getString(mAllErrorMessage.get(ValidType.NON_EMPTY));
+        return mMessage;
+    }
+
+    @ValidMethod(type = { ValidType.EMAIL_FORMAT })
+    public String validateEmailFormat(String value) {
+        boolean isValid = EMAIL_ADDRESS.matcher(value).matches();
+        mMessage = isValid ? "" : mContext.getString(mAllErrorMessage.get(ValidType.EMAIL_FORMAT));
         return mMessage;
     }
 
