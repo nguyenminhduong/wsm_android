@@ -2,6 +2,7 @@ package com.framgia.wsm;
 
 import android.content.Context;
 import com.framgia.wsm.data.source.RepositoryModule;
+import com.framgia.wsm.data.source.local.sharedprf.SharedPrefsApi;
 import com.framgia.wsm.data.source.remote.api.NetworkModule;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
 import com.framgia.wsm.utils.dagger.AppScope;
@@ -19,6 +20,8 @@ public interface AppComponent {
     //============== Region for Repository ================//
 
     WSMApi nameApi();
+
+    SharedPrefsApi sharedPrefsApi();
 
     //=============== Region for common ===============//
 
