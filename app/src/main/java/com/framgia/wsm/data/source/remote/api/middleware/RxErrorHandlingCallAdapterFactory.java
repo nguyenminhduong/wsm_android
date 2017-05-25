@@ -5,6 +5,12 @@ import android.util.Log;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.response.ErrorResponse;
 import com.google.gson.Gson;
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -12,10 +18,6 @@ import retrofit2.Call;
 import retrofit2.CallAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.HttpException;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import rx.Observable;
-import rx.functions.Func1;
 
 /**
  * ErrorHandling:
@@ -26,10 +28,10 @@ public final class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory
 
     private static final String TAG = RxErrorHandlingCallAdapterFactory.class.getName();
 
-    private final RxJavaCallAdapterFactory original;
+    private final RxJava2CallAdapterFactory original;
 
     private RxErrorHandlingCallAdapterFactory() {
-        original = RxJavaCallAdapterFactory.create();
+        original = RxJava2CallAdapterFactory.create();
     }
 
     public static CallAdapter.Factory create() {
@@ -61,13 +63,14 @@ public final class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory
         @SuppressWarnings("unchecked")
         @Override
         public <R> Observable<?> adapt(Call<R> call) {
-            return ((Observable) wrapped.adapt(call)).onErrorResumeNext(new Func1<Throwable,
-                    Observable>() {
-                @Override
-                public Observable call(Throwable throwable) {
-                    return Observable.error(convertToBaseException(throwable));
-                }
-            });
+            return ((Observable) wrapped.adapt(call)).onErrorResumeNext(
+                    new Function<Throwable, ObservableSource>() {
+                        @Override
+                        public ObservableSource apply(@NonNull Throwable throwable)
+                                throws Exception {
+                            return Observable.error(convertToBaseException(throwable));
+                        }
+                    });
         }
 
         private BaseException convertToBaseException(Throwable throwable) {

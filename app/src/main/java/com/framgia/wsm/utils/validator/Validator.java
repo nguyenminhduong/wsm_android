@@ -8,20 +8,21 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 import com.framgia.wsm.screen.BaseViewModel;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Locale;
 import java.util.regex.Pattern;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 import static android.util.Patterns.EMAIL_ADDRESS;
 
@@ -158,39 +159,40 @@ public class Validator {
         return isValid;
     }
 
-    public Subscription initNGWordPattern() {
-        return Observable.create(new Observable.OnSubscribe<Pattern>() {
+    public Disposable initNGWordPattern() {
+        return Observable.create(new ObservableOnSubscribe<Pattern>() {
             @Override
-            public void call(Subscriber<? super Pattern> subscriber) {
-                try {
-                    BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(mContext.getAssets().open("ng-word")));
-                    StringBuffer buffer = new StringBuffer();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        if (buffer.length() == 0) {
-                            buffer.append("(").append(line.toLowerCase(Locale.ENGLISH));
-                        } else {
-                            buffer.append("|").append(line.toLowerCase(Locale.ENGLISH));
-                        }
+            public void subscribe(@NonNull ObservableEmitter<Pattern> emitter) throws Exception {
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(mContext.getAssets().open("ng-word")));
+                StringBuffer buffer = new StringBuffer();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (buffer.length() == 0) {
+                        buffer.append("(").append(line.toLowerCase(Locale.ENGLISH));
+                    } else {
+                        buffer.append("|").append(line.toLowerCase(Locale.ENGLISH));
                     }
-                    subscriber.onNext(Pattern.compile(buffer.append(")").toString()));
-                } catch (IOException e) {
-                    subscriber.onError(e);
                 }
+                emitter.onNext(Pattern.compile(buffer.append(")").toString()));
             }
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Pattern>() {
+                .subscribeWith(new DisposableObserver<Pattern>() {
                     @Override
-                    public void call(Pattern pattern) {
+                    public void onNext(@NonNull Pattern pattern) {
                         mNGWordPattern = pattern;
                     }
-                }, new Action1<Throwable>() {
+
                     @Override
-                    public void call(Throwable throwable) {
-                        throw new ValidationException("Error when open ng-word", throwable);
+                    public void onError(@NonNull Throwable e) {
+                        throw new ValidationException("Error when open ng-word", e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
     }
