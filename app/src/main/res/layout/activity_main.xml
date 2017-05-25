@@ -21,7 +21,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         bind:statusDrawerLayout="@{viewModel.statusDrawerLayout}"
-        tools:openDrawer="start"
+
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,10 +51,20 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|start"
                         android:background="@drawable/ic_menu_nav"
                         android:onClick="@{viewModel::onDrawerIsOpen}"
                         tools:ignore="ContentDescription"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:layout_marginStart="@dimen/dp_30"
+                        android:gravity="center_vertical"
+                        android:text="@{viewModel.currentTitleToolbar}"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/sp_20"
                         />
                 </android.support.v7.widget.Toolbar>
 
@@ -76,10 +86,10 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:animateLayoutChanges="true"
-            app:headerLayout="@layout/nav_header_main"
             app:menu="@menu/menu_drawer"
             bind:currentItem="@{viewModel.currentItem}"
             bind:itemSelected="@{viewModel::onItemSelected}"
+            bind:viewModel="@{viewModel}"
             />
     </android.support.v4.widget.DrawerLayout>
 </layout>

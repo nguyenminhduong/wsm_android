@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
-import com.framgia.wsm.data.source.local.sharedprf.SharedPrefsApi;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;

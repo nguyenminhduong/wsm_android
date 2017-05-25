@@ -7,7 +7,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.widget.EditText;
+import com.framgia.wsm.databinding.NavHeaderMainBinding;
+import com.framgia.wsm.screen.main.MainViewModel;
 import com.framgia.wsm.utils.Constant;
 
 /**
@@ -29,11 +32,19 @@ public final class BindingUtils {
         recyclerView.setAdapter(adapter);
     }
 
-    @BindingAdapter({ "itemSelected", "currentItem" })
+    @BindingAdapter({ "itemSelected", "currentItem", "viewModel" })
     public static void setNavigationItemSelected(NavigationView navigationView,
-            NavigationView.OnNavigationItemSelectedListener listen, int currentItem) {
+            NavigationView.OnNavigationItemSelectedListener listen, int currentItem,
+            MainViewModel viewModel) {
         navigationView.setNavigationItemSelectedListener(listen);
         navigationView.setCheckedItem(currentItem);
+        if (navigationView.getHeaderCount() == 0) {
+            NavHeaderMainBinding binding =
+                    NavHeaderMainBinding.inflate(LayoutInflater.from(navigationView.getContext()));
+            binding.setViewModel(viewModel);
+            binding.executePendingBindings();
+            navigationView.addHeaderView(binding.getRoot());
+        }
     }
 
     @BindingAdapter({ "statusDrawerLayout" })

@@ -1,16 +1,21 @@
 package com.framgia.wsm.screen.main;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.screen.login.LoginActivity;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.navigator.Navigator;
 
 /**
  * Exposes the data to be used in the Main screen.
@@ -18,29 +23,29 @@ import com.framgia.wsm.utils.Constant;
 
 public class MainViewModel extends BaseObservable implements MainContract.ViewModel {
 
+    private static final String TAG = "MainActivity";
     private static final int PAGE_LIMIT = 8;
+
     private MainContract.Presenter mPresenter;
     private String mStatusDrawerLayout;
     private User mUser;
-    private int mCurrentItem;
     @Page
+    private int mCurrentItem;
     private int mCurrentPage;
+    private Navigator mNavigator;
     private MainViewPagerAdapter mViewPagerAdapter;
+    private String mCurrentTitleToolbar;
+    private Context mContext;
 
-    MainViewModel(MainContract.Presenter presenter, MainViewPagerAdapter viewPagerAdapter) {
+    MainViewModel(Context context, MainContract.Presenter presenter,
+            MainViewPagerAdapter viewPagerAdapter, Navigator navigator) {
+        mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mViewPagerAdapter = viewPagerAdapter;
-    }
-
-    @Override
-    public void onStart() {
-        mPresenter.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        mPresenter.onStop();
+        mNavigator = navigator;
+        mCurrentItem = R.id.item_working_calendar;
+        mCurrentTitleToolbar = titleWorkingCalendar();
     }
 
     public int getPageLimit() {
@@ -52,53 +57,19 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         return mCurrentPage;
     }
 
+    private void setCurrentPage(@Page int currentPage) {
+        mCurrentPage = currentPage;
+        notifyPropertyChanged(BR.currentPage);
+    }
+
     @Bindable
     public int getCurrentItem() {
         return mCurrentItem;
     }
 
-    public MainViewPagerAdapter getViewPagerAdapter() {
-        return mViewPagerAdapter;
-    }
-
-    private void setCurrentPageItem(@Page int currentPage, int currentItem) {
-        mCurrentPage = currentPage;
-        notifyPropertyChanged(BR.currentPage);
+    private void setCurrentItem(int currentItem) {
         mCurrentItem = currentItem;
         notifyPropertyChanged(BR.currentItem);
-    }
-
-    public boolean onItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.item_personal:
-                setCurrentPageItem(Page.PERSONAL, R.id.item_personal);
-                break;
-            case R.id.item_setup_profile:
-                setCurrentPageItem(Page.SETUP_PROFILE, R.id.item_setup_profile);
-                break;
-            case R.id.item_working_calendar:
-                setCurrentPageItem(Page.WORKING_CALENDAR, R.id.item_working_calendar);
-                break;
-            case R.id.item_holiday_calendar:
-                setCurrentPageItem(Page.HOLIDAY_CALENDAR, R.id.item_holiday_calendar);
-                break;
-            case R.id.item_statistic_of_personal:
-                setCurrentPageItem(Page.STATISTIC_OF_PERSONAL, R.id.item_statistic_of_personal);
-                break;
-            case R.id.item_overtime:
-                setCurrentPageItem(Page.OVERTIME, R.id.item_overtime);
-                break;
-            case R.id.item_come_late_leave_early:
-                setCurrentPageItem(Page.COME_LATE_LEAVE_EARLY, R.id.item_come_late_leave_early);
-                break;
-            case R.id.item_workspace_data:
-                setCurrentPageItem(Page.WORKSPACE_DATA, R.id.item_workspace_data);
-                break;
-            default:
-                break;
-        }
-        setStatusDrawerLayout(Constant.DRAWER_IS_CLOSE);
-        return true;
     }
 
     @Bindable
@@ -111,12 +82,45 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         notifyPropertyChanged(BR.statusDrawerLayout);
     }
 
+    @Bindable
+    public String getCurrentTitleToolbar() {
+        return mCurrentTitleToolbar;
+    }
+
+    private void setCurrentTitleToolbar(String currentTitleToolbar) {
+        mCurrentTitleToolbar = currentTitleToolbar;
+        notifyPropertyChanged(BR.currentTitleToolbar);
+    }
+
     public String getUsername() {
         return mUser != null ? mUser.getName() : "";
     }
 
     public String getEmail() {
         return mUser != null ? mUser.getEmail() : "";
+    }
+
+    @Override
+    public void onStart() {
+        mPresenter.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        mPresenter.onStop();
+    }
+
+    @Override
+    public void onGetUserSuccess(User user) {
+        if (user == null) {
+            return;
+        }
+        mUser = user;
+    }
+
+    @Override
+    public void onGetUserError(BaseException exception) {
+        Log.e(TAG, "onGetUserError", exception);
     }
 
     @Override
@@ -134,7 +138,9 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
                     MainContainerFragment containerFragment = (MainContainerFragment) fragment;
                     boolean isCanBack = containerFragment.onBackPressed();
                     if (!isCanBack) {
-                        setCurrentPageItem(Page.WORKING_CALENDAR, R.id.item_working_calendar);
+                        setCurrentPage(Page.WORKING_CALENDAR);
+                        setCurrentItem(R.id.item_working_calendar);
+                        setCurrentTitleToolbar(titleWorkingCalendar());
                     }
                     return true;
                 }
@@ -143,23 +149,77 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         return false;
     }
 
+    public MainViewPagerAdapter getViewPagerAdapter() {
+        return mViewPagerAdapter;
+    }
+
+    public void onDrawerIsOpen(View view) {
+        setStatusDrawerLayout(Constant.DRAWER_IS_OPEN);
+    }
+
+    public void onLogoutClick(View view) {
+        mPresenter.clearUser();
+        mNavigator.startActivity(LoginActivity.class);
+        mNavigator.finishActivity();
+    }
+
+    public void onClickDetailProfile(View view) {
+        //TODO Click to Fragment detail profile
+    }
+
+    public boolean onItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_personal:
+                setCurrentPage(Page.PERSONAL);
+                break;
+            case R.id.item_setup_profile:
+                setCurrentPage(Page.SETUP_PROFILE);
+                break;
+            case R.id.item_working_calendar:
+                setCurrentPage(Page.WORKING_CALENDAR);
+                break;
+            case R.id.item_holiday_calendar:
+                setCurrentPage(Page.HOLIDAY_CALENDAR);
+                break;
+            case R.id.item_statistic_of_personal:
+                setCurrentPage(Page.STATISTIC_OF_PERSONAL);
+                break;
+            case R.id.item_overtime:
+                setCurrentPage(Page.OVERTIME);
+                break;
+            case R.id.item_come_late_leave_early:
+                setCurrentPage(Page.COME_LATE_LEAVE_EARLY);
+                break;
+            case R.id.item_workspace_data:
+                setCurrentPage(Page.WORKSPACE_DATA);
+                break;
+            default:
+                break;
+        }
+        setCurrentItem(item.getItemId());
+        setCurrentTitleToolbar(String.valueOf(item.getTitle()));
+        setStatusDrawerLayout(Constant.DRAWER_IS_CLOSE);
+        return true;
+    }
+
+    @NonNull
+    private String titleWorkingCalendar() {
+        return mContext.getResources().getString(R.string.working_calendar);
+    }
+
     @IntDef({
-            Page.PERSONAL, Page.SETUP_PROFILE, Page.WORKING_CALENDAR, Page.HOLIDAY_CALENDAR,
+            Page.WORKING_CALENDAR, Page.SETUP_PROFILE, Page.PERSONAL, Page.HOLIDAY_CALENDAR,
             Page.STATISTIC_OF_PERSONAL, Page.OVERTIME, Page.COME_LATE_LEAVE_EARLY,
             Page.WORKSPACE_DATA
     })
     @interface Page {
-        int PERSONAL = 0;
+        int WORKING_CALENDAR = 0;
         int SETUP_PROFILE = 1;
-        int WORKING_CALENDAR = 2;
+        int PERSONAL = 2;
         int HOLIDAY_CALENDAR = 3;
         int STATISTIC_OF_PERSONAL = 4;
         int OVERTIME = 5;
         int COME_LATE_LEAVE_EARLY = 6;
         int WORKSPACE_DATA = 7;
-    }
-
-    public void onDrawerIsOpen(View view) {
-        setStatusDrawerLayout(Constant.DRAWER_IS_OPEN);
     }
 }
