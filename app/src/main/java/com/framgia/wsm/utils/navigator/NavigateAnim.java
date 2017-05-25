@@ -10,7 +10,7 @@ import android.support.annotation.IntDef;
         NavigateAnim.RIGHT_LEFT, NavigateAnim.BOTTOM_UP, NavigateAnim.FADED, NavigateAnim.NONE,
         NavigateAnim.LEFT_RIGHT
 })
-@interface NavigateAnim {
+public @interface NavigateAnim {
     int NONE = 0x00;
     int RIGHT_LEFT = 0x01;
     int BOTTOM_UP = 0x02;

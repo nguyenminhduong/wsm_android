@@ -4,10 +4,13 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.view.MenuItem;
+import android.view.View;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
+import com.framgia.wsm.utils.Constant;
 
 /**
  * Exposes the data to be used in the Main screen.
@@ -17,14 +20,17 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
 
     private static final int PAGE_LIMIT = 8;
     private MainContract.Presenter mPresenter;
-    private boolean mIsDrawerLayoutClose;
+    private String mStatusDrawerLayout;
     private User mUser;
-    @Item
     private int mCurrentItem;
+    @Page
+    private int mCurrentPage;
+    private MainViewPagerAdapter mViewPagerAdapter;
 
-    MainViewModel(MainContract.Presenter presenter) {
+    MainViewModel(MainContract.Presenter presenter, MainViewPagerAdapter viewPagerAdapter) {
         mPresenter = presenter;
         mPresenter.setViewModel(this);
+        mViewPagerAdapter = viewPagerAdapter;
     }
 
     @Override
@@ -42,57 +48,67 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     }
 
     @Bindable
+    public int getCurrentPage() {
+        return mCurrentPage;
+    }
+
+    @Bindable
     public int getCurrentItem() {
         return mCurrentItem;
     }
 
-    public void setCurrentItem(@Item int item) {
-        mCurrentItem = item;
+    public MainViewPagerAdapter getViewPagerAdapter() {
+        return mViewPagerAdapter;
+    }
+
+    private void setCurrentPageItem(@Page int currentPage, int currentItem) {
+        mCurrentPage = currentPage;
+        notifyPropertyChanged(BR.currentPage);
+        mCurrentItem = currentItem;
         notifyPropertyChanged(BR.currentItem);
     }
 
     public boolean onItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_personal:
-                setCurrentItem(Item.PERSONAL);
+                setCurrentPageItem(Page.PERSONAL, R.id.item_personal);
                 break;
             case R.id.item_setup_profile:
-                setCurrentItem(Item.SETUP_PROFILE);
+                setCurrentPageItem(Page.SETUP_PROFILE, R.id.item_setup_profile);
                 break;
             case R.id.item_working_calendar:
-                setCurrentItem(Item.WORKING_CALENDAR);
+                setCurrentPageItem(Page.WORKING_CALENDAR, R.id.item_working_calendar);
                 break;
             case R.id.item_holiday_calendar:
-                setCurrentItem(Item.HOLIDAY_CALENDAR);
+                setCurrentPageItem(Page.HOLIDAY_CALENDAR, R.id.item_holiday_calendar);
                 break;
             case R.id.item_statistic_of_personal:
-                setCurrentItem(Item.STATISTIC_OF_PERSONAL);
+                setCurrentPageItem(Page.STATISTIC_OF_PERSONAL, R.id.item_statistic_of_personal);
                 break;
             case R.id.item_overtime:
-                setCurrentItem(Item.OVERTIME);
+                setCurrentPageItem(Page.OVERTIME, R.id.item_overtime);
                 break;
             case R.id.item_come_late_leave_early:
-                setCurrentItem(Item.COME_LATE_LEAVE_EARLY);
+                setCurrentPageItem(Page.COME_LATE_LEAVE_EARLY, R.id.item_come_late_leave_early);
                 break;
             case R.id.item_workspace_data:
-                setCurrentItem(Item.WORKSPACE_DATA);
+                setCurrentPageItem(Page.WORKSPACE_DATA, R.id.item_workspace_data);
                 break;
             default:
-                setCurrentItem(Item.WORKING_CALENDAR);
                 break;
         }
-        setDrawerLayoutClose(true);
+        setStatusDrawerLayout(Constant.DRAWER_IS_CLOSE);
         return true;
     }
 
     @Bindable
-    public boolean isDrawerLayoutClose() {
-        return mIsDrawerLayoutClose;
+    public String getStatusDrawerLayout() {
+        return mStatusDrawerLayout;
     }
 
-    private void setDrawerLayoutClose(boolean drawerLayoutClose) {
-        mIsDrawerLayoutClose = drawerLayoutClose;
-        notifyPropertyChanged(BR.drawerLayoutClose);
+    private void setStatusDrawerLayout(String statusDrawerLayout) {
+        mStatusDrawerLayout = statusDrawerLayout;
+        notifyPropertyChanged(BR.statusDrawerLayout);
     }
 
     public String getUsername() {
@@ -103,12 +119,36 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         return mUser != null ? mUser.getEmail() : "";
     }
 
+    @Override
+    public boolean onBackPressed() {
+        if (mStatusDrawerLayout.equals(Constant.DRAWER_IS_OPEN)) {
+            setStatusDrawerLayout(Constant.DRAWER_IS_CLOSE);
+            return true;
+        } else {
+            Fragment fragment = mViewPagerAdapter.getCurrentFragment();
+            if (fragment == mViewPagerAdapter.getFragment(Page.WORKING_CALENDAR)) {
+                MainContainerFragment containerFragment = (MainContainerFragment) fragment;
+                return containerFragment.onBackPressed();
+            } else {
+                if (fragment instanceof MainContainerFragment) {
+                    MainContainerFragment containerFragment = (MainContainerFragment) fragment;
+                    boolean isCanBack = containerFragment.onBackPressed();
+                    if (!isCanBack) {
+                        setCurrentPageItem(Page.WORKING_CALENDAR, R.id.item_working_calendar);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @IntDef({
-            Item.PERSONAL, Item.SETUP_PROFILE, Item.WORKING_CALENDAR, Item.HOLIDAY_CALENDAR,
-            Item.STATISTIC_OF_PERSONAL, Item.OVERTIME, Item.COME_LATE_LEAVE_EARLY,
-            Item.WORKSPACE_DATA
+            Page.PERSONAL, Page.SETUP_PROFILE, Page.WORKING_CALENDAR, Page.HOLIDAY_CALENDAR,
+            Page.STATISTIC_OF_PERSONAL, Page.OVERTIME, Page.COME_LATE_LEAVE_EARLY,
+            Page.WORKSPACE_DATA
     })
-    private @interface Item {
+    @interface Page {
         int PERSONAL = 0;
         int SETUP_PROFILE = 1;
         int WORKING_CALENDAR = 2;
@@ -119,9 +159,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         int WORKSPACE_DATA = 7;
     }
 
-    @Override
-    public boolean onBackPressed() {
-        //TODO change late
-        return false;
+    public void onDrawerIsOpen(View view) {
+        setStatusDrawerLayout(Constant.DRAWER_IS_OPEN);
     }
 }

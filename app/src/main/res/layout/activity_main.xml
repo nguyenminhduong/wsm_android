@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        bind:statusDrawerLayout="@{viewModel.drawerLayoutClose}"
+        bind:statusDrawerLayout="@{viewModel.statusDrawerLayout}"
         tools:openDrawer="start"
         >
         <LinearLayout
@@ -48,6 +48,14 @@
                         android:background="@drawable/ic_notifications"
                         tools:ignore="ContentDescription"
                         />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|start"
+                        android:background="@drawable/ic_menu_nav"
+                        android:onClick="@{viewModel::onDrawerIsOpen}"
+                        tools:ignore="ContentDescription"
+                        />
                 </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.AppBarLayout>
@@ -57,7 +65,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:offscreenPageLimit="@{viewModel.pageLimit}"
-                bind:currentFragment="@{viewModel.currentItem}"
+                bind:adapter="@{viewModel.viewPagerAdapter}"
+                bind:currentFragment="@{viewModel.currentPage}"
                 />
         </LinearLayout>
 
@@ -69,6 +78,7 @@
             android:animateLayoutChanges="true"
             app:headerLayout="@layout/nav_header_main"
             app:menu="@menu/menu_drawer"
+            bind:currentItem="@{viewModel.currentItem}"
             bind:itemSelected="@{viewModel::onItemSelected}"
             />
     </android.support.v4.widget.DrawerLayout>
