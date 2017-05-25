@@ -43,14 +43,21 @@ public class TimeSheetDate extends BaseModel {
         IN_LATE_LEAVE_EARLY(1),
         @Expose @SerializedName("holiday")
         HOLIDAY_DATE(2),
-        @Expose @SerializedName("date_off_have_salary")
-        DATE_OFF_HAVE_SALARY(3),
-        @Expose @SerializedName("date_off_no_salary")
-        DATE_OFF_NO_SALARY(4),
         @Expose @SerializedName("forgot_checkin_checkout")
-        FORGOT_CHECK_IN_CHECK_OUT(5),
+        FORGOT_CHECK_IN_CHECK_OUT(3),
         @Expose @SerializedName("in_late_leave_early_have_compensation")
-        IN_LATE_LEAVE_EARLY_HAVE_COMPENSATION(6);
+        IN_LATE_LEAVE_EARLY_HAVE_COMPENSATION(4),
+        @Expose @SerializedName("day_off_ro")
+        DAY_OFF_RO(5),
+        @Expose @SerializedName("day_off_half_ro")
+        DAY_OFF_HALF_RO(6),
+        @Expose @SerializedName("day_off_p")
+        DAY_OFF_P(7),
+        @Expose @SerializedName("day_off_half_p")
+        DAY_OFF_HALF_P(8),
+        @Expose @SerializedName("forgot_checkin_checkout_more_five_time")
+        FORGOT_CHECK_IN_CHECK_OUT_MORE_FIVE_TIME(9);
+
 
         private int mValue;
 
@@ -71,13 +78,19 @@ public class TimeSheetDate extends BaseModel {
                 case 2:
                     return HOLIDAY_DATE;
                 case 3:
-                    return DATE_OFF_HAVE_SALARY;
-                case 4:
-                    return DATE_OFF_NO_SALARY;
-                case 5:
                     return FORGOT_CHECK_IN_CHECK_OUT;
-                case 6:
+                case 4:
                     return IN_LATE_LEAVE_EARLY_HAVE_COMPENSATION;
+                case 5:
+                    return DAY_OFF_RO;
+                case 6:
+                    return DAY_OFF_HALF_RO;
+                case 7:
+                    return DAY_OFF_P;
+                case 8:
+                    return DAY_OFF_HALF_P;
+                case 9:
+                    return FORGOT_CHECK_IN_CHECK_OUT_MORE_FIVE_TIME;
                 default:
                     return NORMAL;
             }

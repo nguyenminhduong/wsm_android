@@ -42,4 +42,9 @@
     <string name="is_empty">Empty, please enter !</string>
     <string name="invalid_email_format">Invalid email format !</string>
 
+    <string name="day_off_ro">Ro</string>
+    <string name="day_off_half_ro">Ro/2</string>
+    <string name="day_off_p">P</string>
+    <string name="day_off_half_p">P/2</string>
+
 </resources>

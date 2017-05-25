@@ -34,6 +34,7 @@ public class TimeSheetView extends View {
     private int mMonthDayLabelTextSize;
     private int mMonthHeaderSize;
     private int mMonthLabelTextSize;
+    private int mDayLabelTextSizeSmall;
     private int mInquiryStatusCircleSize;
 
     private int mPadding = 0;
@@ -50,10 +51,11 @@ public class TimeSheetView extends View {
     private int mDayWeekendColor;
     private int mDayInLateLeaveEarlyColor;
     private int mDayHolidayColor;
-    private int mDayOffHaveSalaryColor;
-    private int mDayOffNoSalaryColor;
+    private int mDayForgotCheckInCheckOutFiveTimeColor;
     private int mDayForgotCheckInCheckOutColor;
     private int mDayInLateLeaveEarlyHaveCompensationColor;
+    private int mCurrentDayColor;
+    private int mDayOffStrokeColor;
 
     private StringBuilder mStringBuilder;
 
@@ -73,7 +75,7 @@ public class TimeSheetView extends View {
     private Calendar mCalendar;
     private Calendar mDayLabelCalendar;
 
-    private DateFormatSymbols mDateFormatSymbols = new DateFormatSymbols();
+    private DateFormatSymbols mDateFormatSymbols = new DateFormatSymbols(Locale.US);
 
     private OnDayClickListener mOnDayClickListener;
 
@@ -95,8 +97,8 @@ public class TimeSheetView extends View {
                 getContext().obtainStyledAttributes(attrs, R.styleable.DatePickerView);
 
         Resources resources = context.getResources();
-        mDayLabelCalendar = Calendar.getInstance();
-        mCalendar = Calendar.getInstance();
+        mDayLabelCalendar = Calendar.getInstance(Locale.US);
+        mCalendar = Calendar.getInstance(Locale.US);
         today = new Time(Time.getCurrentTimezone());
         today.setToNow();
 
@@ -113,19 +115,21 @@ public class TimeSheetView extends View {
         mDayInLateLeaveEarlyColor =
                 typedArray.getColor(R.styleable.DatePickerView_colorDayInLateLeaveEarly,
                         resources.getColor(R.color.color_red_fresh));
+        mDayForgotCheckInCheckOutFiveTimeColor =
+                typedArray.getColor(R.styleable.DatePickerView_colorDayInLateLeaveEarly,
+                        resources.getColor(R.color.color_red_fresh));
         mDayHolidayColor = typedArray.getColor(R.styleable.DatePickerView_colorHoliday,
                 resources.getColor(R.color.color_yellow_gold));
-        mDayOffHaveSalaryColor =
-                typedArray.getColor(R.styleable.DatePickerView_colorDayOffHaveSalary,
-                        resources.getColor(R.color.color_green_dark_sea));
-        mDayOffNoSalaryColor = typedArray.getColor(R.styleable.DatePickerView_colorDayOffNoSalary,
-                resources.getColor(R.color.color_red_firebrick));
         mDayForgotCheckInCheckOutColor =
                 typedArray.getColor(R.styleable.DatePickerView_colorDayForgotCheckInCheckOut,
                         resources.getColor(R.color.color_green_lime));
         mDayInLateLeaveEarlyHaveCompensationColor = typedArray.getColor(
                 R.styleable.DatePickerView_colorDayInLateLeaveEarlyHaveCompensation,
-                resources.getColor(R.color.color_blue_medium));
+                resources.getColor(R.color.color_pink));
+        mCurrentDayColor = typedArray.getColor(R.styleable.DatePickerView_colorMonthName,
+                resources.getColor(R.color.color_aquamarine));
+        mDayOffStrokeColor = typedArray.getColor(R.styleable.DatePickerView_colorMonthName,
+                resources.getColor(R.color.color_dark_gray));
 
         mStringBuilder = new StringBuilder(50);
 
@@ -137,7 +141,10 @@ public class TimeSheetView extends View {
                         resources.getDimensionPixelSize(R.dimen.sp_16));
         mMonthDayLabelTextSize =
                 typedArray.getDimensionPixelSize(R.styleable.DatePickerView_textSizeDayName,
-                        resources.getDimensionPixelSize(R.dimen.sp_12));
+                        resources.getDimensionPixelSize(R.dimen.sp_9));
+        mDayLabelTextSizeSmall =
+                typedArray.getDimensionPixelSize(R.styleable.DatePickerView_textSizeDayName,
+                        resources.getDimensionPixelSize(R.dimen.sp_11));
         mMonthHeaderSize =
                 typedArray.getDimensionPixelOffset(R.styleable.DatePickerView_headerMonthHeight,
                         resources.getDimensionPixelOffset(R.dimen.dp_80));
@@ -168,7 +175,7 @@ public class TimeSheetView extends View {
             mMonthDayLabelPaint.setColor(mDayTextColor);
 
             String dayOfWeek = mDateFormatSymbols.getShortWeekdays()[mDayLabelCalendar.get(
-                    Calendar.DAY_OF_WEEK)].toUpperCase(Locale.getDefault());
+                    Calendar.DAY_OF_WEEK)].toUpperCase();
 
             canvas.drawText(dayOfWeek.substring(0, 1), x, y, mMonthDayLabelPaint);
         }
@@ -232,7 +239,7 @@ public class TimeSheetView extends View {
             if (mHasToday && (mToday == dayCheck)) {
                 mMonthNumPaint.setColor(mCurrentDayTextColor);
                 mMonthNumPaint.setTypeface(Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
-                mSelectedCirclePaint.setColor(Color.parseColor("#00ced1"));
+                mSelectedCirclePaint.setColor(mCurrentDayColor);
                 canvas.drawCircle(x, y - mMiniDayNumberTextSize / 3, mDaySelectedCircleSize,
                         mSelectedCirclePaint);
             } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
@@ -249,43 +256,60 @@ public class TimeSheetView extends View {
                 for (TimeSheetDate timeSheetDate : mTimeSheetDates) {
                     if (date.equals(timeSheetDate.getDate())) {
                         if (timeSheetDate.getStatus() == TimeSheetDate.Status.NORMAL) {
+                            mSelectedCirclePaint.setColor(Color.TRANSPARENT);
+                            drawDayLabelNomal(canvas, y, day, x);
                             break;
                         }
                         switch (timeSheetDate.getStatus()) {
                             case IN_LATE_LEAVE_EARLY:
+                                drawDayLabelNomal(canvas, y, day, x);
                                 mSelectedCirclePaint.setColor(mDayInLateLeaveEarlyColor);
                                 break;
                             case HOLIDAY_DATE:
                                 mSelectedCirclePaint.setColor(mDayHolidayColor);
-                                break;
-                            case DATE_OFF_HAVE_SALARY:
-                                mSelectedCirclePaint.setColor(mDayOffHaveSalaryColor);
-                                break;
-                            case DATE_OFF_NO_SALARY:
-                                mSelectedCirclePaint.setColor(mDayOffNoSalaryColor);
+                                drawDayLabelNomal(canvas, y, day, x);
                                 break;
                             case FORGOT_CHECK_IN_CHECK_OUT:
                                 mSelectedCirclePaint.setColor(mDayForgotCheckInCheckOutColor);
+                                drawDayLabelNomal(canvas, y, day, x);
                                 break;
                             case IN_LATE_LEAVE_EARLY_HAVE_COMPENSATION:
                                 mSelectedCirclePaint.setColor(
                                         mDayInLateLeaveEarlyHaveCompensationColor);
+                                drawDayLabelNomal(canvas, y, day, x);
+                                break;
+                            case FORGOT_CHECK_IN_CHECK_OUT_MORE_FIVE_TIME:
+                                mSelectedCirclePaint.setColor(
+                                        mDayForgotCheckInCheckOutFiveTimeColor);
+                                drawDayLabelNomal(canvas, y, day, x);
+                                break;
+                            case DAY_OFF_RO:
+                                mSelectedCirclePaint.setColor(mDayOffStrokeColor);
+                                drawDayLabelRoP(canvas, y, day, x,
+                                        getResources().getString(R.string.day_off_ro));
+                                break;
+                            case DAY_OFF_HALF_RO:
+                                mSelectedCirclePaint.setColor(mDayOffStrokeColor);
+                                drawDayLabelRoP(canvas, y, day, x,
+                                        getResources().getString(R.string.day_off_half_ro));
+                                break;
+                            case DAY_OFF_P:
+                                mSelectedCirclePaint.setColor(mDayOffStrokeColor);
+                                drawDayLabelRoP(canvas, y, day, x,
+                                        getResources().getString(R.string.day_off_p));
+                                break;
+                            case DAY_OFF_HALF_P:
+                                mSelectedCirclePaint.setColor(mDayOffStrokeColor);
+                                drawDayLabelRoP(canvas, y, day, x,
+                                        getResources().getString(R.string.day_off_half_p));
                                 break;
                             default:
                                 break;
                         }
-                        canvas.drawCircle(x, y - mMiniDayNumberTextSize / 3, mDaySelectedCircleSize,
-                                mSelectedCirclePaint);
                         break;
                     }
                 }
             }
-
-            canvas.drawText(String.format("%d",
-                    day > DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) ? day
-                            - DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) : day), x, y,
-                    mMonthNumPaint);
-
             dayOffset++;
             if (dayOffset == mNumDays) {
                 dayOffset = 0;
@@ -293,6 +317,35 @@ public class TimeSheetView extends View {
             }
             day++;
         }
+    }
+
+    private void drawDayLabelRoP(Canvas canvas, int y, int day, int x, String label) {
+        mSelectedCirclePaint.setStyle(Paint.Style.STROKE);
+        mSelectedCirclePaint.setAntiAlias(true);
+        mSelectedCirclePaint.setStrokeWidth(2);
+        mSelectedCirclePaint.setStyle(Paint.Style.STROKE);
+        mSelectedCirclePaint.setStrokeJoin(Paint.Join.ROUND);
+        mSelectedCirclePaint.setStrokeCap(Paint.Cap.ROUND);
+        canvas.drawCircle(x, y - mMiniDayNumberTextSize / 3, mDaySelectedCircleSize,
+                mSelectedCirclePaint);
+        mMonthNumPaint.setTextSize(mDayLabelTextSizeSmall);
+        canvas.drawText(String.format("%d", day > DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) ?
+                        day
+                                - DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) : day), x,
+                y - (float) (mMiniDayNumberTextSize / 2), mMonthNumPaint);
+        mMonthNumPaint.setTextSize(mMonthDayLabelTextSize);
+        canvas.drawText(label, x, y + mMiniDayNumberTextSize / 3, mMonthNumPaint);
+    }
+
+    private void drawDayLabelNomal(Canvas canvas, int y, int day, int x) {
+        mSelectedCirclePaint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(x, y - mMiniDayNumberTextSize / 3, mDaySelectedCircleSize,
+                mSelectedCirclePaint);
+        mMonthNumPaint.setTextSize(mMiniDayNumberTextSize);
+        canvas.drawText(String.format("%d", day > DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) ?
+                        day
+                                - DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) : day), x, y,
+                mMonthNumPaint);
     }
 
     public Date getDayFromLocation(float x, float y) {
