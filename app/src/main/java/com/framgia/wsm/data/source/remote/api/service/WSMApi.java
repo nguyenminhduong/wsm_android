@@ -14,4 +14,8 @@ public interface WSMApi {
     @GET("v1/authen_user_tokens")
     Observable<UserResponse> login(@Query("user_email") String userEmail,
             @Query("password") String passWord);
+
+    // TODO edit later
+    @GET("v1/time_sheet")
+    Observable<UserResponse> getTimeSheet(@Query("month") String month, @Query("year") String year);
 }
