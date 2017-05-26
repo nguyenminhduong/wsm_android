@@ -12,6 +12,7 @@ import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.validator.Rule;
 import com.framgia.wsm.utils.validator.ValidType;
 import com.framgia.wsm.utils.validator.Validation;
+import com.framgia.wsm.widget.dialog.DialogManager;
 
 /**
  * Exposes the data to be used in the Login screen.
@@ -21,6 +22,7 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
 
     private Context mContext;
     private Navigator mNavigator;
+    private DialogManager mDialogManager;
     private LoginContract.Presenter mPresenter;
     private String mUsernameError;
     private String mPasswordError;
@@ -36,11 +38,13 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
     })
     private String mPassword;
 
-    public LoginViewModel(Context context, LoginContract.Presenter presenter, Navigator navigator) {
+    public LoginViewModel(Context context, LoginContract.Presenter presenter, Navigator navigator,
+            DialogManager dialogManager) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mNavigator = navigator;
+        mDialogManager = dialogManager;
     }
 
     @Override
@@ -54,12 +58,14 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
     }
 
     @Override
-    public void onLoginError(BaseException throwable) {
-        //TODO: Show Dialog login error!
+    public void onLoginError(BaseException e) {
+        mDialogManager.dismissProgressDialog();
+        mNavigator.showToast(e.getMessage());
     }
 
     @Override
     public void onLoginSuccess() {
+        mDialogManager.dismissProgressDialog();
         mNavigator.startActivity(MainActivity.class);
         mNavigator.finishActivity();
     }
@@ -80,6 +86,7 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
         if (!mPresenter.validateDataInput(mUsername, mPassword)) {
             return;
         }
+        mDialogManager.showIndeterminateProgressDialog();
         mPresenter.login(mUsername, mPassword);
     }
 

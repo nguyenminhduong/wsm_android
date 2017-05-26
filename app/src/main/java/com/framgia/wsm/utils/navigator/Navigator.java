@@ -6,10 +6,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.widget.Toast;
 import com.framgia.wsm.R;
 
 /**
@@ -82,6 +84,14 @@ public class Navigator {
         }
         Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url));
         startActivity(intent);
+    }
+
+    public void showToast(@StringRes int stringId) {
+        Toast.makeText(mActivity, mActivity.getString(stringId) + "", Toast.LENGTH_SHORT).show();
+    }
+
+    public void showToast(String message) {
+        Toast.makeText(mActivity, message, Toast.LENGTH_SHORT).show();
     }
 
     // Fragment

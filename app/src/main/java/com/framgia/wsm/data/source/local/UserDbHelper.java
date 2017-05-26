@@ -1,4 +1,4 @@
-package com.framgia.wsm.data.source.local.sqlite;
+package com.framgia.wsm.data.source.local;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -27,15 +27,11 @@ final class LoginPresenter implements LoginContract.Presenter {
     private BaseSchedulerProvider mSchedulerProvider;
 
     LoginPresenter(UserRepository userRepository, Validator validator,
-            BaseSchedulerProvider baseSchedulerProvider) {
+            BaseSchedulerProvider schedulerProvider) {
         mUserRepository = userRepository;
         mValidator = validator;
         mCompositeDisposable = new CompositeDisposable();
-        mSchedulerProvider = baseSchedulerProvider;
-        Disposable disposable = mValidator.initNGWordPattern();
-        if (disposable != null) {
-            mCompositeDisposable.add(disposable);
-        }
+        mSchedulerProvider = schedulerProvider;
     }
 
     @Override
