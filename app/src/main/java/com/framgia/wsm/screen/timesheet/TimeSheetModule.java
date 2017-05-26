@@ -2,6 +2,8 @@ package com.framgia.wsm.screen.timesheet;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import com.framgia.wsm.data.source.TimeSheetRepository;
+import com.framgia.wsm.data.source.remote.TimeSheetRemoteDataSource;
 import com.framgia.wsm.utils.dagger.FragmentScope;
 import dagger.Module;
 import dagger.Provides;
@@ -29,5 +31,12 @@ public class TimeSheetModule {
     @Provides
     public TimeSheetContract.Presenter providePresenter() {
         return new TimeSheetPresenter();
+    }
+
+    @FragmentScope
+    @Provides
+    public TimeSheetRepository provideTimeSheetRepository(
+            TimeSheetRemoteDataSource remoteDataSource) {
+        return new TimeSheetRepository(remoteDataSource);
     }
 }
