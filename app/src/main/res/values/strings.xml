@@ -46,5 +46,7 @@
     <string name="day_off_half_ro">Ro/2</string>
     <string name="day_off_p">P</string>
     <string name="day_off_half_p">P/2</string>
+    <string name="time_in">Time in: %d</string>
+    <string name="time_out">Time out: %d</string>
 
 </resources>

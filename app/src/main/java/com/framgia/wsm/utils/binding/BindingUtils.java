@@ -14,9 +14,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.model.TimeSheetDate;
 import com.framgia.wsm.databinding.NavHeaderMainBinding;
+import com.framgia.wsm.screen.BaseViewModel;
 import com.framgia.wsm.screen.main.MainViewModel;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.widget.timesheet.OnDayClickListener;
+import com.framgia.wsm.widget.timesheet.TimeSheetView;
+import java.util.List;
 
 /**
  * Created by le.quang.dao on 20/03/2017.
@@ -90,5 +95,18 @@ public final class BindingUtils {
                 .load(uri)
                 .placeholder(R.drawable.ic_placeholder_user)
                 .into(imageView);
+    }
+
+    @BindingAdapter({ "timeSheetDates", "month", "year" })
+    public static void setTimeSheetDates(TimeSheetView timeSheetView,
+            List<TimeSheetDate> timeSheetDates, int month, int year) {
+        timeSheetView.setTime(month, year);
+        timeSheetView.setTimeSheetDates(timeSheetDates);
+    }
+
+    @BindingAdapter({ "onDayClick" })
+    public static void setOnDayClick(TimeSheetView timeSheetView,
+            OnDayClickListener onDayClickListener) {
+        timeSheetView.setOnDayClickListener(onDayClickListener);
     }
 }

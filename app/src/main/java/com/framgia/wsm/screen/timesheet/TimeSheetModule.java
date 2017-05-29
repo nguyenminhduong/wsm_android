@@ -1,9 +1,9 @@
 package com.framgia.wsm.screen.timesheet;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import com.framgia.wsm.data.source.TimeSheetRepository;
-import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.TimeSheetRemoteDataSource;
 import com.framgia.wsm.utils.dagger.FragmentScope;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
@@ -25,14 +25,15 @@ public class TimeSheetModule {
 
     @FragmentScope
     @Provides
-    public TimeSheetContract.ViewModel provideViewModel(TimeSheetContract.Presenter presenter) {
-        return new TimeSheetViewModel(presenter);
+    public TimeSheetContract.ViewModel provideViewModel(Context context,
+            TimeSheetContract.Presenter presenter) {
+        return new TimeSheetViewModel(context, presenter);
     }
 
     @FragmentScope
     @Provides
-    public TimeSheetContract.Presenter providePresenter(UserRepository userRepository,
-            TimeSheetRepository timeSheetRepository, BaseSchedulerProvider baseSchedulerProvider) {
+    public TimeSheetContract.Presenter providePresenter(TimeSheetRepository timeSheetRepository,
+            BaseSchedulerProvider baseSchedulerProvider) {
         return new TimeSheetPresenter(timeSheetRepository, baseSchedulerProvider);
     }
 

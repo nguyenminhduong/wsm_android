@@ -17,6 +17,9 @@ public class TimeSheetDate extends BaseModel {
     @SerializedName("status")
     Status mStatus;
 
+    public TimeSheetDate() {
+    }
+
     public TimeSheetDate(String date, int timeIn, int timeOut, Status status) {
         this.mDate = date;
         this.mTimeIn = timeIn;
@@ -32,8 +35,28 @@ public class TimeSheetDate extends BaseModel {
         return DateTimeUtils.convertStringToDate(mDate);
     }
 
+    public void setDate(String date) {
+        mDate = date;
+    }
+
     public Status getStatus() {
         return mStatus;
+    }
+
+    public int getTimeIn() {
+        return mTimeIn;
+    }
+
+    public void setTimeIn(int timeIn) {
+        mTimeIn = timeIn;
+    }
+
+    public int getTimeOut() {
+        return mTimeOut;
+    }
+
+    public void setTimeOut(int timeOut) {
+        mTimeOut = timeOut;
     }
 
     public enum Status {
@@ -58,15 +81,10 @@ public class TimeSheetDate extends BaseModel {
         @Expose @SerializedName("forgot_checkin_checkout_more_five_time")
         FORGOT_CHECK_IN_CHECK_OUT_MORE_FIVE_TIME(9);
 
-
         private int mValue;
 
         Status(int value) {
             this.mValue = value;
-        }
-
-        public int getValue() {
-            return this.mValue;
         }
 
         public static Status getValue(int value) {
@@ -94,6 +112,10 @@ public class TimeSheetDate extends BaseModel {
                 default:
                     return NORMAL;
             }
+        }
+
+        public int getValue() {
+            return this.mValue;
         }
     }
 }

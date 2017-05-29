@@ -10,13 +10,15 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.databinding.FragmentTimeSheetBinding;
 import com.framgia.wsm.screen.BaseFragment;
 import com.framgia.wsm.screen.main.MainActivity;
+import javax.inject.Inject;
 
 /**
  * TimeSheet Screen.
  */
 public class TimeSheetFragment extends BaseFragment {
+    public static final String TAG = "TimeSheetFragment";
 
-    //    @Inject
+    @Inject
     TimeSheetContract.ViewModel mViewModel;
 
     public static TimeSheetFragment newInstance() {
