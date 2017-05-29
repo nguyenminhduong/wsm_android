@@ -1,14 +1,19 @@
 package com.framgia.wsm.utils.binding;
 
 import android.databinding.BindingAdapter;
+import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.widget.EditText;
+import android.widget.ImageView;
+import com.bumptech.glide.Glide;
+import com.framgia.wsm.R;
 import com.framgia.wsm.databinding.NavHeaderMainBinding;
 import com.framgia.wsm.screen.main.MainViewModel;
 import com.framgia.wsm.utils.Constant;
@@ -73,5 +78,17 @@ public final class BindingUtils {
     @BindingAdapter("errorText")
     public static void setErrorText(EditText editText, String text) {
         editText.setError(text);
+    }
+
+    @BindingAdapter("imageUrlUser")
+    public static void loadImageUser(ImageView imageView, String url) {
+        if (TextUtils.isEmpty(url)) {
+            url = "";
+        }
+        Uri uri = Uri.parse(url);
+        Glide.with(imageView.getContext())
+                .load(uri)
+                .placeholder(R.drawable.ic_placeholder_user)
+                .into(imageView);
     }
 }

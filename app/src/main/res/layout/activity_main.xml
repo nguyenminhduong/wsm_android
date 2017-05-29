@@ -58,8 +58,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/dp_30"
-                        android:layout_marginStart="@dimen/dp_30"
+                        android:layout_marginLeft="@dimen/dp_40"
+                        android:layout_marginStart="@dimen/dp_40"
                         android:gravity="center_vertical"
                         android:text="@{viewModel.currentTitleToolbar}"
                         android:textAllCaps="true"
