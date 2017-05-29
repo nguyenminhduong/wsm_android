@@ -1,7 +1,9 @@
 package com.framgia.wsm.data.source.remote;
 
 import com.framgia.wsm.data.source.TimeSheetDataSource;
+import com.framgia.wsm.data.source.remote.api.response.TimeSheetResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
+import io.reactivex.Observable;
 import javax.inject.Inject;
 
 /**
@@ -14,5 +16,10 @@ public class TimeSheetRemoteDataSource extends BaseRemoteDataSource
     @Inject
     public TimeSheetRemoteDataSource(WSMApi api) {
         super(api);
+    }
+
+    @Override
+    public Observable<TimeSheetResponse> getTimeSheet(String month, String year) {
+        return null;
     }
 }
