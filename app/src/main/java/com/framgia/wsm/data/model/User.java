@@ -17,6 +17,9 @@ public class User {
     @Expose
     @SerializedName("email")
     private String mEmail;
+    @Expose
+    @SerializedName("avatar")
+    private String mAvatar;
 
     public Integer getId() {
         return mId;
@@ -40,5 +43,13 @@ public class User {
 
     public void setEmail(String email) {
         mEmail = email;
+    }
+
+    public String getAvatar() {
+        return mAvatar;
+    }
+
+    public void setAvatar(String avatar) {
+        mAvatar = avatar;
     }
 }

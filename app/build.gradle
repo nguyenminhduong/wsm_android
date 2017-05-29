@@ -113,6 +113,7 @@ dependencies {
   compile dependencies.loggingInterceptor
   compile dependencies.fab
   compile dependencies.cardView
+  compile dependencies.glide
 
   annotationProcessor dependencies.dagger2Compile
   compile dependencies.dagger2

@@ -100,6 +100,10 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         return mUser != null ? mUser.getEmail() : "";
     }
 
+    public String getAvatar() {
+        return mUser != null ? mUser.getAvatar() : "";
+    }
+
     @Override
     public void onStart() {
         mPresenter.onStart();
