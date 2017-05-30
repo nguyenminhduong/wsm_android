@@ -1,8 +1,14 @@
 package com.framgia.wsm.screen.requestleave;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
+import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.local.UserLocalDataSource;
+import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.ActivityScope;
+import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
 
@@ -21,14 +27,28 @@ public class RequestLeaveModule {
 
     @ActivityScope
     @Provides
-    public RequestLeaveContract.ViewModel provideViewModel(
+    public RequestLeaveContract.ViewModel provideViewModel(Context context, Navigator navigator,
             RequestLeaveContract.Presenter presenter) {
-        return new RequestLeaveViewModel(presenter);
+        return new RequestLeaveViewModel(context, navigator, presenter);
     }
 
     @ActivityScope
     @Provides
-    public RequestLeaveContract.Presenter providePresenter() {
-        return new RequestLeavePresenter();
+    public RequestLeaveContract.Presenter providePresenter(UserRepository userRepository,
+            BaseSchedulerProvider baseSchedulerProvider) {
+        return new RequestLeavePresenter(userRepository, baseSchedulerProvider);
+    }
+
+    @ActivityScope
+    @Provides
+    UserRepository provideUserRepository(UserLocalDataSource localDataSource,
+            UserRemoteDataSource remoteDataSource) {
+        return new UserRepository(localDataSource, remoteDataSource);
+    }
+
+    @ActivityScope
+    @Provides
+    Navigator provideNavigator() {
+        return new Navigator(mActivity);
     }
 }

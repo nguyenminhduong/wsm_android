@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.widget.EditText;
@@ -109,5 +110,10 @@ public final class BindingUtils {
     public static void setOnDayClick(TimeSheetView timeSheetView,
             OnDayClickListener onDayClickListener) {
         timeSheetView.setOnDayClickListener(onDayClickListener);
+    }
+
+    @BindingAdapter({ "toolbar" })
+    public static void setToolbar(Toolbar toolbar, String title) {
+        toolbar.setTitle(title);
     }
 }

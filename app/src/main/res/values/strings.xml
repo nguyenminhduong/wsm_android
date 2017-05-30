@@ -41,6 +41,7 @@
     <string name="log_in">Log in</string>
     <string name="is_empty">Empty, please enter !</string>
     <string name="invalid_email_format">Invalid email format !</string>
+    <string name="request_leave">Request Leave</string>
 
     <string name="day_off_ro">Ro</string>
     <string name="day_off_half_ro">Ro/2</string>
@@ -48,5 +49,9 @@
     <string name="day_off_half_p">P/2</string>
     <string name="time_in">Time in: %d</string>
     <string name="time_out">Time out: %d</string>
+
+    <string name="employee_name">Employee name</string>
+    <string name="employee_code">Employee code</string>
+    <string name="project_name">Project name</string>
 
 </resources>

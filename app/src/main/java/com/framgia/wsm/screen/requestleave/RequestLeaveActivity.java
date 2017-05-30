@@ -4,7 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import com.framgia.wsm.MainApplication;
 import com.framgia.wsm.R;
-import com.framgia.wsm.databinding.ActivityRequestleaveBinding;
+import com.framgia.wsm.databinding.ActivityRequestLeaveBinding;
 import com.framgia.wsm.screen.BaseActivity;
 import javax.inject.Inject;
 
@@ -26,8 +26,8 @@ public class RequestLeaveActivity extends BaseActivity {
                 .build()
                 .inject(this);
 
-        ActivityRequestleaveBinding binding =
-                DataBindingUtil.setContentView(this, R.layout.activity_requestleave);
+        ActivityRequestLeaveBinding binding =
+                DataBindingUtil.setContentView(this, R.layout.activity_request_leave);
         binding.setViewModel((RequestLeaveViewModel) mViewModel);
     }
 
