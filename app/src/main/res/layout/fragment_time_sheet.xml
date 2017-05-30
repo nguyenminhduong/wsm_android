@@ -153,9 +153,9 @@
                 />
 
             <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/floating_twitter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{viewModel::onClickRequestLeave}"
                 android:src="@drawable/fab_add"
                 app:fab_colorNormal="@color/color_green_lime"
                 app:fab_colorPressed="@color/color_green_dark_sea"
