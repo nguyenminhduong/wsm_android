@@ -19,7 +19,7 @@ public class TimeSheetRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<TimeSheetResponse> getTimeSheet(String month, String year) {
+    public Observable<TimeSheetResponse> getTimeSheet(int month, int year) {
         return null;
     }
 }

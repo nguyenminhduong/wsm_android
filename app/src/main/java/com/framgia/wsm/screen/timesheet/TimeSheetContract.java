@@ -23,6 +23,6 @@ interface TimeSheetContract {
      * Presenter.
      */
     interface Presenter extends BasePresenter<ViewModel> {
-        void getTimeSheet();
+        void getTimeSheet(int month, int year);
     }
 }

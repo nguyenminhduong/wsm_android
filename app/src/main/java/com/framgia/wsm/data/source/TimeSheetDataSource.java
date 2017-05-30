@@ -10,6 +10,6 @@ import io.reactivex.Observable;
 public interface TimeSheetDataSource {
 
     interface RemoteDataSource {
-        Observable<TimeSheetResponse> getTimeSheet(String month, String year);
+        Observable<TimeSheetResponse> getTimeSheet(int month, int year);
     }
 }

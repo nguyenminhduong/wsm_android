@@ -18,10 +18,11 @@ public class TimeSheetRepository {
         mRemoteDataSource = remoteDataSource;
     }
 
-    public Observable<TimeSheetResponse> getTimeSheet(String month, String year) {
+    public Observable<TimeSheetResponse> getTimeSheet(int month, int year) {
         //todo delete later
         List<TimeSheetDate> timeSheetDates = new ArrayList<>();
-        timeSheetDates.add(new TimeSheetDate("2017/04/26", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(
+                new TimeSheetDate(String.format("2017/04/26"), 8, 10, TimeSheetDate.Status.NORMAL));
         timeSheetDates.add(new TimeSheetDate("2017/04/27", 8, 10, TimeSheetDate.Status.NORMAL));
         timeSheetDates.add(
                 new TimeSheetDate("2017/04/28", 8, 10, TimeSheetDate.Status.IN_LATE_LEAVE_EARLY));

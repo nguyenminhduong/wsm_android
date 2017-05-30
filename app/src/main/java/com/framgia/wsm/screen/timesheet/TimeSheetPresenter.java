@@ -44,8 +44,8 @@ final class TimeSheetPresenter implements TimeSheetContract.Presenter {
     }
 
     @Override
-    public void getTimeSheet() {
-        Disposable subscription = mTimeSheetRepository.getTimeSheet("", "")
+    public void getTimeSheet(int month, int year) {
+        Disposable subscription = mTimeSheetRepository.getTimeSheet(month, year)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
                 .subscribe(new Consumer<TimeSheetResponse>() {

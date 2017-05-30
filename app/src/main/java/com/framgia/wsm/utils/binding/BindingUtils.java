@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.TimeSheetDate;
 import com.framgia.wsm.databinding.NavHeaderMainBinding;
-import com.framgia.wsm.screen.BaseViewModel;
 import com.framgia.wsm.screen.main.MainViewModel;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.widget.timesheet.OnDayClickListener;
@@ -101,6 +100,8 @@ public final class BindingUtils {
     public static void setTimeSheetDates(TimeSheetView timeSheetView,
             List<TimeSheetDate> timeSheetDates, int month, int year) {
         timeSheetView.setTime(month, year);
+        timeSheetView.reuse();
+        timeSheetView.invalidate();
         timeSheetView.setTimeSheetDates(timeSheetDates);
     }
 
