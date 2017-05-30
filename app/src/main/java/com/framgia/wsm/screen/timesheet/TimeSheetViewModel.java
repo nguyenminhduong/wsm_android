@@ -3,10 +3,13 @@ package com.framgia.wsm.screen.timesheet;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.TimeSheetDate;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.screen.requestleave.RequestLeaveActivity;
+import com.framgia.wsm.utils.navigator.Navigator;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -24,8 +27,10 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     private int mYear;
     private boolean isShowInformation;
     private TimeSheetDate mTimeSheetDate;
+    private Navigator mNavigator;
 
-    public TimeSheetViewModel(Context context, TimeSheetContract.Presenter presenter) {
+    public TimeSheetViewModel(Context context, TimeSheetContract.Presenter presenter,
+            Navigator navigator) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
@@ -36,6 +41,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         mYear = calendar.get(Calendar.YEAR);
         //todo edit at next pull, add param month, year
         mPresenter.getTimeSheet();
+        mNavigator = navigator;
     }
 
     @Override
@@ -98,5 +104,9 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         notifyPropertyChanged(BR.date);
         notifyPropertyChanged(BR.timeIn);
         notifyPropertyChanged(BR.timeOut);
+    }
+
+    public void onClickRequestLeave(View view) {
+        mNavigator.startActivity(RequestLeaveActivity.class);
     }
 }

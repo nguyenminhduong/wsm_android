@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import com.framgia.wsm.data.source.TimeSheetRepository;
 import com.framgia.wsm.data.source.remote.TimeSheetRemoteDataSource;
 import com.framgia.wsm.utils.dagger.FragmentScope;
+import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
@@ -26,8 +27,8 @@ public class TimeSheetModule {
     @FragmentScope
     @Provides
     public TimeSheetContract.ViewModel provideViewModel(Context context,
-            TimeSheetContract.Presenter presenter) {
-        return new TimeSheetViewModel(context, presenter);
+            TimeSheetContract.Presenter presenter, Navigator navigator) {
+        return new TimeSheetViewModel(context, presenter, navigator);
     }
 
     @FragmentScope
@@ -42,5 +43,11 @@ public class TimeSheetModule {
     public TimeSheetRepository provideTimeSheetRepository(
             TimeSheetRemoteDataSource remoteDataSource) {
         return new TimeSheetRepository(remoteDataSource);
+    }
+
+    @FragmentScope
+    @Provides
+    Navigator provideNavigator() {
+        return new Navigator(mFragment);
     }
 }
