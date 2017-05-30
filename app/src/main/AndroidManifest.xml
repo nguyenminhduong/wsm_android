@@ -19,10 +19,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".screen.main.MainActivity"/>
-        <activity
-            android:name=".screen.requestleave.RequestLeaveActivity"/>
+        <activity android:name=".screen.requestleave.RequestLeaveActivity"/>
         <activity
             android:name=".screen.requestoff.RequestOffActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".screen.requestovertime.RequestOvertimeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
     </application>

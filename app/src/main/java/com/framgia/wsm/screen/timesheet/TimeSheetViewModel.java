@@ -9,6 +9,7 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.TimeSheetDate;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.requestleave.RequestLeaveActivity;
+import com.framgia.wsm.screen.requestovertime.RequestOvertimeActivity;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import java.util.ArrayList;
@@ -117,6 +118,10 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
 
     public void onClickRequestLeave(View view) {
         mNavigator.startActivity(RequestLeaveActivity.class);
+    }
+
+    public void onClickRequestOvertime(View view) {
+        mNavigator.startActivity(RequestOvertimeActivity.class);
     }
 
     public void onNextMonth() {
