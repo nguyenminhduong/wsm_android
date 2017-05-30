@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.framgia.wsm.R;
 import com.framgia.wsm.screen.BaseFragment;
+import com.framgia.wsm.screen.timesheet.TimeSheetFragment;
+import com.framgia.wsm.utils.navigator.NavigateAnim;
 import com.framgia.wsm.utils.navigator.Navigator;
 
 import static com.framgia.wsm.screen.main.MainViewModel.Page.COME_LATE_LEAVE_EARLY;
@@ -48,6 +50,8 @@ public class MainContainerFragment extends BaseFragment {
             case SETUP_PROFILE:
                 break;
             case WORKING_CALENDAR:
+                mNavigator.goNextChildFragment(containerViewId, TimeSheetFragment.newInstance(),
+                        false, NavigateAnim.NONE, TimeSheetFragment.TAG);
                 break;
             case HOLIDAY_CALENDAR:
                 break;
