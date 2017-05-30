@@ -22,7 +22,9 @@ public class UserRepository {
     }
 
     public Observable<UserResponse> login(String userName, String passWord) {
-        return mRemoteDataSource.login(userName, passWord);
+        //return mRemoteDataSource.login(userName, passWord);
+        // TODO: 29/05/2017 Change later
+        return Observable.just(new UserResponse());
     }
 
     public void saveUser(User user) {
