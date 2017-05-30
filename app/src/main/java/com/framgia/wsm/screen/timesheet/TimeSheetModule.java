@@ -8,6 +8,8 @@ import com.framgia.wsm.data.source.remote.TimeSheetRemoteDataSource;
 import com.framgia.wsm.utils.dagger.FragmentScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import com.framgia.wsm.widget.dialog.DialogManager;
+import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
 import dagger.Provides;
 
@@ -27,8 +29,9 @@ public class TimeSheetModule {
     @FragmentScope
     @Provides
     public TimeSheetContract.ViewModel provideViewModel(Context context,
-            TimeSheetContract.Presenter presenter, Navigator navigator) {
-        return new TimeSheetViewModel(context, presenter, navigator);
+            TimeSheetContract.Presenter presenter, Navigator navigator,
+            DialogManager dialogManager) {
+        return new TimeSheetViewModel(context, presenter, navigator, dialogManager);
     }
 
     @FragmentScope
@@ -49,5 +52,11 @@ public class TimeSheetModule {
     @Provides
     Navigator provideNavigator() {
         return new Navigator(mFragment);
+    }
+
+    @FragmentScope
+    @Provides
+    public DialogManager provideDialogManager() {
+        return new DialogManagerImpl(mFragment.getActivity());
     }
 }

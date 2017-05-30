@@ -105,7 +105,7 @@ public class TimeSheetView extends View {
         mCurrentDayTextColor = typedArray.getColor(R.styleable.DatePickerView_colorCurrentDay,
                 resources.getColor(android.R.color.black));
         mMonthTextColor = typedArray.getColor(R.styleable.DatePickerView_colorMonthName,
-                resources.getColor(R.color.color_aquamarine));
+                resources.getColor(R.color.colorPrimary));
         mDayTextColor = typedArray.getColor(R.styleable.DatePickerView_colorDayName,
                 resources.getColor(R.color.color_gray_cod));
         mDayNumColor = typedArray.getColor(R.styleable.DatePickerView_colorNormalDay,
@@ -138,7 +138,7 @@ public class TimeSheetView extends View {
                         resources.getDimensionPixelSize(R.dimen.sp_14));
         mMonthLabelTextSize =
                 typedArray.getDimensionPixelSize(R.styleable.DatePickerView_textSizeMonth,
-                        resources.getDimensionPixelSize(R.dimen.sp_16));
+                        resources.getDimensionPixelSize(R.dimen.sp_20));
         mMonthDayLabelTextSize =
                 typedArray.getDimensionPixelSize(R.styleable.DatePickerView_textSizeDayName,
                         resources.getDimensionPixelSize(R.dimen.sp_9));
@@ -386,7 +386,7 @@ public class TimeSheetView extends View {
         mMonthTitlePaint.setFakeBoldText(true);
         mMonthTitlePaint.setAntiAlias(true);
         mMonthTitlePaint.setTextSize(mMonthLabelTextSize);
-        mMonthTitlePaint.setTypeface(Typeface.create(monthTitleTypeface, Typeface.NORMAL));
+        mMonthTitlePaint.setTypeface(Typeface.create(monthTitleTypeface, Typeface.BOLD));
         mMonthTitlePaint.setColor(mMonthTextColor);
         mMonthTitlePaint.setTextAlign(Paint.Align.CENTER);
         mMonthTitlePaint.setStyle(Paint.Style.FILL);
