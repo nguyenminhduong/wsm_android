@@ -2,6 +2,7 @@ package com.framgia.wsm.data.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 /**
  * Created by tri on 24/05/2017.
@@ -20,6 +21,9 @@ public class User {
     @Expose
     @SerializedName("avatar")
     private String mAvatar;
+    private String mCode;
+    private List<Branch> mBranches;
+    private List<Group> mGroups;
 
     public Integer getId() {
         return mId;
@@ -51,5 +55,29 @@ public class User {
 
     public void setAvatar(String avatar) {
         mAvatar = avatar;
+    }
+
+    public String getCode() {
+        return mCode;
+    }
+
+    public void setCode(String code) {
+        mCode = code;
+    }
+
+    public List<Branch> getBranches() {
+        return mBranches;
+    }
+
+    public void setBranches(List<Branch> branches) {
+        mBranches = branches;
+    }
+
+    public List<Group> getGroups() {
+        return mGroups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        mGroups = groups;
     }
 }

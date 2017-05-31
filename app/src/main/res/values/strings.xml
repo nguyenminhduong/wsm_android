@@ -53,5 +53,8 @@
     <string name="employee_name">Employee name</string>
     <string name="employee_code">Employee code</string>
     <string name="project_name">Project name</string>
+    <string name="branch">Branch</string>
+    <string name="group">Group</string>
+    <string name="reason">Reason</string>
 
 </resources>
