@@ -48,6 +48,7 @@
                     <EditText
                         android:enabled="false"
                         android:hint="@string/employee_name"
+                        android:text="@{viewModel.employeeName}"
                         style="@style/StyleText"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -58,9 +59,59 @@
                     <EditText
                         android:enabled="false"
                         android:hint="@string/employee_code"
+                        android:text="@{viewModel.employeeCode}"
                         style="@style/StyleText"
                         />
                 </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    >
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        >
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/StyleTextHint"
+                            >
+                            <EditText
+                                android:enabled="false"
+                                android:hint="@string/branch"
+                                style="@style/StyleText"
+                                />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.v7.widget.AppCompatSpinner
+                            style="@style/StyleSpinner"
+                            />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        >
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/StyleTextHint"
+                            >
+                            <EditText
+                                android:enabled="false"
+                                android:hint="@string/group"
+                                style="@style/StyleText"
+                                />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.v7.widget.AppCompatSpinner
+                            style="@style/StyleSpinner"
+                            />
+                    </FrameLayout>
+
+                </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
                     style="@style/StyleTextHint"
@@ -70,6 +121,16 @@
                         style="@style/StyleText"
                         />
                 </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/StyleTextHint"
+                    >
+                    <EditText
+                        android:hint="@string/reason"
+                        style="@style/StyleText"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

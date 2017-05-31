@@ -3,8 +3,11 @@ package com.framgia.wsm.screen.requestleave;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.util.Log;
+import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.utils.navigator.Navigator;
 
 /**
@@ -34,6 +37,16 @@ public class RequestLeaveViewModel extends BaseObservable
         return mContext.getResources().getString(R.string.request_leave);
     }
 
+    @Bindable
+    public String getEmployeeName() {
+        return mUser != null ? mUser.getName() : "";
+    }
+
+    @Bindable
+    public String getEmployeeCode() {
+        return mUser != null ? mUser.getCode() : "";
+    }
+
     @Override
     public void onStart() {
         mPresenter.onStart();
@@ -42,5 +55,20 @@ public class RequestLeaveViewModel extends BaseObservable
     @Override
     public void onStop() {
         mPresenter.onStop();
+    }
+
+    @Override
+    public void onGetUserSuccess(User user) {
+        if (user == null) {
+            return;
+        }
+        mUser = user;
+        notifyPropertyChanged(BR.employeeName);
+        notifyPropertyChanged(BR.employeeCode);
+    }
+
+    @Override
+    public void onGetUserError(BaseException exception) {
+        Log.e(TAG, "onGetUserError", exception);
     }
 }
