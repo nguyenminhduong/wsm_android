@@ -144,9 +144,9 @@
             >
 
             <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/floating_facebook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{viewModel::onClickRequestOvertime}"
                 android:src="@drawable/fab_add"
                 app:fab_colorNormal="@color/md_material_blue_800"
                 app:fab_colorPressed="@color/md_material_blue_600"
