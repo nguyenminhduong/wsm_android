@@ -129,7 +129,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
 
     @Override
     public boolean onBackPressed() {
-        if (mStatusDrawerLayout.equals(Constant.DRAWER_IS_OPEN)) {
+        if (Constant.DRAWER_IS_OPEN.equals(mStatusDrawerLayout)) {
             setStatusDrawerLayout(Constant.DRAWER_IS_CLOSE);
             return true;
         } else {
