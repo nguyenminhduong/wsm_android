@@ -68,6 +68,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     public void onGetTimeSheetSuccess(List<TimeSheetDate> list) {
         mTimeSheetDates.clear();
         mTimeSheetDates.addAll(list);
+        notifyPropertyChanged(BR.timeSheetDates);
         mDialogManager.dismissProgressDialog();
     }
 
