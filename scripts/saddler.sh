@@ -4,6 +4,7 @@ echo "********************"
 echo "* install gems     *"
 echo "********************"
 gem install --no-document checkstyle_filter-git saddler saddler-reporter-github findbugs_translate_checkstyle_format android_lint_translate_checkstyle_format pmd_translate_checkstyle_format
+gem install chatwork
 
 if [ $? -ne 0 ]; then
     echo 'Failed to install gems.'
@@ -78,3 +79,5 @@ cat app/build/reports/lint-results.xml \
     | android_lint_translate_checkstyle_format translate \
     | checkstyle_filter-git diff origin/master \
     | saddler report --require saddler/reporter/github --reporter $REPORTER
+
+ruby scripts/chatwork.rb "${CI_PULL_REQUEST}"
