@@ -67,7 +67,10 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     @Override
     public void onGetTimeSheetSuccess(List<TimeSheetDate> list) {
         mTimeSheetDates.clear();
-        mTimeSheetDates.addAll(list);
+        // TODO: 31/05/2017 remove if (mMonth == 4) when have API
+        if (mMonth == 4) {
+            mTimeSheetDates.addAll(list);
+        }
         notifyPropertyChanged(BR.timeSheetDates);
         mDialogManager.dismissProgressDialog();
     }
