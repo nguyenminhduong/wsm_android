@@ -2,6 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
     >
 
     <data>
@@ -13,11 +14,13 @@
 
     </data>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
+
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
@@ -36,12 +39,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:padding="@dimen/dp_10"
             >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:padding="@dimen/dp_10"
                 >
                 <android.support.design.widget.TextInputLayout
                     style="@style/StyleTextHint"
@@ -65,18 +68,9 @@
                         />
                 </android.support.design.widget.TextInputLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal"
-                    >
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        >
+                <TableLayout
+                    style="@style/StyleTableLayout">
+                    <TableRow>
                         <android.support.design.widget.TextInputLayout
                             style="@style/StyleTextHint"
                             >
@@ -86,17 +80,6 @@
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
-
-                        <android.support.v7.widget.AppCompatSpinner
-                            style="@style/StyleSpinner"
-                            />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        >
                         <android.support.design.widget.TextInputLayout
                             style="@style/StyleTextHint"
                             >
@@ -106,13 +89,8 @@
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
-
-                        <android.support.v7.widget.AppCompatSpinner
-                            style="@style/StyleSpinner"
-                            />
-                    </FrameLayout>
-
-                </LinearLayout>
+                    </TableRow>
+                </TableLayout>
 
                 <android.support.design.widget.TextInputLayout
                     style="@style/StyleTextHint"
@@ -127,11 +105,27 @@
                     style="@style/StyleTextHint"
                     >
                     <EditText
-                        android:hint="@string/reason"
+                        android:enabled="false"
+                        android:hint="@string/leave_type"
                         style="@style/StyleText"
                         />
                 </android.support.design.widget.TextInputLayout>
 
+                <include
+                    layout="@layout/layout_form_request_leave"
+                    bind:viewModel="@{viewModel}"
+                    />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@drawable/border_button_create"
+                    android:text="@string/create"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
