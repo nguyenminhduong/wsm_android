@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <data>
@@ -39,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
+            android:scrollbars="none"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,48 +70,82 @@
                         />
                 </android.support.design.widget.TextInputLayout>
 
-                <TableLayout
-                    style="@style/StyleTableLayout">
-                    <TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    >
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        >
                         <android.support.design.widget.TextInputLayout
                             style="@style/StyleTextHint"
                             >
                             <EditText
-                                android:enabled="false"
                                 android:hint="@string/branch"
+                                android:onClick="@{viewModel::onPickBranch}"
+                                android:text="@{viewModel.currentBranch}"
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
+                        <ImageView
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleImageDropDown"
+                            />
+                    </FrameLayout>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        >
                         <android.support.design.widget.TextInputLayout
                             style="@style/StyleTextHint"
                             >
                             <EditText
-                                android:enabled="false"
                                 android:hint="@string/group"
+                                android:onClick="@{viewModel::onPickroupt}"
+                                android:text="@{viewModel.currentGroup}"
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
-                    </TableRow>
-                </TableLayout>
+                        <ImageView
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleImageDropDown"
+                            />
+                    </FrameLayout>
+                </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
                     style="@style/StyleTextHint"
                     >
                     <EditText
                         android:hint="@string/project_name"
-                        style="@style/StyleText"
+                        style="@style/StyleEditableText"
                         />
                 </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
-                    style="@style/StyleTextHint"
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     >
-                    <EditText
-                        android:enabled="false"
-                        android:hint="@string/leave_type"
-                        style="@style/StyleText"
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/StyleTextHint"
+                        >
+                        <EditText
+                            android:hint="@string/leave_type"
+                            android:onClick="@{viewModel::onPickTypeRequest}"
+                            android:text="@{viewModel.currentLeaveType}"
+                            style="@style/StyleText"
+                            />
+                    </android.support.design.widget.TextInputLayout>
+                    <ImageView
+                        tools:ignore="ContentDescription"
+                        style="@style/StyleImageDropDown"
                         />
-                </android.support.design.widget.TextInputLayout>
+                </FrameLayout>
 
                 <include
                     layout="@layout/layout_form_request_leave"
@@ -118,10 +154,11 @@
 
                 <Button
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_40"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/dp_10"
                     android:background="@drawable/border_button_create"
+                    android:onClick="@{viewModel::onClickCreate}"
                     android:text="@string/create"
                     android:textAllCaps="true"
                     android:textColor="@android:color/white"

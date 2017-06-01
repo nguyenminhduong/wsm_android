@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.util.Log;
+import android.view.View;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
@@ -23,6 +24,9 @@ public class RequestLeaveViewModel extends BaseObservable
     private Context mContext;
     private Navigator mNavigator;
     private User mUser;
+    private String mCurrentBranch;
+    private String mCurrentGroup;
+    private String mCurrentLeaveType;
 
     public RequestLeaveViewModel(Context context, Navigator navigator,
             RequestLeaveContract.Presenter presenter) {
@@ -30,6 +34,10 @@ public class RequestLeaveViewModel extends BaseObservable
         mPresenter.setViewModel(this);
         mContext = context;
         mNavigator = navigator;
+        mCurrentBranch = "Da nang Office";
+        mCurrentGroup = "Android members";
+        mCurrentLeaveType = "Leave out";
+        //TODO Change later
     }
 
     @Bindable
@@ -45,6 +53,33 @@ public class RequestLeaveViewModel extends BaseObservable
     @Bindable
     public String getEmployeeCode() {
         return mUser != null ? mUser.getCode() : "";
+    }
+
+    @Bindable
+    public String getCurrentBranch() {
+        return mCurrentBranch;
+    }
+
+    public void setCurrentBranch(String currentBranch) {
+        mCurrentBranch = currentBranch;
+    }
+
+    @Bindable
+    public String getCurrentGroup() {
+        return mCurrentGroup;
+    }
+
+    public void setCurrentGroup(String currentGroup) {
+        mCurrentGroup = currentGroup;
+    }
+
+    @Bindable
+    public String getCurrentLeaveType() {
+        return mCurrentLeaveType;
+    }
+
+    public void setCurrentLeaveType(String currentLeaveType) {
+        mCurrentLeaveType = currentLeaveType;
     }
 
     @Override
@@ -70,5 +105,21 @@ public class RequestLeaveViewModel extends BaseObservable
     @Override
     public void onGetUserError(BaseException exception) {
         Log.e(TAG, "onGetUserError", exception);
+    }
+
+    public void onPickBranch(View view) {
+        //TODO pick branch
+    }
+
+    public void onPickroupt(View view) {
+        //TODO pick group
+    }
+
+    public void onPickTypeRequest(View view) {
+        //TODO pick type request
+    }
+
+    public void onClickCreate(View view) {
+        //TODO start activity confirm request leave
     }
 }
