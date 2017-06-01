@@ -1,6 +1,7 @@
 package com.framgia.wsm.screen.requestoff;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import dagger.Module;
@@ -21,8 +22,9 @@ public class RequestOffModule {
 
     @ActivityScope
     @Provides
-    public RequestOffContract.ViewModel provideViewModel(RequestOffContract.Presenter presenter) {
-        return new RequestOffViewModel(presenter);
+    public RequestOffContract.ViewModel provideViewModel(Context context,
+            RequestOffContract.Presenter presenter) {
+        return new RequestOffViewModel(context, presenter);
     }
 
     @ActivityScope
