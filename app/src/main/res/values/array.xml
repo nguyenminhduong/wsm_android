@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="leave_type">
+        <item>In late (M)</item>
+        <item>In late (A)</item>
+        <item>Leave early (M)</item>
+        <item>Leave early (A)</item>
+        <item>Leave out</item>
+        <item>Forgot to check in/check out (all day)</item>
+        <item>Forgot to check in</item>
+        <item>Forgot to check out</item>
+        <item>Forgot card (all day)</item>
+        <item>Forgot card (int)</item>
+        <item>Forgot card (out)</item>
+    </string-array>
+</resources>

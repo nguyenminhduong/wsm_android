@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     >
 
     <data>
@@ -9,6 +10,7 @@
             name="viewModel"
             type="com.framgia.wsm.screen.requestleave.RequestLeaveViewModel"
             />
+        <import type="android.view.View"/>
 
     </data>
 
@@ -45,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
+                android:visibility="@{viewModel.visibleLayoutTime ? View.VISIBLE : View.GONE}"
                 >
                 <TextView
                     style="@style/StyleTitle"
@@ -63,6 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:visibility="@{viewModel.visibleLayoutCompensation ? View.VISIBLE : View.GONE}"
             >
             <TextView
                 android:layout_width="wrap_content"
