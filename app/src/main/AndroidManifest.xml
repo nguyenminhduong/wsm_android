@@ -31,6 +31,10 @@
             android:name=".screen.requestovertime.RequestOvertimeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeRequest"/>
+        <activity
+            android:name=".screen.requestovertime.confirmovertime.ConfirmOvertimeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
