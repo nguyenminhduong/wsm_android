@@ -63,6 +63,7 @@
     <string name="to">To</string>
     <string name="leave_type">Leave type</string>
     <string name="compensation_time">Compensation time</string>
-
+    <string name="example_time_from">Ex: 2017/05/20 17:30</string>
+    <string name="example_time_to">Ex: 2017/05/20 18:30</string>
 
 </resources>

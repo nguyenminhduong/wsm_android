@@ -17,122 +17,117 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-
-        <TableLayout
-            style="@style/StyleTableLayout"
-            >
-            <TableRow>
-                <TextView
-                    style="@style/StyleTitle"
-                    />
-            </TableRow>
-            <TextView
-                style="@style/StyleTitleExample"
-                />
-            <TableRow>
-                <EditText
-                    android:hint="@string/select_date"
-                    style="@style/StyleText"
-                    />
-                <EditText
-                    android:hint="@string/select_time"
-                    style="@style/StyleText"
-                    />
-            </TableRow>
-        </TableLayout>
-
-        <TableLayout
-            style="@style/StyleTableLayout"
-            >
-            <TableRow>
-                <TextView
-                    style="@style/StyleTitle"
-                    />
-            </TableRow>
-            <TextView
-                style="@style/StyleTitleExample"
-                />
-            <TableRow>
-                <EditText
-                    android:hint="@string/select_date"
-                    style="@style/StyleText"
-                    />
-                <EditText
-                    android:hint="@string/select_time"
-                    style="@style/StyleText"
-                    />
-            </TableRow>
-        </TableLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_10"
-            android:layout_marginLeft="@dimen/dp_3"
-            android:layout_marginStart="@dimen/dp_3"
-            android:layout_marginTop="@dimen/dp_10"
-            android:text="@string/compensation_time"
-            android:textAllCaps="true"
-            android:textColor="@color/color_blue"
-            android:textSize="@dimen/sp_18"
-            />
-
-        <TableLayout
-            style="@style/StyleTableLayout"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
             >
-            <TableRow>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
                 <TextView
-                    android:text="@string/from"
                     style="@style/StyleTitle"
                     />
-            </TableRow>
-            <TextView
-                style="@style/StyleTitleExample"
-                />
-            <TableRow>
-                <EditText
-                    android:hint="@string/select_date"
-                    style="@style/StyleText"
+                <TextView
+                    style="@style/StyleTitleExample"
                     />
                 <EditText
                     android:hint="@string/select_time"
                     style="@style/StyleText"
                     />
-            </TableRow>
-        </TableLayout>
-
-        <TableLayout
-            style="@style/StyleTableLayout"
-            >
-            <TableRow>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
                 <TextView
-                    android:text="@string/to"
                     style="@style/StyleTitle"
                     />
-            </TableRow>
-            <TextView
-                style="@style/StyleTitleExample"
-                />
-            <TableRow>
-                <EditText
-                    android:hint="@string/select_date"
-                    style="@style/StyleText"
+                <TextView
+                    style="@style/StyleTitleExample"
                     />
                 <EditText
                     android:hint="@string/select_time"
                     style="@style/StyleText"
                     />
-            </TableRow>
-        </TableLayout>
+            </LinearLayout>
+        </LinearLayout>
 
-        <android.support.design.widget.TextInputLayout
-            style="@style/StyleTextHint"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             >
-            <EditText
-                android:hint="@string/reason"
-                style="@style/StyleText"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_3"
+                android:layout_marginStart="@dimen/dp_3"
+                android:layout_marginTop="@dimen/dp_5"
+                android:text="@string/compensation_time"
+                android:textColor="@color/color_black_transparent"
+                android:textSize="@dimen/sp_18"
                 />
-        </android.support.design.widget.TextInputLayout>
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:text="@string/from"
+                        style="@style/StyleTitle"
+                        />
+                    <TextView
+                        android:text="@string/example_time_from"
+                        style="@style/StyleTitleExample"
+                        />
+                    <EditText
+                        android:hint="@string/select_time"
+                        style="@style/StyleText"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:text="@string/to"
+                        style="@style/StyleTitle"
+                        />
+                    <TextView
+                        android:text="@string/example_time_to"
+                        style="@style/StyleTitleExample"
+                        />
+                    <EditText
+                        android:hint="@string/select_time"
+                        style="@style/StyleText"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+            <android.support.design.widget.TextInputLayout
+                style="@style/StyleTextHint"
+                >
+                <EditText
+                    android:hint="@string/reason"
+                    style="@style/StyleEditableText"
+                    />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
     </LinearLayout>
 </layout>
