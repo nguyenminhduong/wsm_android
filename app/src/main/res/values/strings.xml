@@ -61,5 +61,8 @@
     <string name="create">Create</string>
     <string name="from">From</string>
     <string name="to">To</string>
+    <string name="leave_type">Leave type</string>
+    <string name="compensation_time">Compensation time</string>
+
 
 </resources>
