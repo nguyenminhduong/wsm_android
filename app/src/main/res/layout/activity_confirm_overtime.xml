@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.framgia.wsm.screen.requestovertime.confirmovertime.ConfirmOvertimeViewModel"
+            />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/dp_10"
+        android:orientation="vertical"
+        >
+        <Button
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/border_button_create"
+            android:text="@string/confirm_create"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            />
+    </LinearLayout>
+</layout>

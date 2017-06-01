@@ -59,6 +59,7 @@
     <string name="select_time">Select time</string>
     <string name="reason">Reason</string>
     <string name="create">Create</string>
+    <string name="confirm_create">Confirm create</string>
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="leave_type">Leave type</string>
