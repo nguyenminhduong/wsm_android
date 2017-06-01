@@ -35,7 +35,7 @@ public class TimeSheetView extends View {
     private int mMonthHeaderSize;
     private int mMonthLabelTextSize;
     private int mDayLabelTextSizeSmall;
-    private int mInquiryStatusCircleSize;
+    private int mNumRows;
 
     private int mPadding = 0;
 
@@ -152,10 +152,6 @@ public class TimeSheetView extends View {
                 typedArray.getDimensionPixelSize(R.styleable.DatePickerView_selectedDayRadius,
                         resources.getDimensionPixelOffset(R.dimen.dp_20));
 
-        mInquiryStatusCircleSize =
-                typedArray.getDimensionPixelSize(R.styleable.DatePickerView_inquiryStatusRadius,
-                        resources.getDimensionPixelOffset(R.dimen.dp_3));
-
         mRowHeight = ((typedArray.getDimensionPixelSize(R.styleable.DatePickerView_calendarHeight,
                 resources.getDimensionPixelOffset(R.dimen.dp_300)) - mMonthHeaderSize) / 5);
 
@@ -252,7 +248,7 @@ public class TimeSheetView extends View {
                 mMonthNumPaint.setTypeface(Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
             }
 
-            if (mTimeSheetDates != null) {
+            if (mTimeSheetDates != null && mTimeSheetDates.size() > 0) {
                 for (TimeSheetDate timeSheetDate : mTimeSheetDates) {
                     if (date.equals(timeSheetDate.getDate())) {
                         if (timeSheetDate.getStatus() == TimeSheetDate.Status.NORMAL) {
@@ -309,6 +305,8 @@ public class TimeSheetView extends View {
                         break;
                     }
                 }
+            } else {
+                drawDayLabelNomal(canvas, y, day, x);
             }
             dayOffset++;
             if (dayOffset == mNumDays) {
@@ -430,7 +428,8 @@ public class TimeSheetView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec),
+                mRowHeight * mNumRows + mMonthHeaderSize + mMonthHeaderSize / 8);
     }
 
     @Override
@@ -456,7 +455,15 @@ public class TimeSheetView extends View {
         return true;
     }
 
+    private int calculateNumRows() {
+        int offset = findDayOffset();
+        int dividend = (offset + mNumCells - 25) / mNumDays;
+        int remainder = (offset + mNumCells - 25) % mNumDays;
+        return (dividend + (remainder > 0 ? 1 : 0));
+    }
+
     public void reuse() {
+        mNumRows = calculateNumRows();
         requestLayout();
     }
 
@@ -473,7 +480,7 @@ public class TimeSheetView extends View {
         mCalendar.set(Calendar.DAY_OF_MONTH, 1);
 
         Calendar calendar2 = Calendar.getInstance();
-        calendar2.set(Calendar.MONTH, mMonth - 1 == 0 ? 12 : mMonth - 1);
+        calendar2.set(Calendar.MONTH, mMonth == 0 ? 12 : mMonth - 1);
         calendar2.set(Calendar.YEAR, mYear);
         calendar2.set(Calendar.DAY_OF_MONTH, 26);
         mDayOfWeekStart = calendar2.get(Calendar.DAY_OF_WEEK);
