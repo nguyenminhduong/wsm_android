@@ -13,4 +13,10 @@
         <item>Forgot card (int)</item>
         <item>Forgot card (out)</item>
     </string-array>
+
+    <string-array name="off_type">
+        <item>Off have salary - Company Pay </item>
+        <item>Off have salary - Insurance Coverage </item>
+        <item>Off no salary</item>
+    </string-array>
 </resources>

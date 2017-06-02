@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import com.framgia.wsm.utils.dagger.ActivityScope;
+import com.framgia.wsm.widget.dialog.DialogManager;
+import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
 import dagger.Provides;
 
@@ -23,13 +25,19 @@ public class RequestOffModule {
     @ActivityScope
     @Provides
     public RequestOffContract.ViewModel provideViewModel(Context context,
-            RequestOffContract.Presenter presenter) {
-        return new RequestOffViewModel(context, presenter);
+            RequestOffContract.Presenter presenter, DialogManager dialogManager) {
+        return new RequestOffViewModel(context, presenter, dialogManager);
     }
 
     @ActivityScope
     @Provides
     public RequestOffContract.Presenter providePresenter() {
         return new RequestOffPresenter();
+    }
+
+    @ActivityScope
+    @Provides
+    public DialogManager provideDialogManager() {
+        return new DialogManagerImpl(mActivity);
     }
 }
