@@ -52,6 +52,7 @@
                     <EditText
                         android:enabled="false"
                         android:hint="@string/employee_name"
+                        android:text="@={viewModel.user.name}"
                         style="@style/StyleText"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -62,6 +63,7 @@
                     <EditText
                         android:enabled="false"
                         android:hint="@string/employee_code"
+                        android:text="@={viewModel.user.code}"
                         style="@style/StyleText"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -82,6 +84,7 @@
                             >
                             <EditText
                                 android:hint="@string/branch"
+                                android:text="@{viewModel.request.branch.branchName}"
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
@@ -100,6 +103,7 @@
                             >
                             <EditText
                                 android:hint="@string/group"
+                                android:text="@{viewModel.request.group.groupName}"
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
@@ -114,6 +118,7 @@
                     >
                     <EditText
                         android:hint="@string/project_name"
+                        android:text="@={viewModel.request.project}"
                         style="@style/StyleEditableText"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -129,6 +134,7 @@
                         >
                         <EditText
                             android:hint="@string/from"
+                            android:text="@={viewModel.request.fromTime}"
                             style="@style/StyleText"
                             />
                     </android.support.design.widget.TextInputLayout>
@@ -138,6 +144,7 @@
                         >
                         <EditText
                             android:hint="@string/to"
+                            android:text="@={viewModel.request.toTime}"
                             style="@style/StyleText"
                             />
                     </android.support.design.widget.TextInputLayout>
@@ -148,10 +155,12 @@
                     >
                     <EditText
                         android:hint="@string/reason"
+                        android:text="@={viewModel.request.reason}"
                         style="@style/StyleEditableText"
                         />
                 </android.support.design.widget.TextInputLayout>
                 <Button
+                    android:onClick="@{viewModel::onClickCreate}"
                     android:text="@string/create"
                     android:textColor="@android:color/white"
                     style="@style/StyleButton"
