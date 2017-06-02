@@ -11,6 +11,7 @@
             name="viewModel"
             type="com.framgia.wsm.screen.confirmrequestleave.ConfirmRequestLeaveViewModel"
             />
+        <import type="android.view.View"/>
 
     </data>
 
@@ -29,6 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:toolbar="@{viewModel.titleToolbar}"
                 />
         </android.support.design.widget.AppBarLayout>
 
@@ -53,6 +55,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/dp_10"
+                        android:shrinkColumns="1"
                         android:stretchColumns="1"
                         >
                         <TableRow
@@ -182,6 +185,9 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="@{viewModel.leaveTypeName}"
                                     style="@style/StyleTextConfirm"
                                     />
                             </LinearLayout>
@@ -200,6 +206,7 @@
                                 android:orientation="vertical"
                                 >
                                 <TextView
+                                    android:text="@string/from"
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
@@ -209,7 +216,9 @@
                         </TableRow>
 
                         <TableRow
-                            android:gravity="center_vertical">
+                            android:gravity="center_vertical"
+                            android:visibility="@{viewModel.visibleLayoutTime ? View.VISIBLE : View.GONE}"
+                            >
                             <ImageView
                                 app:srcCompat="@drawable/ic_clock"
                                 tools:ignore="ContentDescription"
@@ -221,6 +230,7 @@
                                 android:orientation="vertical"
                                 >
                                 <TextView
+                                    android:text="@string/to"
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
@@ -238,6 +248,7 @@
                         android:text="@string/compensation_time"
                         android:textColor="@color/color_black_transparent"
                         android:textSize="@dimen/sp_17"
+                        android:visibility="@{viewModel.visibleLayoutCompensation ? View.VISIBLE : View.GONE}"
                         />
 
                     <TableLayout
@@ -245,6 +256,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/dp_10"
                         android:stretchColumns="1"
+                        android:visibility="@{viewModel.visibleLayoutCompensation ? View.VISIBLE : View.GONE}"
                         >
                         <TableRow
                             android:gravity="center_vertical">
@@ -315,7 +327,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:text="@string/create"
+                    android:text="@string/submit"
                     style="@style/StyleButton"
                     />
             </LinearLayout>

@@ -1,7 +1,10 @@
 package com.framgia.wsm.screen.confirmrequestleave;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
+import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import dagger.Module;
 import dagger.Provides;
@@ -21,9 +24,11 @@ public class ConfirmRequestLeaveModule {
 
     @ActivityScope
     @Provides
-    public ConfirmRequestLeaveContract.ViewModel provideViewModel(
+    public ConfirmRequestLeaveContract.ViewModel provideViewModel(Context context,
             ConfirmRequestLeaveContract.Presenter presenter) {
-        return new ConfirmRequestLeaveViewModel(presenter);
+        Request requestLeave =
+                mActivity.getIntent().getParcelableExtra(Constant.EXTRA_REQUEST_LEAVE);
+        return new ConfirmRequestLeaveViewModel(context, presenter, requestLeave);
     }
 
     @ActivityScope

@@ -1,24 +1,29 @@
 package com.framgia.wsm.screen.requestleave;
 
 import android.content.Context;
-import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.util.Log;
 import android.view.View;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.screen.BaseRequestLeave;
+import com.framgia.wsm.screen.confirmrequestleave.ConfirmRequestLeaveActivity;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.widget.dialog.DialogManager;
 import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import com.fstyle.library.MaterialDialog;
 
 /**
- * Exposes the data to be used in the RequestLeave screen.
+ * Exposes the data to be used in the Request screen.
  */
 
-public class RequestLeaveViewModel extends BaseObservable
+public class RequestLeaveViewModel extends BaseRequestLeave
         implements RequestLeaveContract.ViewModel {
 
     private static final String TAG = "RequestLeaveActivity";
@@ -32,15 +37,14 @@ public class RequestLeaveViewModel extends BaseObservable
     private String mCurrentLeaveType;
     private boolean mIsVisibleLayoutCompensation;
     private boolean mIsVisibleLayoutTime;
-    private DialogManagerImpl mDialogManager;
+    private DialogManager mDialogManager;
     private int mCurrentPostionLeaveType;
     private String mTitleLeaveType;
     private String mExampleLeaveType;
-    private String mTitleLeaveTypeLayoutTime;
-    private String mExampleLeaveTypeLayoutTime;
+    private Request mRequest;
 
     RequestLeaveViewModel(Context context, Navigator navigator,
-            RequestLeaveContract.Presenter presenter, DialogManagerImpl dialogManager) {
+            RequestLeaveContract.Presenter presenter, DialogManager dialogManager) {
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mContext = context;
@@ -51,11 +55,12 @@ public class RequestLeaveViewModel extends BaseObservable
         mCurrentLeaveType = mContext.getString(R.string.leave_type_in_late_m);
         mTitleLeaveType = mContext.getString(R.string.title_in_late_m);
         mExampleLeaveType = mContext.getString(R.string.exmple_in_late_m);
+        mRequest = new Request();
     }
 
     @Bindable
     public String getTitleToolbar() {
-        return mContext.getResources().getString(R.string.request_leave);
+        return mContext.getString(R.string.request_leave);
     }
 
     @Bindable
@@ -96,6 +101,7 @@ public class RequestLeaveViewModel extends BaseObservable
     private void setCurrentLeaveType(String currentLeaveType) {
         mCurrentLeaveType = currentLeaveType;
         notifyPropertyChanged(BR.currentLeaveType);
+        mRequest.setRequestName(currentLeaveType);
     }
 
     @Bindable
@@ -103,7 +109,8 @@ public class RequestLeaveViewModel extends BaseObservable
         return mIsVisibleLayoutCompensation;
     }
 
-    private void setVisibleLayoutCompensation(boolean visibleLayoutCompensation) {
+    @Override
+    public void setVisibleLayoutCompensation(boolean visibleLayoutCompensation) {
         mIsVisibleLayoutCompensation = visibleLayoutCompensation;
         notifyPropertyChanged(BR.visibleLayoutCompensation);
     }
@@ -113,13 +120,15 @@ public class RequestLeaveViewModel extends BaseObservable
         return mIsVisibleLayoutTime;
     }
 
-    private void setVisibleLayoutTime(boolean visibleLayoutTime) {
+    @Override
+    public void setVisibleLayoutTime(boolean visibleLayoutTime) {
         mIsVisibleLayoutTime = visibleLayoutTime;
         notifyPropertyChanged(BR.visibleLayoutTime);
     }
 
     private void setCurrentPostionLeaveType(int currentPostionLeaveType) {
         mCurrentPostionLeaveType = currentPostionLeaveType;
+        mRequest.setPositionLeaveType(currentPostionLeaveType);
     }
 
     @Bindable
@@ -137,35 +146,6 @@ public class RequestLeaveViewModel extends BaseObservable
     @Bindable
     public String getExampleLeaveType() {
         return mExampleLeaveType;
-    }
-
-    @Bindable
-    public String getTitleLeaveTypeLayoutTime() {
-        return mTitleLeaveTypeLayoutTime;
-    }
-
-    @Bindable
-    public String getExampleLeaveTypeLayoutTime() {
-        return mExampleLeaveTypeLayoutTime;
-    }
-
-    private void setLayoutLeaveType(int positionType) {
-        if (positionType == PositionType.LEAVE_OUT
-                || positionType == PositionType.FORGOT_TO_CHECK_IN_OUT_ALL_DAY
-                || positionType == PositionType.FORGOT_CARD_ALL_DAY) {
-            setVisibleLayoutTime(true);
-        } else {
-            setVisibleLayoutTime(false);
-        }
-        if (positionType == PositionType.IN_LATE_A
-                || positionType == PositionType.IN_LATE_M
-                || positionType == PositionType.LEAVE_EARLY_A
-                || positionType == PositionType.LEAVE_EARLY_M
-                || positionType == PositionType.LEAVE_OUT) {
-            setVisibleLayoutCompensation(true);
-        } else {
-            setVisibleLayoutCompensation(false);
-        }
     }
 
     private void setTitleExampleLeaveType(int positionType) {
@@ -192,10 +172,6 @@ public class RequestLeaveViewModel extends BaseObservable
             case PositionType.FORGOT_CARD_ALL_DAY:
                 setTitleExampleLeaveType(mContext.getString(R.string.title_leave_out_from),
                         mContext.getString(R.string.exmple_leave_out_from));
-                mTitleLeaveTypeLayoutTime = mContext.getString(R.string.title_leave_out_to);
-                notifyPropertyChanged(BR.titleLeaveTypeLayoutTime);
-                mExampleLeaveTypeLayoutTime = mContext.getString(R.string.exmple_leave_out_to);
-                notifyPropertyChanged(BR.exampleLeaveTypeLayoutTime);
                 break;
             case PositionType.FORGOT_CARD_IN:
             case PositionType.FORGOT_TO_CHECK_IN:
@@ -246,7 +222,9 @@ public class RequestLeaveViewModel extends BaseObservable
     }
 
     public void onClickCreate(View view) {
-        //TODO start activity confirm request leave
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, mRequest);
+        mNavigator.startActivity(ConfirmRequestLeaveActivity.class, bundle);
     }
 
     public void onPickTypeRequest(View view) {
@@ -272,7 +250,7 @@ public class RequestLeaveViewModel extends BaseObservable
             PositionType.FORGOT_TO_CHECK_OUT, PositionType.FORGOT_CARD_ALL_DAY,
             PositionType.FORGOT_CARD_IN, PositionType.FORGOT_CARD_OUT
     })
-    @interface PositionType {
+    public @interface PositionType {
         int IN_LATE_M = 0;
         int IN_LATE_A = 1;
         int LEAVE_EARLY_M = 2;

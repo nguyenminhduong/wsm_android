@@ -51,11 +51,11 @@
                 android:visibility="@{viewModel.visibleLayoutTime ? View.VISIBLE : View.GONE}"
                 >
                 <TextView
-                    android:text="@{viewModel.titleLeaveTypeLayoutTime}"
+                    android:text="@string/title_leave_out_to"
                     style="@style/StyleTitle"
                     />
                 <TextView
-                    android:text="@{viewModel.exampleLeaveTypeLayoutTime}"
+                    android:text="@string/exmple_leave_out_to"
                     style="@style/StyleTitleExample"
                     />
                 <EditText

@@ -21,4 +21,6 @@ public final class Constant {
     public static final String DRAWER_IS_OPEN = "OPEN";
 
     public static final String DRAWER_IS_CLOSE = "CLOSE";
+
+    public static final String EXTRA_REQUEST_LEAVE = "REQUEST_LEAVE";
 }
