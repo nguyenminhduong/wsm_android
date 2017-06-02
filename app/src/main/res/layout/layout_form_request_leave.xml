@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     >
 
     <data>
@@ -32,9 +31,11 @@
                 android:orientation="vertical"
                 >
                 <TextView
+                    android:text="@{viewModel.titleLeaveType}"
                     style="@style/StyleTitle"
                     />
                 <TextView
+                    android:text="@{viewModel.exampleLeaveType}"
                     style="@style/StyleTitleExample"
                     />
                 <EditText
@@ -50,9 +51,11 @@
                 android:visibility="@{viewModel.visibleLayoutTime ? View.VISIBLE : View.GONE}"
                 >
                 <TextView
+                    android:text="@{viewModel.titleLeaveTypeLayoutTime}"
                     style="@style/StyleTitle"
                     />
                 <TextView
+                    android:text="@{viewModel.exampleLeaveTypeLayoutTime}"
                     style="@style/StyleTitleExample"
                     />
                 <EditText

@@ -83,4 +83,35 @@
     <string name="example_time_from">Ex: 2017/05/20 17:30</string>
     <string name="example_time_to">Ex: 2017/05/20 18:30</string>
 
+    <!-- In late (M) -->
+    <string name="leave_type_in_late_m">In late (M)</string>
+    <string name="title_in_late_m">Check in morning time</string>
+    <string name="exmple_in_late_m">Ex: 2017/05/20 08:45</string>
+
+    <!-- In late (A) -->
+    <string name="title_in_late_a">Check in afternoon  time</string>
+    <string name="exmple_in_late_a">Ex: 2017/05/20 13:45</string>
+
+    <!-- Leave early (M) -->
+    <string name="title_leave_early_m">Check out time</string>
+    <string name="exmple_leave_early_m">Ex: 2017/05/20 10:45</string>
+
+    <!-- Leave early (A) -->
+    <string name="title_leave_early_a">Check out time</string>
+    <string name="exmple_leave_early_a">Ex: 2017/05/20 15:45</string>
+
+    <!-- Leave out -->
+    <string name="title_leave_out_from">From</string>
+    <string name="exmple_leave_out_from">Ex: 2017/05/20 08:30</string>
+    <string name="title_leave_out_to">To</string>
+    <string name="exmple_leave_out_to">Ex: 2017/05/20 09:30</string>
+
+    <!-- Forgot in -->
+    <string name="title_forgot_in">Check in time</string>
+    <string name="exmple_forgot_in">Ex: 2017/05/20 08:45</string>
+
+    <!-- Forgot out -->
+    <string name="title_forgot_out">Check out time</string>
+    <string name="exmple_forgot_out">Ex: 2017/05/20 15:45</string>
+
 </resources>
