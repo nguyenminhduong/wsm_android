@@ -56,7 +56,11 @@
     <string name="position_name">Position name</string>
     <string name="branch">Branch</string>
     <string name="group">Group</string>
+    <string name="department">Department</string>
     <string name="off_have_salary_company_pay">Off have salary - Company Pay</string>
+    <string name="paid_day_off">Paid day off</string>
+    <string name="unpaid_day_off">Unpaid day off</string>
+    <string name="number_day_off">Number of day off</string>
     <string name="off_no_salary">Off no salary</string>
 
     <string name="off_type">Off type</string>
@@ -76,6 +80,7 @@
     <string name="select_time">Select time</string>
     <string name="reason">Reason</string>
     <string name="create">Create</string>
+    <string name="created_at">Created at</string>
     <string name="confirm_create">Confirm create</string>
     <string name="from">From</string>
     <string name="to">To</string>
