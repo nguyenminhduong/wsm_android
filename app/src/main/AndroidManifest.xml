@@ -39,6 +39,10 @@
             android:name=".screen.confirmrequestleave.ConfirmRequestLeaveActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeRequest"/>
+        <activity
+            android:name=".screen.confirmrequestoff.ConfirmRequestOffActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
