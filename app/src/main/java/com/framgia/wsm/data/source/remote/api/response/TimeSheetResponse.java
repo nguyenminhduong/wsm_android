@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Duong on 5/26/2017.
  */
 
-public class TimeSheetResponse extends BaseRespone {
+public class TimeSheetResponse {
     @Expose
     @SerializedName("content")
     private List<TimeSheetDate> mTimeSheetDates;

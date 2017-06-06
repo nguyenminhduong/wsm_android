@@ -1,10 +1,12 @@
 package com.framgia.wsm.screen.login;
 
 import android.util.Log;
+import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
+import com.framgia.wsm.data.source.TokenRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
-import com.framgia.wsm.data.source.remote.api.response.UserResponse;
+import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
@@ -22,13 +24,15 @@ final class LoginPresenter implements LoginContract.Presenter {
 
     private LoginContract.ViewModel mViewModel;
     private UserRepository mUserRepository;
+    private TokenRepository mTokenRepository;
     private Validator mValidator;
     private CompositeDisposable mCompositeDisposable;
     private BaseSchedulerProvider mSchedulerProvider;
 
-    LoginPresenter(UserRepository userRepository, Validator validator,
-            BaseSchedulerProvider schedulerProvider) {
+    LoginPresenter(UserRepository userRepository, TokenRepository tokenRepository,
+            Validator validator, BaseSchedulerProvider schedulerProvider) {
         mUserRepository = userRepository;
+        mTokenRepository = tokenRepository;
         mValidator = validator;
         mCompositeDisposable = new CompositeDisposable();
         mSchedulerProvider = schedulerProvider;
@@ -53,10 +57,13 @@ final class LoginPresenter implements LoginContract.Presenter {
         Disposable subscription = mUserRepository.login(userName, passWord)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
-                .subscribe(new Consumer<UserResponse>() {
+                .subscribe(new Consumer<BaseResponse<SignInDataResponse>>() {
                     @Override
-                    public void accept(@NonNull UserResponse userResponse) throws Exception {
-                        mUserRepository.saveUser(userResponse.getUser());
+                    public void accept(@NonNull BaseResponse<SignInDataResponse> signInResponse)
+                            throws Exception {
+                        mUserRepository.saveUser(signInResponse.getData().getUser());
+                        mTokenRepository.saveToken(
+                                signInResponse.getData().getAuthenToken());
                         mViewModel.onLoginSuccess();
                     }
                 }, new RequestError() {

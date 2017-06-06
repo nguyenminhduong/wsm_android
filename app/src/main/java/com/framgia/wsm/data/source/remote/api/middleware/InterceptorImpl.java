@@ -1,5 +1,8 @@
 package com.framgia.wsm.data.source.remote.api.middleware;
 
+import android.content.Context;
+import com.framgia.wsm.R;
+import com.framgia.wsm.data.source.TokenRepository;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import okhttp3.Interceptor;
@@ -12,16 +15,26 @@ import okhttp3.Response;
 
 public class InterceptorImpl implements Interceptor {
 
+    private static final String KEY_TOKEN = "WSM-AUTH-TOKEN";
+    private static final String KEY_LOCATE = "WSM-LOCATE";
+    private Context mContext;
+    private TokenRepository mTokenRepository;
+
+    public InterceptorImpl(Context applicationContext, TokenRepository tokenRepository) {
+        mContext = applicationContext;
+        mTokenRepository = tokenRepository;
+    }
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request.Builder builder = initializeHeader(chain);
         Request request = builder.build();
         Response response = chain.proceed(request);
         if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-            //            refreshToken();
-            //            builder.addHeader("Authorization", "Bearer " + accessToken);
-            request = builder.build();
-            response = chain.proceed(request);
+            //todo refresh token in here
+//            builder.addHeader(KEY_TOKEN, "Bearer " + mTokenRepository.getToken());
+//            request = builder.build();
+//            response = chain.proceed(request);
         }
         return response;
     }
@@ -32,7 +45,8 @@ public class InterceptorImpl implements Interceptor {
                 .header("Accept", "application/json")
                 .addHeader("Cache-Control", "no-cache")
                 .addHeader("Cache-Control", "no-store")
-                //                .header("Authorization", "Bearer " + accessToken)
+                .addHeader(KEY_LOCATE, mContext.getString(R.string.locate))
+                .addHeader(KEY_TOKEN, "Bearer " + mTokenRepository.getToken())
                 .method(originRequest.method(), originRequest.body());
     }
 }

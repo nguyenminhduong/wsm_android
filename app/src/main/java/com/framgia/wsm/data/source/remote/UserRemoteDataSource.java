@@ -1,7 +1,9 @@
 package com.framgia.wsm.data.source.remote;
 
+import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.source.UserDataSource;
-import com.framgia.wsm.data.source.remote.api.response.UserResponse;
+import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
+import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
 import io.reactivex.Observable;
 import javax.inject.Inject;
@@ -19,7 +21,8 @@ public class UserRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<UserResponse> login(String userName, String password) {
-        return mWSMApi.login(userName, password);
+    public Observable<BaseResponse<SignInDataResponse>> login(String userName, String password) {
+        SignInRequest signInRequest = new SignInRequest(userName,password);
+        return mWSMApi.login(signInRequest);
     }
 }

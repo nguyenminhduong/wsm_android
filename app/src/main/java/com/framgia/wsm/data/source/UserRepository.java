@@ -1,9 +1,10 @@
 package com.framgia.wsm.data.source;
 
+import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
-import com.framgia.wsm.data.source.remote.api.response.UserResponse;
+import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import io.reactivex.Observable;
 
 /**
@@ -21,10 +22,8 @@ public class UserRepository {
         mRemoteDataSource = remoteDataSource;
     }
 
-    public Observable<UserResponse> login(String userName, String passWord) {
-        //return mRemoteDataSource.login(userName, passWord);
-        // TODO: 29/05/2017 Change later
-        return Observable.just(new UserResponse());
+    public Observable<BaseResponse<SignInDataResponse>> login(String userName, String passWord) {
+        return mRemoteDataSource.login(userName, passWord);
     }
 
     public void saveUser(User user) {

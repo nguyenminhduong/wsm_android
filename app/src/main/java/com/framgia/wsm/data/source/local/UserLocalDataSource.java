@@ -27,13 +27,11 @@ public class UserLocalDataSource implements UserDataSource.LocalDataSource {
         mSharedPrefsApi = prefsApi;
     }
 
-    @Override
     public void openTransaction() {
         mDatabase = mDbHelper.getWritableDatabase();
         mDatabase.beginTransaction();
     }
 
-    @Override
     public void closeTransaction() {
         mDatabase.close();
     }

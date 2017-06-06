@@ -11,7 +11,7 @@ public final class Constant {
     }
 
     // TODO: 17/05/2017 update later
-    public static final String END_POINT_URL = "https://wsm.framgia.com";
+    public static final String END_POINT_URL = "http://edev.framgia.vn";
 
     // For bundle
     public static final String ARGUMENT_LIST_USER = "ARGUMENT_LIST_USER";

@@ -5,7 +5,4 @@ package com.framgia.wsm.data.source;
  */
 
 public interface BaseLocalDataSource {
-    void openTransaction();
-
-    void closeTransaction();
 }
