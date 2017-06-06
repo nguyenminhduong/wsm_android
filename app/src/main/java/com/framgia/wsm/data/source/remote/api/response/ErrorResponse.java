@@ -8,12 +8,12 @@ import com.google.gson.annotations.Expose;
 
 public class ErrorResponse {
     @Expose
-    private String documentationUrl;
+    private int code;
     @Expose
     private String message;
 
-    public String getDocumentationUrl() {
-        return documentationUrl;
+    public int getCode() {
+        return code;
     }
 
     public String getMessage() {

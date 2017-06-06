@@ -1,7 +1,8 @@
 package com.framgia.wsm.data.source;
 
+import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.model.User;
-import com.framgia.wsm.data.source.remote.api.response.UserResponse;
+import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import io.reactivex.Observable;
 
 /**
@@ -24,6 +25,6 @@ public interface UserDataSource {
      * RemoteData For User
      */
     interface RemoteDataSource {
-        Observable<UserResponse> login(String userName, String password);
+        Observable<BaseResponse<SignInDataResponse>> login(String userName, String password);
     }
 }

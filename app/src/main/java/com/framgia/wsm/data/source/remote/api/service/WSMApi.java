@@ -1,8 +1,13 @@
 package com.framgia.wsm.data.source.remote.api.service;
 
-import com.framgia.wsm.data.source.remote.api.response.UserResponse;
+import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
+import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
+import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.data.source.remote.api.response.TimeSheetResponse;
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -10,12 +15,11 @@ import retrofit2.http.Query;
  */
 
 public interface WSMApi {
-    // TODO: 25/05/2017 edit later
-    @GET("v1/authen_user_tokens")
-    Observable<UserResponse> login(@Query("user_email") String userEmail,
-            @Query("password") String passWord);
+    @POST("/api/v1/sign_in")
+    Observable<BaseResponse<SignInDataResponse>> login(@Body SignInRequest signInRequest);
 
     // TODO edit later
     @GET("v1/time_sheet")
-    Observable<UserResponse> getTimeSheet(@Query("month") String month, @Query("year") String year);
+    Observable<TimeSheetResponse> getTimeSheet(@Query("month") int month,
+            @Query("year") int year);
 }

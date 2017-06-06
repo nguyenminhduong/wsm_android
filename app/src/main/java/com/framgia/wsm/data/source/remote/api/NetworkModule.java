@@ -2,6 +2,8 @@ package com.framgia.wsm.data.source.remote.api;
 
 import android.app.Application;
 import com.framgia.wsm.BuildConfig;
+import com.framgia.wsm.data.source.TokenRepository;
+import com.framgia.wsm.data.source.local.TokenLocalDataSource;
 import com.framgia.wsm.data.source.remote.api.middleware.InterceptorImpl;
 import com.framgia.wsm.data.source.remote.api.middleware.RxErrorHandlingCallAdapterFactory;
 import com.framgia.wsm.data.source.remote.api.service.BooleanAdapter;
@@ -67,8 +69,15 @@ public class NetworkModule {
 
     @AppScope
     @Provides
-    public Interceptor provideInterceptor() {
-        return new InterceptorImpl();
+    public Interceptor provideInterceptor(Application application,
+            TokenRepository tokenRepository) {
+        return new InterceptorImpl(application, tokenRepository);
+    }
+
+    @AppScope
+    @Provides
+    public TokenRepository provideTokenRepository(TokenLocalDataSource localDataSource) {
+        return new TokenRepository(localDataSource);
     }
 
     @AppScope

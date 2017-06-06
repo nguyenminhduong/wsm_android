@@ -3,7 +3,9 @@ package com.framgia.wsm.screen.login;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import com.framgia.wsm.data.source.TokenRepository;
 import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.local.TokenLocalDataSource;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.ActivityScope;
@@ -38,8 +40,16 @@ public class LoginModule {
     @ActivityScope
     @Provides
     public LoginContract.Presenter providePresenter(UserRepository userRepository,
-            Validator validator, BaseSchedulerProvider baseSchedulerProvider) {
-        return new LoginPresenter(userRepository, validator, baseSchedulerProvider);
+            TokenRepository tokenRepository, Validator validator,
+            BaseSchedulerProvider baseSchedulerProvider) {
+        return new LoginPresenter(userRepository, tokenRepository, validator,
+                baseSchedulerProvider);
+    }
+
+    @ActivityScope
+    @Provides
+    public TokenRepository provideTokenRepository(TokenLocalDataSource tokenLocalDataSourc) {
+        return new TokenRepository(tokenLocalDataSourc);
     }
 
     @ActivityScope
