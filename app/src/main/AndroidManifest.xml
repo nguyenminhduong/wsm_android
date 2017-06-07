@@ -26,7 +26,8 @@
         <activity
             android:name=".screen.requestoff.RequestOffActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeRequest"/>
+            android:theme="@style/AppThemeRequest"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".screen.requestovertime.RequestOvertimeActivity"
             android:screenOrientation="portrait"
@@ -42,7 +43,8 @@
         <activity
             android:name=".screen.confirmrequestoff.ConfirmRequestOffActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

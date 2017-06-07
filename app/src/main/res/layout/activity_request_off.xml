@@ -168,30 +168,6 @@
                         />
                 </FrameLayout>
 
-                <!--<FrameLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:visibility="@{viewModel.salaryFlag ? View.GONE : View.VISIBLE}"-->
-                <!--&gt;-->
-
-                <!--<android.support.design.widget.TextInputLayout-->
-                <!--style="@style/StyleTextHint"-->
-                <!--&gt;-->
-
-                <!--<EditText-->
-                <!--android:hint="@string/off_have_salary_type"-->
-                <!--android:onClick="@{viewModel::onPickTypeItemOffHaveSalary}"-->
-                <!--android:text="@{viewModel.currentOffHaveSalaryType}"-->
-                <!--style="@style/StyleText"-->
-                <!--/>-->
-                <!--</android.support.design.widget.TextInputLayout>-->
-
-                <!--<ImageView-->
-                <!--tools:ignore="ContentDescription"-->
-                <!--style="@style/StyleImageDropDown"-->
-                <!--/>-->
-                <!--</FrameLayout>-->
-
                 <!-- Start Layout of company pay     -->
 
                 <LinearLayout
@@ -403,9 +379,17 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:background="@drawable/border_button"
                     android:text="@string/create"
+                    android:textAllCaps="false"
                     android:textColor="@android:color/white"
-                    style="@style/StyleButton"
+                    android:textSize="@dimen/sp_18"
                     />
             </LinearLayout>
         </ScrollView>
