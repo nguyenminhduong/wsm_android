@@ -45,6 +45,7 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
         mPresenter.setViewModel(this);
         mNavigator = navigator;
         mDialogManager = dialogManager;
+        mPresenter.checkUserLogin();
     }
 
     @Override
@@ -66,6 +67,12 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
     @Override
     public void onLoginSuccess() {
         mDialogManager.dismissProgressDialog();
+        mNavigator.startActivity(MainActivity.class);
+        mNavigator.finishActivity();
+    }
+
+    @Override
+    public void onUserLoggedIn() {
         mNavigator.startActivity(MainActivity.class);
         mNavigator.finishActivity();
     }

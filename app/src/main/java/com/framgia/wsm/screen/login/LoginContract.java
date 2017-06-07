@@ -16,6 +16,8 @@ interface LoginContract {
 
         void onLoginSuccess();
 
+        void onUserLoggedIn();
+
         void onInputUserNameError(String message);
 
         void onInputPasswordError(String message);
@@ -34,5 +36,7 @@ interface LoginContract {
         void validatePasswordInput(String password);
 
         boolean validateDataInput(String userName, String passWord);
+
+        void checkUserLogin();
     }
 }
