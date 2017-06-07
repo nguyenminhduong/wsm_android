@@ -1,12 +1,12 @@
 package com.framgia.wsm.screen.login;
 
 import android.util.Log;
-import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.source.TokenRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
@@ -62,8 +62,7 @@ final class LoginPresenter implements LoginContract.Presenter {
                     public void accept(@NonNull BaseResponse<SignInDataResponse> signInResponse)
                             throws Exception {
                         mUserRepository.saveUser(signInResponse.getData().getUser());
-                        mTokenRepository.saveToken(
-                                signInResponse.getData().getAuthenToken());
+                        mTokenRepository.saveToken(signInResponse.getData().getAuthenToken());
                         mViewModel.onLoginSuccess();
                     }
                 }, new RequestError() {
@@ -105,6 +104,13 @@ final class LoginPresenter implements LoginContract.Presenter {
         } catch (IllegalAccessException e) {
             Log.e(TAG, "validateDataInput: ", e);
             return false;
+        }
+    }
+
+    @Override
+    public void checkUserLogin() {
+        if (!mTokenRepository.getToken().equals("")) {
+            mViewModel.onUserLoggedIn();
         }
     }
 }
