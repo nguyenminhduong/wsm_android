@@ -194,7 +194,9 @@
                         </TableRow>
 
                         <TableRow
-                            android:gravity="center_vertical">
+                            android:gravity="center_vertical"
+                            android:visibility="@{viewModel.visibleLayoutCheckin ? View.VISIBLE : View.GONE}"
+                            >
                             <ImageView
                                 app:srcCompat="@drawable/ic_clock"
                                 tools:ignore="ContentDescription"
@@ -217,7 +219,7 @@
 
                         <TableRow
                             android:gravity="center_vertical"
-                            android:visibility="@{viewModel.visibleLayoutTime ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{viewModel.visibleLayoutCheckout ? View.VISIBLE : View.GONE}"
                             >
                             <ImageView
                                 app:srcCompat="@drawable/ic_clock"

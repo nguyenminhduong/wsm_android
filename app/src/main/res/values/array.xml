@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    //todo delete later
     <string-array name="leave_type">
         <item>In late (M)</item>
         <item>In late (A)</item>
