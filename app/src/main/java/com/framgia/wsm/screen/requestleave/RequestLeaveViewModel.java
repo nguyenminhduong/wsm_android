@@ -16,7 +16,6 @@ import com.framgia.wsm.screen.confirmrequestleave.ConfirmRequestLeaveActivity;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
-import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import com.fstyle.library.MaterialDialog;
 
 /**
@@ -36,11 +35,14 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     private String mCurrentGroup;
     private String mCurrentLeaveType;
     private boolean mIsVisibleLayoutCompensation;
-    private boolean mIsVisibleLayoutTime;
+    private boolean mIsVisibleLayoutCheckin;
+    private boolean mIsVisibleLayoutCheckout;
     private DialogManager mDialogManager;
-    private int mCurrentPostionLeaveType;
-    private String mTitleLeaveType;
-    private String mExampleLeaveType;
+    private int mCurrentPositionLeaveType;
+    private String mTitleLeaveInType;
+    private String mExampleLeaveInType;
+    private String mTitleLeaveOutType;
+    private String mExampleLeaveOutType;
     private Request mRequest;
 
     RequestLeaveViewModel(Context context, Navigator navigator,
@@ -51,26 +53,18 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mNavigator = navigator;
         mDialogManager = dialogManager;
         setVisibleLayoutCompensation(true);
-        mCurrentPostionLeaveType = PositionType.IN_LATE_M;
+        mCurrentPositionLeaveType = PositionType.IN_LATE_M;
+        setVisibleLayoutCheckin(true);
         mCurrentLeaveType = mContext.getString(R.string.leave_type_in_late_m);
-        mTitleLeaveType = mContext.getString(R.string.title_in_late_m);
-        mExampleLeaveType = mContext.getString(R.string.exmple_in_late_m);
+        mTitleLeaveInType = mContext.getString(R.string.title_in_late_m);
+        mExampleLeaveInType = mContext.getString(R.string.exmple_in_late_m);
         mRequest = new Request();
+        mPresenter.getUser();
     }
 
     @Bindable
     public String getTitleToolbar() {
         return mContext.getString(R.string.request_leave);
-    }
-
-    @Bindable
-    public String getEmployeeName() {
-        return mUser != null ? mUser.getName() : "";
-    }
-
-    @Bindable
-    public String getEmployeeCode() {
-        return mUser != null ? mUser.getCode() : "";
     }
 
     @Bindable
@@ -116,71 +110,99 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     @Bindable
-    public boolean isVisibleLayoutTime() {
-        return mIsVisibleLayoutTime;
+    public boolean isVisibleLayoutCheckin() {
+        return mIsVisibleLayoutCheckin;
     }
 
-    @Override
-    public void setVisibleLayoutTime(boolean visibleLayoutTime) {
-        mIsVisibleLayoutTime = visibleLayoutTime;
-        notifyPropertyChanged(BR.visibleLayoutTime);
-    }
-
-    private void setCurrentPostionLeaveType(int currentPostionLeaveType) {
-        mCurrentPostionLeaveType = currentPostionLeaveType;
-        mRequest.setPositionLeaveType(currentPostionLeaveType);
+    public void setVisibleLayoutCheckin(boolean visibleLayoutCheckin) {
+        mIsVisibleLayoutCheckin = visibleLayoutCheckin;
+        notifyPropertyChanged(BR.visibleLayoutCheckin);
     }
 
     @Bindable
-    public String getTitleLeaveType() {
-        return mTitleLeaveType;
+    public boolean isVisibleLayoutCheckout() {
+        return mIsVisibleLayoutCheckout;
     }
 
-    private void setTitleExampleLeaveType(String titleLeaveType, String exampleLeaveType) {
-        mTitleLeaveType = titleLeaveType;
-        notifyPropertyChanged(BR.titleLeaveType);
-        mExampleLeaveType = exampleLeaveType;
-        notifyPropertyChanged(BR.exampleLeaveType);
+    public void setVisibleLayoutCheckout(boolean visibleLayoutCheckout) {
+        mIsVisibleLayoutCheckout = visibleLayoutCheckout;
+        notifyPropertyChanged(BR.visibleLayoutCheckout);
+    }
+
+    private void setCurrentPositionLeaveType(int currentPositionLeaveType) {
+        mCurrentPositionLeaveType = currentPositionLeaveType;
+        mRequest.setPositionLeaveType(currentPositionLeaveType);
     }
 
     @Bindable
-    public String getExampleLeaveType() {
-        return mExampleLeaveType;
+    public String getTitleLeaveInType() {
+        return mTitleLeaveInType;
     }
 
-    private void setTitleExampleLeaveType(int positionType) {
+    private void setTitleExampleLeaveIn(String titleLeaveType, String exampleLeaveType) {
+        mTitleLeaveInType = titleLeaveType;
+        notifyPropertyChanged(BR.titleLeaveInType);
+        mExampleLeaveInType = exampleLeaveType;
+        notifyPropertyChanged(BR.exampleLeaveInType);
+    }
+
+    private void setTitleExampleLeaveOut(String titleLeaveType, String exampleLeaveType) {
+        mTitleLeaveOutType = titleLeaveType;
+        notifyPropertyChanged(BR.titleLeaveOutType);
+        mExampleLeaveOutType = exampleLeaveType;
+        notifyPropertyChanged(BR.exampleLeaveOutType);
+    }
+
+    @Bindable
+    public String getExampleLeaveInType() {
+        return mExampleLeaveInType;
+    }
+
+    @Bindable
+    public String getTitleLeaveOutType() {
+        return mTitleLeaveOutType;
+    }
+
+    @Bindable
+    public String getExampleLeaveOutType() {
+        return mExampleLeaveOutType;
+    }
+
+    private void setTitleExampleLeaveIn(int positionType) {
         switch (positionType) {
             case PositionType.IN_LATE_M:
-                setTitleExampleLeaveType(mContext.getString(R.string.title_in_late_m),
+                setTitleExampleLeaveIn(mContext.getString(R.string.title_in_late_m),
                         mContext.getString(R.string.exmple_in_late_m));
                 break;
             case PositionType.IN_LATE_A:
-                setTitleExampleLeaveType(mContext.getString(R.string.title_in_late_a),
+                setTitleExampleLeaveIn(mContext.getString(R.string.title_in_late_a),
                         mContext.getString(R.string.exmple_in_late_a));
                 break;
 
             case PositionType.LEAVE_EARLY_M:
-                setTitleExampleLeaveType(mContext.getString(R.string.title_leave_early_m),
+                setTitleExampleLeaveOut(mContext.getString(R.string.title_leave_early_m),
                         mContext.getString(R.string.exmple_leave_early_m));
                 break;
             case PositionType.LEAVE_EARLY_A:
-                setTitleExampleLeaveType(mContext.getString(R.string.title_leave_early_a),
+                setTitleExampleLeaveOut(mContext.getString(R.string.title_leave_early_a),
                         mContext.getString(R.string.exmple_leave_early_a));
                 break;
             case PositionType.LEAVE_OUT:
             case PositionType.FORGOT_TO_CHECK_IN_OUT_ALL_DAY:
             case PositionType.FORGOT_CARD_ALL_DAY:
-                setTitleExampleLeaveType(mContext.getString(R.string.title_leave_out_from),
+                setTitleExampleLeaveIn(mContext.getString(R.string.title_leave_out_from),
                         mContext.getString(R.string.exmple_leave_out_from));
+                setTitleExampleLeaveOut(mContext.getString(R.string.title_leave_out_to),
+                        mContext.getString(R.string.exmple_leave_out_to));
                 break;
             case PositionType.FORGOT_CARD_IN:
             case PositionType.FORGOT_TO_CHECK_IN:
-                setTitleExampleLeaveType(mContext.getString(R.string.title_forgot_in),
+                setTitleExampleLeaveIn(mContext.getString(R.string.title_forgot_in),
                         mContext.getString(R.string.exmple_forgot_in));
                 break;
             case PositionType.FORGOT_CARD_OUT:
             case PositionType.FORGOT_TO_CHECK_OUT:
-                setTitleExampleLeaveType(mContext.getString(R.string.title_forgot_out),
+                setTitleExampleLeaveOut(mContext.getString(R.string.title_forgot_out),
                         mContext.getString(R.string.exmple_forgot_out));
                 break;
             default:
@@ -204,8 +226,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             return;
         }
         mUser = user;
-        notifyPropertyChanged(BR.employeeName);
-        notifyPropertyChanged(BR.employeeCode);
+        notifyPropertyChanged(BR.user);
     }
 
     @Override
@@ -227,17 +248,26 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mNavigator.startActivity(ConfirmRequestLeaveActivity.class, bundle);
     }
 
+    @Bindable
+    public User getUser() {
+        return mUser;
+    }
+
+    public Request getRequest() {
+        return mRequest;
+    }
+
     public void onPickTypeRequest(View view) {
         mDialogManager.dialogListSingleChoice(mContext.getString(R.string.leave_type),
-                R.array.leave_type, mCurrentPostionLeaveType,
+                R.array.leave_type, mCurrentPositionLeaveType,
                 new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog materialDialog, View view,
                             int positionType, CharSequence charSequence) {
                         setCurrentLeaveType(String.valueOf(charSequence));
-                        setCurrentPostionLeaveType(positionType);
+                        setCurrentPositionLeaveType(positionType);
                         setLayoutLeaveType(positionType);
-                        setTitleExampleLeaveType(positionType);
+                        setTitleExampleLeaveIn(positionType);
                         return true;
                     }
                 });

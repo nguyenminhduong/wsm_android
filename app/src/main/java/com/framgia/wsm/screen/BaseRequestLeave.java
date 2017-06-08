@@ -9,17 +9,34 @@ import com.framgia.wsm.screen.requestleave.RequestLeaveViewModel;
 
 public abstract class BaseRequestLeave extends BaseObservable {
 
-    public abstract void setVisibleLayoutTime(boolean isVisible);
+    public abstract void setVisibleLayoutCheckout(boolean isVisible);
 
     public abstract void setVisibleLayoutCompensation(boolean isVisible);
+
+    public abstract void setVisibleLayoutCheckin(boolean isVisible);
 
     public void setLayoutLeaveType(int positionType) {
         if (positionType == RequestLeaveViewModel.PositionType.LEAVE_OUT
                 || positionType == RequestLeaveViewModel.PositionType.FORGOT_TO_CHECK_IN_OUT_ALL_DAY
-                || positionType == RequestLeaveViewModel.PositionType.FORGOT_CARD_ALL_DAY) {
-            setVisibleLayoutTime(true);
+                || positionType == RequestLeaveViewModel.PositionType.FORGOT_CARD_ALL_DAY
+                || positionType == RequestLeaveViewModel.PositionType.LEAVE_EARLY_A
+                || positionType == RequestLeaveViewModel.PositionType.LEAVE_EARLY_M
+                || positionType == RequestLeaveViewModel.PositionType.FORGOT_CARD_OUT
+                || positionType == RequestLeaveViewModel.PositionType.FORGOT_TO_CHECK_OUT) {
+            setVisibleLayoutCheckout(true);
         } else {
-            setVisibleLayoutTime(false);
+            setVisibleLayoutCheckout(false);
+        }
+        if (positionType == RequestLeaveViewModel.PositionType.LEAVE_OUT
+                || positionType == RequestLeaveViewModel.PositionType.FORGOT_TO_CHECK_IN_OUT_ALL_DAY
+                || positionType == RequestLeaveViewModel.PositionType.FORGOT_CARD_ALL_DAY
+                || positionType == RequestLeaveViewModel.PositionType.IN_LATE_A
+                || positionType == RequestLeaveViewModel.PositionType.IN_LATE_M
+                || positionType == RequestLeaveViewModel.PositionType.FORGOT_CARD_IN
+                || positionType == RequestLeaveViewModel.PositionType.FORGOT_TO_CHECK_IN) {
+            setVisibleLayoutCheckin(true);
+        } else {
+            setVisibleLayoutCheckin(false);
         }
         if (positionType == RequestLeaveViewModel.PositionType.IN_LATE_A
                 || positionType == RequestLeaveViewModel.PositionType.IN_LATE_M

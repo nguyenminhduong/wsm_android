@@ -29,16 +29,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
+                android:visibility="@{viewModel.visibleLayoutCheckin ? View.VISIBLE : View.GONE}"
                 >
                 <TextView
-                    android:text="@{viewModel.titleLeaveType}"
+                    android:text="@{viewModel.titleLeaveInType}"
                     style="@style/StyleTitle"
                     />
                 <TextView
-                    android:text="@{viewModel.exampleLeaveType}"
+                    android:text="@{viewModel.exampleLeaveInType}"
                     style="@style/StyleTitleExample"
                     />
                 <EditText
+                    android:text="@={viewModel.request.checkinTime}"
                     android:hint="@string/select_time"
                     style="@style/StyleText"
                     />
@@ -48,17 +50,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:visibility="@{viewModel.visibleLayoutTime ? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewModel.visibleLayoutCheckout ? View.VISIBLE : View.GONE}"
                 >
                 <TextView
-                    android:text="@string/title_leave_out_to"
+                    android:text="@{viewModel.titleLeaveOutType}"
                     style="@style/StyleTitle"
                     />
                 <TextView
-                    android:text="@string/exmple_leave_out_to"
+                    android:text="@{viewModel.exampleLeaveOutType}"
                     style="@style/StyleTitleExample"
                     />
                 <EditText
+                    android:text="@={viewModel.request.checkoutTime}"
                     android:hint="@string/select_time"
                     style="@style/StyleText"
                     />
@@ -103,6 +106,7 @@
                         style="@style/StyleTitleExample"
                         />
                     <EditText
+                        android:text="@={viewModel.request.compensation.fromTime}"
                         android:hint="@string/select_time"
                         style="@style/StyleText"
                         />
@@ -122,6 +126,7 @@
                         style="@style/StyleTitleExample"
                         />
                     <EditText
+                        android:text="@={viewModel.request.compensation.toTime}"
                         android:hint="@string/select_time"
                         style="@style/StyleText"
                         />
@@ -131,6 +136,7 @@
                 style="@style/StyleTextHint"
                 >
                 <EditText
+                    android:text="@={viewModel.request.reason}"
                     android:hint="@string/reason"
                     style="@style/StyleEditableText"
                     />

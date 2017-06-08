@@ -17,7 +17,8 @@ public class ConfirmRequestLeaveViewModel extends BaseRequestLeave
     private ConfirmRequestLeaveContract.Presenter mPresenter;
     private Request mRequest;
     private Context mContext;
-    private boolean mIsVisibleLayoutTime;
+    private boolean mIsVisibleLayoutCheckin;
+    private boolean mIsVisibleLayoutCheckout;
     private boolean mIsVisibleLayoutCompensation;
     private String mLeaveTypeName;
 
@@ -37,14 +38,24 @@ public class ConfirmRequestLeaveViewModel extends BaseRequestLeave
     }
 
     @Bindable
-    public boolean isVisibleLayoutTime() {
-        return mIsVisibleLayoutTime;
+    public boolean isVisibleLayoutCheckout() {
+        return mIsVisibleLayoutCheckout;
+    }
+
+    public void setVisibleLayoutCheckout(boolean visibleLayoutCheckout) {
+        mIsVisibleLayoutCheckout = visibleLayoutCheckout;
+        notifyPropertyChanged(BR.visibleLayoutCheckout);
+    }
+
+    @Bindable
+    public boolean isVisibleLayoutCheckin() {
+        return mIsVisibleLayoutCheckin;
     }
 
     @Override
-    public void setVisibleLayoutTime(boolean visibleLayoutTime) {
-        mIsVisibleLayoutTime = visibleLayoutTime;
-        notifyPropertyChanged(BR.visibleLayoutTime);
+    public void setVisibleLayoutCheckin(boolean isVisible) {
+        mIsVisibleLayoutCheckin = isVisible;
+        notifyPropertyChanged(BR.visibleLayoutCheckin);
     }
 
     @Bindable

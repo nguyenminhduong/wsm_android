@@ -54,7 +54,7 @@
                     <EditText
                         android:enabled="false"
                         android:hint="@string/employee_name"
-                        android:text="@{viewModel.employeeName}"
+                        android:text="@{viewModel.user.name}"
                         style="@style/StyleText"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -65,7 +65,7 @@
                     <EditText
                         android:enabled="false"
                         android:hint="@string/employee_code"
-                        android:text="@{viewModel.employeeCode}"
+                        android:text="@{viewModel.user.code}"
                         style="@style/StyleText"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -122,6 +122,7 @@
                     style="@style/StyleTextHint"
                     >
                     <EditText
+                        android:text="@={viewModel.request.project}"
                         android:hint="@string/project_name"
                         style="@style/StyleEditableText"
                         />
