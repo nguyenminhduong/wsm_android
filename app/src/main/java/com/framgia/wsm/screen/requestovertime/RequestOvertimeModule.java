@@ -8,6 +8,7 @@ import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import com.framgia.wsm.utils.validator.Validator;
 import dagger.Module;
 import dagger.Provides;
 
@@ -34,8 +35,8 @@ public class RequestOvertimeModule {
     @ActivityScope
     @Provides
     public RequestOvertimeContract.Presenter providePresenter(UserRepository userRepository,
-            BaseSchedulerProvider baseSchedulerProvider) {
-        return new RequestOvertimePresenter(userRepository, baseSchedulerProvider);
+            BaseSchedulerProvider baseSchedulerProvider, Validator validator) {
+        return new RequestOvertimePresenter(userRepository, baseSchedulerProvider, validator);
     }
 
     @ActivityScope
@@ -46,8 +47,14 @@ public class RequestOvertimeModule {
 
     @ActivityScope
     @Provides
-    public UserRepository provideUserRepository(UserLocalDataSource userLocalDataSource,
+    UserRepository provideUserRepository(UserLocalDataSource userLocalDataSource,
             UserRemoteDataSource remoteDataSource) {
         return new UserRepository(userLocalDataSource, remoteDataSource);
+    }
+
+    @ActivityScope
+    @Provides
+    Validator provideValidator() {
+        return new Validator(mActivity.getApplicationContext(), RequestOvertimeViewModel.class);
     }
 }

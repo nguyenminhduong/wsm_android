@@ -17,6 +17,14 @@ interface RequestOvertimeContract {
         void onGetUserSuccess(User user);
 
         void onGetUserError(BaseException exception);
+
+        void onInputProjectNameError(String projectNameError);
+
+        void onInputReasonError(String reasonErrpr);
+
+        void onInputFromTimeError(String fromTimeError);
+
+        void onInputToTimeError(String toTimeError);
     }
 
     /**
@@ -24,5 +32,8 @@ interface RequestOvertimeContract {
      */
     interface Presenter extends BasePresenter<ViewModel> {
         void getUser();
+
+        boolean validateDataInput(String projectName, String reason, String fromTime,
+                String toTime);
     }
 }
