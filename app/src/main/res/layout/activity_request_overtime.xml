@@ -2,6 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
     xmlns:tools="http://schemas.android.com/tools"
     >
 
@@ -84,7 +85,7 @@
                             >
                             <EditText
                                 android:hint="@string/branch"
-                                android:text="@{viewModel.request.branch.branchName}"
+                                android:text="@={viewModel.branch}"
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
@@ -103,7 +104,7 @@
                             >
                             <EditText
                                 android:hint="@string/group"
-                                android:text="@{viewModel.request.group.groupName}"
+                                android:text="@={viewModel.group}"
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
@@ -114,11 +115,12 @@
                     </FrameLayout>
                 </LinearLayout>
                 <android.support.design.widget.TextInputLayout
+                    bind:errorTextInputLayout="@{viewModel.projectNameError}"
                     style="@style/StyleTextHint"
                     >
                     <EditText
                         android:hint="@string/project_name"
-                        android:text="@={viewModel.request.project}"
+                        android:text="@={viewModel.projectName}"
                         style="@style/StyleEditableText"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -130,38 +132,43 @@
                     >
                     <android.support.design.widget.TextInputLayout
                         android:layout_weight="1"
+                        bind:errorTextInputLayout="@{viewModel.fromTimeError}"
                         style="@style/StyleTextHint"
                         >
                         <EditText
                             android:hint="@string/from"
-                            android:text="@={viewModel.request.fromTime}"
+                            android:onClick="@{viewModel::onCickFromTime}"
+                            android:text="@={viewModel.fromTime}"
                             style="@style/StyleText"
                             />
                     </android.support.design.widget.TextInputLayout>
                     <android.support.design.widget.TextInputLayout
                         android:layout_weight="1"
+                        bind:errorTextInputLayout="@{viewModel.toTimeError}"
                         style="@style/StyleTextHint"
                         >
                         <EditText
                             android:hint="@string/to"
-                            android:text="@={viewModel.request.toTime}"
+                            android:onClick="@{viewModel::onCickToTime}"
+                            android:text="@={viewModel.toTime}"
                             style="@style/StyleText"
                             />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
+                    bind:errorTextInputLayout="@{viewModel.reasonError}"
                     style="@style/StyleTextHint"
                     >
                     <EditText
                         android:hint="@string/reason"
-                        android:text="@={viewModel.request.reason}"
+                        android:text="@={viewModel.reason}"
                         style="@style/StyleEditableText"
                         />
                 </android.support.design.widget.TextInputLayout>
                 <Button
-                    android:onClick="@{viewModel::onClickCreate}"
-                    android:text="@string/create"
+                    android:onClick="@{viewModel::onClickNext}"
+                    android:text="@string/next"
                     android:textColor="@android:color/white"
                     style="@style/StyleButton"
                     />

@@ -3,13 +3,16 @@ package com.framgia.wsm.utils.binding;
 import android.databinding.BindingAdapter;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -115,5 +118,36 @@ public final class BindingUtils {
     @BindingAdapter({ "toolbar" })
     public static void setToolbar(Toolbar toolbar, String title) {
         toolbar.setTitle(title);
+    }
+
+    @BindingAdapter("errorTextInputLayout")
+    public static void setErrorTextInputLayout(final TextInputLayout textInputLayout,
+            final String text) {
+        textInputLayout.setError(text);
+        EditText editText = textInputLayout.getEditText();
+        if (editText == null) {
+            return;
+        }
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //No-Op
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() < 1) {
+                    textInputLayout.setError(text);
+                }
+                if (s.length() > 0) {
+                    textInputLayout.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //No-Op
+            }
+        });
     }
 }

@@ -1,10 +1,13 @@
 package com.framgia.wsm.screen.requestovertime;
 
+import android.util.Log;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import com.framgia.wsm.utils.validator.Validator;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -22,12 +25,14 @@ final class RequestOvertimePresenter implements RequestOvertimeContract.Presente
     private UserRepository mUserRepository;
     private BaseSchedulerProvider mSchedulerProvider;
     private CompositeDisposable mCompositeDisposable;
+    private Validator mValidator;
 
     RequestOvertimePresenter(UserRepository userRepository,
-            BaseSchedulerProvider baseSchedulerProvider) {
+            BaseSchedulerProvider baseSchedulerProvider, Validator validator) {
         mUserRepository = userRepository;
         mSchedulerProvider = baseSchedulerProvider;
         mCompositeDisposable = new CompositeDisposable();
+        mValidator = validator;
     }
 
     @Override
@@ -36,6 +41,7 @@ final class RequestOvertimePresenter implements RequestOvertimeContract.Presente
 
     @Override
     public void onStop() {
+        mCompositeDisposable.clear();
     }
 
     @Override
@@ -60,5 +66,48 @@ final class RequestOvertimePresenter implements RequestOvertimeContract.Presente
                     }
                 });
         mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public boolean validateDataInput(String projectName, String reason, String fromTime,
+            String toTime) {
+        validateProjectName(projectName);
+        validateReason(reason);
+        validateFromTime(fromTime);
+        validateToTime(toTime);
+        try {
+            return mValidator.validateAll(mViewModel);
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, "validateDataInput: ", e);
+            return false;
+        }
+    }
+
+    private void validateProjectName(String projectName) {
+        String errorMessage = mValidator.validateValueNonEmpty(projectName);
+        if (!StringUtils.isBlank(errorMessage)) {
+            mViewModel.onInputProjectNameError(errorMessage);
+        }
+    }
+
+    private void validateReason(String reason) {
+        String errorMessage = mValidator.validateValueNonEmpty(reason);
+        if (!StringUtils.isBlank(errorMessage)) {
+            mViewModel.onInputReasonError(errorMessage);
+        }
+    }
+
+    private void validateFromTime(String fromTime) {
+        String errorMessage = mValidator.validateValueNonEmpty(fromTime);
+        if (!StringUtils.isBlank(errorMessage)) {
+            mViewModel.onInputFromTimeError(errorMessage);
+        }
+    }
+
+    private void validateToTime(String toTime) {
+        String errorMessage = mValidator.validateValueNonEmpty(toTime);
+        if (!StringUtils.isBlank(errorMessage)) {
+            mViewModel.onInputToTimeError(errorMessage);
+        }
     }
 }

@@ -46,6 +46,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         mNavigator = navigator;
         mCurrentItem = R.id.item_working_calendar;
         mCurrentTitleToolbar = titleWorkingCalendar();
+        mPresenter.getUser();
     }
 
     public int getPageLimit() {
