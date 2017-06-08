@@ -1,21 +1,36 @@
 package com.framgia.wsm.widget.dialog;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.res.Resources;
+import android.os.Build;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.view.View;
+import android.widget.DatePicker;
 import com.framgia.wsm.R;
+import com.framgia.wsm.utils.validator.Validator;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
+import java.lang.reflect.Field;
 
 /**
  * Created by le.quang.dao on 14/03/2017.
  */
 
 public class DialogManagerImpl implements DialogManager {
+    private static final String TAG = Validator.class.getName();
+    private static final String DATE_PICKER = "mDatePicker";
+    private static final String DAY_FIELD = "day";
+    private static final String ID = "id";
+    private static final String ANDROID = "android";
 
     private Context mContext;
     private MaterialDialog mProgressDialog;
+    private DatePickerDialog mDatePickerDialog;
 
     public DialogManagerImpl(Context context) {
         mContext = context;
@@ -156,5 +171,48 @@ public class DialogManagerImpl implements DialogManager {
                     }
                 })
                 .show();
+    }
+
+    @Override
+    public DialogManager dialogMonthYearPicker(DatePickerDialog.OnDateSetListener onDateSetListener,
+            int year, int month) {
+        int theme;
+        if (Build.VERSION.SDK_INT < 23) {
+            theme = AlertDialog.THEME_HOLO_LIGHT;
+        } else {
+            theme = android.R.style.Theme_Holo_Light_Dialog;
+        }
+        mDatePickerDialog =
+                new DatePickerDialog(mContext, theme, onDateSetListener, year, month, -1);
+        try {
+            Field[] datePickerDialogFields = mDatePickerDialog.getClass().getDeclaredFields();
+            for (Field datePickerDialogField : datePickerDialogFields) {
+                if (datePickerDialogField.getName().equals(DATE_PICKER)) {
+                    datePickerDialogField.setAccessible(true);
+                    DatePicker datePicker =
+                            (DatePicker) datePickerDialogField.get(mDatePickerDialog);
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        int daySpinnerId =
+                                Resources.getSystem().getIdentifier(DAY_FIELD, ID, ANDROID);
+                        if (daySpinnerId != 0) {
+                            View daySpinner = datePicker.findViewById(daySpinnerId);
+                            if (daySpinner != null) {
+                                daySpinner.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, "IllegalAccessException: ", e);
+        }
+        return this;
+    }
+
+    public void showMonthYearPickerDialog() {
+        if (mDatePickerDialog == null) {
+            return;
+        }
+        mDatePickerDialog.show();
     }
 }

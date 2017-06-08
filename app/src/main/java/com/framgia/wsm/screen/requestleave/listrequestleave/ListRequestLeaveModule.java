@@ -1,8 +1,11 @@
 package com.framgia.wsm.screen.requestleave.listrequestleave;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import com.framgia.wsm.utils.dagger.ActivityScope;
+import com.framgia.wsm.widget.dialog.DialogManager;
+import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
 import dagger.Provides;
 
@@ -21,14 +24,20 @@ public class ListRequestLeaveModule {
 
     @ActivityScope
     @Provides
-    public ListRequestLeaveContract.ViewModel provideViewModel(
-            ListRequestLeaveContract.Presenter presenter) {
-        return new ListRequestLeaveViewModel(presenter);
+    public ListRequestLeaveContract.ViewModel provideViewModel(Context context,
+            ListRequestLeaveContract.Presenter presenter, DialogManager dialogManager) {
+        return new ListRequestLeaveViewModel(context, presenter, dialogManager);
     }
 
     @ActivityScope
     @Provides
     public ListRequestLeaveContract.Presenter providePresenter() {
         return new ListRequestLeavePresenter();
+    }
+
+    @ActivityScope
+    @Provides
+    public DialogManager provideDialogManager() {
+        return new DialogManagerImpl(mActivity);
     }
 }
