@@ -16,6 +16,7 @@ import com.framgia.wsm.utils.validator.Validator;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
 import java.lang.reflect.Field;
+import java.util.Calendar;
 
 /**
  * Created by le.quang.dao on 14/03/2017.
@@ -31,9 +32,11 @@ public class DialogManagerImpl implements DialogManager {
     private Context mContext;
     private MaterialDialog mProgressDialog;
     private DatePickerDialog mDatePickerDialog;
+    private Calendar mCalendar;
 
     public DialogManagerImpl(Context context) {
         mContext = context;
+        mCalendar = Calendar.getInstance();
     }
 
     @Override
@@ -210,6 +213,22 @@ public class DialogManagerImpl implements DialogManager {
     }
 
     public void showMonthYearPickerDialog() {
+        if (mDatePickerDialog == null) {
+            return;
+        }
+        mDatePickerDialog.show();
+    }
+
+    @Override
+    public DialogManager dialogDatePicker(DatePickerDialog.OnDateSetListener onDateSetListener) {
+        mDatePickerDialog =
+                new DatePickerDialog(mContext, onDateSetListener, mCalendar.get(Calendar.YEAR),
+                        mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
+        return this;
+    }
+
+    @Override
+    public void showDatePickerDialog() {
         if (mDatePickerDialog == null) {
             return;
         }

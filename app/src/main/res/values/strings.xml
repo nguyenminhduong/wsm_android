@@ -94,6 +94,8 @@
     <string name="all" translatable="false">All</string>
     <string name="month" translatable="false">Month</string>
     <string name="date" translatable="false">Date:</string>
+    <string name="day_session" translatable="false">Day session</string>
+    <string name="am" translatable="false">am</string>
     <string name="time_request" translatable="false">Time request:</string>
 
 

@@ -104,4 +104,8 @@ public interface DialogManager {
             int year, int month);
 
     void showMonthYearPickerDialog();
+
+    DialogManager dialogDatePicker(DatePickerDialog.OnDateSetListener onDateSetListener);
+
+    void showDatePickerDialog();
 }

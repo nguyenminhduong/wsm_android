@@ -340,32 +340,105 @@
                     android:layout_height="wrap_content"
                     android:baselineAligned="false"
                     android:orientation="horizontal"
-                    android:weightSum="2"
                     >
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="@dimen/dp_250"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         >
 
-                        <EditText
-                            android:hint="@string/from"
-                            style="@style/StyleText"
-                            />
-                    </android.support.design.widget.TextInputLayout>
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/StyleTextHint"
+                            >
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="wrap_content"
+                            <EditText
+                                android:hint="@string/from"
+                                android:onClick="@{viewModel::onClickStartDate}"
+                                android:text="@={viewModel.startDate}"
+                                style="@style/StyleText"
+                                />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <ImageView
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleImageDropDown"
+                            />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         >
 
-                        <EditText
-                            android:hint="@string/to"
-                            style="@style/StyleText"
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/StyleTextHint"
+                            >
+
+                            <EditText
+                                android:onClick="@{viewModel::onPickDaySessionStartDay}"
+                                android:text="@{viewModel.currentDaySessionStartDay}"
+                                style="@style/StyleText"
+                                />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <ImageView
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleImageDropDown"
                             />
-                    </android.support.design.widget.TextInputLayout>
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    >
+
+                    <FrameLayout
+                        android:layout_width="@dimen/dp_250"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/StyleTextHint"
+                            >
+
+                            <EditText
+                                android:hint="@string/to"
+                                android:onClick="@{viewModel::onClickEndDate}"
+                                android:text="@={viewModel.endDate}"
+                                style="@style/StyleText"
+                                />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <ImageView
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleImageDropDown"
+                            />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/StyleTextHint"
+                            >
+
+                            <EditText
+                                android:onClick="@{viewModel::onPickDaySessionEndDay}"
+                                android:text="@{viewModel.currentDaySessionEndDay}"
+                                style="@style/StyleText"
+                                />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <ImageView
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleImageDropDown"
+                            />
+                    </FrameLayout>
                 </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -381,11 +454,11 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="@dimen/dp_5"
                     android:layout_marginRight="@dimen/dp_5"
                     android:background="@drawable/border_button"
+                    android:enabled="false"
                     android:text="@string/create"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
