@@ -13,6 +13,10 @@
         <item>Forgot card (all day)</item>
         <item>Forgot card (int)</item>
         <item>Forgot card (out)</item>
+        <item>In late (woman only)(M)</item>
+        <item>In late (woman only)(A)</item>
+        <item>Leave early (woman only)(M)</item>
+        <item>Leave early (woman only)(A)</item>
     </string-array>
 
     <string-array name="off_type">

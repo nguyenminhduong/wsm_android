@@ -15,6 +15,9 @@ import com.framgia.wsm.screen.BaseRequestLeave;
 import com.framgia.wsm.screen.confirmrequestleave.ConfirmRequestLeaveActivity;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.utils.validator.Rule;
+import com.framgia.wsm.utils.validator.ValidType;
+import com.framgia.wsm.utils.validator.Validation;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.MaterialDialog;
 
@@ -44,6 +47,41 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     private String mTitleLeaveOutType;
     private String mExampleLeaveOutType;
     private Request mRequest;
+    private String mProjectNameError;
+    private String mReasonError;
+    private String mCheckinTimeError;
+    private String mCheckoutTimeError;
+    private String mCompensationFromTimeError;
+    private String mCompensationToTimeError;
+
+    @Validation({
+            @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
+    })
+    private String mProjectName;
+
+    @Validation({
+            @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
+    })
+    private String mReason;
+
+    @Validation({
+            @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
+    })
+    private String mCheckinTime;
+
+    @Validation({
+            @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
+    })
+    private String mCheckoutTime;
+
+    @Validation({
+            @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
+    })
+    private String mCompensationFromTime;
+    @Validation({
+            @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
+    })
+    private String mCompensationToTime;
 
     RequestLeaveViewModel(Context context, Navigator navigator,
             RequestLeaveContract.Presenter presenter, DialogManager dialogManager) {
@@ -59,6 +97,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mTitleLeaveInType = mContext.getString(R.string.title_in_late_m);
         mExampleLeaveInType = mContext.getString(R.string.exmple_in_late_m);
         mRequest = new Request();
+        mRequest.setCompensation(new Request.Compensation());
         mPresenter.getUser();
     }
 
@@ -170,19 +209,22 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     private void setTitleExampleLeaveIn(int positionType) {
         switch (positionType) {
+            case PositionType.IN_LATE_WOMAN_M:
             case PositionType.IN_LATE_M:
                 setTitleExampleLeaveIn(mContext.getString(R.string.title_in_late_m),
                         mContext.getString(R.string.exmple_in_late_m));
                 break;
+            case PositionType.IN_LATE_WOMAN_A:
             case PositionType.IN_LATE_A:
                 setTitleExampleLeaveIn(mContext.getString(R.string.title_in_late_a),
                         mContext.getString(R.string.exmple_in_late_a));
                 break;
-
+            case PositionType.LEAVE_EARLY_WOMAN_M:
             case PositionType.LEAVE_EARLY_M:
                 setTitleExampleLeaveOut(mContext.getString(R.string.title_leave_early_m),
                         mContext.getString(R.string.exmple_leave_early_m));
                 break;
+            case PositionType.LEAVE_EARLY_WOMAN_A:
             case PositionType.LEAVE_EARLY_A:
                 setTitleExampleLeaveOut(mContext.getString(R.string.title_leave_early_a),
                         mContext.getString(R.string.exmple_leave_early_a));
@@ -234,6 +276,42 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         Log.e(TAG, "onGetUserError", exception);
     }
 
+    @Override
+    public void onInputReasonError(String errorMessage) {
+        mReasonError = errorMessage;
+        notifyPropertyChanged(BR.reasonError);
+    }
+
+    @Override
+    public void onInputProjectNameError(String errorMessage) {
+        mProjectNameError = errorMessage;
+        notifyPropertyChanged(BR.projectNameError);
+    }
+
+    @Override
+    public void onInputCheckinTimeError(String errorMessage) {
+        mCheckinTimeError = errorMessage;
+        notifyPropertyChanged(BR.checkinTimeError);
+    }
+
+    @Override
+    public void onInputCheckoutTimeError(String errorMessage) {
+        mCheckoutTimeError = errorMessage;
+        notifyPropertyChanged(BR.checkoutTimeError);
+    }
+
+    @Override
+    public void onInputCompensationFromError(String errorMessage) {
+        mCompensationFromTimeError = errorMessage;
+        notifyPropertyChanged(BR.compensationFromTimeError);
+    }
+
+    @Override
+    public void onInputCompensationToError(String errorMessage) {
+        mCompensationToTimeError = errorMessage;
+        notifyPropertyChanged(BR.compensationToTimeError);
+    }
+
     public void onPickBranch(View view) {
         //TODO pick branch
     }
@@ -243,18 +321,113 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     public void onClickCreate(View view) {
+        if (!mPresenter.validateDataInput(mRequest)) {
+            return;
+        }
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, mRequest);
         mNavigator.startActivity(ConfirmRequestLeaveActivity.class, bundle);
     }
 
     @Bindable
-    public User getUser() {
-        return mUser;
+    public String getProjectNameError() {
+        return mProjectNameError;
     }
 
-    public Request getRequest() {
-        return mRequest;
+    @Bindable
+    public String getReasonError() {
+        return mReasonError;
+    }
+
+    @Bindable
+    public String getCheckinTimeError() {
+        return mCheckinTimeError;
+    }
+
+    @Bindable
+    public String getCheckoutTimeError() {
+        return mCheckoutTimeError;
+    }
+
+    @Bindable
+    public String getCompensationFromTimeError() {
+        return mCompensationFromTimeError;
+    }
+
+    @Bindable
+    public String getCompensationToTimeError() {
+        return mCompensationToTimeError;
+    }
+
+    @Bindable
+    public String getProjectName() {
+        return mProjectName;
+    }
+
+    public void setProjectName(String projectName) {
+        mProjectName = projectName;
+        mRequest.setProject(projectName);
+        notifyPropertyChanged(BR.projectName);
+    }
+
+    @Bindable
+    public String getReason() {
+        return mReason;
+    }
+
+    public void setReason(String reason) {
+        mReason = reason;
+        mRequest.setReason(reason);
+        notifyPropertyChanged(BR.reason);
+    }
+
+    @Bindable
+    public String getCheckinTime() {
+        return mCheckinTime;
+    }
+
+    public void setCheckinTime(String checkinTime) {
+        mCheckinTime = checkinTime;
+        mRequest.setCheckinTime(checkinTime);
+        notifyPropertyChanged(BR.checkinTime);
+    }
+
+    @Bindable
+    public String getCheckoutTime() {
+        return mCheckoutTime;
+    }
+
+    public void setCheckoutTime(String checkoutTime) {
+        mCheckoutTime = checkoutTime;
+        mRequest.setCheckoutTime(checkoutTime);
+        notifyPropertyChanged(BR.checkoutTime);
+    }
+
+    @Bindable
+    public String getCompensationFromTime() {
+        return mCompensationFromTime;
+    }
+
+    public void setCompensationFromTime(String compensationFromTime) {
+        mCompensationFromTime = compensationFromTime;
+        mRequest.getCompensation().setFromTime(compensationFromTime);
+        notifyPropertyChanged(BR.compensationFromTime);
+    }
+
+    @Bindable
+    public String getCompensationToTime() {
+        return mCompensationToTime;
+    }
+
+    public void setCompensationToTime(String compensationToTime) {
+        mCompensationToTime = compensationToTime;
+        mRequest.getCompensation().setToTime(compensationToTime);
+        notifyPropertyChanged(BR.compensationToTime);
+    }
+
+    @Bindable
+    public User getUser() {
+        return mUser;
     }
 
     public void onPickTypeRequest(View view) {
@@ -278,7 +451,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             PositionType.LEAVE_EARLY_M, PositionType.LEAVE_OUT,
             PositionType.FORGOT_TO_CHECK_IN_OUT_ALL_DAY, PositionType.FORGOT_TO_CHECK_IN,
             PositionType.FORGOT_TO_CHECK_OUT, PositionType.FORGOT_CARD_ALL_DAY,
-            PositionType.FORGOT_CARD_IN, PositionType.FORGOT_CARD_OUT
+            PositionType.FORGOT_CARD_IN, PositionType.FORGOT_CARD_OUT, PositionType.IN_LATE_WOMAN_M,
+            PositionType.IN_LATE_WOMAN_A, PositionType.LEAVE_EARLY_WOMAN_M,
+            PositionType.LEAVE_EARLY_WOMAN_A
     })
     public @interface PositionType {
         int IN_LATE_M = 0;
@@ -292,5 +467,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         int FORGOT_CARD_ALL_DAY = 8;
         int FORGOT_CARD_IN = 9;
         int FORGOT_CARD_OUT = 10;
+        int IN_LATE_WOMAN_M = 11;
+        int IN_LATE_WOMAN_A = 12;
+        int LEAVE_EARLY_WOMAN_M = 13;
+        int LEAVE_EARLY_WOMAN_A = 14;
     }
 }
