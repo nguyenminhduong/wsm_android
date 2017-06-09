@@ -130,6 +130,11 @@
     <string name="title_forgot_out">Check out time</string>
     <string name="exmple_forgot_out">Ex: 2017/05/20 15:45</string>
 
+    <!-- Validate Request OverTime -->
+    <string name="time_request_overtime_invalid">Time request overtime invalid: It is not in time period request overtime</string>
+    <string name="end_time_is_less_than_start_time">End time is less than start time</string>
+    <string name="you_have_to_choose_the_from_time_first">  You have to choose the from time first</string>
+
     <string name="locate">en</string>
 
 </resources>

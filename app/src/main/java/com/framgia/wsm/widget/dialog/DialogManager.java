@@ -1,6 +1,7 @@
 package com.framgia.wsm.widget.dialog;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.DrawableRes;
 import com.fstyle.library.MaterialDialog;
@@ -108,4 +109,8 @@ public interface DialogManager {
     DialogManager dialogDatePicker(DatePickerDialog.OnDateSetListener onDateSetListener);
 
     void showDatePickerDialog();
+
+    DialogManager dialogTimePicker(TimePickerDialog.OnTimeSetListener onTimeSetListener);
+
+    void showTimePickerDialog();
 }
