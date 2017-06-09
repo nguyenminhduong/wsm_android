@@ -91,6 +91,7 @@
     <string name="submit">Submit</string>
     <string name="next">Next</string>
     <string name="status" translatable="false">Status</string>
+    <string name="all" translatable="false">All</string>
     <string name="month" translatable="false">Month</string>
     <string name="date" translatable="false">Date:</string>
     <string name="time_request" translatable="false">Time request:</string>

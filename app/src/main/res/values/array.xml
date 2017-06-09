@@ -20,4 +20,11 @@
         <item>Off have salary - Insurance Coverage </item>
         <item>Off no salary</item>
     </string-array>
+
+    <string-array name="status" translatable="false">
+        <item>All</item>
+        <item>Accepted</item>
+        <item>Pending</item>
+        <item>Rejected</item>
+    </string-array>
 </resources>
