@@ -9,6 +9,7 @@ import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import com.framgia.wsm.utils.validator.Validator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
@@ -37,8 +38,8 @@ public class RequestLeaveModule {
     @ActivityScope
     @Provides
     public RequestLeaveContract.Presenter providePresenter(UserRepository userRepository,
-            BaseSchedulerProvider baseSchedulerProvider) {
-        return new RequestLeavePresenter(userRepository, baseSchedulerProvider);
+            BaseSchedulerProvider baseSchedulerProvider, Validator validator) {
+        return new RequestLeavePresenter(userRepository, baseSchedulerProvider, validator);
     }
 
     @ActivityScope
@@ -58,5 +59,11 @@ public class RequestLeaveModule {
     @Provides
     DialogManager provideDialogManager() {
         return new DialogManagerImpl(mActivity);
+    }
+
+    @ActivityScope
+    @Provides
+    Validator provideValidator() {
+        return new Validator(mActivity.getApplicationContext(), RequestLeaveViewModel.class);
     }
 }

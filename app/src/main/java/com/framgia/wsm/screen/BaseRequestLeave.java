@@ -21,6 +21,8 @@ public abstract class BaseRequestLeave extends BaseObservable {
                 || positionType == RequestLeaveViewModel.PositionType.FORGOT_CARD_ALL_DAY
                 || positionType == RequestLeaveViewModel.PositionType.LEAVE_EARLY_A
                 || positionType == RequestLeaveViewModel.PositionType.LEAVE_EARLY_M
+                || positionType == RequestLeaveViewModel.PositionType.LEAVE_EARLY_WOMAN_A
+                || positionType == RequestLeaveViewModel.PositionType.LEAVE_EARLY_WOMAN_M
                 || positionType == RequestLeaveViewModel.PositionType.FORGOT_CARD_OUT
                 || positionType == RequestLeaveViewModel.PositionType.FORGOT_TO_CHECK_OUT) {
             setVisibleLayoutCheckout(true);
@@ -32,6 +34,8 @@ public abstract class BaseRequestLeave extends BaseObservable {
                 || positionType == RequestLeaveViewModel.PositionType.FORGOT_CARD_ALL_DAY
                 || positionType == RequestLeaveViewModel.PositionType.IN_LATE_A
                 || positionType == RequestLeaveViewModel.PositionType.IN_LATE_M
+                || positionType == RequestLeaveViewModel.PositionType.IN_LATE_WOMAN_A
+                || positionType == RequestLeaveViewModel.PositionType.IN_LATE_WOMAN_M
                 || positionType == RequestLeaveViewModel.PositionType.FORGOT_CARD_IN
                 || positionType == RequestLeaveViewModel.PositionType.FORGOT_TO_CHECK_IN) {
             setVisibleLayoutCheckin(true);

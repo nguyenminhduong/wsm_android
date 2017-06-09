@@ -119,11 +119,12 @@
                 </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
+                    bind:errorTextInputLayout="@{viewModel.projectNameError}"
                     style="@style/StyleTextHint"
                     >
                     <EditText
-                        android:text="@={viewModel.request.project}"
                         android:hint="@string/project_name"
+                        android:text="@={viewModel.projectName}"
                         style="@style/StyleEditableText"
                         />
                 </android.support.design.widget.TextInputLayout>
