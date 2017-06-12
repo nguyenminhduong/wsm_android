@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.utils.validator.Validator;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
@@ -64,6 +65,13 @@ public class DialogManagerImpl implements DialogManager {
         new MaterialDialog.Builder(mContext).content(content)
                 .positiveText(R.string.retry)
                 .onPositive(positiveButtonListener)
+                .show();
+    }
+
+    @Override
+    public void dialogError(BaseException e) {
+        new MaterialDialog.Builder(mContext).content(e.getMessage())
+                .positiveText(android.R.string.ok)
                 .show();
     }
 
@@ -146,7 +154,15 @@ public class DialogManagerImpl implements DialogManager {
         new MaterialDialog.Builder(mContext).title(title)
                 .items(arrayId)
                 .itemsCallbackSingleChoice(selectedIndex, callback)
-                .positiveText(R.string.choose)
+                .show();
+    }
+
+    @Override
+    public void dialogListSingleChoice(String title, String[] strings, int selectedIndex,
+            MaterialDialog.ListCallbackSingleChoice callback) {
+        new MaterialDialog.Builder(mContext).title(title)
+                .items(strings)
+                .itemsCallbackSingleChoice(selectedIndex, callback)
                 .show();
     }
 
