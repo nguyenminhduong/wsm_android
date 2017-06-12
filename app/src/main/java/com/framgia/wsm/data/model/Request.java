@@ -22,7 +22,7 @@ public class Request extends BaseModel implements Parcelable {
         }
     };
 
-    private int mPositionLeaveType;
+    private int mPositionType;
     private String mRequestName;
     @Expose
     @SerializedName("group")
@@ -33,6 +33,15 @@ public class Request extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("project")
     private String mProject;
+    @Expose
+    @SerializedName("position")
+    private String mPosition;
+    @Expose
+    @SerializedName("company_pay")
+    private CompanyPay mCompanyPay;
+    @Expose
+    @SerializedName("insurance_coverage")
+    private InsuranceCoverage mInsuranceCoverage;
     @Expose
     @SerializedName("from_time")
     private String mFromTime;
@@ -56,9 +65,10 @@ public class Request extends BaseModel implements Parcelable {
     private Compensation mCompensation;
 
     protected Request(Parcel in) {
-        mPositionLeaveType = in.readInt();
+        mPositionType = in.readInt();
         mRequestName = in.readString();
         mProject = in.readString();
+        mPosition = in.readString();
         mFromTime = in.readString();
         mToTime = in.readString();
         mReason = in.readString();
@@ -75,7 +85,7 @@ public class Request extends BaseModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mPositionLeaveType);
+        dest.writeInt(mPositionType);
         dest.writeString(mRequestName);
         dest.writeString(mProject);
         dest.writeString(mFromTime);
@@ -84,12 +94,12 @@ public class Request extends BaseModel implements Parcelable {
         dest.writeInt(mStatus);
     }
 
-    public int getPositionLeaveType() {
-        return mPositionLeaveType;
+    public int getPositionType() {
+        return mPositionType;
     }
 
-    public void setPositionLeaveType(int positionLeaveType) {
-        mPositionLeaveType = positionLeaveType;
+    public void setPositionType(int positionType) {
+        mPositionType = positionType;
     }
 
     public String getRequestName() {
@@ -170,6 +180,30 @@ public class Request extends BaseModel implements Parcelable {
 
     public void setStatus(int status) {
         mStatus = status;
+    }
+
+    public String getPosition() {
+        return mPosition;
+    }
+
+    public void setPosition(String position) {
+        mPosition = position;
+    }
+
+    public CompanyPay getCompanyPay() {
+        return mCompanyPay;
+    }
+
+    public void setCompanyPay(CompanyPay companyPay) {
+        mCompanyPay = companyPay;
+    }
+
+    public InsuranceCoverage getInsuranceCoverage() {
+        return mInsuranceCoverage;
+    }
+
+    public void setInsuranceCoverage(InsuranceCoverage insuranceCoverage) {
+        mInsuranceCoverage = insuranceCoverage;
     }
 
     public Compensation getCompensation() {

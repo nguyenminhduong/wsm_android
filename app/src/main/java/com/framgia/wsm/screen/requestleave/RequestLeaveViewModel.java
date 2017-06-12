@@ -170,7 +170,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     private void setCurrentPositionLeaveType(int currentPositionLeaveType) {
         mCurrentPositionLeaveType = currentPositionLeaveType;
-        mRequest.setPositionLeaveType(currentPositionLeaveType);
+        mRequest.setPositionType(currentPositionLeaveType);
     }
 
     @Bindable

@@ -73,7 +73,7 @@ final class RequestLeavePresenter implements RequestLeaveContract.Presenter {
     public boolean validateDataInput(Request request) {
         validateProjectName(request.getProject());
         validateReason(request.getReason());
-        switch (request.getPositionLeaveType()) {
+        switch (request.getPositionType()) {
             case RequestLeaveViewModel.PositionType.IN_LATE_A:
             case RequestLeaveViewModel.PositionType.IN_LATE_M:
                 validateCheckinTime(request.getCheckinTime());
