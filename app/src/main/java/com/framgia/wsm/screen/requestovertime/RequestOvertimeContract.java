@@ -1,5 +1,6 @@
 package com.framgia.wsm.screen.requestovertime;
 
+import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BasePresenter;
@@ -33,7 +34,6 @@ interface RequestOvertimeContract {
     interface Presenter extends BasePresenter<ViewModel> {
         void getUser();
 
-        boolean validateDataInput(String projectName, String reason, String fromTime,
-                String toTime);
+        boolean validateDataInput(Request request);
     }
 }

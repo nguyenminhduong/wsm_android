@@ -2,6 +2,7 @@ package com.framgia.wsm.widget.dialog;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
@@ -21,17 +22,16 @@ import java.util.Calendar;
 /**
  * Created by le.quang.dao on 14/03/2017.
  */
-
 public class DialogManagerImpl implements DialogManager {
     private static final String TAG = Validator.class.getName();
     private static final String DATE_PICKER = "mDatePicker";
     private static final String DAY_FIELD = "day";
     private static final String ID = "id";
     private static final String ANDROID = "android";
-
     private Context mContext;
     private MaterialDialog mProgressDialog;
     private DatePickerDialog mDatePickerDialog;
+    private TimePickerDialog mTimePickerDialog;
     private Calendar mCalendar;
 
     public DialogManagerImpl(Context context) {
@@ -233,5 +233,20 @@ public class DialogManagerImpl implements DialogManager {
             return;
         }
         mDatePickerDialog.show();
+    }
+
+    @Override
+    public DialogManager dialogTimePicker(TimePickerDialog.OnTimeSetListener onTimeSetListener) {
+        mTimePickerDialog = new TimePickerDialog(mContext, onTimeSetListener,
+                mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), true);
+        return this;
+    }
+
+    @Override
+    public void showTimePickerDialog() {
+        if (mTimePickerDialog == null) {
+            return;
+        }
+        mTimePickerDialog.show();
     }
 }

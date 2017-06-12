@@ -1,6 +1,7 @@
 package com.framgia.wsm.screen.requestovertime;
 
 import android.util.Log;
+import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
@@ -69,12 +70,11 @@ final class RequestOvertimePresenter implements RequestOvertimeContract.Presente
     }
 
     @Override
-    public boolean validateDataInput(String projectName, String reason, String fromTime,
-            String toTime) {
-        validateProjectName(projectName);
-        validateReason(reason);
-        validateFromTime(fromTime);
-        validateToTime(toTime);
+    public boolean validateDataInput(Request request) {
+        validateProjectName(request.getProject());
+        validateReason(request.getReason());
+        validateFromTime(request.getFromTime());
+        validateToTime(request.getToTime());
         try {
             return mValidator.validateAll(mViewModel);
         } catch (IllegalAccessException e) {
