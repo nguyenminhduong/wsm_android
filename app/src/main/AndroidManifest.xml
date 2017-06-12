@@ -45,10 +45,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize"/>
-        <activity
-            android:name=".screen.requestleave.listrequestleave.ListRequestLeaveActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.framgia.wsm.screen.requestleave.listrequestleave;
+package com.framgia.wsm.screen.listrequest;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -14,15 +14,15 @@ import com.fstyle.library.MaterialDialog;
 import java.util.Calendar;
 
 /**
- * Exposes the data to be used in the ListRequestLeave screen.
+ * Exposes the data to be used in the ListRequest screen.
  */
 
-public class ListRequestLeaveViewModel extends BaseObservable
-        implements ListRequestLeaveContract.ViewModel, DatePickerDialog.OnDateSetListener {
+public class ListRequestViewModel extends BaseObservable
+        implements ListRequestContract.ViewModel, DatePickerDialog.OnDateSetListener {
     private static final int FORMAT_MONTH = 10;
 
     private Context mContext;
-    private ListRequestLeaveContract.Presenter mPresenter;
+    private ListRequestContract.Presenter mPresenter;
     private DialogManager mDialogManager;
     private int mCurrentPositionStatus;
     private String mCurrentStatus;
@@ -31,7 +31,7 @@ public class ListRequestLeaveViewModel extends BaseObservable
     private int mMonth;
     private Calendar mCalendar;
 
-    public ListRequestLeaveViewModel(Context context, ListRequestLeaveContract.Presenter presenter,
+    public ListRequestViewModel(Context context, ListRequestContract.Presenter presenter,
             DialogManager dialogManager) {
         mContext = context;
         mPresenter = presenter;
