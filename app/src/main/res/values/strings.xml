@@ -98,7 +98,8 @@
     <string name="day_session" translatable="false">Day session</string>
     <string name="am" translatable="false">am</string>
     <string name="time_request" translatable="false">Time request:</string>
-
+    <string name="request_ot">Request OverTime</string>
+    <string name="confirm_request_overtime">Confirm Request OverTime</string>
 
     <!-- In late (M) -->
     <string name="leave_type_in_late_m">In late (M)</string>

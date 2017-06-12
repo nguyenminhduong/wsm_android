@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.utils.dagger.ActivityScope;
+import com.framgia.wsm.utils.navigator.Navigator;
 import dagger.Module;
 import dagger.Provides;
 
@@ -25,15 +26,20 @@ public class ConfirmOvertimeModule {
     @ActivityScope
     @Provides
     public ConfirmOvertimeContract.ViewModel provideViewModel(
-            ConfirmOvertimeContract.Presenter presenter) {
-        Request request =
-                mActivity.getIntent().getExtras().getParcelable(EXTRA_REQUEST_OVERTIME);
-        return new ConfirmOvertimeViewModel(presenter, request);
+            ConfirmOvertimeContract.Presenter presenter, Navigator navigator) {
+        Request request = mActivity.getIntent().getExtras().getParcelable(EXTRA_REQUEST_OVERTIME);
+        return new ConfirmOvertimeViewModel(presenter, request, navigator);
     }
 
     @ActivityScope
     @Provides
     public ConfirmOvertimeContract.Presenter providePresenter() {
         return new ConfirmOvertimePresenter();
+    }
+
+    @ActivityScope
+    @Provides
+    Navigator provideNavigator() {
+        return new Navigator(mActivity);
     }
 }

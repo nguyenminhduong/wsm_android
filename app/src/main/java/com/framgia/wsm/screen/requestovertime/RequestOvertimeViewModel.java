@@ -43,8 +43,6 @@ public class RequestOvertimeViewModel extends BaseObservable
     private Request mRequest;
     private User mUser;
     private Navigator mNavigator;
-    private String mBranch;
-    private String mGroup;
     private String mProjectNameError;
     private String mReasonError;
     private String mFromTimeError;
@@ -53,6 +51,8 @@ public class RequestOvertimeViewModel extends BaseObservable
     private String mCurrentDate;
     private Context mContext;
     private boolean mIsFromTimeSelected = true;
+    private String mCurrentBranch;
+    private String mCurrentGroup;
 
     @Validation({
             @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
@@ -181,6 +181,10 @@ public class RequestOvertimeViewModel extends BaseObservable
         mNavigator.startActivity(ConfirmOvertimeActivity.class, bundle);
     }
 
+    public void onCickArrowBack(View view) {
+        mNavigator.finishActivity();
+    }
+
     private void validateErrorDialog(String error) {
         mDialogManager.dialogError(error, new MaterialDialog.SingleButtonCallback() {
             @Override
@@ -220,50 +224,8 @@ public class RequestOvertimeViewModel extends BaseObservable
     }
 
     @Bindable
-    public String getFromTime() {
-        return mFromTime;
-    }
-
-    public void setFromTime(String fromTime) {
-        mFromTime = fromTime;
-        mRequest.setFromTime(fromTime);
-        notifyPropertyChanged(BR.fromTime);
-    }
-
-    @Bindable
-    public String getToTime() {
-        return mToTime;
-    }
-
-    public void setToTime(String toTime) {
-        mToTime = toTime;
-        mRequest.setToTime(toTime);
-        notifyPropertyChanged(BR.toTime);
-    }
-
-    @Bindable
     public User getUser() {
         return mUser;
-    }
-
-    @Bindable
-    public String getBranch() {
-        return mBranch;
-    }
-
-    public void setBranch(String branch) {
-        mBranch = branch;
-        notifyPropertyChanged(BR.branch);
-    }
-
-    @Bindable
-    public String getGroup() {
-        return mGroup;
-    }
-
-    public void setGroup(String group) {
-        mGroup = group;
-        notifyPropertyChanged(BR.group);
     }
 
     @Bindable
@@ -284,6 +246,50 @@ public class RequestOvertimeViewModel extends BaseObservable
     public void setReason(String reason) {
         mReason = reason;
         mRequest.setReason(reason);
+    }
+
+    @Bindable
+    public String getCurrentBranch() {
+        return mCurrentBranch;
+    }
+
+    public void setCurrentBranch(String currentBranch) {
+        mCurrentBranch = currentBranch;
+        mRequest.getBranch().setBranchName(currentBranch);
+        notifyPropertyChanged(BR.currentBranch);
+    }
+
+    @Bindable
+    public String getCurrentGroup() {
+        return mCurrentGroup;
+    }
+
+    public void setCurrentGroup(String currentGroup) {
+        mCurrentGroup = currentGroup;
+        mRequest.getGroup().setGroupName(currentGroup);
+        notifyPropertyChanged(BR.currentGroup);
+    }
+
+    @Bindable
+    public String getFromTime() {
+        return mFromTime;
+    }
+
+    public void setFromTime(String fromTime) {
+        mFromTime = fromTime;
+        mRequest.setFromTime(fromTime);
+        notifyPropertyChanged(BR.fromTime);
+    }
+
+    @Bindable
+    public String getToTime() {
+        return mToTime;
+    }
+
+    public void setToTime(String toTime) {
+        mToTime = toTime;
+        mRequest.setToTime(toTime);
+        notifyPropertyChanged(BR.toTime);
     }
 
     @Bindable

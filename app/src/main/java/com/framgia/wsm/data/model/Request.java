@@ -10,6 +10,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Request extends BaseModel implements Parcelable {
+
     public static final Creator<Request> CREATOR = new Creator<Request>() {
         @Override
         public Request createFromParcel(Parcel in) {
@@ -42,6 +43,8 @@ public class Request extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("insurance_coverage")
     private InsuranceCoverage mInsuranceCoverage;
+    @SerializedName("reason")
+    private String mReason;
     @Expose
     @SerializedName("from_time")
     private String mFromTime;
@@ -55,27 +58,29 @@ public class Request extends BaseModel implements Parcelable {
     @SerializedName("checkout_time")
     private String mCheckoutTime;
     @Expose
-    @SerializedName("reason")
-    private String mReason;
-    @Expose
     @SerializedName("status")
     private int mStatus;
     @Expose
     @SerializedName("compensation")
     private Compensation mCompensation;
 
+    public Request() {
+    }
+
     protected Request(Parcel in) {
         mPositionType = in.readInt();
         mRequestName = in.readString();
+        mGroup = in.readParcelable(Group.class.getClassLoader());
+        mBranch = in.readParcelable(Branch.class.getClassLoader());
         mProject = in.readString();
         mPosition = in.readString();
+        mReason = in.readString();
         mFromTime = in.readString();
         mToTime = in.readString();
-        mReason = in.readString();
+        mCheckinTime = in.readString();
+        mCheckoutTime = in.readString();
         mStatus = in.readInt();
-    }
-
-    public Request() {
+        mCompensation = in.readParcelable(Compensation.class.getClassLoader());
     }
 
     @Override
@@ -87,11 +92,16 @@ public class Request extends BaseModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mPositionType);
         dest.writeString(mRequestName);
+        dest.writeParcelable(mGroup, flags);
+        dest.writeParcelable(mBranch, flags);
         dest.writeString(mProject);
+        dest.writeString(mReason);
         dest.writeString(mFromTime);
         dest.writeString(mToTime);
-        dest.writeString(mReason);
+        dest.writeString(mCheckinTime);
+        dest.writeString(mCheckoutTime);
         dest.writeInt(mStatus);
+        dest.writeParcelable(mCompensation, flags);
     }
 
     public int getPositionType() {
@@ -134,6 +144,14 @@ public class Request extends BaseModel implements Parcelable {
         mProject = project;
     }
 
+    public String getReason() {
+        return mReason;
+    }
+
+    public void setReason(String reason) {
+        mReason = reason;
+    }
+
     public String getFromTime() {
         return mFromTime;
     }
@@ -148,14 +166,6 @@ public class Request extends BaseModel implements Parcelable {
 
     public void setToTime(String toTime) {
         mToTime = toTime;
-    }
-
-    public String getReason() {
-        return mReason;
-    }
-
-    public void setReason(String reason) {
-        mReason = reason;
     }
 
     public String getCheckinTime() {
