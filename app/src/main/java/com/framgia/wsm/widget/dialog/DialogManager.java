@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.DrawableRes;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.fstyle.library.MaterialDialog;
 
 /**
@@ -23,6 +24,8 @@ public interface DialogManager {
     void dismissProgressDialog();
 
     void dialogError(String content, MaterialDialog.SingleButtonCallback positiveButtonListener);
+
+    void dialogError(BaseException e);
 
     /**
      * <h1>BasicWithoutTitle Dialog</h1>
@@ -90,6 +93,15 @@ public interface DialogManager {
      * alt="">
      */
     void dialogListSingleChoice(String title, @ArrayRes int arrayId, int selectedIndex,
+            MaterialDialog.ListCallbackSingleChoice callback);
+
+    /**
+     * <h1>ListSingleChoice Dialog</h1>
+     * <img width="400" height="371" src="https://github
+     * .com/daolq3012/DialogManager/blob/master/image/ListSingleChoice.png?raw=true"
+     * alt="">
+     */
+    void dialogListSingleChoice(String title, String[] strings, int selectedIndex,
             MaterialDialog.ListCallbackSingleChoice callback);
 
     /**
