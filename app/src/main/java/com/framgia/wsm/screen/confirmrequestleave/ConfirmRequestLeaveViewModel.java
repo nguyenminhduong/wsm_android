@@ -28,8 +28,6 @@ public class ConfirmRequestLeaveViewModel extends BaseRequestLeave
         mPresenter.setViewModel(this);
         mContext = context;
         mRequest = request;
-        setLayoutLeaveType(mRequest.getPositionType());
-        setLeaveType(mRequest.getPositionType());
     }
 
     @Bindable

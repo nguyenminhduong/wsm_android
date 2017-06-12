@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * Created by tri on 24/05/2017.
  */
-
 public class User {
     @Expose
     @SerializedName("id")
@@ -21,9 +20,16 @@ public class User {
     @Expose
     @SerializedName("avatar")
     private String mAvatar;
+    @Expose
+    @SerializedName("code")
     private String mCode;
+    @Expose
+    @SerializedName("branch")
     private List<Branch> mBranches;
+    @Expose
+    @SerializedName("group")
     private List<Group> mGroups;
+    private List<LeaveType> mLeaveTypes;
 
     public Integer getId() {
         return mId;
@@ -79,5 +85,13 @@ public class User {
 
     public void setGroups(List<Group> groups) {
         mGroups = groups;
+    }
+
+    public List<LeaveType> getLeaveTypes() {
+        return mLeaveTypes;
+    }
+
+    public void setLeaveTypes(List<LeaveType> leaveTypes) {
+        mLeaveTypes = leaveTypes;
     }
 }
