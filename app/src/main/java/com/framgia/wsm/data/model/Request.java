@@ -82,25 +82,6 @@ public class Request extends BaseModel implements Parcelable {
         mCompensation = in.readParcelable(Compensation.class.getClassLoader());
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(mGroup, flags);
-        dest.writeParcelable(mBranch, flags);
-        dest.writeString(mProject);
-        dest.writeString(mReason);
-        dest.writeString(mFromTime);
-        dest.writeString(mToTime);
-        dest.writeString(mCheckinTime);
-        dest.writeString(mCheckoutTime);
-        dest.writeInt(mStatus);
-        dest.writeParcelable(mCompensation, flags);
-    }
-
     public Group getGroup() {
         return mGroup;
     }
@@ -131,6 +112,30 @@ public class Request extends BaseModel implements Parcelable {
 
     public void setProject(String project) {
         mProject = project;
+    }
+
+    public String getPosition() {
+        return mPosition;
+    }
+
+    public void setPosition(String position) {
+        mPosition = position;
+    }
+
+    public CompanyPay getCompanyPay() {
+        return mCompanyPay;
+    }
+
+    public void setCompanyPay(CompanyPay companyPay) {
+        mCompanyPay = companyPay;
+    }
+
+    public InsuranceCoverage getInsuranceCoverage() {
+        return mInsuranceCoverage;
+    }
+
+    public void setInsuranceCoverage(InsuranceCoverage insuranceCoverage) {
+        mInsuranceCoverage = insuranceCoverage;
     }
 
     public String getReason() {
@@ -181,36 +186,33 @@ public class Request extends BaseModel implements Parcelable {
         mStatus = status;
     }
 
-    public String getPosition() {
-        return mPosition;
-    }
-
-    public void setPosition(String position) {
-        mPosition = position;
-    }
-
-    public CompanyPay getCompanyPay() {
-        return mCompanyPay;
-    }
-
-    public void setCompanyPay(CompanyPay companyPay) {
-        mCompanyPay = companyPay;
-    }
-
-    public InsuranceCoverage getInsuranceCoverage() {
-        return mInsuranceCoverage;
-    }
-
-    public void setInsuranceCoverage(InsuranceCoverage insuranceCoverage) {
-        mInsuranceCoverage = insuranceCoverage;
-    }
-
     public Compensation getCompensation() {
         return mCompensation;
     }
 
     public void setCompensation(Compensation compensation) {
         mCompensation = compensation;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeParcelable(mGroup, flags);
+        dest.writeParcelable(mBranch, flags);
+        dest.writeString(mProject);
+        dest.writeString(mPosition);
+        dest.writeString(mReason);
+        dest.writeString(mFromTime);
+        dest.writeString(mToTime);
+        dest.writeString(mCheckinTime);
+        dest.writeString(mCheckoutTime);
+        dest.writeInt(mStatus);
+        dest.writeParcelable(mCompensation, flags);
     }
 
     public static class Compensation implements Parcelable {
