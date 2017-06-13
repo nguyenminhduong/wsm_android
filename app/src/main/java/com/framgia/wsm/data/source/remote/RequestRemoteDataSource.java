@@ -3,7 +3,7 @@ package com.framgia.wsm.data.source.remote;
 import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.source.RequestDataSource;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
-import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import javax.inject.Inject;
 
@@ -19,7 +19,7 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Completable createFormRequestOverTime(@NonNull Request request) {
+    public Observable<Object> createFormRequestOverTime(@NonNull Request request) {
         return mWSMApi.createFormRequestOverTime(request);
     }
 }

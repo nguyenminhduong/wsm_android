@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.framgia.wsm.screen.requestoff.RequestOffViewModel"
+            />
+        <import type="android.view.View"/>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="@{viewModel.visibleLayoutCompanyPay ? View.VISIBLE : View.GONE}"
+        >
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/StyleTextHint"
+            >
+
+            <EditText
+                android:hint="@string/annual_leave"
+                android:inputType="number"
+                style="@style/StyleEditableText"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/StyleTextHint"
+            >
+
+            <EditText
+                android:hint="@string/leave_for_marriage"
+                android:inputType="number"
+                style="@style/StyleEditableText"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/StyleTextHint"
+            >
+
+            <EditText
+                android:hint="@string/leave_for_child_marriage"
+                android:inputType="number"
+                style="@style/StyleEditableText"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/StyleTextHint"
+            >
+
+            <EditText
+                android:hint="@string/funeral_leave"
+                android:inputType="number"
+                style="@style/StyleEditableText"
+                />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+</layout>

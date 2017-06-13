@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.framgia.wsm.screen.requestoff.RequestOffViewModel"
+            />
+        <import type="android.view.View"/>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="@{viewModel.visibleLayoutInsuranceCoverage ? View.VISIBLE : View.GONE}"
+        >
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/StyleTextHint"
+            >
+
+            <EditText
+                android:hint="@string/leave_for_care_of_sick_child"
+                android:inputType="number"
+                style="@style/StyleEditableText"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/StyleTextHint"
+            >
+
+            <EditText
+                android:hint="@string/pregnancy_examination_leave"
+                android:inputType="number"
+                style="@style/StyleEditableText"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/StyleTextHint"
+            >
+
+            <EditText
+                android:hint="@string/sick_leave"
+                android:inputType="number"
+                style="@style/StyleEditableText"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/StyleTextHint"
+            >
+
+            <EditText
+                android:hint="@string/miscarriage_leave"
+                android:inputType="number"
+                style="@style/StyleEditableText"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/StyleTextHint"
+            >
+
+            <EditText
+                android:hint="@string/maternity_leave"
+                android:inputType="number"
+                style="@style/StyleEditableText"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/StyleTextHint"
+            >
+
+            <EditText
+                android:hint="@string/wife_labor_leave"
+                android:inputType="number"
+                style="@style/StyleEditableText"
+                />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+</layout>

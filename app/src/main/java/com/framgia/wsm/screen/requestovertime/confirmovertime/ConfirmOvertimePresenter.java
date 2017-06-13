@@ -10,7 +10,6 @@ import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -73,9 +72,9 @@ final class ConfirmOvertimePresenter implements ConfirmOvertimeContract.Presente
         Disposable disposable = mRequestRepository.createFormRequestOverTime(request)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
-                .subscribe(new Action() {
+                .subscribe(new Consumer<Object>() {
                     @Override
-                    public void run() throws Exception {
+                    public void accept(@NonNull Object o) throws Exception {
                         mViewModel.onCreateFormSuccess();
                     }
                 }, new RequestError() {

@@ -65,11 +65,9 @@
                             >
 
                             <ImageView
-                                android:layout_width="@dimen/dp_30"
-                                android:layout_height="@dimen/dp_30"
-                                android:tint="@color/colorPrimary"
                                 app:srcCompat="@drawable/ic_date_created"
                                 tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
 
                             <LinearLayout
@@ -79,16 +77,12 @@
                                 >
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
                                     android:text="@string/created_at"
-                                    android:textColor="@color/colorPrimary"
+                                    style="@style/StyleTitleConfirm"
                                     />
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/sp_18"
+                                    style="@style/StyleTextConfirm"
                                     />
                             </LinearLayout>
                         </TableRow>
@@ -99,11 +93,9 @@
                             >
 
                             <ImageView
-                                android:layout_width="@dimen/dp_30"
-                                android:layout_height="@dimen/dp_30"
-                                android:tint="@color/colorPrimary"
                                 app:srcCompat="@drawable/ic_placeholder_user"
                                 tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
 
                             <LinearLayout
@@ -113,16 +105,12 @@
                                 >
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
                                     android:text="@string/employee_name"
-                                    android:textColor="@color/colorPrimary"
+                                    style="@style/StyleTitleConfirm"
                                     />
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/sp_18"
+                                    style="@style/StyleTextConfirm"
                                     />
                             </LinearLayout>
                         </TableRow>
@@ -133,12 +121,9 @@
                             >
 
                             <ImageView
-                                android:id="@+id/imageView"
-                                android:layout_width="@dimen/dp_30"
-                                android:layout_height="@dimen/dp_30"
-                                android:tint="@color/colorPrimary"
                                 app:srcCompat="@drawable/ic_staff_code"
                                 tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
 
                             <LinearLayout
@@ -148,16 +133,12 @@
                                 >
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
                                     android:text="@string/employee_code"
-                                    android:textColor="@color/colorPrimary"
+                                    style="@style/StyleTitleConfirm"
                                     />
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/sp_18"
+                                    style="@style/StyleTextConfirm"
                                     />
                             </LinearLayout>
                         </TableRow>
@@ -168,11 +149,9 @@
                             >
 
                             <ImageView
-                                android:layout_width="@dimen/dp_30"
-                                android:layout_height="@dimen/dp_30"
-                                android:tint="@color/colorPrimary"
                                 app:srcCompat="@drawable/ic_project"
                                 tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
 
                             <LinearLayout
@@ -182,16 +161,12 @@
                                 >
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
                                     android:text="@string/project_name"
-                                    android:textColor="@color/colorPrimary"
+                                    style="@style/StyleTitleConfirm"
                                     />
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/sp_18"
+                                    style="@style/StyleTextConfirm"
                                     />
                             </LinearLayout>
                         </TableRow>
@@ -202,11 +177,9 @@
                             >
 
                             <ImageView
-                                android:layout_width="@dimen/dp_30"
-                                android:layout_height="@dimen/dp_30"
-                                android:tint="@color/colorPrimary"
                                 app:srcCompat="@drawable/ic_group"
                                 tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
 
                             <LinearLayout
@@ -216,16 +189,12 @@
                                 >
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
                                     android:text="@string/position_name"
-                                    android:textColor="@color/colorPrimary"
+                                    style="@style/StyleTitleConfirm"
                                     />
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/sp_18"
+                                    style="@style/StyleTextConfirm"
                                     />
                             </LinearLayout>
                         </TableRow>
@@ -236,11 +205,9 @@
                             >
 
                             <ImageView
-                                android:layout_width="@dimen/dp_30"
-                                android:layout_height="@dimen/dp_30"
-                                android:tint="@color/colorPrimary"
                                 app:srcCompat="@drawable/ic_branch"
                                 tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
 
                             <LinearLayout
@@ -250,16 +217,12 @@
                                 >
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
                                     android:text="@string/group"
-                                    android:textColor="@color/colorPrimary"
+                                    style="@style/StyleTitleConfirm"
                                     />
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/sp_18"
+                                    style="@style/StyleTextConfirm"
                                     />
                             </LinearLayout>
                         </TableRow>
@@ -300,11 +263,9 @@
                             >
 
                             <ImageView
-                                android:layout_width="@dimen/dp_30"
-                                android:layout_height="@dimen/dp_30"
-                                android:tint="@color/colorPrimary"
                                 app:srcCompat="@drawable/ic_clock"
                                 tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
 
                             <LinearLayout
@@ -314,16 +275,13 @@
                                 >
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
                                     android:text="@string/from"
-                                    android:textColor="@color/colorPrimary"
+                                    style="@style/StyleTitleConfirm"
+
                                     />
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/sp_18"
+                                    style="@style/StyleTextConfirm"
                                     />
                             </LinearLayout>
                         </TableRow>
@@ -334,11 +292,9 @@
                             >
 
                             <ImageView
-                                android:layout_width="@dimen/dp_30"
-                                android:layout_height="@dimen/dp_30"
-                                android:tint="@color/colorPrimary"
                                 app:srcCompat="@drawable/ic_clock"
                                 tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
 
                             <LinearLayout
@@ -348,16 +304,12 @@
                                 >
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
                                     android:text="@string/to"
-                                    android:textColor="@color/colorPrimary"
+                                    style="@style/StyleTitleConfirm"
                                     />
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/sp_18"
+                                    style="@style/StyleTextConfirm"
                                     />
                             </LinearLayout>
                         </TableRow>
@@ -663,11 +615,9 @@
                             >
 
                             <ImageView
-                                android:layout_width="@dimen/dp_30"
-                                android:layout_height="@dimen/dp_30"
-                                android:tint="@color/colorPrimary"
                                 app:srcCompat="@drawable/ic_reason"
                                 tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
 
                             <LinearLayout
@@ -677,16 +627,12 @@
                                 >
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
                                     android:text="@string/reason"
-                                    android:textColor="@color/colorPrimary"
+                                    style="@style/StyleTitleConfirm"
                                     />
 
                                 <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/sp_18"
+                                    style="@style/StyleTextConfirm"
                                     />
                             </LinearLayout>
                         </TableRow>
@@ -694,16 +640,8 @@
                 </android.support.v7.widget.CardView>
 
                 <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    android:layout_marginRight="@dimen/dp_5"
-                    android:background="@drawable/border_button"
                     android:text="@string/confirm_create"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/sp_18"
+                    style="@style/StyleButton"
                     />
             </LinearLayout>
         </ScrollView>
