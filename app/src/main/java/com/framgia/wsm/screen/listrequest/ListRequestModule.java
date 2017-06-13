@@ -3,7 +3,9 @@ package com.framgia.wsm.screen.listrequest;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.dagger.FragmentScope;
+import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
@@ -25,8 +27,13 @@ public class ListRequestModule {
     @FragmentScope
     @Provides
     public ListRequestContract.ViewModel provideViewModel(Context context,
-            ListRequestContract.Presenter presenter, DialogManager dialogManager) {
-        return new ListRequestViewModel(context, presenter, dialogManager);
+            ListRequestContract.Presenter presenter, DialogManager dialogManager,
+            ListRequestAdapter listRequestAdapter, Navigator navigator) {
+        ListRequestViewModel viewModel =
+                new ListRequestViewModel(context, presenter, dialogManager, listRequestAdapter,
+                        navigator);
+        viewModel.setRequestType(mFragment.getArguments().getInt(Constant.EXTRA_REQUEST_TYPE));
+        return viewModel;
     }
 
     @FragmentScope
@@ -39,5 +46,18 @@ public class ListRequestModule {
     @Provides
     public DialogManager provideDialogManager() {
         return new DialogManagerImpl(mFragment.getActivity());
+    }
+
+    @FragmentScope
+    @Provides
+    public ListRequestAdapter provideListRequestAdapter() {
+        int mRequestType = mFragment.getArguments().getInt(Constant.EXTRA_REQUEST_TYPE);
+        return new ListRequestAdapter(mFragment.getActivity(), mRequestType);
+    }
+
+    @FragmentScope
+    @Provides
+    public Navigator provideNavigator() {
+        return new Navigator(mFragment);
     }
 }
