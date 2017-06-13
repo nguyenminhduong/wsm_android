@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
+import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.MaterialDialog;
 import java.util.Calendar;
@@ -18,7 +21,8 @@ import java.util.Calendar;
  */
 
 public class ListRequestViewModel extends BaseObservable
-        implements ListRequestContract.ViewModel, DatePickerDialog.OnDateSetListener {
+        implements ListRequestContract.ViewModel, DatePickerDialog.OnDateSetListener,
+        BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> {
     private static final int FORMAT_MONTH = 10;
 
     private Context mContext;
@@ -30,9 +34,14 @@ public class ListRequestViewModel extends BaseObservable
     private int mYear;
     private int mMonth;
     private Calendar mCalendar;
+    private ListRequestAdapter mListRequestAdapter;
+    private Navigator mNavigator;
+    private Request mRequest;
+    private int mRequestType;
 
     public ListRequestViewModel(Context context, ListRequestContract.Presenter presenter,
-            DialogManager dialogManager) {
+            DialogManager dialogManager, ListRequestAdapter listRequestAdapter,
+            Navigator navigator) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
@@ -43,6 +52,9 @@ public class ListRequestViewModel extends BaseObservable
         mYear = mCalendar.get(Calendar.YEAR);
         mMonth = mCalendar.get(Calendar.MONTH) + 1;
         mDialogManager.dialogMonthYearPicker(this, mYear, mMonth);
+        mListRequestAdapter = listRequestAdapter;
+        mListRequestAdapter.setItemClickListener(this);
+        mNavigator = navigator;
     }
 
     @Override
@@ -63,8 +75,16 @@ public class ListRequestViewModel extends BaseObservable
                 });
     }
 
-    public void onPickMonthYear(View view) {
-        mDialogManager.showMonthYearPickerDialog();
+    @Override
+    public void onStop() {
+        mPresenter.onStop();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        mYear = year;
+        mMonth = month;
+        updateMonthYear();
     }
 
     public void setCurrentPositionStatus(int currentPositionStatus) {
@@ -91,16 +111,20 @@ public class ListRequestViewModel extends BaseObservable
         notifyPropertyChanged(BR.monthYear);
     }
 
-    @Override
-    public void onStop() {
-        mPresenter.onStop();
+    public ListRequestAdapter getListRequestAdapter() {
+        return mListRequestAdapter;
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        mYear = year;
-        mMonth = month;
-        updateMonthYear();
+    public Request getRequest() {
+        return mRequest;
+    }
+
+    public void setRequestType(int requestType) {
+        mRequestType = requestType;
+    }
+
+    public void onPickMonthYear(View view) {
+        mDialogManager.showMonthYearPickerDialog();
     }
 
     private void updateMonthYear() {
@@ -111,6 +135,11 @@ public class ListRequestViewModel extends BaseObservable
         String year = Integer.toString(mYear);
         setMonthYear(String.valueOf(
                 new StringBuilder().append(month).append("/").append(year).append("")));
+    }
+
+    @Override
+    public void onItemRecyclerViewClick(Object item) {
+        // TODO: Click item list request
     }
 
     @IntDef({

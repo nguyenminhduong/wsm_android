@@ -13,6 +13,7 @@ public final class Constant {
     public static final String BREAK_LINE = "\n";
     public static final String DRAWER_IS_OPEN = "OPEN";
     public static final String DRAWER_IS_CLOSE = "CLOSE";
+    public static final String EXTRA_REQUEST_TYPE = "EXTRA_REQUEST_TYPE";
     public static final String EXTRA_REQUEST_LEAVE = "REQUEST_LEAVE";
     public static final String EXTRA_REQUEST_OVERTIME = "REQUEST_OVERTIME";
     public static final String BLANK_DASH_BLANK = " - ";

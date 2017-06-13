@@ -4,7 +4,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
+import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
+import com.framgia.wsm.utils.RequestTypeAnim;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ASUS on 12/06/2017.
@@ -13,9 +17,13 @@ import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.ViewHolder> {
 
     private OnRecyclerViewItemClickListener<Object> mItemClickListener;
+    private List<Request> mRequests;
+    private int mRequestType;
 
-    protected ListRequestAdapter(@NonNull Context context) {
+    ListRequestAdapter(@NonNull Context context, @RequestTypeAnim int requestType) {
         super(context);
+        mRequestType = requestType;
+        mRequests = new ArrayList<>();
     }
 
     @Override
@@ -30,7 +38,7 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mRequests.size();
     }
 
     void setItemClickListener(OnRecyclerViewItemClickListener<Object> itemClickListener) {
