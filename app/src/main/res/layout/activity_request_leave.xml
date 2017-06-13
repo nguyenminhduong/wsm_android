@@ -107,7 +107,7 @@
                             >
                             <EditText
                                 android:hint="@string/group"
-                                android:onClick="@{viewModel::onPickroupt}"
+                                android:onClick="@{viewModel::onPickGroup}"
                                 android:text="@{viewModel.currentGroup}"
                                 style="@style/StyleText"
                                 />

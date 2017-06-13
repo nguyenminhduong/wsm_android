@@ -23,14 +23,15 @@ public class Request extends BaseModel implements Parcelable {
         }
     };
 
-    private int mPositionType;
-    private String mRequestName;
     @Expose
     @SerializedName("group")
     private Group mGroup;
     @Expose
     @SerializedName("branch")
     private Branch mBranch;
+    @Expose
+    @SerializedName("leave_type")
+    private LeaveType mLeaveType;
     @Expose
     @SerializedName("project")
     private String mProject;
@@ -68,8 +69,6 @@ public class Request extends BaseModel implements Parcelable {
     }
 
     protected Request(Parcel in) {
-        mPositionType = in.readInt();
-        mRequestName = in.readString();
         mGroup = in.readParcelable(Group.class.getClassLoader());
         mBranch = in.readParcelable(Branch.class.getClassLoader());
         mProject = in.readString();
@@ -90,8 +89,6 @@ public class Request extends BaseModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mPositionType);
-        dest.writeString(mRequestName);
         dest.writeParcelable(mGroup, flags);
         dest.writeParcelable(mBranch, flags);
         dest.writeString(mProject);
@@ -102,22 +99,6 @@ public class Request extends BaseModel implements Parcelable {
         dest.writeString(mCheckoutTime);
         dest.writeInt(mStatus);
         dest.writeParcelable(mCompensation, flags);
-    }
-
-    public int getPositionType() {
-        return mPositionType;
-    }
-
-    public void setPositionType(int positionType) {
-        mPositionType = positionType;
-    }
-
-    public String getRequestName() {
-        return mRequestName;
-    }
-
-    public void setRequestName(String requestName) {
-        mRequestName = requestName;
     }
 
     public Group getGroup() {
@@ -134,6 +115,14 @@ public class Request extends BaseModel implements Parcelable {
 
     public void setBranch(Branch branch) {
         mBranch = branch;
+    }
+
+    public LeaveType getLeaveType() {
+        return mLeaveType;
+    }
+
+    public void setLeaveType(LeaveType leaveType) {
+        mLeaveType = leaveType;
     }
 
     public String getProject() {

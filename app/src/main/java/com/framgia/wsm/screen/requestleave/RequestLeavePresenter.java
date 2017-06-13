@@ -6,6 +6,7 @@ import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
@@ -72,46 +73,48 @@ final class RequestLeavePresenter implements RequestLeaveContract.Presenter {
     @Override
     public boolean validateDataInput(Request request) {
         validateProjectName(request.getProject());
-        validateReason(request.getReason());
-        switch (request.getPositionType()) {
-            case RequestLeaveViewModel.PositionType.IN_LATE_A:
-            case RequestLeaveViewModel.PositionType.IN_LATE_M:
+        switch (request.getLeaveType().getName()) {
+            case Constant.LeaveType.IN_LATE_A:
+            case Constant.LeaveType.IN_LATE_M:
                 validateCheckinTime(request.getCheckinTime());
                 validateCompensationFrom(request.getCompensation().getFromTime());
                 validateCompensationTo(request.getCompensation().getToTime());
+                validateReason(request.getReason());
                 break;
-            case RequestLeaveViewModel.PositionType.LEAVE_EARLY_A:
-            case RequestLeaveViewModel.PositionType.LEAVE_EARLY_M:
+            case Constant.LeaveType.LEAVE_EARLY_A:
+            case Constant.LeaveType.LEAVE_EARLY_M:
                 validateCheckoutTime(request.getCheckoutTime());
                 validateCompensationFrom(request.getCompensation().getFromTime());
                 validateCompensationTo(request.getCompensation().getToTime());
+                validateReason(request.getReason());
                 break;
-            case RequestLeaveViewModel.PositionType.IN_LATE_WOMAN_A:
-            case RequestLeaveViewModel.PositionType.IN_LATE_WOMAN_M:
+            case Constant.LeaveType.IN_LATE_WOMAN_A:
+            case Constant.LeaveType.IN_LATE_WOMAN_M:
                 validateCheckinTime(request.getCheckinTime());
                 break;
-            case RequestLeaveViewModel.PositionType.LEAVE_EARLY_WOMAN_A:
-            case RequestLeaveViewModel.PositionType.LEAVE_EARLY_WOMAN_M:
+            case Constant.LeaveType.LEAVE_EARLY_WOMAN_A:
+            case Constant.LeaveType.LEAVE_EARLY_WOMAN_M:
                 validateCheckoutTime(request.getCheckoutTime());
                 break;
-            case RequestLeaveViewModel.PositionType.FORGOT_CARD_ALL_DAY:
-            case RequestLeaveViewModel.PositionType.FORGOT_TO_CHECK_IN_OUT_ALL_DAY:
+            case Constant.LeaveType.FORGOT_CARD_ALL_DAY:
+            case Constant.LeaveType.FORGOT_CHECK_ALL_DAY:
                 validateCheckinTime(request.getCheckinTime());
                 validateCheckoutTime(request.getCheckoutTime());
                 break;
-            case RequestLeaveViewModel.PositionType.FORGOT_CARD_IN:
-            case RequestLeaveViewModel.PositionType.FORGOT_TO_CHECK_IN:
+            case Constant.LeaveType.FORGOT_CARD_IN:
+            case Constant.LeaveType.FORGOT_TO_CHECK_IN:
                 validateCheckinTime(request.getCheckinTime());
                 break;
-            case RequestLeaveViewModel.PositionType.FORGOT_CARD_OUT:
-            case RequestLeaveViewModel.PositionType.FORGOT_TO_CHECK_OUT:
+            case Constant.LeaveType.FORGOT_CARD_OUT:
+            case Constant.LeaveType.FORGOT_TO_CHECK_OUT:
                 validateCheckoutTime(request.getCheckoutTime());
                 break;
-            case RequestLeaveViewModel.PositionType.LEAVE_OUT:
+            case Constant.LeaveType.LEAVE_OUT:
                 validateCheckinTime(request.getCheckinTime());
                 validateCheckoutTime(request.getCheckoutTime());
                 validateCompensationFrom(request.getCompensation().getFromTime());
                 validateCompensationTo(request.getCompensation().getToTime());
+                validateReason(request.getReason());
                 break;
         }
         try {
