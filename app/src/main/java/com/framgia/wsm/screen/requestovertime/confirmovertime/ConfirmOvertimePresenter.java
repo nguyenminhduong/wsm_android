@@ -1,5 +1,18 @@
 package com.framgia.wsm.screen.requestovertime.confirmovertime;
 
+import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.User;
+import com.framgia.wsm.data.source.RequestRepository;
+import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+
 /**
  * Listens to user actions from the UI ({@link ConfirmOvertimeActivity}), retrieves the data and
  * updates
@@ -9,8 +22,17 @@ final class ConfirmOvertimePresenter implements ConfirmOvertimeContract.Presente
     private static final String TAG = ConfirmOvertimePresenter.class.getName();
 
     private ConfirmOvertimeContract.ViewModel mViewModel;
+    private RequestRepository mRequestRepository;
+    private UserRepository mUserRepository;
+    private BaseSchedulerProvider mSchedulerProvider;
+    private CompositeDisposable mCompositeDisposable;
 
-    ConfirmOvertimePresenter() {
+    ConfirmOvertimePresenter(UserRepository userRepository, RequestRepository requestRepository,
+            BaseSchedulerProvider schedulerProviderA) {
+        mUserRepository = userRepository;
+        mRequestRepository = requestRepository;
+        mSchedulerProvider = schedulerProviderA;
+        mCompositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -19,10 +41,49 @@ final class ConfirmOvertimePresenter implements ConfirmOvertimeContract.Presente
 
     @Override
     public void onStop() {
+        mCompositeDisposable.clear();
     }
 
     @Override
     public void setViewModel(ConfirmOvertimeContract.ViewModel viewModel) {
         mViewModel = viewModel;
+    }
+
+    @Override
+    public void getUser() {
+        Disposable disposable = mUserRepository.getUser()
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Consumer<User>() {
+                    @Override
+                    public void accept(@NonNull User user) throws Exception {
+                        mViewModel.onGetUserSuccess(user);
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onGetUserError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void onCreateForm(Request request) {
+        Disposable disposable = mRequestRepository.createFormRequestOverTime(request)
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mViewModel.onCreateFormSuccess();
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onCreateFormError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
     }
 }

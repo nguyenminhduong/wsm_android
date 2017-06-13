@@ -3,8 +3,16 @@ package com.framgia.wsm.screen.requestovertime.confirmovertime;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.source.RequestRepository;
+import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.local.UserLocalDataSource;
+import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
+import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import com.framgia.wsm.widget.dialog.DialogManager;
+import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
 import dagger.Provides;
 
@@ -26,20 +34,42 @@ public class ConfirmOvertimeModule {
     @ActivityScope
     @Provides
     public ConfirmOvertimeContract.ViewModel provideViewModel(
-            ConfirmOvertimeContract.Presenter presenter, Navigator navigator) {
+            ConfirmOvertimeContract.Presenter presenter, Navigator navigator,
+            DialogManager dialogManager) {
         Request request = mActivity.getIntent().getExtras().getParcelable(EXTRA_REQUEST_OVERTIME);
-        return new ConfirmOvertimeViewModel(presenter, request, navigator);
+        return new ConfirmOvertimeViewModel(presenter, request, navigator, dialogManager);
     }
 
     @ActivityScope
     @Provides
-    public ConfirmOvertimeContract.Presenter providePresenter() {
-        return new ConfirmOvertimePresenter();
+    public ConfirmOvertimeContract.Presenter providePresenter(UserRepository userRepository,
+            RequestRepository requestRepository, BaseSchedulerProvider baseSchedulerProvider) {
+        return new ConfirmOvertimePresenter(userRepository, requestRepository,
+                baseSchedulerProvider);
     }
 
     @ActivityScope
     @Provides
     Navigator provideNavigator() {
         return new Navigator(mActivity);
+    }
+
+    @ActivityScope
+    @Provides
+    DialogManager provideDialogManager() {
+        return new DialogManagerImpl(mActivity);
+    }
+
+    @ActivityScope
+    @Provides
+    RequestRepository provideRequestRepository(RequestRemoteDataSource remoteDataSource) {
+        return new RequestRepository(remoteDataSource);
+    }
+
+    @ActivityScope
+    @Provides
+    UserRepository provideUserRepository(UserLocalDataSource userLocalDataSource,
+            UserRemoteDataSource remoteDataSource) {
+        return new UserRepository(userLocalDataSource, remoteDataSource);
     }
 }
