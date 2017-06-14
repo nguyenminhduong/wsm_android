@@ -7,10 +7,10 @@ import android.support.annotation.IntDef;
  */
 
 @IntDef({
-        RequestTypeAnim.REQUEST_OVERTIME, RequestTypeAnim.REQUEST_OFF,
-        RequestTypeAnim.REQUEST_LATE_EARLY
+        RequestType.REQUEST_OVERTIME, RequestType.REQUEST_OFF,
+        RequestType.REQUEST_LATE_EARLY
 })
-public @interface RequestTypeAnim {
+public @interface RequestType {
     int REQUEST_OVERTIME = 0;
     int REQUEST_OFF = 1;
     int REQUEST_LATE_EARLY = 2;

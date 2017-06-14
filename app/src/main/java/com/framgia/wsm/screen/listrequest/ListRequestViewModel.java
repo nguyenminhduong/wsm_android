@@ -22,7 +22,7 @@ import java.util.Calendar;
 
 public class ListRequestViewModel extends BaseObservable
         implements ListRequestContract.ViewModel, DatePickerDialog.OnDateSetListener,
-        BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> {
+        BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Request> {
     private static final int FORMAT_MONTH = 10;
 
     private Context mContext;
@@ -138,7 +138,7 @@ public class ListRequestViewModel extends BaseObservable
     }
 
     @Override
-    public void onItemRecyclerViewClick(Object item) {
+    public void onItemRecyclerViewClick(Request item) {
         // TODO: Click item list request
     }
 

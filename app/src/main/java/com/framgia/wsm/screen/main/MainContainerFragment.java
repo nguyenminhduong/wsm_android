@@ -9,7 +9,7 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.screen.BaseFragment;
 import com.framgia.wsm.screen.listrequest.ListRequestFragment;
 import com.framgia.wsm.screen.timesheet.TimeSheetFragment;
-import com.framgia.wsm.utils.RequestTypeAnim;
+import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.navigator.NavigateAnim;
 import com.framgia.wsm.utils.navigator.Navigator;
 
@@ -61,12 +61,12 @@ public class MainContainerFragment extends BaseFragment {
                 break;
             case OVERTIME:
                 mNavigator.goNextChildFragment(containerViewId,
-                        ListRequestFragment.newInstance(RequestTypeAnim.REQUEST_OVERTIME), false,
+                        ListRequestFragment.newInstance(RequestType.REQUEST_OVERTIME), false,
                         NavigateAnim.NONE, ListRequestFragment.TAG);
                 break;
             case COME_LATE_LEAVE_EARLY:
                 mNavigator.goNextChildFragment(containerViewId,
-                        ListRequestFragment.newInstance(RequestTypeAnim.REQUEST_LATE_EARLY), false,
+                        ListRequestFragment.newInstance(RequestType.REQUEST_LATE_EARLY), false,
                         NavigateAnim.NONE, ListRequestFragment.TAG);
                 break;
             case WORKSPACE_DATA:

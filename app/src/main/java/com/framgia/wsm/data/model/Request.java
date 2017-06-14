@@ -73,6 +73,8 @@ public class Request extends BaseModel implements Parcelable {
         mBranch = in.readParcelable(Branch.class.getClassLoader());
         mProject = in.readString();
         mPosition = in.readString();
+        mCompanyPay = in.readParcelable(CompanyPay.class.getClassLoader());
+        mInsuranceCoverage = in.readParcelable(InsuranceCoverage.class.getClassLoader());
         mReason = in.readString();
         mFromTime = in.readString();
         mToTime = in.readString();
@@ -201,11 +203,12 @@ public class Request extends BaseModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
         dest.writeParcelable(mGroup, flags);
         dest.writeParcelable(mBranch, flags);
         dest.writeString(mProject);
         dest.writeString(mPosition);
+        dest.writeParcelable(mCompanyPay, flags);
+        dest.writeParcelable(mInsuranceCoverage, flags);
         dest.writeString(mReason);
         dest.writeString(mFromTime);
         dest.writeString(mToTime);
