@@ -1,12 +1,10 @@
 package com.framgia.wsm.screen.requestleave;
 
-import android.util.Log;
 import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
-import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
@@ -72,98 +70,128 @@ final class RequestLeavePresenter implements RequestLeaveContract.Presenter {
 
     @Override
     public boolean validateDataInput(Request request) {
-        validateProjectName(request.getProject());
         switch (request.getLeaveType().getName()) {
-            case Constant.LeaveType.IN_LATE_A:
-            case Constant.LeaveType.IN_LATE_M:
-                validateCheckinTime(request.getCheckinTime());
-                validateCompensationFrom(request.getCompensation().getFromTime());
-                validateCompensationTo(request.getCompensation().getToTime());
-                validateReason(request.getReason());
+            case RequestLeaveViewModel.LeaveType.IN_LATE_A:
+            case RequestLeaveViewModel.LeaveType.IN_LATE_M:
+                if (validateCheckinTime(request.getCheckinTime())
+                        & validateCompensationFrom(request.getCompensation().getFromTime())
+                        & validateCompensationTo(request.getCompensation().getToTime())
+                        & validateReason(request.getReason())
+                        & validateProjectName(request.getProject())) {
+                    return true;
+                }
                 break;
-            case Constant.LeaveType.LEAVE_EARLY_A:
-            case Constant.LeaveType.LEAVE_EARLY_M:
-                validateCheckoutTime(request.getCheckoutTime());
-                validateCompensationFrom(request.getCompensation().getFromTime());
-                validateCompensationTo(request.getCompensation().getToTime());
-                validateReason(request.getReason());
+            case RequestLeaveViewModel.LeaveType.LEAVE_EARLY_A:
+            case RequestLeaveViewModel.LeaveType.LEAVE_EARLY_M:
+                if (validateCheckoutTime(request.getCheckoutTime())
+                        & validateCompensationFrom(request.getCompensation().getFromTime())
+                        & validateCompensationTo(request.getCompensation().getToTime())
+                        & validateReason(request.getReason())
+                        & validateProjectName(request.getProject())) {
+                    return true;
+                }
                 break;
-            case Constant.LeaveType.IN_LATE_WOMAN_A:
-            case Constant.LeaveType.IN_LATE_WOMAN_M:
-                validateCheckinTime(request.getCheckinTime());
+            case RequestLeaveViewModel.LeaveType.IN_LATE_WOMAN_A:
+            case RequestLeaveViewModel.LeaveType.IN_LATE_WOMAN_M:
+                if (validateCheckinTime(request.getCheckinTime()) & validateProjectName(
+                        request.getProject())) {
+                    return true;
+                }
                 break;
-            case Constant.LeaveType.LEAVE_EARLY_WOMAN_A:
-            case Constant.LeaveType.LEAVE_EARLY_WOMAN_M:
-                validateCheckoutTime(request.getCheckoutTime());
+            case RequestLeaveViewModel.LeaveType.LEAVE_EARLY_WOMAN_A:
+            case RequestLeaveViewModel.LeaveType.LEAVE_EARLY_WOMAN_M:
+                if (validateCheckoutTime(request.getCheckoutTime()) & validateProjectName(
+                        request.getProject())) {
+                    return true;
+                }
                 break;
-            case Constant.LeaveType.FORGOT_CARD_ALL_DAY:
-            case Constant.LeaveType.FORGOT_CHECK_ALL_DAY:
-                validateCheckinTime(request.getCheckinTime());
-                validateCheckoutTime(request.getCheckoutTime());
+            case RequestLeaveViewModel.LeaveType.FORGOT_CARD_ALL_DAY:
+            case RequestLeaveViewModel.LeaveType.FORGOT_CHECK_ALL_DAY:
+                if (validateCheckinTime(request.getCheckinTime()) & validateCheckoutTime(
+                        request.getCheckoutTime()) & validateProjectName(request.getProject())) {
+                    return true;
+                }
+
                 break;
-            case Constant.LeaveType.FORGOT_CARD_IN:
-            case Constant.LeaveType.FORGOT_TO_CHECK_IN:
-                validateCheckinTime(request.getCheckinTime());
+            case RequestLeaveViewModel.LeaveType.FORGOT_CARD_IN:
+            case RequestLeaveViewModel.LeaveType.FORGOT_TO_CHECK_IN:
+                if (validateCheckinTime(request.getCheckinTime()) & validateProjectName(
+                        request.getProject())) {
+                    return true;
+                }
                 break;
-            case Constant.LeaveType.FORGOT_CARD_OUT:
-            case Constant.LeaveType.FORGOT_TO_CHECK_OUT:
-                validateCheckoutTime(request.getCheckoutTime());
+            case RequestLeaveViewModel.LeaveType.FORGOT_CARD_OUT:
+            case RequestLeaveViewModel.LeaveType.FORGOT_TO_CHECK_OUT:
+                if (validateCheckoutTime(request.getCheckoutTime()) & validateProjectName(
+                        request.getProject())) {
+                    return true;
+                }
                 break;
-            case Constant.LeaveType.LEAVE_OUT:
-                validateCheckinTime(request.getCheckinTime());
-                validateCheckoutTime(request.getCheckoutTime());
-                validateCompensationFrom(request.getCompensation().getFromTime());
-                validateCompensationTo(request.getCompensation().getToTime());
-                validateReason(request.getReason());
+            case RequestLeaveViewModel.LeaveType.LEAVE_OUT:
+                if (validateCheckinTime(request.getCheckinTime())
+                        & validateCheckoutTime(request.getCheckoutTime())
+                        & validateCompensationFrom(request.getCompensation().getFromTime())
+                        & validateCompensationTo(request.getCompensation().getToTime())
+                        & validateReason(request.getReason())
+                        & validateProjectName(request.getProject())) {
+                    return true;
+                }
                 break;
         }
-        try {
-            return mValidator.validateAll(mViewModel);
-        } catch (IllegalAccessException e) {
-            Log.e(TAG, "validateDataInput: ", e);
-            return false;
-        }
+        return false;
     }
 
-    private void validateProjectName(String projectName) {
+    private boolean validateProjectName(String projectName) {
         String errorMessage = mValidator.validateValueNonEmpty(projectName);
         if (StringUtils.isNotBlank(errorMessage)) {
             mViewModel.onInputProjectNameError(errorMessage);
+            return false;
         }
+        return true;
     }
 
-    private void validateReason(String reason) {
+    private boolean validateReason(String reason) {
         String errorMessage = mValidator.validateValueNonEmpty(reason);
         if (StringUtils.isNotBlank(errorMessage)) {
             mViewModel.onInputReasonError(errorMessage);
+            return false;
         }
+        return true;
     }
 
-    private void validateCheckinTime(String checkinTime) {
+    private boolean validateCheckinTime(String checkinTime) {
         String errorMessage = mValidator.validateValueNonEmpty(checkinTime);
         if (StringUtils.isNotBlank(errorMessage)) {
             mViewModel.onInputCheckinTimeError(errorMessage);
+            return false;
         }
+        return true;
     }
 
-    private void validateCheckoutTime(String checkoutTime) {
+    private boolean validateCheckoutTime(String checkoutTime) {
         String errorMessage = mValidator.validateValueNonEmpty(checkoutTime);
         if (StringUtils.isNotBlank(errorMessage)) {
             mViewModel.onInputCheckoutTimeError(errorMessage);
+            return false;
         }
+        return true;
     }
 
-    private void validateCompensationFrom(String compensationFrom) {
+    private boolean validateCompensationFrom(String compensationFrom) {
         String errorMessage = mValidator.validateValueNonEmpty(compensationFrom);
         if (StringUtils.isNotBlank(errorMessage)) {
             mViewModel.onInputCompensationFromError(errorMessage);
+            return false;
         }
+        return true;
     }
 
-    private void validateCompensationTo(String compensationTo) {
+    private boolean validateCompensationTo(String compensationTo) {
         String errorMessage = mValidator.validateValueNonEmpty(compensationTo);
         if (StringUtils.isNotBlank(errorMessage)) {
             mViewModel.onInputCompensationToError(errorMessage);
+            return false;
         }
+        return true;
     }
 }

@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by framgia on 19/05/2017.
@@ -60,7 +61,7 @@ public final class DateTimeUtils {
         }
     }
 
-    private static Date convertStringToDateTime(String date) {
+    public static Date convertStringToDateTime(String date) {
         SimpleDateFormat parser =
                 new SimpleDateFormat(DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM, Locale.getDefault());
         try {
@@ -68,6 +69,10 @@ public final class DateTimeUtils {
         } catch (java.text.ParseException e) {
             return new Date();
         }
+    }
+
+    public static String convertDateTimeToDate(String dateTime) {
+        return convertToString(convertStringToDateTime(dateTime), DATE_FORMAT_YYYY_MM_DD);
     }
 
     public static String convertDateTimeToString(String dateTime, int hourOfDay, int minute) {
@@ -78,12 +83,52 @@ public final class DateTimeUtils {
                 TIME_FORMAT_HH_MM);
     }
 
+    public static String changeTimeOfDateString(String dateTime, int hour, int minute) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        return convertToString(convertStringToDate(dateTime), DATE_FORMAT_YYYY_MM_DD)
+                + Constant.BLANK_DASH_BLANK
+                + convertToString(calendar.getTime(), TIME_FORMAT_HH_MM);
+    }
+
+    public static int getMinutesBetweenTwoDate(String dateFrom, String dateTo) {
+        return (int) TimeUnit.MILLISECONDS.toMinutes(
+                convertStringToDateTime(dateFrom).getTime() - convertStringToDateTime(
+                        dateTo).getTime());
+    }
+
+    public static String addMinutesToStringDate(String dateTime, int minutes) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(convertStringToDateTime(dateTime));
+        cal.add(Calendar.MINUTE, minutes);
+        return convertToString(cal.getTime(), DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+    }
+
     public static String convertDateToString(int year, int month, int dayOfMonth) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.YEAR, year);
         return convertToString(calendar.getTime(), DATE_FORMAT_YYYY_MM_DD);
+    }
+
+    public static boolean checkHourOfDateLessThan(String dateTime, int hour, int minute) {
+        if (DateTimeUtils.getHourOfDay(dateTime) < hour
+                || DateTimeUtils.getHourOfDay(dateTime) == hour
+                && DateTimeUtils.getMinute(dateTime) < minute) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean checkHourOfDateLessThanOrEqual(String dateTime, int hour, int minute) {
+        if (DateTimeUtils.getHourOfDay(dateTime) < hour
+                || DateTimeUtils.getHourOfDay(dateTime) == hour
+                && DateTimeUtils.getMinute(dateTime) <= minute) {
+            return true;
+        }
+        return false;
     }
 
     public static int getDayOfMonth(String dateTime) {

@@ -47,6 +47,7 @@
                     >
                     <EditText
                         android:hint="@string/select_time"
+                        android:onClick="@{viewModel::onClickCheckinTime}"
                         android:text="@={viewModel.checkinTime}"
                         style="@style/StyleText"
                         />
@@ -75,6 +76,7 @@
                     >
                     <EditText
                         android:hint="@string/select_time"
+                        android:onClick="@{viewModel::onClickCheckoutTime}"
                         android:text="@={viewModel.checkoutTime}"
                         style="@style/StyleText"
                         />
