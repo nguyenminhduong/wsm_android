@@ -3,17 +3,21 @@ package com.framgia.wsm.screen.requestoff;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.databinding.Bindable;
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.Branch;
+import com.framgia.wsm.data.model.Group;
+import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRequestOff;
 import com.framgia.wsm.screen.confirmrequestoff.ConfirmRequestOffActivity;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.validator.Rule;
 import com.framgia.wsm.utils.validator.ValidType;
@@ -42,9 +46,15 @@ public class RequestOffViewModel extends BaseRequestOff
     private RequestOffContract.Presenter mPresenter;
     private DialogManager mDialogManager;
     private Calendar mCalendar;
-    private Request mRequest;
+    private RequestOff mRequestOff;
     private Navigator mNavigator;
     private User mUser;
+    private String mReasonError;
+
+    private String mCurrentBranch;
+    private String mCurrentGroup;
+    private int mCurrentBranchPosition;
+    private int mCurrentGroupPosition;
 
     private int mFlagDate;
     private int mFlagDateSession;
@@ -82,7 +92,7 @@ public class RequestOffViewModel extends BaseRequestOff
         setVisibleLayoutCompanyPay(true);
         mDialogManager.dialogDatePicker(this);
         mCalendar = Calendar.getInstance();
-        mRequest = new Request();
+        mRequestOff = new RequestOff();
         mNavigator = navigator;
         mPresenter.getUser();
         initData();
@@ -120,11 +130,19 @@ public class RequestOffViewModel extends BaseRequestOff
         }
         mUser = user;
         notifyPropertyChanged(BR.user);
+        setCurrentBranch();
+        setCurrentGroup();
     }
 
     @Override
     public void onGetUserError(BaseException e) {
         Log.e(TAG, "RequestOvertimeViewModel", e);
+    }
+
+    @Override
+    public void onInputReasonError(String reason) {
+        mReasonError = reason;
+        notifyPropertyChanged(BR.reasonError);
     }
 
     @Override
@@ -134,6 +152,11 @@ public class RequestOffViewModel extends BaseRequestOff
         notifyPropertyChanged(BR.endDate);
         notifyPropertyChanged(BR.currentDaySessionStartDay);
         notifyPropertyChanged(BR.currentDaySessionEndDay);
+    }
+
+    @Override
+    public void setPosistionOffType(int posistionOffType) {
+        mRequestOff.setPositionRequestOffType(posistionOffType);
     }
 
     @Override
@@ -147,6 +170,46 @@ public class RequestOffViewModel extends BaseRequestOff
         } else {
             setEndDate(date);
         }
+    }
+
+    public void onPickBranch(View view) {
+        if (mUser.getBranches() == null || mUser.getBranches().size() == 0) {
+            return;
+        }
+        String[] branches = new String[mUser.getBranches().size()];
+        for (int i = 0; i < branches.length; i++) {
+            branches[i] = mUser.getBranches().get(i).getBranchName();
+        }
+        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.branch), branches,
+                mCurrentBranchPosition, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog materialDialog, View view,
+                            int position, CharSequence charSequence) {
+                        mCurrentBranchPosition = position;
+                        setCurrentBranch();
+                        return true;
+                    }
+                });
+    }
+
+    public void onPickGroup(View view) {
+        if (mUser.getGroups() == null || mUser.getGroups().size() == 0) {
+            return;
+        }
+        String[] groups = new String[mUser.getGroups().size()];
+        for (int i = 0; i < groups.length; i++) {
+            groups[i] = mUser.getGroups().get(i).getGroupName();
+        }
+        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.group), groups,
+                mCurrentBranchPosition, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog materialDialog, View view,
+                            int position, CharSequence charSequence) {
+                        mCurrentGroupPosition = position;
+                        setCurrentGroup();
+                        return true;
+                    }
+                });
     }
 
     public void onPickTypeRequestOff(View view) {
@@ -220,12 +283,37 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     public void onClickNext(View view) {
-        mNavigator.startActivity(ConfirmRequestOffActivity.class);
+        if (!mPresenter.validateData(mRequestOff)) {
+            return;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mRequestOff);
+        mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
+    }
+
+    @Bindable
+    public RequestOff getRequestOff() {
+        return mRequestOff;
     }
 
     @Bindable
     public User getUser() {
         return mUser;
+    }
+
+    @Bindable
+    public String getReasonError() {
+        return mReasonError;
+    }
+
+    @Bindable
+    public String getReason() {
+        return mRequestOff.getReason();
+    }
+
+    public void setReason(String reason) {
+        mReason = reason;
+        mRequestOff.setReason(reason);
     }
 
     @Bindable
@@ -336,6 +424,20 @@ public class RequestOffViewModel extends BaseRequestOff
         } else {
             mCurrentPositionDaySessionEndDayHaveSalary = currentPositionDaySessionEndDay;
         }
+    }
+
+    private void setCurrentBranch() {
+        Branch currentBranch = mUser.getBranches().get(mCurrentBranchPosition);
+        mCurrentBranch = currentBranch.getBranchName();
+        mRequestOff.setBranch(currentBranch);
+        notifyPropertyChanged(BR.requestOff);
+    }
+
+    private void setCurrentGroup() {
+        Group currentGroup = mUser.getGroups().get(mCurrentGroupPosition);
+        mCurrentGroup = currentGroup.getGroupName();
+        mRequestOff.setGroup(currentGroup);
+        notifyPropertyChanged(BR.currentGroup);
     }
 
     @IntDef({

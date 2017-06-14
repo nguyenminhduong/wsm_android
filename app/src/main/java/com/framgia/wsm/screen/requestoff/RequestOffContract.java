@@ -1,5 +1,6 @@
 package com.framgia.wsm.screen.requestoff;
 
+import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BasePresenter;
@@ -17,6 +18,8 @@ interface RequestOffContract {
         void onGetUserSuccess(User user);
 
         void onGetUserError(BaseException exception);
+
+        void onInputReasonError(String reason);
     }
 
     /**
@@ -25,5 +28,7 @@ interface RequestOffContract {
     interface Presenter extends BasePresenter<ViewModel> {
 
         void getUser();
+
+        boolean validateData(RequestOff requestOff);
     }
 }
