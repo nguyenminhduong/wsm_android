@@ -11,6 +11,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class RequestOff extends BaseModel implements Parcelable {
 
+    public static final Creator<RequestOff> CREATOR = new Creator<RequestOff>() {
+        @Override
+        public RequestOff createFromParcel(Parcel in) {
+            return new RequestOff(in);
+        }
+
+        @Override
+        public RequestOff[] newArray(int size) {
+            return new RequestOff[size];
+        }
+    };
+
     private int mPositionRequestOffType;
     private String mRequestOffName;
 
@@ -37,13 +49,22 @@ public class RequestOff extends BaseModel implements Parcelable {
     private InsuranceCoverage mInsuranceCoverage;
     @Expose
     @SerializedName("from")
-    private String mFromTime;
+    private String mStartDayHaveSalary;
     @Expose
     @SerializedName("to")
-    private String mToTime;
+    private String mEndDayHaveSalary;
+    @Expose
+    @SerializedName("from")
+    private String mStartDayNoSalary;
+    @Expose
+    @SerializedName("to")
+    private String mEndDayNoSalary;
     @Expose
     @SerializedName("reason")
     private String mReason;
+
+    public RequestOff() {
+    }
 
     protected RequestOff(Parcel in) {
         mPositionRequestOffType = in.readInt();
@@ -51,26 +72,15 @@ public class RequestOff extends BaseModel implements Parcelable {
         mCreatedAt = in.readString();
         mProject = in.readString();
         mPosition = in.readString();
-        mFromTime = in.readString();
-        mToTime = in.readString();
+        mBranch = in.readParcelable(Branch.class.getClassLoader());
+        mGroup = in.readParcelable(Group.class.getClassLoader());
+        mCompanyPay = in.readParcelable(CompanyPay.class.getClassLoader());
+        mInsuranceCoverage = in.readParcelable(InsuranceCoverage.class.getClassLoader());
+        mStartDayHaveSalary = in.readString();
+        mEndDayHaveSalary = in.readString();
+        mStartDayNoSalary = in.readString();
+        mEndDayNoSalary = in.readString();
         mReason = in.readString();
-    }
-
-    public static final Creator<RequestOff> CREATOR = new Creator<RequestOff>() {
-        @Override
-        public RequestOff createFromParcel(Parcel in) {
-            return new RequestOff(in);
-        }
-
-        @Override
-        public RequestOff[] newArray(int size) {
-            return new RequestOff[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     @Override
@@ -80,9 +90,20 @@ public class RequestOff extends BaseModel implements Parcelable {
         dest.writeString(mCreatedAt);
         dest.writeString(mProject);
         dest.writeString(mPosition);
-        dest.writeString(mFromTime);
-        dest.writeString(mToTime);
+        dest.writeParcelable(mBranch, flags);
+        dest.writeParcelable(mGroup, flags);
+        dest.writeParcelable(mCompanyPay, flags);
+        dest.writeParcelable(mInsuranceCoverage, flags);
+        dest.writeString(mStartDayHaveSalary);
+        dest.writeString(mEndDayHaveSalary);
+        dest.writeString(mStartDayNoSalary);
+        dest.writeString(mEndDayNoSalary);
         dest.writeString(mReason);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public int getPositionRequestOffType() {
@@ -157,20 +178,36 @@ public class RequestOff extends BaseModel implements Parcelable {
         mInsuranceCoverage = insuranceCoverage;
     }
 
-    public String getFromTime() {
-        return mFromTime;
+    public String getStartDayHaveSalary() {
+        return mStartDayHaveSalary;
     }
 
-    public void setFromTime(String fromTime) {
-        mFromTime = fromTime;
+    public void setStartDayHaveSalary(String startDayHaveSalary) {
+        mStartDayHaveSalary = startDayHaveSalary;
     }
 
-    public String getToTime() {
-        return mToTime;
+    public String getEndDayHaveSalary() {
+        return mEndDayHaveSalary;
     }
 
-    public void setToTime(String toTime) {
-        mToTime = toTime;
+    public void setEndDayHaveSalary(String endDayHaveSalary) {
+        mEndDayHaveSalary = endDayHaveSalary;
+    }
+
+    public String getStartDayNoSalary() {
+        return mStartDayNoSalary;
+    }
+
+    public void setStartDayNoSalary(String startDayNoSalary) {
+        mStartDayNoSalary = startDayNoSalary;
+    }
+
+    public String getEndDayNoSalary() {
+        return mEndDayNoSalary;
+    }
+
+    public void setEndDayNoSalary(String endDayNoSalary) {
+        mEndDayNoSalary = endDayNoSalary;
     }
 
     public String getReason() {

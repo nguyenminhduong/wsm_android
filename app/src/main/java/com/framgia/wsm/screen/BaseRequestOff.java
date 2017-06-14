@@ -15,6 +15,8 @@ public abstract class BaseRequestOff extends BaseObservable {
 
     public abstract void setVisibleLayoutInsuranceCoverage(boolean isVisible);
 
+    public abstract void setPosistionOffType(int posistionOffType);
+
     public void setLayoutOffType(int positionType) {
         if (positionType == RequestOffViewModel.PositionOffType.OFF_HAVE_SALARY_COMPANY_PAY) {
             setVisibleLayoutCompanyPay(true);
@@ -36,5 +38,6 @@ public abstract class BaseRequestOff extends BaseObservable {
             setVisibleLayoutInsuranceCoverage(false);
             setVisibleLayoutNoSalary(true);
         }
+        setPosistionOffType(positionType);
     }
 }

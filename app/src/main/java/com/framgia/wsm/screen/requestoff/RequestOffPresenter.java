@@ -1,9 +1,12 @@
 package com.framgia.wsm.screen.requestoff;
 
+import android.util.Log;
+import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
 import io.reactivex.annotations.NonNull;
@@ -63,5 +66,19 @@ final class RequestOffPresenter implements RequestOffContract.Presenter {
                     }
                 });
         mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public boolean validateData(RequestOff requestOff) {
+        String errorMessage = mValidator.validateValueNonEmpty(requestOff.getReason());
+        if (StringUtils.isNotBlank(errorMessage)) {
+            mViewModel.onInputReasonError(errorMessage);
+        }
+        try {
+            return mValidator.validateAll(mViewModel);
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, "validateDataInput: ", e);
+            return false;
+        }
     }
 }

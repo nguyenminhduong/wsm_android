@@ -17,6 +17,8 @@ public final class Constant {
     public static final String EXTRA_REQUEST_LEAVE = "REQUEST_LEAVE";
     public static final String EXTRA_REQUEST_OVERTIME = "REQUEST_OVERTIME";
     public static final String BLANK_DASH_BLANK = " - ";
+    public static final String BLANK = " ";
+    public static final String EXTRA_REQUEST_OFF = "REQUEST_OFF";
 
     private Constant() {
         // No-op

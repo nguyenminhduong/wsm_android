@@ -102,6 +102,8 @@
     <string name="confirm_request_overtime">Confirm Request OverTime</string>
     <string name="request_off">Request Off</string>
     <string name="confirm_request_off">Confirm Request Off</string>
+    <string name="note">Note: \u0020</string>
+    <string name="am_pm">Morning: am - am;  Afternoon: pm - pm;  All day: am - pm</string>
 
     <!-- In late (M) -->
     <string name="leave_type_in_late_m">In late (M)</string>

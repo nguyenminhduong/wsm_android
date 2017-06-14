@@ -9,13 +9,6 @@ import android.os.Parcelable;
 
 public class InsuranceCoverage extends BaseModel implements Parcelable {
 
-    private String mLeaveForCareOfSickChild;
-    private String mPregnancyExaminationLeave;
-    private String mSickLeave;
-    private String mMiscarriageLeave;
-    private String mMaternityLeave;
-    private String mWifeLaborLeave;
-
     public static final Creator<InsuranceCoverage> CREATOR = new Creator<InsuranceCoverage>() {
         @Override
         public InsuranceCoverage createFromParcel(Parcel in) {
@@ -28,6 +21,13 @@ public class InsuranceCoverage extends BaseModel implements Parcelable {
         }
     };
 
+    private String mLeaveForCareOfSickChild;
+    private String mPregnancyExaminationLeave;
+    private String mSickLeave;
+    private String mMiscarriageLeave;
+    private String mMaternityLeave;
+    private String mWifeLaborLeave;
+
     protected InsuranceCoverage(Parcel in) {
         mLeaveForCareOfSickChild = in.readString();
         mPregnancyExaminationLeave = in.readString();
@@ -35,6 +35,21 @@ public class InsuranceCoverage extends BaseModel implements Parcelable {
         mMiscarriageLeave = in.readString();
         mMaternityLeave = in.readString();
         mWifeLaborLeave = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mLeaveForCareOfSickChild);
+        dest.writeString(mPregnancyExaminationLeave);
+        dest.writeString(mSickLeave);
+        dest.writeString(mMiscarriageLeave);
+        dest.writeString(mMaternityLeave);
+        dest.writeString(mWifeLaborLeave);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public String getLeaveForCareOfSickChild() {
@@ -83,20 +98,5 @@ public class InsuranceCoverage extends BaseModel implements Parcelable {
 
     public void setWifeLaborLeave(String wifeLaborLeave) {
         mWifeLaborLeave = wifeLaborLeave;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mLeaveForCareOfSickChild);
-        dest.writeString(mPregnancyExaminationLeave);
-        dest.writeString(mSickLeave);
-        dest.writeString(mMiscarriageLeave);
-        dest.writeString(mMaternityLeave);
-        dest.writeString(mWifeLaborLeave);
     }
 }

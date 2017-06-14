@@ -86,7 +86,7 @@
 
                     <EditText
                         android:hint="@string/employee_code"
-                        android:text="@{viewModel.user.code}"
+                        android:text="@={viewModel.user.code}"
                         style="@style/StyleText"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -97,6 +97,7 @@
 
                     <EditText
                         android:hint="@string/position_name"
+                        android:text="@={viewModel.requestOff.project}"
                         style="@style/StyleEditableText"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -107,6 +108,7 @@
 
                     <EditText
                         android:hint="@string/project_name"
+                        android:text="@{viewModel.requestOff.position}"
                         style="@style/StyleEditableText"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -127,9 +129,10 @@
                         <android.support.design.widget.TextInputLayout
                             style="@style/StyleTextHint"
                             >
-
                             <EditText
                                 android:hint="@string/branch"
+                                android:onClick="@{viewModel::onPickBranch}"
+                                android:text="@={viewModel.requestOff.branch.branchName}"
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
@@ -151,6 +154,8 @@
                             >
                             <EditText
                                 android:hint="@string/group"
+                                android:onClick="@{viewModel::onPickGroup}"
+                                android:text="@={viewModel.requestOff.group.groupName}"
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
@@ -204,8 +209,9 @@
                     >
 
                     <FrameLayout
-                        android:layout_width="@dimen/dp_250"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
                         >
 
                         <android.support.design.widget.TextInputLayout
@@ -229,6 +235,7 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
                         >
 
                         <android.support.design.widget.TextInputLayout
@@ -236,6 +243,7 @@
                             >
 
                             <EditText
+                                android:gravity="center"
                                 android:onClick="@{viewModel::onPickDaySessionStartDay}"
                                 android:text="@{viewModel.currentDaySessionStartDay}"
                                 style="@style/StyleText"
@@ -257,8 +265,9 @@
                     >
 
                     <FrameLayout
-                        android:layout_width="@dimen/dp_250"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
                         >
 
                         <android.support.design.widget.TextInputLayout
@@ -282,6 +291,7 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
                         >
 
                         <android.support.design.widget.TextInputLayout
@@ -289,6 +299,7 @@
                             >
 
                             <EditText
+                                android:gravity="center"
                                 android:onClick="@{viewModel::onPickDaySessionEndDay}"
                                 android:text="@{viewModel.currentDaySessionEndDay}"
                                 style="@style/StyleText"
@@ -302,12 +313,35 @@
                     </FrameLayout>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/note"
+                        android:textColor="@color/color_red_firebrick"
+                        android:textSize="@dimen/sp_17"
+                        android:textStyle="bold"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/am_pm"
+                        android:textSize="@dimen/sp_17"
+                        />
+                </LinearLayout>
+
                 <android.support.design.widget.TextInputLayout
+                    bind:errorTextInputLayout="@{viewModel.reasonError}"
                     style="@style/StyleTextHint"
                     >
 
                     <EditText
                         android:hint="@string/reason"
+                        android:text="@={viewModel.reason}"
                         style="@style/StyleEditableText"
                         />
                 </android.support.design.widget.TextInputLayout>
