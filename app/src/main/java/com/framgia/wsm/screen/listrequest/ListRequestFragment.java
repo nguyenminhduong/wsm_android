@@ -11,7 +11,7 @@ import com.framgia.wsm.databinding.FragmentListRequestBinding;
 import com.framgia.wsm.screen.BaseFragment;
 import com.framgia.wsm.screen.main.MainActivity;
 import com.framgia.wsm.utils.Constant;
-import com.framgia.wsm.utils.RequestTypeAnim;
+import com.framgia.wsm.utils.RequestType;
 import javax.inject.Inject;
 
 /**
@@ -24,7 +24,7 @@ public class ListRequestFragment extends BaseFragment {
     @Inject
     ListRequestContract.ViewModel mViewModel;
 
-    public static ListRequestFragment newInstance(@RequestTypeAnim int requestType) {
+    public static ListRequestFragment newInstance(@RequestType int requestType) {
         ListRequestFragment listRequestFragment = new ListRequestFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.EXTRA_REQUEST_TYPE, requestType);
