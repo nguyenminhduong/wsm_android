@@ -34,10 +34,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:toolbar="@{viewModel.titleToolbar}"
                 >
-
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{viewModel::onCickArrowBack}"
+                    android:src="@drawable/md_nav_back"
+                    tools:ignore="ContentDescription"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_35"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:text="@string/request_off"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_20"
+                    />
             </android.support.v7.widget.Toolbar>
+
         </android.support.design.widget.AppBarLayout>
 
         <ScrollView
@@ -59,8 +74,8 @@
                     >
 
                     <EditText
-                        android:enabled="false"
                         android:hint="@string/employee_name"
+                        android:text="@{viewModel.user.name}"
                         style="@style/StyleText"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -70,8 +85,8 @@
                     >
 
                     <EditText
-                        android:enabled="false"
                         android:hint="@string/employee_code"
+                        android:text="@{viewModel.user.code}"
                         style="@style/StyleText"
                         />
                 </android.support.design.widget.TextInputLayout>
@@ -298,6 +313,7 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
+                    android:onClick="@{viewModel::onClickNext}"
                     android:text="@string/next"
                     style="@style/StyleButton"
                     />
