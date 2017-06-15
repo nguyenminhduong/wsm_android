@@ -192,6 +192,9 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
             case R.id.item_overtime:
                 setCurrentPage(Page.OVERTIME);
                 break;
+            case R.id.item_off:
+                setCurrentPage(Page.OFF);
+                break;
             case R.id.item_come_late_leave_early:
                 setCurrentPage(Page.COME_LATE_LEAVE_EARLY);
                 break;
@@ -214,7 +217,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
 
     @IntDef({
             Page.WORKING_CALENDAR, Page.SETUP_PROFILE, Page.PERSONAL, Page.HOLIDAY_CALENDAR,
-            Page.STATISTIC_OF_PERSONAL, Page.OVERTIME, Page.COME_LATE_LEAVE_EARLY,
+            Page.STATISTIC_OF_PERSONAL, Page.OVERTIME, Page.OFF, Page.COME_LATE_LEAVE_EARLY,
             Page.WORKSPACE_DATA
     })
     @interface Page {
@@ -224,7 +227,8 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         int HOLIDAY_CALENDAR = 3;
         int STATISTIC_OF_PERSONAL = 4;
         int OVERTIME = 5;
-        int COME_LATE_LEAVE_EARLY = 6;
-        int WORKSPACE_DATA = 7;
+        int OFF = 6;
+        int COME_LATE_LEAVE_EARLY = 7;
+        int WORKSPACE_DATA = 8;
     }
 }

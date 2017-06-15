@@ -10,11 +10,14 @@ import android.widget.DatePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
+import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.MaterialDialog;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Exposes the data to be used in the ListRequest screen.
@@ -37,6 +40,7 @@ public class ListRequestViewModel extends BaseObservable
     private ListRequestAdapter mListRequestAdapter;
     private Navigator mNavigator;
     private Request mRequest;
+    @RequestType
     private int mRequestType;
 
     public ListRequestViewModel(Context context, ListRequestContract.Presenter presenter,
@@ -62,22 +66,24 @@ public class ListRequestViewModel extends BaseObservable
         mPresenter.onStart();
     }
 
-    public void onPickTypeStatus(View view) {
-        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.status), R.array.status,
-                mCurrentPositionStatus, new MaterialDialog.ListCallbackSingleChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog materialDialog, View view,
-                            int positionType, CharSequence charSequence) {
-                        setCurrentPositionStatus(positionType);
-                        setCurrentStatus(String.valueOf(charSequence));
-                        return true;
-                    }
-                });
-    }
-
     @Override
     public void onStop() {
         mPresenter.onStop();
+    }
+
+    @Override
+    public void onItemRecyclerViewClick(Request item) {
+        // TODO: Click item list request
+    }
+
+    @Override
+    public void onGetListRequestError(BaseException e) {
+        mNavigator.showToast(e.getMessage());
+    }
+
+    @Override
+    public void onGetListRequestSuccess(List<Request> requests) {
+        mListRequestAdapter.updateData(requests);
     }
 
     @Override
@@ -137,9 +143,17 @@ public class ListRequestViewModel extends BaseObservable
                 new StringBuilder().append(month).append("/").append(year).append("")));
     }
 
-    @Override
-    public void onItemRecyclerViewClick(Request item) {
-        // TODO: Click item list request
+    public void onPickTypeStatus(View view) {
+        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.status), R.array.status,
+                mCurrentPositionStatus, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog materialDialog, View view,
+                            int positionType, CharSequence charSequence) {
+                        setCurrentPositionStatus(positionType);
+                        setCurrentStatus(String.valueOf(charSequence));
+                        return true;
+                    }
+                });
     }
 
     @IntDef({

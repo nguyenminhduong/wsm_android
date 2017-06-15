@@ -15,6 +15,7 @@ import com.framgia.wsm.utils.navigator.Navigator;
 
 import static com.framgia.wsm.screen.main.MainViewModel.Page.COME_LATE_LEAVE_EARLY;
 import static com.framgia.wsm.screen.main.MainViewModel.Page.HOLIDAY_CALENDAR;
+import static com.framgia.wsm.screen.main.MainViewModel.Page.OFF;
 import static com.framgia.wsm.screen.main.MainViewModel.Page.OVERTIME;
 import static com.framgia.wsm.screen.main.MainViewModel.Page.PERSONAL;
 import static com.framgia.wsm.screen.main.MainViewModel.Page.SETUP_PROFILE;
@@ -62,6 +63,11 @@ public class MainContainerFragment extends BaseFragment {
             case OVERTIME:
                 mNavigator.goNextChildFragment(containerViewId,
                         ListRequestFragment.newInstance(RequestType.REQUEST_OVERTIME), false,
+                        NavigateAnim.NONE, ListRequestFragment.TAG);
+                break;
+            case OFF:
+                mNavigator.goNextChildFragment(containerViewId,
+                        ListRequestFragment.newInstance(RequestType.REQUEST_OFF), false,
                         NavigateAnim.NONE, ListRequestFragment.TAG);
                 break;
             case COME_LATE_LEAVE_EARLY:
