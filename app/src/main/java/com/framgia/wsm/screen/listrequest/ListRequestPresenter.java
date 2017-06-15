@@ -1,7 +1,9 @@
 package com.framgia.wsm.screen.listrequest;
 
 import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.RequestRepository;
+import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
@@ -23,12 +25,14 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
 
     private ListRequestContract.ViewModel mViewModel;
     private RequestRepository mRequestRepository;
+    private UserRepository mUserRepository;
     private CompositeDisposable mCompositeDisposable;
     private BaseSchedulerProvider mBaseSchedulerProvider;
 
-    ListRequestPresenter(RequestRepository requestRepository,
+    ListRequestPresenter(RequestRepository requestRepository, UserRepository userRepository,
             BaseSchedulerProvider baseSchedulerProvider) {
         mRequestRepository = requestRepository;
+        mUserRepository = userRepository;
         mCompositeDisposable = new CompositeDisposable();
         mBaseSchedulerProvider = baseSchedulerProvider;
     }
@@ -78,5 +82,24 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void getUser() {
+        Disposable disposable = mUserRepository.getUser()
+                .subscribeOn(mBaseSchedulerProvider.io())
+                .observeOn(mBaseSchedulerProvider.ui())
+                .subscribe(new Consumer<User>() {
+                    @Override
+                    public void accept(@NonNull User user) throws Exception {
+                        mViewModel.onGetUserSuccess(user);
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onGetUserError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
     }
 }

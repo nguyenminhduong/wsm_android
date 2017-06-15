@@ -4,7 +4,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import com.framgia.wsm.data.source.RequestRepository;
+import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
+import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.dagger.FragmentScope;
 import com.framgia.wsm.utils.navigator.Navigator;
@@ -42,8 +45,8 @@ public class ListRequestModule {
     @FragmentScope
     @Provides
     public ListRequestContract.Presenter providePresenter(RequestRepository requestRepository,
-            BaseSchedulerProvider baseSchedulerProvider) {
-        return new ListRequestPresenter(requestRepository, baseSchedulerProvider);
+            UserRepository userRepository, BaseSchedulerProvider baseSchedulerProvider) {
+        return new ListRequestPresenter(requestRepository, userRepository, baseSchedulerProvider);
     }
 
     @FragmentScope
@@ -51,6 +54,13 @@ public class ListRequestModule {
     public RequestRepository provideRequestRepository(
             RequestRemoteDataSource requestRemoteDataSource) {
         return new RequestRepository(requestRemoteDataSource);
+    }
+
+    @FragmentScope
+    @Provides
+    public UserRepository provideUserRepository(UserLocalDataSource userLocalDataSource,
+            UserRemoteDataSource remoteDataSource) {
+        return new UserRepository(userLocalDataSource, remoteDataSource);
     }
 
     @FragmentScope
