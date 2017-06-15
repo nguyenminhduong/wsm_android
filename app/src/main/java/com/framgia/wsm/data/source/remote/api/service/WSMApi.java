@@ -26,4 +26,8 @@ public interface WSMApi {
     // TODO edit later
     @POST("/api/v1/request_overtime")
     Observable<Object> createFormRequestOverTime(@Body Request request);
+
+    // TODO edit later
+    @POST("/api/v1/list_request_off")
+    Observable<Object> getListRequestOff(@Query("user_id") int userId);
 }

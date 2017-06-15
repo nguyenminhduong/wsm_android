@@ -24,6 +24,7 @@
     <string name="holiday_calendar">Holiday calendar</string>
     <string name="personal_request">PERSONAL REQUESTS</string>
     <string name="request_overtime">Overtime</string>
+    <string name="request_day_off" translatable="false">Day off</string>
     <string name="request_come_late_leave_early">Come late, leave early</string>
     <string name="workspaces_data">WORKSPACES DATA</string>
     <string name="workspaces">Workspaces data</string>

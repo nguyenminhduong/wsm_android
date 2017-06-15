@@ -3,9 +3,12 @@ package com.framgia.wsm.screen.listrequest;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import com.framgia.wsm.data.source.RequestRepository;
+import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.dagger.FragmentScope;
 import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
@@ -38,8 +41,16 @@ public class ListRequestModule {
 
     @FragmentScope
     @Provides
-    public ListRequestContract.Presenter providePresenter() {
-        return new ListRequestPresenter();
+    public ListRequestContract.Presenter providePresenter(RequestRepository requestRepository,
+            BaseSchedulerProvider baseSchedulerProvider) {
+        return new ListRequestPresenter(requestRepository, baseSchedulerProvider);
+    }
+
+    @FragmentScope
+    @Provides
+    public RequestRepository provideRequestRepository(
+            RequestRemoteDataSource requestRemoteDataSource) {
+        return new RequestRepository(requestRemoteDataSource);
     }
 
     @FragmentScope
