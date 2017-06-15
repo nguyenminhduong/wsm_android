@@ -2,6 +2,10 @@ package com.framgia.wsm.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.framgia.wsm.R;
+import com.framgia.wsm.utils.validator.Rule;
+import com.framgia.wsm.utils.validator.ValidType;
+import com.framgia.wsm.utils.validator.Validation;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -61,6 +65,9 @@ public class RequestOff extends BaseModel implements Parcelable {
     private String mEndDayNoSalary;
     @Expose
     @SerializedName("reason")
+    @Validation({
+            @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
+    })
     private String mReason;
 
     public RequestOff() {
@@ -163,6 +170,9 @@ public class RequestOff extends BaseModel implements Parcelable {
     }
 
     public CompanyPay getCompanyPay() {
+        if (mCompanyPay == null) {
+            return new CompanyPay();
+        }
         return mCompanyPay;
     }
 
@@ -171,6 +181,9 @@ public class RequestOff extends BaseModel implements Parcelable {
     }
 
     public InsuranceCoverage getInsuranceCoverage() {
+        if (mInsuranceCoverage == null) {
+            return new InsuranceCoverage();
+        }
         return mInsuranceCoverage;
     }
 

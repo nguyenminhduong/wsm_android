@@ -3,6 +3,7 @@ package com.framgia.wsm.screen.requestoff;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
@@ -65,6 +66,6 @@ public class RequestOffModule {
     @ActivityScope
     @Provides
     Validator provideValidator() {
-        return new Validator(mActivity.getApplicationContext(), RequestOffViewModel.class);
+        return new Validator(mActivity.getApplicationContext(), RequestOff.class);
     }
 }
