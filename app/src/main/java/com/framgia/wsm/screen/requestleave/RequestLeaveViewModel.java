@@ -1,10 +1,17 @@
 package com.framgia.wsm.screen.requestleave;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.databinding.Bindable;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.Request;
@@ -13,22 +20,37 @@ import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRequestLeave;
 import com.framgia.wsm.screen.confirmrequestleave.ConfirmRequestLeaveActivity;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.validator.Rule;
 import com.framgia.wsm.utils.validator.ValidType;
 import com.framgia.wsm.utils.validator.Validation;
 import com.framgia.wsm.widget.dialog.DialogManager;
+import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
+import java.util.Date;
+
+import static com.framgia.wsm.utils.Constant.TimeConst.EIGHT_HOUR;
+import static com.framgia.wsm.utils.Constant.TimeConst.ELEVEN_HOUR;
+import static com.framgia.wsm.utils.Constant.TimeConst.FIFTEEN_HOUR;
+import static com.framgia.wsm.utils.Constant.TimeConst.FIFTEEN_MINUTES;
+import static com.framgia.wsm.utils.Constant.TimeConst.FORTY_FIVE_MINUTES;
+import static com.framgia.wsm.utils.Constant.TimeConst.FOURTEEN_HOUR;
+import static com.framgia.wsm.utils.Constant.TimeConst.NIGHT_HOUR;
+import static com.framgia.wsm.utils.Constant.TimeConst.SEVEN_HOUR;
+import static com.framgia.wsm.utils.Constant.TimeConst.SIXTEEN_HOUR;
+import static com.framgia.wsm.utils.Constant.TimeConst.TEN_HOUR;
+import static com.framgia.wsm.utils.Constant.TimeConst.THIRTEEN_HOUR;
+import static com.framgia.wsm.utils.Constant.TimeConst.TWELVE_HOUR;
+import static com.framgia.wsm.utils.common.DateTimeUtils.convertDateTimeToString;
 
 /**
  * Exposes the data to be used in the Request screen.
  */
-
 public class RequestLeaveViewModel extends BaseRequestLeave
-        implements RequestLeaveContract.ViewModel {
-
+        implements RequestLeaveContract.ViewModel, DatePickerDialog.OnDateSetListener,
+        TimePickerDialog.OnTimeSetListener {
     private static final String TAG = "RequestLeaveActivity";
-
     private RequestLeaveContract.Presenter mPresenter;
     private Context mContext;
     private Navigator mNavigator;
@@ -54,27 +76,24 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     private String mCheckoutTimeError;
     private String mCompensationFromTimeError;
     private String mCompensationToTimeError;
-
+    private String mCurrentDate;
+    private int mCurrentTimeSelected;
     @Validation({
             @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
     })
     private String mProjectName;
-
     @Validation({
             @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
     })
     private String mReason;
-
     @Validation({
             @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
     })
     private String mCheckinTime;
-
     @Validation({
             @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
     })
     private String mCheckoutTime;
-
     @Validation({
             @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
     })
@@ -91,6 +110,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mContext = context;
         mNavigator = navigator;
         mDialogManager = dialogManager;
+        mDialogManager.dialogDatePicker(this);
+        mDialogManager.dialogTimePicker(this);
         setVisibleLayoutCompensation(true);
         setVisibleLayoutCheckin(true);
         mRequest = new Request();
@@ -162,43 +183,102 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         notifyPropertyChanged(BR.compensationToTimeError);
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        mCurrentDate = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
+        mDialogManager.showTimePickerDialog();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        String currentDateTime = convertDateTimeToString(mCurrentDate, hourOfDay, minute);
+        switch (mCurrentLeaveType) {
+            case LeaveType.FORGOT_CARD_IN:
+            case LeaveType.FORGOT_TO_CHECK_IN:
+            case LeaveType.IN_LATE_WOMAN_M:
+            case LeaveType.IN_LATE_WOMAN_A:
+                validateCheckinTime(currentDateTime);
+                break;
+            case LeaveType.FORGOT_CARD_OUT:
+            case LeaveType.FORGOT_TO_CHECK_OUT:
+            case LeaveType.LEAVE_EARLY_WOMAN_A:
+            case LeaveType.LEAVE_EARLY_WOMAN_M:
+                validateCheckoutTime(currentDateTime);
+                break;
+            case LeaveType.IN_LATE_A:
+            case LeaveType.IN_LATE_M:
+                if (mCurrentTimeSelected == CurrentTimeSelected.CHECK_IN) {
+                    validateCheckinTime(currentDateTime);
+                } else {
+                    // todo validate compensation time
+                }
+                break;
+            case LeaveType.LEAVE_EARLY_A:
+            case LeaveType.LEAVE_EARLY_M:
+                if (mCurrentTimeSelected == CurrentTimeSelected.CHECK_OUT) {
+                    validateCheckoutTime(currentDateTime);
+                } else {
+                    // todo validate compensation time
+                }
+                break;
+            case LeaveType.FORGOT_CARD_ALL_DAY:
+            case LeaveType.FORGOT_CHECK_ALL_DAY:
+                if (mCurrentTimeSelected == CurrentTimeSelected.CHECK_IN) {
+                    validateCheckinTime(currentDateTime);
+                } else {
+                    validateCheckoutTime(currentDateTime);
+                }
+                break;
+            case LeaveType.LEAVE_OUT:
+                if (mCurrentTimeSelected == CurrentTimeSelected.CHECK_IN) {
+                    validateCheckinTime(currentDateTime);
+                } else {
+                    if (mCurrentTimeSelected == CurrentTimeSelected.CHECK_OUT) {
+                        validateCheckoutTime(currentDateTime);
+                    } else {
+                        // todo validate compensation time
+                    }
+                }
+        }
+    }
+
     private void setTitleExampleLeave() {
         switch (mCurrentLeaveType) {
-            case Constant.LeaveType.IN_LATE_WOMAN_M:
-            case Constant.LeaveType.IN_LATE_M:
+            case LeaveType.IN_LATE_WOMAN_M:
+            case LeaveType.IN_LATE_M:
                 setTitleExampleLeaveIn(mContext.getString(R.string.title_in_late_m),
                         mContext.getString(R.string.exmple_in_late_m));
                 break;
-            case Constant.LeaveType.IN_LATE_WOMAN_A:
-            case Constant.LeaveType.IN_LATE_A:
+            case LeaveType.IN_LATE_WOMAN_A:
+            case LeaveType.IN_LATE_A:
                 setTitleExampleLeaveIn(mContext.getString(R.string.title_in_late_a),
                         mContext.getString(R.string.exmple_in_late_a));
                 break;
-            case Constant.LeaveType.LEAVE_EARLY_WOMAN_M:
-            case Constant.LeaveType.LEAVE_EARLY_M:
+            case LeaveType.LEAVE_EARLY_WOMAN_M:
+            case LeaveType.LEAVE_EARLY_M:
                 setTitleExampleLeaveOut(mContext.getString(R.string.title_leave_early_m),
                         mContext.getString(R.string.exmple_leave_early_m));
                 break;
-            case Constant.LeaveType.LEAVE_EARLY_WOMAN_A:
-            case Constant.LeaveType.LEAVE_EARLY_A:
+            case LeaveType.LEAVE_EARLY_WOMAN_A:
+            case LeaveType.LEAVE_EARLY_A:
                 setTitleExampleLeaveOut(mContext.getString(R.string.title_leave_early_a),
                         mContext.getString(R.string.exmple_leave_early_a));
                 break;
-            case Constant.LeaveType.LEAVE_OUT:
-            case Constant.LeaveType.FORGOT_CHECK_ALL_DAY:
-            case Constant.LeaveType.FORGOT_CARD_ALL_DAY:
+            case LeaveType.LEAVE_OUT:
+            case LeaveType.FORGOT_CHECK_ALL_DAY:
+            case LeaveType.FORGOT_CARD_ALL_DAY:
                 setTitleExampleLeaveIn(mContext.getString(R.string.title_leave_out_from),
                         mContext.getString(R.string.exmple_leave_out_from));
                 setTitleExampleLeaveOut(mContext.getString(R.string.title_leave_out_to),
                         mContext.getString(R.string.exmple_leave_out_to));
                 break;
-            case Constant.LeaveType.FORGOT_CARD_IN:
-            case Constant.LeaveType.FORGOT_TO_CHECK_IN:
+            case LeaveType.FORGOT_CARD_IN:
+            case LeaveType.FORGOT_TO_CHECK_IN:
                 setTitleExampleLeaveIn(mContext.getString(R.string.title_forgot_in),
                         mContext.getString(R.string.exmple_forgot_in));
                 break;
-            case Constant.LeaveType.FORGOT_CARD_OUT:
-            case Constant.LeaveType.FORGOT_TO_CHECK_OUT:
+            case LeaveType.FORGOT_CARD_OUT:
+            case LeaveType.FORGOT_TO_CHECK_OUT:
                 setTitleExampleLeaveOut(mContext.getString(R.string.title_forgot_out),
                         mContext.getString(R.string.exmple_forgot_out));
                 break;
@@ -264,9 +344,491 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                         setCurrentLeaveType();
                         setTitleExampleLeave();
                         setLayoutLeaveType(mCurrentLeaveType);
+                        clearTime();
                         return true;
                     }
                 });
+    }
+
+    public void onClickCheckinTime(View view) {
+        mCurrentTimeSelected = CurrentTimeSelected.CHECK_IN;
+        mDialogManager.showDatePickerDialog();
+    }
+
+    public void onClickCheckoutTime(View view) {
+        if (checkIfOnlyHaveCheckoutTime()) {
+            mCurrentTimeSelected = CurrentTimeSelected.CHECK_OUT;
+            mDialogManager.showDatePickerDialog();
+            return;
+        }
+        if (mCheckinTime != null && !"".equals(mCheckinTime)) {
+            mCurrentTimeSelected = CurrentTimeSelected.CHECK_OUT;
+            mDialogManager.showDatePickerDialog();
+            return;
+        }
+        mDialogManager.dialogError(
+                mContext.getString(R.string.you_have_to_choose_the_from_time_first),
+                new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog materialDialog,
+                            @NonNull DialogAction dialogAction) {
+                        materialDialog.dismiss();
+                    }
+                });
+    }
+
+    private boolean checkIfOnlyHaveCheckoutTime() {
+        if (mCurrentLeaveType.equals(LeaveType.LEAVE_EARLY_A)
+                || mCurrentLeaveType.equals(LeaveType.LEAVE_EARLY_M)
+                || mCurrentLeaveType.equals(LeaveType.LEAVE_EARLY_WOMAN_A)
+                || mCurrentLeaveType.equals(LeaveType.LEAVE_EARLY_WOMAN_M)
+                || mCurrentLeaveType.equals(LeaveType.FORGOT_CARD_OUT)
+                || mCurrentLeaveType.equals(LeaveType.FORGOT_TO_CHECK_OUT)) {
+            return true;
+        }
+        return false;
+    }
+
+    private void validateErrorDialog(String error) {
+        mDialogManager.dialogError(error, new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog materialDialog,
+                    @NonNull DialogAction dialogAction) {
+                mDialogManager.showDatePickerDialog();
+            }
+        });
+    }
+
+    private void validateCheckinTime(String checkinTime) {
+        String currentTime = DateTimeUtils.convertToString(new Date(),
+                DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+        switch (mCurrentLeaveType) {
+            case LeaveType.FORGOT_CARD_ALL_DAY:
+                validateCheckinForgotCardAllDay(checkinTime, currentTime);
+                break;
+            case LeaveType.FORGOT_CARD_IN:
+                validateForgotCardIn(checkinTime, currentTime);
+                break;
+            case LeaveType.FORGOT_TO_CHECK_IN:
+                validateForgotCheckin(checkinTime, currentTime);
+                break;
+            case LeaveType.FORGOT_CHECK_ALL_DAY:
+                validateCheckinForgotCheckAllDay(checkinTime, currentTime);
+                break;
+            case LeaveType.IN_LATE_M:
+                validateInLateM(checkinTime);
+                break;
+            case LeaveType.IN_LATE_A:
+                validateInLateA(checkinTime);
+                break;
+            case LeaveType.IN_LATE_WOMAN_M:
+                validateInLateWomanM(checkinTime);
+                break;
+            case LeaveType.IN_LATE_WOMAN_A:
+                validateInLateWomanA(checkinTime);
+                break;
+            case LeaveType.LEAVE_OUT:
+                validateCheckinLeaveOut(checkinTime);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void validateCheckinLeaveOut(String checkinTime) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, SEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(mContext.getString(
+                    R.string.your_time_can_not_be_sooner_than_time_in_of_company));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, ELEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+            setCheckinTime(checkinTime);
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, TWELVE_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(
+                    mContext.getString(R.string.your_time_can_not_in_lunch_break_time_of_company));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, SIXTEEN_HOUR, FORTY_FIVE_MINUTES)) {
+            setCheckinTime(checkinTime);
+            return;
+        }
+        validateErrorDialog(
+                mContext.getString(R.string.your_time_can_not_be_later_than_time_out_company));
+    }
+
+    private void validateInLateWomanA(String checkinTime) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, TWELVE_HOUR, FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(
+                    mContext.getString(R.string.check_in_time_must_be_in_afternoon_shift));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, THIRTEEN_HOUR, FIFTEEN_MINUTES)) {
+            validateErrorDialog(mContext.getString(
+                    R.string.can_not_be_greater_than_0_5_hours_from_the_work_shift));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, FIFTEEN_HOUR,
+                FIFTEEN_MINUTES)) {
+            setCheckinTime(checkinTime);
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, SEVEN_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(mContext.getString(
+                    R.string.your_amount_tim_can_not_greater_than_max_allow_time));
+            return;
+        }
+        validateErrorDialog(mContext.getString(R.string.time_into_company_illegal));
+    }
+
+    private void validateInLateWomanM(String checkinTime) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, SEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(mContext.getString(R.string.time_into_company_illegal));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, EIGHT_HOUR, FIFTEEN_MINUTES)) {
+            validateErrorDialog(mContext.getString(
+                    R.string.can_not_be_greater_than_0_5_hours_from_the_work_shift));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, TEN_HOUR, FIFTEEN_MINUTES)) {
+            setCheckinTime(checkinTime);
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, ELEVEN_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(mContext.getString(
+                    R.string.your_amount_tim_can_not_greater_than_max_allow_time));
+            return;
+        }
+        validateErrorDialog(mContext.getString(R.string.check_in_time_must_be_in_morning_shift));
+    }
+
+    private void validateInLateA(String checkinTime) {
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, TWELVE_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(
+                    mContext.getString(R.string.check_in_time_must_be_in_afternoon_shift));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, FOURTEEN_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            setCheckinTime(checkinTime);
+            setCompensationFromTime(DateTimeUtils.changeTimeOfDateString(checkinTime, SIXTEEN_HOUR,
+                    FORTY_FIVE_MINUTES));
+            String workingTimeIn = DateTimeUtils.changeTimeOfDateString(checkinTime, TWELVE_HOUR,
+                    FORTY_FIVE_MINUTES);
+            setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                    DateTimeUtils.getMinutesBetweenTwoDate(checkinTime, workingTimeIn)));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, SIXTEEN_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(mContext.getString(
+                    R.string.your_amount_tim_can_not_greater_than_max_allow_time));
+            return;
+        }
+        validateErrorDialog(mContext.getString(R.string.check_in_time_must_be_in_afternoon_shift));
+    }
+
+    private void validateInLateM(String checkinTime) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, SEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(
+                    mContext.getString(R.string.this_is_form_request_late_time_in_is_incorrect));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, NIGHT_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            setCheckinTime(checkinTime);
+            setCompensationFromTime(DateTimeUtils.changeTimeOfDateString(checkinTime, SIXTEEN_HOUR,
+                    FORTY_FIVE_MINUTES));
+            String workingTimeIn = DateTimeUtils.changeTimeOfDateString(checkinTime, SEVEN_HOUR,
+                    FORTY_FIVE_MINUTES);
+            setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                    DateTimeUtils.getMinutesBetweenTwoDate(checkinTime, workingTimeIn)));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, ELEVEN_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(mContext.getString(
+                    R.string.your_amount_tim_can_not_greater_than_max_allow_time));
+            return;
+        }
+        validateErrorDialog(mContext.getString(R.string.check_in_time_must_be_in_morning_shift));
+    }
+
+    private void validateCheckinForgotCheckAllDay(String checkinTime, String currentTime) {
+        if (!DateTimeUtils.convertStringToDate(checkinTime)
+                .after(DateTimeUtils.convertStringToDate(currentTime))
+                && DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, ELEVEN_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            setCheckinTime(checkinTime);
+            return;
+        }
+        validateErrorDialog(
+                mContext.getString(R.string.the_working_time_dose_not_fit_to_the_request));
+    }
+
+    private void validateForgotCheckin(String checkinTime, String currentTime) {
+        if (!DateTimeUtils.convertStringToDate(checkinTime)
+                .after(DateTimeUtils.convertStringToDate(currentTime))) {
+            setCheckinTime(checkinTime);
+            return;
+        }
+        validateErrorDialog(mContext.getString(R.string.time_request_overtime_invalid));
+    }
+
+    private void validateForgotCardIn(String checkinTime, String currentTime) {
+        if (DateTimeUtils.convertDateTimeToDate(checkinTime)
+                .equals(DateTimeUtils.convertDateTimeToDate(currentTime))) {
+            setCheckinTime(checkinTime);
+            return;
+        }
+        validateErrorDialog(mContext.getString(R.string.form_overdue));
+    }
+
+    private void validateCheckinForgotCardAllDay(String checkinTime, String currentTime) {
+        if (!DateTimeUtils.convertDateTimeToDate(checkinTime)
+                .equals(DateTimeUtils.convertDateTimeToDate(currentTime))) {
+            validateErrorDialog(mContext.getString(R.string.form_overdue));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, ELEVEN_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            setCheckinTime(checkinTime);
+            return;
+        }
+        validateErrorDialog(
+                mContext.getString(R.string.the_working_time_dose_not_fit_to_the_request));
+    }
+
+    private void validateCheckoutTime(String checkoutTime) {
+        String currentTime = DateTimeUtils.convertToString(new Date(),
+                DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+        switch (mCurrentLeaveType) {
+            case LeaveType.FORGOT_CARD_ALL_DAY:
+                validateCheckoutForgotCardAllDay(checkoutTime, currentTime);
+                break;
+            case LeaveType.FORGOT_CARD_OUT:
+                validateForgotCardOut(checkoutTime, currentTime);
+                break;
+            case LeaveType.FORGOT_TO_CHECK_OUT:
+                validateForgotCheckout(checkoutTime, currentTime);
+                break;
+            case LeaveType.FORGOT_CHECK_ALL_DAY:
+                validateCheckoutForgotCheckAllDay(checkoutTime, currentTime);
+                break;
+            case LeaveType.LEAVE_EARLY_M:
+                validateLeaveEarlyM(checkoutTime);
+                break;
+            case LeaveType.LEAVE_EARLY_A:
+                validateLeaveEarlyA(checkoutTime);
+                break;
+            case LeaveType.LEAVE_EARLY_WOMAN_M:
+                validateLeaveEarlyWomanM(checkoutTime);
+                break;
+            case LeaveType.LEAVE_EARLY_WOMAN_A:
+                validateLeaveEarlyWomanA(checkoutTime);
+                break;
+            case LeaveType.LEAVE_OUT:
+                validateCheckoutLeaveOut(checkoutTime);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void validateCheckoutLeaveOut(String checkoutTime) {
+        if (DateTimeUtils.convertStringToDateTime(checkoutTime)
+                .before(DateTimeUtils.convertStringToDateTime(mCheckinTime))) {
+            validateErrorDialog(mContext.getString(
+                    R.string.request_time_to_can_not_greater_than_request_time_from));
+            return;
+        }
+        if (!DateTimeUtils.convertDateTimeToDate(checkoutTime)
+                .equals(DateTimeUtils.convertDateTimeToDate(mCheckinTime))) {
+            validateErrorDialog(mContext.getString(R.string.time_must_be_is_in_a_day));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, SIXTEEN_HOUR, FORTY_FIVE_MINUTES)) {
+            setCheckoutTime(checkoutTime);
+            setCompensationFromTime(DateTimeUtils.changeTimeOfDateString(checkoutTime, SIXTEEN_HOUR,
+                    FORTY_FIVE_MINUTES));
+            setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                    DateTimeUtils.getMinutesBetweenTwoDate(mCheckoutTime, mCheckinTime)));
+            return;
+        }
+        validateErrorDialog(
+                mContext.getString(R.string.your_time_can_not_be_later_than_time_out_company));
+    }
+
+    private void validateLeaveEarlyWomanA(String checkoutTime) {
+        if (validateLeaveEarlyABase(checkoutTime)) {
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, FOURTEEN_HOUR,
+                FIFTEEN_MINUTES)) {
+            validateErrorDialog(mContext.getString(
+                    R.string.your_amount_tim_can_not_greater_than_max_allow_time));
+            return;
+        }
+
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, SIXTEEN_HOUR, FORTY_FIVE_MINUTES)) {
+            setCheckoutTime(checkoutTime);
+        } else {
+            validateErrorDialog(
+                    mContext.getString(R.string.your_time_can_not_be_later_than_time_out_company));
+        }
+    }
+
+    private boolean validateLeaveEarlyABase(String checkoutTime) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, SEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(mContext.getString(
+                    R.string.your_time_can_not_be_sooner_than_time_in_of_company));
+            return true;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, ELEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(
+                    mContext.getString(R.string.check_out_time_must_be_in_afternoon_shift));
+            return true;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, TWELVE_HOUR, FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(
+                    mContext.getString(R.string.your_time_can_not_in_lunch_break_time_of_company));
+            return true;
+        }
+        return false;
+    }
+
+    private void validateLeaveEarlyWomanM(String checkoutTime) {
+        if (validateLeaveEarlyMBaseOne(checkoutTime)) {
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, ELEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+            setCheckoutTime(checkoutTime);
+            return;
+        }
+        validateLeaveEarlyMBaseTwo(checkoutTime);
+    }
+
+    private boolean validateLeaveEarlyMBaseOne(String checkoutTime) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, SEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(mContext.getString(
+                    R.string.your_time_can_not_be_sooner_than_time_in_of_company));
+            return true;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, NIGHT_HOUR, FIFTEEN_MINUTES)) {
+            validateErrorDialog(mContext.getString(
+                    R.string.your_amount_tim_can_not_greater_than_max_allow_time));
+            return true;
+        }
+        return false;
+    }
+
+    private void validateLeaveEarlyA(String checkoutTime) {
+        if (validateLeaveEarlyABase(checkoutTime)) {
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, FOURTEEN_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(mContext.getString(
+                    R.string.your_amount_tim_can_not_greater_than_max_allow_time));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, SIXTEEN_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            setCheckoutTime(checkoutTime);
+            setCompensationFromTime(DateTimeUtils.changeTimeOfDateString(checkoutTime, SIXTEEN_HOUR,
+                    FORTY_FIVE_MINUTES));
+            String workingTimeOut = DateTimeUtils.changeTimeOfDateString(checkoutTime, SIXTEEN_HOUR,
+                    FORTY_FIVE_MINUTES);
+            setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                    DateTimeUtils.getMinutesBetweenTwoDate(workingTimeOut, checkoutTime)));
+            return;
+        }
+        validateErrorDialog(
+                mContext.getString(R.string.your_time_can_not_be_later_than_time_out_company));
+    }
+
+    private void validateLeaveEarlyM(String checkoutTime) {
+        if (validateLeaveEarlyMBaseOne(checkoutTime)) {
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, SEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+            setCheckoutTime(checkoutTime);
+            setCompensationFromTime(DateTimeUtils.changeTimeOfDateString(checkoutTime, SIXTEEN_HOUR,
+                    FORTY_FIVE_MINUTES));
+            String workingTimeOut = DateTimeUtils.changeTimeOfDateString(checkoutTime, ELEVEN_HOUR,
+                    FORTY_FIVE_MINUTES);
+            setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                    DateTimeUtils.getMinutesBetweenTwoDate(workingTimeOut, checkoutTime)));
+            return;
+        }
+        validateLeaveEarlyMBaseTwo(checkoutTime);
+    }
+
+    private void validateLeaveEarlyMBaseTwo(String checkoutTime) {
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, TWELVE_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(
+                    mContext.getString(R.string.your_time_can_not_in_lunch_break_time_of_company));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, SIXTEEN_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(
+                    mContext.getString(R.string.check_out_time_must_be_in_morning_shift));
+            return;
+        }
+        validateErrorDialog(
+                mContext.getString(R.string.your_time_can_not_be_later_than_time_out_company));
+    }
+
+    private void validateCheckoutForgotCheckAllDay(String checkoutTime, String currentTime) {
+        if (!DateTimeUtils.convertStringToDate(checkoutTime)
+                .after(DateTimeUtils.convertStringToDate(currentTime))
+                && !DateTimeUtils.checkHourOfDateLessThan(checkoutTime, TWELVE_HOUR,
+                FORTY_FIVE_MINUTES)) {
+            setCheckoutTime(checkoutTime);
+            return;
+        }
+        validateErrorDialog(
+                mContext.getString(R.string.the_working_time_dose_not_fit_to_the_request));
+    }
+
+    private void validateForgotCheckout(String checkoutTime, String currentTime) {
+        if (!DateTimeUtils.convertStringToDate(checkoutTime)
+                .after(DateTimeUtils.convertStringToDate(currentTime))) {
+            setCheckoutTime(checkoutTime);
+            return;
+        }
+        validateErrorDialog(mContext.getString(R.string.form_overdue));
+    }
+
+    private void validateForgotCardOut(String checkoutTime, String currentTime) {
+        if (DateTimeUtils.convertDateTimeToDate(checkoutTime)
+                .equals(DateTimeUtils.convertDateTimeToDate(currentTime))) {
+            setCheckoutTime(checkoutTime);
+            return;
+        }
+        validateErrorDialog(mContext.getString(R.string.form_overdue));
+    }
+
+    private void validateCheckoutForgotCardAllDay(String checkoutTime, String currentTime) {
+        if (!DateTimeUtils.convertDateTimeToDate(mCheckinTime)
+                .equals(DateTimeUtils.convertDateTimeToDate(checkoutTime))) {
+            validateErrorDialog(mContext.getString(R.string.time_must_be_is_in_a_day));
+            return;
+        }
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, TWELVE_HOUR, FORTY_FIVE_MINUTES)) {
+            validateErrorDialog(
+                    mContext.getString(R.string.the_working_time_dose_not_fit_to_the_request));
+            return;
+        }
+        setCheckoutTime(checkoutTime);
     }
 
     public void onClickCreate(View view) {
@@ -276,6 +838,13 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, mRequest);
         mNavigator.startActivity(ConfirmRequestLeaveActivity.class, bundle);
+    }
+
+    public void clearTime() {
+        setCheckinTime(null);
+        setCheckoutTime(null);
+        setCompensationFromTime(null);
+        setCompensationToTime(null);
     }
 
     @Bindable
@@ -435,11 +1004,11 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     @Bindable
     public String getCheckinTime() {
-        mRequest.setCheckinTime("34344");
         return mRequest.getCheckinTime();
     }
 
     public void setCheckinTime(String checkinTime) {
+        mCurrentTimeSelected = CurrentTimeSelected.NONE;
         mCheckinTime = checkinTime;
         mRequest.setCheckinTime(checkinTime);
         notifyPropertyChanged(BR.checkinTime);
@@ -451,6 +1020,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     public void setCheckoutTime(String checkoutTime) {
+        mCurrentTimeSelected = CurrentTimeSelected.NONE;
         mCheckoutTime = checkoutTime;
         mRequest.setCheckoutTime(checkoutTime);
         notifyPropertyChanged(BR.checkoutTime);
@@ -481,5 +1051,43 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     @Bindable
     public User getUser() {
         return mUser;
+    }
+
+    @IntDef({
+            CurrentTimeSelected.NONE, CurrentTimeSelected.CHECK_IN, CurrentTimeSelected.CHECK_OUT,
+            CurrentTimeSelected.COMPENSATION_FROM, CurrentTimeSelected.COMPENSATION_TO
+    })
+    @interface CurrentTimeSelected {
+        int NONE = 0;
+        int CHECK_IN = 1;
+        int CHECK_OUT = 2;
+        int COMPENSATION_FROM = 3;
+        int COMPENSATION_TO = 4;
+    }
+
+    @StringDef({
+            LeaveType.IN_LATE_M, LeaveType.IN_LATE_A, LeaveType.LEAVE_EARLY_M,
+            LeaveType.LEAVE_EARLY_A, LeaveType.LEAVE_OUT, LeaveType.FORGOT_CHECK_ALL_DAY,
+            LeaveType.FORGOT_TO_CHECK_IN, LeaveType.FORGOT_TO_CHECK_OUT,
+            LeaveType.FORGOT_CARD_ALL_DAY, LeaveType.FORGOT_CARD_IN, LeaveType.FORGOT_CARD_OUT,
+            LeaveType.IN_LATE_WOMAN_M, LeaveType.IN_LATE_WOMAN_A, LeaveType.LEAVE_EARLY_WOMAN_M,
+            LeaveType.LEAVE_EARLY_WOMAN_A
+    })
+    public @interface LeaveType {
+        String IN_LATE_M = "In late (M)";
+        String IN_LATE_A = "In late (A)";
+        String LEAVE_EARLY_M = "Leave early (M)";
+        String LEAVE_EARLY_A = "Leave early (A)";
+        String LEAVE_OUT = "Leave out";
+        String FORGOT_CHECK_ALL_DAY = "Forgot to check in/check out (all day)";
+        String FORGOT_TO_CHECK_IN = "Forgot to check in";
+        String FORGOT_TO_CHECK_OUT = "Forgot to check out";
+        String FORGOT_CARD_ALL_DAY = "Forgot card (all day)";
+        String FORGOT_CARD_IN = "Forgot card (in)";
+        String FORGOT_CARD_OUT = "Forgot card (out)";
+        String IN_LATE_WOMAN_M = "In late (woman only) (M)";
+        String IN_LATE_WOMAN_A = "In late (woman only) (A)";
+        String LEAVE_EARLY_WOMAN_M = "Leave early (woman only) (M)";
+        String LEAVE_EARLY_WOMAN_A = "Leave early (woman only) (A)";
     }
 }

@@ -24,21 +24,18 @@ public final class Constant {
         // No-op
     }
 
-    public static class LeaveType {
-        public static final String IN_LATE_M = "In late (M)";
-        public static final String IN_LATE_A = "In late (A)";
-        public static final String LEAVE_EARLY_M = "Leave early (M)";
-        public static final String LEAVE_EARLY_A = "Leave early (A)";
-        public static final String LEAVE_OUT = "Leave out";
-        public static final String FORGOT_CHECK_ALL_DAY = "Forgot to check in/check out (all day)";
-        public static final String FORGOT_TO_CHECK_IN = "Forgot to check in";
-        public static final String FORGOT_TO_CHECK_OUT = "Forgot to check out";
-        public static final String FORGOT_CARD_ALL_DAY = "Forgot card (all day)";
-        public static final String FORGOT_CARD_IN = "Forgot card (in)";
-        public static final String FORGOT_CARD_OUT = "Forgot card (out)";
-        public static final String IN_LATE_WOMAN_M = "In late (woman only) (M)";
-        public static final String IN_LATE_WOMAN_A = "In late (woman only) (A)";
-        public static final String LEAVE_EARLY_WOMAN_M = "Leave early (woman only) (M)";
-        public static final String LEAVE_EARLY_WOMAN_A = "Leave early (woman only) (A)";
+    public static class TimeConst {
+        public static final int SEVEN_HOUR = 7;
+        public static final int EIGHT_HOUR = 8;
+        public static final int NIGHT_HOUR = 9;
+        public static final int TEN_HOUR = 10;
+        public static final int ELEVEN_HOUR = 11;
+        public static final int TWELVE_HOUR = 12;
+        public static final int THIRTEEN_HOUR = 13;
+        public static final int FOURTEEN_HOUR = 14;
+        public static final int FIFTEEN_HOUR = 15;
+        public static final int SIXTEEN_HOUR = 16;
+        public static final int FIFTEEN_MINUTES = 15;
+        public static final int FORTY_FIVE_MINUTES = 45;
     }
 }

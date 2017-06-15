@@ -142,6 +142,23 @@
     <string name="end_time_is_less_than_start_time">End time is less than start time</string>
     <string name="you_have_to_choose_the_from_time_first">  You have to choose the from time first</string>
 
+    <!-- Validate Request Leave -->
+    <string name="the_working_time_dose_not_fit_to_the_request">The working time dose not fit to the request</string>
+    <string name="form_overdue">Form overdue</string>
+    <string name="this_is_form_request_late_time_in_is_incorrect">This is form request late, time in is incorrect!</string>
+    <string name="your_amount_tim_can_not_greater_than_max_allow_time">Your amount time can not greater than max allow time </string>
+    <string name="check_in_time_must_be_in_morning_shift">Check in time must be in morning shift</string>
+    <string name="check_in_time_must_be_in_afternoon_shift">Check in time must be in afternoon shift</string>
+    <string name="check_out_time_must_be_in_morning_shift">Check out time must be in morning shift</string>
+    <string name="check_out_time_must_be_in_afternoon_shift">Check out time must be in afternoon shift</string>
+    <string name="time_into_company_illegal">Time into company Illegal</string>
+    <string name="can_not_be_greater_than_0_5_hours_from_the_work_shift">The request for IL (woman only) can not be greater than 0.5 hours from the work shift</string>
+    <string name="your_time_can_not_be_sooner_than_time_in_of_company">Your time can not be sooner than time in of company</string>
+    <string name="your_time_can_not_in_lunch_break_time_of_company">Your time can not in lunch break time of company</string>
+    <string name="your_time_can_not_be_later_than_time_out_company">Your time can not be later than time out company</string>
+    <string name="time_must_be_is_in_a_day">Time must be is in a day</string>
+    <string name="request_time_to_can_not_greater_than_request_time_from">Request time to can not greater than request time from</string>
+
     <string name="locate">en</string>
 
 </resources>

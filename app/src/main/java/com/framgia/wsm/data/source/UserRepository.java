@@ -41,9 +41,9 @@ public class UserRepository {
         String[] arrLeaveType = {
                 "In late (M)", "In late (A)", "Leave early (M)", "Leave early (A)", "Leave out",
                 "Forgot to check in/check out (all day)", "Forgot to check in",
-                "Forgot to check out", "Forgot card (all day)", "Forgot card (int)",
-                "Forgot card (out)", "In late (woman only)(M)", "In late (woman only)(A)",
-                "Leave early (woman only)(M)", "Leave early (woman only)(A)"
+                "Forgot to check out", "Forgot card (all day)", "Forgot card (in)",
+                "Forgot card (out)", "In late (woman only) (M)", "In late (woman only) (A)",
+                "Leave early (woman only) (M)", "Leave early (woman only) (A)"
         };
         List<LeaveType> leaveTypeList = new ArrayList<>();
         for (int i = 0; i < arrLeaveType.length; i++) {
