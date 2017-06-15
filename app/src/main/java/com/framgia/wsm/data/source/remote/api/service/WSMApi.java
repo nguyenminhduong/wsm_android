@@ -6,6 +6,7 @@ import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.source.remote.api.response.TimeSheetResponse;
 import io.reactivex.Observable;
+import java.util.List;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -28,6 +29,6 @@ public interface WSMApi {
     Observable<Object> createFormRequestOverTime(@Body Request request);
 
     // TODO edit later
-    @POST("/api/v1/list_request_off")
-    Observable<Object> getListRequestOff(@Query("user_id") int userId);
+    @GET("/api/v1/list_request_off")
+    Observable<BaseResponse<List<Request>>> getListRequestOff(@Query("user_id") int userId);
 }
