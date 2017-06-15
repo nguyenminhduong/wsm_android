@@ -129,7 +129,6 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
 
     public void setUsername(String username) {
         mUsername = username;
-        mPresenter.validateUserNameInput(username);
     }
 
     @Bindable
