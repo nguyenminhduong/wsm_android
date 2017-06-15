@@ -30,6 +30,7 @@ public class UserRepository {
         User user = new User();
         user.setName("Nguyễn Văn A");
         user.setCode("B1228368");
+        user.setId(1);
         user.setEmail("nguyen.van.a@framgia.com");
         List<Branch> branchList = new ArrayList<>();
         branchList.add(new Branch("1", "Da Nang Office"));
