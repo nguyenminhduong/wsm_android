@@ -1,8 +1,17 @@
 package com.framgia.wsm.screen.listrequest;
 
+import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.source.RequestRepository;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import java.util.List;
 
 /**
  * Listens to user actions from the UI ({@link ListRequestFragment}), retrieves the data and
@@ -40,6 +49,34 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
 
     @Override
     public void getListAllRequest(int requestType, int userId) {
-        // TODO: get list all request
+        switch (requestType) {
+            case RequestType.REQUEST_OVERTIME:
+                // TODO: get list request overtime
+                break;
+            case RequestType.REQUEST_OFF:
+                Disposable subscription = mRequestRepository.getListRequestOff(userId)
+                        .subscribeOn(mBaseSchedulerProvider.io())
+                        .observeOn(mBaseSchedulerProvider.ui())
+                        .subscribe(new Consumer<BaseResponse<List<Request>>>() {
+                            @Override
+                            public void accept(
+                                    @NonNull BaseResponse<List<Request>> listBaseResponse)
+                                    throws Exception {
+                                mViewModel.onGetListRequestSuccess(listBaseResponse.getData());
+                            }
+                        }, new RequestError() {
+                            @Override
+                            public void onRequestError(BaseException error) {
+                                mViewModel.onGetListRequestError(error);
+                            }
+                        });
+                mCompositeDisposable.add(subscription);
+                break;
+            case RequestType.REQUEST_LATE_EARLY:
+                // TODO: get list request late early
+
+            default:
+                break;
+        }
     }
 }
