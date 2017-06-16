@@ -25,4 +25,14 @@ public final class StringUtils {
             return Integer.MIN_VALUE;
         }
     }
+
+    public static double convertStringToDouble(String input) {
+        double result = 0;
+        if (input == null) {
+            return result;
+        } else {
+            result = Double.parseDouble(input);
+        }
+        return result;
+    }
 }

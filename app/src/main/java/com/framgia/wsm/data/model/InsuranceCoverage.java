@@ -37,6 +37,9 @@ public class InsuranceCoverage extends BaseModel implements Parcelable {
         mWifeLaborLeave = in.readString();
     }
 
+    public InsuranceCoverage() {
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mLeaveForCareOfSickChild);

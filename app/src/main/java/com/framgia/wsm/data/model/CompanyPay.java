@@ -9,11 +9,6 @@ import android.os.Parcelable;
 
 public class CompanyPay extends BaseModel implements Parcelable {
 
-    private String mAnnualLeave;
-    private String mLeaveForMarriage;
-    private String mLeaveForChildMarriage;
-    private String mFuneralLeave;
-
     public static final Creator<CompanyPay> CREATOR = new Creator<CompanyPay>() {
         @Override
         public CompanyPay createFromParcel(Parcel in) {
@@ -25,12 +20,19 @@ public class CompanyPay extends BaseModel implements Parcelable {
             return new CompanyPay[size];
         }
     };
+    private String mAnnualLeave;
+    private String mLeaveForMarriage;
+    private String mLeaveForChildMarriage;
+    private String mFuneralLeave;
 
     protected CompanyPay(Parcel in) {
         mAnnualLeave = in.readString();
         mLeaveForMarriage = in.readString();
         mLeaveForChildMarriage = in.readString();
         mFuneralLeave = in.readString();
+    }
+
+    public CompanyPay() {
     }
 
     public String getAnnualLeave() {
