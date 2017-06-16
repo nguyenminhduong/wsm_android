@@ -195,14 +195,9 @@ public class DialogManagerImpl implements DialogManager {
     @Override
     public DialogManager dialogMonthYearPicker(DatePickerDialog.OnDateSetListener onDateSetListener,
             int year, int month) {
-        int theme;
-        if (Build.VERSION.SDK_INT < 23) {
-            theme = AlertDialog.THEME_HOLO_LIGHT;
-        } else {
-            theme = android.R.style.Theme_Holo_Light_Dialog;
-        }
         mDatePickerDialog =
-                new DatePickerDialog(mContext, theme, onDateSetListener, year, month, -1);
+                new DatePickerDialog(mContext, AlertDialog.THEME_HOLO_LIGHT, onDateSetListener,
+                        year, month, -1);
         try {
             Field[] datePickerDialogFields = mDatePickerDialog.getClass().getDeclaredFields();
             for (Field datePickerDialogField : datePickerDialogFields) {

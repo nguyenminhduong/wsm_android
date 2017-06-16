@@ -17,6 +17,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_10"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
         >
@@ -29,7 +30,7 @@
             >
 
             <FrameLayout
-                android:layout_width="@dimen/dp_150"
+                android:layout_width="@dimen/dp_170"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginStart="@dimen/dp_10"
@@ -54,7 +55,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="@dimen/dp_150"
+                android:layout_width="@dimen/dp_170"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginStart="@dimen/dp_10"
@@ -80,11 +81,9 @@
             </FrameLayout>
 
             <ImageView
-                android:layout_width="@dimen/dp_40"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
                 android:background="@drawable/ic_search"
                 tools:ignore="ContentDescription"
                 />

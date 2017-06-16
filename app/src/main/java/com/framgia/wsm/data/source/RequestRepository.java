@@ -5,6 +5,7 @@ import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,19 @@ public class RequestRepository {
     }
 
     public Observable<BaseResponse<List<Request>>> getListRequestOff(@NonNull int userId) {
-        return mRemoteDataSource.getListRequestOff(userId);
+        // TODO: Edit later
+        // return mRemoteDataSource.getListRequestOff(userId);
+        List<Request> requests = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Request request = new Request();
+            request.setCreatedAt("16/06/2017");
+            request.setStatus(0);
+            request.setFromTime("17/06/2017");
+            request.setToTime("18/06/2017");
+            requests.add(request);
+        }
+        BaseResponse<List<Request>> baseResponse = new BaseResponse<List<Request>>(requests) {
+        };
+        return Observable.just(baseResponse);
     }
 }

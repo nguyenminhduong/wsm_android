@@ -3,6 +3,7 @@ package com.framgia.wsm.screen.listrequest;
 import android.databinding.BaseObservable;
 import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
+import com.framgia.wsm.utils.StatusCode;
 
 /**
  * Created by ASUS on 13/06/2017.
@@ -75,11 +76,16 @@ public class ItemListRequestViewModel extends BaseObservable {
         return "";
     }
 
-    public int getStatus() {
-        if (mRequest != null) {
-            return mRequest.getStatus();
-        }
-        return 0;
+    public boolean isAcceptStatus() {
+        return mRequest.getStatus() == StatusCode.ACCEPT_CODE;
+    }
+
+    public boolean isPendingStatus() {
+        return mRequest.getStatus() == StatusCode.PENDING_CODE;
+    }
+
+    public boolean isRejectStatus() {
+        return mRequest.getStatus() == StatusCode.REJECT_CODE;
     }
 
     public void onItemClicked() {

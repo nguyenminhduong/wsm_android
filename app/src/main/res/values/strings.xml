@@ -84,6 +84,9 @@
     <string name="confirm_create">Confirm create</string>
     <string name="from">From</string>
     <string name="to">To</string>
+    <string name="pending" translatable="false">Pending</string>
+    <string name="accepted" translatable="false">Accepted</string>
+    <string name="rejected" translatable="false">Rejected</string>
     <string name="leave_type">Leave type</string>
     <string name="compensation_time">Compensation time</string>
     <string name="example_time_from">Ex: 2017/05/20 17:30</string>
