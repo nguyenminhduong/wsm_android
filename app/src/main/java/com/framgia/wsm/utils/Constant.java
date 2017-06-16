@@ -37,5 +37,7 @@ public final class Constant {
         public static final int SIXTEEN_HOUR = 16;
         public static final int FIFTEEN_MINUTES = 15;
         public static final int FORTY_FIVE_MINUTES = 45;
+        public static final int ONE_MONTH = 1;
+        public static final int DAY_25_OF_MONTH = 25;
     }
 }

@@ -8,6 +8,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import static com.framgia.wsm.utils.Constant.TimeConst.DAY_25_OF_MONTH;
+import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
+
 /**
  * Created by framgia on 19/05/2017.
  */
@@ -17,6 +20,7 @@ public final class DateTimeUtils {
     public static final String FORMAT_DATE = "dd/MM/yyyy";
     public static final String TIME_FORMAT_HH_MM = "HH:mm";
     public static final String DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM = "yyyy/MM/dd - HH:mm";
+    public static final String DATE_FORMAT_YYYY_MM_DD_A = "yyyy/MM/dd a";
 
     private DateTimeUtils() {
         // No-op
@@ -159,5 +163,14 @@ public final class DateTimeUtils {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(convertStringToDateTime(dateTime));
         return calendar.get(dateOrTime);
+    }
+
+    public static Date currentMonthWorking() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - ONE_MONTH);
+        calendar.set(Calendar.DAY_OF_MONTH, DAY_25_OF_MONTH);
+        String currentMonth = DateTimeUtils.convertToString(calendar.getTime(),
+                DateTimeUtils.DATE_FORMAT_YYYY_MM_DD);
+        return DateTimeUtils.convertStringToDate(currentMonth);
     }
 }

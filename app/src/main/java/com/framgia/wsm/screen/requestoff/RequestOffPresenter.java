@@ -75,7 +75,7 @@ final class RequestOffPresenter implements RequestOffContract.Presenter {
             mViewModel.onInputReasonError(errorMessage);
         }
         try {
-            return mValidator.validateAll(mViewModel);
+            return mValidator.validateAll(requestOff);
         } catch (IllegalAccessException e) {
             Log.e(TAG, "validateDataInput: ", e);
             return false;

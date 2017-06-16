@@ -71,6 +71,8 @@ public class RequestOff extends BaseModel implements Parcelable {
     private String mReason;
 
     public RequestOff() {
+        mInsuranceCoverage = new InsuranceCoverage();
+        mCompanyPay = new CompanyPay();
     }
 
     protected RequestOff(Parcel in) {
@@ -170,9 +172,6 @@ public class RequestOff extends BaseModel implements Parcelable {
     }
 
     public CompanyPay getCompanyPay() {
-        if (mCompanyPay == null) {
-            return new CompanyPay();
-        }
         return mCompanyPay;
     }
 
@@ -181,9 +180,6 @@ public class RequestOff extends BaseModel implements Parcelable {
     }
 
     public InsuranceCoverage getInsuranceCoverage() {
-        if (mInsuranceCoverage == null) {
-            return new InsuranceCoverage();
-        }
         return mInsuranceCoverage;
     }
 
