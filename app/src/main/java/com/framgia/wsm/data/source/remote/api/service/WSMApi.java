@@ -31,4 +31,12 @@ public interface WSMApi {
     // TODO edit later
     @GET("/api/v1/list_request_off")
     Observable<BaseResponse<List<Request>>> getListRequestOff(@Query("user_id") int userId);
+
+    // TODO edit later
+    @GET("/api/v1/list_request_over_time")
+    Observable<BaseResponse<List<Request>>> getListRequestOverTime(@Query("user_id") int userId);
+
+    // TODO edit later
+    @GET("/api/v1/list_request_late_early")
+    Observable<BaseResponse<List<Request>>> getListRequestLateEarly(@Query("user_id") int userId);
 }

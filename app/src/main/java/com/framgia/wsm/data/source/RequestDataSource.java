@@ -15,5 +15,9 @@ public interface RequestDataSource {
         Observable<Object> createFormRequestOverTime(@NonNull Request request);
 
         Observable<BaseResponse<List<Request>>> getListRequestOff(@NonNull int userId);
+
+        Observable<BaseResponse<List<Request>>> getListRequestLateEarly(@NonNull int userId);
+
+        Observable<BaseResponse<List<Request>>> getListRequestOverTime(@NonNull int userId);
     }
 }

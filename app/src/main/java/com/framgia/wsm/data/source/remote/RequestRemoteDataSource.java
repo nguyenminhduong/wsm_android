@@ -29,4 +29,14 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     public Observable<BaseResponse<List<Request>>> getListRequestOff(@NonNull int userId) {
         return mWSMApi.getListRequestOff(userId);
     }
+
+    @Override
+    public Observable<BaseResponse<List<Request>>> getListRequestLateEarly(@NonNull int userId) {
+        return mWSMApi.getListRequestLateEarly(userId);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<Request>>> getListRequestOverTime(@NonNull int userId) {
+        return mWSMApi.getListRequestOverTime(userId);
+    }
 }
