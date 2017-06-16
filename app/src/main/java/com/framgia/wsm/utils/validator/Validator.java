@@ -137,7 +137,7 @@ public class Validator {
         return isValid;
     }
 
-    public <T extends BaseViewModel> boolean validateAll(T object) throws IllegalAccessException {
+    public <T> boolean validateAll(T object) throws IllegalAccessException {
         boolean isValid = true;
 
         for (Field field : object.getClass().getDeclaredFields()) {

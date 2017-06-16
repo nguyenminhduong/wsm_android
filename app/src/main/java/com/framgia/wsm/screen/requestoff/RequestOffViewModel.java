@@ -24,7 +24,8 @@ import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
 import java.util.Calendar;
-import java.util.Date;
+
+import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
 
 /**
  * Exposes the data to be used in the RequestOff screen.
@@ -38,10 +39,6 @@ public class RequestOffViewModel extends BaseRequestOff
     private static final int FLAG_END_DATE = 2;
     private static final int FLAG_SESSION_START_DATE = 1;
     private static final int FLAG_SESSION_END_DATE = 2;
-
-    //TODO move next pull
-    private static final int ONE_MONTH = 1;
-    private static final int DAY_OF_MONTH = 25;
 
     private Context mContext;
     private RequestOffContract.Presenter mPresenter;
@@ -157,12 +154,13 @@ public class RequestOffViewModel extends BaseRequestOff
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String date = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
         if (mFlagDate == FLAG_START_DATE) {
-            if (DateTimeUtils.convertStringToDate(date).after(currentMonthWorking())) {
+            if (DateTimeUtils.convertStringToDate(date)
+                    .after(DateTimeUtils.currentMonthWorking())) {
                 setEndDate(null);
                 setStartDate(date);
             } else {
                 setStartDate(null);
-                showErrorDialog(mContext.getString(R.string.you_can_not_access));
+                showErrorDialogWithButtonRetry(mContext.getString(R.string.you_can_not_access));
             }
             mCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH) + ONE_MONTH);
             return;
@@ -170,26 +168,26 @@ public class RequestOffViewModel extends BaseRequestOff
         validateEndDate(date);
     }
 
-    //TODO move next pull
-    private Date currentMonthWorking() {
-        mCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH) - ONE_MONTH);
-        mCalendar.set(Calendar.DAY_OF_MONTH, DAY_OF_MONTH);
-        String currentMonth = DateTimeUtils.convertToString(mCalendar.getTime(),
-                DateTimeUtils.DATE_FORMAT_YYYY_MM_DD);
-        return DateTimeUtils.convertStringToDate(currentMonth);
-    }
-
-    private void validateEndDate(String date) {
+    private void validateEndDate(String endDate) {
         if (mIsVisibleLayoutNoSalary) {
-            if (DateTimeUtils.convertStringToDate(date)
+            if (DateTimeUtils.convertStringToDate(endDate)
                     .before(DateTimeUtils.convertStringToDate(mStartDateNoSalary))) {
                 setEndDate(null);
-                showErrorDialog(mContext.getString(R.string.end_date_must_greater_than_start_day));
+                showErrorDialogWithButtonRetry(
+                        mContext.getString(R.string.end_date_must_greater_than_start_day));
             } else {
-                setEndDate(date);
+                setEndDate(endDate);
             }
+            return;
         }
-        //TODO validate EndDate with Layout Have Salary
+        if (DateTimeUtils.convertStringToDate(endDate)
+                .before(DateTimeUtils.convertStringToDate(mStartDateHaveSalary))) {
+            setEndDate(null);
+            showErrorDialogWithButtonRetry(
+                    mContext.getString(R.string.end_date_must_greater_than_start_day));
+            return;
+        }
+        setEndDate(endDate);
     }
 
     public void onPickBranch(View view) {
@@ -288,7 +286,7 @@ public class RequestOffViewModel extends BaseRequestOff
                 });
     }
 
-    private void showErrorDialog(String errorMessage) {
+    private void showErrorDialogWithButtonRetry(String errorMessage) {
         mDialogManager.dialogError(errorMessage, new MaterialDialog.SingleButtonCallback() {
             @Override
             public void onClick(@NonNull MaterialDialog materialDialog,
@@ -296,6 +294,10 @@ public class RequestOffViewModel extends BaseRequestOff
                 mDialogManager.showDatePickerDialog();
             }
         });
+    }
+
+    private void showErrorDialog(String errorMessage) {
+        mDialogManager.dialogError(errorMessage, null);
     }
 
     public void onClickStartDate(View view) {
@@ -309,14 +311,16 @@ public class RequestOffViewModel extends BaseRequestOff
             if (mStartDateNoSalary != null) {
                 mDialogManager.showDatePickerDialog();
             } else {
-                showErrorDialog(mContext.getString(R.string.you_have_to_choose_start_date));
+                showErrorDialogWithButtonRetry(
+                        mContext.getString(R.string.you_have_to_choose_start_date));
             }
             return;
         }
         if (mStartDateHaveSalary != null) {
             mDialogManager.showDatePickerDialog();
         } else {
-            showErrorDialog(mContext.getString(R.string.you_have_to_choose_start_date));
+            showErrorDialogWithButtonRetry(
+                    mContext.getString(R.string.you_have_to_choose_start_date));
         }
     }
 
@@ -328,8 +332,36 @@ public class RequestOffViewModel extends BaseRequestOff
         if (!mPresenter.validateData(mRequestOff)) {
             return;
         }
+        mRequestOff.setStartDayHaveSalary(
+                mStartDateHaveSalary + Constant.BLANK + mCurrentDaySessionStartDayHaveSalary);
+        mRequestOff.setEndDayHaveSalary(
+                mEndDateHaveSalary + Constant.BLANK + mCurrentDaySessionEndDayHaveSalary);
+        mRequestOff.setStartDayNoSalary(
+                mStartDateNoSalary + Constant.BLANK + mCurrentDaySessionEndDayNoSalary);
+        mRequestOff.setEndDayNoSalary(
+                mEndDateNoSalary + Constant.BLANK + mCurrentDaySessionEndDayNoSalary);
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mRequestOff);
+
+        if (mEndDateHaveSalary != null) {
+            if (mEndDateNoSalary == null) {
+                if (getSumDateOffHaveSalary() > 0) {
+                    mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
+                    return;
+                }
+                showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
+            }
+            mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
+            return;
+        }
+        if (mEndDateNoSalary == null) {
+            if (getSumDateOffHaveSalary() > 0) {
+                showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
+                return;
+            }
+            showErrorDialog(mContext.getString(R.string.the_number_of_days_allowed));
+            return;
+        }
         mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
     }
 

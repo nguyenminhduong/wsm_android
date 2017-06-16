@@ -111,7 +111,8 @@
     <string name="you_can_not_access">You can not access for this month!</string>
     <string name="you_have_to_choose_start_date">You have to choose start date first!</string>
     <string name="end_date_must_greater_than_start_day">End day must greater than start day!</string>
-
+    <string name="the_number_of_days_allowed">The number of days allowed for vacations may not be left blank!</string>
+    <string name="the_field_required_can_not_be_blank">The field required can not be blank!</string>
     <!-- In late (M) -->
     <string name="leave_type_in_late_m">In late (M)</string>
     <string name="title_in_late_m">Check in morning time</string>
