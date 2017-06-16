@@ -54,6 +54,7 @@ final class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void login(String userName, String passWord) {
+        validateUserNameInput(userName);
         Disposable subscription = mUserRepository.login(userName, passWord)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
@@ -75,27 +76,6 @@ final class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void validateUserNameInput(String userName) {
-        String messageUsername = mValidator.validateValueNonEmpty(userName);
-        if (StringUtils.isBlank(messageUsername)) {
-            messageUsername = mValidator.validateEmailFormat(userName);
-            if (!StringUtils.isBlank(messageUsername)) {
-                mViewModel.onInputUserNameError(messageUsername);
-            }
-        } else {
-            mViewModel.onInputUserNameError(messageUsername);
-        }
-    }
-
-    @Override
-    public void validatePasswordInput(String password) {
-        String messagePassword = mValidator.validateValueNonEmpty(password);
-        if (!StringUtils.isBlank(messagePassword)) {
-            mViewModel.onInputPasswordError(messagePassword);
-        }
-    }
-
-    @Override
     public boolean validateDataInput(String userName, String password) {
         validateUserNameInput(userName);
         validatePasswordInput(password);
@@ -111,6 +91,25 @@ final class LoginPresenter implements LoginContract.Presenter {
     public void checkUserLogin() {
         if (!mTokenRepository.getToken().equals("")) {
             mViewModel.onUserLoggedIn();
+        }
+    }
+
+    private void validateUserNameInput(String userName) {
+        String messageUsername = mValidator.validateValueNonEmpty(userName);
+        if (StringUtils.isBlank(messageUsername)) {
+            messageUsername = mValidator.validateEmailFormat(userName);
+            if (!StringUtils.isBlank(messageUsername)) {
+                mViewModel.onInputUserNameError(messageUsername);
+            }
+        } else {
+            mViewModel.onInputUserNameError(messageUsername);
+        }
+    }
+
+    private void validatePasswordInput(String password) {
+        String messagePassword = mValidator.validateValueNonEmpty(password);
+        if (!StringUtils.isBlank(messagePassword)) {
+            mViewModel.onInputPasswordError(messagePassword);
         }
     }
 }

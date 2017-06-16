@@ -31,10 +31,6 @@ interface LoginContract {
     interface Presenter extends BasePresenter<ViewModel> {
         void login(String userName, String passWord);
 
-        void validateUserNameInput(String userName);
-
-        void validatePasswordInput(String password);
-
         boolean validateDataInput(String userName, String passWord);
 
         void checkUserLogin();
