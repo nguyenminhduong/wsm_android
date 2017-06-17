@@ -108,11 +108,7 @@
     <string name="confirm_request_off">Confirm Request Off</string>
     <string name="note">Note: \u0020</string>
     <string name="am_pm">Morning: am - am;  Afternoon: pm - pm;  All day: am - pm</string>
-    <string name="you_can_not_access">You can not access for this month!</string>
-    <string name="you_have_to_choose_start_date">You have to choose start date first!</string>
-    <string name="end_date_must_greater_than_start_day">End day must greater than start day!</string>
-    <string name="the_number_of_days_allowed">The number of days allowed for vacations may not be left blank!</string>
-    <string name="the_field_required_can_not_be_blank">The field required can not be blank!</string>
+
     <!-- In late (M) -->
     <string name="leave_type_in_late_m">In late (M)</string>
     <string name="title_in_late_m">Check in morning time</string>
@@ -166,6 +162,13 @@
     <string name="time_must_be_is_in_a_day">Time must be is in a day</string>
     <string name="request_time_to_can_not_greater_than_request_time_from">Request time to can not greater than request time from</string>
 
+    <!-- Validate Request Off -->
+    <string name="you_can_not_access">You can not access for this month!</string>
+    <string name="you_have_to_choose_start_date">You have to choose start date first!</string>
+    <string name="end_date_must_greater_than_start_day">End day must greater than start day!</string>
+    <string name="the_number_of_days_allowed">The number of days allowed for vacations may not be left blank!</string>
+    <string name="the_field_required_can_not_be_blank">The field required can not be blank!</string>
+    <string name="time_must_be_a_working_date">Time must be a working day!</string>
     <string name="locate">en</string>
 
 </resources>

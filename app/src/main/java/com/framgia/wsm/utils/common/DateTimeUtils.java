@@ -173,4 +173,12 @@ public final class DateTimeUtils {
                 DateTimeUtils.DATE_FORMAT_YYYY_MM_DD);
         return DateTimeUtils.convertStringToDate(currentMonth);
     }
+
+    public static int getDayOfWeek(int year, int month, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.YEAR, year);
+        return calendar.get(Calendar.DAY_OF_WEEK);
+    }
 }
