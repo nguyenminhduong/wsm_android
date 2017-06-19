@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.TimeSheetDate;
 import com.framgia.wsm.databinding.NavHeaderMainBinding;
+import com.framgia.wsm.screen.login.LoginViewModel;
 import com.framgia.wsm.screen.main.MainViewModel;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.widget.timesheet.OnDayClickListener;
@@ -147,6 +148,32 @@ public final class BindingUtils {
             @Override
             public void afterTextChanged(Editable s) {
                 //No-Op
+            }
+        });
+    }
+
+    @BindingAdapter({ "errorTextInputLayoutEmail", "viewModel" })
+    public static void setErrorTextInputLayoutEmail(final TextInputLayout textInputLayout,
+            final String text, final LoginViewModel loginViewModel) {
+        textInputLayout.setError(text);
+        EditText editText = textInputLayout.getEditText();
+        if (editText == null) {
+            return;
+        }
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //No-Op
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //No-Op
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                loginViewModel.validateEmail(s.toString());
             }
         });
     }

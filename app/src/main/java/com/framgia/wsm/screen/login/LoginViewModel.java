@@ -89,14 +89,6 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
         notifyPropertyChanged(BR.passwordError);
     }
 
-    public void onLoginClick(View view) {
-        if (!mPresenter.validateDataInput(mUsername, mPassword)) {
-            return;
-        }
-        mDialogManager.showIndeterminateProgressDialog();
-        mPresenter.login(mUsername, mPassword);
-    }
-
     @Override
     public void onForgotPasswordClick() {
         //TODO: Forgot Password Activity!
@@ -138,5 +130,17 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
 
     public void setPassword(String password) {
         mPassword = password;
+    }
+
+    public void onLoginClick(View view) {
+        if (!mPresenter.validateDataInput(mUsername, mPassword)) {
+            return;
+        }
+        mDialogManager.showIndeterminateProgressDialog();
+        mPresenter.login(mUsername, mPassword);
+    }
+
+    public void validateEmail(String userName) {
+        mPresenter.validateUserNameInput(userName);
     }
 }
