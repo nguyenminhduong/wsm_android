@@ -53,12 +53,10 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
 
     @Override
     public void getListAllRequest(int requestType, int userId) {
+        Disposable disposable;
         switch (requestType) {
             case RequestType.REQUEST_OVERTIME:
-                // TODO: get list request overtime
-                break;
-            case RequestType.REQUEST_OFF:
-                Disposable subscription = mRequestRepository.getListRequestOff(userId)
+                disposable = mRequestRepository.getListRequestOverTime(userId)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
                         .subscribe(new Consumer<BaseResponse<List<Request>>>() {
@@ -74,11 +72,46 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
                                 mViewModel.onGetListRequestError(error);
                             }
                         });
-                mCompositeDisposable.add(subscription);
+                mCompositeDisposable.add(disposable);
+                break;
+            case RequestType.REQUEST_OFF:
+                disposable = mRequestRepository.getListRequestOff(userId)
+                        .subscribeOn(mBaseSchedulerProvider.io())
+                        .observeOn(mBaseSchedulerProvider.ui())
+                        .subscribe(new Consumer<BaseResponse<List<Request>>>() {
+                            @Override
+                            public void accept(
+                                    @NonNull BaseResponse<List<Request>> listBaseResponse)
+                                    throws Exception {
+                                mViewModel.onGetListRequestSuccess(listBaseResponse.getData());
+                            }
+                        }, new RequestError() {
+                            @Override
+                            public void onRequestError(BaseException error) {
+                                mViewModel.onGetListRequestError(error);
+                            }
+                        });
+                mCompositeDisposable.add(disposable);
                 break;
             case RequestType.REQUEST_LATE_EARLY:
-                // TODO: get list request late early
-
+                disposable = mRequestRepository.getListRequestLateEarly(userId)
+                        .subscribeOn(mBaseSchedulerProvider.io())
+                        .observeOn(mBaseSchedulerProvider.ui())
+                        .subscribe(new Consumer<BaseResponse<List<Request>>>() {
+                            @Override
+                            public void accept(
+                                    @NonNull BaseResponse<List<Request>> listBaseResponse)
+                                    throws Exception {
+                                mViewModel.onGetListRequestSuccess(listBaseResponse.getData());
+                            }
+                        }, new RequestError() {
+                            @Override
+                            public void onRequestError(BaseException error) {
+                                mViewModel.onGetListRequestError(error);
+                            }
+                        });
+                mCompositeDisposable.add(disposable);
+                break;
             default:
                 break;
         }
