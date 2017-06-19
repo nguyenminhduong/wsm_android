@@ -73,81 +73,65 @@ final class RequestLeavePresenter implements RequestLeaveContract.Presenter {
         switch (request.getLeaveType().getName()) {
             case RequestLeaveViewModel.LeaveType.IN_LATE_A:
             case RequestLeaveViewModel.LeaveType.IN_LATE_M:
-                if (validateCheckinTime(request.getCheckinTime())
-                        & validateCompensationFrom(request.getCompensation().getFromTime())
-                        & validateCompensationTo(request.getCompensation().getToTime())
-                        & validateReason(request.getReason())
-                        & validateProjectName(request.getProject())) {
+                if (validateCheckinTime(request.getCheckinTime()) & validateCompensationFrom(
+                        request.getCompensation().getFromTime()) & validateCompensationTo(
+                        request.getCompensation().getToTime()) & validateReason(
+                        request.getReason())) {
                     return true;
                 }
                 break;
             case RequestLeaveViewModel.LeaveType.LEAVE_EARLY_A:
             case RequestLeaveViewModel.LeaveType.LEAVE_EARLY_M:
-                if (validateCheckoutTime(request.getCheckoutTime())
-                        & validateCompensationFrom(request.getCompensation().getFromTime())
-                        & validateCompensationTo(request.getCompensation().getToTime())
-                        & validateReason(request.getReason())
-                        & validateProjectName(request.getProject())) {
+                if (validateCheckoutTime(request.getCheckoutTime()) & validateCompensationFrom(
+                        request.getCompensation().getFromTime()) & validateCompensationTo(
+                        request.getCompensation().getToTime()) & validateReason(
+                        request.getReason())) {
                     return true;
                 }
                 break;
             case RequestLeaveViewModel.LeaveType.IN_LATE_WOMAN_A:
             case RequestLeaveViewModel.LeaveType.IN_LATE_WOMAN_M:
-                if (validateCheckinTime(request.getCheckinTime()) & validateProjectName(
-                        request.getProject())) {
+                if (validateCheckinTime(request.getCheckinTime())) {
                     return true;
                 }
                 break;
             case RequestLeaveViewModel.LeaveType.LEAVE_EARLY_WOMAN_A:
             case RequestLeaveViewModel.LeaveType.LEAVE_EARLY_WOMAN_M:
-                if (validateCheckoutTime(request.getCheckoutTime()) & validateProjectName(
-                        request.getProject())) {
+                if (validateCheckoutTime(request.getCheckoutTime())) {
                     return true;
                 }
                 break;
             case RequestLeaveViewModel.LeaveType.FORGOT_CARD_ALL_DAY:
             case RequestLeaveViewModel.LeaveType.FORGOT_CHECK_ALL_DAY:
                 if (validateCheckinTime(request.getCheckinTime()) & validateCheckoutTime(
-                        request.getCheckoutTime()) & validateProjectName(request.getProject())) {
+                        request.getCheckoutTime())) {
                     return true;
                 }
 
                 break;
             case RequestLeaveViewModel.LeaveType.FORGOT_CARD_IN:
             case RequestLeaveViewModel.LeaveType.FORGOT_TO_CHECK_IN:
-                if (validateCheckinTime(request.getCheckinTime()) & validateProjectName(
-                        request.getProject())) {
+                if (validateCheckinTime(request.getCheckinTime())) {
                     return true;
                 }
                 break;
             case RequestLeaveViewModel.LeaveType.FORGOT_CARD_OUT:
             case RequestLeaveViewModel.LeaveType.FORGOT_TO_CHECK_OUT:
-                if (validateCheckoutTime(request.getCheckoutTime()) & validateProjectName(
-                        request.getProject())) {
+                if (validateCheckoutTime(request.getCheckoutTime())) {
                     return true;
                 }
                 break;
             case RequestLeaveViewModel.LeaveType.LEAVE_OUT:
-                if (validateCheckinTime(request.getCheckinTime())
-                        & validateCheckoutTime(request.getCheckoutTime())
-                        & validateCompensationFrom(request.getCompensation().getFromTime())
-                        & validateCompensationTo(request.getCompensation().getToTime())
-                        & validateReason(request.getReason())
-                        & validateProjectName(request.getProject())) {
+                if (validateCheckinTime(request.getCheckinTime()) & validateCheckoutTime(
+                        request.getCheckoutTime()) & validateCompensationFrom(
+                        request.getCompensation().getFromTime()) & validateCompensationTo(
+                        request.getCompensation().getToTime()) & validateReason(
+                        request.getReason())) {
                     return true;
                 }
                 break;
         }
         return false;
-    }
-
-    private boolean validateProjectName(String projectName) {
-        String errorMessage = mValidator.validateValueNonEmpty(projectName);
-        if (StringUtils.isNotBlank(errorMessage)) {
-            mViewModel.onInputProjectNameError(errorMessage);
-            return false;
-        }
-        return true;
     }
 
     private boolean validateReason(String reason) {
