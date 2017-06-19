@@ -25,6 +25,7 @@ import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
 import java.util.Calendar;
 
+import static com.framgia.wsm.utils.Constant.BLANK;
 import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
 
 /**
@@ -153,11 +154,17 @@ public class RequestOffViewModel extends BaseRequestOff
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String date = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
+        int dayOfWeek = DateTimeUtils.getDayOfWeek(year, month, dayOfMonth);
         if (mFlagDate == FLAG_START_DATE) {
             if (DateTimeUtils.convertStringToDate(date)
                     .after(DateTimeUtils.currentMonthWorking())) {
-                setEndDate(null);
-                setStartDate(date);
+                if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
+                    setEndDate(null);
+                    setStartDate(date);
+                    return;
+                }
+                showErrorDialogWithButtonRetry(
+                        mContext.getString(R.string.time_must_be_a_working_date));
             } else {
                 setStartDate(null);
                 showErrorDialogWithButtonRetry(mContext.getString(R.string.you_can_not_access));
@@ -297,7 +304,7 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     private void showErrorDialog(String errorMessage) {
-        mDialogManager.dialogError(errorMessage, null);
+        mDialogManager.dialogError(errorMessage);
     }
 
     public void onClickStartDate(View view) {
@@ -332,42 +339,52 @@ public class RequestOffViewModel extends BaseRequestOff
         if (!mPresenter.validateData(mRequestOff)) {
             return;
         }
-        mRequestOff.setStartDayHaveSalary(
-                mStartDateHaveSalary + Constant.BLANK + mCurrentDaySessionStartDayHaveSalary);
-        mRequestOff.setEndDayHaveSalary(
-                mEndDateHaveSalary + Constant.BLANK + mCurrentDaySessionEndDayHaveSalary);
-        mRequestOff.setStartDayNoSalary(
-                mStartDateNoSalary + Constant.BLANK + mCurrentDaySessionEndDayNoSalary);
-        mRequestOff.setEndDayNoSalary(
-                mEndDateNoSalary + Constant.BLANK + mCurrentDaySessionEndDayNoSalary);
+        setRequestOff();
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mRequestOff);
 
-        if (mEndDateHaveSalary != null) {
-            if (mEndDateNoSalary == null) {
-                if (getSumDateOffHaveSalary() > 0) {
-                    mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
-                    return;
-                }
-                showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
-            }
-            mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
-            return;
-        }
-        if (mEndDateNoSalary == null) {
-            if (getSumDateOffHaveSalary() > 0) {
+        if (getSumDateOffHaveSalary() > 0) {
+            if (mEndDateHaveSalary == null) {
                 showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
                 return;
             }
+            mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
+        } else {
+            if (mEndDateHaveSalary == null) {
+                if (mEndDateNoSalary == null) {
+                    showErrorDialog(
+                            mContext.getString(R.string.the_field_required_can_not_be_blank));
+                } else {
+                    mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
+                }
+                return;
+            }
             showErrorDialog(mContext.getString(R.string.the_number_of_days_allowed));
-            return;
         }
-        mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
     }
 
     @Bindable
     public RequestOff getRequestOff() {
         return mRequestOff;
+    }
+
+    private void setRequestOff() {
+        if (mStartDateHaveSalary != null) {
+            mRequestOff.setStartDayHaveSalary(
+                    mStartDateHaveSalary + BLANK + mCurrentDaySessionStartDayHaveSalary);
+        }
+        if (mEndDateHaveSalary != null) {
+            mRequestOff.setEndDayHaveSalary(
+                    mEndDateHaveSalary + BLANK + mCurrentDaySessionEndDayHaveSalary);
+        }
+        if (mStartDateNoSalary != null) {
+            mRequestOff.setStartDayNoSalary(
+                    mStartDateNoSalary + BLANK + mCurrentDaySessionEndDayNoSalary);
+        }
+        if (mEndDateNoSalary != null) {
+            mRequestOff.setEndDayNoSalary(
+                    mEndDateNoSalary + BLANK + mCurrentDaySessionEndDayNoSalary);
+        }
     }
 
     @Bindable

@@ -27,6 +27,8 @@ public interface DialogManager {
 
     void dialogError(BaseException e);
 
+    void dialogError(String content);
+
     /**
      * <h1>BasicWithoutTitle Dialog</h1>
      * <img width="400" height="134" src="https://github
