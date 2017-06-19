@@ -108,6 +108,10 @@
     <string name="confirm_request_off">Confirm Request Off</string>
     <string name="note">Note: \u0020</string>
     <string name="am_pm">Morning: am - am;  Afternoon: pm - pm;  All day: am - pm</string>
+    <string name="off_have_salary_from">Off have salary from</string>
+    <string name="off_have_salary_to">Off have salary to</string>
+    <string name="off_no_salary_from">Off no salary from</string>
+    <string name="off_no_salary_to">Off no salary to</string>
 
     <!-- In late (M) -->
     <string name="leave_type_in_late_m">In late (M)</string>
