@@ -112,6 +112,7 @@
     <string name="off_have_salary_to">Off have salary to</string>
     <string name="off_no_salary_from">Off no salary from</string>
     <string name="off_no_salary_to">Off no salary to</string>
+    <string name="off_have_salary_insurance_coverage">Off have salary - Insurance coverage</string>
 
     <!-- In late (M) -->
     <string name="leave_type_in_late_m">In late (M)</string>

@@ -73,12 +73,14 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sp_15</item>
     </style>
 
     <style name="StyleTextConfirm">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/sp_18</item>
+        <item name="android:textColor">@color/cardview_dark_background</item>
+        <item name="android:textSize">@dimen/sp_17</item>
     </style>
 
     <style name="StyleLinearLayoutConfirmRequestOff">
