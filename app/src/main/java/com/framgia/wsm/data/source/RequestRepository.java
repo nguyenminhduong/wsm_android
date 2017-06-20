@@ -29,6 +29,10 @@ public class RequestRepository {
         return mRemoteDataSource.createFormRequestOff(requestOff);
     }
 
+    public Observable<Object> createFormRequestLeave(@NonNull Request request) {
+        return mRemoteDataSource.createFormRequestLeave(request);
+    }
+
     public Observable<BaseResponse<List<Request>>> getListRequestOff(@NonNull int userId) {
         // TODO: Edit later
         // return mRemoteDataSource.getListRequestOff(userId);

@@ -32,6 +32,11 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
+    public Observable<Object> createFormRequestLeave(@NonNull Request request) {
+        return mWSMApi.createFormRequestLeave(request);
+    }
+
+    @Override
     public Observable<BaseResponse<List<Request>>> getListRequestOff(@NonNull int userId) {
         return mWSMApi.getListRequestOff(userId);
     }

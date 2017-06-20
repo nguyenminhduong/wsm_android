@@ -34,6 +34,10 @@ public interface WSMApi {
     Observable<Object> createFormRequestOff(@Body RequestOff requestOff);
 
     // TODO edit later
+    @POST("/api/v1/request_leave")
+    Observable<Object> createFormRequestLeave(@Body Request request);
+
+    // TODO edit later
     @GET("/api/v1/list_request_off")
     Observable<BaseResponse<List<Request>>> getListRequestOff(@Query("user_id") int userId);
 
