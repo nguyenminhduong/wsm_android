@@ -33,6 +33,8 @@ interface LoginContract {
 
         boolean validateDataInput(String userName, String passWord);
 
+        void validateUserNameInput(String userName);
+
         void checkUserLogin();
     }
 }

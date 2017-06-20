@@ -94,12 +94,15 @@ final class LoginPresenter implements LoginContract.Presenter {
         }
     }
 
-    private void validateUserNameInput(String userName) {
+    @Override
+    public void validateUserNameInput(String userName) {
         String messageUsername = mValidator.validateValueNonEmpty(userName);
         if (StringUtils.isBlank(messageUsername)) {
             messageUsername = mValidator.validateEmailFormat(userName);
             if (!StringUtils.isBlank(messageUsername)) {
                 mViewModel.onInputUserNameError(messageUsername);
+            } else {
+                mViewModel.onInputUserNameError("");
             }
         } else {
             mViewModel.onInputUserNameError(messageUsername);

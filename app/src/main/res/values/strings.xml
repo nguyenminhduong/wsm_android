@@ -42,6 +42,7 @@
     <string name="log_in">Log in</string>
     <string name="is_empty">Empty, please enter !</string>
     <string name="invalid_email_format">Invalid email format !</string>
+    <string name="none" translatable="false"/>
     <string name="request_leave">Request Leave</string>
 
     <string name="day_off_ro">Ro</string>

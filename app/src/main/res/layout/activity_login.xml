@@ -49,7 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/color_white"
-                bind:errorTextInputLayout="@{viewModel.usernameError}"
+                bind:errorTextInputLayoutEmail="@{viewModel.usernameError}"
+                bind:viewModel="@{viewModel}"
                 >
 
                 <EditText
@@ -65,7 +66,6 @@
                     android:text="@={viewModel.username}"
                     android:textColor="@color/color_white"
                     />
-
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -90,7 +90,6 @@
                     android:text="@={viewModel.password}"
                     android:textColor="@color/color_white"
                     />
-
             </android.support.design.widget.TextInputLayout>
 
             <TextView
@@ -104,6 +103,7 @@
                 />
 
             <Button
+                android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_50"
@@ -115,7 +115,6 @@
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/sp_18"
                 />
-
         </LinearLayout>
     </RelativeLayout>
 </layout>
