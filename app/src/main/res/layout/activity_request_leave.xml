@@ -33,134 +33,157 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:toolbar="@{viewModel.titleToolbar}"
-                />
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{viewModel::onClickArrowBack}"
+                    android:src="@drawable/md_nav_back"
+                    tools:ignore="ContentDescription"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_35"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:text="@string/request_leave"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_20"
+                    />
+            </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
-
-        <ScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:scrollbars="none"
             >
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/dp_10"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/button_create"
+                android:fillViewport="true"
+                android:scrollbars="none"
                 >
-                <android.support.design.widget.TextInputLayout
-                    style="@style/StyleTextHint"
-                    >
-                    <EditText
-                        android:enabled="false"
-                        android:hint="@string/employee_name"
-                        android:text="@{viewModel.user.name}"
-                        style="@style/StyleText"
-                        />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/StyleTextHint"
-                    >
-                    <EditText
-                        android:enabled="false"
-                        android:hint="@string/employee_code"
-                        android:text="@{viewModel.user.code}"
-                        style="@style/StyleText"
-                        />
-                </android.support.design.widget.TextInputLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal"
-                    >
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        >
-                        <android.support.design.widget.TextInputLayout
-                            style="@style/StyleTextHint"
-                            >
-                            <EditText
-                                android:hint="@string/branch"
-                                android:onClick="@{viewModel::onPickBranch}"
-                                android:text="@{viewModel.currentBranch}"
-                                style="@style/StyleText"
-                                />
-                        </android.support.design.widget.TextInputLayout>
-                        <ImageView
-                            tools:ignore="ContentDescription"
-                            style="@style/StyleImageDropDown"
-                            />
-                    </FrameLayout>
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        >
-                        <android.support.design.widget.TextInputLayout
-                            style="@style/StyleTextHint"
-                            >
-                            <EditText
-                                android:hint="@string/group"
-                                android:onClick="@{viewModel::onPickGroup}"
-                                android:text="@{viewModel.currentGroup}"
-                                style="@style/StyleText"
-                                />
-                        </android.support.design.widget.TextInputLayout>
-                        <ImageView
-                            tools:ignore="ContentDescription"
-                            style="@style/StyleImageDropDown"
-                            />
-                    </FrameLayout>
-                </LinearLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    bind:errorTextInputLayout="@{viewModel.projectNameError}"
-                    style="@style/StyleTextHint"
-                    >
-                    <EditText
-                        android:hint="@string/project_name"
-                        android:text="@={viewModel.projectName}"
-                        style="@style/StyleEditableText"
-                        />
-                </android.support.design.widget.TextInputLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_10"
                     >
                     <android.support.design.widget.TextInputLayout
                         style="@style/StyleTextHint"
                         >
                         <EditText
-                            android:hint="@string/leave_type"
-                            android:onClick="@{viewModel::onPickTypeRequest}"
-                            android:text="@{viewModel.currentLeaveType}"
+                            android:enabled="false"
+                            android:hint="@string/employee_name"
+                            android:text="@{viewModel.user.name}"
                             style="@style/StyleText"
                             />
                     </android.support.design.widget.TextInputLayout>
-                    <ImageView
-                        tools:ignore="ContentDescription"
-                        style="@style/StyleImageDropDown"
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/StyleTextHint"
+                        >
+                        <EditText
+                            android:enabled="false"
+                            android:hint="@string/employee_code"
+                            android:text="@{viewModel.user.code}"
+                            style="@style/StyleText"
+                            />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal"
+                        >
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            >
+                            <android.support.design.widget.TextInputLayout
+                                style="@style/StyleTextHint"
+                                >
+                                <EditText
+                                    android:hint="@string/branch"
+                                    android:onClick="@{viewModel::onPickBranch}"
+                                    android:text="@{viewModel.currentBranch}"
+                                    style="@style/StyleText"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+                            <ImageView
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleImageDropDown"
+                                />
+                        </FrameLayout>
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            >
+                            <android.support.design.widget.TextInputLayout
+                                style="@style/StyleTextHint"
+                                >
+                                <EditText
+                                    android:hint="@string/group"
+                                    android:onClick="@{viewModel::onPickGroup}"
+                                    android:text="@{viewModel.currentGroup}"
+                                    style="@style/StyleText"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+                            <ImageView
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleImageDropDown"
+                                />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        bind:errorTextInputLayout="@{viewModel.projectNameError}"
+                        style="@style/StyleTextHint"
+                        >
+                        <EditText
+                            android:hint="@string/project_name"
+                            android:text="@={viewModel.projectName}"
+                            style="@style/StyleEditableText"
+                            />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/StyleTextHint"
+                            >
+                            <EditText
+                                android:hint="@string/leave_type"
+                                android:onClick="@{viewModel::onPickTypeRequest}"
+                                android:text="@{viewModel.currentLeaveType}"
+                                style="@style/StyleText"
+                                />
+                        </android.support.design.widget.TextInputLayout>
+                        <ImageView
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleImageDropDown"
+                            />
+                    </FrameLayout>
+
+                    <include
+                        layout="@layout/layout_form_request_leave"
+                        bind:viewModel="@{viewModel}"
                         />
-                </FrameLayout>
 
-                <include
-                    layout="@layout/layout_form_request_leave"
-                    bind:viewModel="@{viewModel}"
-                    />
-
-                <Button
-                    android:onClick="@{viewModel::onClickCreate}"
-                    android:text="@string/create"
-                    style="@style/StyleButton"
-                    />
-            </LinearLayout>
-        </ScrollView>
+                </LinearLayout>
+            </ScrollView>
+            <Button
+                android:id="@+id/button_create"
+                android:layout_alignParentBottom="true"
+                android:onClick="@{viewModel::onClickCreate}"
+                android:text="@string/next"
+                style="@style/StyleButton"
+                />
+        </RelativeLayout>
     </LinearLayout>
 </layout>

@@ -425,19 +425,16 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void showDialogError(String message) {
-        mDialogManager.dialogError(message, null);
+        mDialogManager.dialogError(message);
     }
 
     private boolean checkIfOnlyHaveCheckoutTime() {
-        if (mCurrentLeaveType.equals(LeaveType.LEAVE_EARLY_A)
+        return mCurrentLeaveType.equals(LeaveType.LEAVE_EARLY_A)
                 || mCurrentLeaveType.equals(LeaveType.LEAVE_EARLY_M)
                 || mCurrentLeaveType.equals(LeaveType.LEAVE_EARLY_WOMAN_A)
                 || mCurrentLeaveType.equals(LeaveType.LEAVE_EARLY_WOMAN_M)
                 || mCurrentLeaveType.equals(LeaveType.FORGOT_CARD_OUT)
-                || mCurrentLeaveType.equals(LeaveType.FORGOT_TO_CHECK_OUT)) {
-            return true;
-        }
-        return false;
+                || mCurrentLeaveType.equals(LeaveType.FORGOT_TO_CHECK_OUT);
     }
 
     private void validateErrorDialog(String error) {
@@ -952,6 +949,10 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         }
     }
 
+    public void onClickArrowBack(View view) {
+        mNavigator.finishActivity();
+    }
+
     public void onClickCreate(View view) {
         if (!mPresenter.validateDataInput(mRequest)) {
             return;
@@ -966,11 +967,6 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         setCheckoutTime(null);
         setCompensationFromTime(null);
         setCompensationToTime(null);
-    }
-
-    @Bindable
-    public String getTitleToolbar() {
-        return mContext.getString(R.string.request_leave);
     }
 
     @Bindable
