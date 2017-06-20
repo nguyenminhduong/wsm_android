@@ -50,7 +50,21 @@ final class ConfirmRequestLeavePresenter implements ConfirmRequestLeaveContract.
 
     @Override
     public void createFormRequestLeave(Request request) {
-        //TODO request leave
+        Disposable disposable = mRequestRepository.createFormRequestLeave(request)
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        mViewModel.onCreateFormRequestLeaveSuccess();
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onCreateFormFormRequestLeaveError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
     }
 
     @Override

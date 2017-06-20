@@ -440,6 +440,7 @@
             </ScrollView>
 
             <Button
+                android:onClick="@{viewModel::onClickSubmit}"
                 android:id="@+id/button_submit"
                 android:layout_alignParentBottom="true"
                 android:text="@string/submit"

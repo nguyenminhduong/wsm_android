@@ -117,4 +117,11 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     public void onClickArrowBack(View view) {
         mNavigator.finishActivity();
     }
+
+    public void onClickSubmit(View view) {
+        if (mRequest == null) {
+            return;
+        }
+        mPresenter.createFormRequestLeave(mRequest);
+    }
 }
