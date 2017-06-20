@@ -52,16 +52,16 @@ public class RequestOff extends BaseModel implements Parcelable {
     @SerializedName("insurance_coverage")
     private InsuranceCoverage mInsuranceCoverage;
     @Expose
-    @SerializedName("from")
+    @SerializedName("from_have_salary")
     private String mStartDayHaveSalary;
     @Expose
-    @SerializedName("to")
+    @SerializedName("to_have_salary")
     private String mEndDayHaveSalary;
     @Expose
-    @SerializedName("from")
+    @SerializedName("from_no_salary")
     private String mStartDayNoSalary;
     @Expose
-    @SerializedName("to")
+    @SerializedName("to_no_salary")
     private String mEndDayNoSalary;
     @Expose
     @SerializedName("reason")

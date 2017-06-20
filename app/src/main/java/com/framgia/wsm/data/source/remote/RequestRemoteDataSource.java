@@ -1,6 +1,7 @@
 package com.framgia.wsm.data.source.remote;
 
 import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.source.RequestDataSource;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
@@ -23,6 +24,11 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     @Override
     public Observable<Object> createFormRequestOverTime(@NonNull Request request) {
         return mWSMApi.createFormRequestOverTime(request);
+    }
+
+    @Override
+    public Observable<Object> createFormRequestOff(@NonNull RequestOff requestOff) {
+        return mWSMApi.createFormRequestOff(requestOff);
     }
 
     @Override
