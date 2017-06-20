@@ -69,6 +69,20 @@ final class ConfirmRequestOffPresenter implements ConfirmRequestOffContract.Pres
 
     @Override
     public void createFormRequestOff(RequestOff requestOff) {
-        //TODO create form request off
+        Disposable disposable = mRequestRepository.createFormRequestOff(requestOff)
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        mViewModel.onCreateFormRequestOffSuccess();
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onCreateFormFormRequestOffError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
     }
 }

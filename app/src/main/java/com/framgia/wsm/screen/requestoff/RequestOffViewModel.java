@@ -318,16 +318,14 @@ public class RequestOffViewModel extends BaseRequestOff
             if (mStartDateNoSalary != null) {
                 mDialogManager.showDatePickerDialog();
             } else {
-                showErrorDialogWithButtonRetry(
-                        mContext.getString(R.string.you_have_to_choose_start_date));
+                showErrorDialog(mContext.getString(R.string.you_have_to_choose_start_date));
             }
             return;
         }
         if (mStartDateHaveSalary != null) {
             mDialogManager.showDatePickerDialog();
         } else {
-            showErrorDialogWithButtonRetry(
-                    mContext.getString(R.string.you_have_to_choose_start_date));
+            showErrorDialog(mContext.getString(R.string.you_have_to_choose_start_date));
         }
     }
 
@@ -337,6 +335,7 @@ public class RequestOffViewModel extends BaseRequestOff
 
     public void onClickNext(View view) {
         if (!mPresenter.validateData(mRequestOff)) {
+            showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
             return;
         }
         setRequestOff();
@@ -345,6 +344,10 @@ public class RequestOffViewModel extends BaseRequestOff
 
         if (getSumDateOffHaveSalary() > 0) {
             if (mEndDateHaveSalary == null) {
+                showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
+                return;
+            }
+            if (mStartDateNoSalary != null && mEndDateNoSalary == null) {
                 showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
                 return;
             }

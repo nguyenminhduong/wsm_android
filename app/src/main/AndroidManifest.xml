@@ -28,8 +28,7 @@
         <activity
             android:name=".screen.requestoff.RequestOffActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeRequest"
-            android:windowSoftInputMode="adjustResize"/>
+            android:theme="@style/AppThemeRequest"/>
         <activity
             android:name=".screen.requestovertime.RequestOvertimeActivity"
             android:screenOrientation="portrait"
@@ -37,7 +36,7 @@
         <activity
             android:name=".screen.requestovertime.confirmovertime.ConfirmOvertimeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppThemeRequest"/>
         <activity
             android:name=".screen.confirmrequestleave.ConfirmRequestLeaveActivity"
             android:screenOrientation="portrait"
@@ -45,8 +44,7 @@
         <activity
             android:name=".screen.confirmrequestoff.ConfirmRequestOffActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize"/>
+            android:theme="@style/AppThemeRequest"/>
     </application>
 
 </manifest>
