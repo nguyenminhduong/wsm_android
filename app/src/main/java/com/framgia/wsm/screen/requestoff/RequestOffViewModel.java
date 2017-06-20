@@ -175,221 +175,6 @@ public class RequestOffViewModel extends BaseRequestOff
         validateEndDate(date);
     }
 
-    private void validateEndDate(String endDate) {
-        if (mIsVisibleLayoutNoSalary) {
-            if (DateTimeUtils.convertStringToDate(endDate)
-                    .before(DateTimeUtils.convertStringToDate(mStartDateNoSalary))) {
-                setEndDate(null);
-                showErrorDialogWithButtonRetry(
-                        mContext.getString(R.string.end_date_must_greater_than_start_day));
-            } else {
-                setEndDate(endDate);
-            }
-            return;
-        }
-        if (DateTimeUtils.convertStringToDate(endDate)
-                .before(DateTimeUtils.convertStringToDate(mStartDateHaveSalary))) {
-            setEndDate(null);
-            showErrorDialogWithButtonRetry(
-                    mContext.getString(R.string.end_date_must_greater_than_start_day));
-            return;
-        }
-        setEndDate(endDate);
-    }
-
-    public void onPickBranch(View view) {
-        if (mUser.getBranches() == null || mUser.getBranches().size() == 0) {
-            return;
-        }
-        String[] branches = new String[mUser.getBranches().size()];
-        for (int i = 0; i < branches.length; i++) {
-            branches[i] = mUser.getBranches().get(i).getBranchName();
-        }
-        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.branch), branches,
-                mCurrentBranchPosition, new MaterialDialog.ListCallbackSingleChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog materialDialog, View view,
-                            int position, CharSequence charSequence) {
-                        mCurrentBranchPosition = position;
-                        setCurrentBranch();
-                        return true;
-                    }
-                });
-    }
-
-    public void onPickGroup(View view) {
-        if (mUser.getGroups() == null || mUser.getGroups().size() == 0) {
-            return;
-        }
-        String[] groups = new String[mUser.getGroups().size()];
-        for (int i = 0; i < groups.length; i++) {
-            groups[i] = mUser.getGroups().get(i).getGroupName();
-        }
-        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.group), groups,
-                mCurrentBranchPosition, new MaterialDialog.ListCallbackSingleChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog materialDialog, View view,
-                            int position, CharSequence charSequence) {
-                        mCurrentGroupPosition = position;
-                        setCurrentGroup();
-                        return true;
-                    }
-                });
-    }
-
-    public void onPickTypeRequestOff(View view) {
-        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.off_type),
-                R.array.off_type, mCurrentPositionOffType,
-                new MaterialDialog.ListCallbackSingleChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog materialDialog, View view,
-                            int positionType, CharSequence charSequence) {
-                        setCurrentPositionOffType(positionType);
-                        setCurrentOffType(String.valueOf(charSequence));
-                        setLayoutOffType(positionType);
-                        return true;
-                    }
-                });
-    }
-
-    public void onPickDaySessionStartDay(View view) {
-        int currentPositionDaySessionStartDay;
-        if (mIsVisibleLayoutNoSalary) {
-            currentPositionDaySessionStartDay = mCurrentPositionDaySessionStartDayNoSalary;
-        } else {
-            currentPositionDaySessionStartDay = mCurrentPositionDaySessionStartDayHaveSalary;
-        }
-        mFlagDateSession = FLAG_SESSION_START_DATE;
-        showDialogListSingleChoice(currentPositionDaySessionStartDay);
-    }
-
-    public void onPickDaySessionEndDay(View view) {
-        int currentPositionDaySessionEndDay;
-        if (mIsVisibleLayoutNoSalary) {
-            currentPositionDaySessionEndDay = mCurrentPositionDaySessionEndDayNoSalary;
-        } else {
-            currentPositionDaySessionEndDay = mCurrentPositionDaySessionEndDayHaveSalary;
-        }
-        mFlagDateSession = FLAG_SESSION_END_DATE;
-        showDialogListSingleChoice(currentPositionDaySessionEndDay);
-    }
-
-    private void showDialogListSingleChoice(int currentPositionDaySession) {
-        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.day_session),
-                R.array.day_session, currentPositionDaySession,
-                new MaterialDialog.ListCallbackSingleChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog materialDialog, View view,
-                            int position, CharSequence charSequence) {
-                        if (mFlagDateSession == FLAG_SESSION_START_DATE) {
-                            setCurrentPositionDaySessionStartDay(position);
-                            setCurrentDaySessionStartDay(String.valueOf(charSequence));
-                        } else {
-                            setCurrentPositionDaySessionEndDay(position);
-                            setCurrentDaySessionEndDay(String.valueOf(charSequence));
-                        }
-                        return true;
-                    }
-                });
-    }
-
-    private void showErrorDialogWithButtonRetry(String errorMessage) {
-        mDialogManager.dialogError(errorMessage, new MaterialDialog.SingleButtonCallback() {
-            @Override
-            public void onClick(@NonNull MaterialDialog materialDialog,
-                    @NonNull DialogAction dialogAction) {
-                mDialogManager.showDatePickerDialog();
-            }
-        });
-    }
-
-    private void showErrorDialog(String errorMessage) {
-        mDialogManager.dialogError(errorMessage);
-    }
-
-    public void onClickStartDate(View view) {
-        mFlagDate = FLAG_START_DATE;
-        mDialogManager.showDatePickerDialog();
-    }
-
-    public void onClickEndDate(View view) {
-        mFlagDate = FLAG_END_DATE;
-        if (mIsVisibleLayoutNoSalary) {
-            if (mStartDateNoSalary != null) {
-                mDialogManager.showDatePickerDialog();
-            } else {
-                showErrorDialog(mContext.getString(R.string.you_have_to_choose_start_date));
-            }
-            return;
-        }
-        if (mStartDateHaveSalary != null) {
-            mDialogManager.showDatePickerDialog();
-        } else {
-            showErrorDialog(mContext.getString(R.string.you_have_to_choose_start_date));
-        }
-    }
-
-    public void onCickArrowBack(View view) {
-        mNavigator.finishActivity();
-    }
-
-    public void onClickNext(View view) {
-        if (!mPresenter.validateData(mRequestOff)) {
-            showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
-            return;
-        }
-        setRequestOff();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mRequestOff);
-
-        if (getSumDateOffHaveSalary() > 0) {
-            if (mEndDateHaveSalary == null) {
-                showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
-                return;
-            }
-            if (mStartDateNoSalary != null && mEndDateNoSalary == null) {
-                showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
-                return;
-            }
-            mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
-        } else {
-            if (mEndDateHaveSalary == null) {
-                if (mEndDateNoSalary == null) {
-                    showErrorDialog(
-                            mContext.getString(R.string.the_field_required_can_not_be_blank));
-                } else {
-                    mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
-                }
-                return;
-            }
-            showErrorDialog(mContext.getString(R.string.the_number_of_days_allowed));
-        }
-    }
-
-    @Bindable
-    public RequestOff getRequestOff() {
-        return mRequestOff;
-    }
-
-    private void setRequestOff() {
-        if (mStartDateHaveSalary != null) {
-            mRequestOff.setStartDayHaveSalary(
-                    mStartDateHaveSalary + BLANK + mCurrentDaySessionStartDayHaveSalary);
-        }
-        if (mEndDateHaveSalary != null) {
-            mRequestOff.setEndDayHaveSalary(
-                    mEndDateHaveSalary + BLANK + mCurrentDaySessionEndDayHaveSalary);
-        }
-        if (mStartDateNoSalary != null) {
-            mRequestOff.setStartDayNoSalary(
-                    mStartDateNoSalary + BLANK + mCurrentDaySessionEndDayNoSalary);
-        }
-        if (mEndDateNoSalary != null) {
-            mRequestOff.setEndDayNoSalary(
-                    mEndDateNoSalary + BLANK + mCurrentDaySessionEndDayNoSalary);
-        }
-    }
-
     @Bindable
     public User getUser() {
         return mUser;
@@ -517,7 +302,7 @@ public class RequestOffViewModel extends BaseRequestOff
 
     private void setCurrentGroup() {
         mRequestOff.setGroup(mUser.getGroups().get(mCurrentGroupPosition));
-        notifyPropertyChanged(BR.currentGroup);
+        notifyPropertyChanged(BR.requestOff);
     }
 
     private double getSumDateOffHaveSalary() {
@@ -539,6 +324,221 @@ public class RequestOffViewModel extends BaseRequestOff
                 mRequestOff.getInsuranceCoverage().getMiscarriageLeave())
                 + StringUtils.convertStringToDouble(
                 mRequestOff.getInsuranceCoverage().getWifeLaborLeave());
+    }
+
+    private void setRequestOff() {
+        if (mStartDateHaveSalary != null) {
+            mRequestOff.setStartDayHaveSalary(
+                    mStartDateHaveSalary + BLANK + mCurrentDaySessionStartDayHaveSalary);
+        }
+        if (mEndDateHaveSalary != null) {
+            mRequestOff.setEndDayHaveSalary(
+                    mEndDateHaveSalary + BLANK + mCurrentDaySessionEndDayHaveSalary);
+        }
+        if (mStartDateNoSalary != null) {
+            mRequestOff.setStartDayNoSalary(
+                    mStartDateNoSalary + BLANK + mCurrentDaySessionStartDayNoSalary);
+        }
+        if (mEndDateNoSalary != null) {
+            mRequestOff.setEndDayNoSalary(
+                    mEndDateNoSalary + BLANK + mCurrentDaySessionEndDayNoSalary);
+        }
+    }
+
+    public void onPickBranch(View view) {
+        if (mUser.getBranches() == null || mUser.getBranches().size() == 0) {
+            return;
+        }
+        String[] branches = new String[mUser.getBranches().size()];
+        for (int i = 0; i < branches.length; i++) {
+            branches[i] = mUser.getBranches().get(i).getBranchName();
+        }
+        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.branch), branches,
+                mCurrentBranchPosition, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog materialDialog, View view,
+                            int position, CharSequence charSequence) {
+                        mCurrentBranchPosition = position;
+                        setCurrentBranch();
+                        return true;
+                    }
+                });
+    }
+
+    public void onPickGroup(View view) {
+        if (mUser.getGroups() == null || mUser.getGroups().size() == 0) {
+            return;
+        }
+        String[] groups = new String[mUser.getGroups().size()];
+        for (int i = 0; i < groups.length; i++) {
+            groups[i] = mUser.getGroups().get(i).getGroupName();
+        }
+        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.group), groups,
+                mCurrentGroupPosition, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog materialDialog, View view,
+                            int position, CharSequence charSequence) {
+                        mCurrentGroupPosition = position;
+                        setCurrentGroup();
+                        return true;
+                    }
+                });
+    }
+
+    public void onPickTypeRequestOff(View view) {
+        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.off_type),
+                R.array.off_type, mCurrentPositionOffType,
+                new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog materialDialog, View view,
+                            int positionType, CharSequence charSequence) {
+                        setCurrentPositionOffType(positionType);
+                        setCurrentOffType(String.valueOf(charSequence));
+                        setLayoutOffType(positionType);
+                        return true;
+                    }
+                });
+    }
+
+    public void onPickDaySessionStartDay(View view) {
+        int currentPositionDaySessionStartDay;
+        if (mIsVisibleLayoutNoSalary) {
+            currentPositionDaySessionStartDay = mCurrentPositionDaySessionStartDayNoSalary;
+        } else {
+            currentPositionDaySessionStartDay = mCurrentPositionDaySessionStartDayHaveSalary;
+        }
+        mFlagDateSession = FLAG_SESSION_START_DATE;
+        showDialogListSingleChoice(currentPositionDaySessionStartDay);
+    }
+
+    public void onPickDaySessionEndDay(View view) {
+        int currentPositionDaySessionEndDay;
+        if (mIsVisibleLayoutNoSalary) {
+            currentPositionDaySessionEndDay = mCurrentPositionDaySessionEndDayNoSalary;
+        } else {
+            currentPositionDaySessionEndDay = mCurrentPositionDaySessionEndDayHaveSalary;
+        }
+        mFlagDateSession = FLAG_SESSION_END_DATE;
+        showDialogListSingleChoice(currentPositionDaySessionEndDay);
+    }
+
+    private void showDialogListSingleChoice(int currentPositionDaySession) {
+        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.day_session),
+                R.array.day_session, currentPositionDaySession,
+                new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog materialDialog, View view,
+                            int position, CharSequence charSequence) {
+                        if (mFlagDateSession == FLAG_SESSION_START_DATE) {
+                            setCurrentPositionDaySessionStartDay(position);
+                            setCurrentDaySessionStartDay(String.valueOf(charSequence));
+                        } else {
+                            setCurrentPositionDaySessionEndDay(position);
+                            setCurrentDaySessionEndDay(String.valueOf(charSequence));
+                        }
+                        return true;
+                    }
+                });
+    }
+
+    private void showErrorDialogWithButtonRetry(String errorMessage) {
+        mDialogManager.dialogError(errorMessage, new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog materialDialog,
+                    @NonNull DialogAction dialogAction) {
+                mDialogManager.showDatePickerDialog();
+            }
+        });
+    }
+
+    private void showErrorDialog(String errorMessage) {
+        mDialogManager.dialogError(errorMessage);
+    }
+
+    public void onClickStartDate(View view) {
+        mFlagDate = FLAG_START_DATE;
+        mDialogManager.showDatePickerDialog();
+    }
+
+    public void onClickEndDate(View view) {
+        mFlagDate = FLAG_END_DATE;
+        if (mIsVisibleLayoutNoSalary) {
+            if (mStartDateNoSalary != null) {
+                mDialogManager.showDatePickerDialog();
+            } else {
+                showErrorDialog(mContext.getString(R.string.you_have_to_choose_start_date));
+            }
+            return;
+        }
+        if (mStartDateHaveSalary != null) {
+            mDialogManager.showDatePickerDialog();
+        } else {
+            showErrorDialog(mContext.getString(R.string.you_have_to_choose_start_date));
+        }
+    }
+
+    private void validateEndDate(String endDate) {
+        if (mIsVisibleLayoutNoSalary) {
+            if (DateTimeUtils.convertStringToDate(endDate)
+                    .before(DateTimeUtils.convertStringToDate(mStartDateNoSalary))) {
+                setEndDate(null);
+                showErrorDialogWithButtonRetry(
+                        mContext.getString(R.string.end_date_must_greater_than_start_day));
+            } else {
+                setEndDate(endDate);
+            }
+            return;
+        }
+        if (DateTimeUtils.convertStringToDate(endDate)
+                .before(DateTimeUtils.convertStringToDate(mStartDateHaveSalary))) {
+            setEndDate(null);
+            showErrorDialogWithButtonRetry(
+                    mContext.getString(R.string.end_date_must_greater_than_start_day));
+            return;
+        }
+        setEndDate(endDate);
+    }
+
+    public void onCickArrowBack(View view) {
+        mNavigator.finishActivity();
+    }
+
+    public void onClickNext(View view) {
+        if (!mPresenter.validateData(mRequestOff)) {
+            showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
+            return;
+        }
+        setRequestOff();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mRequestOff);
+
+        if (getSumDateOffHaveSalary() > 0) {
+            if (mEndDateHaveSalary == null) {
+                showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
+                return;
+            }
+            if (mStartDateNoSalary != null && mEndDateNoSalary == null) {
+                showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
+                return;
+            }
+            mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
+        } else {
+            if (mEndDateHaveSalary == null) {
+                if (mEndDateNoSalary == null) {
+                    showErrorDialog(
+                            mContext.getString(R.string.the_field_required_can_not_be_blank));
+                } else {
+                    mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
+                }
+                return;
+            }
+            showErrorDialog(mContext.getString(R.string.the_number_of_days_allowed));
+        }
+    }
+
+    @Bindable
+    public RequestOff getRequestOff() {
+        return mRequestOff;
     }
 
     @IntDef({
