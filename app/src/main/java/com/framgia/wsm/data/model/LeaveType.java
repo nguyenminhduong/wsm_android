@@ -1,5 +1,7 @@
 package com.framgia.wsm.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,7 +9,19 @@ import com.google.gson.annotations.SerializedName;
  * Created by Duong on 6/9/2017.
  */
 
-public class LeaveType extends BaseModel {
+public class LeaveType extends BaseModel implements Parcelable {
+    public static final Creator<LeaveType> CREATOR = new Creator<LeaveType>() {
+        @Override
+        public LeaveType createFromParcel(Parcel in) {
+            return new LeaveType(in);
+        }
+
+        @Override
+        public LeaveType[] newArray(int size) {
+            return new LeaveType[size];
+        }
+    };
+
     @Expose
     @SerializedName("id")
     private int mId;
@@ -17,6 +31,15 @@ public class LeaveType extends BaseModel {
     @Expose
     @SerializedName("code")
     private String mCode;
+
+    public LeaveType() {
+    }
+
+    protected LeaveType(Parcel in) {
+        mId = in.readInt();
+        mName = in.readString();
+        mCode = in.readString();
+    }
 
     public int getId() {
         return mId;
@@ -40,5 +63,17 @@ public class LeaveType extends BaseModel {
 
     public void setCode(String code) {
         mCode = code;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeString(mName);
+        dest.writeString(mCode);
     }
 }

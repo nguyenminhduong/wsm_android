@@ -1,89 +1,74 @@
 package com.framgia.wsm.screen.confirmrequestleave;
 
-import android.content.Context;
+import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.util.Log;
+import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
-import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.Request;
-import com.framgia.wsm.screen.BaseRequestLeave;
+import com.framgia.wsm.data.model.User;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.screen.main.MainActivity;
+import com.framgia.wsm.screen.requestleave.RequestLeaveViewModel;
+import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.widget.dialog.DialogManager;
 
 /**
  * Exposes the data to be used in the ConfirmRequestLeave screen.
  */
 
-public class ConfirmRequestLeaveViewModel extends BaseRequestLeave
+public class ConfirmRequestLeaveViewModel extends BaseObservable
         implements ConfirmRequestLeaveContract.ViewModel {
+    private static final String TAG = "ConfirmRequestLeaveViewModel";
 
     private ConfirmRequestLeaveContract.Presenter mPresenter;
     private Request mRequest;
-    private Context mContext;
-    private boolean mIsVisibleLayoutCheckin;
-    private boolean mIsVisibleLayoutCheckout;
-    private boolean mIsVisibleLayoutCompensation;
-    private String mLeaveTypeName;
+    private User mUser;
+    private Navigator mNavigator;
+    private String mLeaveType;
+    private DialogManager mDialogManager;
 
-    ConfirmRequestLeaveViewModel(Context context, ConfirmRequestLeaveContract.Presenter presenter,
-            Request request) {
+    ConfirmRequestLeaveViewModel(ConfirmRequestLeaveContract.Presenter presenter, Request request,
+            Navigator navigator, DialogManager dialogManager) {
         mPresenter = presenter;
         mPresenter.setViewModel(this);
-        mContext = context;
+        mNavigator = navigator;
+        mDialogManager = dialogManager;
         mRequest = request;
+        mLeaveType = mRequest.getLeaveType().getName();
+        mPresenter.getUser();
     }
 
-    @Bindable
-    public String getTitleToolbar() {
-        return mContext.getString(R.string.confirm_request_leave);
-    }
-
-    @Bindable
     public boolean isVisibleLayoutCheckout() {
-        return mIsVisibleLayoutCheckout;
+        return mLeaveType.equals(RequestLeaveViewModel.LeaveType.LEAVE_EARLY_A)
+                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.LEAVE_EARLY_M)
+                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.LEAVE_EARLY_WOMAN_A)
+                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.LEAVE_EARLY_WOMAN_M)
+                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.FORGOT_CARD_OUT)
+                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.FORGOT_TO_CHECK_OUT)
+                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.FORGOT_CARD_ALL_DAY)
+                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.FORGOT_CHECK_ALL_DAY)
+                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.LEAVE_OUT);
     }
 
-    public void setVisibleLayoutCheckout(boolean visibleLayoutCheckout) {
-        mIsVisibleLayoutCheckout = visibleLayoutCheckout;
-        notifyPropertyChanged(BR.visibleLayoutCheckout);
-    }
-
-    @Bindable
     public boolean isVisibleLayoutCheckin() {
-        return mIsVisibleLayoutCheckin;
+        return mLeaveType.equals(RequestLeaveViewModel.LeaveType.IN_LATE_A) || mLeaveType.equals(
+                RequestLeaveViewModel.LeaveType.IN_LATE_M) || mLeaveType.equals(
+                RequestLeaveViewModel.LeaveType.IN_LATE_WOMAN_A) || mLeaveType.equals(
+                RequestLeaveViewModel.LeaveType.IN_LATE_WOMAN_M) || mLeaveType.equals(
+                RequestLeaveViewModel.LeaveType.FORGOT_CARD_IN) || mLeaveType.equals(
+                RequestLeaveViewModel.LeaveType.FORGOT_TO_CHECK_IN) || mLeaveType.equals(
+                RequestLeaveViewModel.LeaveType.FORGOT_CARD_ALL_DAY) || mLeaveType.equals(
+                RequestLeaveViewModel.LeaveType.FORGOT_CHECK_ALL_DAY) || mLeaveType.equals(
+                RequestLeaveViewModel.LeaveType.LEAVE_OUT);
     }
 
-    @Override
-    public void setVisibleLayoutCheckin(boolean isVisible) {
-        mIsVisibleLayoutCheckin = isVisible;
-        notifyPropertyChanged(BR.visibleLayoutCheckin);
-    }
-
-    @Bindable
     public boolean isVisibleLayoutCompensation() {
-        return mIsVisibleLayoutCompensation;
-    }
-
-    @Override
-    public void setVisibleLayoutCompensation(boolean visibleLayoutCompensation) {
-        mIsVisibleLayoutCompensation = visibleLayoutCompensation;
-        notifyPropertyChanged(BR.visibleLayoutCompensation);
-    }
-
-    @Bindable
-    public String getLeaveTypeName() {
-        return mLeaveTypeName;
-    }
-
-    private void setLeaveTypeName(String leaveTypeName) {
-        mLeaveTypeName = leaveTypeName;
-        notifyPropertyChanged(BR.leaveTypeName);
-    }
-
-    private void setLeaveType(int positionType) {
-        String[] leaveType = mContext.getResources().getStringArray(R.array.leave_type);
-        for (int i = 0; i < leaveType.length; i++) {
-            if (positionType == i) {
-                setLeaveTypeName(leaveType[i]);
-            }
-        }
+        return mLeaveType.equals(RequestLeaveViewModel.LeaveType.IN_LATE_A) || mLeaveType.equals(
+                RequestLeaveViewModel.LeaveType.IN_LATE_M) || mLeaveType.equals(
+                RequestLeaveViewModel.LeaveType.LEAVE_EARLY_A) || mLeaveType.equals(
+                RequestLeaveViewModel.LeaveType.LEAVE_EARLY_M) || mLeaveType.equals(
+                RequestLeaveViewModel.LeaveType.LEAVE_OUT);
     }
 
     @Override
@@ -94,5 +79,42 @@ public class ConfirmRequestLeaveViewModel extends BaseRequestLeave
     @Override
     public void onStop() {
         mPresenter.onStop();
+    }
+
+    @Override
+    public void onCreateFormRequestLeaveSuccess() {
+        mNavigator.startActivityAtRoot(MainActivity.class);
+    }
+
+    @Override
+    public void onCreateFormFormRequestLeaveError(BaseException exception) {
+        mDialogManager.dialogError(exception);
+    }
+
+    @Override
+    public void onGetUserSuccess(User user) {
+        if (user == null) {
+            return;
+        }
+        mUser = user;
+        notifyPropertyChanged(BR.user);
+    }
+
+    @Override
+    public void onGetUserError(BaseException exception) {
+        Log.e(TAG, "ConfirmRequestLeaveViewModel", exception);
+    }
+
+    public Request getRequest() {
+        return mRequest;
+    }
+
+    @Bindable
+    public User getUser() {
+        return mUser;
+    }
+
+    public void onClickArrowBack(View view) {
+        mNavigator.finishActivity();
     }
 }
