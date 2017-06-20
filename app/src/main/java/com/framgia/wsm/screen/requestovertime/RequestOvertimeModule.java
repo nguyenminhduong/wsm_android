@@ -3,6 +3,7 @@ package com.framgia.wsm.screen.requestovertime;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
@@ -58,7 +59,7 @@ public class RequestOvertimeModule {
     @ActivityScope
     @Provides
     Validator provideValidator() {
-        return new Validator(mActivity.getApplicationContext(), RequestOvertimeViewModel.class);
+        return new Validator(mActivity.getApplicationContext(), RequestOverTime.class);
     }
 
     @ActivityScope

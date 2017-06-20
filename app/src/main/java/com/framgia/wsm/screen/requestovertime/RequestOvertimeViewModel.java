@@ -11,17 +11,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-import com.android.databinding.library.baseAdapters.BR;
+import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.requestovertime.confirmovertime.ConfirmOvertimeActivity;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
-import com.framgia.wsm.utils.validator.Rule;
-import com.framgia.wsm.utils.validator.ValidType;
-import com.framgia.wsm.utils.validator.Validation;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
@@ -40,7 +37,7 @@ public class RequestOvertimeViewModel extends BaseObservable
     private static final int EIGHT_HOUR = 18;
 
     private RequestOvertimeContract.Presenter mPresenter;
-    private Request mRequest;
+    private RequestOverTime mRequestOverTime;
     private User mUser;
     private Navigator mNavigator;
     private String mProjectNameError;
@@ -51,25 +48,8 @@ public class RequestOvertimeViewModel extends BaseObservable
     private String mCurrentDate;
     private Context mContext;
     private boolean mIsFromTimeSelected = true;
-    private String mCurrentBranch;
-    private String mCurrentGroup;
-
-    @Validation({
-            @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
-    })
-    private String mProjectName;
-    @Validation({
-            @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
-    })
-    private String mReason;
-    @Validation({
-            @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
-    })
-    private String mFromTime;
-    @Validation({
-            @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
-    })
-    private String mToTime;
+    private int mCurrentBranchPosition;
+    private int mCurrentGroupPosition;
 
     RequestOvertimeViewModel(Context context, RequestOvertimeContract.Presenter presenter,
             Navigator navigator, DialogManager dialogManager) {
@@ -77,7 +57,7 @@ public class RequestOvertimeViewModel extends BaseObservable
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mNavigator = navigator;
-        mRequest = new Request();
+        mRequestOverTime = new RequestOverTime();
         mPresenter.getUser();
         mDialogManager = dialogManager;
         mDialogManager.dialogDatePicker(this);
@@ -101,6 +81,8 @@ public class RequestOvertimeViewModel extends BaseObservable
         }
         mUser = user;
         notifyPropertyChanged(BR.user);
+        setCurrentBranch();
+        setCurrentGroup();
     }
 
     @Override
@@ -150,13 +132,73 @@ public class RequestOvertimeViewModel extends BaseObservable
         }
     }
 
+    @Bindable
+    public User getUser() {
+        return mUser;
+    }
+
+    @Bindable
+    public RequestOverTime getRequestOverTime() {
+        return mRequestOverTime;
+    }
+
+    private void setCurrentBranch() {
+        mRequestOverTime.setBranch(mUser.getBranches().get(mCurrentBranchPosition));
+        notifyPropertyChanged(BR.requestOverTime);
+    }
+
+    private void setCurrentGroup() {
+        mRequestOverTime.setGroup(mUser.getGroups().get(mCurrentGroupPosition));
+        notifyPropertyChanged(BR.requestOverTime);
+    }
+
+    @Bindable
+    public String getFromTime() {
+        return mRequestOverTime.getFromTime();
+    }
+
+    public void setFromTime(String fromTime) {
+        mRequestOverTime.setFromTime(fromTime);
+        notifyPropertyChanged(BR.requestOverTime);
+    }
+
+    @Bindable
+    public String getToTime() {
+        return mRequestOverTime.getToTime();
+    }
+
+    public void setToTime(String toTime) {
+        mRequestOverTime.setToTime(toTime);
+        notifyPropertyChanged(BR.requestOverTime);
+    }
+
+    @Bindable
+    public String getProjectNameError() {
+        return mProjectNameError;
+    }
+
+    @Bindable
+    public String getReasonError() {
+        return mReasonError;
+    }
+
+    @Bindable
+    public String getFromTimeError() {
+        return mFromTimeError;
+    }
+
+    @Bindable
+    public String getToTimeError() {
+        return mToTimeError;
+    }
+
     public void onCickFromTime(View view) {
         mIsFromTimeSelected = true;
         mDialogManager.showDatePickerDialog();
     }
 
     public void onCickToTime(View view) {
-        if (mFromTime != null) {
+        if (mRequestOverTime.getFromTime() != null) {
             mIsFromTimeSelected = false;
             mDialogManager.showDatePickerDialog();
         } else {
@@ -172,17 +214,44 @@ public class RequestOvertimeViewModel extends BaseObservable
         }
     }
 
-    public void onClickNext(View view) {
-        if (!mPresenter.validateDataInput(mRequest)) {
+    public void onPickBranch(View view) {
+        if (mUser.getBranches() == null || mUser.getBranches().size() == 0) {
             return;
         }
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(EXTRA_REQUEST_OVERTIME, mRequest);
-        mNavigator.startActivity(ConfirmOvertimeActivity.class, bundle);
+        String[] branches = new String[mUser.getBranches().size()];
+        for (int i = 0; i < branches.length; i++) {
+            branches[i] = mUser.getBranches().get(i).getBranchName();
+        }
+        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.branch), branches,
+                mCurrentBranchPosition, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog materialDialog, View view,
+                            int position, CharSequence charSequence) {
+                        mCurrentBranchPosition = position;
+                        setCurrentBranch();
+                        return true;
+                    }
+                });
     }
 
-    public void onCickArrowBack(View view) {
-        mNavigator.finishActivity();
+    public void onPickGroup(View view) {
+        if (mUser.getGroups() == null || mUser.getGroups().size() == 0) {
+            return;
+        }
+        String[] groups = new String[mUser.getGroups().size()];
+        for (int i = 0; i < groups.length; i++) {
+            groups[i] = mUser.getGroups().get(i).getGroupName();
+        }
+        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.group), groups,
+                mCurrentGroupPosition, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog materialDialog, View view,
+                            int position, CharSequence charSequence) {
+                        mCurrentGroupPosition = position;
+                        setCurrentGroup();
+                        return true;
+                    }
+                });
     }
 
     private void validateErrorDialog(String error) {
@@ -214,101 +283,28 @@ public class RequestOvertimeViewModel extends BaseObservable
     }
 
     private void validateToTime(String toTime) {
-        if (DateTimeUtils.getDayOfMonth(toTime) == DateTimeUtils.getDayOfMonth(mFromTime)
-                && DateTimeUtils.getHourOfDay(toTime) >= DateTimeUtils.getHourOfDay(mFromTime)
-                && DateTimeUtils.getMinute(toTime) > DateTimeUtils.getMinute(mFromTime)) {
+        if (DateTimeUtils.getDayOfMonth(toTime) == DateTimeUtils.getDayOfMonth(
+                mRequestOverTime.getFromTime())
+                && DateTimeUtils.getHourOfDay(toTime) >= DateTimeUtils.getHourOfDay(
+                mRequestOverTime.getFromTime())
+                && DateTimeUtils.getMinute(toTime) > DateTimeUtils.getMinute(
+                mRequestOverTime.getFromTime())) {
             setToTime(toTime);
         } else {
             validateErrorDialog(mContext.getString(R.string.end_time_is_less_than_start_time));
         }
     }
 
-    @Bindable
-    public User getUser() {
-        return mUser;
+    public void onClickNext(View view) {
+        if (!mPresenter.validateDataInput(mRequestOverTime)) {
+            return;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(EXTRA_REQUEST_OVERTIME, mRequestOverTime);
+        mNavigator.startActivity(ConfirmOvertimeActivity.class, bundle);
     }
 
-    @Bindable
-    public String getProjectName() {
-        return mProjectName;
-    }
-
-    public void setProjectName(String projectName) {
-        mProjectName = projectName;
-        mRequest.setProject(projectName);
-    }
-
-    @Bindable
-    public String getReason() {
-        return mReason;
-    }
-
-    public void setReason(String reason) {
-        mReason = reason;
-        mRequest.setReason(reason);
-    }
-
-    @Bindable
-    public String getCurrentBranch() {
-        return mCurrentBranch;
-    }
-
-    public void setCurrentBranch(String currentBranch) {
-        mCurrentBranch = currentBranch;
-        mRequest.getBranch().setBranchName(currentBranch);
-        notifyPropertyChanged(BR.currentBranch);
-    }
-
-    @Bindable
-    public String getCurrentGroup() {
-        return mCurrentGroup;
-    }
-
-    public void setCurrentGroup(String currentGroup) {
-        mCurrentGroup = currentGroup;
-        mRequest.getGroup().setGroupName(currentGroup);
-        notifyPropertyChanged(BR.currentGroup);
-    }
-
-    @Bindable
-    public String getFromTime() {
-        return mFromTime;
-    }
-
-    public void setFromTime(String fromTime) {
-        mFromTime = fromTime;
-        mRequest.setFromTime(fromTime);
-        notifyPropertyChanged(BR.fromTime);
-    }
-
-    @Bindable
-    public String getToTime() {
-        return mToTime;
-    }
-
-    public void setToTime(String toTime) {
-        mToTime = toTime;
-        mRequest.setToTime(toTime);
-        notifyPropertyChanged(BR.toTime);
-    }
-
-    @Bindable
-    public String getProjectNameError() {
-        return mProjectNameError;
-    }
-
-    @Bindable
-    public String getReasonError() {
-        return mReasonError;
-    }
-
-    @Bindable
-    public String getFromTimeError() {
-        return mFromTimeError;
-    }
-
-    @Bindable
-    public String getToTimeError() {
-        return mToTimeError;
+    public void onCickArrowBack(View view) {
+        mNavigator.finishActivity();
     }
 }
