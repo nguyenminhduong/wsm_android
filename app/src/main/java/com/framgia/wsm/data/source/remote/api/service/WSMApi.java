@@ -2,6 +2,7 @@ package com.framgia.wsm.data.source.remote.api.service;
 
 import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
@@ -27,7 +28,7 @@ public interface WSMApi {
 
     // TODO edit later
     @POST("/api/v1/request_overtime")
-    Observable<Object> createFormRequestOverTime(@Body Request request);
+    Observable<Object> createFormRequestOverTime(@Body RequestOverTime requestOverTime);
 
     // TODO edit later
     @POST("/api/v1/request_off")

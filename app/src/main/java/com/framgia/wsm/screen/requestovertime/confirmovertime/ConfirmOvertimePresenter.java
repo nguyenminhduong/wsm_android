@@ -1,6 +1,6 @@
 package com.framgia.wsm.screen.requestovertime.confirmovertime;
 
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.UserRepository;
@@ -68,19 +68,19 @@ final class ConfirmOvertimePresenter implements ConfirmOvertimeContract.Presente
     }
 
     @Override
-    public void onCreateForm(Request request) {
-        Disposable disposable = mRequestRepository.createFormRequestOverTime(request)
+    public void createFormRequestOverTime(RequestOverTime requestOverTime) {
+        Disposable disposable = mRequestRepository.createFormRequestOverTime(requestOverTime)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
-                        mViewModel.onCreateFormSuccess();
+                        mViewModel.onCreateFormOverTimeSuccess();
                     }
                 }, new RequestError() {
                     @Override
                     public void onRequestError(BaseException error) {
-                        mViewModel.onCreateFormError(error);
+                        mViewModel.onCreateFormOverTimeError(error);
                     }
                 });
         mCompositeDisposable.add(disposable);
