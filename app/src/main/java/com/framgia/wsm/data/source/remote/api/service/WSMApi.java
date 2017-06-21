@@ -7,11 +7,13 @@ import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.source.remote.api.response.TimeSheetResponse;
+import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import io.reactivex.Observable;
 import java.util.List;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -19,8 +21,11 @@ import retrofit2.http.Query;
  */
 
 public interface WSMApi {
-    @POST("/api/v1/sign_in")
+    @POST("/api/sign_in")
     Observable<BaseResponse<SignInDataResponse>> login(@Body SignInRequest signInRequest);
+
+    @GET("/api/dashboard/users/{user_id}")
+    Observable<BaseResponse<UserProfileResponse>> getUserProfile(@Path("user_id") int userId);
 
     // TODO edit later
     @GET("v1/time_sheet")

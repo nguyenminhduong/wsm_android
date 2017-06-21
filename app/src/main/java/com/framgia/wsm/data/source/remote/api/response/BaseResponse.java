@@ -7,13 +7,13 @@ import com.google.gson.annotations.SerializedName;
  * Created by le.quang.dao on 10/03/2017.
  */
 
-public abstract class BaseResponse<T> {
+public class BaseResponse<T> {
     @Expose
     @SerializedName("code")
     private int mCode;
     @Expose
-    @SerializedName("message")
-    private String mMessage;
+    @SerializedName("messages")
+    private String mMessages;
     @Expose
     @SerializedName("data")
     T data;
@@ -27,7 +27,7 @@ public abstract class BaseResponse<T> {
     }
 
     public String getMessage() {
-        return mMessage;
+        return mMessages;
     }
 
     public T getData() {

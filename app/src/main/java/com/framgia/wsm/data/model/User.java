@@ -15,11 +15,17 @@ public class User {
     @SerializedName("name")
     private String mName;
     @Expose
+    @SerializedName("employee_code")
+    private String mEmployeeCode;
+    @Expose
     @SerializedName("email")
     private String mEmail;
     @Expose
+    @SerializedName("gender")
+    private String mGender;
+    @Expose
     @SerializedName("avatar")
-    private String mAvatar;
+    private Avatar mAvatar;
     @Expose
     @SerializedName("code")
     private String mCode;
@@ -47,6 +53,14 @@ public class User {
         mName = name;
     }
 
+    public String getEmployeeCode() {
+        return mEmployeeCode;
+    }
+
+    public void setEmployeeCode(String employeeCode) {
+        mEmployeeCode = employeeCode;
+    }
+
     public String getEmail() {
         return mEmail;
     }
@@ -55,11 +69,19 @@ public class User {
         mEmail = email;
     }
 
-    public String getAvatar() {
+    public String getGender() {
+        return mGender;
+    }
+
+    public void setGender(String gender) {
+        mGender = gender;
+    }
+
+    public Avatar getAvatar() {
         return mAvatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(Avatar avatar) {
         mAvatar = avatar;
     }
 
