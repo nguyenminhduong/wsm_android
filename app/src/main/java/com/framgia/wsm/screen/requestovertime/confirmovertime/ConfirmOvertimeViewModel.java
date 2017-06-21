@@ -5,7 +5,7 @@ import android.databinding.Bindable;
 import android.util.Log;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.main.MainActivity;
@@ -22,16 +22,16 @@ public class ConfirmOvertimeViewModel extends BaseObservable
     private static final String TAG = "ConfirmOvertimeViewModel";
 
     private ConfirmOvertimeContract.Presenter mPresenter;
-    private Request mRequest;
+    private RequestOverTime mRequestOverTime;
     private Navigator mNavigator;
     private DialogManager mDialogManager;
     private User mUser;
 
-    ConfirmOvertimeViewModel(ConfirmOvertimeContract.Presenter presenter, Request request,
-            Navigator navigator, DialogManager dialogManager) {
+    ConfirmOvertimeViewModel(ConfirmOvertimeContract.Presenter presenter,
+            RequestOverTime requestOverTime, Navigator navigator, DialogManager dialogManager) {
         mPresenter = presenter;
         mPresenter.setViewModel(this);
-        mRequest = request;
+        mRequestOverTime = requestOverTime;
         mNavigator = navigator;
         mDialogManager = dialogManager;
         mPresenter.getUser();
@@ -62,12 +62,12 @@ public class ConfirmOvertimeViewModel extends BaseObservable
     }
 
     @Override
-    public void onCreateFormSuccess() {
+    public void onCreateFormOverTimeSuccess() {
         mNavigator.startActivityAtRoot(MainActivity.class);
     }
 
     @Override
-    public void onCreateFormError(BaseException exception) {
+    public void onCreateFormOverTimeError(BaseException exception) {
         mDialogManager.dialogError(exception);
     }
 
@@ -76,8 +76,8 @@ public class ConfirmOvertimeViewModel extends BaseObservable
         return mUser;
     }
 
-    public Request getRequest() {
-        return mRequest;
+    public RequestOverTime getRequestOverTime() {
+        return mRequestOverTime;
     }
 
     public void onCickArrowBack(View view) {
@@ -85,9 +85,9 @@ public class ConfirmOvertimeViewModel extends BaseObservable
     }
 
     public void onCickSubmit(View view) {
-        if (mRequest == null) {
+        if (mRequestOverTime == null) {
             return;
         }
-        mPresenter.onCreateForm(mRequest);
+        mPresenter.createFormRequestOverTime(mRequestOverTime);
     }
 }

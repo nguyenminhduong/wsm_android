@@ -1,6 +1,6 @@
 package com.framgia.wsm.screen.requestovertime.confirmovertime;
 
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BasePresenter;
@@ -15,9 +15,9 @@ interface ConfirmOvertimeContract {
      */
     interface ViewModel extends BaseViewModel {
 
-        void onCreateFormSuccess();
+        void onCreateFormOverTimeSuccess();
 
-        void onCreateFormError(BaseException exception);
+        void onCreateFormOverTimeError(BaseException exception);
 
         void onGetUserSuccess(User user);
 
@@ -28,7 +28,7 @@ interface ConfirmOvertimeContract {
      * Presenter.
      */
     interface Presenter extends BasePresenter<ViewModel> {
-        void onCreateForm(Request request);
+        void createFormRequestOverTime(RequestOverTime requestOverTime);
 
         void getUser();
     }

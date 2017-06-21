@@ -2,7 +2,7 @@ package com.framgia.wsm.screen.requestovertime.confirmovertime;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
@@ -36,8 +36,9 @@ public class ConfirmOvertimeModule {
     public ConfirmOvertimeContract.ViewModel provideViewModel(
             ConfirmOvertimeContract.Presenter presenter, Navigator navigator,
             DialogManager dialogManager) {
-        Request request = mActivity.getIntent().getExtras().getParcelable(EXTRA_REQUEST_OVERTIME);
-        return new ConfirmOvertimeViewModel(presenter, request, navigator, dialogManager);
+        RequestOverTime requestOverTime =
+                mActivity.getIntent().getParcelableExtra(EXTRA_REQUEST_OVERTIME);
+        return new ConfirmOvertimeViewModel(presenter, requestOverTime, navigator, dialogManager);
     }
 
     @ActivityScope
