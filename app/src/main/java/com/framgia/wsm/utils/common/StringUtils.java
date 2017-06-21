@@ -31,8 +31,11 @@ public final class StringUtils {
         if (input == null) {
             return result;
         } else {
-            result = Double.parseDouble(input);
+            try {
+                return Double.parseDouble(input);
+            } catch (NumberFormatException e) {
+                return result;
+            }
         }
-        return result;
     }
 }

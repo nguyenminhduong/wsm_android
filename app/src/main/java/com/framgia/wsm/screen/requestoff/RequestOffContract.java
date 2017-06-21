@@ -20,6 +20,8 @@ interface RequestOffContract {
         void onGetUserError(BaseException exception);
 
         void onInputReasonError(String reason);
+
+        void onInputNumberDayHaveSalaryError(int typeOfDay);
     }
 
     /**
@@ -30,5 +32,9 @@ interface RequestOffContract {
         void getUser();
 
         boolean validateData(RequestOff requestOff);
+
+        boolean validateAllNumberDayHaveSalary(RequestOff requestOff);
+
+        void validateNumberDayHaveSalary(RequestOff requestOff);
     }
 }

@@ -138,6 +138,44 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     @Override
+    public void onInputNumberDayHaveSalaryError(int typeOfDay) {
+        switch (typeOfDay) {
+            case TypeOfDays.ANNUAL_LEAVE:
+                notifyPropertyChanged(BR.annualError);
+                break;
+            case TypeOfDays.LEAVE_FOR_MARRIAGE:
+                notifyPropertyChanged(BR.leaveForMarriageError);
+                break;
+            case TypeOfDays.LEAVE_FOR_CHILD_MARRIAGE:
+                notifyPropertyChanged(BR.leaveForChildMarriageError);
+                break;
+            case TypeOfDays.FUNERAL_LEAVE:
+                notifyPropertyChanged(BR.funeralLeaveError);
+                break;
+            case TypeOfDays.LEAVE_FOR_CARE_OF_SICK_CHILD:
+                notifyPropertyChanged(BR.leaveForCareOfSickChildError);
+                break;
+            case TypeOfDays.PREGNANCY_EXAMINATON:
+                notifyPropertyChanged(BR.pregnancyExaminationLeaveError);
+                break;
+            case TypeOfDays.MISCARRIAGE_LEAVE:
+                notifyPropertyChanged(BR.miscarriageLeaveError);
+                break;
+            case TypeOfDays.SICK_LEAVE:
+                notifyPropertyChanged(BR.sickLeaveError);
+                break;
+            case TypeOfDays.MATERNTY_LEAVE:
+                notifyPropertyChanged(BR.maternityLeavedError);
+                break;
+            case TypeOfDays.WIFE_LABOR_LEAVE:
+                notifyPropertyChanged(BR.wifeLaborLeaveError);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
     public void setVisibleLayoutNoSalary(boolean visibleLayoutONoSalary) {
         mIsVisibleLayoutNoSalary = visibleLayoutONoSalary;
         notifyPropertyChanged(BR.startDate);
@@ -303,6 +341,72 @@ public class RequestOffViewModel extends BaseRequestOff
     private void setCurrentGroup() {
         mRequestOff.setGroup(mUser.getGroups().get(mCurrentGroupPosition));
         notifyPropertyChanged(BR.requestOff);
+    }
+
+    @Bindable
+    public String getAnnualError() {
+        return mRequestOff.getCompanyPay().getAnnualLeave() != null ? mContext.getString(
+                R.string.annual_leave_is_not_greater_than_14_5_day) : null;
+    }
+
+    @Bindable
+    public String getLeaveForMarriageError() {
+        return mRequestOff.getCompanyPay().getLeaveForMarriage() != null ? mContext.getString(
+                R.string.leave_for_marriage_is_not_greater_than_3_day) : null;
+    }
+
+    @Bindable
+    public String getLeaveForChildMarriageError() {
+        return mRequestOff.getCompanyPay().getLeaveForChildMarriage() != null ? mContext.getString(
+                R.string.leave_for_child_marriage_is_not_greater_than_1_day) : null;
+    }
+
+    @Bindable
+    public String getFuneralLeaveError() {
+        return mRequestOff.getCompanyPay().getFuneralLeave() != null ? mContext.getString(
+                R.string.funeral_leave_is_not_greater_than_3_day) : null;
+    }
+
+    @Bindable
+    public String getLeaveForCareOfSickChildError() {
+        return mRequestOff.getInsuranceCoverage().getLeaveForCareOfSickChild() != null
+                ? mContext.getString(R.string.leave_for_care_of_sick_is_not_greater_than_20_day)
+                : null;
+    }
+
+    @Bindable
+    public String getPregnancyExaminationLeaveError() {
+        return mRequestOff.getInsuranceCoverage().getPregnancyExaminationLeave() != null
+                ? mContext.getString(
+                R.string.pregnacy_examination_leave_is_not_greater_than_14_5_day) : null;
+    }
+
+    @Bindable
+    public String getSickLeaveError() {
+        return mRequestOff.getInsuranceCoverage().getSickLeave() != null ? mContext.getString(
+                R.string.sick_leave_is_not_greater_than_60_day) : null;
+    }
+
+    @Bindable
+    public String getMiscarriageLeaveError() {
+        return mRequestOff.getInsuranceCoverage().getMiscarriageLeave() != null
+                ? mContext.getString(R.string.miscarriage_leave_is_not_greater_than_50_day) : null;
+    }
+
+    @Bindable
+    public String getMaternityLeavedError() {
+        return mRequestOff.getInsuranceCoverage().getMaternityLeave() != null ? mContext.getString(
+                R.string.maternity_leave_is_not_greater_than_180_day) : null;
+    }
+
+    @Bindable
+    public String getWifeLaborLeaveError() {
+        return mRequestOff.getInsuranceCoverage().getWifeLaborLeave() != null ? mContext.getString(
+                R.string.wife_labor_leave_is_not_greater_than_14_day) : null;
+    }
+
+    public void validateNumberDayHaveSalary() {
+        mPresenter.validateNumberDayHaveSalary(mRequestOff);
     }
 
     private double getSumDateOffHaveSalary() {
@@ -508,6 +612,10 @@ public class RequestOffViewModel extends BaseRequestOff
             showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
             return;
         }
+        if (!mPresenter.validateAllNumberDayHaveSalary(mRequestOff)) {
+            return;
+        }
+
         setRequestOff();
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mRequestOff);
@@ -557,5 +665,25 @@ public class RequestOffViewModel extends BaseRequestOff
     @interface DaySession {
         int AM = 0;
         int PM = 1;
+    }
+
+    @IntDef({
+            TypeOfDays.ANNUAL_LEAVE, TypeOfDays.LEAVE_FOR_CHILD_MARRIAGE,
+            TypeOfDays.LEAVE_FOR_MARRIAGE, TypeOfDays.FUNERAL_LEAVE,
+            TypeOfDays.LEAVE_FOR_CARE_OF_SICK_CHILD, TypeOfDays.PREGNANCY_EXAMINATON,
+            TypeOfDays.SICK_LEAVE, TypeOfDays.MISCARRIAGE_LEAVE, TypeOfDays.MATERNTY_LEAVE,
+            TypeOfDays.WIFE_LABOR_LEAVE
+    })
+    @interface TypeOfDays {
+        int ANNUAL_LEAVE = 0;
+        int LEAVE_FOR_CHILD_MARRIAGE = 1;
+        int LEAVE_FOR_MARRIAGE = 2;
+        int FUNERAL_LEAVE = 3;
+        int LEAVE_FOR_CARE_OF_SICK_CHILD = 4;
+        int PREGNANCY_EXAMINATON = 5;
+        int SICK_LEAVE = 6;
+        int MISCARRIAGE_LEAVE = 7;
+        int MATERNTY_LEAVE = 8;
+        int WIFE_LABOR_LEAVE = 9;
     }
 }

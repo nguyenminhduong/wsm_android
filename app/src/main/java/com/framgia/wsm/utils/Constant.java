@@ -40,4 +40,16 @@ public final class Constant {
         public static final int ONE_MONTH = 1;
         public static final int DAY_25_OF_MONTH = 25;
     }
+
+    public static class NumberConst {
+        public static final double FOURTEEN_DOT_FIVE = 14.5;
+        public static final double THREE = 3.0;
+        public static final double TWENTY = 20.0;
+        public static final double ONE = 1.0;
+        public static final double FIVE = 5.0;
+        public static final double SIXTY = 60.0;
+        public static final double FIFTY = 50.0;
+        public static final double ONE_HUNDRED_EIGHTY = 180.0;
+        public static final double FOURTEEN = 14.0;
+    }
 }
