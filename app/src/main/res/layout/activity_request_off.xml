@@ -102,6 +102,7 @@
                         >
 
                         <EditText
+                            android:id="@+id/edit_position"
                             android:hint="@string/position_name"
                             android:text="@={viewModel.requestOff.project}"
                             style="@style/StyleEditableText"
@@ -113,6 +114,7 @@
                         >
 
                         <EditText
+                            android:id="@+id/edit_project"
                             android:hint="@string/project_name"
                             android:text="@={viewModel.requestOff.position}"
                             style="@style/StyleEditableText"
