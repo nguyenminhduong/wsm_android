@@ -183,5 +183,15 @@
     <string name="the_field_required_can_not_be_blank">The field required can not be blank!</string>
     <string name="time_must_be_a_working_date">Time must be a working day!</string>
     <string name="locate">en</string>
+    <string name="annual_leave_is_not_greater_than_14_5_day">Annual leave is not greater than 14.5 days !</string>
+    <string name="leave_for_marriage_is_not_greater_than_3_day">Leave for marriage is not greater than 3 days !</string>
+    <string name="leave_for_child_marriage_is_not_greater_than_1_day">Leave for child\'s marriage is not greater than 1 day !</string>
+    <string name="funeral_leave_is_not_greater_than_3_day">Funeral leave is not greater than 3 days !</string>
+    <string name="leave_for_care_of_sick_is_not_greater_than_20_day">Leave for care of sick child is not greater than 20 days !</string>
+    <string name="pregnacy_examination_leave_is_not_greater_than_14_5_day">Pregnancy examination leave is not greater than 5 days !</string>
+    <string name="sick_leave_is_not_greater_than_60_day">Sick leave is not greater than 60 days !</string>
+    <string name="miscarriage_leave_is_not_greater_than_50_day">Miscarriage leave is not greater than 50 days !</string>
+    <string name="maternity_leave_is_not_greater_than_180_day">Maternity leave is not greater than 180 days !</string>
+    <string name="wife_labor_leave_is_not_greater_than_14_day">Wife\'s labor leave is not greater than 14 days !</string>
 
 </resources>
