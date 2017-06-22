@@ -16,7 +16,7 @@ public class User {
     private String mName;
     @Expose
     @SerializedName("employee_code")
-    private String mEmployeeCode;
+    private String mCode;
     @Expose
     @SerializedName("email")
     private String mEmail;
@@ -24,17 +24,21 @@ public class User {
     @SerializedName("gender")
     private String mGender;
     @Expose
+    @SerializedName("birthday")
+    private String mBirthday;
+    @Expose
+    @SerializedName("contract_date")
+    private String mContractDate;
+    @Expose
     @SerializedName("avatar")
     private Avatar mAvatar;
     @Expose
-    @SerializedName("code")
-    private String mCode;
-    @Expose
-    @SerializedName("branch")
+    @SerializedName("workspaces")
     private List<Branch> mBranches;
     @Expose
-    @SerializedName("group")
+    @SerializedName("groups")
     private List<Group> mGroups;
+
     private List<LeaveType> mLeaveTypes;
 
     public Integer getId() {
@@ -53,12 +57,12 @@ public class User {
         mName = name;
     }
 
-    public String getEmployeeCode() {
-        return mEmployeeCode;
+    public String getCode() {
+        return mCode;
     }
 
-    public void setEmployeeCode(String employeeCode) {
-        mEmployeeCode = employeeCode;
+    public void setCode(String code) {
+        mCode = code;
     }
 
     public String getEmail() {
@@ -77,20 +81,28 @@ public class User {
         mGender = gender;
     }
 
+    public String getBirthday() {
+        return mBirthday;
+    }
+
+    public void setBirthday(String birthday) {
+        mBirthday = birthday;
+    }
+
+    public String getContractDate() {
+        return mContractDate;
+    }
+
+    public void setContractDate(String contractDate) {
+        mContractDate = contractDate;
+    }
+
     public Avatar getAvatar() {
         return mAvatar;
     }
 
     public void setAvatar(Avatar avatar) {
         mAvatar = avatar;
-    }
-
-    public String getCode() {
-        return mCode;
-    }
-
-    public void setCode(String code) {
-        mCode = code;
     }
 
     public List<Branch> getBranches() {

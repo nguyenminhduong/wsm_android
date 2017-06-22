@@ -93,16 +93,19 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         notifyPropertyChanged(BR.currentTitleToolbar);
     }
 
+    @Bindable
     public String getUsername() {
         return mUser != null ? mUser.getName() : "";
     }
 
+    @Bindable
     public String getEmail() {
         return mUser != null ? mUser.getEmail() : "";
     }
 
+    @Bindable
     public String getAvatar() {
-        return mUser.getAvatar() != null ? mUser.getAvatar().getUrl() : "";
+        return (mUser != null && mUser.getAvatar() != null) ? mUser.getAvatar().getUrl() : "";
     }
 
     @Override
@@ -121,6 +124,9 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
             return;
         }
         mUser = user;
+        notifyPropertyChanged(BR.username);
+        notifyPropertyChanged(BR.email);
+        notifyPropertyChanged(BR.avatar);
     }
 
     @Override
