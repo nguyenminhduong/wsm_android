@@ -19,6 +19,7 @@ public final class Constant {
     public static final String BLANK_DASH_BLANK = " - ";
     public static final String BLANK = " ";
     public static final String EXTRA_REQUEST_OFF = "REQUEST_OFF";
+    public static final String EXTRA_ACTION_TYPE = "ACTION_TYPE";
 
     private Constant() {
         // No-op

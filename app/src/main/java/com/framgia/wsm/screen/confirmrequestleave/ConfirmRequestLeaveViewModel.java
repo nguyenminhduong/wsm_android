@@ -1,15 +1,24 @@
 package com.framgia.wsm.screen.confirmrequestleave;
 
+import android.content.Context;
+import android.databinding.BaseObservable;
+import com.framgia.wsm.data.model.User;
+import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.widget.dialog.DialogManager;
 import android.app.Activity;
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.util.Log;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
+import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.requestleave.RequestLeaveViewModel;
+import com.framgia.wsm.utils.ActionType;
+import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 
@@ -27,9 +36,12 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     private Navigator mNavigator;
     private String mLeaveType;
     private DialogManager mDialogManager;
+    private int mActionType;
+    private Context mContext;
 
-    ConfirmRequestLeaveViewModel(ConfirmRequestLeaveContract.Presenter presenter, Request request,
-            Navigator navigator, DialogManager dialogManager) {
+    ConfirmRequestLeaveViewModel(Context context, ConfirmRequestLeaveContract.Presenter presenter,
+            Request request, Navigator navigator, DialogManager dialogManager, int actionType) {
+        mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mNavigator = navigator;
@@ -37,6 +49,7 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
         mRequest = request;
         mLeaveType = mRequest.getLeaveType().getName();
         mPresenter.getUser();
+        mActionType = actionType;
     }
 
     public boolean isVisibleLayoutCheckout() {
@@ -69,6 +82,22 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
                 RequestLeaveViewModel.LeaveType.LEAVE_EARLY_A) || mLeaveType.equals(
                 RequestLeaveViewModel.LeaveType.LEAVE_EARLY_M) || mLeaveType.equals(
                 RequestLeaveViewModel.LeaveType.LEAVE_OUT);
+    }
+
+    public boolean isDetail() {
+        return mActionType == ActionType.ACTION_DETAIL;
+    }
+
+    public boolean isAcceptStatus() {
+        return mRequest.getStatus() == StatusCode.ACCEPT_CODE;
+    }
+
+    public boolean isPendingStatus() {
+        return mRequest.getStatus() == StatusCode.PENDING_CODE;
+    }
+
+    public boolean isRejectStatus() {
+        return mRequest.getStatus() == StatusCode.REJECT_CODE;
     }
 
     @Override
@@ -105,6 +134,13 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
         Log.e(TAG, "ConfirmRequestLeaveViewModel", exception);
     }
 
+    public String getTitleToolbar() {
+        if (mActionType == ActionType.ACTION_DETAIL) {
+            return mContext.getString(R.string.request_leave);
+        }
+        return mContext.getString(R.string.confirm_request_leave);
+    }
+
     public Request getRequest() {
         return mRequest;
     }
@@ -123,5 +159,13 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
             return;
         }
         mPresenter.createFormRequestLeave(mRequest);
+    }
+
+    public void onClickDelete(View view) {
+        // todo delete request
+    }
+
+    public void onClickEdit(View view) {
+        // todo open edit screen
     }
 }
