@@ -10,13 +10,13 @@ public class ErrorResponse {
     @Expose
     private int code;
     @Expose
-    private String message;
+    private String messages;
 
     public int getCode() {
         return code;
     }
 
     public String getMessage() {
-        return message;
+        return messages;
     }
 }

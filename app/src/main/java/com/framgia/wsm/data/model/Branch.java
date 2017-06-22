@@ -2,6 +2,8 @@ package com.framgia.wsm.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by tri on 31/05/2017.
@@ -10,8 +12,8 @@ import android.os.Parcelable;
 public class Branch extends BaseModel implements Parcelable {
     public static final Creator<Branch> CREATOR = new Creator<Branch>() {
         @Override
-        public Branch createFromParcel(Parcel source) {
-            return new Branch(source);
+        public Branch createFromParcel(Parcel in) {
+            return new Branch(in);
         }
 
         @Override
@@ -19,36 +21,25 @@ public class Branch extends BaseModel implements Parcelable {
             return new Branch[size];
         }
     };
-    private String mBranchId;
+
+    @Expose
+    @SerializedName("id")
+    private int mBranchId;
+    @Expose
+    @SerializedName("name")
     private String mBranchName;
 
     public Branch() {
     }
 
-    public Branch(String branchId, String branchName) {
+    public Branch(int branchId, String branchName) {
         mBranchId = branchId;
         mBranchName = branchName;
     }
 
     protected Branch(Parcel in) {
-        this.mBranchId = in.readString();
-        this.mBranchName = in.readString();
-    }
-
-    public String getBranchId() {
-        return mBranchId;
-    }
-
-    public void setBranchId(String branchId) {
-        mBranchId = branchId;
-    }
-
-    public String getBranchName() {
-        return mBranchName;
-    }
-
-    public void setBranchName(String branchName) {
-        mBranchName = branchName;
+        mBranchId = in.readInt();
+        mBranchName = in.readString();
     }
 
     @Override
@@ -58,7 +49,23 @@ public class Branch extends BaseModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.mBranchId);
-        dest.writeString(this.mBranchName);
+        dest.writeInt(mBranchId);
+        dest.writeString(mBranchName);
+    }
+
+    public int getBranchId() {
+        return mBranchId;
+    }
+
+    public void setBranchId(int branchId) {
+        mBranchId = branchId;
+    }
+
+    public String getBranchName() {
+        return mBranchName;
+    }
+
+    public void setBranchName(String branchName) {
+        mBranchName = branchName;
     }
 }
