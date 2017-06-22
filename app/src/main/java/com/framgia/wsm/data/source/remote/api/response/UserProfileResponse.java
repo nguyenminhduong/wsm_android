@@ -5,24 +5,13 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Duong on 6/6/2017.
+ * Created by ASUS on 21/06/2017.
  */
 
-public class SignInDataResponse {
+public class UserProfileResponse {
     @Expose
-    @SerializedName("user_info")
+    @SerializedName("user")
     private User mUser;
-    @Expose
-    @SerializedName("authen_token")
-    private String mAuthenToken;
-
-    public String getAuthenToken() {
-        return mAuthenToken;
-    }
-
-    public void setAuthenToken(String authenToken) {
-        mAuthenToken = authenToken;
-    }
 
     public User getUser() {
         return mUser;

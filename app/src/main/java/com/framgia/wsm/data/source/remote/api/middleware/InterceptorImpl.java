@@ -32,9 +32,9 @@ public class InterceptorImpl implements Interceptor {
         Response response = chain.proceed(request);
         if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
             //todo refresh token in here
-//            builder.addHeader(KEY_TOKEN, "Bearer " + mTokenRepository.getToken());
-//            request = builder.build();
-//            response = chain.proceed(request);
+            //            builder.addHeader(KEY_TOKEN, "Bearer " + mTokenRepository.getToken());
+            //            request = builder.build();
+            //            response = chain.proceed(request);
         }
         return response;
     }
@@ -46,7 +46,7 @@ public class InterceptorImpl implements Interceptor {
                 .addHeader("Cache-Control", "no-cache")
                 .addHeader("Cache-Control", "no-store")
                 .addHeader(KEY_LOCATE, mContext.getString(R.string.locate))
-                .addHeader(KEY_TOKEN, "Bearer " + mTokenRepository.getToken())
+                .addHeader(KEY_TOKEN, mTokenRepository.getToken())
                 .method(originRequest.method(), originRequest.body());
     }
 }

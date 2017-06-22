@@ -1,16 +1,15 @@
 package com.framgia.wsm.data.source;
 
-import com.framgia.wsm.data.model.Branch;
-import com.framgia.wsm.data.model.Group;
-import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
+import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import io.reactivex.Observable;
-import java.util.ArrayList;
-import java.util.List;
+import io.reactivex.ObservableSource;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 
 /**
  * Created by le.quang.dao on 10/03/2017.
@@ -25,43 +24,41 @@ public class UserRepository {
         mRemoteDataSource = remoteDataSource;
     }
 
-    public Observable<BaseResponse<SignInDataResponse>> login(String userName, String passWord) {
-        //todo edit later
-        User user = new User();
-        user.setName("Nguyễn Văn A");
-        user.setCode("B1228368");
-        user.setId(1);
-        user.setEmail("nguyen.van.a@framgia.com");
-        List<Branch> branchList = new ArrayList<>();
-        branchList.add(new Branch("1", "Da Nang Office"));
-        List<Group> groupList = new ArrayList<>();
-        groupList.add(new Group("1", "Android Members"));
-        user.setBranches(branchList);
-        user.setGroups(groupList);
+    public Observable<SignInDataResponse> login(String userName, String passWord) {
+        return mRemoteDataSource.login(userName, passWord)
+                .flatMap(
+                        new Function<BaseResponse<SignInDataResponse>,
+                                ObservableSource<SignInDataResponse>>() {
+                            @Override
+                            public ObservableSource<SignInDataResponse> apply(@NonNull
+                                    BaseResponse<SignInDataResponse> signInDataResponseBaseResponse)
+                                    throws Exception {
+                                if (signInDataResponseBaseResponse != null) {
+                                    return Observable.just(
+                                            signInDataResponseBaseResponse.getData());
+                                }
+                                return Observable.error(new NullPointerException());
+                            }
+                        });
+    }
 
-        String[] arrLeaveType = {
-                "In late (M)", "In late (A)", "Leave early (M)", "Leave early (A)", "Leave out",
-                "Forgot to check in/check out (all day)", "Forgot to check in",
-                "Forgot to check out", "Forgot card (all day)", "Forgot card (in)",
-                "Forgot card (out)", "In late (woman only) (M)", "In late (woman only) (A)",
-                "Leave early (woman only) (M)", "Leave early (woman only) (A)"
-        };
-        List<LeaveType> leaveTypeList = new ArrayList<>();
-        for (int i = 0; i < arrLeaveType.length; i++) {
-            LeaveType leaveType = new LeaveType();
-            leaveType.setId(i);
-            leaveType.setName(arrLeaveType[i]);
-            leaveTypeList.add(leaveType);
-        }
-        user.setLeaveTypes(leaveTypeList);
-
-        SignInDataResponse signInDataResponse = new SignInDataResponse();
-        signInDataResponse.setUser(user);
-        signInDataResponse.setAuthenToken("12345678");
-        BaseResponse<SignInDataResponse> baseResponse =
-                new BaseResponse<SignInDataResponse>(signInDataResponse) {
-                };
-        return Observable.just(baseResponse);
+    public Observable<UserProfileResponse> getUserProfile(int userId) {
+        return mRemoteDataSource.getUserProfile(userId)
+                .flatMap(
+                        new Function<BaseResponse<UserProfileResponse>,
+                                ObservableSource<UserProfileResponse>>() {
+                            @Override
+                            public ObservableSource<UserProfileResponse> apply(@NonNull
+                                    BaseResponse<UserProfileResponse>
+                                    userProfileResponseBaseResponse)
+                                    throws Exception {
+                                if (userProfileResponseBaseResponse != null) {
+                                    return Observable.just(
+                                            userProfileResponseBaseResponse.getData());
+                                }
+                                return Observable.error(new NullPointerException());
+                            }
+                        });
     }
 
     public void saveUser(User user) {
