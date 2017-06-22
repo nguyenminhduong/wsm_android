@@ -52,4 +52,10 @@ public final class Constant {
         public static final double ONE_HUNDRED_EIGHTY = 180.0;
         public static final double FOURTEEN = 14.0;
     }
+
+    public static class RequestCode {
+        public static final int REQUEST_OFF = 100;
+        public static final int REQUEST_OVERTIME = 101;
+        public static final int REQUEST_LEAVE = 102;
+    }
 }

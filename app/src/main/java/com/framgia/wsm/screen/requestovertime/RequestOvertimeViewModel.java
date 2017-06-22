@@ -17,6 +17,7 @@ import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.requestovertime.confirmovertime.ConfirmOvertimeActivity;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
@@ -301,7 +302,8 @@ public class RequestOvertimeViewModel extends BaseObservable
         }
         Bundle bundle = new Bundle();
         bundle.putParcelable(EXTRA_REQUEST_OVERTIME, mRequestOverTime);
-        mNavigator.startActivity(ConfirmOvertimeActivity.class, bundle);
+        mNavigator.startActivityForResult(ConfirmOvertimeActivity.class, bundle,
+                Constant.RequestCode.REQUEST_OVERTIME);
     }
 
     public void onCickArrowBack(View view) {

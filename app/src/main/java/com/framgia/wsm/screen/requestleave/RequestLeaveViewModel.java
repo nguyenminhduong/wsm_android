@@ -959,7 +959,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         }
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, mRequest);
-        mNavigator.startActivity(ConfirmRequestLeaveActivity.class, bundle);
+        mNavigator.startActivityForResult(ConfirmRequestLeaveActivity.class, bundle,
+                Constant.RequestCode.REQUEST_LEAVE);
     }
 
     public void clearTime() {
