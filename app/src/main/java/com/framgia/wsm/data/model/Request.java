@@ -59,6 +59,9 @@ public class Request extends BaseModel implements Parcelable {
     @SerializedName("checkin_time")
     private String mCheckinTime;
     @Expose
+    @SerializedName("being_handled_by")
+    private String mBeingHandledBy;
+    @Expose
     @SerializedName("checkout_time")
     private String mCheckoutTime;
     @Expose
@@ -85,6 +88,7 @@ public class Request extends BaseModel implements Parcelable {
         mToTime = in.readString();
         mCheckinTime = in.readString();
         mCheckoutTime = in.readString();
+        mBeingHandledBy=in.readString();
         mStatus = in.readInt();
         mCompensation = in.readParcelable(Compensation.class.getClassLoader());
     }
@@ -193,6 +197,14 @@ public class Request extends BaseModel implements Parcelable {
         mCheckoutTime = checkoutTime;
     }
 
+    public String getBeingHandledBy() {
+        return mBeingHandledBy;
+    }
+
+    public void setBeingHandledBy(String beingHandledBy) {
+        mBeingHandledBy = beingHandledBy;
+    }
+
     public int getStatus() {
         return mStatus;
     }
@@ -229,6 +241,7 @@ public class Request extends BaseModel implements Parcelable {
         dest.writeString(mToTime);
         dest.writeString(mCheckinTime);
         dest.writeString(mCheckoutTime);
+        dest.writeString(mBeingHandledBy);
         dest.writeInt(mStatus);
         dest.writeParcelable(mCompensation, flags);
     }

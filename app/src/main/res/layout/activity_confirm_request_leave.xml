@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_35"
                     android:layout_marginStart="@dimen/dp_35"
-                    android:text="@string/confirm_request_leave"
+                    android:text="@{viewModel.titleToolbar}"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/sp_20"
                     />
@@ -56,7 +56,7 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/button_submit"
+                android:layout_above="@+id/frame_button"
                 android:scrollbars="none"
                 >
                 <LinearLayout
@@ -324,6 +324,96 @@
                                         />
                                 </LinearLayout>
                             </TableRow>
+                            <TableRow
+                                android:gravity="center_vertical"
+                                android:visibility="@{viewModel.detail ? View.VISIBLE : View.GONE}"
+                                >
+                                <ImageView
+                                    app:srcCompat="@drawable/ic_reason"
+                                    tools:ignore="ContentDescription"
+                                    style="@style/StyleIconConfirm"
+                                    />
+                                <LinearLayout
+                                    android:layout_marginLeft="@dimen/dp_20"
+                                    android:layout_marginStart="@dimen/dp_20"
+                                    android:orientation="vertical"
+                                    >
+                                    <TextView
+                                        android:text="@string/status"
+                                        style="@style/StyleTitleConfirm"
+                                        />
+                                    <FrameLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        >
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/border_button"
+                                            android:text="@string/accepted"
+                                            android:textColor="@color/color_green_lime"
+                                            android:visibility="@{viewModel.acceptStatus ? View.VISIBLE : View.GONE}"
+                                            />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/border_button"
+                                            android:text="@string/pending"
+                                            android:textColor="@color/color_blue"
+                                            android:visibility="@{viewModel.pendingStatus ? View.VISIBLE : View.GONE}"
+                                            />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/border_button"
+                                            android:text="@string/rejected"
+                                            android:textColor="@color/color_red_fresh"
+                                            android:visibility="@{viewModel.rejectStatus ? View.VISIBLE : View.GONE}"
+                                            />
+                                    </FrameLayout>
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/dp_1"
+                                        android:layout_marginBottom="@dimen/dp_5"
+                                        android:layout_marginTop="@dimen/dp_5"
+                                        android:background="@color/colorPrimary"
+                                        />
+                                </LinearLayout>
+                            </TableRow>
+                            <TableRow
+                                android:gravity="center_vertical"
+                                android:visibility="@{viewModel.detail ? View.VISIBLE : View.GONE}"
+                                >
+                                <ImageView
+                                    app:srcCompat="@drawable/ic_reason"
+                                    tools:ignore="ContentDescription"
+                                    style="@style/StyleIconConfirm"
+                                    />
+                                <LinearLayout
+                                    android:layout_marginLeft="@dimen/dp_20"
+                                    android:layout_marginStart="@dimen/dp_20"
+                                    android:orientation="vertical"
+                                    >
+                                    <TextView
+                                        android:text="@string/being_handled_by"
+                                        style="@style/StyleTitleConfirm"
+                                        />
+                                    <TextView
+                                        android:text="@{viewModel.request.beingHandledBy}"
+                                        style="@style/StyleTextConfirm"
+                                        />
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/dp_1"
+                                        android:layout_marginBottom="@dimen/dp_5"
+                                        android:layout_marginTop="@dimen/dp_5"
+                                        android:background="@color/colorPrimary"
+                                        />
+                                </LinearLayout>
+                            </TableRow>
                         </TableLayout>
 
                         <TableLayout
@@ -438,14 +528,42 @@
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>
-
-            <Button
-                android:onClick="@{viewModel::onClickSubmit}"
-                android:id="@+id/button_submit"
+            <FrameLayout
+                android:id="@+id/frame_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:text="@string/submit"
-                style="@style/StyleButton"
-                />
+                >
+                <Button
+                    android:id="@+id/button_submit"
+                    android:onClick="@{viewModel::onClickSubmit}"
+                    android:text="@string/submit"
+                    android:visibility="@{viewModel.detail ? View.GONE : View.VISIBLE}"
+                    style="@style/StyleButton"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="@{viewModel.detail ? View.VISIBLE : View.GONE}"
+                    >
+                    <Button
+                        android:layout_margin="@dimen/dp_1"
+                        android:layout_weight="1"
+                        android:background="@color/color_red_firebrick"
+                        android:onClick="@{viewModel::onClickDelete}"
+                        android:text="@string/delete"
+                        style="@style/StyleButton"
+                        />
+                    <Button
+                        android:layout_margin="@dimen/dp_1"
+                        android:layout_weight="1"
+                        android:onClick="@{viewModel::onClickEdit}"
+                        android:text="@string/edit"
+                        style="@style/StyleButton"
+                        />
+                </LinearLayout>
+            </FrameLayout>
         </RelativeLayout>
     </LinearLayout>
 </layout>

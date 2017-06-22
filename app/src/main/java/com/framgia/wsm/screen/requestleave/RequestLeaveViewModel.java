@@ -19,6 +19,7 @@ import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRequestLeave;
 import com.framgia.wsm.screen.confirmrequestleave.ConfirmRequestLeaveActivity;
+import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.common.StringUtils;
@@ -959,6 +960,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         }
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, mRequest);
+        bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_CONFIRM);
         mNavigator.startActivityForResult(ConfirmRequestLeaveActivity.class, bundle,
                 Constant.RequestCode.REQUEST_LEAVE);
     }

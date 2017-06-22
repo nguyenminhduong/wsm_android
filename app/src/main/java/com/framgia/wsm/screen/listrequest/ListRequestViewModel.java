@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,9 @@ import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
+import com.framgia.wsm.screen.confirmrequestleave.ConfirmRequestLeaveActivity;
+import com.framgia.wsm.utils.ActionType;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
@@ -78,7 +82,22 @@ public class ListRequestViewModel extends BaseObservable
 
     @Override
     public void onItemRecyclerViewClick(Request item) {
-        // TODO: Click item list request
+        Bundle bundle = new Bundle();
+        switch (mRequestType) {
+            case RequestType.REQUEST_LATE_EARLY:
+                bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, item);
+                bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
+                mNavigator.startActivity(ConfirmRequestLeaveActivity.class, bundle);
+                break;
+            case RequestType.REQUEST_OFF:
+                // todo open request off detail
+                break;
+            case RequestType.REQUEST_OVERTIME:
+                // todo open request ot detail
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

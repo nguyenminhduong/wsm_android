@@ -1,6 +1,7 @@
 package com.framgia.wsm.screen.confirmrequestleave;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.source.RequestRepository;
@@ -32,12 +33,14 @@ public class ConfirmRequestLeaveModule {
 
     @ActivityScope
     @Provides
-    public ConfirmRequestLeaveContract.ViewModel provideViewModel(
+    public ConfirmRequestLeaveContract.ViewModel provideViewModel(Context context,
             ConfirmRequestLeaveContract.Presenter presenter, Navigator navigator,
             DialogManager dialogManager) {
         Request requestLeave =
                 mActivity.getIntent().getParcelableExtra(Constant.EXTRA_REQUEST_LEAVE);
-        return new ConfirmRequestLeaveViewModel(presenter, requestLeave, navigator, dialogManager);
+        int actionType = mActivity.getIntent().getExtras().getInt(Constant.EXTRA_ACTION_TYPE);
+        return new ConfirmRequestLeaveViewModel(context, presenter, requestLeave, navigator,
+                dialogManager, actionType);
     }
 
     @ActivityScope

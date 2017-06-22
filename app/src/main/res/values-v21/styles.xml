@@ -59,7 +59,7 @@
         <item name="android:layout_alignParentBottom">true</item>
         <item name="android:background">@color/color_green_dark_transparent</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textSize">@dimen/sp_20</item>
+        <item name="android:textSize">@dimen/sp_18</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
