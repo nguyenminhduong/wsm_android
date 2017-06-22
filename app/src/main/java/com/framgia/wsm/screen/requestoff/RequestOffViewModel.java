@@ -629,14 +629,16 @@ public class RequestOffViewModel extends BaseRequestOff
                 showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
                 return;
             }
-            mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
+            mNavigator.startActivityForResult(ConfirmRequestOffActivity.class, bundle,
+                    Constant.RequestCode.REQUEST_OFF);
         } else {
             if (mEndDateHaveSalary == null) {
                 if (mEndDateNoSalary == null) {
                     showErrorDialog(
                             mContext.getString(R.string.the_field_required_can_not_be_blank));
                 } else {
-                    mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
+                    mNavigator.startActivityForResult(ConfirmRequestOffActivity.class, bundle,
+                            Constant.RequestCode.REQUEST_OFF);
                 }
                 return;
             }

@@ -1,5 +1,6 @@
 package com.framgia.wsm.screen.confirmrequestleave;
 
+import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.util.Log;
@@ -8,7 +9,6 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
-import com.framgia.wsm.screen.main.MainActivity;
 import com.framgia.wsm.screen.requestleave.RequestLeaveViewModel;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
@@ -83,7 +83,7 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
 
     @Override
     public void onCreateFormRequestLeaveSuccess() {
-        mNavigator.startActivityAtRoot(MainActivity.class);
+        mNavigator.finishActivityWithResult(Activity.RESULT_OK);
     }
 
     @Override

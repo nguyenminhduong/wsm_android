@@ -129,6 +129,24 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     }
 
     @Override
+    public void goNextFragmentListRequestOff() {
+        setCurrentPage(Page.OFF);
+        setCurrentItem(R.id.item_off);
+    }
+
+    @Override
+    public void goNextFragmentListRequestOverTime() {
+        setCurrentPage(Page.OVERTIME);
+        setCurrentItem(R.id.item_overtime);
+    }
+
+    @Override
+    public void goNextFragmentListRequestLeave() {
+        setCurrentPage(Page.COME_LATE_LEAVE_EARLY);
+        setCurrentItem(R.id.item_come_late_leave_early);
+    }
+
+    @Override
     public boolean onBackPressed() {
         if (Constant.DRAWER_IS_OPEN.equals(mStatusDrawerLayout)) {
             setStatusDrawerLayout(Constant.DRAWER_IS_CLOSE);

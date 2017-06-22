@@ -18,6 +18,12 @@ interface MainContract {
         void onGetUserSuccess(User user);
 
         void onGetUserError(BaseException exception);
+
+        void goNextFragmentListRequestOff();
+
+        void goNextFragmentListRequestOverTime();
+
+        void goNextFragmentListRequestLeave();
     }
 
     /**

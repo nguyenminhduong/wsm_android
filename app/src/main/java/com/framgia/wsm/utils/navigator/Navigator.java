@@ -56,7 +56,8 @@ public class Navigator {
         startActivity(intent);
     }
 
-    public void startActivityForResult(@NonNull Intent intent, int requestCode) {
+    public void startActivityForResult(@NonNull Class<? extends Activity> clazz, int requestCode) {
+        Intent intent = new Intent(mActivity, clazz);
         mActivity.startActivityForResult(intent, requestCode);
         setActivityTransactionAnimation(ActivityTransition.START);
     }
@@ -65,7 +66,8 @@ public class Navigator {
             int requestCode) {
         Intent intent = new Intent(mActivity, clazz);
         intent.putExtras(args);
-        startActivityForResult(intent, requestCode);
+        mActivity.startActivityForResult(intent, requestCode);
+        setActivityTransactionAnimation(ActivityTransition.START);
     }
 
     public void finishActivity() {
@@ -73,7 +75,12 @@ public class Navigator {
         setActivityTransactionAnimation(ActivityTransition.FINISH);
     }
 
-    public void finishActivityWithResult(Intent intent, int resultCode) {
+    public void finishActivityWithResult(int resultCode) {
+        mActivity.setResult(resultCode);
+        finishActivity();
+    }
+
+    public void finishActivityWithResult(@NonNull Intent intent, int resultCode) {
         mActivity.setResult(resultCode, intent);
         finishActivity();
     }

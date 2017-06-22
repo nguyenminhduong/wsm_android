@@ -1,5 +1,7 @@
 package com.framgia.wsm.screen.main;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +10,7 @@ import com.framgia.wsm.MainApplication;
 import com.framgia.wsm.R;
 import com.framgia.wsm.databinding.ActivityMainBinding;
 import com.framgia.wsm.screen.BaseActivity;
+import com.framgia.wsm.utils.Constant;
 import javax.inject.Inject;
 
 /**
@@ -75,5 +78,26 @@ public class MainActivity extends BaseActivity {
         Toast.makeText(this, getString(R.string.please_click_back_again_to_exit),
                 Toast.LENGTH_SHORT).show();
         mHandler.postDelayed(mRunnable, DELAY_TIME_TWO_TAP_BACK_BUTTON);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return;
+        }
+        switch (requestCode) {
+            case Constant.RequestCode.REQUEST_OFF:
+                mViewModel.goNextFragmentListRequestOff();
+                break;
+            case Constant.RequestCode.REQUEST_OVERTIME:
+                mViewModel.goNextFragmentListRequestOverTime();
+                break;
+            case Constant.RequestCode.REQUEST_LEAVE:
+                mViewModel.goNextFragmentListRequestLeave();
+                break;
+            default:
+                break;
+        }
     }
 }
