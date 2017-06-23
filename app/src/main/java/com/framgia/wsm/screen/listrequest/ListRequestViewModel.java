@@ -12,10 +12,14 @@ import android.widget.DatePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.screen.confirmrequestleave.ConfirmRequestLeaveActivity;
+import com.framgia.wsm.screen.confirmrequestoff.ConfirmRequestOffActivity;
+import com.framgia.wsm.screen.requestovertime.confirmovertime.ConfirmOvertimeActivity;
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
@@ -31,7 +35,7 @@ import java.util.List;
 
 public class ListRequestViewModel extends BaseObservable
         implements ListRequestContract.ViewModel, DatePickerDialog.OnDateSetListener,
-        BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Request> {
+        BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> {
     private static final String TAG = "ListRequestViewModel";
     private static final int FORMAT_MONTH = 10;
 
@@ -46,7 +50,6 @@ public class ListRequestViewModel extends BaseObservable
     private Calendar mCalendar;
     private ListRequestAdapter mListRequestAdapter;
     private Navigator mNavigator;
-    private Request mRequest;
     private User mUser;
     @RequestType
     private int mRequestType;
@@ -81,19 +84,23 @@ public class ListRequestViewModel extends BaseObservable
     }
 
     @Override
-    public void onItemRecyclerViewClick(Request item) {
+    public void onItemRecyclerViewClick(Object object) {
         Bundle bundle = new Bundle();
         switch (mRequestType) {
             case RequestType.REQUEST_LATE_EARLY:
-                bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, item);
+                bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, (Request) object);
                 bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
                 mNavigator.startActivity(ConfirmRequestLeaveActivity.class, bundle);
                 break;
             case RequestType.REQUEST_OFF:
-                // todo open request off detail
+                bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, (RequestOff) object);
+                bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
+                mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
                 break;
             case RequestType.REQUEST_OVERTIME:
-                // todo open request ot detail
+                bundle.putParcelable(Constant.EXTRA_REQUEST_OVERTIME, (RequestOverTime) object);
+                bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
+                mNavigator.startActivity(ConfirmOvertimeActivity.class, bundle);
                 break;
             default:
                 break;
@@ -106,8 +113,18 @@ public class ListRequestViewModel extends BaseObservable
     }
 
     @Override
-    public void onGetListRequestSuccess(List<Request> requests) {
-        mListRequestAdapter.updateData(requests);
+    public void onGetListRequestLeaveSuccess(List<Request> requests) {
+        mListRequestAdapter.updateDataRequest(requests);
+    }
+
+    @Override
+    public void onGetListRequestOffSuccess(List<RequestOff> requestOffs) {
+        mListRequestAdapter.updateDataRequestOff(requestOffs);
+    }
+
+    @Override
+    public void onGetListRequestOverTimeSuccess(List<RequestOverTime> requestOverTimes) {
+        mListRequestAdapter.updateDataRequestOverTime(requestOverTimes);
     }
 
     @Override
@@ -158,10 +175,6 @@ public class ListRequestViewModel extends BaseObservable
 
     public ListRequestAdapter getListRequestAdapter() {
         return mListRequestAdapter;
-    }
-
-    public Request getRequest() {
-        return mRequest;
     }
 
     public void setRequestType(int requestType) {

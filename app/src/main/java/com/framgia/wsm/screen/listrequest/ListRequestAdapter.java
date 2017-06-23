@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.databinding.ItemListRequestLeaveBinding;
 import com.framgia.wsm.databinding.ItemListRequestOffBinding;
 import com.framgia.wsm.databinding.ItemListRequestOvertimeBinding;
@@ -22,8 +24,10 @@ import java.util.List;
 
 public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.ViewHolder> {
 
-    private OnRecyclerViewItemClickListener<Request> mItemClickListener;
+    private OnRecyclerViewItemClickListener<Object> mItemClickListener;
     private List<Request> mRequests;
+    private List<RequestOff> mRequestOffs;
+    private List<RequestOverTime> mRequestOverTimes;
     @RequestType
     private int mRequestType;
 
@@ -31,6 +35,8 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
         super(context);
         mRequestType = requestType;
         mRequests = new ArrayList<>();
+        mRequestOffs = new ArrayList<>();
+        mRequestOverTimes = new ArrayList<>();
     }
 
     @Override
@@ -64,11 +70,11 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
             case RequestType.REQUEST_OVERTIME:
                 RequestOverTimeViewHolder requestOverTimeViewHolder =
                         (RequestOverTimeViewHolder) holder;
-                requestOverTimeViewHolder.bind(mRequests.get(position));
+                requestOverTimeViewHolder.bind(mRequestOverTimes.get(position));
                 break;
             case RequestType.REQUEST_OFF:
                 RequestOffViewHolder requestOffViewHolder = (RequestOffViewHolder) holder;
-                requestOffViewHolder.bind(mRequests.get(position));
+                requestOffViewHolder.bind(mRequestOffs.get(position));
                 break;
             case RequestType.REQUEST_LATE_EARLY:
                 RequestLeaveViewHolder requestLeaveViewHolder = (RequestLeaveViewHolder) holder;
@@ -84,10 +90,16 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
 
     @Override
     public int getItemCount() {
-        return mRequests.size();
+        if (mRequestType == RequestType.REQUEST_OVERTIME) {
+            return mRequestOverTimes.size();
+        } else if (mRequestType == RequestType.REQUEST_OFF) {
+            return mRequestOffs.size();
+        } else {
+            return mRequests.size();
+        }
     }
 
-    void updateData(List<Request> requests) {
+    void updateDataRequest(List<Request> requests) {
         if (requests == null) {
             return;
         }
@@ -96,50 +108,69 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
         notifyDataSetChanged();
     }
 
-    void setItemClickListener(OnRecyclerViewItemClickListener<Request> itemClickListener) {
+    void updateDataRequestOff(List<RequestOff> requestOffs) {
+        if (requestOffs == null) {
+            return;
+        }
+        mRequestOffs.clear();
+        mRequestOffs.addAll(requestOffs);
+        notifyDataSetChanged();
+    }
+
+    void updateDataRequestOverTime(List<RequestOverTime> requestOverTimes) {
+        if (requestOverTimes == null) {
+            return;
+        }
+        mRequestOverTimes.clear();
+        mRequestOverTimes.addAll(requestOverTimes);
+        notifyDataSetChanged();
+    }
+
+    void setItemClickListener(OnRecyclerViewItemClickListener<Object> itemClickListener) {
         mItemClickListener = itemClickListener;
     }
 
     private static class RequestOverTimeViewHolder extends RecyclerView.ViewHolder {
         private ItemListRequestOvertimeBinding mBinding;
-        private OnRecyclerViewItemClickListener<Request> mItemClickListener;
+        private OnRecyclerViewItemClickListener<Object> mItemClickListener;
 
         RequestOverTimeViewHolder(ItemListRequestOvertimeBinding binding,
-                BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Request> listener) {
+                BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> listener) {
             super(binding.getRoot());
             mBinding = binding;
             mItemClickListener = listener;
         }
 
-        void bind(Request request) {
-            mBinding.setViewModel(new ItemListRequestViewModel(request, mItemClickListener));
+        void bind(RequestOverTime requestOverTime) {
+            mBinding.setViewModel(
+                    new ItemListRequestViewModel(requestOverTime, mItemClickListener));
             mBinding.executePendingBindings();
         }
     }
 
     private static class RequestOffViewHolder extends RecyclerView.ViewHolder {
         private ItemListRequestOffBinding mBinding;
-        private OnRecyclerViewItemClickListener<Request> mItemClickListener;
+        private OnRecyclerViewItemClickListener<Object> mItemClickListener;
 
         RequestOffViewHolder(ItemListRequestOffBinding binding,
-                BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Request> listener) {
+                BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> listener) {
             super(binding.getRoot());
             mBinding = binding;
             mItemClickListener = listener;
         }
 
-        void bind(Request request) {
-            mBinding.setViewModel(new ItemListRequestViewModel(request, mItemClickListener));
+        void bind(RequestOff requestOff) {
+            mBinding.setViewModel(new ItemListRequestViewModel(requestOff, mItemClickListener));
             mBinding.executePendingBindings();
         }
     }
 
     private static class RequestLeaveViewHolder extends RecyclerView.ViewHolder {
         private ItemListRequestLeaveBinding mBinding;
-        private OnRecyclerViewItemClickListener<Request> mItemClickListener;
+        private OnRecyclerViewItemClickListener<Object> mItemClickListener;
 
         RequestLeaveViewHolder(ItemListRequestLeaveBinding binding,
-                BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Request> listener) {
+                BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> listener) {
             super(binding.getRoot());
             mBinding = binding;
             mItemClickListener = listener;

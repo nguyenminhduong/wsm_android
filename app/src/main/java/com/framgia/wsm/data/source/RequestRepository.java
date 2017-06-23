@@ -44,20 +44,18 @@ public class RequestRepository {
         return mRemoteDataSource.createFormRequestLeave(request);
     }
 
-    public Observable<BaseResponse<List<Request>>> getListRequestOff(@NonNull int userId) {
+    public Observable<BaseResponse<List<RequestOff>>> getListRequestOff(@NonNull int userId) {
         // TODO: Edit later
         // return mRemoteDataSource.getListRequestOff(userId);
-        List<Request> requests = new ArrayList<>();
+        List<RequestOff> requestOffs = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            Request request = new Request();
-            request.setCreatedAt("16/06/2017");
-            request.setStatus(0);
-            request.setFromTime("17/06/2017");
-            request.setToTime("18/06/2017");
-            requests.add(request);
+            RequestOff requestOff = new RequestOff();
+            requestOff.setCreatedAt("16/06/2017");
+            requestOffs.add(requestOff);
         }
-        BaseResponse<List<Request>> baseResponse = new BaseResponse<List<Request>>(requests) {
-        };
+        BaseResponse<List<RequestOff>> baseResponse =
+                new BaseResponse<List<RequestOff>>(requestOffs) {
+                };
         return Observable.just(baseResponse);
     }
 
@@ -83,20 +81,20 @@ public class RequestRepository {
         return Observable.just(baseResponse);
     }
 
-    public Observable<BaseResponse<List<Request>>> getListRequestOverTime(@NonNull int userId) {
+    public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime(
+            @NonNull int userId) {
         // TODO: Edit later
         // return mRemoteDataSource.getListRequestOverTime(userId);
-        List<Request> requests = new ArrayList<>();
+        List<RequestOverTime> requestOverTimes = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            Request request = new Request();
-            request.setCreatedAt("16/06/2017");
-            request.setStatus(2);
-            request.setFromTime("21/06/2017");
-            request.setToTime("22/06/2017");
-            requests.add(request);
+            RequestOverTime requestOverTime = new RequestOverTime();
+            requestOverTime.setFromTime("21/06/2017");
+            requestOverTime.setToTime("22/06/2017");
+            requestOverTimes.add(requestOverTime);
         }
-        BaseResponse<List<Request>> baseResponse = new BaseResponse<List<Request>>(requests) {
-        };
+        BaseResponse<List<RequestOverTime>> baseResponse =
+                new BaseResponse<List<RequestOverTime>>(requestOverTimes) {
+                };
         return Observable.just(baseResponse);
     }
 }

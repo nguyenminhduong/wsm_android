@@ -1,6 +1,8 @@
 package com.framgia.wsm.screen.listrequest;
 
 import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.UserRepository;
@@ -59,12 +61,13 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
                 disposable = mRequestRepository.getListRequestOverTime(userId)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
-                        .subscribe(new Consumer<BaseResponse<List<Request>>>() {
+                        .subscribe(new Consumer<BaseResponse<List<RequestOverTime>>>() {
                             @Override
                             public void accept(
-                                    @NonNull BaseResponse<List<Request>> listBaseResponse)
+                                    @NonNull BaseResponse<List<RequestOverTime>> listBaseResponse)
                                     throws Exception {
-                                mViewModel.onGetListRequestSuccess(listBaseResponse.getData());
+                                mViewModel.onGetListRequestOverTimeSuccess(
+                                        listBaseResponse.getData());
                             }
                         }, new RequestError() {
                             @Override
@@ -78,12 +81,12 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
                 disposable = mRequestRepository.getListRequestOff(userId)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
-                        .subscribe(new Consumer<BaseResponse<List<Request>>>() {
+                        .subscribe(new Consumer<BaseResponse<List<RequestOff>>>() {
                             @Override
                             public void accept(
-                                    @NonNull BaseResponse<List<Request>> listBaseResponse)
+                                    @NonNull BaseResponse<List<RequestOff>> listBaseResponse)
                                     throws Exception {
-                                mViewModel.onGetListRequestSuccess(listBaseResponse.getData());
+                                mViewModel.onGetListRequestOffSuccess(listBaseResponse.getData());
                             }
                         }, new RequestError() {
                             @Override
@@ -102,7 +105,7 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
                             public void accept(
                                     @NonNull BaseResponse<List<Request>> listBaseResponse)
                                     throws Exception {
-                                mViewModel.onGetListRequestSuccess(listBaseResponse.getData());
+                                mViewModel.onGetListRequestLeaveSuccess(listBaseResponse.getData());
                             }
                         }, new RequestError() {
                             @Override
