@@ -33,6 +33,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     private boolean isShowInformation;
     private TimeSheetDate mTimeSheetDate;
     private Navigator mNavigator;
+    private boolean isVisibleFloatingActionMenu;
 
     public TimeSheetViewModel(Context context, TimeSheetContract.Presenter presenter,
             Navigator navigator, DialogManager dialogManager) {
@@ -113,6 +114,16 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         return isShowInformation;
     }
 
+    @Bindable
+    public boolean isVisibleFloatingActionMenu() {
+        return isVisibleFloatingActionMenu;
+    }
+
+    public void setVisibleFloatingActionMenu(boolean visibleFloatingActionMenu) {
+        isVisibleFloatingActionMenu = visibleFloatingActionMenu;
+        notifyPropertyChanged(BR.visibleFloatingActionMenu);
+    }
+
     public void onDayClicked(TimeSheetDate timeSheetDate) {
         mTimeSheetDate = timeSheetDate;
         isShowInformation = true;
@@ -123,16 +134,19 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     }
 
     public void onClickRequestLeave(View view) {
+        setVisibleFloatingActionMenu(false);
         mNavigator.startActivityForResult(RequestLeaveActivity.class,
                 Constant.RequestCode.REQUEST_LEAVE);
     }
 
     public void onClickRequestOvertime(View view) {
+        setVisibleFloatingActionMenu(false);
         mNavigator.startActivityForResult(RequestOvertimeActivity.class,
                 Constant.RequestCode.REQUEST_OVERTIME);
     }
 
     public void onClickRequestOff(View view) {
+        setVisibleFloatingActionMenu(false);
         mNavigator.startActivityForResult(RequestOffActivity.class,
                 Constant.RequestCode.REQUEST_OFF);
     }

@@ -129,6 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|end"
+            android:clickable="true"
             android:padding="@dimen/dp_10"
             app:menu_animationDelayPerItem="55"
             app:menu_backgroundColor="@color/color_black_transparent"
@@ -141,6 +142,7 @@
             app:menu_labels_textColor="@android:color/white"
             app:menu_labels_textSize="@dimen/sp_16"
             app:menu_openDirection="up"
+            app:visibleFloatingActionMenu="@{viewModel.visibleFloatingActionMenu}"
             >
 
             <com.github.clans.fab.FloatingActionButton

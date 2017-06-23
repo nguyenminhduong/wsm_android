@@ -26,6 +26,7 @@ import com.framgia.wsm.screen.requestoff.RequestOffViewModel;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.widget.timesheet.OnDayClickListener;
 import com.framgia.wsm.widget.timesheet.TimeSheetView;
+import com.github.clans.fab.FloatingActionMenu;
 import java.util.List;
 
 /**
@@ -120,6 +121,14 @@ public final class BindingUtils {
     @BindingAdapter({ "toolbar" })
     public static void setToolbar(Toolbar toolbar, String title) {
         toolbar.setTitle(title);
+    }
+
+    @BindingAdapter({ "visibleFloatingActionMenu" })
+    public static void setVisibleFloatingActionMenu(FloatingActionMenu floatingActionMenu,
+            boolean visible) {
+        if (floatingActionMenu.isOpened()) {
+            floatingActionMenu.toggle(visible);
+        }
     }
 
     @BindingAdapter("errorTextInputLayout")
