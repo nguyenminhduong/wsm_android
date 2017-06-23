@@ -69,6 +69,12 @@ public class RequestOff extends BaseModel implements Parcelable {
             @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
     })
     private String mReason;
+    @Expose
+    @SerializedName("being_handled_by")
+    private String mBeingHandledBy;
+    @Expose
+    @SerializedName("status")
+    private int mStatus;
 
     public RequestOff() {
         mInsuranceCoverage = new InsuranceCoverage();
@@ -90,6 +96,8 @@ public class RequestOff extends BaseModel implements Parcelable {
         mStartDayNoSalary = in.readString();
         mEndDayNoSalary = in.readString();
         mReason = in.readString();
+        mBeingHandledBy = in.readString();
+        mStatus = in.readInt();
     }
 
     @Override
@@ -108,6 +116,8 @@ public class RequestOff extends BaseModel implements Parcelable {
         dest.writeString(mStartDayNoSalary);
         dest.writeString(mEndDayNoSalary);
         dest.writeString(mReason);
+        dest.writeString(mBeingHandledBy);
+        dest.writeInt(mStatus);
     }
 
     @Override
@@ -225,5 +235,21 @@ public class RequestOff extends BaseModel implements Parcelable {
 
     public void setReason(String reason) {
         mReason = reason;
+    }
+
+    public String getBeingHandledBy() {
+        return mBeingHandledBy;
+    }
+
+    public void setBeingHandledBy(String beingHandledBy) {
+        mBeingHandledBy = beingHandledBy;
+    }
+
+    public int getStatus() {
+        return mStatus;
+    }
+
+    public void setStatus(int status) {
+        mStatus = status;
     }
 }

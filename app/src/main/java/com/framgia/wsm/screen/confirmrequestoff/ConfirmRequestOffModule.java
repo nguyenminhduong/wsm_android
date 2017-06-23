@@ -1,6 +1,7 @@
 package com.framgia.wsm.screen.confirmrequestoff;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.source.RequestRepository;
@@ -32,12 +33,14 @@ public class ConfirmRequestOffModule {
 
     @ActivityScope
     @Provides
-    public ConfirmRequestOffContract.ViewModel provideViewModel(
+    public ConfirmRequestOffContract.ViewModel provideViewModel(Context context,
             ConfirmRequestOffContract.Presenter presenter, Navigator navigator,
             DialogManager dialogManager) {
         RequestOff requestOff =
                 mActivity.getIntent().getExtras().getParcelable(Constant.EXTRA_REQUEST_OFF);
-        return new ConfirmRequestOffViewModel(presenter, navigator, dialogManager, requestOff);
+        int actionType = mActivity.getIntent().getExtras().getInt(Constant.EXTRA_ACTION_TYPE);
+        return new ConfirmRequestOffViewModel(context, presenter, navigator, dialogManager,
+                requestOff, actionType);
     }
 
     @ActivityScope

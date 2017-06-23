@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_35"
                     android:layout_marginStart="@dimen/dp_35"
-                    android:text="@string/confirm_request_off"
+                    android:text="@{viewModel.titleToolbar}"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/sp_20"
                     />
@@ -59,7 +59,7 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/button_submit"
+                android:layout_above="@+id/frame_button"
                 android:scrollbars="none"
                 >
 
@@ -96,13 +96,15 @@
                                 android:text="@{viewModel.user.name}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
                         </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_10"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         >
@@ -126,13 +128,15 @@
                                 android:text="@{viewModel.user.code}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
                         </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_10"
                         android:orientation="horizontal"
                         android:visibility="@{viewModel.visiableProjectName ? View.VISIBLE : View.GONE}"
                         >
@@ -156,13 +160,15 @@
                                 android:text="@{viewModel.requestOff.project}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
                         </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_10"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:visibility="@{viewModel.visiablePosition ? View.VISIBLE : View.GONE}"
@@ -187,13 +193,15 @@
                                 android:text="@{viewModel.requestOff.position}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
                         </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_10"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         >
@@ -217,13 +225,15 @@
                                 android:text="@{viewModel.requestOff.branch.branchName}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
                         </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_10"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         >
@@ -247,6 +257,100 @@
                                 android:text="@{viewModel.requestOff.group.groupName}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="@{viewModel.detail ? View.VISIBLE : View.GONE}"
+                        >
+                        <ImageView
+                            app:srcCompat="@drawable/ic_status"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleIconConfirm"
+                            />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="vertical"
+                            >
+                            <TextView
+                                android:text="@string/status"
+                                style="@style/StyleTitleConfirm"
+                                />
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/border_button"
+                                    android:text="@string/accepted"
+                                    android:textColor="@color/color_green_lime"
+                                    android:visibility="@{viewModel.acceptStatus ? View.VISIBLE : View.GONE}"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/border_button"
+                                    android:text="@string/pending"
+                                    android:textColor="@color/color_blue"
+                                    android:visibility="@{viewModel.pendingStatus ? View.VISIBLE : View.GONE}"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/border_button"
+                                    android:text="@string/rejected"
+                                    android:textColor="@color/color_red_fresh"
+                                    android:visibility="@{viewModel.rejectStatus ? View.VISIBLE : View.GONE}"
+                                    />
+                            </FrameLayout>
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="@{viewModel.detail ? View.VISIBLE : View.GONE}"
+                        >
+                        <ImageView
+                            app:srcCompat="@drawable/ic_being_handled_by"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleIconConfirm"
+                            />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="vertical"
+                            >
+                            <TextView
+                                android:text="@string/being_handled_by"
+                                style="@style/StyleTitleConfirm"
+                                />
+                            <TextView
+                                android:text="@{viewModel.requestOff.beingHandledBy}"
+                                style="@style/StyleTextConfirm"
+                                />
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -256,6 +360,7 @@
                         android:layout_marginBottom="@dimen/dp_10"
                         android:layout_marginTop="@dimen/dp_10"
                         android:background="@color/color_dark_gray"
+                        android:visibility="@{viewModel.visiableLayoutCompanyPay ? View.VISIBLE : View.GONE}"
                         />
 
                     <!--Off have salary - Company pay-->
@@ -343,7 +448,7 @@
                         android:layout_height="@dimen/dp_1"
                         android:layout_marginBottom="@dimen/dp_10"
                         android:background="@color/color_dark_gray"
-                        android:visibility="@{viewModel.visiableLayoutCompanyPay ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{viewModel.visiableLayoutInsurance ? View.VISIBLE : View.GONE}"
                         />
 
                     <!--Off have salary - Insurance coverage-->
@@ -451,16 +556,16 @@
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
                         </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dp_1"
-                            android:layout_marginBottom="@dimen/dp_10"
-                            android:background="@color/color_dark_gray"
-                            android:visibility="@{viewModel.visiableLayoutInsurance ? View.VISIBLE : View.GONE}"
-                            />
-
                     </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_1"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:background="@color/color_dark_gray"
+                        android:visibility="@{viewModel.visiableLayoutHaveSalary ? View.VISIBLE : View.GONE}"
+                        />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -490,13 +595,15 @@
                                 android:text="@{viewModel.requestOff.startDayHaveSalary}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
                         </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_10"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:visibility="@{viewModel.visiableLayoutHaveSalary ? View.VISIBLE : View.GONE}"
@@ -521,6 +628,9 @@
                                 android:text="@{viewModel.requestOff.endDayHaveSalary}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -530,7 +640,7 @@
                         android:layout_marginBottom="@dimen/dp_10"
                         android:layout_marginTop="@dimen/dp_10"
                         android:background="@color/color_dark_gray"
-                        android:visibility="@{viewModel.visiableLayoutHaveSalary ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{viewModel.visiableLayoutOffNoSalary ? View.VISIBLE : View.GONE}"
                         />
 
                     <!--Off no salary-->
@@ -583,13 +693,15 @@
                                     android:text="@{viewModel.requestOff.startDayNoSalary}"
                                     style="@style/StyleTextConfirm"
                                     />
+                                <View
+                                    style="@style/StyleViewConfirm"
+                                    />
                             </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             >
@@ -613,19 +725,13 @@
                                     android:text="@{viewModel.requestOff.endDayNoSalary}"
                                     style="@style/StyleTextConfirm"
                                     />
+                                <View
+                                    style="@style/StyleViewConfirm"
+                                    />
                             </LinearLayout>
                         </LinearLayout>
 
                     </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_1"
-                        android:layout_marginBottom="@dimen/dp_10"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:background="@color/color_dark_gray"
-                        android:visibility="@{viewModel.visiableLayoutOffNoSalary ? View.VISIBLE : View.GONE}"
-                        />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -654,6 +760,9 @@
                                 android:text="@{viewModel.requestOff.reason}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -661,12 +770,41 @@
 
             </ScrollView>
 
-            <Button
-                android:id="@+id/button_submit"
-                android:onClick="@{viewModel::onCickSubmit}"
-                android:text="@string/submit"
-                style="@style/StyleButton"
-                />
+            <FrameLayout
+                android:id="@+id/frame_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                >
+                <Button
+                    android:onClick="@{viewModel::onClickSubmit}"
+                    android:text="@string/submit"
+                    android:visibility="@{viewModel.detail ? View.GONE : View.VISIBLE}"
+                    style="@style/StyleButton"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="@{viewModel.detail ? View.VISIBLE : View.GONE}"
+                    >
+                    <Button
+                        android:layout_margin="@dimen/dp_1"
+                        android:layout_weight="1"
+                        android:background="@color/color_red_firebrick"
+                        android:onClick="@{viewModel::onClickDelete}"
+                        android:text="@string/delete"
+                        style="@style/StyleButton"
+                        />
+                    <Button
+                        android:layout_margin="@dimen/dp_1"
+                        android:layout_weight="1"
+                        android:onClick="@{viewModel::onClickEdit}"
+                        android:text="@string/edit"
+                        style="@style/StyleButton"
+                        />
+                </LinearLayout>
+            </FrameLayout>
 
         </RelativeLayout>
     </LinearLayout>

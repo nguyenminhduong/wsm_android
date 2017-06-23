@@ -55,7 +55,7 @@
 
     <style name="StyleButton">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/dp_40</item>
+        <item name="android:layout_height">@dimen/dp_45</item>
         <item name="android:layout_alignParentBottom">true</item>
         <item name="android:background">@color/color_green_dark_transparent</item>
         <item name="android:textAllCaps">false</item>
@@ -109,6 +109,14 @@
         <item name="android:textColor">@color/color_gray_cod</item>
         <item name="android:textSize">@dimen/sp_15</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="StyleViewConfirm">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_1</item>
+        <item name="android:layout_marginBottom">@dimen/dp_5</item>
+        <item name="android:layout_marginTop">@dimen/dp_5</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
 </resources>
