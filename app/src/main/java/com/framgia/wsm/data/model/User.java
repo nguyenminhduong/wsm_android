@@ -41,6 +41,10 @@ public class User {
 
     private List<LeaveType> mLeaveTypes;
 
+    private List<OffType> mTypesCompany;
+
+    private List<OffType> mTypesInsurance;
+
     public Integer getId() {
         return mId;
     }
@@ -127,5 +131,21 @@ public class User {
 
     public void setLeaveTypes(List<LeaveType> leaveTypes) {
         mLeaveTypes = leaveTypes;
+    }
+
+    public List<OffType> getTypesCompany() {
+        return mTypesCompany;
+    }
+
+    public void setTypesCompany(List<OffType> typesCompany) {
+        mTypesCompany = typesCompany;
+    }
+
+    public List<OffType> getTypesInsurance() {
+        return mTypesInsurance;
+    }
+
+    public void setTypesInsurance(List<OffType> typesInsurance) {
+        mTypesInsurance = typesInsurance;
     }
 }

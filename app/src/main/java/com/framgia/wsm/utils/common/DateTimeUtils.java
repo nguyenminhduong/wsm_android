@@ -1,8 +1,11 @@
 package com.framgia.wsm.utils.common;
 
+import android.text.format.DateUtils;
+import android.util.Log;
 import com.framgia.wsm.screen.requestoff.RequestOffViewModel;
 import com.framgia.wsm.utils.Constant;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,12 +19,17 @@ import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
  * Created by framgia on 19/05/2017.
  */
 public final class DateTimeUtils {
+
+    private static final String TAG = DateTimeUtils.class.getName();
+
     public static final String DATE_FORMAT_YYYY_MM_DD = "yyyy/MM/dd";
+    public static final String DATE_FORMAT_YYYY_MM_DD_2 = "yyyy-MM-dd";
     public static final String DATE_FORMAT_YYYY_MM_JAPANESE = "MM/yyyy";
     public static final String FORMAT_DATE = "dd/MM/yyyy";
     public static final String TIME_FORMAT_HH_MM = "HH:mm";
     public static final String DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM = "yyyy/MM/dd - HH:mm";
     public static final String DATE_FORMAT_YYYY_MM_DD_A = "yyyy/MM/dd a";
+    private static final int DAY_OF_YEAR = 365;
 
     private DateTimeUtils() {
         // No-op
@@ -190,6 +198,29 @@ public final class DateTimeUtils {
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.YEAR, year);
         return calendar.get(Calendar.DAY_OF_WEEK);
+    }
+
+    private static String getDateNow() {
+        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_YYYY_MM_DD_2, Locale.getDefault());
+        return dateFormat.format(Calendar.getInstance().getTime());
+    }
+
+    public static double getDayOfYear(String day) {
+        Date dateNow;
+        Date dateContract;
+        double dayDifference = 0;
+        SimpleDateFormat simpleDateFormat =
+                new SimpleDateFormat(DATE_FORMAT_YYYY_MM_DD_2, Locale.getDefault());
+        try {
+            dateNow = simpleDateFormat.parse(DateTimeUtils.getDateNow());
+            dateContract = simpleDateFormat.parse(day);
+            long dayWork = Math.abs(dateNow.getTime() - dateContract.getTime());
+            long dayWorkOfYear = dayWork / DateUtils.DAY_IN_MILLIS;
+            dayDifference = Double.parseDouble(Long.toString(dayWorkOfYear)) / DAY_OF_YEAR;
+        } catch (ParseException e) {
+            Log.e(TAG, e.getLocalizedMessage());
+        }
+        return dayDifference;
     }
 
     public static String convertDateToString(String input) {

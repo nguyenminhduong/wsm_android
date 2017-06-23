@@ -5,6 +5,8 @@ import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.data.source.remote.api.response.LeaveTypeResponse;
+import com.framgia.wsm.data.source.remote.api.response.OffTypeResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.source.remote.api.response.TimeSheetResponse;
 import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
@@ -82,4 +84,10 @@ public interface WSMApi {
     // TODO edit later
     @GET("/api/v1/list_request_late_early")
     Observable<BaseResponse<List<Request>>> getListRequestLateEarly(@Query("user_id") int userId);
+
+    @GET("/api/dashboard/leave_types")
+    Observable<BaseResponse<LeaveTypeResponse>> getListLeaveType();
+
+    @GET("api/dashboard/dayoff_settings")
+    Observable<BaseResponse<OffTypeResponse>> getListOffType();
 }

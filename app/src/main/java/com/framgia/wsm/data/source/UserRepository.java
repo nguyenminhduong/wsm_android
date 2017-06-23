@@ -1,5 +1,7 @@
 package com.framgia.wsm.data.source;
 
+import com.framgia.wsm.data.model.LeaveType;
+import com.framgia.wsm.data.model.OffType;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
@@ -10,6 +12,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
+import java.util.List;
 
 /**
  * Created by le.quang.dao on 10/03/2017.
@@ -59,6 +62,14 @@ public class UserRepository {
                                 return Observable.error(new NullPointerException());
                             }
                         });
+    }
+
+    public Observable<List<LeaveType>> getListLeaveType() {
+        return mRemoteDataSource.getListLeaveType();
+    }
+
+    public Observable<List<OffType>> getListOffType() {
+        return mRemoteDataSource.getListOffType();
     }
 
     public void saveUser(User user) {
