@@ -12,6 +12,8 @@
             type="com.framgia.wsm.screen.requestovertime.confirmovertime.ConfirmOvertimeViewModel"
             />
 
+        <import type="android.view.View"/>
+
     </data>
 
     <LinearLayout
@@ -33,7 +35,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{viewModel::onCickArrowBack}"
+                    android:onClick="@{viewModel::onClickArrowBack}"
                     android:src="@drawable/md_nav_back"
                     tools:ignore="ContentDescription"
                     />
@@ -42,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_35"
                     android:layout_marginStart="@dimen/dp_35"
-                    android:text="@string/confirm_request_overtime"
+                    android:text="@{viewModel.titleToolbar}"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/sp_20"
                     />
@@ -371,23 +373,27 @@
                     android:id="@+id/button_submit"
                     android:onClick="@{viewModel::onClickSubmit}"
                     android:text="@string/submit"
+                    android:visibility="@{viewModel.detail ? View.GONE : View.VISIBLE}"
                     style="@style/StyleButton"
                     />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:visibility="@{viewModel.detail ? View.VISIBLE : View.GONE}"
                     >
                     <Button
                         android:layout_margin="@dimen/dp_1"
                         android:layout_weight="1"
                         android:background="@color/color_red_firebrick"
+                        android:onClick="@{viewModel::onClickDelete}"
                         android:text="@string/delete"
                         style="@style/StyleButton"
                         />
                     <Button
                         android:layout_margin="@dimen/dp_1"
                         android:layout_weight="1"
+                        android:onClick="@{viewModel::onClickEdit}"
                         android:text="@string/edit"
                         style="@style/StyleButton"
                         />

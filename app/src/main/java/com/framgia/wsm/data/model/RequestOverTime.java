@@ -28,6 +28,12 @@ public class RequestOverTime extends BaseModel implements Parcelable {
     };
 
     @Expose
+    @SerializedName("id")
+    private int mId;
+    @Expose
+    @SerializedName("created_at")
+    private String mCreatedAt;
+    @Expose
     @SerializedName("group")
     private Group mGroup;
     @Expose
@@ -57,16 +63,39 @@ public class RequestOverTime extends BaseModel implements Parcelable {
             @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
     })
     private String mReason;
+    @Expose
+    @SerializedName("status")
+    private int mStatus;
 
-    public RequestOverTime() {}
+    public RequestOverTime() {
+    }
 
     protected RequestOverTime(Parcel in) {
+        this.mId = in.readInt();
+        this.mCreatedAt = in.readString();
         this.mGroup = in.readParcelable(Group.class.getClassLoader());
         this.mBranch = in.readParcelable(Branch.class.getClassLoader());
         this.mProject = in.readString();
         this.mFromTime = in.readString();
         this.mToTime = in.readString();
         this.mReason = in.readString();
+        this.mStatus = in.readInt();
+    }
+
+    public int getId() {
+        return mId;
+    }
+
+    public void setId(int id) {
+        mId = id;
+    }
+
+    public String getCreatedAt() {
+        return mCreatedAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        mCreatedAt = createdAt;
     }
 
     public Group getGroup() {
@@ -117,6 +146,14 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         mReason = reason;
     }
 
+    public int getStatus() {
+        return mStatus;
+    }
+
+    public void setStatus(int status) {
+        mStatus = status;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -124,11 +161,14 @@ public class RequestOverTime extends BaseModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.mId);
+        dest.writeString(this.mCreatedAt);
         dest.writeParcelable(this.mGroup, flags);
         dest.writeParcelable(this.mBranch, flags);
         dest.writeString(this.mProject);
         dest.writeString(this.mFromTime);
         dest.writeString(this.mToTime);
         dest.writeString(this.mReason);
+        dest.writeInt(this.mStatus);
     }
 }
