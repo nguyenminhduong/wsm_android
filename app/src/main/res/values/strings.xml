@@ -196,5 +196,6 @@
     <string name="miscarriage_leave_is_not_greater_than_50_day">Miscarriage leave is not greater than 50 days !</string>
     <string name="maternity_leave_is_not_greater_than_180_day">Maternity leave is not greater than 180 days !</string>
     <string name="wife_labor_leave_is_not_greater_than_14_day">Wife\'s labor leave is not greater than 14 days !</string>
+    <string name="detail_request_off">Detail request off</string>
 
 </resources>

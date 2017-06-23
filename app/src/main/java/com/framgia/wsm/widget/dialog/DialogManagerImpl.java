@@ -76,6 +76,15 @@ public class DialogManagerImpl implements DialogManager {
     }
 
     @Override
+    public void dialogError(BaseException e,
+            MaterialDialog.SingleButtonCallback positiveButtonListener) {
+        new MaterialDialog.Builder(mContext).content(e.getMessage())
+                .positiveText(android.R.string.ok)
+                .onPositive(positiveButtonListener)
+                .show();
+    }
+
+    @Override
     public void dialogError(String content) {
         new MaterialDialog.Builder(mContext).content(content)
                 .positiveText(android.R.string.ok)

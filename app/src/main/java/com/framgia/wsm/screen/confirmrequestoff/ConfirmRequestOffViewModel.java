@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
@@ -17,6 +19,8 @@ import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
+import com.fstyle.library.DialogAction;
+import com.fstyle.library.MaterialDialog;
 
 /**
  * Exposes the data to be used in the ConfirmRequestOff screen.
@@ -94,12 +98,21 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     @Override
     public void onEditFormRequestOffSuccess(RequestOff requestOff) {
-        //TODO call back screen detail request off
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mRequestOff);
+        bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
+        mNavigator.startActivityAtRoot(ConfirmRequestOffActivity.class, bundle);
     }
 
     @Override
     public void onEditFormRequestOffError(BaseException exception) {
-        mDialogManager.dialogError(exception);
+        mDialogManager.dialogError(exception, new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog materialDialog,
+                    @NonNull DialogAction dialogAction) {
+                mNavigator.finishActivity();
+            }
+        });
     }
 
     @Bindable
@@ -107,6 +120,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         return mUser;
     }
 
+    @Bindable
     public RequestOff getRequestOff() {
         return mRequestOff;
     }
@@ -216,10 +230,10 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     }
 
     public String getTitleToolbar() {
-        if (mActionType == ActionType.ACTION_DETAIL) {
-            return mContext.getString(R.string.request_off);
+        if (mActionType == ActionType.ACTION_CREATE) {
+            return mContext.getString(R.string.confirm_request_off);
         }
-        return mContext.getString(R.string.confirm_request_off);
+        return mContext.getString(R.string.detail_request_off);
     }
 
     public void onCickArrowBack(View view) {
@@ -245,7 +259,9 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     }
 
     public void onClickEdit(View view) {
-        mNavigator.startActivityForResult(RequestOffActivity.class,
-                Constant.RequestCode.EDIT_REQUEST_OFF);
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_EDIT);
+        bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mRequestOff);
+        mNavigator.startActivity(RequestOffActivity.class, bundle);
     }
 }
