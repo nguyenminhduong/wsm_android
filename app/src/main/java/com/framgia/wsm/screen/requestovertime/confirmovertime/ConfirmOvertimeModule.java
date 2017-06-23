@@ -1,6 +1,7 @@
 package com.framgia.wsm.screen.requestovertime.confirmovertime;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.RequestRepository;
@@ -8,6 +9,7 @@ import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
@@ -33,12 +35,17 @@ public class ConfirmOvertimeModule {
 
     @ActivityScope
     @Provides
-    public ConfirmOvertimeContract.ViewModel provideViewModel(
+    public ConfirmOvertimeContract.ViewModel provideViewModel(Context context,
             ConfirmOvertimeContract.Presenter presenter, Navigator navigator,
             DialogManager dialogManager) {
         RequestOverTime requestOverTime =
                 mActivity.getIntent().getParcelableExtra(EXTRA_REQUEST_OVERTIME);
-        return new ConfirmOvertimeViewModel(presenter, requestOverTime, navigator, dialogManager);
+        ConfirmOvertimeViewModel confirmOvertimeViewModel =
+                new ConfirmOvertimeViewModel(context, presenter, requestOverTime, navigator,
+                        dialogManager);
+        confirmOvertimeViewModel.setActionType(
+                mActivity.getIntent().getExtras().getInt(Constant.EXTRA_ACTION_TYPE));
+        return confirmOvertimeViewModel;
     }
 
     @ActivityScope

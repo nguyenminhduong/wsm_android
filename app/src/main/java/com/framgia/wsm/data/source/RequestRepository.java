@@ -51,6 +51,9 @@ public class RequestRepository {
         for (int i = 0; i < 5; i++) {
             RequestOff requestOff = new RequestOff();
             requestOff.setCreatedAt("16/06/2017");
+            requestOff.setStatus(0);
+            requestOff.setStartDayHaveSalary("16/06/2017");
+            requestOff.setEndDayHaveSalary("16/06/2017");
             requestOffs.add(requestOff);
         }
         BaseResponse<List<RequestOff>> baseResponse =
@@ -71,6 +74,7 @@ public class RequestRepository {
             Request request = new Request();
             request.setCreatedAt("16/06/2017");
             request.setStatus(1);
+            request.setProject("WSM");
             request.setFromTime("19/06/2017");
             request.setToTime("20/06/2017");
             request.setLeaveType(leaveType);
@@ -88,8 +92,11 @@ public class RequestRepository {
         List<RequestOverTime> requestOverTimes = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             RequestOverTime requestOverTime = new RequestOverTime();
+            requestOverTime.setId(1);
+            requestOverTime.setCreatedAt("23/06/2017");
             requestOverTime.setFromTime("21/06/2017");
             requestOverTime.setToTime("22/06/2017");
+            requestOverTime.setStatus(2);
             requestOverTimes.add(requestOverTime);
         }
         BaseResponse<List<RequestOverTime>> baseResponse =

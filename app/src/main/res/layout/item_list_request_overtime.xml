@@ -57,6 +57,7 @@
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.30"
+                    android:text="@{viewModel.createAt}"
                     />
 
                 <FrameLayout
@@ -73,7 +74,7 @@
                         android:text="@string/accepted"
                         android:textColor="@color/color_green_lime"
                         android:textStyle="bold"
-
+                        android:visibility="@{viewModel.acceptStatus ? View.VISIBLE : View.GONE}"
                         />
 
                     <TextView
@@ -82,7 +83,7 @@
                         android:text="@string/pending"
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold"
-
+                        android:visibility="@{viewModel.pendingStatus ? View.VISIBLE : View.GONE}"
                         />
 
                     <TextView
@@ -91,7 +92,7 @@
                         android:text="@string/rejected"
                         android:textColor="@color/color_red_fresh"
                         android:textStyle="bold"
-
+                        android:visibility="@{viewModel.rejectStatus ? View.VISIBLE : View.GONE}"
                         />
                 </FrameLayout>
 

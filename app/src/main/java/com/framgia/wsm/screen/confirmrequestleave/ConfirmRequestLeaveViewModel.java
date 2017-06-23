@@ -1,10 +1,5 @@
 package com.framgia.wsm.screen.confirmrequestleave;
 
-import android.content.Context;
-import android.databinding.BaseObservable;
-import com.framgia.wsm.data.model.User;
-import com.framgia.wsm.utils.navigator.Navigator;
-import com.framgia.wsm.widget.dialog.DialogManager;
 import android.app.Activity;
 import android.content.Context;
 import android.databinding.BaseObservable;
