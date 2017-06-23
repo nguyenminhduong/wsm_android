@@ -18,6 +18,14 @@ interface ConfirmRequestLeaveContract {
 
         void onCreateFormFormRequestLeaveError(BaseException exception);
 
+        void onEditFormRequestLeaveSuccess();
+
+        void onEditFormFormRequestLeaveError(BaseException exception);
+
+        void onDeleteFormRequestLeaveSuccess();
+
+        void onDeleteFormFormRequestLeaveError(BaseException exception);
+
         void onGetUserSuccess(User user);
 
         void onGetUserError(BaseException exception);
@@ -28,6 +36,10 @@ interface ConfirmRequestLeaveContract {
      */
     interface Presenter extends BasePresenter<ViewModel> {
         void createFormRequestLeave(Request request);
+
+        void editFormRequestLeave(Request request);
+
+        void deleteFormRequestLeave(int requestId);
 
         void getUser();
     }

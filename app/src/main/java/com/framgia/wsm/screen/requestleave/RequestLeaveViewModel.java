@@ -80,6 +80,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     private String mCompensationToTimeError;
     private String mCurrentDate;
     private int mCurrentTimeSelected;
+    private int mActionType;
     private String mProjectName;
     @Validation({
             @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
@@ -103,7 +104,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     private String mCompensationToTime;
 
     RequestLeaveViewModel(Context context, Navigator navigator,
-            RequestLeaveContract.Presenter presenter, DialogManager dialogManager) {
+            RequestLeaveContract.Presenter presenter, DialogManager dialogManager,
+            Request requestLeave, int actionType) {
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mContext = context;
@@ -113,9 +115,22 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mDialogManager.dialogTimePicker(this);
         setVisibleLayoutCompensation(true);
         setVisibleLayoutCheckin(true);
-        mRequest = new Request();
-        mRequest.setCompensation(new Request.Compensation());
         mPresenter.getUser();
+        initRequest(requestLeave);
+        mActionType = actionType;
+    }
+
+    private void initRequest(Request requestLeave) {
+        if (requestLeave != null) {
+            mRequest = requestLeave;
+            if (mRequest.getCompensation() == null) {
+                mRequest.setCompensation(new Request.Compensation());
+                mCurrentLeaveType = mRequest.getLeaveType().getName();
+            }
+        } else {
+            mRequest = new Request();
+            mRequest.setCompensation(new Request.Compensation());
+        }
     }
 
     @Override
@@ -960,7 +975,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         }
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, mRequest);
-        bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_CONFIRM);
+        bundle.putInt(Constant.EXTRA_ACTION_TYPE, mActionType);
         mNavigator.startActivityForResult(ConfirmRequestLeaveActivity.class, bundle,
                 Constant.RequestCode.REQUEST_LEAVE);
     }
@@ -974,17 +989,32 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     @Bindable
     public String getCurrentBranch() {
-        return mCurrentBranch;
+        if (mActionType == ActionType.ACTION_CREATE) {
+            return mCurrentBranch;
+        }
+        if (mRequest.getBranch() == null) {
+            return "";
+        }
+        return mRequest.getBranch().getBranchName();
     }
 
     @Bindable
     public String getCurrentGroup() {
-        return mCurrentGroup;
+        if (mActionType == ActionType.ACTION_CREATE) {
+            return mCurrentGroup;
+        }
+        if (mRequest.getGroup() == null) {
+            return "";
+        }
+        return mRequest.getGroup().getGroupName();
     }
 
     @Bindable
     public String getCurrentLeaveType() {
-        return mCurrentLeaveType;
+        if (mActionType == ActionType.ACTION_CREATE) {
+            return mCurrentLeaveType;
+        }
+        return mRequest.getLeaveType().getName();
     }
 
     private void setCurrentLeaveType() {

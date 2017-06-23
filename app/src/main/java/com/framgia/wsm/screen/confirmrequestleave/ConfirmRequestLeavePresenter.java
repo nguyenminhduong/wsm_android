@@ -68,6 +68,16 @@ final class ConfirmRequestLeavePresenter implements ConfirmRequestLeaveContract.
     }
 
     @Override
+    public void editFormRequestLeave(Request request) {
+        // todo request edit
+    }
+
+    @Override
+    public void deleteFormRequestLeave(int requestId) {
+        // todo request delete
+    }
+
+    @Override
     public void getUser() {
         Disposable disposable = mUserRepository.getUser()
                 .subscribeOn(mSchedulerProvider.io())
