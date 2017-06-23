@@ -88,7 +88,7 @@ public class Request extends BaseModel implements Parcelable {
         mToTime = in.readString();
         mCheckinTime = in.readString();
         mCheckoutTime = in.readString();
-        mBeingHandledBy=in.readString();
+        mBeingHandledBy = in.readString();
         mStatus = in.readInt();
         mCompensation = in.readParcelable(Compensation.class.getClassLoader());
     }
