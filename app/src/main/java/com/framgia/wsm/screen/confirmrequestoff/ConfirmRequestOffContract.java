@@ -21,6 +21,14 @@ interface ConfirmRequestOffContract {
         void onGetUserSuccess(User user);
 
         void onGetUserError(BaseException exception);
+
+        void onDeleteFormRequestOffSuccess();
+
+        void onDeleteFormRequestOffError(BaseException exception);
+
+        void onEditFormRequestOffSuccess(RequestOff requestOff);
+
+        void onEditFormRequestOffError(BaseException exception);
     }
 
     /**
@@ -28,6 +36,10 @@ interface ConfirmRequestOffContract {
      */
     interface Presenter extends BasePresenter<ViewModel> {
         void createFormRequestOff(RequestOff requestOff);
+
+        void deleteFormRequestOff(int requestOffId);
+
+        void editFormRequestOff(RequestOff requestOff);
 
         void getUser();
     }

@@ -6,6 +6,8 @@ import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.data.source.remote.api.response.RequestOffResponse;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
@@ -81,6 +83,48 @@ final class ConfirmRequestOffPresenter implements ConfirmRequestOffContract.Pres
                     @Override
                     public void onRequestError(BaseException error) {
                         mViewModel.onCreateFormFormRequestOffError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void deleteFormRequestOff(int requestOffId) {
+        Disposable disposable = mRequestRepository.deleteFormRequestOff(requestOffId)
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        mViewModel.onDeleteFormRequestOffSuccess();
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onDeleteFormRequestOffError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void editFormRequestOff(RequestOff requestOff) {
+        Disposable disposable = mRequestRepository.editFormRequestOff(requestOff)
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Consumer<BaseResponse<RequestOffResponse>>() {
+                    @Override
+                    public void accept(@NonNull
+                            BaseResponse<RequestOffResponse> requestOffResponseBaseResponse)
+                            throws Exception {
+
+                        mViewModel.onEditFormRequestOffSuccess(
+                                requestOffResponseBaseResponse.getData().getRequestOff());
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onEditFormRequestOffError(error);
                     }
                 });
         mCompositeDisposable.add(disposable);

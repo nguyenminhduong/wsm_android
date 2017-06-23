@@ -31,6 +31,9 @@ public class RequestOff extends BaseModel implements Parcelable {
     private String mRequestOffName;
 
     @Expose
+    @SerializedName("id")
+    private int mId;
+    @Expose
     @SerializedName("created_at")
     private String mCreatedAt;
     @Expose
@@ -98,6 +101,7 @@ public class RequestOff extends BaseModel implements Parcelable {
         mReason = in.readString();
         mBeingHandledBy = in.readString();
         mStatus = in.readInt();
+        mId = in.readInt();
     }
 
     @Override
@@ -118,6 +122,7 @@ public class RequestOff extends BaseModel implements Parcelable {
         dest.writeString(mReason);
         dest.writeString(mBeingHandledBy);
         dest.writeInt(mStatus);
+        dest.writeInt(mId);
     }
 
     @Override
@@ -251,5 +256,13 @@ public class RequestOff extends BaseModel implements Parcelable {
 
     public void setStatus(int status) {
         mStatus = status;
+    }
+
+    public int getId() {
+        return mId;
+    }
+
+    public void setId(int id) {
+        mId = id;
     }
 }

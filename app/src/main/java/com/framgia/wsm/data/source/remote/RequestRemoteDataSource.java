@@ -5,9 +5,12 @@ import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.RequestDataSource;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.data.source.remote.api.response.RequestOffResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -50,5 +53,30 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     @Override
     public Observable<BaseResponse<List<Request>>> getListRequestOverTime(@NonNull int userId) {
         return mWSMApi.getListRequestOverTime(userId);
+    }
+
+    @Override
+    public Observable<Object> deleteFormRequestOff(@NonNull int requestOffId) {
+        return mWSMApi.deleteFormRequestOff(requestOffId);
+    }
+
+    @Override
+    public Observable<BaseResponse<RequestOffResponse>> editFormRequestOff(
+            @NonNull RequestOff requestOff) {
+        return mWSMApi.editFormRequestOff(requestOff)
+                .flatMap(
+                        new Function<BaseResponse<RequestOffResponse>,
+                                ObservableSource<BaseResponse<RequestOffResponse>>>() {
+
+                            @Override
+                            public ObservableSource<BaseResponse<RequestOffResponse>> apply(@NonNull
+                                    BaseResponse<RequestOffResponse> requestOffResponseBaseResponse)
+                                    throws Exception {
+                                if (requestOffResponseBaseResponse != null) {
+                                    return Observable.just(requestOffResponseBaseResponse);
+                                }
+                                return Observable.error(new NullPointerException());
+                            }
+                        });
     }
 }

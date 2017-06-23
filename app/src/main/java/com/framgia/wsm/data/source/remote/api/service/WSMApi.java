@@ -5,14 +5,17 @@ import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.data.source.remote.api.response.RequestOffResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.source.remote.api.response.TimeSheetResponse;
 import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import io.reactivex.Observable;
 import java.util.List;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -38,6 +41,14 @@ public interface WSMApi {
     // TODO edit later
     @POST("/api/v1/request_off")
     Observable<Object> createFormRequestOff(@Body RequestOff requestOff);
+
+    // TODO edit later
+    @DELETE("/api/request_off")
+    Observable<Object> deleteFormRequestOff(@Query("requestoff_id") int requestOffId);
+
+    // TODO edit later
+    @PUT("/api/request_off")
+    Observable<BaseResponse<RequestOffResponse>> editFormRequestOff(@Body RequestOff requestOff);
 
     // TODO edit later
     @POST("/api/v1/request_leave")
