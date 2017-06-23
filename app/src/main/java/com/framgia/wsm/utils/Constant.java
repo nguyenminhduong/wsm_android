@@ -58,5 +58,8 @@ public final class Constant {
         public static final int REQUEST_OFF = 100;
         public static final int REQUEST_OVERTIME = 101;
         public static final int REQUEST_LEAVE = 102;
+        public static final int EDIT_REQUEST_OFF = 103;
+        public static final int EDIT_REQUEST_OVERTIME = 104;
+        public static final int EDIT_REQUEST_LEAVE = 105;
     }
 }

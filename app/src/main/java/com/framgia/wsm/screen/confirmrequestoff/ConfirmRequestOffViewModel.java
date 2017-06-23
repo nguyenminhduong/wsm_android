@@ -11,7 +11,9 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.screen.requestoff.RequestOffActivity;
 import com.framgia.wsm.utils.ActionType;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
@@ -78,6 +80,26 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     @Override
     public void onGetUserError(BaseException e) {
         Log.e(TAG, "ConfirmRequestOffViewModel", e);
+    }
+
+    @Override
+    public void onDeleteFormRequestOffSuccess() {
+        mNavigator.finishActivityWithResult(Activity.RESULT_OK);
+    }
+
+    @Override
+    public void onDeleteFormRequestOffError(BaseException exception) {
+        mDialogManager.dialogError(exception);
+    }
+
+    @Override
+    public void onEditFormRequestOffSuccess(RequestOff requestOff) {
+        //TODO call back screen detail request off
+    }
+
+    @Override
+    public void onEditFormRequestOffError(BaseException exception) {
+        mDialogManager.dialogError(exception);
     }
 
     @Bindable
@@ -208,14 +230,22 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         if (mRequestOff == null) {
             return;
         }
-        mPresenter.createFormRequestOff(mRequestOff);
+        if (mActionType == ActionType.ACTION_CREATE) {
+            mPresenter.createFormRequestOff(mRequestOff);
+            return;
+        }
+        mPresenter.editFormRequestOff(mRequestOff);
     }
 
     public void onClickDelete(View view) {
-        // todo delete request
+        if (mRequestOff == null) {
+            return;
+        }
+        mPresenter.deleteFormRequestOff(mRequestOff.getId());
     }
 
     public void onClickEdit(View view) {
-        // todo open edit screen
+        mNavigator.startActivityForResult(RequestOffActivity.class,
+                Constant.RequestCode.EDIT_REQUEST_OFF);
     }
 }
