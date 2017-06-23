@@ -84,7 +84,7 @@ public class ConfirmOvertimeViewModel extends BaseObservable
         mNavigator.finishActivity();
     }
 
-    public void onCickSubmit(View view) {
+    public void onClickSubmit(View view) {
         if (mRequestOverTime == null) {
             return;
         }

@@ -1,6 +1,8 @@
 package com.framgia.wsm.screen.listrequest;
 
 import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BasePresenter;
@@ -17,7 +19,11 @@ interface ListRequestContract {
     interface ViewModel extends BaseViewModel {
         void onGetListRequestError(BaseException exception);
 
-        void onGetListRequestSuccess(List<Request> requests);
+        void onGetListRequestLeaveSuccess(List<Request> requests);
+
+        void onGetListRequestOffSuccess(List<RequestOff> requestOffs);
+
+        void onGetListRequestOverTimeSuccess(List<RequestOverTime> requestOverTimes);
 
         void onGetUserSuccess(User user);
 

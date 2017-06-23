@@ -56,7 +56,7 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/button_submit"
+                android:layout_above="@+id/frame_button"
                 android:scrollbars="none"
                 >
                 <TableLayout
@@ -85,10 +85,16 @@
                                 android:text="@{viewModel.user.name}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_1"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:background="@color/colorPrimary"
+                                />
                         </LinearLayout>
                     </TableRow>
                     <TableRow
-                        android:layout_marginTop="@dimen/dp_10"
                         android:gravity="center_vertical"
                         >
                         <ImageView
@@ -109,10 +115,16 @@
                                 android:text="@{viewModel.user.code}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_1"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:background="@color/colorPrimary"
+                                />
                         </LinearLayout>
                     </TableRow>
                     <TableRow
-                        android:layout_marginTop="@dimen/dp_10"
                         android:gravity="center_vertical"
                         >
                         <ImageView
@@ -133,10 +145,16 @@
                                 android:text="@{viewModel.requestOverTime.branch.branchName}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_1"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:background="@color/colorPrimary"
+                                />
                         </LinearLayout>
                     </TableRow>
                     <TableRow
-                        android:layout_marginTop="@dimen/dp_10"
                         android:gravity="center_vertical"
                         >
                         <ImageView
@@ -157,10 +175,16 @@
                                 android:text="@{viewModel.requestOverTime.group.groupName}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_1"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:background="@color/colorPrimary"
+                                />
                         </LinearLayout>
                     </TableRow>
                     <TableRow
-                        android:layout_marginTop="@dimen/dp_10"
                         android:gravity="center_vertical"
                         >
                         <ImageView
@@ -181,10 +205,16 @@
                                 android:text="@{viewModel.requestOverTime.project}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_1"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:background="@color/colorPrimary"
+                                />
                         </LinearLayout>
                     </TableRow>
                     <TableRow
-                        android:layout_marginTop="@dimen/dp_10"
                         android:gravity="center_vertical"
                         >
                         <ImageView
@@ -205,10 +235,16 @@
                                 android:text="@{viewModel.requestOverTime.fromTime}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_1"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:background="@color/colorPrimary"
+                                />
                         </LinearLayout>
                     </TableRow>
                     <TableRow
-                        android:layout_marginTop="@dimen/dp_10"
                         android:gravity="center_vertical"
                         >
                         <ImageView
@@ -229,10 +265,16 @@
                                 android:text="@{viewModel.requestOverTime.toTime}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_1"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:background="@color/colorPrimary"
+                                />
                         </LinearLayout>
                     </TableRow>
                     <TableRow
-                        android:layout_marginTop="@dimen/dp_10"
                         android:gravity="center_vertical"
                         >
                         <ImageView
@@ -253,16 +295,104 @@
                                 android:text="@{viewModel.requestOverTime.reason}"
                                 style="@style/StyleTextConfirm"
                                 />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_1"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:background="@color/colorPrimary"
+                                />
+                        </LinearLayout>
+                    </TableRow>
+                    <TableRow
+                        android:gravity="center_vertical"
+                        >
+                        <ImageView
+                            app:srcCompat="@drawable/ic_reason"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleIconConfirm"
+                            />
+                        <LinearLayout
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="vertical"
+                            >
+                            <TextView
+                                android:text="@string/status"
+                                style="@style/StyleTitleConfirm"
+                                />
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/border_button"
+                                    android:text="@string/accepted"
+                                    android:textColor="@color/color_green_lime"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/border_button"
+                                    android:text="@string/pending"
+                                    android:textColor="@color/color_blue"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/border_button"
+                                    android:text="@string/rejected"
+                                    android:textColor="@color/color_red_fresh"
+                                    />
+                            </FrameLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_1"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:background="@color/colorPrimary"
+                                />
                         </LinearLayout>
                     </TableRow>
                 </TableLayout>
             </ScrollView>
-            <Button
-                android:id="@+id/button_submit"
-                android:onClick="@{viewModel::onCickSubmit}"
-                android:text="@string/submit"
-                style="@style/StyleButton"
-                />
+            <FrameLayout
+                android:id="@+id/frame_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                >
+                <Button
+                    android:id="@+id/button_submit"
+                    android:onClick="@{viewModel::onClickSubmit}"
+                    android:text="@string/submit"
+                    style="@style/StyleButton"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <Button
+                        android:layout_margin="@dimen/dp_1"
+                        android:layout_weight="1"
+                        android:background="@color/color_red_firebrick"
+                        android:text="@string/delete"
+                        style="@style/StyleButton"
+                        />
+                    <Button
+                        android:layout_margin="@dimen/dp_1"
+                        android:layout_weight="1"
+                        android:text="@string/edit"
+                        style="@style/StyleButton"
+                        />
+                </LinearLayout>
+            </FrameLayout>
         </RelativeLayout>
     </LinearLayout>
 </layout>

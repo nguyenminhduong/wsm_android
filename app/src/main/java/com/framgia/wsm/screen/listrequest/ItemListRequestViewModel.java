@@ -2,6 +2,8 @@ package com.framgia.wsm.screen.listrequest;
 
 import android.databinding.BaseObservable;
 import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.utils.StatusCode;
 
@@ -10,14 +12,24 @@ import com.framgia.wsm.utils.StatusCode;
  */
 
 public class ItemListRequestViewModel extends BaseObservable {
-    private final Request mRequest;
-    private final BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Request>
+    private Object mObject;
+    private Request mRequest;
+    private RequestOff mRequestOff;
+    private RequestOverTime mRequestOverTime;
+    private final BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object>
             mItemClickListener;
 
-    public ItemListRequestViewModel(Request request,
-            BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Request> itemClickListener) {
-        mRequest = request;
+    public ItemListRequestViewModel(Object object,
+            BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> itemClickListener) {
+        mObject = object;
         mItemClickListener = itemClickListener;
+        if (object instanceof Request) {
+            mRequest = (Request) object;
+        } else if (object instanceof RequestOff) {
+            mRequestOff = (RequestOff) object;
+        } else {
+            mRequestOverTime = (RequestOverTime) object;
+        }
     }
 
     public String getCreateAt() {
@@ -92,6 +104,6 @@ public class ItemListRequestViewModel extends BaseObservable {
         if (mItemClickListener == null) {
             return;
         }
-        mItemClickListener.onItemRecyclerViewClick(mRequest);
+        mItemClickListener.onItemRecyclerViewClick(mObject);
     }
 }
