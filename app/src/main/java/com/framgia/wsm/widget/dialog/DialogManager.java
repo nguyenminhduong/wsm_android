@@ -27,6 +27,8 @@ public interface DialogManager {
 
     void dialogError(BaseException e);
 
+    void dialogError(BaseException e, MaterialDialog.SingleButtonCallback positiveButtonListener);
+
     void dialogError(String content);
 
     /**

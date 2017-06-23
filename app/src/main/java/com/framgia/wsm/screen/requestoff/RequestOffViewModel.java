@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.model.CompanyPay;
+import com.framgia.wsm.data.model.InsuranceCoverage;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
@@ -74,20 +76,34 @@ public class RequestOffViewModel extends BaseRequestOff
     private String mCurrentDaySessionEndDayNoSalary;
     private int mCurrentPositionDaySessionStartDayNoSalary;
     private int mCurrentPositionDaySessionEndDayNoSalary;
+    private int mActionType;
 
     RequestOffViewModel(Context context, RequestOffContract.Presenter presenter,
-            DialogManager dialogManager, Navigator navigator) {
+            DialogManager dialogManager, Navigator navigator, RequestOff requestOff,
+            int actionType) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mDialogManager = dialogManager;
         mNavigator = navigator;
         mPresenter.getUser();
-        mRequestOff = new RequestOff();
-        initData();
+        initData(requestOff);
+        mActionType = actionType;
     }
 
-    private void initData() {
+    private void initData(RequestOff requestOff) {
+        if (requestOff == null) {
+            mRequestOff = new RequestOff();
+        } else {
+            mRequestOff = requestOff;
+            if (mRequestOff.getCompanyPay() == null) {
+                mRequestOff.setCompanyPay(new CompanyPay());
+            }
+            if (mRequestOff.getInsuranceCoverage() == null) {
+                mRequestOff.setInsuranceCoverage(new InsuranceCoverage());
+            }
+        }
+
         mCalendar = Calendar.getInstance();
         setVisibleLayoutCompanyPay(true);
         mDialogManager.dialogDatePicker(this);
@@ -618,6 +634,7 @@ public class RequestOffViewModel extends BaseRequestOff
 
         setRequestOff();
         Bundle bundle = new Bundle();
+        bundle.putInt(Constant.EXTRA_ACTION_TYPE, mActionType);
         bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mRequestOff);
 
         if (getSumDateOffHaveSalary() > 0) {
@@ -636,10 +653,10 @@ public class RequestOffViewModel extends BaseRequestOff
                 if (mEndDateNoSalary == null) {
                     showErrorDialog(
                             mContext.getString(R.string.the_field_required_can_not_be_blank));
-                } else {
-                    mNavigator.startActivityForResult(ConfirmRequestOffActivity.class, bundle,
-                            Constant.RequestCode.REQUEST_OFF);
+                    return;
                 }
+                mNavigator.startActivityForResult(ConfirmRequestOffActivity.class, bundle,
+                        Constant.RequestCode.REQUEST_OFF);
                 return;
             }
             showErrorDialog(mContext.getString(R.string.the_number_of_days_allowed));

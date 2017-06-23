@@ -3,6 +3,7 @@ package com.framgia.wsm.screen.timesheet;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Bundle;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.R;
@@ -11,6 +12,7 @@ import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.requestleave.RequestLeaveActivity;
 import com.framgia.wsm.screen.requestoff.RequestOffActivity;
 import com.framgia.wsm.screen.requestovertime.RequestOvertimeActivity;
+import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
@@ -147,7 +149,9 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
 
     public void onClickRequestOff(View view) {
         setVisibleFloatingActionMenu(false);
-        mNavigator.startActivityForResult(RequestOffActivity.class,
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_CREATE);
+        mNavigator.startActivityForResult(RequestOffActivity.class, bundle,
                 Constant.RequestCode.REQUEST_OFF);
     }
 

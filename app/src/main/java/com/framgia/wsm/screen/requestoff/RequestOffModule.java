@@ -7,6 +7,7 @@ import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
@@ -34,7 +35,11 @@ public class RequestOffModule {
     public RequestOffContract.ViewModel provideViewModel(Context context,
             RequestOffContract.Presenter presenter, DialogManager dialogManager,
             Navigator navigator) {
-        return new RequestOffViewModel(context, presenter, dialogManager, navigator);
+        RequestOff requestOff =
+                mActivity.getIntent().getExtras().getParcelable(Constant.EXTRA_REQUEST_OFF);
+        int actionType = mActivity.getIntent().getExtras().getInt(Constant.EXTRA_ACTION_TYPE);
+        return new RequestOffViewModel(context, presenter, dialogManager, navigator, requestOff,
+                actionType);
     }
 
     @ActivityScope

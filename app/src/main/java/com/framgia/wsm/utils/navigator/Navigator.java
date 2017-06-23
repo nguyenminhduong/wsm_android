@@ -56,6 +56,13 @@ public class Navigator {
         startActivity(intent);
     }
 
+    public void startActivityAtRoot(@NonNull Class<? extends Activity> clazz, Bundle args) {
+        Intent intent = new Intent(mActivity, clazz);
+        intent.putExtras(args);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
     public void startActivityForResult(@NonNull Class<? extends Activity> clazz, int requestCode) {
         Intent intent = new Intent(mActivity, clazz);
         mActivity.startActivityForResult(intent, requestCode);
