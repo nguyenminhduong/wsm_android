@@ -24,6 +24,9 @@ public class Request extends BaseModel implements Parcelable {
     };
 
     @Expose
+    @SerializedName("id")
+    private int mId;
+    @Expose
     @SerializedName("created_at")
     private String mCreatedAt;
     @Expose
@@ -75,6 +78,7 @@ public class Request extends BaseModel implements Parcelable {
     }
 
     protected Request(Parcel in) {
+        mId = in.readInt();
         mCreatedAt = in.readString();
         mGroup = in.readParcelable(Group.class.getClassLoader());
         mBranch = in.readParcelable(Branch.class.getClassLoader());
@@ -91,6 +95,14 @@ public class Request extends BaseModel implements Parcelable {
         mBeingHandledBy = in.readString();
         mStatus = in.readInt();
         mCompensation = in.readParcelable(Compensation.class.getClassLoader());
+    }
+
+    public int getId() {
+        return mId;
+    }
+
+    public void setId(int id) {
+        mId = id;
     }
 
     public String getCreatedAt() {
@@ -228,6 +240,7 @@ public class Request extends BaseModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
         dest.writeString(mCreatedAt);
         dest.writeParcelable(mGroup, flags);
         dest.writeParcelable(mBranch, flags);

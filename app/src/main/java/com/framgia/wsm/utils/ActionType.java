@@ -7,11 +7,12 @@ import android.support.annotation.IntDef;
  */
 @IntDef({
         ActionType.ACTION_CREATE, ActionType.ACTION_EDIT, ActionType.ACTION_DETAIL,
-        ActionType.ACTION_CONFIRM
+        ActionType.ACTION_CONFIRM_CREATE, ActionType.ACTION_CONFIRM_EDIT
 })
 public @interface ActionType {
     int ACTION_CREATE = 0;
     int ACTION_EDIT = 1;
     int ACTION_DETAIL = 2;
-    int ACTION_CONFIRM = 3;
+    int ACTION_CONFIRM_CREATE = 3;
+    int ACTION_CONFIRM_EDIT = 4;
 }

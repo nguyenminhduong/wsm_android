@@ -3,9 +3,11 @@ package com.framgia.wsm.screen.requestleave;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
@@ -32,7 +34,11 @@ public class RequestLeaveModule {
     @Provides
     public RequestLeaveContract.ViewModel provideViewModel(Context context, Navigator navigator,
             RequestLeaveContract.Presenter presenter, DialogManager dialogManager) {
-        return new RequestLeaveViewModel(context, navigator, presenter, dialogManager);
+        Request requestLeave =
+                mActivity.getIntent().getParcelableExtra(Constant.EXTRA_REQUEST_LEAVE);
+        int actionType = mActivity.getIntent().getExtras().getInt(Constant.EXTRA_ACTION_TYPE);
+        return new RequestLeaveViewModel(context, navigator, presenter, dialogManager, requestLeave,
+                actionType);
     }
 
     @ActivityScope
