@@ -104,4 +104,26 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     public Observable<Object> deleteFormRequestOverTime(@NonNull int requestOverTimeId) {
         return mWSMApi.deleteFormRequestOverTime(requestOverTimeId);
     }
+
+    public Observable<Object> deleteFormRequestLeave(@NonNull int requestLeaveId) {
+        return mWSMApi.deleteFormRequestLeave(requestLeaveId);
+    }
+
+    @Override
+    public Observable<BaseResponse<Request>> editFormRequestLeave(@NonNull Request requestLeave) {
+        return mWSMApi.editFormRequestLeave(requestLeave)
+                .flatMap(
+                        new Function<BaseResponse<Request>,
+                                ObservableSource<BaseResponse<Request>>>() {
+                            @Override
+                            public ObservableSource<BaseResponse<Request>> apply(
+                                    @NonNull BaseResponse<Request> requestBaseResponse)
+                                    throws Exception {
+                                if (requestBaseResponse != null) {
+                                    return Observable.just(requestBaseResponse);
+                                }
+                                return Observable.error(new NullPointerException());
+                            }
+                        });
+    }
 }
