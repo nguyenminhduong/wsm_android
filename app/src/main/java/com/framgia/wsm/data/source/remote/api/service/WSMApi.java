@@ -5,7 +5,6 @@ import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
-import com.framgia.wsm.data.source.remote.api.response.RequestOffResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.source.remote.api.response.TimeSheetResponse;
 import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
@@ -58,7 +57,7 @@ public interface WSMApi {
 
     // TODO edit later
     @PUT("/api/request_off")
-    Observable<BaseResponse<RequestOffResponse>> editFormRequestOff(@Body RequestOff requestOff);
+    Observable<BaseResponse<RequestOff>> editFormRequestOff(@Body RequestOff requestOff);
 
     // TODO edit later
     @DELETE("/api/request_off")

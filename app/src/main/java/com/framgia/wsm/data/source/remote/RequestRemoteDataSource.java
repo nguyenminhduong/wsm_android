@@ -5,7 +5,6 @@ import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.RequestDataSource;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
-import com.framgia.wsm.data.source.remote.api.response.RequestOffResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -61,19 +60,17 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<RequestOffResponse>> editFormRequestOff(
-            @NonNull RequestOff requestOff) {
+    public Observable<BaseResponse<RequestOff>> editFormRequestOff(@NonNull RequestOff requestOff) {
         return mWSMApi.editFormRequestOff(requestOff)
                 .flatMap(
-                        new Function<BaseResponse<RequestOffResponse>,
-                                ObservableSource<BaseResponse<RequestOffResponse>>>() {
-
+                        new Function<BaseResponse<RequestOff>,
+                                ObservableSource<BaseResponse<RequestOff>>>() {
                             @Override
-                            public ObservableSource<BaseResponse<RequestOffResponse>> apply(@NonNull
-                                    BaseResponse<RequestOffResponse> requestOffResponseBaseResponse)
+                            public ObservableSource<BaseResponse<RequestOff>> apply(
+                                    @NonNull BaseResponse<RequestOff> requestOffBaseResponse)
                                     throws Exception {
-                                if (requestOffResponseBaseResponse != null) {
-                                    return Observable.just(requestOffResponseBaseResponse);
+                                if (requestOffBaseResponse != null) {
+                                    return Observable.just(requestOffBaseResponse);
                                 }
                                 return Observable.error(new NullPointerException());
                             }
