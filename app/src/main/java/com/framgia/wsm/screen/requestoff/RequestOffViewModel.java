@@ -18,6 +18,7 @@ import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRequestOff;
 import com.framgia.wsm.screen.confirmrequestoff.ConfirmRequestOffActivity;
+import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.common.StringUtils;
@@ -92,8 +93,20 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     private void initData(RequestOff requestOff) {
+        String am = mContext.getString(R.string.am);
+        String pm = mContext.getString(R.string.pm);
         if (requestOff == null) {
             mRequestOff = new RequestOff();
+
+            mCurrentPositionDaySessionStartDayHaveSalary = DaySession.AM;
+            mCurrentPositionDaySessionEndDayHaveSalary = DaySession.AM;
+            mCurrentDaySessionStartDayHaveSalary = am;
+            mCurrentDaySessionEndDayHaveSalary = am;
+
+            mCurrentPositionDaySessionStartDayNoSalary = DaySession.AM;
+            mCurrentPositionDaySessionEndDayNoSalary = DaySession.AM;
+            mCurrentDaySessionStartDayNoSalary = am;
+            mCurrentDaySessionEndDayNoSalary = am;
         } else {
             mRequestOff = requestOff;
             if (mRequestOff.getCompanyPay() == null) {
@@ -102,6 +115,48 @@ public class RequestOffViewModel extends BaseRequestOff
             if (mRequestOff.getInsuranceCoverage() == null) {
                 mRequestOff.setInsuranceCoverage(new InsuranceCoverage());
             }
+
+            String startDayHaveSalary = mRequestOff.getStartDayHaveSalary();
+            String endDayHaveSalary = mRequestOff.getEndDayHaveSalary();
+            String startDayNoSalary = mRequestOff.getStartDayNoSalary();
+            String endDayNoSalary = mRequestOff.getEndDayNoSalary();
+
+            mStartDateHaveSalary = DateTimeUtils.convertDateToString(startDayHaveSalary);
+            mEndDateHaveSalary = DateTimeUtils.convertDateToString(endDayHaveSalary);
+            mStartDateNoSalary = DateTimeUtils.convertDateToString(startDayNoSalary);
+            mEndDateNoSalary = DateTimeUtils.convertDateToString(endDayNoSalary);
+
+            if (DateTimeUtils.getSessionDay(startDayHaveSalary) == DaySession.AM) {
+                mCurrentDaySessionStartDayHaveSalary = am;
+                mCurrentPositionDaySessionStartDayHaveSalary = DaySession.AM;
+            } else {
+                mCurrentDaySessionStartDayHaveSalary = pm;
+                mCurrentPositionDaySessionStartDayHaveSalary = DaySession.PM;
+            }
+
+            if (DateTimeUtils.getSessionDay(endDayHaveSalary) == DaySession.AM) {
+                mCurrentDaySessionEndDayHaveSalary = am;
+                mCurrentPositionDaySessionEndDayHaveSalary = DaySession.AM;
+            } else {
+                mCurrentDaySessionEndDayHaveSalary = pm;
+                mCurrentPositionDaySessionEndDayHaveSalary = DaySession.PM;
+            }
+
+            if (DateTimeUtils.getSessionDay(startDayNoSalary) == DaySession.AM) {
+                mCurrentDaySessionStartDayNoSalary = am;
+                mCurrentPositionDaySessionStartDayNoSalary = DaySession.AM;
+            } else {
+                mCurrentDaySessionStartDayNoSalary = pm;
+                mCurrentPositionDaySessionStartDayNoSalary = DaySession.PM;
+            }
+
+            if (DateTimeUtils.getSessionDay(endDayNoSalary) == DaySession.AM) {
+                mCurrentDaySessionEndDayNoSalary = am;
+                mCurrentPositionDaySessionEndDayNoSalary = DaySession.AM;
+            } else {
+                mCurrentDaySessionEndDayNoSalary = pm;
+                mCurrentPositionDaySessionEndDayNoSalary = DaySession.PM;
+            }
         }
 
         mCalendar = Calendar.getInstance();
@@ -109,16 +164,6 @@ public class RequestOffViewModel extends BaseRequestOff
         mDialogManager.dialogDatePicker(this);
         mCurrentPositionOffType = PositionOffType.OFF_HAVE_SALARY_COMPANY_PAY;
         mCurrentOffType = mContext.getString(R.string.off_have_salary_company_pay);
-
-        mCurrentPositionDaySessionStartDayHaveSalary = DaySession.AM;
-        mCurrentPositionDaySessionEndDayHaveSalary = DaySession.AM;
-        mCurrentDaySessionStartDayHaveSalary = mContext.getString(R.string.am);
-        mCurrentDaySessionEndDayHaveSalary = mContext.getString(R.string.am);
-
-        mCurrentPositionDaySessionStartDayNoSalary = DaySession.AM;
-        mCurrentPositionDaySessionEndDayNoSalary = DaySession.AM;
-        mCurrentDaySessionStartDayNoSalary = mContext.getString(R.string.am);
-        mCurrentDaySessionEndDayNoSalary = mContext.getString(R.string.am);
     }
 
     @Override
@@ -421,6 +466,13 @@ public class RequestOffViewModel extends BaseRequestOff
                 R.string.wife_labor_leave_is_not_greater_than_14_day) : null;
     }
 
+    public String getTitleToolbar() {
+        if (mActionType == ActionType.ACTION_CREATE) {
+            return mContext.getString(R.string.request_off);
+        }
+        return mContext.getString(R.string.edit_request_off);
+    }
+
     public void validateNumberDayHaveSalary() {
         mPresenter.validateNumberDayHaveSalary(mRequestOff);
     }
@@ -681,7 +733,7 @@ public class RequestOffViewModel extends BaseRequestOff
     @IntDef({
             DaySession.AM, DaySession.PM
     })
-    @interface DaySession {
+    public @interface DaySession {
         int AM = 0;
         int PM = 1;
     }

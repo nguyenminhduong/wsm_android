@@ -1,5 +1,6 @@
 package com.framgia.wsm.utils.common;
 
+import com.framgia.wsm.screen.requestoff.RequestOffViewModel;
 import com.framgia.wsm.utils.Constant;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -58,6 +59,15 @@ public final class DateTimeUtils {
 
     public static Date convertStringToDate(String date) {
         SimpleDateFormat parser = new SimpleDateFormat(DATE_FORMAT_YYYY_MM_DD, Locale.getDefault());
+        try {
+            return parser.parse(date);
+        } catch (java.text.ParseException e) {
+            return new Date();
+        }
+    }
+
+    public static Date convertStringToDate(String date, String format) {
+        SimpleDateFormat parser = new SimpleDateFormat(format, Locale.getDefault());
         try {
             return parser.parse(date);
         } catch (java.text.ParseException e) {
@@ -180,5 +190,22 @@ public final class DateTimeUtils {
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.YEAR, year);
         return calendar.get(Calendar.DAY_OF_WEEK);
+    }
+
+    public static String convertDateToString(String input) {
+        if (input == null) {
+            return null;
+        }
+        Date date = convertStringToDate(input, DATE_FORMAT_YYYY_MM_DD_A);
+        return convertToString(date, DATE_FORMAT_YYYY_MM_DD);
+    }
+
+    public static int getSessionDay(String input) {
+        if (input == null) {
+            return RequestOffViewModel.DaySession.AM;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(convertStringToDate(input, DATE_FORMAT_YYYY_MM_DD_A));
+        return calendar.get(Calendar.AM_PM);
     }
 }

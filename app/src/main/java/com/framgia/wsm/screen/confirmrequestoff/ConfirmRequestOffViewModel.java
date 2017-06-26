@@ -233,7 +233,14 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         if (mActionType == ActionType.ACTION_CREATE) {
             return mContext.getString(R.string.confirm_request_off);
         }
-        return mContext.getString(R.string.detail_request_off);
+        if (mActionType == ActionType.ACTION_DETAIL) {
+            return mContext.getString(R.string.detail_request_off);
+        }
+        return mContext.getString(R.string.confirm_edit_request_off);
+    }
+
+    public boolean isVisiblePendingStatus() {
+        return mRequestOff.getStatus() == StatusCode.PENDING_CODE;
     }
 
     public void onCickArrowBack(View view) {
