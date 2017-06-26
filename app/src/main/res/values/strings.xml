@@ -119,6 +119,7 @@
     <string name="delete">Delete</string>
     <string name="being_handled_by">Being handled by</string>
     <string name="confirm_edit_request_off">Confirm edit request off</string>
+    <string name="confirm_edit_request_overtime">Confirm edit request overtime</string>
     <string name="edit_request_off">Edit request off</string>
 
     <!-- In late (M) -->
@@ -200,6 +201,7 @@
     <string name="maternity_leave_is_not_greater_than_180_day">Maternity leave is not greater than 180 days !</string>
     <string name="wife_labor_leave_is_not_greater_than_14_day">Wife\'s labor leave is not greater than 14 days !</string>
     <string name="detail_request_off">Detail request off</string>
+    <string name="detail_request_overtime">Detail request overtime</string>
     <string name="confirm_delete">Confirm delete</string>
     <string name="do_you_want_delete_this_request">Do you want delete this request?</string>
 
