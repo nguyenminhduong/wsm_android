@@ -51,9 +51,10 @@ public class RequestOvertimeViewModel extends BaseObservable
     private boolean mIsFromTimeSelected = true;
     private int mCurrentBranchPosition;
     private int mCurrentGroupPosition;
+    private int mActionType;
 
     RequestOvertimeViewModel(Context context, RequestOvertimeContract.Presenter presenter,
-            Navigator navigator, DialogManager dialogManager) {
+            Navigator navigator, DialogManager dialogManager, RequestOverTime requestOverTime) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
@@ -63,6 +64,7 @@ public class RequestOvertimeViewModel extends BaseObservable
         mDialogManager = dialogManager;
         mDialogManager.dialogDatePicker(this);
         mDialogManager.dialogTimePicker(this);
+        mRequestOverTime = requestOverTime;
     }
 
     @Override
@@ -193,6 +195,10 @@ public class RequestOvertimeViewModel extends BaseObservable
         return mToTimeError;
     }
 
+    public void setActionType(int actionType) {
+        mActionType = actionType;
+    }
+
     public void onCickFromTime(View view) {
         mIsFromTimeSelected = true;
         mDialogManager.showDatePickerDialog();
@@ -301,6 +307,7 @@ public class RequestOvertimeViewModel extends BaseObservable
             return;
         }
         Bundle bundle = new Bundle();
+        bundle.putInt(Constant.EXTRA_ACTION_TYPE, mActionType);
         bundle.putParcelable(EXTRA_REQUEST_OVERTIME, mRequestOverTime);
         mNavigator.startActivityForResult(ConfirmOvertimeActivity.class, bundle,
                 Constant.RequestCode.REQUEST_OVERTIME);

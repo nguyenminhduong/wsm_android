@@ -7,6 +7,7 @@ import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
@@ -33,7 +34,14 @@ public class RequestOvertimeModule {
     public RequestOvertimeContract.ViewModel provideViewModel(Context context,
             RequestOvertimeContract.Presenter presenter, Navigator navigator,
             DialogManager dialogManager) {
-        return new RequestOvertimeViewModel(context, presenter, navigator, dialogManager);
+        RequestOverTime requestOverTime =
+                mActivity.getIntent().getExtras().getParcelable(Constant.EXTRA_REQUEST_OVERTIME);
+        RequestOvertimeViewModel requestOvertimeViewModel =
+                new RequestOvertimeViewModel(context, presenter, navigator, dialogManager,
+                        requestOverTime);
+        requestOvertimeViewModel.setActionType(
+                mActivity.getIntent().getExtras().getInt(Constant.EXTRA_ACTION_TYPE));
+        return requestOvertimeViewModel;
     }
 
     @ActivityScope

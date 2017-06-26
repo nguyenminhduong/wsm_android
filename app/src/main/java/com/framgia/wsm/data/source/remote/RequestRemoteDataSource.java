@@ -79,4 +79,29 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
                             }
                         });
     }
+
+    @Override
+    public Observable<BaseResponse<RequestOverTime>> editFormRequestOverTime(
+            @NonNull RequestOverTime requestOverTime) {
+        return mWSMApi.editFormRequestOverTime(requestOverTime)
+                .flatMap(
+                        new Function<BaseResponse<RequestOverTime>,
+                                ObservableSource<BaseResponse<RequestOverTime>>>() {
+
+                            @Override
+                            public ObservableSource<BaseResponse<RequestOverTime>> apply(@NonNull
+                                    BaseResponse<RequestOverTime> requestOverTimeBaseResponse)
+                                    throws Exception {
+                                if (requestOverTimeBaseResponse != null) {
+                                    return Observable.just(requestOverTimeBaseResponse);
+                                }
+                                return Observable.error(new NullPointerException());
+                            }
+                        });
+    }
+
+    @Override
+    public Observable<Object> deleteFormRequestOverTime(@NonNull int requestOverTimeId) {
+        return mWSMApi.deleteFormRequestOverTime(requestOverTimeId);
+    }
 }
