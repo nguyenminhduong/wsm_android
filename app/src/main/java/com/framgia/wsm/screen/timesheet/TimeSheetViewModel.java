@@ -145,7 +145,9 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
 
     public void onClickRequestOvertime(View view) {
         setVisibleFloatingActionMenu(false);
-        mNavigator.startActivityForResult(RequestOvertimeActivity.class,
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_CREATE);
+        mNavigator.startActivityForResult(RequestOvertimeActivity.class, bundle,
                 Constant.RequestCode.REQUEST_OVERTIME);
     }
 
