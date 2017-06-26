@@ -19,6 +19,14 @@ interface ConfirmOvertimeContract {
 
         void onCreateFormOverTimeError(BaseException exception);
 
+        void onEditFormOverTimeSuccess(RequestOverTime requestOverTime);
+
+        void onEditFormOverTimeError(BaseException exception);
+
+        void onDeleteFormOverTimeSuccess();
+
+        void onDeleteFormOverTimeError(BaseException exception);
+
         void onGetUserSuccess(User user);
 
         void onGetUserError(BaseException exception);
@@ -29,6 +37,10 @@ interface ConfirmOvertimeContract {
      */
     interface Presenter extends BasePresenter<ViewModel> {
         void createFormRequestOverTime(RequestOverTime requestOverTime);
+
+        void editFormRequestOvertime(RequestOverTime requestOverTime);
+
+        void deleteFormRequestOvertime(int requestOverTimeId);
 
         void getUser();
     }

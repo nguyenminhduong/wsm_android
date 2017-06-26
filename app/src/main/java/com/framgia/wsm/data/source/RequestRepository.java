@@ -27,6 +27,15 @@ public class RequestRepository {
         return mRemoteDataSource.createFormRequestOverTime(requestOverTime);
     }
 
+    public Observable<Object> deleteFormRequestOverTime(@NonNull int requestOverTimeId) {
+        return mRemoteDataSource.deleteFormRequestOverTime(requestOverTimeId);
+    }
+
+    public Observable<BaseResponse<RequestOverTime>> editFormRequestOverTime(
+            @NonNull RequestOverTime requestOverTime) {
+        return mRemoteDataSource.editFormRequestOverTime(requestOverTime);
+    }
+
     public Observable<Object> createFormRequestOff(@NonNull RequestOff requestOff) {
         return mRemoteDataSource.createFormRequestOff(requestOff);
     }
@@ -94,9 +103,11 @@ public class RequestRepository {
             RequestOverTime requestOverTime = new RequestOverTime();
             requestOverTime.setId(1);
             requestOverTime.setCreatedAt("23/06/2017");
-            requestOverTime.setFromTime("21/06/2017");
-            requestOverTime.setToTime("22/06/2017");
-            requestOverTime.setStatus(2);
+            requestOverTime.setFromTime("21/06/2017 18:00");
+            requestOverTime.setToTime("22/06/2017 19:00");
+            requestOverTime.setStatus(1);
+            requestOverTime.setReason("Ko kịp tiến độ !!!");
+            requestOverTime.setProject("WSM Android");
             requestOverTimes.add(requestOverTime);
         }
         BaseResponse<List<RequestOverTime>> baseResponse =

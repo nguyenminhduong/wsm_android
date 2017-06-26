@@ -334,6 +334,7 @@
                                     android:background="@drawable/border_button"
                                     android:text="@string/accepted"
                                     android:textColor="@color/color_green_lime"
+                                    android:visibility="@{viewModel.acceptStatus ? View.VISIBLE : View.GONE}"
                                     />
 
                                 <TextView
@@ -342,6 +343,7 @@
                                     android:background="@drawable/border_button"
                                     android:text="@string/pending"
                                     android:textColor="@color/color_blue"
+                                    android:visibility="@{viewModel.pendingStatus ? View.VISIBLE : View.GONE}"
                                     />
 
                                 <TextView
@@ -350,6 +352,7 @@
                                     android:background="@drawable/border_button"
                                     android:text="@string/rejected"
                                     android:textColor="@color/color_red_fresh"
+                                    android:visibility="@{viewModel.rejectStatus ? View.VISIBLE : View.GONE}"
                                     />
                             </FrameLayout>
                             <View
@@ -368,6 +371,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:visibility="@{viewModel.pendingStatus ? View.VISIBLE : View.GONE}"
                 >
                 <Button
                     android:id="@+id/button_submit"

@@ -6,6 +6,7 @@ import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
@@ -81,6 +82,48 @@ final class ConfirmOvertimePresenter implements ConfirmOvertimeContract.Presente
                     @Override
                     public void onRequestError(BaseException error) {
                         mViewModel.onCreateFormOverTimeError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void editFormRequestOvertime(RequestOverTime requestOverTime) {
+        Disposable disposable = mRequestRepository.editFormRequestOverTime(requestOverTime)
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Consumer<BaseResponse<RequestOverTime>>() {
+                    @Override
+                    public void accept(@NonNull
+                            BaseResponse<RequestOverTime> requestOverTimeResponseBaseResponse)
+                            throws Exception {
+
+                        mViewModel.onEditFormOverTimeSuccess(
+                                requestOverTimeResponseBaseResponse.getData());
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onEditFormOverTimeError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void deleteFormRequestOvertime(int requestOverTimeId) {
+        Disposable disposable = mRequestRepository.deleteFormRequestOverTime(requestOverTimeId)
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        mViewModel.onDeleteFormOverTimeSuccess();
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onDeleteFormOverTimeError(error);
                     }
                 });
         mCompositeDisposable.add(disposable);

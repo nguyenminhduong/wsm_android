@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
@@ -11,10 +13,14 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.screen.requestovertime.RequestOvertimeActivity;
 import com.framgia.wsm.utils.ActionType;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
+import com.fstyle.library.DialogAction;
+import com.fstyle.library.MaterialDialog;
 
 /**
  * Exposes the data to be used in the ConfirmOvertime screen.
@@ -78,6 +84,35 @@ public class ConfirmOvertimeViewModel extends BaseObservable
         mDialogManager.dialogError(exception);
     }
 
+    @Override
+    public void onEditFormOverTimeSuccess(RequestOverTime requestOverTime) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constant.EXTRA_REQUEST_OVERTIME, requestOverTime);
+        bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
+        mNavigator.startActivityAtRoot(ConfirmOvertimeActivity.class, bundle);
+    }
+
+    @Override
+    public void onEditFormOverTimeError(BaseException exception) {
+        mDialogManager.dialogError(exception, new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog materialDialog,
+                    @NonNull DialogAction dialogAction) {
+                mNavigator.finishActivity();
+            }
+        });
+    }
+
+    @Override
+    public void onDeleteFormOverTimeSuccess() {
+        mNavigator.finishActivityWithResult(Activity.RESULT_OK);
+    }
+
+    @Override
+    public void onDeleteFormOverTimeError(BaseException exception) {
+        mDialogManager.dialogError(exception);
+    }
+
     @Bindable
     public User getUser() {
         return mUser;
@@ -122,14 +157,24 @@ public class ConfirmOvertimeViewModel extends BaseObservable
         if (mRequestOverTime == null) {
             return;
         }
-        mPresenter.createFormRequestOverTime(mRequestOverTime);
+        if (mActionType == ActionType.ACTION_CREATE) {
+            mPresenter.createFormRequestOverTime(mRequestOverTime);
+            return;
+        }
+        mPresenter.editFormRequestOvertime(mRequestOverTime);
     }
 
     public void onClickDelete(View view) {
-        // todo delete request
+        if (mRequestOverTime == null) {
+            return;
+        }
+        mPresenter.deleteFormRequestOvertime(mRequestOverTime.getId());
     }
 
     public void onClickEdit(View view) {
-        // todo open edit screen
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_EDIT);
+        bundle.putParcelable(Constant.EXTRA_REQUEST_OVERTIME, mRequestOverTime);
+        mNavigator.startActivity(RequestOvertimeActivity.class, bundle);
     }
 }
