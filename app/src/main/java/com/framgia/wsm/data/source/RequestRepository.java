@@ -6,7 +6,6 @@ import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
-import com.framgia.wsm.data.source.remote.api.response.RequestOffResponse;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import java.util.ArrayList;
@@ -44,8 +43,7 @@ public class RequestRepository {
         return mRemoteDataSource.deleteFormRequestOff(requestOffId);
     }
 
-    public Observable<BaseResponse<RequestOffResponse>> editFormRequestOff(
-            @NonNull RequestOff requestOff) {
+    public Observable<BaseResponse<RequestOff>> editFormRequestOff(@NonNull RequestOff requestOff) {
         return mRemoteDataSource.editFormRequestOff(requestOff);
     }
 

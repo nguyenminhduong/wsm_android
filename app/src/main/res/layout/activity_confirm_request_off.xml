@@ -359,6 +359,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:orientation="vertical"
                         android:visibility="@{viewModel.visiableLayoutCompanyPay ? View.VISIBLE : View.GONE}"
                         >
@@ -439,6 +440,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:orientation="vertical"
                         android:visibility="@{viewModel.visiableLayoutInsurance ? View.VISIBLE : View.GONE}"
                         >
@@ -613,6 +615,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:orientation="vertical"
                         android:visibility="@{viewModel.visiableLayoutOffNoSalary ? View.VISIBLE : View.GONE}"
                         >
@@ -741,7 +744,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:visibility="@{viewModel.visiblePendingStatus ? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewModel.visibleButtonSubmit ? View.VISIBLE : View.GONE}"
                 >
                 <Button
                     android:onClick="@{viewModel::onClickSubmit}"

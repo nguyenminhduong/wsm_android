@@ -7,7 +7,6 @@ import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
-import com.framgia.wsm.data.source.remote.api.response.RequestOffResponse;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
@@ -112,14 +111,11 @@ final class ConfirmRequestOffPresenter implements ConfirmRequestOffContract.Pres
         Disposable disposable = mRequestRepository.editFormRequestOff(requestOff)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
-                .subscribe(new Consumer<BaseResponse<RequestOffResponse>>() {
+                .subscribe(new Consumer<BaseResponse<RequestOff>>() {
                     @Override
-                    public void accept(@NonNull
-                            BaseResponse<RequestOffResponse> requestOffResponseBaseResponse)
+                    public void accept(@NonNull BaseResponse<RequestOff> requestOffBaseResponse)
                             throws Exception {
-
-                        mViewModel.onEditFormRequestOffSuccess(
-                                requestOffResponseBaseResponse.getData().getRequestOff());
+                        mViewModel.onEditFormRequestOffSuccess(requestOffBaseResponse.getData());
                     }
                 }, new RequestError() {
                     @Override
