@@ -102,6 +102,7 @@
     <string name="date_of_creation" translatable="false">Date of creation:</string>
     <string name="day_session" translatable="false">Day session</string>
     <string name="am" translatable="false">am</string>
+    <string name="pm" translatable="false">pm</string>
     <string name="time_request" translatable="false">Time request:</string>
     <string name="request_ot">Request OverTime</string>
     <string name="confirm_request_overtime">Confirm Request OverTime</string>
@@ -117,6 +118,8 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="being_handled_by">Being handled by</string>
+    <string name="confirm_edit_request_off">Confirm edit request off</string>
+    <string name="edit_request_off">Edit request off</string>
 
     <!-- In late (M) -->
     <string name="leave_type_in_late_m">In late (M)</string>

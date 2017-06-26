@@ -137,6 +137,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:visibility="@{viewModel.visiableProjectName ? View.VISIBLE : View.GONE}"
                         >
@@ -354,15 +355,6 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_1"
-                        android:layout_marginBottom="@dimen/dp_10"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:background="@color/color_dark_gray"
-                        android:visibility="@{viewModel.visiableLayoutCompanyPay ? View.VISIBLE : View.GONE}"
-                        />
-
                     <!--Off have salary - Company pay-->
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -442,14 +434,6 @@
                         </LinearLayout>
 
                     </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_1"
-                        android:layout_marginBottom="@dimen/dp_10"
-                        android:background="@color/color_dark_gray"
-                        android:visibility="@{viewModel.visiableLayoutInsurance ? View.VISIBLE : View.GONE}"
-                        />
 
                     <!--Off have salary - Insurance coverage-->
                     <LinearLayout
@@ -558,15 +542,6 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_1"
-                        android:layout_marginBottom="@dimen/dp_10"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:background="@color/color_dark_gray"
-                        android:visibility="@{viewModel.visiableLayoutHaveSalary ? View.VISIBLE : View.GONE}"
-                        />
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -633,15 +608,6 @@
                                 />
                         </LinearLayout>
                     </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_1"
-                        android:layout_marginBottom="@dimen/dp_10"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:background="@color/color_dark_gray"
-                        android:visibility="@{viewModel.visiableLayoutOffNoSalary ? View.VISIBLE : View.GONE}"
-                        />
 
                     <!--Off no salary-->
                     <LinearLayout
@@ -775,6 +741,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:visibility="@{viewModel.visiblePendingStatus ? View.VISIBLE : View.GONE}"
                 >
                 <Button
                     android:onClick="@{viewModel::onClickSubmit}"
