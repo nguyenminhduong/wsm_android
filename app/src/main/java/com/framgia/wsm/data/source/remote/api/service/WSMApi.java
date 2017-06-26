@@ -61,6 +61,14 @@ public interface WSMApi {
     Observable<BaseResponse<RequestOffResponse>> editFormRequestOff(@Body RequestOff requestOff);
 
     // TODO edit later
+    @DELETE("/api/request_off")
+    Observable<Object> deleteFormRequestLeave(@Query("id") int requestLeaveId);
+
+    // TODO edit later
+    @PUT("/api/request_off")
+    Observable<BaseResponse<Request>> editFormRequestLeave(@Body Request requestLeave);
+
+    // TODO edit later
     @POST("/api/v1/request_leave")
     Observable<Object> createFormRequestLeave(@Body Request request);
 

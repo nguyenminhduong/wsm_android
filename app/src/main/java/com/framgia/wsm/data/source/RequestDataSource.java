@@ -36,5 +36,9 @@ public interface RequestDataSource {
                 @NonNull RequestOverTime requestOverTime);
 
         Observable<Object> deleteFormRequestOverTime(@NonNull int requestOverTimeId);
+
+        Observable<Object> deleteFormRequestLeave(@NonNull int requestLeaveId);
+
+        Observable<BaseResponse<Request>> editFormRequestLeave(@NonNull Request requestLeave);
     }
 }

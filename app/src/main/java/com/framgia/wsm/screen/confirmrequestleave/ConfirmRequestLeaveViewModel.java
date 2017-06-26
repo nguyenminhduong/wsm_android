@@ -209,7 +209,6 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, mRequest);
         bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_EDIT);
-        mNavigator.startActivityForResult(RequestLeaveActivity.class, bundle,
-                Constant.RequestCode.EDIT_REQUEST_LEAVE);
+        mNavigator.startActivity(RequestLeaveActivity.class, bundle);
     }
 }
