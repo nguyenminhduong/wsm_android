@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.framgia.wsm.utils.Constant.TimeConst.DAY_25_OF_MONTH;
+
 /**
  * TimeSheetView
  */
@@ -195,7 +197,8 @@ public class TimeSheetView extends View {
     }
 
     private boolean sameDay(int monthDay, Time time) {
-        return (mYear == time.year) && (mMonth == time.month) && (monthDay == time.monthDay);
+        return (mYear == time.year) && (mMonth == (time.monthDay > DAY_25_OF_MONTH ? time.month + 1
+                : time.month)) && (monthDay == time.monthDay);
     }
 
     private boolean prevDay(int monthDay, Time time) {

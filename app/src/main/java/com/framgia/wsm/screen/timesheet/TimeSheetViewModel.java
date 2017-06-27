@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.framgia.wsm.utils.Constant.TimeConst.DAY_25_OF_MONTH;
+
 /**
  * Exposes the data to be used in the TimeSheet screen.
  */
@@ -45,11 +47,10 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         mTimeSheetDates = new ArrayList<>();
         mTimeSheetDate = new TimeSheetDate();
         mDialogManager = dialogManager;
-        Calendar calendar = Calendar.getInstance();
-        mMonth = calendar.get(Calendar.MONTH);
-        mYear = calendar.get(Calendar.YEAR);
         mNavigator = navigator;
         mDialogManager.showIndeterminateProgressDialog();
+        setMonth();
+        setYear();
         mPresenter.getTimeSheet(mMonth, mYear);
     }
 
@@ -73,7 +74,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     public void onGetTimeSheetSuccess(List<TimeSheetDate> list) {
         mTimeSheetDates.clear();
         // TODO: 31/05/2017 remove if (mMonth == 4) when have API
-        if (mMonth == 5) {
+        if (mMonth == 6) {
             mTimeSheetDates.addAll(list);
         }
         notifyPropertyChanged(BR.timeSheetDates);
@@ -106,9 +107,23 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         return mMonth;
     }
 
+    private void setMonth() {
+        Calendar calendar = Calendar.getInstance();
+        if (calendar.get(Calendar.DAY_OF_MONTH) > DAY_25_OF_MONTH) {
+            mMonth = calendar.get(Calendar.MONTH) + 1;
+            return;
+        }
+        mMonth = calendar.get(Calendar.MONTH);
+    }
+
     @Bindable
     public int getYear() {
         return mYear;
+    }
+
+    private void setYear() {
+        Calendar calendar = Calendar.getInstance();
+        mYear = calendar.get(Calendar.YEAR);
     }
 
     @Bindable

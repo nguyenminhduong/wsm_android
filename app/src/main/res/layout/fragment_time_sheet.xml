@@ -129,7 +129,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|end"
-            android:clickable="true"
             android:padding="@dimen/dp_10"
             app:menu_animationDelayPerItem="55"
             app:menu_backgroundColor="@color/color_black_transparent"
