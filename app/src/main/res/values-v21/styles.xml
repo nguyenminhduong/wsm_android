@@ -119,4 +119,17 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
+    <style name="StyleTitleProfile">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_black_transparent</item>
+        <item name="android:textSize">@dimen/sp_17</item>
+    </style>
+
+    <style name="StyleTextProfile">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+    </style>
+
 </resources>

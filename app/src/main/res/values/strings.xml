@@ -213,5 +213,9 @@
     <string name="detail_request_overtime">Detail request overtime</string>
     <string name="confirm_delete">Confirm delete</string>
     <string name="do_you_want_delete_this_request">Do you want delete this request?</string>
+    <string name="company">Company</string>
+    <string name="individual_code">Individual Code</string>
+    <string name="birday">Birday</string>
+    <string name="mail">Email</string>
 
 </resources>
