@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.framgia.wsm.screen.updateprofile.UpdateProfileViewModel"
+            />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        >
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            >
+
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/md_nav_back"
+                    tools:ignore="ContentDescription"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_35"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_20"
+                    />
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/button_submit"
+                android:fillViewport="true"
+                android:scrollbars="none"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_10"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+
+                        <ImageView
+                            app:srcCompat="@drawable/ic_placeholder_user"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleIconConfirm"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:text="@string/employee_name"
+                                style="@style/StyleTitleConfirm"
+                                />
+
+                            <TextView
+                                style="@style/StyleTextConfirm"
+                                />
+
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+
+                        <ImageView
+                            app:srcCompat="@drawable/ic_staff_code"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleIconConfirm"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:text="@string/employee_code"
+                                style="@style/StyleTitleConfirm"
+                                />
+
+                            <TextView
+                                style="@style/StyleTextConfirm"
+                                />
+
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+
+                        <ImageView
+                            app:srcCompat="@drawable/ic_project"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleIconConfirm"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:text="@string/email"
+                                style="@style/StyleTitleConfirm"
+                                />
+
+                            <TextView
+                                style="@style/StyleTextConfirm"
+                                />
+
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+                        <ImageView
+                            app:srcCompat="@drawable/ic_position_name"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleIconConfirm"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:text="@string/contract_date"
+                                style="@style/StyleTitleConfirm"
+                                />
+
+                            <TextView
+                                style="@style/StyleTextConfirm"
+                                />
+
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+
+                        <ImageView
+                            app:srcCompat="@drawable/ic_branch"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleIconConfirm"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:text="@string/start_probation_date"
+                                style="@style/StyleTitleConfirm"
+                                />
+
+                            <TextView
+                                style="@style/StyleTextConfirm"
+                                />
+
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+
+                        <ImageView
+                            app:srcCompat="@drawable/ic_group"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleIconConfirm"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:text="@string/end_probation_date"
+                                style="@style/StyleTitleConfirm"
+                                />
+
+                            <TextView
+                                style="@style/StyleTextConfirm"
+                                />
+
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+
+                        <ImageView
+                            app:srcCompat="@drawable/ic_being_handled_by"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleIconConfirm"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:text="@string/staff_type"
+                                style="@style/StyleTitleConfirm"
+                                />
+
+                            <TextView
+                                style="@style/StyleTextConfirm"
+                                />
+
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+
+                        <ImageView
+                            app:srcCompat="@drawable/ic_being_handled_by"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleIconConfirm"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:text="@string/position"
+                                style="@style/StyleTitleConfirm"
+                                />
+
+                            <TextView
+                                style="@style/StyleTextConfirm"
+                                />
+
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+
+                        <ImageView
+                            app:srcCompat="@drawable/ic_being_handled_by"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleIconConfirm"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:text="@string/gender"
+                                style="@style/StyleTitleConfirm"
+                                />
+
+                            <TextView
+                                style="@style/StyleTextConfirm"
+                                />
+
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+
+                        <ImageView
+                            app:srcCompat="@drawable/ic_being_handled_by"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleIconConfirm"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:text="@string/birthday"
+                                style="@style/StyleTitleConfirm"
+                                />
+
+                            <TextView
+                                style="@style/StyleTextConfirm"
+                                />
+
+                            <View
+                                style="@style/StyleViewConfirm"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+
+            <Button
+                android:id="@id/button_submit"
+                android:text="@string/submit"
+                style="@style/StyleButton"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+</layout>
