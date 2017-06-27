@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.framgia.wsm.R;
 import com.framgia.wsm.screen.BaseFragment;
+import com.framgia.wsm.screen.holidaycalendar.HolidayCalendarFragment;
 import com.framgia.wsm.screen.listrequest.ListRequestFragment;
 import com.framgia.wsm.screen.profile.ProfileFragment;
 import com.framgia.wsm.screen.timesheet.TimeSheetFragment;
@@ -60,6 +61,9 @@ public class MainContainerFragment extends BaseFragment {
                         false, NavigateAnim.NONE, TimeSheetFragment.TAG);
                 break;
             case HOLIDAY_CALENDAR:
+                mNavigator.goNextChildFragment(containerViewId,
+                        HolidayCalendarFragment.newInstance(), false, NavigateAnim.NONE,
+                        HolidayCalendarFragment.TAG);
                 break;
             case STATISTIC_OF_PERSONAL:
                 break;
