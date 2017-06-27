@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Duong on 5/24/2017.
+ * Created by Duong on 6/24/2017.
  */
 
 public class TimeSheetRepository {
@@ -22,45 +22,44 @@ public class TimeSheetRepository {
         //todo delete later
         List<TimeSheetDate> timeSheetDates = new ArrayList<>();
         timeSheetDates.add(
-                new TimeSheetDate(String.format("2017/05/26"), 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/05/27", 8, 10, TimeSheetDate.Status.NORMAL));
+                new TimeSheetDate(String.format("2017/06/26"), 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/06/27", 8, 10, TimeSheetDate.Status.NORMAL));
         timeSheetDates.add(
-                new TimeSheetDate("2017/04/28", 8, 10, TimeSheetDate.Status.IN_LATE_LEAVE_EARLY));
-        timeSheetDates.add(new TimeSheetDate("2017/05/29", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/05/30", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/05/31", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/06/1", 8, 10, TimeSheetDate.Status.DAY_OFF_P));
+                new TimeSheetDate("2017/06/28", 8, 10, TimeSheetDate.Status.IN_LATE_LEAVE_EARLY));
+        timeSheetDates.add(new TimeSheetDate("2017/06/29", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/06/30", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/1", 8, 10, TimeSheetDate.Status.DAY_OFF_P));
         timeSheetDates.add(
-                new TimeSheetDate("2017/06/2", 8, 10, TimeSheetDate.Status.DAY_OFF_HALF_P));
-        timeSheetDates.add(new TimeSheetDate("2017/06/3", 8, 10, TimeSheetDate.Status.NORMAL));
+                new TimeSheetDate("2017/07/2", 8, 10, TimeSheetDate.Status.DAY_OFF_HALF_P));
+        timeSheetDates.add(new TimeSheetDate("2017/07/3", 8, 10, TimeSheetDate.Status.NORMAL));
         timeSheetDates.add(
-                new TimeSheetDate("2017/06/4", 8, 10, TimeSheetDate.Status.HOLIDAY_DATE));
+                new TimeSheetDate("2017/07/4", 8, 10, TimeSheetDate.Status.HOLIDAY_DATE));
         timeSheetDates.add(
-                new TimeSheetDate("2017/06/5", 8, 10, TimeSheetDate.Status.HOLIDAY_DATE));
-        timeSheetDates.add(new TimeSheetDate("2017/06/6", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/06/7", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/06/8", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/06/9", 8, 10, TimeSheetDate.Status.DAY_OFF_RO));
-        timeSheetDates.add(new TimeSheetDate("2017/06/10", 8, 10, TimeSheetDate.Status.NORMAL));
+                new TimeSheetDate("2017/07/5", 8, 10, TimeSheetDate.Status.HOLIDAY_DATE));
+        timeSheetDates.add(new TimeSheetDate("2017/07/6", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/7", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/8", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/9", 8, 10, TimeSheetDate.Status.DAY_OFF_RO));
+        timeSheetDates.add(new TimeSheetDate("2017/07/10", 8, 10, TimeSheetDate.Status.NORMAL));
         timeSheetDates.add(
-                new TimeSheetDate("2017/06/11", 8, 10, TimeSheetDate.Status.DAY_OFF_HALF_RO));
-        timeSheetDates.add(new TimeSheetDate("2017/06/12", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/06/13", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/06/14", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/06/15", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/06/16", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/06/17", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/06/18", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/06/19", 8, 10,
+                new TimeSheetDate("2017/07/11", 8, 10, TimeSheetDate.Status.DAY_OFF_HALF_RO));
+        timeSheetDates.add(new TimeSheetDate("2017/07/12", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/13", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/14", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/15", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/16", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/17", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/18", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/19", 8, 10,
                 TimeSheetDate.Status.IN_LATE_LEAVE_EARLY_HAVE_COMPENSATION));
-        timeSheetDates.add(new TimeSheetDate("2017/06/20", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/06/21", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/06/22", 8, 10,
+        timeSheetDates.add(new TimeSheetDate("2017/07/20", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/21", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/22", 8, 10,
                 TimeSheetDate.Status.FORGOT_CHECK_IN_CHECK_OUT));
-        timeSheetDates.add(new TimeSheetDate("2017/06/23", 8, 10, TimeSheetDate.Status.NORMAL));
-        timeSheetDates.add(new TimeSheetDate("2017/06/24", 8, 10,
+        timeSheetDates.add(new TimeSheetDate("2017/07/23", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/24", 8, 10,
                 TimeSheetDate.Status.FORGOT_CHECK_IN_CHECK_OUT_MORE_FIVE_TIME));
-        timeSheetDates.add(new TimeSheetDate("2017/06/25", 8, 10, TimeSheetDate.Status.NORMAL));
+        timeSheetDates.add(new TimeSheetDate("2017/07/25", 8, 10, TimeSheetDate.Status.NORMAL));
         TimeSheetResponse timeSheetResponse = new TimeSheetResponse();
         timeSheetResponse.setTimeSheetDates(timeSheetDates);
         return Observable.just(timeSheetResponse);
