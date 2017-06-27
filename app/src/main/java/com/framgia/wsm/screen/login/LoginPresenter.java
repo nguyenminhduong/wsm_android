@@ -1,27 +1,45 @@
 package com.framgia.wsm.screen.login;
 
 import android.util.Log;
+import com.framgia.wsm.data.model.LeaveType;
+import com.framgia.wsm.data.model.OffType;
 import com.framgia.wsm.data.source.TokenRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
+import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
+import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import java.util.List;
 
 /**
  * Listens to user actions from the UI ({@link LoginActivity}), retrieves the data and updates
  * the UI as required.
  */
 final class LoginPresenter implements LoginContract.Presenter {
+
     private static final String TAG = LoginPresenter.class.getName();
+
+    private static final int OVER_YEAR_4 = 4;
+    private static final int OVER_YEAR_8 = 8;
+    private static final int ID_1 = 1;
+    private static final int ID_2 = 2;
+    private static final int ID_3 = 3;
+    private static final int COUNT_DAY_12 = 12;
+    private static final int COUNT_DAY_13 = 13;
+    private static final int COUNT_DAY_14 = 14;
+    private static final String COMPANY = "company";
+    private static final String ANNUAL = "Annual";
 
     private LoginContract.ViewModel mViewModel;
     private UserRepository mUserRepository;
@@ -29,6 +47,7 @@ final class LoginPresenter implements LoginContract.Presenter {
     private Validator mValidator;
     private CompositeDisposable mCompositeDisposable;
     private BaseSchedulerProvider mSchedulerProvider;
+    private UserProfileResponse mUserProfileResponse;
 
     LoginPresenter(UserRepository userRepository, TokenRepository tokenRepository,
             Validator validator, BaseSchedulerProvider schedulerProvider) {
@@ -37,6 +56,7 @@ final class LoginPresenter implements LoginContract.Presenter {
         mValidator = validator;
         mCompositeDisposable = new CompositeDisposable();
         mSchedulerProvider = schedulerProvider;
+        mUserProfileResponse = new UserProfileResponse();
     }
 
     @Override
@@ -66,18 +86,82 @@ final class LoginPresenter implements LoginContract.Presenter {
                         return mUserRepository.getUserProfile(signInDataResponse.getUser().getId());
                     }
                 })
-                .observeOn(mSchedulerProvider.ui())
-                .subscribe(new Consumer<UserProfileResponse>() {
+                .flatMap(new Function<UserProfileResponse, ObservableSource<List<OffType>>>() {
                     @Override
-                    public void accept(@NonNull UserProfileResponse userProfileResponse)
+                    public ObservableSource<List<OffType>> apply(
+                            UserProfileResponse userProfileResponse) throws Exception {
+                        mUserProfileResponse = userProfileResponse;
+                        return mUserRepository.getListOffType();
+                    }
+                })
+                .flatMap(new Function<List<OffType>, ObservableSource<OffType>>() {
+                    @Override
+                    public ObservableSource<OffType> apply(List<OffType> offTypes)
                             throws Exception {
-                        mUserRepository.saveUser(userProfileResponse.getUser());
+                        return Observable.fromIterable(offTypes);
+                    }
+                })
+                .filter(new Predicate<OffType>() {
+                    @Override
+                    public boolean test(OffType offType) throws Exception {
+                        return offType.getPayType().equals(COMPANY);
+                    }
+                })
+                .toList()
+                .toObservable()
+                .flatMap(new Function<List<OffType>, ObservableSource<List<OffType>>>() {
+                    @Override
+                    public ObservableSource<List<OffType>> apply(List<OffType> offTypes)
+                            throws Exception {
+                        if (DateTimeUtils.getDayOfYear(
+                                mUserProfileResponse.getUser().getContractDate()) >= OVER_YEAR_8) {
+                            offTypes.add(new OffType(ID_3, ANNUAL, COMPANY, COUNT_DAY_14));
+                        } else if (DateTimeUtils.getDayOfYear(
+                                mUserProfileResponse.getUser().getContractDate()) >= OVER_YEAR_4) {
+                            offTypes.add(new OffType(ID_2, ANNUAL, COMPANY, COUNT_DAY_13));
+                        } else if (DateTimeUtils.getDayOfYear(
+                                mUserProfileResponse.getUser().getContractDate()) < OVER_YEAR_4) {
+                            offTypes.add(new OffType(ID_1, ANNUAL, COMPANY, COUNT_DAY_12));
+                        }
+                        mUserProfileResponse.getUser().setTypesCompany(offTypes);
+                        return mUserRepository.getListOffType();
+                    }
+                })
+                .flatMap(new Function<List<OffType>, ObservableSource<OffType>>() {
+                    @Override
+                    public ObservableSource<OffType> apply(List<OffType> offTypes)
+                            throws Exception {
+                        return Observable.fromIterable(offTypes);
+                    }
+                })
+                .filter(new Predicate<OffType>() {
+                    @Override
+                    public boolean test(OffType offType) throws Exception {
+                        return offType.getPayType().equals("insurance");
+                    }
+                })
+                .toList()
+                .toObservable()
+                .flatMap(new Function<List<OffType>, ObservableSource<List<LeaveType>>>() {
+                    @Override
+                    public ObservableSource<List<LeaveType>> apply(List<OffType> offTypes)
+                            throws Exception {
+                        mUserProfileResponse.getUser().setTypesInsurance(offTypes);
+                        return mUserRepository.getListLeaveType();
+                    }
+                })
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Consumer<List<LeaveType>>() {
+                    @Override
+                    public void accept(List<LeaveType> leaveTypes) throws Exception {
+                        mUserProfileResponse.getUser().setLeaveTypes(leaveTypes);
+                        mUserRepository.saveUser(mUserProfileResponse.getUser());
                         mViewModel.onLoginSuccess();
                     }
                 }, new RequestError() {
                     @Override
-                    public void onRequestError(BaseException e) {
-                        mViewModel.onLoginError(e);
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onLoginError(error);
                     }
                 });
     }
