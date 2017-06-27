@@ -218,4 +218,8 @@
     <string name="birday">Birday</string>
     <string name="mail">Email</string>
 
+    <string name="company_holiday">Company holiday</string>
+    <string name="normal_holiday">Normal holiday</string>
+    <string name="saturday_sunday">Saturday/sunday</string>
+
 </resources>
