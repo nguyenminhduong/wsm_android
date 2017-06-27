@@ -36,8 +36,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="please_click_back_again_to_exit">Please click BACK again to exit!</string>
-    <string name="email">Email:</string>
-    <string name="password">Password:</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="log_in">Log in</string>
     <string name="is_empty">Empty, please enter !</string>
@@ -58,6 +58,13 @@
     <string name="position_name">Position name</string>
     <string name="branch">Branch</string>
     <string name="group">Group</string>
+    <string name="contract_date">Contract date</string>
+    <string name="start_probation_date">Start probation date</string>
+    <string name="end_probation_date">End probation date</string>
+    <string name="staff_type">Staff type</string>
+    <string name="position">Position</string>
+    <string name="gender">Gender</string>
+    <string name="birthday">Birthday</string>
     <string name="off_have_salary_company_pay">Off have salary - Company Pay</string>
     <string name="paid_day_off">Paid day off</string>
     <string name="unpaid_day_off">Unpaid day off</string>
