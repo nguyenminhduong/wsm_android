@@ -14,56 +14,62 @@
 
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical"
         >
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            >
-
-            <android.support.v7.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/md_nav_back"
-                    tools:ignore="ContentDescription"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_35"
-                    android:layout_marginStart="@dimen/dp_35"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/sp_20"
-                    />
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.AppBarLayout>
-
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/button_submit"
+            android:fillViewport="true"
+            android:scrollbars="none"
             >
 
-            <ScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/button_submit"
-                android:fillViewport="true"
-                android:scrollbars="none"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 >
+
+                <RelativeLayout
+                    android:id="@+id/contain_profile_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_120"
+                    android:background="@drawable/img_header_profile"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <com.framgia.wsm.widget.CircleImageView
+                        android:id="@+id/image_user_profile_photo"
+                        android:layout_width="@dimen/dp_100"
+                        android:layout_height="@dimen/dp_100"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_30"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_alignBottom="@+id/image_user_profile_photo"
+                        android:layout_alignEnd="@+id/image_user_profile_photo"
+                        android:layout_alignRight="@+id/image_user_profile_photo"
+                        app:srcCompat="@drawable/ic_camera"
+                        />
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_marginLeft="@dimen/dp_2"
+                        android:src="@drawable/md_nav_back"
+                        />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -71,7 +77,6 @@
                     android:orientation="vertical"
                     android:padding="@dimen/dp_10"
                     >
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -99,7 +104,7 @@
                                 />
 
                             <TextView
-                                style="@style/StyleTextConfirm"
+                                style="@style/StyleEditableText"
                                 />
 
                             <View
@@ -152,7 +157,7 @@
                         >
 
                         <ImageView
-                            app:srcCompat="@drawable/ic_project"
+                            app:srcCompat="@drawable/ic_email"
                             tools:ignore="ContentDescription"
                             style="@style/StyleIconConfirm"
                             />
@@ -223,7 +228,7 @@
                         >
 
                         <ImageView
-                            app:srcCompat="@drawable/ic_branch"
+                            app:srcCompat="@drawable/ic_working_calendar"
                             tools:ignore="ContentDescription"
                             style="@style/StyleIconConfirm"
                             />
@@ -259,7 +264,7 @@
                         >
 
                         <ImageView
-                            app:srcCompat="@drawable/ic_group"
+                            app:srcCompat="@drawable/ic_working_calendar"
                             tools:ignore="ContentDescription"
                             style="@style/StyleIconConfirm"
                             />
@@ -295,7 +300,7 @@
                         >
 
                         <ImageView
-                            app:srcCompat="@drawable/ic_being_handled_by"
+                            app:srcCompat="@drawable/ic_group"
                             tools:ignore="ContentDescription"
                             style="@style/StyleIconConfirm"
                             />
@@ -331,7 +336,7 @@
                         >
 
                         <ImageView
-                            app:srcCompat="@drawable/ic_being_handled_by"
+                            app:srcCompat="@drawable/ic_position_name"
                             tools:ignore="ContentDescription"
                             style="@style/StyleIconConfirm"
                             />
@@ -403,7 +408,7 @@
                         >
 
                         <ImageView
-                            app:srcCompat="@drawable/ic_being_handled_by"
+                            app:srcCompat="@drawable/ic_holiday_calendar"
                             tools:ignore="ContentDescription"
                             style="@style/StyleIconConfirm"
                             />
@@ -422,7 +427,7 @@
                                 />
 
                             <TextView
-                                style="@style/StyleTextConfirm"
+                                style="@style/StyleEditableText"
                                 />
 
                             <View
@@ -431,13 +436,13 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </ScrollView>
+            </LinearLayout>
+        </ScrollView>
 
-            <Button
-                android:id="@id/button_submit"
-                android:text="@string/submit"
-                style="@style/StyleButton"
-                />
-        </RelativeLayout>
-    </LinearLayout>
+        <Button
+            android:id="@id/button_submit"
+            android:text="@string/submit"
+            style="@style/StyleButton"
+            />
+    </RelativeLayout>
 </layout>
