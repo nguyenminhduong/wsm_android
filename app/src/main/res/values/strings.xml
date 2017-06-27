@@ -121,6 +121,8 @@
     <string name="confirm_edit_request_off">Confirm edit request off</string>
     <string name="confirm_edit_request_overtime">Confirm edit request overtime</string>
     <string name="edit_request_off">Edit request off</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="change_password">Change password</string>
 
     <!-- In late (M) -->
     <string name="leave_type_in_late_m">In late (M)</string>

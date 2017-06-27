@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.framgia.wsm.R;
 import com.framgia.wsm.screen.BaseFragment;
 import com.framgia.wsm.screen.listrequest.ListRequestFragment;
+import com.framgia.wsm.screen.profile.ProfileFragment;
 import com.framgia.wsm.screen.timesheet.TimeSheetFragment;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.navigator.NavigateAnim;
@@ -49,6 +50,8 @@ public class MainContainerFragment extends BaseFragment {
         @MainViewModel.Page int page = getArguments().getInt(EXTRA_PAGE);
         switch (page) {
             case PERSONAL:
+                mNavigator.goNextChildFragment(containerViewId, ProfileFragment.newInstance(),
+                        false, NavigateAnim.NONE, ProfileFragment.TAG);
                 break;
             case SETUP_PROFILE:
                 break;
