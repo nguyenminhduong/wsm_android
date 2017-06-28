@@ -8,6 +8,8 @@ import android.view.View;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.screen.profile.branch.BranchAdapter;
+import com.framgia.wsm.screen.profile.group.GroupAdapter;
 import com.framgia.wsm.screen.updateprofile.UpdateProfileActivity;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.navigator.Navigator;
@@ -21,12 +23,17 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
 
     private ProfileContract.Presenter mPresenter;
     private Navigator mNavigator;
+    private BranchAdapter mBranchAdapter;
+    private GroupAdapter mGroupAdapter;
     private User mUser;
 
-    public ProfileViewModel(ProfileContract.Presenter presenter, Navigator navigator) {
+    public ProfileViewModel(ProfileContract.Presenter presenter, Navigator navigator,
+            BranchAdapter branchAdapter, GroupAdapter groupAdapter) {
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mNavigator = navigator;
+        mBranchAdapter = branchAdapter;
+        mGroupAdapter = groupAdapter;
         mPresenter.getUser();
     }
 
@@ -47,6 +54,8 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
         }
         mUser = user;
         notifyPropertyChanged(BR.user);
+        mBranchAdapter.updateDataBranch(mUser.getBranches());
+        mGroupAdapter.updateDataGroup(mUser.getGroups());
     }
 
     @Override
@@ -57,6 +66,14 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
     @Bindable
     public User getUser() {
         return mUser;
+    }
+
+    public BranchAdapter getBranchAdapter() {
+        return mBranchAdapter;
+    }
+
+    public GroupAdapter getGroupAdapter() {
+        return mGroupAdapter;
     }
 
     public void onClickEditProfile(View view) {
