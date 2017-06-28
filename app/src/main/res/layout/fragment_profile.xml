@@ -85,6 +85,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@color/color_blue_green"
+                        android:onClick="@{viewModel::onClickEditProfile}"
                         android:text="@string/edit_profile"
                         style="@style/Widget.AppCompat.Button"
                         />
@@ -93,6 +94,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@color/color_blue_white"
+                        android:onClick="@{viewModel::onClickChangePassword}"
                         android:text="@string/change_password"
                         style="@style/Widget.AppCompat.Button"
                         />
@@ -148,6 +150,7 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:text="@{viewModel.user.code}"
                                     style="@style/StyleTextProfile"
                                     />
                             </LinearLayout>
@@ -172,6 +175,7 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:text="@{viewModel.user.name}"
                                     style="@style/StyleTextProfile"
                                     />
                             </LinearLayout>
@@ -196,6 +200,7 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:text="@{viewModel.user.email}"
                                     style="@style/StyleTextProfile"
                                     />
                             </LinearLayout>
@@ -244,6 +249,7 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:text="@{viewModel.user.contractDate}"
                                     style="@style/StyleTextProfile"
                                     />
                             </LinearLayout>
@@ -436,6 +442,7 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:text="@{viewModel.user.gender}"
                                     style="@style/StyleTextProfile"
                                     />
                             </LinearLayout>
@@ -461,6 +468,7 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:text="@{viewModel.user.birthday}"
                                     style="@style/StyleTextProfile"
                                     />
                             </LinearLayout>

@@ -2,7 +2,12 @@ package com.framgia.wsm.screen.profile;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.local.UserLocalDataSource;
+import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.FragmentScope;
+import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
 
@@ -21,13 +26,28 @@ public class ProfileModule {
 
     @FragmentScope
     @Provides
-    public ProfileContract.ViewModel provideViewModel(ProfileContract.Presenter presenter) {
-        return new ProfileViewModel(presenter);
+    public ProfileContract.ViewModel provideViewModel(ProfileContract.Presenter presenter,
+            Navigator navigator) {
+        return new ProfileViewModel(presenter, navigator);
     }
 
     @FragmentScope
     @Provides
-    public ProfileContract.Presenter providePresenter() {
-        return new ProfilePresenter();
+    Navigator provideNavigator() {
+        return new Navigator(mFragment);
+    }
+
+    @FragmentScope
+    @Provides
+    public ProfileContract.Presenter providePresenter(UserRepository userRepository,
+            BaseSchedulerProvider baseSchedulerProvider) {
+        return new ProfilePresenter(userRepository, baseSchedulerProvider);
+    }
+
+    @FragmentScope
+    @Provides
+    UserRepository provideUserRepository(UserLocalDataSource localDataSource,
+            UserRemoteDataSource remoteDataSource) {
+        return new UserRepository(localDataSource, remoteDataSource);
     }
 }

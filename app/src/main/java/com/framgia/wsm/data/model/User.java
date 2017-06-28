@@ -1,5 +1,8 @@
 package com.framgia.wsm.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
@@ -7,10 +10,18 @@ import java.util.List;
 /**
  * Created by tri on 24/05/2017.
  */
-public class User {
-    @Expose
-    @SerializedName("id")
-    private Integer mId;
+public class User extends BaseModel implements Parcelable {
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
     @Expose
     @SerializedName("name")
     private String mName;
@@ -44,12 +55,31 @@ public class User {
     private List<OffType> mTypesCompany;
 
     private List<OffType> mTypesInsurance;
+    @Expose
+    @SerializedName("id")
+    private int mId;
 
-    public Integer getId() {
+    protected User(Parcel in) {
+        mId = in.readInt();
+        mName = in.readString();
+        mCode = in.readString();
+        mEmail = in.readString();
+        mGender = in.readString();
+        mBirthday = in.readString();
+        mContractDate = in.readString();
+        mAvatar = in.readParcelable(Avatar.class.getClassLoader());
+        mBranches = in.createTypedArrayList(Branch.CREATOR);
+        mGroups = in.createTypedArrayList(Group.CREATOR);
+        mLeaveTypes = in.createTypedArrayList(LeaveType.CREATOR);
+        mTypesCompany = in.createTypedArrayList(OffType.CREATOR);
+        mTypesInsurance = in.createTypedArrayList(OffType.CREATOR);
+    }
+
+    public int getId() {
         return mId;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         mId = id;
     }
 
@@ -86,7 +116,8 @@ public class User {
     }
 
     public String getBirthday() {
-        return mBirthday;
+        return DateTimeUtils.convertUiFormatToDataFormat(mBirthday, DateTimeUtils.INPUT_TIME_FORMAT,
+                DateTimeUtils.FORMAT_DATE);
     }
 
     public void setBirthday(String birthday) {
@@ -94,7 +125,8 @@ public class User {
     }
 
     public String getContractDate() {
-        return mContractDate;
+        return DateTimeUtils.convertUiFormatToDataFormat(mContractDate,
+                DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2, DateTimeUtils.FORMAT_DATE);
     }
 
     public void setContractDate(String contractDate) {
@@ -147,5 +179,27 @@ public class User {
 
     public void setTypesInsurance(List<OffType> typesInsurance) {
         mTypesInsurance = typesInsurance;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeString(mName);
+        dest.writeString(mCode);
+        dest.writeString(mEmail);
+        dest.writeString(mGender);
+        dest.writeString(mBirthday);
+        dest.writeString(mContractDate);
+        dest.writeParcelable(mAvatar, flags);
+        dest.writeTypedList(mBranches);
+        dest.writeTypedList(mGroups);
+        dest.writeTypedList(mLeaveTypes);
+        dest.writeTypedList(mTypesCompany);
+        dest.writeTypedList(mTypesInsurance);
     }
 }

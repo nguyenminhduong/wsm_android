@@ -1,16 +1,33 @@
 package com.framgia.wsm.screen.profile;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import com.framgia.wsm.BR;
+import com.framgia.wsm.data.model.User;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.screen.updateprofile.UpdateProfileActivity;
+import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.navigator.Navigator;
+
 /**
  * Exposes the data to be used in the Profile screen.
  */
 
-public class ProfileViewModel implements ProfileContract.ViewModel {
+public class ProfileViewModel extends BaseObservable implements ProfileContract.ViewModel {
+    private static final String TAG = "ProfileViewModel";
 
     private ProfileContract.Presenter mPresenter;
+    private Navigator mNavigator;
+    private User mUser;
 
-    public ProfileViewModel(ProfileContract.Presenter presenter) {
+    public ProfileViewModel(ProfileContract.Presenter presenter, Navigator navigator) {
         mPresenter = presenter;
         mPresenter.setViewModel(this);
+        mNavigator = navigator;
+        mPresenter.getUser();
     }
 
     @Override
@@ -21,5 +38,34 @@ public class ProfileViewModel implements ProfileContract.ViewModel {
     @Override
     public void onStop() {
         mPresenter.onStop();
+    }
+
+    @Override
+    public void onGetUserSuccess(User user) {
+        if (user == null) {
+            return;
+        }
+        mUser = user;
+        notifyPropertyChanged(BR.user);
+    }
+
+    @Override
+    public void onGetUserError(BaseException exception) {
+        Log.e(TAG, "onGetUserError", exception);
+    }
+
+    @Bindable
+    public User getUser() {
+        return mUser;
+    }
+
+    public void onClickEditProfile(View view) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constant.EXTRA_USER, mUser);
+        mNavigator.startActivity(UpdateProfileActivity.class, bundle);
+    }
+
+    public void onClickChangePassword(View view) {
+        //TODO: Open change password activity
     }
 }
