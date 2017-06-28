@@ -4,9 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import com.framgia.wsm.data.model.User;
+import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.local.UserLocalDataSource;
+import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import com.framgia.wsm.utils.validator.Validator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
@@ -35,8 +40,9 @@ public class UpdateProfileModule {
 
     @ActivityScope
     @Provides
-    public UpdateProfileContract.Presenter providePresenter() {
-        return new UpdateProfilePresenter();
+    public UpdateProfileContract.Presenter providePresenter(UserRepository userRepository,
+            BaseSchedulerProvider baseSchedulerProvider, Validator validator) {
+        return new UpdateProfilePresenter(userRepository, baseSchedulerProvider, validator);
     }
 
     @ActivityScope
@@ -49,5 +55,18 @@ public class UpdateProfileModule {
     @Provides
     DialogManager provideDialogManager() {
         return new DialogManagerImpl(mActivity);
+    }
+
+    @ActivityScope
+    @Provides
+    Validator provideValidator() {
+        return new Validator(mActivity.getApplicationContext(), User.class);
+    }
+
+    @ActivityScope
+    @Provides
+    UserRepository provideUserRepository(UserLocalDataSource userLocalDataSource,
+            UserRemoteDataSource remoteDataSource) {
+        return new UserRepository(userLocalDataSource, remoteDataSource);
     }
 }
