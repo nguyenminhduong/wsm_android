@@ -2,7 +2,10 @@ package com.framgia.wsm.screen.holidaycalendar;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import com.framgia.wsm.data.source.HolidayCalendarRepository;
+import com.framgia.wsm.data.source.remote.HolidayCalendarRemoteDataSource;
 import com.framgia.wsm.utils.dagger.FragmentScope;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
 
@@ -30,13 +33,22 @@ public class HolidayCalendarModule {
 
     @FragmentScope
     @Provides
-    public HolidayCalendarContract.Presenter providePresenter() {
-        return new HolidayCalendarPresenter();
+    public HolidayCalendarContract.Presenter providePresenter(
+            HolidayCalendarRepository holidayCalendarRepository,
+            BaseSchedulerProvider baseSchedulerProvider) {
+        return new HolidayCalendarPresenter(holidayCalendarRepository, baseSchedulerProvider);
     }
 
     @FragmentScope
     @Provides
     public HolidayCalendarAdapter provideHolidayCalendarAdapter() {
         return new HolidayCalendarAdapter(mFragment.getActivity());
+    }
+
+    @FragmentScope
+    @Provides
+    public HolidayCalendarRepository provideHolidayCalendarRepository(
+            HolidayCalendarRemoteDataSource remoteDataSource) {
+        return new HolidayCalendarRepository(remoteDataSource);
     }
 }
