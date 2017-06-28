@@ -59,7 +59,7 @@ public class RequestRepository {
         return mRemoteDataSource.editFormRequestLeave(request);
     }
 
-    public Observable<BaseResponse<List<RequestOff>>> getListRequestOff(@NonNull int userId) {
+    public Observable<BaseResponse<List<RequestOff>>> getListRequestOff() {
         // TODO: Edit later
         // return mRemoteDataSource.getListRequestOff(userId);
         List<RequestOff> requestOffs = new ArrayList<>();
@@ -77,7 +77,7 @@ public class RequestRepository {
         return Observable.just(baseResponse);
     }
 
-    public Observable<BaseResponse<List<Request>>> getListRequestLateEarly(@NonNull int userId) {
+    public Observable<BaseResponse<List<Request>>> getListRequestLateEarly() {
         // TODO: Edit later
         // return mRemoteDataSource.getListRequestLateEarly(userId);
         List<Request> requests = new ArrayList<>();
@@ -100,10 +100,9 @@ public class RequestRepository {
         return Observable.just(baseResponse);
     }
 
-    public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime(
-            @NonNull int userId) {
+    public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime() {
         // TODO: Edit later
-        // return mRemoteDataSource.getListRequestOverTime(userId);
+        //return mRemoteDataSource.getListRequestOverTime();
         List<RequestOverTime> requestOverTimes = new ArrayList<>();
         RequestOverTime requestOverTime = new RequestOverTime();
         requestOverTime.setId(1);
@@ -148,7 +147,7 @@ public class RequestRepository {
     }
 
     public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTimeWithStatusAndTime(
-            @NonNull int userId, int status, String time) {
+            @NonNull int status, String time) {
         //TODO edit later
         //return mRemoteDataSource.getListRequestOverTimeStatusAndTime(userId, status, time);
         List<RequestOverTime> requestOverTimes = new ArrayList<>();
@@ -177,7 +176,7 @@ public class RequestRepository {
     }
 
     public Observable<BaseResponse<List<Request>>> getListRequestLeaveWithStatusAndTime(
-            @NonNull int userId, int status, String time) {
+            @NonNull int status, String time) {
         //TODO edit later
         //return mRemoteDataSource.getListRequestLeaveWithStatusAndTime(userId, status,time);
         List<Request> requestOverTimes = new ArrayList<>();
@@ -201,6 +200,25 @@ public class RequestRepository {
         requestOverTimes.add(requestOverTime3);
         BaseResponse<List<Request>> baseResponse =
                 new BaseResponse<List<Request>>(requestOverTimes) {
+                };
+        return Observable.just(baseResponse);
+    }
+
+    public Observable<BaseResponse<List<RequestOff>>> getListRequestOffWithStatusAndTime(
+            @NonNull int status, String time) {
+        //TODO edit later
+        //return mRemoteDataSource.getListRequestOffWithStatusAndTime(userId, status, time);
+        List<RequestOff> requestOffs = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            RequestOff requestOff = new RequestOff();
+            requestOff.setCreatedAt("16/06/2017");
+            requestOff.setStatus(0);
+            requestOff.setStartDayHaveSalary("16/06/2017");
+            requestOff.setEndDayHaveSalary("16/06/2017");
+            requestOffs.add(requestOff);
+        }
+        BaseResponse<List<RequestOff>> baseResponse =
+                new BaseResponse<List<RequestOff>>(requestOffs) {
                 };
         return Observable.just(baseResponse);
     }

@@ -119,7 +119,7 @@ public class ListRequestViewModel extends BaseObservable
         }
         mUser = user;
         notifyPropertyChanged(BR.user);
-        mPresenter.getListAllRequest(mRequestType, mUser.getId());
+        mPresenter.getListAllRequest(mRequestType);
     }
 
     @Override
@@ -214,27 +214,33 @@ public class ListRequestViewModel extends BaseObservable
         switch (mRequestType) {
             case RequestType.REQUEST_OVERTIME:
                 if (mMonthYear != null) {
-                    mPresenter.getListRequestOverTimeWithStatusAndTime(mUser.getId(),
-                            mCurrentPositionStatus, mMonthYear);
+                    mPresenter.getListRequestOverTimeWithStatusAndTime(mCurrentPositionStatus,
+                            mMonthYear);
                 } else if (mCurrentPositionStatus == 0) {
-                    mPresenter.getListAllRequest(mRequestType, mUser.getId());
+                    mPresenter.getListAllRequest(mRequestType);
                 } else {
-                    mPresenter.getListRequestOverTimeWithStatusAndTime(mUser.getId(),
-                            mCurrentPositionStatus, "");
+                    mPresenter.getListRequestOverTimeWithStatusAndTime(mCurrentPositionStatus, "");
                 }
                 break;
             case RequestType.REQUEST_LATE_EARLY:
                 if (mMonthYear != null) {
-                    mPresenter.getListRequestLeaveWithStatusAndTime(mUser.getId(),
-                            mCurrentPositionStatus, mMonthYear);
+                    mPresenter.getListRequestLeaveWithStatusAndTime(mCurrentPositionStatus,
+                            mMonthYear);
                 } else if (mCurrentPositionStatus == 0) {
-                    mPresenter.getListAllRequest(mRequestType, mUser.getId());
+                    mPresenter.getListAllRequest(mRequestType);
                 } else {
-                    mPresenter.getListRequestLeaveWithStatusAndTime(mUser.getId(),
-                            mCurrentPositionStatus, "");
+                    mPresenter.getListRequestLeaveWithStatusAndTime(mCurrentPositionStatus, "");
                 }
                 break;
             case RequestType.REQUEST_OFF:
+                if (mMonthYear != null) {
+                    mPresenter.getListRequestOffWithStatusAndTime(mCurrentPositionStatus,
+                            mMonthYear);
+                } else if (mCurrentPositionStatus == 0) {
+                    mPresenter.getListAllRequest(mRequestType);
+                } else {
+                    mPresenter.getListRequestOffWithStatusAndTime(mCurrentPositionStatus, "");
+                }
                 break;
             default:
                 break;
@@ -243,6 +249,8 @@ public class ListRequestViewModel extends BaseObservable
 
     public void onRemoveMonth(View view) {
         setMonthYear(null);
+        mCurrentPositionStatus = PositionStatus.ALL;
+        setCurrentStatus(mContext.getString(R.string.all));
     }
 
     @IntDef({

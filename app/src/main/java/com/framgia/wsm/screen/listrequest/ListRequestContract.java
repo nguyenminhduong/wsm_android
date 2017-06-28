@@ -27,12 +27,14 @@ interface ListRequestContract {
      * Presenter.
      */
     interface Presenter extends BasePresenter<ViewModel> {
-        void getListAllRequest(@RequestType int requestType, int userId);
+        void getListAllRequest(@RequestType int requestType);
 
         void getUser();
 
-        void getListRequestOverTimeWithStatusAndTime(int userId, int status, String time);
+        void getListRequestOverTimeWithStatusAndTime(int status, String time);
 
-        void getListRequestLeaveWithStatusAndTime(int userId, int status, String time);
+        void getListRequestLeaveWithStatusAndTime(int status, String time);
+
+        void getListRequestOffWithStatusAndTime(int status, String time);
     }
 }

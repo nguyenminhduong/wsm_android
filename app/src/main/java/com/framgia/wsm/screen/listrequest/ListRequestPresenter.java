@@ -54,11 +54,11 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
     }
 
     @Override
-    public void getListAllRequest(int requestType, int userId) {
+    public void getListAllRequest(int requestType) {
         Disposable disposable;
         switch (requestType) {
             case RequestType.REQUEST_OVERTIME:
-                disposable = mRequestRepository.getListRequestOverTime(userId)
+                disposable = mRequestRepository.getListRequestOverTime()
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
                         .subscribe(new Consumer<BaseResponse<List<RequestOverTime>>>() {
@@ -78,7 +78,7 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
                 mCompositeDisposable.add(disposable);
                 break;
             case RequestType.REQUEST_OFF:
-                disposable = mRequestRepository.getListRequestOff(userId)
+                disposable = mRequestRepository.getListRequestOff()
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
                         .subscribe(new Consumer<BaseResponse<List<RequestOff>>>() {
@@ -98,7 +98,7 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
                 mCompositeDisposable.add(disposable);
                 break;
             case RequestType.REQUEST_LATE_EARLY:
-                disposable = mRequestRepository.getListRequestLateEarly(userId)
+                disposable = mRequestRepository.getListRequestLateEarly()
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
                         .subscribe(new Consumer<BaseResponse<List<Request>>>() {
@@ -142,9 +142,9 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
     }
 
     @Override
-    public void getListRequestOverTimeWithStatusAndTime(int userId, int status, String time) {
+    public void getListRequestOverTimeWithStatusAndTime(int status, String time) {
         Disposable disposable =
-                mRequestRepository.getListRequestOverTimeWithStatusAndTime(userId, status, time)
+                mRequestRepository.getListRequestOverTimeWithStatusAndTime(status, time)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
                         .subscribe(new Consumer<BaseResponse<List<RequestOverTime>>>() {
@@ -164,9 +164,9 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
     }
 
     @Override
-    public void getListRequestLeaveWithStatusAndTime(int userId, int status, String time) {
+    public void getListRequestLeaveWithStatusAndTime(int status, String time) {
         Disposable disposable =
-                mRequestRepository.getListRequestLeaveWithStatusAndTime(userId, status, time)
+                mRequestRepository.getListRequestLeaveWithStatusAndTime(status, time)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
                         .subscribe(new Consumer<BaseResponse<List<Request>>>() {
@@ -182,6 +182,27 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
                                 mViewModel.onGetListRequestError(error);
                             }
                         });
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void getListRequestOffWithStatusAndTime(int status, String time) {
+        Disposable disposable = mRequestRepository.getListRequestOffWithStatusAndTime(status, time)
+                .subscribeOn(mBaseSchedulerProvider.io())
+                .observeOn(mBaseSchedulerProvider.ui())
+                .subscribe(new Consumer<BaseResponse<List<RequestOff>>>() {
+                    @Override
+                    public void accept(BaseResponse<List<RequestOff>> listBaseResponse)
+                            throws Exception {
+                        mViewModel.onGetListRequestSuccess(RequestType.REQUEST_OFF,
+                                listBaseResponse.getData());
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onGetListRequestError(error);
+                    }
+                });
         mCompositeDisposable.add(disposable);
     }
 }
