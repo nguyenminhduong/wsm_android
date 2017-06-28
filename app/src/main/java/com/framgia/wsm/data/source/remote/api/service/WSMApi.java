@@ -95,4 +95,9 @@ public interface WSMApi {
     @GET("/api/v1/list_request_over_time")
     Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTimeWithStatusAndTime(
             @Query("user_id") int userId, @Query("status") int status, @Query("time") String time);
+
+    //TODO edit later
+    @GET("/api/v1/list_request_leave")
+    Observable<BaseResponse<List<Request>>> getListRequestLeaveWithStatusAndTime(
+            @Query("user_id") int userId, @Query("status") int status, @Query("time") String time);
 }

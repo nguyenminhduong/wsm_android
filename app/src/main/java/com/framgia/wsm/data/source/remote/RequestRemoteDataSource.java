@@ -56,6 +56,12 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
+    public Observable<BaseResponse<List<Request>>> getListRequestLeaveWithStatusAndTime(int userId,
+            int status, String time) {
+        return mWSMApi.getListRequestLeaveWithStatusAndTime(userId, status, time);
+    }
+
+    @Override
     public Observable<Object> deleteFormRequestOff(@NonNull int requestOffId) {
         return mWSMApi.deleteFormRequestOff(requestOffId);
     }

@@ -31,7 +31,8 @@ interface ListRequestContract {
 
         void getUser();
 
-        void getListRequestOverTimeWithStatusAndTime(@RequestType int requestType, int userId,
-                int status, String time);
+        void getListRequestOverTimeWithStatusAndTime(int userId, int status, String time);
+
+        void getListRequestLeaveWithStatusAndTime(int userId, int status, String time);
     }
 }
