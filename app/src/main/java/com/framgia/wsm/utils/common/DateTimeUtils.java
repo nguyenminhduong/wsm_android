@@ -1,5 +1,6 @@
 package com.framgia.wsm.utils.common;
 
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import com.framgia.wsm.screen.requestoff.RequestOffViewModel;
@@ -31,6 +32,7 @@ public final class DateTimeUtils {
     public static final String DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM = "yyyy/MM/dd - HH:mm";
     public static final String DATE_FORMAT_YYYY_MM_DD_A = "yyyy/MM/dd a";
     private static final int DAY_OF_YEAR = 365;
+    public static final String INPUT_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
     private DateTimeUtils() {
         // No-op
@@ -239,5 +241,19 @@ public final class DateTimeUtils {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(convertStringToDate(input, DATE_FORMAT_YYYY_MM_DD_A));
         return calendar.get(Calendar.AM_PM);
+    }
+
+    public static String convertUiFormatToDataFormat(String time, String inputFormat,
+            String outputFormat) {
+        if (TextUtils.isEmpty(time)) {
+            return "";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(inputFormat, Locale.getDefault());
+        SimpleDateFormat newSdf = new SimpleDateFormat(outputFormat, Locale.getDefault());
+        try {
+            return newSdf.format(sdf.parse(time));
+        } catch (ParseException e) {
+            return null;
+        }
     }
 }
