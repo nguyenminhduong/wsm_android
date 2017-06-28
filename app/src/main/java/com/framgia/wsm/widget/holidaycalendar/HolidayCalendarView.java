@@ -200,9 +200,6 @@ public class HolidayCalendarView extends View {
                         break;
                     }
                 }
-            } else {
-                mMonthNumPaint.setColor(mDayTextColor);
-                mSelectedCirclePaint.setColor(Color.TRANSPARENT);
             }
             drawDayLabelNomal(canvas, y, day, x);
             dayOffset++;

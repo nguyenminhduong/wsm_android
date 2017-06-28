@@ -5,6 +5,7 @@ import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.data.source.remote.api.response.HolidayCalendarResponse;
 import com.framgia.wsm.data.source.remote.api.response.LeaveTypeResponse;
 import com.framgia.wsm.data.source.remote.api.response.OffTypeResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
@@ -34,6 +35,9 @@ public interface WSMApi {
     // TODO edit later
     @GET("v1/time_sheet")
     Observable<TimeSheetResponse> getTimeSheet(@Query("month") int month, @Query("year") int year);
+
+    @GET("v1/holiday_calendar")
+    Observable<BaseResponse<HolidayCalendarResponse>> getHolidayCalendar(@Query("year") int year);
 
     // TODO edit later
     @POST("/api/v1/request_overtime")

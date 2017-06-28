@@ -1,5 +1,16 @@
 package com.framgia.wsm.screen.holidaycalendar;
 
+import com.framgia.wsm.data.source.HolidayCalendarRepository;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.data.source.remote.api.response.HolidayCalendarResponse;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+
 /**
  * Listens to user actions from the UI ({@link HolidayCalendarFragment}), retrieves the data and
  * updates
@@ -9,8 +20,15 @@ final class HolidayCalendarPresenter implements HolidayCalendarContract.Presente
     private static final String TAG = HolidayCalendarPresenter.class.getName();
 
     private HolidayCalendarContract.ViewModel mViewModel;
+    private HolidayCalendarRepository mHolidayCalendarRepository;
+    private CompositeDisposable mCompositeDisposable;
+    private BaseSchedulerProvider mBaseSchedulerProvider;
 
-    HolidayCalendarPresenter() {
+    HolidayCalendarPresenter(HolidayCalendarRepository holidayCalendarRepository,
+            BaseSchedulerProvider baseSchedulerProvider) {
+        mHolidayCalendarRepository = holidayCalendarRepository;
+        mBaseSchedulerProvider = baseSchedulerProvider;
+        mCompositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -24,5 +42,26 @@ final class HolidayCalendarPresenter implements HolidayCalendarContract.Presente
     @Override
     public void setViewModel(HolidayCalendarContract.ViewModel viewModel) {
         mViewModel = viewModel;
+    }
+
+    @Override
+    public void getHolidayCalendar(int year) {
+        Disposable disposable = mHolidayCalendarRepository.getHolidayCalendar(year)
+                .subscribeOn(mBaseSchedulerProvider.io())
+                .observeOn(mBaseSchedulerProvider.ui())
+                .subscribe(new Consumer<BaseResponse<HolidayCalendarResponse>>() {
+                    @Override
+                    public void accept(@NonNull BaseResponse<HolidayCalendarResponse> response)
+                            throws Exception {
+                        mViewModel.onGetHolidayCalendarSuccess(
+                                response.getData().getHolidayCalendars());
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onGetHolidayCalendarError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
     }
 }
