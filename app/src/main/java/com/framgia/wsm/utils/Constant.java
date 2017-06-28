@@ -20,6 +20,7 @@ public final class Constant {
     public static final String BLANK = " ";
     public static final String EXTRA_REQUEST_OFF = "REQUEST_OFF";
     public static final String EXTRA_ACTION_TYPE = "ACTION_TYPE";
+    public static final String EXTRA_USER = "EXTRA_USER";
 
     private Constant() {
         // No-op
