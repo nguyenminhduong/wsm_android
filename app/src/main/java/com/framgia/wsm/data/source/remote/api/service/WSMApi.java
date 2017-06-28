@@ -90,4 +90,9 @@ public interface WSMApi {
 
     @GET("api/dashboard/dayoff_settings")
     Observable<BaseResponse<OffTypeResponse>> getListOffType();
+
+    //TODO edit later
+    @GET("/api/v1/list_request_over_time")
+    Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTimeWithStatusAndTime(
+            @Query("user_id") int userId, @Query("status") int status, @Query("time") String time);
 }

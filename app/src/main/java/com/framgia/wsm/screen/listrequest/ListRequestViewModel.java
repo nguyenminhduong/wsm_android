@@ -113,21 +113,6 @@ public class ListRequestViewModel extends BaseObservable
     }
 
     @Override
-    public void onGetListRequestLeaveSuccess(List<Request> requests) {
-        mListRequestAdapter.updateDataRequest(requests);
-    }
-
-    @Override
-    public void onGetListRequestOffSuccess(List<RequestOff> requestOffs) {
-        mListRequestAdapter.updateDataRequestOff(requestOffs);
-    }
-
-    @Override
-    public void onGetListRequestOverTimeSuccess(List<RequestOverTime> requestOverTimes) {
-        mListRequestAdapter.updateDataRequestOverTime(requestOverTimes);
-    }
-
-    @Override
     public void onGetUserSuccess(User user) {
         if (user == null) {
             return;
@@ -140,6 +125,23 @@ public class ListRequestViewModel extends BaseObservable
     @Override
     public void onGetUserError(BaseException e) {
         Log.e(TAG, "ListRequestViewModel", e);
+    }
+
+    @Override
+    public void onGetListRequestSuccess(int requestType, Object object) {
+        switch (requestType) {
+            case RequestType.REQUEST_OVERTIME:
+                mListRequestAdapter.updateDataRequestOverTime((List<RequestOverTime>) object);
+                break;
+            case RequestType.REQUEST_OFF:
+                mListRequestAdapter.updateDataRequestOff((List<RequestOff>) object);
+                break;
+            case RequestType.REQUEST_LATE_EARLY:
+                mListRequestAdapter.updateDataRequest((List<Request>) object);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -206,6 +208,19 @@ public class ListRequestViewModel extends BaseObservable
                         return true;
                     }
                 });
+    }
+
+    public void onSearchRequest(View view) {
+        //TODO edit later
+        if (mMonthYear != null) {
+            mPresenter.getListRequestOverTimeWithStatusAndTime(mRequestType, mUser.getId(),
+                    mCurrentPositionStatus, mMonthYear);
+        } else if (mCurrentPositionStatus == 0) {
+            mPresenter.getListAllRequest(mRequestType, mUser.getId());
+        } else {
+            mPresenter.getListRequestOverTimeWithStatusAndTime(mRequestType, mUser.getId(),
+                    mCurrentPositionStatus, "");
+        }
     }
 
     @IntDef({

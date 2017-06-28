@@ -14,137 +14,144 @@
         <import type="android.view.View"/>
 
     </data>
-
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{()-> viewModel.onItemClicked()}"
-        android:orientation="horizontal"
-        android:padding="@dimen/dp_5"
+        android:layout_margin="@dimen/dp_3"
         >
-
-        <ImageView
-            android:layout_width="@dimen/dp_40"
-            android:layout_height="@dimen/dp_40"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_request_overtime"
-            tools:ignore="ContentDescription"
-            />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/dp_5"
+            android:onClick="@{()-> viewModel.onItemClicked()}"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_3"
             >
+
+            <ImageView
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_request_overtime"
+                tools:ignore="ContentDescription"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:padding="@dimen/dp_5"
                 >
 
-                <TextView
-                    android:layout_width="@dimen/dp_0"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.40"
-                    android:text="@string/date_of_creation"
-                    android:textStyle="bold"
-                    />
-
-                <TextView
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.30"
-                    android:text="@{viewModel.createAt}"
-                    />
-
-                <FrameLayout
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_20"
-                    android:layout_marginStart="@dimen/dp_20"
-                    android:layout_weight="0.30"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp_5"
                     >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/dp_0"
                         android:layout_height="wrap_content"
-                        android:text="@string/accepted"
-                        android:textColor="@color/color_green_lime"
+                        android:layout_weight="0.40"
+                        android:text="@string/date_of_creation"
                         android:textStyle="bold"
-                        android:visibility="@{viewModel.acceptStatus ? View.VISIBLE : View.GONE}"
                         />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/dp_0"
                         android:layout_height="wrap_content"
-                        android:text="@string/pending"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
-                        android:visibility="@{viewModel.pendingStatus ? View.VISIBLE : View.GONE}"
+                        android:layout_weight="0.30"
+                        android:text="@{viewModel.createAt}"
                         />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <FrameLayout
+                        android:layout_width="@dimen/dp_0"
                         android:layout_height="wrap_content"
-                        android:text="@string/rejected"
-                        android:textColor="@color/color_red_fresh"
-                        android:textStyle="bold"
-                        android:visibility="@{viewModel.rejectStatus ? View.VISIBLE : View.GONE}"
-                        />
-                </FrameLayout>
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:layout_marginStart="@dimen/dp_20"
+                        android:layout_weight="0.30"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/accepted"
+                            android:textColor="@color/color_green_lime"
+                            android:textStyle="bold"
+                            android:visibility="@{viewModel.acceptStatus ? View.VISIBLE : View.GONE}"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pending"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold"
+                            android:visibility="@{viewModel.pendingStatus ? View.VISIBLE : View.GONE}"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/rejected"
+                            android:textColor="@color/color_red_fresh"
+                            android:textStyle="bold"
+                            android:visibility="@{viewModel.rejectStatus ? View.VISIBLE : View.GONE}"
+                            />
+                    </FrameLayout>
 
 
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dp_5"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/from"
+                            android:textStyle="bold"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:text="@{viewModel.fromTime}"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dp_5"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/to"
+                            android:textStyle="bold"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_26"
+                            android:layout_marginStart="@dimen/dp_26"
+                            android:text="@{viewModel.toTime}"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/dp_5"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/from"
-                    android:textStyle="bold"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:text="@{viewModel.fromTime}"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_50"
-                    android:layout_marginStart="@dimen/dp_50"
-                    android:text="@string/to"
-                    android:textStyle="bold"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:text="@{viewModel.toTime}"
-                    />
-            </LinearLayout>
-
-            <View
-                android:layout_width="@dimen/dp_350"
-                android:layout_height="@dimen/dp_1"
-                android:layout_gravity="center"
-                android:background="@color/color_dark_gray"
-                />
         </LinearLayout>
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 </layout>

@@ -50,8 +50,9 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<List<Request>>> getListRequestOverTime(@NonNull int userId) {
-        return mWSMApi.getListRequestOverTime(userId);
+    public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTimeWithStatusAndTime(
+            int userId, int status, String time) {
+        return mWSMApi.getListRequestOverTimeWithStatusAndTime(userId, status, time);
     }
 
     @Override

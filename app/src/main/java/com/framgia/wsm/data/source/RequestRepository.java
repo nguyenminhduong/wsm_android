@@ -105,17 +105,71 @@ public class RequestRepository {
         // TODO: Edit later
         // return mRemoteDataSource.getListRequestOverTime(userId);
         List<RequestOverTime> requestOverTimes = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            RequestOverTime requestOverTime = new RequestOverTime();
-            requestOverTime.setId(1);
-            requestOverTime.setCreatedAt("23/06/2017");
-            requestOverTime.setFromTime("21/06/2017 18:00");
-            requestOverTime.setToTime("22/06/2017 19:00");
-            requestOverTime.setStatus(1);
-            requestOverTime.setReason("Ko kịp tiến độ !!!");
-            requestOverTime.setProject("WSM Android");
-            requestOverTimes.add(requestOverTime);
-        }
+        RequestOverTime requestOverTime = new RequestOverTime();
+        requestOverTime.setId(1);
+        requestOverTime.setCreatedAt("23/06/2017");
+        requestOverTime.setFromTime("21/06/2017 18:00");
+        requestOverTime.setToTime("22/06/2017 19:00");
+        requestOverTime.setStatus(1);
+        requestOverTime.setReason("Ko kịp tiến độ !!!");
+        requestOverTime.setProject("WSM Android");
+        requestOverTimes.add(requestOverTime);
+        RequestOverTime requestOverTime3 = new RequestOverTime();
+        requestOverTime3.setId(1);
+        requestOverTime3.setCreatedAt("23/06/2017");
+        requestOverTime3.setFromTime("21/06/2017 18:00");
+        requestOverTime3.setToTime("22/06/2017 19:00");
+        requestOverTime3.setStatus(2);
+        requestOverTime3.setReason("Ko kịp tiến độ !!!");
+        requestOverTime3.setProject("WSM Android");
+        requestOverTimes.add(requestOverTime3);
+        RequestOverTime requestOverTime4 = new RequestOverTime();
+        requestOverTime4.setId(1);
+        requestOverTime4.setCreatedAt("23/08/2017");
+        requestOverTime4.setFromTime("21/08/2017 18:00");
+        requestOverTime4.setToTime("22/08/2017 19:00");
+        requestOverTime4.setStatus(0);
+        requestOverTime4.setReason("Ko kịp tiến độ !!!");
+        requestOverTime4.setProject("WSM Android");
+        requestOverTimes.add(requestOverTime4);
+        RequestOverTime requestOverTime2 = new RequestOverTime();
+        requestOverTime2.setId(1);
+        requestOverTime2.setCreatedAt("23/09/2017");
+        requestOverTime2.setFromTime("21/09/2017 18:00");
+        requestOverTime2.setToTime("22/09/2017 19:00");
+        requestOverTime2.setStatus(1);
+        requestOverTime2.setReason("Ko kịp tiến độ !!!");
+        requestOverTime2.setProject("WSM Android");
+        requestOverTimes.add(requestOverTime2);
+        BaseResponse<List<RequestOverTime>> baseResponse =
+                new BaseResponse<List<RequestOverTime>>(requestOverTimes) {
+                };
+        return Observable.just(baseResponse);
+    }
+
+    public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTimeWithStatusAndTime(
+            @NonNull int userId, int status, String time) {
+        //TODO edit later
+        //return mRemoteDataSource.getListRequestOverTimeStatusAndTime(userId, status, time);
+        List<RequestOverTime> requestOverTimes = new ArrayList<>();
+        RequestOverTime requestOverTime = new RequestOverTime();
+        requestOverTime.setId(1);
+        requestOverTime.setCreatedAt("23/06/2017");
+        requestOverTime.setFromTime("21/06/2017 18:00");
+        requestOverTime.setToTime("22/06/2017 19:00");
+        requestOverTime.setStatus(1);
+        requestOverTime.setReason("Ko kịp tiến độ !!!");
+        requestOverTime.setProject("WSM Android");
+        requestOverTimes.add(requestOverTime);
+        RequestOverTime requestOverTime3 = new RequestOverTime();
+        requestOverTime3.setId(1);
+        requestOverTime3.setCreatedAt("23/06/2017");
+        requestOverTime3.setFromTime("21/06/2017 18:00");
+        requestOverTime3.setToTime("22/06/2017 19:00");
+        requestOverTime3.setStatus(2);
+        requestOverTime3.setReason("Ko kịp tiến độ !!!");
+        requestOverTime3.setProject("WSM Android");
+        requestOverTimes.add(requestOverTime3);
         BaseResponse<List<RequestOverTime>> baseResponse =
                 new BaseResponse<List<RequestOverTime>>(requestOverTimes) {
                 };
