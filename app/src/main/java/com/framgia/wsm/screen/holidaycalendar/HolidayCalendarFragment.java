@@ -6,10 +6,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.framgia.wsm.MainApplication;
 import com.framgia.wsm.R;
 import com.framgia.wsm.databinding.FragmentHolidayCalendarBinding;
 import com.framgia.wsm.screen.BaseFragment;
+import com.framgia.wsm.screen.main.MainActivity;
 import javax.inject.Inject;
 
 /**
@@ -31,7 +31,7 @@ public class HolidayCalendarFragment extends BaseFragment {
             @Nullable Bundle savedInstanceState) {
 
         DaggerHolidayCalendarComponent.builder()
-                .appComponent(((MainApplication) getActivity().getApplication()).getAppComponent())
+                .mainComponent(((MainActivity) getActivity()).getMainComponent())
                 .holidayCalendarModule(new HolidayCalendarModule(this))
                 .build()
                 .inject(this);

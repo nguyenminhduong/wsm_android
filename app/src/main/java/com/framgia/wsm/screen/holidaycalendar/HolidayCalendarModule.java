@@ -1,9 +1,8 @@
 package com.framgia.wsm.screen.holidaycalendar;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import com.framgia.wsm.utils.dagger.ActivityScope;
+import com.framgia.wsm.utils.dagger.FragmentScope;
 import dagger.Module;
 import dagger.Provides;
 
@@ -14,22 +13,30 @@ import dagger.Provides;
 @Module
 public class HolidayCalendarModule {
 
-    private Activity mActivity;
+    private Fragment mFragment;
 
     public HolidayCalendarModule(@NonNull Fragment fragment) {
-        this.mActivity = fragment.getActivity();
+        mFragment = fragment;
     }
 
-    @ActivityScope
+    @FragmentScope
     @Provides
     public HolidayCalendarContract.ViewModel provideViewModel(
-            HolidayCalendarContract.Presenter presenter) {
-        return new HolidayCalendarViewModel(presenter);
+            HolidayCalendarContract.Presenter presenter,
+            HolidayCalendarAdapter holidayCalendarAdapter) {
+        return new HolidayCalendarViewModel(mFragment.getActivity(), presenter,
+                holidayCalendarAdapter);
     }
 
-    @ActivityScope
+    @FragmentScope
     @Provides
     public HolidayCalendarContract.Presenter providePresenter() {
         return new HolidayCalendarPresenter();
+    }
+
+    @FragmentScope
+    @Provides
+    public HolidayCalendarAdapter provideHolidayCalendarAdapter() {
+        return new HolidayCalendarAdapter(mFragment.getActivity());
     }
 }

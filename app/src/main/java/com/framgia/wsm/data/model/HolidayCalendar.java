@@ -18,4 +18,28 @@ public class HolidayCalendar extends BaseModel {
     @Expose
     @SerializedName("data")
     private List<HolidayCalendarDate> mHolidayCalendarDates;
+
+    public int getMonth() {
+        return mMonth;
+    }
+
+    public void setMonth(int month) {
+        mMonth = month;
+    }
+
+    public int getYear() {
+        return mYear;
+    }
+
+    public void setYear(int year) {
+        mYear = year;
+    }
+
+    public List<HolidayCalendarDate> getHolidayCalendarDates() {
+        return mHolidayCalendarDates;
+    }
+
+    public void setHolidayCalendarDates(List<HolidayCalendarDate> holidayCalendarDates) {
+        mHolidayCalendarDates = holidayCalendarDates;
+    }
 }

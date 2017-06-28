@@ -1,7 +1,7 @@
 package com.framgia.wsm.screen.holidaycalendar;
 
-import com.framgia.wsm.AppComponent;
-import com.framgia.wsm.utils.dagger.ActivityScope;
+import com.framgia.wsm.screen.main.MainComponent;
+import com.framgia.wsm.utils.dagger.FragmentScope;
 import dagger.Component;
 
 /**
@@ -10,8 +10,8 @@ import dagger.Component;
  * for the list of Dagger components
  * used in this application.
  */
-@ActivityScope
-@Component(dependencies = AppComponent.class, modules = HolidayCalendarModule.class)
+@FragmentScope
+@Component(dependencies = MainComponent.class, modules = HolidayCalendarModule.class)
 public interface HolidayCalendarComponent {
     void inject(HolidayCalendarFragment holidaycalendarFragment);
 }

@@ -18,12 +18,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.model.HolidayCalendarDate;
 import com.framgia.wsm.data.model.TimeSheetDate;
 import com.framgia.wsm.databinding.NavHeaderMainBinding;
 import com.framgia.wsm.screen.login.LoginViewModel;
 import com.framgia.wsm.screen.main.MainViewModel;
 import com.framgia.wsm.screen.requestoff.RequestOffViewModel;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.widget.holidaycalendar.HolidayCalendarView;
+import com.framgia.wsm.widget.holidaycalendar.HolidayDateClickListener;
 import com.framgia.wsm.widget.timesheet.OnDayClickListener;
 import com.framgia.wsm.widget.timesheet.TimeSheetView;
 import com.github.clans.fab.FloatingActionMenu;
@@ -112,10 +115,25 @@ public final class BindingUtils {
         timeSheetView.setTimeSheetDates(timeSheetDates);
     }
 
+    @BindingAdapter({ "holidayCalendarDates", "month", "year" })
+    public static void setHolidayCalendarDates(HolidayCalendarView holidayCalendarView,
+            List<HolidayCalendarDate> holidayCalendarDates, int month, int year) {
+        holidayCalendarView.setTime(month, year);
+        holidayCalendarView.reuse();
+        holidayCalendarView.invalidate();
+        holidayCalendarView.setHolidayCalendarDates(holidayCalendarDates);
+    }
+
     @BindingAdapter({ "onDayClick" })
     public static void setOnDayClick(TimeSheetView timeSheetView,
             OnDayClickListener onDayClickListener) {
         timeSheetView.setOnDayClickListener(onDayClickListener);
+    }
+
+    @BindingAdapter({ "onHolidayDayClick" })
+    public static void setHolidayOnDayClick(HolidayCalendarView holidayCalendarView,
+            HolidayDateClickListener onDayClickListener) {
+        holidayCalendarView.setOnDayClickListener(onDayClickListener);
     }
 
     @BindingAdapter({ "toolbar" })
