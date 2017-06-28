@@ -27,6 +27,9 @@ public interface RequestDataSource {
         Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTimeWithStatusAndTime(
                 @NonNull int userId, int status, String time);
 
+        Observable<BaseResponse<List<Request>>> getListRequestLeaveWithStatusAndTime(
+                @NonNull int userId, int status, String time);
+
         Observable<Object> deleteFormRequestOff(@NonNull int requestOffId);
 
         Observable<BaseResponse<RequestOff>> editFormRequestOff(@NonNull RequestOff requestOff);

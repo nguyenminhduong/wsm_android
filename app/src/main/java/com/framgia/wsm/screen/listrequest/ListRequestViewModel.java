@@ -211,16 +211,38 @@ public class ListRequestViewModel extends BaseObservable
     }
 
     public void onSearchRequest(View view) {
-        //TODO edit later
-        if (mMonthYear != null) {
-            mPresenter.getListRequestOverTimeWithStatusAndTime(mRequestType, mUser.getId(),
-                    mCurrentPositionStatus, mMonthYear);
-        } else if (mCurrentPositionStatus == 0) {
-            mPresenter.getListAllRequest(mRequestType, mUser.getId());
-        } else {
-            mPresenter.getListRequestOverTimeWithStatusAndTime(mRequestType, mUser.getId(),
-                    mCurrentPositionStatus, "");
+        switch (mRequestType) {
+            case RequestType.REQUEST_OVERTIME:
+                if (mMonthYear != null) {
+                    mPresenter.getListRequestOverTimeWithStatusAndTime(mUser.getId(),
+                            mCurrentPositionStatus, mMonthYear);
+                } else if (mCurrentPositionStatus == 0) {
+                    mPresenter.getListAllRequest(mRequestType, mUser.getId());
+                } else {
+                    mPresenter.getListRequestOverTimeWithStatusAndTime(mUser.getId(),
+                            mCurrentPositionStatus, "");
+                }
+                break;
+            case RequestType.REQUEST_LATE_EARLY:
+                if (mMonthYear != null) {
+                    mPresenter.getListRequestLeaveWithStatusAndTime(mUser.getId(),
+                            mCurrentPositionStatus, mMonthYear);
+                } else if (mCurrentPositionStatus == 0) {
+                    mPresenter.getListAllRequest(mRequestType, mUser.getId());
+                } else {
+                    mPresenter.getListRequestLeaveWithStatusAndTime(mUser.getId(),
+                            mCurrentPositionStatus, "");
+                }
+                break;
+            case RequestType.REQUEST_OFF:
+                break;
+            default:
+                break;
         }
+    }
+
+    public void onRemoveMonth(View view) {
+        setMonthYear(null);
     }
 
     @IntDef({

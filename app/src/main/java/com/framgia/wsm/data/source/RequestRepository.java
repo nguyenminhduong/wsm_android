@@ -175,4 +175,33 @@ public class RequestRepository {
                 };
         return Observable.just(baseResponse);
     }
+
+    public Observable<BaseResponse<List<Request>>> getListRequestLeaveWithStatusAndTime(
+            @NonNull int userId, int status, String time) {
+        //TODO edit later
+        //return mRemoteDataSource.getListRequestLeaveWithStatusAndTime(userId, status,time);
+        List<Request> requestOverTimes = new ArrayList<>();
+        Request requestOverTime = new Request();
+        requestOverTime.setId(1);
+        requestOverTime.setCreatedAt("23/06/2017");
+        requestOverTime.setFromTime("21/06/2017 18:00");
+        requestOverTime.setToTime("22/06/2017 19:00");
+        requestOverTime.setStatus(1);
+        requestOverTime.setReason("Ko kịp tiến độ !!!");
+        requestOverTime.setProject("WSM Android");
+        requestOverTimes.add(requestOverTime);
+        Request requestOverTime3 = new Request();
+        requestOverTime3.setId(1);
+        requestOverTime3.setCreatedAt("23/06/2017");
+        requestOverTime3.setFromTime("21/06/2017 18:00");
+        requestOverTime3.setToTime("22/06/2017 19:00");
+        requestOverTime3.setStatus(2);
+        requestOverTime3.setReason("Ko kịp tiến độ !!!");
+        requestOverTime3.setProject("WSM Android");
+        requestOverTimes.add(requestOverTime3);
+        BaseResponse<List<Request>> baseResponse =
+                new BaseResponse<List<Request>>(requestOverTimes) {
+                };
+        return Observable.just(baseResponse);
+    }
 }

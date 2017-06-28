@@ -142,22 +142,7 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
     }
 
     @Override
-    public void getListRequestOverTimeWithStatusAndTime(int requestType, int userId, int status,
-            String time) {
-        switch (requestType) {
-            case RequestType.REQUEST_OVERTIME:
-                getListRequestOverTimeWithStatusAndTime(userId, status, time);
-                break;
-            case RequestType.REQUEST_OFF:
-                break;
-            case RequestType.REQUEST_LATE_EARLY:
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void getListRequestOverTimeWithStatusAndTime(int userId, int status, String time) {
+    public void getListRequestOverTimeWithStatusAndTime(int userId, int status, String time) {
         Disposable disposable =
                 mRequestRepository.getListRequestOverTimeWithStatusAndTime(userId, status, time)
                         .subscribeOn(mBaseSchedulerProvider.io())
@@ -167,6 +152,28 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
                             public void accept(BaseResponse<List<RequestOverTime>> listBaseResponse)
                                     throws Exception {
                                 mViewModel.onGetListRequestSuccess(RequestType.REQUEST_OVERTIME,
+                                        listBaseResponse.getData());
+                            }
+                        }, new RequestError() {
+                            @Override
+                            public void onRequestError(BaseException error) {
+                                mViewModel.onGetListRequestError(error);
+                            }
+                        });
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void getListRequestLeaveWithStatusAndTime(int userId, int status, String time) {
+        Disposable disposable =
+                mRequestRepository.getListRequestLeaveWithStatusAndTime(userId, status, time)
+                        .subscribeOn(mBaseSchedulerProvider.io())
+                        .observeOn(mBaseSchedulerProvider.ui())
+                        .subscribe(new Consumer<BaseResponse<List<Request>>>() {
+                            @Override
+                            public void accept(BaseResponse<List<Request>> listBaseResponse)
+                                    throws Exception {
+                                mViewModel.onGetListRequestSuccess(RequestType.REQUEST_LATE_EARLY,
                                         listBaseResponse.getData());
                             }
                         }, new RequestError() {

@@ -81,7 +81,15 @@
                     style="@style/StyleImageDropDown"
                     />
             </FrameLayout>
-
+            <ImageView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_40"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.10"
+                android:background="@drawable/ic_remove"
+                android:onClick="@{viewModel::onRemoveMonth}"
+                tools:ignore="ContentDescription"
+                />
             <ImageView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_40"
