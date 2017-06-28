@@ -139,5 +139,13 @@
         <item name="android:layout_marginStart">@dimen/dp_40</item>
         <item name="android:orientation">vertical</item>
     </style>
+g
+    <style name="StyleTextHintEditProfile">
+        <item name="android:textColorHint">@color/colorPrimary</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/dp_20</item>
+        <item name="android:layout_marginStart">@dimen/dp_20</item>
+    </style>
 
 </resources>

@@ -48,7 +48,7 @@
         <activity
             android:name=".screen.updateprofile.UpdateProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppThemeRequest"/>
     </application>
 
 </manifest>

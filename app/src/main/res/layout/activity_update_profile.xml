@@ -14,435 +14,329 @@
 
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         >
 
-        <ScrollView
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:elevation="0dp"
+            >
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/md_nav_back"
+                    tools:ignore="ContentDescription"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_35"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:text="@string/edit_profile"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_20"
+                    />
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/button_submit"
-            android:fillViewport="true"
-            android:scrollbars="none"
             >
 
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/button_submit"
+                android:fillViewport="true"
+                android:scrollbars="none"
                 >
-
-                <RelativeLayout
-                    android:id="@+id/contain_profile_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_120"
-                    android:background="@drawable/img_header_profile"
-                    android:orientation="horizontal"
-                    >
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        />
-
-                    <com.framgia.wsm.widget.CircleImageView
-                        android:id="@+id/image_user_profile_photo"
-                        android:layout_width="@dimen/dp_100"
-                        android:layout_height="@dimen/dp_100"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        />
-
-                    <ImageView
-                        android:layout_width="@dimen/dp_30"
-                        android:layout_height="@dimen/dp_30"
-                        android:layout_alignBottom="@+id/image_user_profile_photo"
-                        android:layout_alignEnd="@+id/image_user_profile_photo"
-                        android:layout_alignRight="@+id/image_user_profile_photo"
-                        app:srcCompat="@drawable/ic_camera"
-                        />
-
-                    <ImageView
-                        android:layout_width="@dimen/dp_40"
-                        android:layout_height="@dimen/dp_40"
-                        android:layout_marginLeft="@dimen/dp_2"
-                        android:src="@drawable/md_nav_back"
-                        />
-                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/dp_10"
                     >
-                    <LinearLayout
+
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
+                        android:layout_height="@dimen/dp_140"
+                        android:background="@color/colorPrimary"
                         >
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            >
+                            <com.framgia.wsm.widget.CircleImageView
+                                android:layout_width="@dimen/dp_100"
+                                android:layout_height="@dimen/dp_100"
+                                tools:ignore="ContentDescription"
+                                />
+                            <com.framgia.wsm.widget.CircleImageView
+                                android:layout_width="@dimen/dp_100"
+                                android:layout_height="@dimen/dp_100"
+                                android:background="@drawable/border_image"
+                                tools:ignore="ContentDescription"
+                                />
+                        </FrameLayout>
 
                         <ImageView
-                            app:srcCompat="@drawable/ic_placeholder_user"
+                            android:layout_width="@dimen/dp_30"
+                            android:layout_height="@dimen/dp_30"
+                            android:layout_gravity="center|bottom"
+                            android:layout_marginBottom="@dimen/dp_10"
+                            android:tint="@color/color_white_dark"
+                            app:srcCompat="@drawable/ic_camera"
                             tools:ignore="ContentDescription"
-                            style="@style/StyleIconConfirm"
                             />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_20"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:orientation="vertical"
-                            >
-
-                            <TextView
-                                android:text="@string/employee_name"
-                                style="@style/StyleTitleConfirm"
-                                />
-
-                            <TextView
-                                style="@style/StyleEditableText"
-                                />
-
-                            <View
-                                style="@style/StyleViewConfirm"
-                                />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        >
-
-                        <ImageView
-                            app:srcCompat="@drawable/ic_staff_code"
-                            tools:ignore="ContentDescription"
-                            style="@style/StyleIconConfirm"
-                            />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_20"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:orientation="vertical"
-                            >
-
-                            <TextView
-                                android:text="@string/employee_code"
-                                style="@style/StyleTitleConfirm"
-                                />
-
-                            <TextView
-                                style="@style/StyleTextConfirm"
-                                />
-
-                            <View
-                                style="@style/StyleViewConfirm"
-                                />
-                        </LinearLayout>
-                    </LinearLayout>
+                    </FrameLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
+                        android:layout_margin="@dimen/dp_15"
+                        android:orientation="vertical"
                         >
-
-                        <ImageView
-                            app:srcCompat="@drawable/ic_email"
-                            tools:ignore="ContentDescription"
-                            style="@style/StyleIconConfirm"
-                            />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_20"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             >
-
-                            <TextView
-                                android:text="@string/email"
-                                style="@style/StyleTitleConfirm"
+                            <ImageView
+                                app:srcCompat="@drawable/ic_placeholder_user"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
-
-                            <TextView
-                                style="@style/StyleTextConfirm"
-                                />
-
-                            <View
-                                style="@style/StyleViewConfirm"
-                                />
+                            <android.support.design.widget.TextInputLayout
+                                style="@style/StyleTextHintEditProfile"
+                                >
+                                <EditText
+                                    android:hint="@string/employee_name"
+                                    android:text="@={viewModel.user.name}"
+                                    style="@style/StyleEditableText"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        >
-                        <ImageView
-                            app:srcCompat="@drawable/ic_position_name"
-                            tools:ignore="ContentDescription"
-                            style="@style/StyleIconConfirm"
-                            />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_20"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             >
-
-                            <TextView
-                                android:text="@string/contract_date"
-                                style="@style/StyleTitleConfirm"
+                            <ImageView
+                                app:srcCompat="@drawable/ic_staff_code"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
-
-                            <TextView
-                                style="@style/StyleTextConfirm"
-                                />
-
-                            <View
-                                style="@style/StyleViewConfirm"
-                                />
+                            <android.support.design.widget.TextInputLayout
+                                style="@style/StyleTextHintEditProfile"
+                                >
+                                <EditText
+                                    android:hint="@string/employee_code"
+                                    android:text="@{viewModel.user.code}"
+                                    style="@style/StyleText"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        >
-
-                        <ImageView
-                            app:srcCompat="@drawable/ic_working_calendar"
-                            tools:ignore="ContentDescription"
-                            style="@style/StyleIconConfirm"
-                            />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_20"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             >
-
-                            <TextView
-                                android:text="@string/start_probation_date"
-                                style="@style/StyleTitleConfirm"
+                            <ImageView
+                                app:srcCompat="@drawable/ic_email"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
-
-                            <TextView
-                                style="@style/StyleTextConfirm"
-                                />
-
-                            <View
-                                style="@style/StyleViewConfirm"
-                                />
+                            <android.support.design.widget.TextInputLayout
+                                style="@style/StyleTextHintEditProfile"
+                                >
+                                <EditText
+                                    android:hint="@string/email"
+                                    android:text="@{viewModel.user.email}"
+                                    style="@style/StyleText"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        >
-
-                        <ImageView
-                            app:srcCompat="@drawable/ic_working_calendar"
-                            tools:ignore="ContentDescription"
-                            style="@style/StyleIconConfirm"
-                            />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_20"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             >
-
-                            <TextView
-                                android:text="@string/end_probation_date"
-                                style="@style/StyleTitleConfirm"
+                            <ImageView
+                                app:srcCompat="@drawable/ic_position_name"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
-
-                            <TextView
-                                style="@style/StyleTextConfirm"
-                                />
-
-                            <View
-                                style="@style/StyleViewConfirm"
-                                />
+                            <android.support.design.widget.TextInputLayout
+                                style="@style/StyleTextHintEditProfile"
+                                >
+                                <EditText
+                                    android:hint="@string/contract_date"
+                                    android:text="@{viewModel.user.contractDate}"
+                                    style="@style/StyleText"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        >
-
-                        <ImageView
-                            app:srcCompat="@drawable/ic_group"
-                            tools:ignore="ContentDescription"
-                            style="@style/StyleIconConfirm"
-                            />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_20"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             >
-
-                            <TextView
-                                android:text="@string/staff_type"
-                                style="@style/StyleTitleConfirm"
+                            <ImageView
+                                app:srcCompat="@drawable/ic_working_calendar"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
-
-                            <TextView
-                                style="@style/StyleTextConfirm"
-                                />
-
-                            <View
-                                style="@style/StyleViewConfirm"
-                                />
+                            <android.support.design.widget.TextInputLayout
+                                style="@style/StyleTextHintEditProfile"
+                                >
+                                <EditText
+                                    android:hint="@string/start_probation_date"
+                                    style="@style/StyleText"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        >
-
-                        <ImageView
-                            app:srcCompat="@drawable/ic_position_name"
-                            tools:ignore="ContentDescription"
-                            style="@style/StyleIconConfirm"
-                            />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_20"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             >
-
-                            <TextView
-                                android:text="@string/position"
-                                style="@style/StyleTitleConfirm"
+                            <ImageView
+                                app:srcCompat="@drawable/ic_working_calendar"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
-
-                            <TextView
-                                style="@style/StyleTextConfirm"
-                                />
-
-                            <View
-                                style="@style/StyleViewConfirm"
-                                />
+                            <android.support.design.widget.TextInputLayout
+                                style="@style/StyleTextHintEditProfile"
+                                >
+                                <EditText
+                                    android:hint="@string/end_probation_date"
+                                    style="@style/StyleText"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        >
-
-                        <ImageView
-                            app:srcCompat="@drawable/ic_being_handled_by"
-                            tools:ignore="ContentDescription"
-                            style="@style/StyleIconConfirm"
-                            />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_20"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             >
-
-                            <TextView
-                                android:text="@string/gender"
-                                style="@style/StyleTitleConfirm"
+                            <ImageView
+                                app:srcCompat="@drawable/ic_group"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
-
-                            <TextView
-                                style="@style/StyleTextConfirm"
-                                />
-
-                            <View
-                                style="@style/StyleViewConfirm"
-                                />
+                            <android.support.design.widget.TextInputLayout
+                                style="@style/StyleTextHintEditProfile"
+                                >
+                                <EditText
+                                    android:hint="@string/staff_type"
+                                    style="@style/StyleText"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        >
-
-                        <ImageView
-                            app:srcCompat="@drawable/ic_holiday_calendar"
-                            tools:ignore="ContentDescription"
-                            style="@style/StyleIconConfirm"
-                            />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_20"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             >
-
-                            <TextView
-                                android:text="@string/birthday"
-                                style="@style/StyleTitleConfirm"
+                            <ImageView
+                                app:srcCompat="@drawable/ic_position_name"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
-
-                            <TextView
-                                style="@style/StyleEditableText"
-                                />
-
-                            <View
-                                style="@style/StyleViewConfirm"
-                                />
+                            <android.support.design.widget.TextInputLayout
+                                style="@style/StyleTextHintEditProfile"
+                                >
+                                <EditText
+                                    android:hint="@string/position"
+                                    style="@style/StyleText"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            >
+                            <ImageView
+                                app:srcCompat="@drawable/ic_being_handled_by"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
+                                />
+                            <android.support.design.widget.TextInputLayout
+                                style="@style/StyleTextHintEditProfile"
+                                >
+                                <EditText
+                                    android:hint="@string/gender"
+                                    android:text="@{viewModel.user.gender}"
+                                    style="@style/StyleText"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            >
+                            <ImageView
+                                app:srcCompat="@drawable/ic_holiday_calendar"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
+                                />
+                            <android.support.design.widget.TextInputLayout
+                                style="@style/StyleTextHintEditProfile"
+                                >
+                                <EditText
+                                    android:hint="@string/birday"
+                                    android:text="@={viewModel.user.birthday}"
+                                    style="@style/StyleEditableText"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-        </ScrollView>
+            </ScrollView>
 
-        <Button
-            android:id="@id/button_submit"
-            android:text="@string/submit"
-            style="@style/StyleButton"
-            />
-    </RelativeLayout>
+            <Button
+                android:id="@id/button_submit"
+                android:text="@string/submit"
+                style="@style/StyleButton"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
 </layout>
