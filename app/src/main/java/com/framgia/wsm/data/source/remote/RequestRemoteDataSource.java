@@ -40,25 +40,36 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<List<Request>>> getListRequestOff(@NonNull int userId) {
-        return mWSMApi.getListRequestOff(userId);
+    public Observable<BaseResponse<List<Request>>> getListRequestOverTime() {
+        return mWSMApi.getListRequestOverTime();
     }
 
     @Override
-    public Observable<BaseResponse<List<Request>>> getListRequestLateEarly(@NonNull int userId) {
-        return mWSMApi.getListRequestLateEarly(userId);
+    public Observable<BaseResponse<List<Request>>> getListRequestOff() {
+        return mWSMApi.getListRequestOff();
+    }
+
+    @Override
+    public Observable<BaseResponse<List<Request>>> getListRequestLateEarly() {
+        return mWSMApi.getListRequestLateEarly();
     }
 
     @Override
     public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTimeWithStatusAndTime(
-            int userId, int status, String time) {
-        return mWSMApi.getListRequestOverTimeWithStatusAndTime(userId, status, time);
+            int status, String time) {
+        return mWSMApi.getListRequestOverTimeWithStatusAndTime(status, time);
     }
 
     @Override
-    public Observable<BaseResponse<List<Request>>> getListRequestLeaveWithStatusAndTime(int userId,
-            int status, String time) {
-        return mWSMApi.getListRequestLeaveWithStatusAndTime(userId, status, time);
+    public Observable<BaseResponse<List<Request>>> getListRequestLeaveWithStatusAndTime(int status,
+            String time) {
+        return mWSMApi.getListRequestLeaveWithStatusAndTime(status, time);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<Request>>> getListRequestOffWithStatusAndTime(int status,
+            String time) {
+        return mWSMApi.getListRequestOffWithStatusAndTime(status, time);
     }
 
     @Override

@@ -75,15 +75,15 @@ public interface WSMApi {
 
     // TODO edit later
     @GET("/api/v1/list_request_off")
-    Observable<BaseResponse<List<Request>>> getListRequestOff(@Query("user_id") int userId);
+    Observable<BaseResponse<List<Request>>> getListRequestOff();
 
     // TODO edit later
     @GET("/api/v1/list_request_over_time")
-    Observable<BaseResponse<List<Request>>> getListRequestOverTime(@Query("user_id") int userId);
+    Observable<BaseResponse<List<Request>>> getListRequestOverTime();
 
     // TODO edit later
     @GET("/api/v1/list_request_late_early")
-    Observable<BaseResponse<List<Request>>> getListRequestLateEarly(@Query("user_id") int userId);
+    Observable<BaseResponse<List<Request>>> getListRequestLateEarly();
 
     @GET("/api/dashboard/leave_types")
     Observable<BaseResponse<LeaveTypeResponse>> getListLeaveType();
@@ -94,10 +94,15 @@ public interface WSMApi {
     //TODO edit later
     @GET("/api/v1/list_request_over_time")
     Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTimeWithStatusAndTime(
-            @Query("user_id") int userId, @Query("status") int status, @Query("time") String time);
+            @Query("status") int status, @Query("time") String time);
 
     //TODO edit later
     @GET("/api/v1/list_request_leave")
     Observable<BaseResponse<List<Request>>> getListRequestLeaveWithStatusAndTime(
-            @Query("user_id") int userId, @Query("status") int status, @Query("time") String time);
+            @Query("status") int status, @Query("time") String time);
+
+    //TODO edit later
+    @GET("/api/v1/list_request_leave")
+    Observable<BaseResponse<List<Request>>> getListRequestOffWithStatusAndTime(
+            @Query("status") int status, @Query("time") String time);
 }
