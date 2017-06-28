@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
+import com.framgia.wsm.screen.profile.branch.BranchAdapter;
+import com.framgia.wsm.screen.profile.group.GroupAdapter;
 import com.framgia.wsm.utils.dagger.FragmentScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
@@ -27,8 +29,8 @@ public class ProfileModule {
     @FragmentScope
     @Provides
     public ProfileContract.ViewModel provideViewModel(ProfileContract.Presenter presenter,
-            Navigator navigator) {
-        return new ProfileViewModel(presenter, navigator);
+            Navigator navigator, BranchAdapter branchAdapter, GroupAdapter groupAdapter) {
+        return new ProfileViewModel(presenter, navigator, branchAdapter, groupAdapter);
     }
 
     @FragmentScope
@@ -49,5 +51,17 @@ public class ProfileModule {
     UserRepository provideUserRepository(UserLocalDataSource localDataSource,
             UserRemoteDataSource remoteDataSource) {
         return new UserRepository(localDataSource, remoteDataSource);
+    }
+
+    @FragmentScope
+    @Provides
+    public BranchAdapter provideBranchAdapter() {
+        return new BranchAdapter(mFragment.getActivity());
+    }
+
+    @FragmentScope
+    @Provides
+    public GroupAdapter provideGroupAdapter() {
+        return new GroupAdapter(mFragment.getActivity());
     }
 }
