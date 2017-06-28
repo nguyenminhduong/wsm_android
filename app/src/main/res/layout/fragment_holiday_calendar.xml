@@ -29,6 +29,7 @@
                 android:layout_height="@dimen/dp_30"
                 android:layout_centerVertical="true"
                 android:background="@drawable/md_transparent"
+                android:onClick="@{()-> viewModel.onPreviousYear()}"
                 android:scaleType="centerCrop"
                 android:tint="@color/color_white"
                 app:srcCompat="@drawable/ic_menu_left"
@@ -44,6 +45,7 @@
                 android:layout_toRightOf="@+id/button_previous_year"
                 android:layout_toStartOf="@+id/button_next_year"
                 android:gravity="center"
+                android:text="@{viewModel.year}"
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/sp_25"
                 android:textStyle="bold"
@@ -56,6 +58,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/md_transparent"
+                android:onClick="@{()-> viewModel.onNextYear()}"
                 android:scaleType="centerCrop"
                 android:tint="@color/color_white"
                 app:srcCompat="@drawable/ic_menu_right"
@@ -67,6 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/linear_footer"
             android:layout_below="@+id/relative_control"
+            app:layoutManager="LinearLayoutManager"
+            app:recyclerAdapter="@{viewModel.holidayCalendarAdapter}"
             />
         <LinearLayout
             android:id="@+id/linear_footer"
