@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -145,6 +147,17 @@ public class Navigator {
             mFragment.getChildFragmentManager().popBackStackImmediate();
         }
         return isShowPrevious;
+    }
+
+    public void showDialogFragment(@IdRes int containerViewId, DialogFragment dialogFragment,
+            boolean addToBackStack, int animation, String tag) {
+        FragmentTransaction transaction =
+                ((FragmentActivity) mActivity).getSupportFragmentManager().beginTransaction();
+        setFragmentTransactionAnimation(transaction, animation);
+        if (addToBackStack) {
+            transaction.addToBackStack(dialogFragment.getClass().getSimpleName());
+        }
+        dialogFragment.show(transaction, tag);
     }
 
     private void setFragmentTransactionAnimation(FragmentTransaction transaction,

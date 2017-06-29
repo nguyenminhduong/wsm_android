@@ -14,7 +14,9 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.login.LoginActivity;
+import com.framgia.wsm.screen.notification.NotificationDialogFragment;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.navigator.NavigateAnim;
 import com.framgia.wsm.utils.navigator.Navigator;
 
 /**
@@ -194,6 +196,12 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
 
     public void onClickDetailProfile(View view) {
         //TODO Click to Fragment detail profile
+    }
+
+    public void onClickNotification(View view) {
+        mNavigator.showDialogFragment(R.id.layout_container,
+                NotificationDialogFragment.newInstance(), false, NavigateAnim.NONE,
+                NotificationDialogFragment.TAG);
     }
 
     public boolean onItemSelected(@NonNull MenuItem item) {
