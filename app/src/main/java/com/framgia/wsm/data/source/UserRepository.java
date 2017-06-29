@@ -5,6 +5,7 @@ import com.framgia.wsm.data.model.OffType;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
+import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
@@ -82,5 +83,10 @@ public class UserRepository {
 
     public void clearData() {
         mLocalDataSource.clearData();
+    }
+
+    public Observable<BaseResponse<UserProfileResponse>> updateProfile(
+            UpdateProfileRequest updateProfileRequest) {
+        return mRemoteDataSource.updateProfile(updateProfileRequest);
     }
 }

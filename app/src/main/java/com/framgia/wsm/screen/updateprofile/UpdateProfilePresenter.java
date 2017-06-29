@@ -3,10 +3,18 @@ package com.framgia.wsm.screen.updateprofile;
 import android.util.Log;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
+import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Listens to user actions from the UI ({@link UpdateProfileActivity}), retrieves the data and
@@ -57,8 +65,23 @@ final class UpdateProfilePresenter implements UpdateProfileContract.Presenter {
     }
 
     @Override
-    public void updateProfile(User user) {
-        //TODO update profile
+    public void updateProfile(UpdateProfileRequest updateProfileRequest) {
+        Disposable disposable = mUserRepository.updateProfile(updateProfileRequest)
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Consumer<BaseResponse<UserProfileResponse>>() {
+                    @Override
+                    public void accept(@NonNull BaseResponse<UserProfileResponse> userBaseResponse)
+                            throws Exception {
+                        mViewModel.onUpdateProfileSuccess(userBaseResponse.getData().getUser());
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onUpdateProfileError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
     }
 
     private void validateEmployeeName(String employeeName) {

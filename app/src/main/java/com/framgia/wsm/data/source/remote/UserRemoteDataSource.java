@@ -4,6 +4,7 @@ import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffType;
 import com.framgia.wsm.data.source.UserDataSource;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
+import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.LeaveTypeResponse;
 import com.framgia.wsm.data.source.remote.api.response.OffTypeResponse;
@@ -103,6 +104,26 @@ public class UserRemoteDataSource extends BaseRemoteDataSource
                                     return Observable.just(leaveTypeResponseBaseResponse.getData()
                                             .getOffDay()
                                             .getOffTypes());
+                                }
+                                return Observable.error(new NullPointerException());
+                            }
+                        });
+    }
+
+    @Override
+    public Observable<BaseResponse<UserProfileResponse>> updateProfile(
+            UpdateProfileRequest updateProfileRequest) {
+        return mWSMApi.updateProfile(updateProfileRequest)
+                .flatMap(
+                        new Function<BaseResponse<UserProfileResponse>,
+                                ObservableSource<BaseResponse<UserProfileResponse>>>() {
+
+                            @Override
+                            public ObservableSource<BaseResponse<UserProfileResponse>> apply(
+                                    @NonNull BaseResponse<UserProfileResponse> userBaseResponse)
+                                    throws Exception {
+                                if (userBaseResponse != null) {
+                                    return Observable.just(userBaseResponse);
                                 }
                                 return Observable.error(new NullPointerException());
                             }
