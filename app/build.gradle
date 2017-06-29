@@ -129,6 +129,7 @@ dependencies {
   compile dependencies.fab
   compile dependencies.cardView
   compile dependencies.glide
+  compile dependencies.fcm
 
   annotationProcessor dependencies.dagger2Compile
   compile dependencies.dagger2
@@ -146,3 +147,4 @@ dependencies {
         transitive = true;
     }
 }
+apply plugin: 'com.google.gms.google-services'

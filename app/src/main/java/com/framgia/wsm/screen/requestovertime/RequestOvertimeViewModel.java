@@ -59,12 +59,19 @@ public class RequestOvertimeViewModel extends BaseObservable
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mNavigator = navigator;
-        mRequestOverTime = new RequestOverTime();
         mPresenter.getUser();
         mDialogManager = dialogManager;
         mDialogManager.dialogDatePicker(this);
         mDialogManager.dialogTimePicker(this);
-        mRequestOverTime = requestOverTime;
+        initRequest(requestOverTime);
+    }
+
+    private void initRequest(RequestOverTime requestOverTime) {
+        if (requestOverTime != null) {
+            mRequestOverTime = requestOverTime;
+        } else {
+            mRequestOverTime = new RequestOverTime();
+        }
     }
 
     @Override
