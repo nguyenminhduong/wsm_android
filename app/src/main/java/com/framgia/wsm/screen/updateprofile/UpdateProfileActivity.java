@@ -2,9 +2,11 @@ package com.framgia.wsm.screen.updateprofile;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import com.framgia.wsm.MainApplication;
 import com.framgia.wsm.R;
 import com.framgia.wsm.databinding.ActivityUpdateProfileBinding;
@@ -50,12 +52,26 @@ public class UpdateProfileActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_CANCELED) {
-            return;
-        }
-        if (requestCode == Constant.RequestCode.REQUEST_SELECT_AVATAR) {
+        if (requestCode == Constant.RequestCode.REQUEST_SELECT_AVATAR
+                && resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                return;
+            }
             Uri uriAvatar = data.getData();
             mViewModel.setAvatarUser(uriAvatar.toString());
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
+            @NonNull int[] grantResults) {
+        if (requestCode != Constant.RequestCode.REQUEST_CODE_WRITE_EXTERNAL_STORAGE) {
+            return;
+        }
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            mViewModel.pickAvatarUser();
+        } else {
+            //TODO show toast message access denied
         }
     }
 }

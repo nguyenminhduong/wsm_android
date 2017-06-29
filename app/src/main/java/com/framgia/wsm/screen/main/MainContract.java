@@ -24,6 +24,8 @@ interface MainContract {
         void goNextFragmentListRequestOverTime();
 
         void goNextFragmentListRequestLeave();
+
+        void goNextFragmentPersonalInformation();
     }
 
     /**

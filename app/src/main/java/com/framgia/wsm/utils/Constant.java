@@ -61,5 +61,7 @@ public final class Constant {
         public static final int REQUEST_LEAVE = 102;
         public static final int PROFILE_USER = 103;
         public static final int REQUEST_SELECT_AVATAR = 104;
+        public static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 105;
+
     }
 }
