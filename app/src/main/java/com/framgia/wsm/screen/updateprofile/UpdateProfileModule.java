@@ -8,6 +8,7 @@ import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.RequestPermissionManager;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
@@ -33,9 +34,11 @@ public class UpdateProfileModule {
     @ActivityScope
     @Provides
     public UpdateProfileContract.ViewModel provideViewModel(Context context, Navigator navigator,
-            DialogManager dialogManager, UpdateProfileContract.Presenter presenter) {
+            DialogManager dialogManager, UpdateProfileContract.Presenter presenter,
+            RequestPermissionManager requestPermissionManager) {
         User user = mActivity.getIntent().getParcelableExtra(Constant.EXTRA_USER);
-        return new UpdateProfileViewModel(context, user, navigator, dialogManager, presenter);
+        return new UpdateProfileViewModel(context, user, navigator, dialogManager, presenter,
+                requestPermissionManager);
     }
 
     @ActivityScope
@@ -68,5 +71,11 @@ public class UpdateProfileModule {
     UserRepository provideUserRepository(UserLocalDataSource userLocalDataSource,
             UserRemoteDataSource remoteDataSource) {
         return new UserRepository(userLocalDataSource, remoteDataSource);
+    }
+
+    @ActivityScope
+    @Provides
+    RequestPermissionManager provideRequestPermissionManager() {
+        return new RequestPermissionManager(mActivity);
     }
 }

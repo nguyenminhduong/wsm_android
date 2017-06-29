@@ -79,7 +79,8 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
     public void onClickEditProfile(View view) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_USER, mUser);
-        mNavigator.startActivity(UpdateProfileActivity.class, bundle);
+        mNavigator.startActivityForResult(UpdateProfileActivity.class, bundle,
+                Constant.RequestCode.PROFILE_USER);
     }
 
     public void onClickChangePassword(View view) {

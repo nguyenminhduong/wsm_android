@@ -96,6 +96,9 @@ public class MainActivity extends BaseActivity {
             case Constant.RequestCode.REQUEST_LEAVE:
                 mViewModel.goNextFragmentListRequestLeave();
                 break;
+            case Constant.RequestCode.PROFILE_USER:
+                mViewModel.goNextFragmentPersonalInformation();
+                break;
             default:
                 break;
         }

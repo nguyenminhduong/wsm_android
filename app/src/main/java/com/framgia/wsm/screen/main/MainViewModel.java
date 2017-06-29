@@ -157,6 +157,12 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     }
 
     @Override
+    public void goNextFragmentPersonalInformation() {
+        setCurrentPage(Page.PERSONAL);
+        setCurrentItem(R.id.item_personal);
+    }
+
+    @Override
     public boolean onBackPressed() {
         if (Constant.DRAWER_IS_OPEN.equals(mStatusDrawerLayout)) {
             setStatusDrawerLayout(Constant.DRAWER_IS_CLOSE);

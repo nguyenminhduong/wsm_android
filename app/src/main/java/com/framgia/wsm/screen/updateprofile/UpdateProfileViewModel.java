@@ -1,6 +1,7 @@
 package com.framgia.wsm.screen.updateprofile;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
@@ -8,11 +9,14 @@ import android.databinding.Bindable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.DatePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.RequestPermissionManager;
+import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
@@ -23,7 +27,7 @@ import com.fstyle.library.MaterialDialog;
  */
 
 public class UpdateProfileViewModel extends BaseObservable
-        implements UpdateProfileContract.ViewModel {
+        implements UpdateProfileContract.ViewModel, DatePickerDialog.OnDateSetListener {
 
     private UpdateProfileContract.Presenter mPresenter;
 
@@ -34,15 +38,20 @@ public class UpdateProfileViewModel extends BaseObservable
     private String mEmployeeNameError;
     private String mBirthdayError;
     private String mAvatar;
+    private String mBirthday;
+    private RequestPermissionManager mPermissionManager;
 
     UpdateProfileViewModel(Context context, User user, Navigator navigator,
-            DialogManager dialogManager, UpdateProfileContract.Presenter presenter) {
+            DialogManager dialogManager, UpdateProfileContract.Presenter presenter,
+            RequestPermissionManager requestPermissionManager) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mUser = user;
         mNavigator = navigator;
         mDialogManager = dialogManager;
+        mDialogManager.dialogDatePicker(this);
+        mPermissionManager = requestPermissionManager;
     }
 
     @Override
@@ -91,10 +100,37 @@ public class UpdateProfileViewModel extends BaseObservable
     }
 
     @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String date = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
+        setBirthday(date);
+    }
+
+    @Override
     public void setAvatarUser(String avatar) {
         mAvatar = avatar;
         mUser.getAvatar().setUrl(avatar);
         notifyPropertyChanged(BR.avatar);
+    }
+
+    @Override
+    public void pickAvatarUser() {
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        mNavigator.startActivityForResult(intent, Constant.RequestCode.REQUEST_SELECT_AVATAR);
+    }
+
+    @Bindable
+    public String getBirthday() {
+        if (mBirthday == null) {
+            return mUser.getBirthday();
+        }
+        return mBirthday;
+    }
+
+    public void setBirthday(String birthday) {
+        mBirthday = birthday;
+        mUser.setBirthday(birthday);
+        notifyPropertyChanged(BR.birthday);
     }
 
     @Bindable
@@ -116,10 +152,14 @@ public class UpdateProfileViewModel extends BaseObservable
         mNavigator.finishActivity();
     }
 
+    public void onPickDate(View view) {
+        mDialogManager.showDatePickerDialog();
+    }
+
     public void onClickPickAvatar(View view) {
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        mNavigator.startActivityForResult(intent, Constant.RequestCode.REQUEST_SELECT_AVATAR);
+        if (mPermissionManager.isPermissionWriteExternalStorageGranted()) {
+            pickAvatarUser();
+        }
     }
 
     public void onCickSubmit(View view) {

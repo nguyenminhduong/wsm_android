@@ -23,6 +23,8 @@ interface UpdateProfileContract {
         void onUpdateProfileError(BaseException exception);
 
         void setAvatarUser(String avatar);
+
+        void pickAvatarUser();
     }
 
     /**
