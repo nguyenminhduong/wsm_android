@@ -69,6 +69,11 @@ public class Navigator {
         setActivityTransactionAnimation(ActivityTransition.START);
     }
 
+    public void startActivityForResult(@NonNull Intent intent, int requestCode) {
+        mActivity.startActivityForResult(intent, requestCode);
+        setActivityTransactionAnimation(ActivityTransition.START);
+    }
+
     public void startActivityForResult(@NonNull Class<? extends Activity> clazz, Bundle args,
             int requestCode) {
         Intent intent = new Intent(mActivity, clazz);
@@ -87,7 +92,9 @@ public class Navigator {
         finishActivity();
     }
 
-    public void finishActivityWithResult(@NonNull Intent intent, int resultCode) {
+    public void finishActivityWithResult(@NonNull Bundle args, int resultCode) {
+        Intent intent = new Intent();
+        intent.putExtras(args);
         mActivity.setResult(resultCode, intent);
         finishActivity();
     }

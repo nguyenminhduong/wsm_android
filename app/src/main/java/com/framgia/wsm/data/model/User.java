@@ -2,7 +2,11 @@ package com.framgia.wsm.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.framgia.wsm.R;
 import com.framgia.wsm.utils.common.DateTimeUtils;
+import com.framgia.wsm.utils.validator.Rule;
+import com.framgia.wsm.utils.validator.ValidType;
+import com.framgia.wsm.utils.validator.Validation;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
@@ -24,6 +28,9 @@ public class User extends BaseModel implements Parcelable {
     };
     @Expose
     @SerializedName("name")
+    @Validation({
+            @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
+    })
     private String mName;
     @Expose
     @SerializedName("employee_code")
@@ -36,6 +43,9 @@ public class User extends BaseModel implements Parcelable {
     private String mGender;
     @Expose
     @SerializedName("birthday")
+    @Validation({
+            @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
+    })
     private String mBirthday;
     @Expose
     @SerializedName("contract_date")
