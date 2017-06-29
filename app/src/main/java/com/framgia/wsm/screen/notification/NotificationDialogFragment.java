@@ -1,10 +1,12 @@
 package com.framgia.wsm.screen.notification;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,12 +46,12 @@ public class NotificationDialogFragment extends DialogFragment {
 
         Window window = getDialog().getWindow();
         if (window != null) {
+            window.setGravity(Gravity.END | Gravity.TOP);
             WindowManager.LayoutParams params = window.getAttributes();
-            params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-            params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            params.y = getResources().getDimensionPixelSize(R.dimen.dp_56);
             window.setAttributes(params);
-            window.setBackgroundDrawable(
-                    new ColorDrawable(getResources().getColor(R.color.color_black_transparent)));
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         }
 
         return binding.getRoot();

@@ -49,4 +49,5 @@
     <dimen name="dp_320">320dp</dimen>
     <dimen name="dp_26">26dp</dimen>
     <dimen name="sp_25">25sp</dimen>
+    <dimen name="dp_56">56dp</dimen>
 </resources>

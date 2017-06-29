@@ -221,5 +221,6 @@
     <string name="company_holiday">Company holiday</string>
     <string name="normal_holiday">Normal holiday</string>
     <string name="saturday_sunday">Saturday/sunday</string>
+    <string name="your_notification">Your notification</string>
 
 </resources>
