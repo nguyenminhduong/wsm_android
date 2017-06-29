@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.framgia.wsm">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -53,6 +54,21 @@
             android:name=".screen.updateprofile.UpdateProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeRequest"/>
+
+        <service
+            android:name=".data.source.remote.api.service.FireBaseMessageService"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".data.source.remote.api.service.FireBaseInstanceIDService"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
