@@ -1,8 +1,10 @@
 package com.framgia.wsm;
 
 import android.app.Application;
+import com.crashlytics.android.Crashlytics;
 import com.framgia.wsm.data.source.RepositoryModule;
 import com.framgia.wsm.data.source.remote.api.NetworkModule;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by le.quang.dao on 10/03/2017.
@@ -26,5 +28,6 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
     }
 }
