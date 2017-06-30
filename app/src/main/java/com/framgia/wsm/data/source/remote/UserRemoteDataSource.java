@@ -11,12 +11,16 @@ import com.framgia.wsm.data.source.remote.api.response.OffTypeResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
+import com.framgia.wsm.utils.RetrofitUtils;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.inject.Inject;
+import okhttp3.RequestBody;
 
 /**
  * Created by le.quang.dao on 10/03/2017.
@@ -24,6 +28,8 @@ import javax.inject.Inject;
 
 public class UserRemoteDataSource extends BaseRemoteDataSource
         implements UserDataSource.RemoteDataSource {
+    private static final String PARAM_NAME = "name";
+    private static final String PARAM_BIRTHDAY = "birthday";
 
     @Inject
     public UserRemoteDataSource(WSMApi api) {
@@ -113,7 +119,13 @@ public class UserRemoteDataSource extends BaseRemoteDataSource
     @Override
     public Observable<BaseResponse<UserProfileResponse>> updateProfile(
             UpdateProfileRequest updateProfileRequest) {
-        return mWSMApi.updateProfile(updateProfileRequest)
+
+        Map<String, RequestBody> params = new HashMap<>();
+        params.put(PARAM_NAME, RetrofitUtils.toRequestBody(updateProfileRequest.getName()));
+        params.put(PARAM_BIRTHDAY, RetrofitUtils.toRequestBody(updateProfileRequest.getBirthday()));
+
+        return mWSMApi.updateProfile(params,
+                RetrofitUtils.toMutilPartBody(updateProfileRequest.getAvatar()))
                 .flatMap(
                         new Function<BaseResponse<UserProfileResponse>,
                                 ObservableSource<BaseResponse<UserProfileResponse>>>() {

@@ -1,23 +1,17 @@
 package com.framgia.wsm.data.source.remote.api.request;
 
 import com.framgia.wsm.data.model.BaseModel;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import java.io.File;
 
 /**
  * Created by tri on 29/06/2017.
  */
 
 public class UpdateProfileRequest extends BaseModel {
-    @Expose
-    @SerializedName("name")
+
     private String mName;
-    @Expose
-    @SerializedName("birthday")
     private String mBirthday;
-    @Expose
-    @SerializedName("avatar")
-    private String Avatar;
+    private File mAvatar;
 
     public String getName() {
         return mName;
@@ -35,11 +29,11 @@ public class UpdateProfileRequest extends BaseModel {
         mBirthday = birthday;
     }
 
-    public String getAvatar() {
-        return Avatar;
+    public File getAvatar() {
+        return mAvatar;
     }
 
-    public void setAvatar(String avatar) {
-        Avatar = avatar;
+    public void setAvatar(File avatar) {
+        mAvatar = avatar;
     }
 }

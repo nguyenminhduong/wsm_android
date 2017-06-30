@@ -52,7 +52,7 @@ public class User extends BaseModel implements Parcelable {
     private String mContractDate;
     @Expose
     @SerializedName("avatar")
-    private Avatar mAvatar;
+    private String mAvatar;
     @Expose
     @SerializedName("workspaces")
     private List<Branch> mBranches;
@@ -77,7 +77,7 @@ public class User extends BaseModel implements Parcelable {
         mGender = in.readString();
         mBirthday = in.readString();
         mContractDate = in.readString();
-        mAvatar = in.readParcelable(Avatar.class.getClassLoader());
+        mAvatar = in.readString();
         mBranches = in.createTypedArrayList(Branch.CREATOR);
         mGroups = in.createTypedArrayList(Group.CREATOR);
         mLeaveTypes = in.createTypedArrayList(LeaveType.CREATOR);
@@ -143,11 +143,11 @@ public class User extends BaseModel implements Parcelable {
         mContractDate = contractDate;
     }
 
-    public Avatar getAvatar() {
+    public String getAvatar() {
         return mAvatar;
     }
 
-    public void setAvatar(Avatar avatar) {
+    public void setAvatar(String avatar) {
         mAvatar = avatar;
     }
 
@@ -205,7 +205,7 @@ public class User extends BaseModel implements Parcelable {
         dest.writeString(mGender);
         dest.writeString(mBirthday);
         dest.writeString(mContractDate);
-        dest.writeParcelable(mAvatar, flags);
+        dest.writeString(mAvatar);
         dest.writeTypedList(mBranches);
         dest.writeTypedList(mGroups);
         dest.writeTypedList(mLeaveTypes);
