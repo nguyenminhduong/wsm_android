@@ -7,20 +7,18 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestPermissionManager;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
-import com.fstyle.library.DialogAction;
-import com.fstyle.library.MaterialDialog;
 
 /**
  * Exposes the data to be used in the Updateprofile screen.
@@ -40,6 +38,7 @@ public class UpdateProfileViewModel extends BaseObservable
     private String mAvatar;
     private String mBirthday;
     private RequestPermissionManager mPermissionManager;
+    private UpdateProfileRequest mUpdateProfileRequest;
 
     UpdateProfileViewModel(Context context, User user, Navigator navigator,
             DialogManager dialogManager, UpdateProfileContract.Presenter presenter,
@@ -52,6 +51,7 @@ public class UpdateProfileViewModel extends BaseObservable
         mDialogManager = dialogManager;
         mDialogManager.dialogDatePicker(this);
         mPermissionManager = requestPermissionManager;
+        mUpdateProfileRequest = new UpdateProfileRequest();
     }
 
     @Override
@@ -90,13 +90,7 @@ public class UpdateProfileViewModel extends BaseObservable
 
     @Override
     public void onUpdateProfileError(BaseException exception) {
-        mDialogManager.dialogError(exception, new MaterialDialog.SingleButtonCallback() {
-            @Override
-            public void onClick(@NonNull MaterialDialog materialDialog,
-                    @NonNull DialogAction dialogAction) {
-                mNavigator.finishActivity();
-            }
-        });
+        mDialogManager.dialogError(exception);
     }
 
     @Override
@@ -108,7 +102,7 @@ public class UpdateProfileViewModel extends BaseObservable
     @Override
     public void setAvatarUser(String avatar) {
         mAvatar = avatar;
-        mUser.getAvatar().setUrl(avatar);
+        mUpdateProfileRequest.setAvatar(avatar);
         notifyPropertyChanged(BR.avatar);
     }
 
@@ -129,7 +123,7 @@ public class UpdateProfileViewModel extends BaseObservable
 
     public void setBirthday(String birthday) {
         mBirthday = birthday;
-        mUser.setBirthday(birthday);
+        mUpdateProfileRequest.setBirthday(birthday);
         notifyPropertyChanged(BR.birthday);
     }
 
@@ -171,6 +165,7 @@ public class UpdateProfileViewModel extends BaseObservable
                     mContext.getString(R.string.the_field_required_can_not_be_blank));
             return;
         }
-        mPresenter.updateProfile(mUser);
+        mUpdateProfileRequest.setName(mUser.getName());
+        mPresenter.updateProfile(mUpdateProfileRequest);
     }
 }

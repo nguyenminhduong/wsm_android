@@ -2,6 +2,7 @@ package com.framgia.wsm.screen.updateprofile;
 
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.screen.BasePresenter;
 import com.framgia.wsm.screen.BaseViewModel;
 
@@ -34,6 +35,6 @@ interface UpdateProfileContract {
 
         boolean validateData(User user);
 
-        void updateProfile(User user);
+        void updateProfile(UpdateProfileRequest updateProfileRequest);
     }
 }
