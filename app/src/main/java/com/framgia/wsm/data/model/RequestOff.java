@@ -37,13 +37,13 @@ public class RequestOff extends BaseModel implements Parcelable {
     @SerializedName("created_at")
     private String mCreatedAt;
     @Expose
-    @SerializedName("project")
+    @SerializedName("project_name")
     private String mProject;
     @Expose
-    @SerializedName("position")
+    @SerializedName("position_name")
     private String mPosition;
     @Expose
-    @SerializedName("branch")
+    @SerializedName("workspace_id")
     private Branch mBranch;
     @Expose
     @SerializedName("group")
@@ -55,17 +55,17 @@ public class RequestOff extends BaseModel implements Parcelable {
     @SerializedName("insurance_coverage")
     private InsuranceCoverage mInsuranceCoverage;
     @Expose
-    @SerializedName("from_have_salary")
-    private String mStartDayHaveSalary;
+    @SerializedName("off_have_salary_from")
+    private OffHaveSalaryFrom mStartDayHaveSalary;
     @Expose
-    @SerializedName("to_have_salary")
-    private String mEndDayHaveSalary;
+    @SerializedName("off_have_salary_to")
+    private OffHaveSalaryTo mEndDayHaveSalary;
     @Expose
-    @SerializedName("from_no_salary")
-    private String mStartDayNoSalary;
+    @SerializedName("off_no_salary_from")
+    private OffNoSalaryFrom mStartDayNoSalary;
     @Expose
-    @SerializedName("to_no_salary")
-    private String mEndDayNoSalary;
+    @SerializedName("off_no_salary_to")
+    private OffNoSalaryTo mEndDayNoSalary;
     @Expose
     @SerializedName("reason")
     @Validation({
@@ -87,6 +87,7 @@ public class RequestOff extends BaseModel implements Parcelable {
     protected RequestOff(Parcel in) {
         mPositionRequestOffType = in.readInt();
         mRequestOffName = in.readString();
+        mId = in.readInt();
         mCreatedAt = in.readString();
         mProject = in.readString();
         mPosition = in.readString();
@@ -94,20 +95,20 @@ public class RequestOff extends BaseModel implements Parcelable {
         mGroup = in.readParcelable(Group.class.getClassLoader());
         mCompanyPay = in.readParcelable(CompanyPay.class.getClassLoader());
         mInsuranceCoverage = in.readParcelable(InsuranceCoverage.class.getClassLoader());
-        mStartDayHaveSalary = in.readString();
-        mEndDayHaveSalary = in.readString();
-        mStartDayNoSalary = in.readString();
-        mEndDayNoSalary = in.readString();
+        mStartDayHaveSalary = in.readParcelable(OffHaveSalaryFrom.class.getClassLoader());
+        mEndDayHaveSalary = in.readParcelable(OffHaveSalaryTo.class.getClassLoader());
+        mStartDayNoSalary = in.readParcelable(OffNoSalaryFrom.class.getClassLoader());
+        mEndDayNoSalary = in.readParcelable(OffNoSalaryTo.class.getClassLoader());
         mReason = in.readString();
         mBeingHandledBy = in.readString();
         mStatus = in.readInt();
-        mId = in.readInt();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mPositionRequestOffType);
         dest.writeString(mRequestOffName);
+        dest.writeInt(mId);
         dest.writeString(mCreatedAt);
         dest.writeString(mProject);
         dest.writeString(mPosition);
@@ -115,14 +116,13 @@ public class RequestOff extends BaseModel implements Parcelable {
         dest.writeParcelable(mGroup, flags);
         dest.writeParcelable(mCompanyPay, flags);
         dest.writeParcelable(mInsuranceCoverage, flags);
-        dest.writeString(mStartDayHaveSalary);
-        dest.writeString(mEndDayHaveSalary);
-        dest.writeString(mStartDayNoSalary);
-        dest.writeString(mEndDayNoSalary);
+        dest.writeParcelable(mStartDayHaveSalary, flags);
+        dest.writeParcelable(mEndDayHaveSalary, flags);
+        dest.writeParcelable(mStartDayNoSalary, flags);
+        dest.writeParcelable(mEndDayNoSalary, flags);
         dest.writeString(mReason);
         dest.writeString(mBeingHandledBy);
         dest.writeInt(mStatus);
-        dest.writeInt(mId);
     }
 
     @Override
@@ -202,35 +202,35 @@ public class RequestOff extends BaseModel implements Parcelable {
         mInsuranceCoverage = insuranceCoverage;
     }
 
-    public String getStartDayHaveSalary() {
+    public OffHaveSalaryFrom getStartDayHaveSalary() {
         return mStartDayHaveSalary;
     }
 
-    public void setStartDayHaveSalary(String startDayHaveSalary) {
+    public void setStartDayHaveSalary(OffHaveSalaryFrom startDayHaveSalary) {
         mStartDayHaveSalary = startDayHaveSalary;
     }
 
-    public String getEndDayHaveSalary() {
+    public OffHaveSalaryTo getEndDayHaveSalary() {
         return mEndDayHaveSalary;
     }
 
-    public void setEndDayHaveSalary(String endDayHaveSalary) {
+    public void setEndDayHaveSalary(OffHaveSalaryTo endDayHaveSalary) {
         mEndDayHaveSalary = endDayHaveSalary;
     }
 
-    public String getStartDayNoSalary() {
+    public OffNoSalaryFrom getStartDayNoSalary() {
         return mStartDayNoSalary;
     }
 
-    public void setStartDayNoSalary(String startDayNoSalary) {
+    public void setStartDayNoSalary(OffNoSalaryFrom startDayNoSalary) {
         mStartDayNoSalary = startDayNoSalary;
     }
 
-    public String getEndDayNoSalary() {
+    public OffNoSalaryTo getEndDayNoSalary() {
         return mEndDayNoSalary;
     }
 
-    public void setEndDayNoSalary(String endDayNoSalary) {
+    public void setEndDayNoSalary(OffNoSalaryTo endDayNoSalary) {
         mEndDayNoSalary = endDayNoSalary;
     }
 
@@ -264,5 +264,235 @@ public class RequestOff extends BaseModel implements Parcelable {
 
     public void setId(int id) {
         mId = id;
+    }
+
+    // OffHaveSalaryFrom
+    public static class OffHaveSalaryFrom implements Parcelable {
+        @Expose
+        @SerializedName("off_paid_from")
+        private String mOffPaidFrom;
+        @Expose
+        @SerializedName("paid_from_period")
+        private String mPaidFromPeriod;
+
+        public OffHaveSalaryFrom() {
+        }
+
+        public OffHaveSalaryFrom(Parcel in) {
+            mOffPaidFrom = in.readString();
+            mPaidFromPeriod = in.readString();
+        }
+
+        public static final Creator<OffHaveSalaryFrom> CREATOR = new Creator<OffHaveSalaryFrom>() {
+            @Override
+            public OffHaveSalaryFrom createFromParcel(Parcel in) {
+                return new OffHaveSalaryFrom(in);
+            }
+
+            @Override
+            public OffHaveSalaryFrom[] newArray(int size) {
+                return new OffHaveSalaryFrom[size];
+            }
+        };
+
+        public String getOffPaidFrom() {
+            return mOffPaidFrom;
+        }
+
+        public void setOffPaidFrom(String offPaidFrom) {
+            mOffPaidFrom = offPaidFrom;
+        }
+
+        public String getPaidFromPeriod() {
+            return mPaidFromPeriod;
+        }
+
+        public void setPaidFromPeriod(String paidFromPeriod) {
+            mPaidFromPeriod = paidFromPeriod;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(mOffPaidFrom);
+            dest.writeString(mPaidFromPeriod);
+        }
+    }
+
+    // OffHaveSalaryTo
+    public static class OffHaveSalaryTo implements Parcelable {
+
+        @Expose
+        @SerializedName("off_paid_to")
+        private String mOffPaidTo;
+        @Expose
+        @SerializedName("paid_to_period")
+        private String mPaidToPeriod;
+
+        public OffHaveSalaryTo() {
+        }
+
+        public OffHaveSalaryTo(Parcel in) {
+            mOffPaidTo = in.readString();
+            mPaidToPeriod = in.readString();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(mOffPaidTo);
+            dest.writeString(mPaidToPeriod);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<OffHaveSalaryTo> CREATOR = new Creator<OffHaveSalaryTo>() {
+            @Override
+            public OffHaveSalaryTo createFromParcel(Parcel in) {
+                return new OffHaveSalaryTo(in);
+            }
+
+            @Override
+            public OffHaveSalaryTo[] newArray(int size) {
+                return new OffHaveSalaryTo[size];
+            }
+        };
+
+        public String getOffPaidTo() {
+            return mOffPaidTo;
+        }
+
+        public void setOffPaidTo(String offPaidTo) {
+            mOffPaidTo = offPaidTo;
+        }
+
+        public String getPaidToPeriod() {
+            return mPaidToPeriod;
+        }
+
+        public void setPaidToPeriod(String paidToPeriod) {
+            mPaidToPeriod = paidToPeriod;
+        }
+    }
+
+    // OffNoSalaryFrom
+    public static class OffNoSalaryFrom implements Parcelable {
+
+        @Expose
+        @SerializedName("off_from")
+        private String mOffFrom;
+        @Expose
+        @SerializedName("off_from_period")
+        private String mOffFromPeriod;
+
+        public OffNoSalaryFrom() {
+        }
+
+        public OffNoSalaryFrom(Parcel in) {
+            mOffFrom = in.readString();
+            mOffFromPeriod = in.readString();
+        }
+
+        public static final Creator<OffNoSalaryFrom> CREATOR = new Creator<OffNoSalaryFrom>() {
+            @Override
+            public OffNoSalaryFrom createFromParcel(Parcel in) {
+                return new OffNoSalaryFrom(in);
+            }
+
+            @Override
+            public OffNoSalaryFrom[] newArray(int size) {
+                return new OffNoSalaryFrom[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(mOffFrom);
+            dest.writeString(mOffFromPeriod);
+        }
+
+        public String getOffFrom() {
+            return mOffFrom;
+        }
+
+        public void setOffFrom(String offFrom) {
+            mOffFrom = offFrom;
+        }
+
+        public String getOffFromPeriod() {
+            return mOffFromPeriod;
+        }
+
+        public void setOffFromPeriod(String offFromPeriod) {
+            mOffFromPeriod = offFromPeriod;
+        }
+    }
+
+    // OffNoSalaryTo
+    public static class OffNoSalaryTo implements Parcelable {
+        @Expose
+        @SerializedName("off_to")
+        private String mOffTo;
+        @Expose
+        @SerializedName("off_to_period")
+        private String mOffToPeriod;
+
+        public OffNoSalaryTo() {
+        }
+
+        public OffNoSalaryTo(Parcel in) {
+            mOffTo = in.readString();
+            mOffToPeriod = in.readString();
+        }
+
+        public static final Creator<OffNoSalaryTo> CREATOR = new Creator<OffNoSalaryTo>() {
+            @Override
+            public OffNoSalaryTo createFromParcel(Parcel in) {
+                return new OffNoSalaryTo(in);
+            }
+
+            @Override
+            public OffNoSalaryTo[] newArray(int size) {
+                return new OffNoSalaryTo[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(mOffTo);
+            dest.writeString(mOffToPeriod);
+        }
+
+        public String getOffTo() {
+            return mOffTo;
+        }
+
+        public void setOffTo(String offTo) {
+            mOffTo = offTo;
+        }
+
+        public String getOffToPeriod() {
+            return mOffToPeriod;
+        }
+
+        public void setOffToPeriod(String offToPeriod) {
+            mOffToPeriod = offToPeriod;
+        }
     }
 }

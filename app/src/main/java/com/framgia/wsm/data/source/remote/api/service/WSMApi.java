@@ -61,7 +61,7 @@ public interface WSMApi {
             @Path("request_overtime_id") int requestOverTimeId);
 
     // TODO edit later
-    @POST("/api/v1/request_off")
+    @POST("/api/dashboard/request_offs")
     Observable<Object> createFormRequestOff(@Body RequestOff requestOff);
 
     // TODO edit later

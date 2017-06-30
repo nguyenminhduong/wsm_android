@@ -73,8 +73,8 @@ public class ItemListRequestViewModel extends BaseObservable {
         if (mRequestOverTime != null) {
             return mRequestOverTime.getFromTime();
         }
-        if (mRequestOff != null) {
-            return mRequestOff.getStartDayHaveSalary();
+        if (mRequestOff != null && mRequestOff.getStartDayHaveSalary() != null) {
+            return mRequestOff.getStartDayHaveSalary().getOffPaidFrom();
         }
         return "";
     }
@@ -83,8 +83,8 @@ public class ItemListRequestViewModel extends BaseObservable {
         if (mRequest != null) {
             return mRequest.getToTime();
         }
-        if (mRequestOff != null) {
-            return mRequestOff.getEndDayHaveSalary();
+        if (mRequestOff != null && mRequestOff.getEndDayHaveSalary() != null) {
+            return mRequestOff.getEndDayHaveSalary().getOffPaidTo();
         }
         if (mRequestOverTime != null) {
             return mRequestOverTime.getToTime();

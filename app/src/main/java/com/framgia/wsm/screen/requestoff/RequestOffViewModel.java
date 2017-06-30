@@ -116,10 +116,10 @@ public class RequestOffViewModel extends BaseRequestOff
                 mRequestOff.setInsuranceCoverage(new InsuranceCoverage());
             }
 
-            String startDayHaveSalary = mRequestOff.getStartDayHaveSalary();
-            String endDayHaveSalary = mRequestOff.getEndDayHaveSalary();
-            String startDayNoSalary = mRequestOff.getStartDayNoSalary();
-            String endDayNoSalary = mRequestOff.getEndDayNoSalary();
+            String startDayHaveSalary = mRequestOff.getStartDayHaveSalary().getOffPaidFrom();
+            String endDayHaveSalary = mRequestOff.getEndDayHaveSalary().getOffPaidTo();
+            String startDayNoSalary = mRequestOff.getStartDayNoSalary().getOffFrom();
+            String endDayNoSalary = mRequestOff.getEndDayNoSalary().getOffTo();
 
             mStartDateHaveSalary = DateTimeUtils.convertDateToString(startDayHaveSalary);
             mEndDateHaveSalary = DateTimeUtils.convertDateToString(endDayHaveSalary);
@@ -500,20 +500,27 @@ public class RequestOffViewModel extends BaseRequestOff
 
     private void setRequestOff() {
         if (mStartDateHaveSalary != null) {
-            mRequestOff.setStartDayHaveSalary(
+            RequestOff.OffHaveSalaryFrom offHaveSalaryFrom = new RequestOff.OffHaveSalaryFrom();
+            offHaveSalaryFrom.setOffPaidFrom(
                     mStartDateHaveSalary + BLANK + mCurrentDaySessionStartDayHaveSalary);
+            mRequestOff.setStartDayHaveSalary(offHaveSalaryFrom);
         }
         if (mEndDateHaveSalary != null) {
-            mRequestOff.setEndDayHaveSalary(
+            RequestOff.OffHaveSalaryTo offHaveSalaryTo = new RequestOff.OffHaveSalaryTo();
+            offHaveSalaryTo.setOffPaidTo(
                     mEndDateHaveSalary + BLANK + mCurrentDaySessionEndDayHaveSalary);
+            mRequestOff.setEndDayHaveSalary(offHaveSalaryTo);
         }
         if (mStartDateNoSalary != null) {
-            mRequestOff.setStartDayNoSalary(
+            RequestOff.OffNoSalaryFrom offNoSalaryFrom = new RequestOff.OffNoSalaryFrom();
+            offNoSalaryFrom.setOffFrom(
                     mStartDateNoSalary + BLANK + mCurrentDaySessionStartDayNoSalary);
+            mRequestOff.setStartDayNoSalary(offNoSalaryFrom);
         }
         if (mEndDateNoSalary != null) {
-            mRequestOff.setEndDayNoSalary(
-                    mEndDateNoSalary + BLANK + mCurrentDaySessionEndDayNoSalary);
+            RequestOff.OffNoSalaryTo offNoSalaryTo = new RequestOff.OffNoSalaryTo();
+            offNoSalaryTo.setOffTo(mEndDateNoSalary + BLANK + mCurrentDaySessionEndDayNoSalary);
+            mRequestOff.setEndDayNoSalary(offNoSalaryTo);
         }
     }
 
