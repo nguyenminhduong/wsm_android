@@ -569,7 +569,7 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
-                                android:text="@{viewModel.requestOff.startDayHaveSalary}"
+                                android:text="@{viewModel.requestOff.startDayHaveSalary.offPaidFrom}"
                                 style="@style/StyleTextConfirm"
                                 />
                             <View
@@ -602,7 +602,7 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
-                                android:text="@{viewModel.requestOff.endDayHaveSalary}"
+                                android:text="@{viewModel.requestOff.endDayHaveSalary.offPaidTo}"
                                 style="@style/StyleTextConfirm"
                                 />
                             <View
@@ -659,7 +659,7 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
-                                    android:text="@{viewModel.requestOff.startDayNoSalary}"
+                                    android:text="@{viewModel.requestOff.startDayNoSalary.offFrom}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <View
@@ -691,7 +691,7 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
-                                    android:text="@{viewModel.requestOff.endDayNoSalary}"
+                                    android:text="@{viewModel.requestOff.endDayNoSalary.offTo}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <View

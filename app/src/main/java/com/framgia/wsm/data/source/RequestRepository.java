@@ -67,8 +67,12 @@ public class RequestRepository {
             RequestOff requestOff = new RequestOff();
             requestOff.setCreatedAt("16/06/2017");
             requestOff.setStatus(0);
-            requestOff.setStartDayHaveSalary("16/06/2017");
-            requestOff.setEndDayHaveSalary("16/06/2017");
+            RequestOff.OffHaveSalaryFrom offHaveSalaryFrom = new RequestOff.OffHaveSalaryFrom();
+            offHaveSalaryFrom.setOffPaidFrom("16/06/2017");
+            RequestOff.OffHaveSalaryTo offHaveSalaryTo = new RequestOff.OffHaveSalaryTo();
+            offHaveSalaryTo.setOffPaidTo("16/06/2017");
+            requestOff.setStartDayHaveSalary(offHaveSalaryFrom);
+            requestOff.setEndDayHaveSalary(offHaveSalaryTo);
             requestOffs.add(requestOff);
         }
         BaseResponse<List<RequestOff>> baseResponse =
@@ -213,8 +217,12 @@ public class RequestRepository {
             RequestOff requestOff = new RequestOff();
             requestOff.setCreatedAt("16/06/2017");
             requestOff.setStatus(0);
-            requestOff.setStartDayHaveSalary("16/06/2017");
-            requestOff.setEndDayHaveSalary("16/06/2017");
+            RequestOff.OffHaveSalaryFrom offHaveSalaryFrom = new RequestOff.OffHaveSalaryFrom();
+            offHaveSalaryFrom.setOffPaidFrom("16/06/2017");
+            RequestOff.OffHaveSalaryTo offHaveSalaryTo = new RequestOff.OffHaveSalaryTo();
+            offHaveSalaryTo.setOffPaidTo("16/06/2017");
+            requestOff.setStartDayHaveSalary(offHaveSalaryFrom);
+            requestOff.setEndDayHaveSalary(offHaveSalaryTo);
             requestOffs.add(requestOff);
         }
         BaseResponse<List<RequestOff>> baseResponse =
