@@ -54,6 +54,10 @@
             android:name=".screen.updateprofile.UpdateProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeRequest"/>
+        <activity
+            android:name=".screen.changepassword.ChangePasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
 
         <service
             android:name=".data.source.remote.api.service.FireBaseMessageService"
