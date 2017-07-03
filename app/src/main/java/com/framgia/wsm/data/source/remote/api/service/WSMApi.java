@@ -3,6 +3,7 @@ package com.framgia.wsm.data.source.remote.api.service;
 import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
+import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.HolidayCalendarResponse;
@@ -66,7 +67,7 @@ public interface WSMApi {
 
     // TODO edit later
     @POST("/api/dashboard/request_offs")
-    Observable<Object> createFormRequestOff(@Body RequestOff requestOff);
+    Observable<Object> createFormRequestOff(@Body RequestOffRequest requestOffRequest);
 
     // TODO edit later
     @DELETE("/api/request_off")
@@ -74,7 +75,8 @@ public interface WSMApi {
 
     // TODO edit later
     @PUT("/api/request_off")
-    Observable<BaseResponse<RequestOff>> editFormRequestOff(@Body RequestOff requestOff);
+    Observable<BaseResponse<RequestOff>> editFormRequestOff(
+            @Body RequestOffRequest requestOffRequest);
 
     // TODO edit later
     @DELETE("/api/request_off")

@@ -3,6 +3,7 @@ package com.framgia.wsm.data.source;
 import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
+import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
@@ -16,7 +17,7 @@ public interface RequestDataSource {
     interface RemoteDataSource {
         Observable<Object> createFormRequestOverTime(@NonNull RequestOverTime requestOverTime);
 
-        Observable<Object> createFormRequestOff(@NonNull RequestOff requestOff);
+        Observable<Object> createFormRequestOff(@NonNull RequestOffRequest requestOffRequest);
 
         Observable<Object> createFormRequestLeave(@NonNull Request request);
 
@@ -37,7 +38,8 @@ public interface RequestDataSource {
 
         Observable<Object> deleteFormRequestOff(@NonNull int requestOffId);
 
-        Observable<BaseResponse<RequestOff>> editFormRequestOff(@NonNull RequestOff requestOff);
+        Observable<BaseResponse<RequestOff>> editFormRequestOff(
+                @NonNull RequestOffRequest requestOffRequest);
 
         Observable<BaseResponse<RequestOverTime>> editFormRequestOverTime(
                 @NonNull RequestOverTime requestOverTime);

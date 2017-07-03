@@ -44,10 +44,10 @@ public class RequestOff extends BaseModel implements Parcelable {
     @SerializedName("position_name")
     private String mPosition;
     @Expose
-    @SerializedName("workspace_id")
+    @SerializedName("workspaces")
     private Branch mBranch;
     @Expose
-    @SerializedName("group")
+    @SerializedName("groups")
     private Group mGroup;
     @Expose
     @SerializedName("company_pay")
