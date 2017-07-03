@@ -130,6 +130,16 @@
     <string name="edit_request_off">Edit request off</string>
     <string name="edit_profile">Edit profile</string>
     <string name="change_password">Change password</string>
+    <string name="default_group_and_workspace">Default group and workspace</string>
+    <string name="default_group">Default group</string>
+    <string name="default_workspace">Default Workspace</string>
+    <string name="notification_settings">Notification Settings</string>
+    <string name="receive_notification">Receive notification if there is any activities (On/Off ALL)</string>
+    <string name="notification_list">Notification list of staff in speical type</string>
+    <string name="notification_Change_workspace">Notification Change workspace</string>
+    <string name="notification_Change_group">Notification Change group</string>
+    <string name="update">Update</string>
+
 
     <!-- In late (M) -->
     <string name="leave_type_in_late_m">In late (M)</string>
