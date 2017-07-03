@@ -14,6 +14,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
@@ -51,10 +52,22 @@ public final class BindingUtils {
         recyclerView.setAdapter(adapter);
     }
 
-    @BindingAdapter({ "itemSelected", "currentItem", "viewModel" })
+    @BindingAdapter({ "itemSelected", "currentItem", "viewModel", "staffType" })
     public static void setNavigationItemSelected(NavigationView navigationView,
             NavigationView.OnNavigationItemSelectedListener listen, int currentItem,
-            MainViewModel viewModel) {
+            MainViewModel viewModel, String staffType) {
+
+        //TODO edit version later
+        navigationView.getMenu().findItem(R.id.item_statistic_of_personal).setVisible(false);
+        navigationView.getMenu().findItem(R.id.item_workspace_data).setVisible(false);
+
+        MenuItem menuDayOff = navigationView.getMenu().findItem(R.id.item_off);
+        if (Constant.STAFF_OFFICIAL.equals(staffType)) {
+            menuDayOff.setVisible(true);
+        } else {
+            menuDayOff.setVisible(false);
+        }
+
         navigationView.setNavigationItemSelectedListener(listen);
         navigationView.setCheckedItem(currentItem);
         if (navigationView.getHeaderCount() == 0) {
@@ -102,6 +115,7 @@ public final class BindingUtils {
         Uri uri = Uri.parse(url);
         Glide.with(imageView.getContext())
                 .load(uri)
+                .dontAnimate()
                 .placeholder(R.drawable.ic_placeholder_user)
                 .into(imageView);
     }
@@ -112,9 +126,7 @@ public final class BindingUtils {
             url = "";
         }
         Uri uri = Uri.parse(url);
-        Glide.with(imageView.getContext()).load(uri)
-                .dontAnimate()
-                .into(imageView);
+        Glide.with(imageView.getContext()).load(uri).dontAnimate().into(imageView);
     }
 
     @BindingAdapter({ "timeSheetDates", "month", "year" })

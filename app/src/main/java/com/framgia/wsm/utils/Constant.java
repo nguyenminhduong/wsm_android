@@ -21,6 +21,9 @@ public final class Constant {
     public static final String EXTRA_REQUEST_OFF = "REQUEST_OFF";
     public static final String EXTRA_ACTION_TYPE = "ACTION_TYPE";
     public static final String EXTRA_USER = "EXTRA_USER";
+    public static final String STAFF_OFFICIAL = "B";
+    public static final int BEGIN_INDEX = 0;
+    public static final int END_INDEX = 1;
 
     private Constant() {
         // No-op
@@ -62,6 +65,5 @@ public final class Constant {
         public static final int PROFILE_USER = 103;
         public static final int REQUEST_SELECT_AVATAR = 104;
         public static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 105;
-
     }
 }

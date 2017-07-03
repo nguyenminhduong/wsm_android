@@ -17,6 +17,7 @@ import com.framgia.wsm.data.source.remote.api.service.FireBaseInstanceIDService;
 import com.framgia.wsm.screen.login.LoginActivity;
 import com.framgia.wsm.screen.notification.NotificationDialogFragment;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.navigator.NavigateAnim;
 import com.framgia.wsm.utils.navigator.Navigator;
 
@@ -112,6 +113,11 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         return (mUser != null && mUser.getAvatar() != null) ? mUser.getAvatar() : "";
     }
 
+    @Bindable
+    public String getStaffType() {
+        return mUser != null ? StringUtils.getStaffType(mUser.getCode()) : "";
+    }
+
     @Override
     public void onStart() {
         mPresenter.onStart();
@@ -131,6 +137,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         notifyPropertyChanged(BR.username);
         notifyPropertyChanged(BR.email);
         notifyPropertyChanged(BR.avatar);
+        notifyPropertyChanged(BR.staffType);
     }
 
     @Override
