@@ -67,6 +67,9 @@ public class RequestOverTime extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("status")
     private String mStatus;
+    @Expose
+    @SerializedName("being_handled_by")
+    private String mBeingHandledBy;
 
     public RequestOverTime() {
     }
@@ -81,6 +84,7 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         this.mToTime = in.readString();
         this.mReason = in.readString();
         this.mStatus = in.readString();
+        this.mBeingHandledBy = in.readString();
     }
 
     public int getId() {
@@ -147,6 +151,14 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         mReason = reason;
     }
 
+    public String getBeingHandledBy() {
+        return mBeingHandledBy;
+    }
+
+    public void setBeingHandledBy(String beingHandledBy) {
+        mBeingHandledBy = beingHandledBy;
+    }
+
     @StatusCode
     public String getStatus() {
         return mStatus;
@@ -172,5 +184,6 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         dest.writeString(this.mToTime);
         dest.writeString(this.mReason);
         dest.writeString(this.mStatus);
+        dest.writeString(this.mBeingHandledBy);
     }
 }

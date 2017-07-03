@@ -21,7 +21,6 @@ import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
-import java.util.Objects;
 
 /**
  * Exposes the data to be used in the ConfirmOvertime screen.
@@ -138,19 +137,24 @@ public class ConfirmOvertimeViewModel extends BaseObservable
     }
 
     public boolean isAcceptStatus() {
-        return Objects.equals(mRequestOverTime.getStatus(), StatusCode.ACCEPT_CODE);
+        return StatusCode.ACCEPT_CODE.equals(mRequestOverTime.getStatus());
     }
 
     public boolean isPendingStatus() {
-        return Objects.equals(mRequestOverTime.getStatus(), StatusCode.PENDING_CODE);
+        return StatusCode.PENDING_CODE.equals(mRequestOverTime.getStatus());
     }
 
     public boolean isRejectStatus() {
-        return Objects.equals(mRequestOverTime.getStatus(), StatusCode.REJECT_CODE);
+        return StatusCode.REJECT_CODE.equals(mRequestOverTime.getStatus());
     }
 
     public void setActionType(int actionType) {
         mActionType = actionType;
+    }
+
+    public boolean isVisibleButtonSubmit() {
+        return StatusCode.PENDING_CODE.equals(mRequestOverTime.getStatus())
+                || mActionType == ActionType.ACTION_CREATE;
     }
 
     public void onClickArrowBack(View view) {

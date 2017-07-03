@@ -17,6 +17,7 @@ import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.requestovertime.confirmovertime.ConfirmOvertimeActivity;
+import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
@@ -140,6 +141,13 @@ public class RequestOvertimeViewModel extends BaseObservable
         } else {
             validateToTime(currentDateTime);
         }
+    }
+
+    public String getTitleToolbar() {
+        if (mActionType == ActionType.ACTION_CREATE) {
+            return mContext.getString(R.string.request_overtime);
+        }
+        return mContext.getString(R.string.edit_request_overtime);
     }
 
     @Bindable

@@ -25,7 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".screen.main.MainActivity"/>
+        <activity
+            android:name=".screen.main.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeRequest"/>
         <activity
             android:name=".screen.requestleave.RequestLeaveActivity"
             android:screenOrientation="portrait"
