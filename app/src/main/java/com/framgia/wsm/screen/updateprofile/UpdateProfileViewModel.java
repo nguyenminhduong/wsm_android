@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -15,10 +16,12 @@ import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.FileUtils;
 import com.framgia.wsm.utils.RequestPermissionManager;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
+import java.io.File;
 
 /**
  * Exposes the data to be used in the Updateprofile screen.
@@ -52,6 +55,7 @@ public class UpdateProfileViewModel extends BaseObservable
         mDialogManager.dialogDatePicker(this);
         mPermissionManager = requestPermissionManager;
         mUpdateProfileRequest = new UpdateProfileRequest();
+        mUpdateProfileRequest.setBirthday(mUser.getBirthday());
     }
 
     @Override
@@ -100,9 +104,10 @@ public class UpdateProfileViewModel extends BaseObservable
     }
 
     @Override
-    public void setAvatarUser(String avatar) {
-        mAvatar = avatar;
-        mUpdateProfileRequest.setAvatar(avatar);
+    public void setAvatarUser(Uri avatarUser) {
+        mAvatar = avatarUser.getPath();
+        File file = new File(FileUtils.getRealPathFromURI(mContext, avatarUser));
+        mUpdateProfileRequest.setAvatar(file);
         notifyPropertyChanged(BR.avatar);
     }
 

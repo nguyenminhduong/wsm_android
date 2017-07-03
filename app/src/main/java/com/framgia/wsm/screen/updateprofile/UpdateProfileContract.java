@@ -1,5 +1,6 @@
 package com.framgia.wsm.screen.updateprofile;
 
+import android.net.Uri;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
@@ -23,7 +24,7 @@ interface UpdateProfileContract {
 
         void onUpdateProfileError(BaseException exception);
 
-        void setAvatarUser(String avatar);
+        void setAvatarUser(Uri avatarUser);
 
         void pickAvatarUser();
     }

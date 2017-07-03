@@ -86,7 +86,7 @@ public class UserRepository {
     }
 
     public Observable<BaseResponse<UserProfileResponse>> updateProfile(
-            UpdateProfileRequest updateProfileRequest) {
-        return mRemoteDataSource.updateProfile(updateProfileRequest);
+            UpdateProfileRequest updateProfile) {
+        return mRemoteDataSource.updateProfile(updateProfile);
     }
 }

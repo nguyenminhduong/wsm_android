@@ -109,7 +109,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
 
     @Bindable
     public String getAvatar() {
-        return (mUser != null && mUser.getAvatar() != null) ? mUser.getAvatar().getUrl() : "";
+        return (mUser != null && mUser.getAvatar() != null) ? mUser.getAvatar() : "";
     }
 
     @Override

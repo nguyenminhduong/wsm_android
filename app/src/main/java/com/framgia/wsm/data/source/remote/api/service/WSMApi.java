@@ -4,7 +4,6 @@ import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
-import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.HolidayCalendarResponse;
 import com.framgia.wsm.data.source.remote.api.response.LeaveTypeResponse;
@@ -14,11 +13,17 @@ import com.framgia.wsm.data.source.remote.api.response.TimeSheetResponse;
 import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import io.reactivex.Observable;
 import java.util.List;
+import java.util.Map;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -33,15 +38,14 @@ public interface WSMApi {
     @GET("/api/dashboard/users/{user_id}")
     Observable<BaseResponse<UserProfileResponse>> getUserProfile(@Path("user_id") int userId);
 
+    @Multipart
     @PUT("/api/dashboard/users")
     Observable<BaseResponse<UserProfileResponse>> updateProfile(
-            @Body UpdateProfileRequest updateProfileRequest);
+            @PartMap Map<String, RequestBody> params, @Part MultipartBody.Part file);
 
     // TODO edit later
     @GET("v1/time_sheet")
-    Observable<TimeSheetResponse> getTimeSheet(@Query("month")
-
-            int month, @Query("year") int year);
+    Observable<TimeSheetResponse> getTimeSheet(@Query("month") int month, @Query("year") int year);
 
     @GET("v1/holiday_calendar")
     Observable<BaseResponse<HolidayCalendarResponse>> getHolidayCalendar(@Query("year") int year);

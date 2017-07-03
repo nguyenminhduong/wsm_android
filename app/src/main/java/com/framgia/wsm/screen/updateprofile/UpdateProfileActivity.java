@@ -58,7 +58,7 @@ public class UpdateProfileActivity extends BaseActivity {
                 return;
             }
             Uri uriAvatar = data.getData();
-            mViewModel.setAvatarUser(uriAvatar.toString());
+            mViewModel.setAvatarUser(uriAvatar);
         }
     }
 
