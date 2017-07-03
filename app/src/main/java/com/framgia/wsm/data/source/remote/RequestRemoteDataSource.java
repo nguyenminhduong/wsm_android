@@ -4,6 +4,7 @@ import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.RequestDataSource;
+import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
 import io.reactivex.Observable;
@@ -30,8 +31,8 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<Object> createFormRequestOff(@NonNull RequestOff requestOff) {
-        return mWSMApi.createFormRequestOff(requestOff);
+    public Observable<Object> createFormRequestOff(@NonNull RequestOffRequest requestOffRequest) {
+        return mWSMApi.createFormRequestOff(requestOffRequest);
     }
 
     @Override
@@ -78,8 +79,9 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<RequestOff>> editFormRequestOff(@NonNull RequestOff requestOff) {
-        return mWSMApi.editFormRequestOff(requestOff)
+    public Observable<BaseResponse<RequestOff>> editFormRequestOff(
+            @NonNull RequestOffRequest requestOffRequest) {
+        return mWSMApi.editFormRequestOff(requestOffRequest)
                 .flatMap(
                         new Function<BaseResponse<RequestOff>,
                                 ObservableSource<BaseResponse<RequestOff>>>() {

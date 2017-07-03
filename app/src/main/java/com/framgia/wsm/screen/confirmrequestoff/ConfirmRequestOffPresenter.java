@@ -6,6 +6,7 @@ import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import io.reactivex.annotations.NonNull;
@@ -69,8 +70,8 @@ final class ConfirmRequestOffPresenter implements ConfirmRequestOffContract.Pres
     }
 
     @Override
-    public void createFormRequestOff(RequestOff requestOff) {
-        Disposable disposable = mRequestRepository.createFormRequestOff(requestOff)
+    public void createFormRequestOff(RequestOffRequest requestOffRequest) {
+        Disposable disposable = mRequestRepository.createFormRequestOff(requestOffRequest)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
                 .subscribe(new Consumer<Object>() {
@@ -107,8 +108,8 @@ final class ConfirmRequestOffPresenter implements ConfirmRequestOffContract.Pres
     }
 
     @Override
-    public void editFormRequestOff(RequestOff requestOff) {
-        Disposable disposable = mRequestRepository.editFormRequestOff(requestOff)
+    public void editFormRequestOff(RequestOffRequest requestOffRequest) {
+        Disposable disposable = mRequestRepository.editFormRequestOff(requestOffRequest)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
                 .subscribe(new Consumer<BaseResponse<RequestOff>>() {

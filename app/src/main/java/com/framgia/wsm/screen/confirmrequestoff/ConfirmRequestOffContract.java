@@ -3,6 +3,7 @@ package com.framgia.wsm.screen.confirmrequestoff;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.screen.BasePresenter;
 import com.framgia.wsm.screen.BaseViewModel;
 
@@ -35,11 +36,11 @@ interface ConfirmRequestOffContract {
      * Presenter.
      */
     interface Presenter extends BasePresenter<ViewModel> {
-        void createFormRequestOff(RequestOff requestOff);
+        void createFormRequestOff(RequestOffRequest requestOffRequest);
 
         void deleteFormRequestOff(int requestOffId);
 
-        void editFormRequestOff(RequestOff requestOff);
+        void editFormRequestOff(RequestOffRequest requestOffRequest);
 
         void getUser();
     }

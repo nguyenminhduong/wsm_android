@@ -13,6 +13,7 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.screen.requestoff.RequestOffActivity;
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
@@ -37,6 +38,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     private DialogManager mDialogManager;
     private User mUser;
     private RequestOff mRequestOff;
+    private RequestOffRequest mRequestOffRequest;
     private int mActionType;
     private Context mContext;
 
@@ -51,6 +53,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         mNavigator = navigator;
         mPresenter.getUser();
         mActionType = actionType;
+        mRequestOffRequest = new RequestOffRequest();
     }
 
     @Override
@@ -253,11 +256,12 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         if (mRequestOff == null) {
             return;
         }
+        mRequestOffRequest.setRequestOff(mRequestOff);
         if (mActionType == ActionType.ACTION_CREATE) {
-            mPresenter.createFormRequestOff(mRequestOff);
+            mPresenter.createFormRequestOff(mRequestOffRequest);
             return;
         }
-        mPresenter.editFormRequestOff(mRequestOff);
+        mPresenter.editFormRequestOff(mRequestOffRequest);
     }
 
     public void onClickDelete(View view) {
