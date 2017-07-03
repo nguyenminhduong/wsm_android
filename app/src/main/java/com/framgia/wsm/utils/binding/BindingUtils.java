@@ -106,6 +106,17 @@ public final class BindingUtils {
                 .into(imageView);
     }
 
+    @BindingAdapter("imageUrl")
+    public static void loadImage(ImageView imageView, String url) {
+        if (TextUtils.isEmpty(url)) {
+            url = "";
+        }
+        Uri uri = Uri.parse(url);
+        Glide.with(imageView.getContext()).load(uri)
+                .dontAnimate()
+                .into(imageView);
+    }
+
     @BindingAdapter({ "timeSheetDates", "month", "year" })
     public static void setTimeSheetDates(TimeSheetView timeSheetView,
             List<TimeSheetDate> timeSheetDates, int month, int year) {
