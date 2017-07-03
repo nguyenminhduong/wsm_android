@@ -8,6 +8,7 @@ import android.view.View;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.screen.changepassword.ChangePasswordActivity;
 import com.framgia.wsm.screen.profile.branch.BranchAdapter;
 import com.framgia.wsm.screen.profile.group.GroupAdapter;
 import com.framgia.wsm.screen.updateprofile.UpdateProfileActivity;
@@ -84,6 +85,8 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
     }
 
     public void onClickChangePassword(View view) {
-        //TODO: Open change password activity
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constant.EXTRA_USER, mUser);
+        mNavigator.startActivity(ChangePasswordActivity.class, bundle);
     }
 }
