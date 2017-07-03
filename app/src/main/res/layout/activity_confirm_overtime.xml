@@ -308,6 +308,7 @@
                     </TableRow>
                     <TableRow
                         android:gravity="center_vertical"
+                        android:visibility="@{viewModel.detail ? View.VISIBLE : View.GONE}"
                         >
                         <ImageView
                             app:srcCompat="@drawable/ic_reason"
@@ -364,6 +365,39 @@
                                 />
                         </LinearLayout>
                     </TableRow>
+                    <TableRow
+                        android:layout_marginBottom="@dimen/dp_30"
+                        android:gravity="center_vertical"
+                        android:visibility="@{viewModel.detail ? View.VISIBLE : View.GONE}"
+                        >
+                        <ImageView
+                            app:srcCompat="@drawable/ic_reason"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleIconConfirm"
+                            />
+                        <LinearLayout
+                            android:layout_marginLeft="@dimen/dp_20"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="vertical"
+                            >
+                            <TextView
+                                android:text="@string/being_handled_by"
+                                style="@style/StyleTitleConfirm"
+                                />
+
+                            <TextView
+                                android:text="@{viewModel.requestOverTime.beingHandledBy}"
+                                style="@style/StyleTextConfirm"
+                                />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_1"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:background="@color/colorPrimary"
+                                />
+                        </LinearLayout>
+                    </TableRow>
                 </TableLayout>
             </ScrollView>
             <FrameLayout
@@ -371,7 +405,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:visibility="@{viewModel.pendingStatus ? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewModel.visibleButtonSubmit ? View.VISIBLE : View.GONE}"
                 >
                 <Button
                     android:id="@+id/button_submit"

@@ -142,6 +142,7 @@
     <string name="notification_Change_workspace">Notification Change workspace</string>
     <string name="notification_Change_group">Notification Change group</string>
     <string name="update">Update</string>
+    <string name="edit_request_overtime">Edit request overtime</string>
 
 
     <!-- In late (M) -->
