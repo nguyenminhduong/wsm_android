@@ -1,6 +1,6 @@
 package com.framgia.wsm.utils;
 
-import android.support.annotation.IntDef;
+import android.support.annotation.StringDef;
 
 import static com.framgia.wsm.utils.StatusCode.ACCEPT_CODE;
 import static com.framgia.wsm.utils.StatusCode.PENDING_CODE;
@@ -10,9 +10,9 @@ import static com.framgia.wsm.utils.StatusCode.REJECT_CODE;
  * Created by ASUS on 16/06/2017.
  */
 
-@IntDef({ ACCEPT_CODE, PENDING_CODE, REJECT_CODE })
+@StringDef({ ACCEPT_CODE, PENDING_CODE, REJECT_CODE })
 public @interface StatusCode {
-    int ACCEPT_CODE = 0;
-    int PENDING_CODE = 1;
-    int REJECT_CODE = 2;
+    String ACCEPT_CODE = "approved";
+    String PENDING_CODE = "pending";
+    String REJECT_CODE = "rejected";
 }

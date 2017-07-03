@@ -21,6 +21,7 @@ import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
+import java.util.Objects;
 
 /**
  * Exposes the data to be used in the ConfirmRequestOff screen.
@@ -218,15 +219,15 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     }
 
     public boolean isAcceptStatus() {
-        return mRequestOff.getStatus() == StatusCode.ACCEPT_CODE;
+        return Objects.equals(mRequestOff.getStatus(), StatusCode.ACCEPT_CODE);
     }
 
     public boolean isPendingStatus() {
-        return mRequestOff.getStatus() == StatusCode.PENDING_CODE;
+        return Objects.equals(mRequestOff.getStatus(), StatusCode.PENDING_CODE);
     }
 
     public boolean isRejectStatus() {
-        return mRequestOff.getStatus() == StatusCode.REJECT_CODE;
+        return Objects.equals(mRequestOff.getStatus(), StatusCode.REJECT_CODE);
     }
 
     public String getTitleToolbar() {

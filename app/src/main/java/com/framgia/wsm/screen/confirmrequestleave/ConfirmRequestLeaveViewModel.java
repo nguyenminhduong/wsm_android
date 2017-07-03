@@ -23,6 +23,7 @@ import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
+import java.util.Objects;
 
 /**
  * Exposes the data to be used in the ConfirmRequestLeave screen.
@@ -91,15 +92,15 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     }
 
     public boolean isAcceptStatus() {
-        return mRequest.getStatus() == StatusCode.ACCEPT_CODE;
+        return Objects.equals(mRequest.getStatus(), StatusCode.ACCEPT_CODE);
     }
 
     public boolean isPendingStatus() {
-        return mRequest.getStatus() == StatusCode.PENDING_CODE;
+        return Objects.equals(mRequest.getStatus(), StatusCode.PENDING_CODE);
     }
 
     public boolean isRejectStatus() {
-        return mRequest.getStatus() == StatusCode.REJECT_CODE;
+        return Objects.equals(mRequest.getStatus(), StatusCode.REJECT_CODE);
     }
 
     @Override

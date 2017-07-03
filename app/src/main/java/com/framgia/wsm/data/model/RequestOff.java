@@ -3,6 +3,7 @@ package com.framgia.wsm.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.framgia.wsm.R;
+import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.validator.Rule;
 import com.framgia.wsm.utils.validator.ValidType;
 import com.framgia.wsm.utils.validator.Validation;
@@ -77,7 +78,7 @@ public class RequestOff extends BaseModel implements Parcelable {
     private String mBeingHandledBy;
     @Expose
     @SerializedName("status")
-    private int mStatus;
+    private String mStatus;
 
     public RequestOff() {
         mInsuranceCoverage = new InsuranceCoverage();
@@ -101,7 +102,7 @@ public class RequestOff extends BaseModel implements Parcelable {
         mEndDayNoSalary = in.readParcelable(OffNoSalaryTo.class.getClassLoader());
         mReason = in.readString();
         mBeingHandledBy = in.readString();
-        mStatus = in.readInt();
+        mStatus = in.readString();
     }
 
     @Override
@@ -122,7 +123,7 @@ public class RequestOff extends BaseModel implements Parcelable {
         dest.writeParcelable(mEndDayNoSalary, flags);
         dest.writeString(mReason);
         dest.writeString(mBeingHandledBy);
-        dest.writeInt(mStatus);
+        dest.writeString(mStatus);
     }
 
     @Override
@@ -250,11 +251,12 @@ public class RequestOff extends BaseModel implements Parcelable {
         mBeingHandledBy = beingHandledBy;
     }
 
-    public int getStatus() {
+    @StatusCode
+    public String getStatus() {
         return mStatus;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(@StatusCode String status) {
         mStatus = status;
     }
 

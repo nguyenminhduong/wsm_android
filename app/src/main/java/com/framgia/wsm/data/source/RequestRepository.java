@@ -6,6 +6,7 @@ import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.utils.StatusCode;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class RequestRepository {
         for (int i = 0; i < 5; i++) {
             RequestOff requestOff = new RequestOff();
             requestOff.setCreatedAt("16/06/2017");
-            requestOff.setStatus(0);
+            requestOff.setStatus(StatusCode.ACCEPT_CODE);
             RequestOff.OffHaveSalaryFrom offHaveSalaryFrom = new RequestOff.OffHaveSalaryFrom();
             offHaveSalaryFrom.setOffPaidFrom("16/06/2017");
             RequestOff.OffHaveSalaryTo offHaveSalaryTo = new RequestOff.OffHaveSalaryTo();
@@ -92,7 +93,7 @@ public class RequestRepository {
         for (int i = 0; i < 5; i++) {
             Request request = new Request();
             request.setCreatedAt("16/06/2017");
-            request.setStatus(1);
+            request.setStatus(StatusCode.PENDING_CODE);
             request.setProject("WSM");
             request.setFromTime("19/06/2017");
             request.setToTime("20/06/2017");
@@ -113,7 +114,7 @@ public class RequestRepository {
         requestOverTime.setCreatedAt("23/06/2017");
         requestOverTime.setFromTime("21/06/2017 18:00");
         requestOverTime.setToTime("22/06/2017 19:00");
-        requestOverTime.setStatus(1);
+        requestOverTime.setStatus(StatusCode.PENDING_CODE);
         requestOverTime.setReason("Ko kịp tiến độ !!!");
         requestOverTime.setProject("WSM Android");
         requestOverTimes.add(requestOverTime);
@@ -122,7 +123,7 @@ public class RequestRepository {
         requestOverTime3.setCreatedAt("23/06/2017");
         requestOverTime3.setFromTime("21/06/2017 18:00");
         requestOverTime3.setToTime("22/06/2017 19:00");
-        requestOverTime3.setStatus(2);
+        requestOverTime3.setStatus(StatusCode.REJECT_CODE);
         requestOverTime3.setReason("Ko kịp tiến độ !!!");
         requestOverTime3.setProject("WSM Android");
         requestOverTimes.add(requestOverTime3);
@@ -131,7 +132,7 @@ public class RequestRepository {
         requestOverTime4.setCreatedAt("23/08/2017");
         requestOverTime4.setFromTime("21/08/2017 18:00");
         requestOverTime4.setToTime("22/08/2017 19:00");
-        requestOverTime4.setStatus(0);
+        requestOverTime4.setStatus(StatusCode.ACCEPT_CODE);
         requestOverTime4.setReason("Ko kịp tiến độ !!!");
         requestOverTime4.setProject("WSM Android");
         requestOverTimes.add(requestOverTime4);
@@ -140,7 +141,7 @@ public class RequestRepository {
         requestOverTime2.setCreatedAt("23/09/2017");
         requestOverTime2.setFromTime("21/09/2017 18:00");
         requestOverTime2.setToTime("22/09/2017 19:00");
-        requestOverTime2.setStatus(1);
+        requestOverTime2.setStatus(StatusCode.PENDING_CODE);
         requestOverTime2.setReason("Ko kịp tiến độ !!!");
         requestOverTime2.setProject("WSM Android");
         requestOverTimes.add(requestOverTime2);
@@ -160,7 +161,7 @@ public class RequestRepository {
         requestOverTime.setCreatedAt("23/06/2017");
         requestOverTime.setFromTime("21/06/2017 18:00");
         requestOverTime.setToTime("22/06/2017 19:00");
-        requestOverTime.setStatus(1);
+        requestOverTime.setStatus(StatusCode.PENDING_CODE);
         requestOverTime.setReason("Ko kịp tiến độ !!!");
         requestOverTime.setProject("WSM Android");
         requestOverTimes.add(requestOverTime);
@@ -169,7 +170,7 @@ public class RequestRepository {
         requestOverTime3.setCreatedAt("23/06/2017");
         requestOverTime3.setFromTime("21/06/2017 18:00");
         requestOverTime3.setToTime("22/06/2017 19:00");
-        requestOverTime3.setStatus(2);
+        requestOverTime3.setStatus(StatusCode.REJECT_CODE);
         requestOverTime3.setReason("Ko kịp tiến độ !!!");
         requestOverTime3.setProject("WSM Android");
         requestOverTimes.add(requestOverTime3);
@@ -189,7 +190,7 @@ public class RequestRepository {
         requestOverTime.setCreatedAt("23/06/2017");
         requestOverTime.setFromTime("21/06/2017 18:00");
         requestOverTime.setToTime("22/06/2017 19:00");
-        requestOverTime.setStatus(1);
+        requestOverTime.setStatus(StatusCode.PENDING_CODE);
         requestOverTime.setReason("Ko kịp tiến độ !!!");
         requestOverTime.setProject("WSM Android");
         requestOverTimes.add(requestOverTime);
@@ -198,7 +199,7 @@ public class RequestRepository {
         requestOverTime3.setCreatedAt("23/06/2017");
         requestOverTime3.setFromTime("21/06/2017 18:00");
         requestOverTime3.setToTime("22/06/2017 19:00");
-        requestOverTime3.setStatus(2);
+        requestOverTime3.setStatus(StatusCode.REJECT_CODE);
         requestOverTime3.setReason("Ko kịp tiến độ !!!");
         requestOverTime3.setProject("WSM Android");
         requestOverTimes.add(requestOverTime3);
@@ -216,7 +217,7 @@ public class RequestRepository {
         for (int i = 0; i < 2; i++) {
             RequestOff requestOff = new RequestOff();
             requestOff.setCreatedAt("16/06/2017");
-            requestOff.setStatus(0);
+            requestOff.setStatus(StatusCode.ACCEPT_CODE);
             RequestOff.OffHaveSalaryFrom offHaveSalaryFrom = new RequestOff.OffHaveSalaryFrom();
             offHaveSalaryFrom.setOffPaidFrom("16/06/2017");
             RequestOff.OffHaveSalaryTo offHaveSalaryTo = new RequestOff.OffHaveSalaryTo();

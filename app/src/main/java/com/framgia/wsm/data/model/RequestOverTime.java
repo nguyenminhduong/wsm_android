@@ -3,6 +3,7 @@ package com.framgia.wsm.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.framgia.wsm.R;
+import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.validator.Rule;
 import com.framgia.wsm.utils.validator.ValidType;
 import com.framgia.wsm.utils.validator.Validation;
@@ -65,7 +66,7 @@ public class RequestOverTime extends BaseModel implements Parcelable {
     private String mReason;
     @Expose
     @SerializedName("status")
-    private int mStatus;
+    private String mStatus;
 
     public RequestOverTime() {
     }
@@ -79,7 +80,7 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         this.mFromTime = in.readString();
         this.mToTime = in.readString();
         this.mReason = in.readString();
-        this.mStatus = in.readInt();
+        this.mStatus = in.readString();
     }
 
     public int getId() {
@@ -146,11 +147,12 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         mReason = reason;
     }
 
-    public int getStatus() {
+    @StatusCode
+    public String getStatus() {
         return mStatus;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(@StatusCode String status) {
         mStatus = status;
     }
 
@@ -169,6 +171,6 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         dest.writeString(this.mFromTime);
         dest.writeString(this.mToTime);
         dest.writeString(this.mReason);
-        dest.writeInt(this.mStatus);
+        dest.writeString(this.mStatus);
     }
 }

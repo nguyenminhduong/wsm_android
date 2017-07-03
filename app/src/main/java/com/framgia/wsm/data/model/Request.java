@@ -2,6 +2,7 @@ package com.framgia.wsm.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.framgia.wsm.utils.StatusCode;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -69,7 +70,7 @@ public class Request extends BaseModel implements Parcelable {
     private String mCheckoutTime;
     @Expose
     @SerializedName("status")
-    private int mStatus;
+    private String mStatus;
     @Expose
     @SerializedName("compensation")
     private Compensation mCompensation;
@@ -93,7 +94,7 @@ public class Request extends BaseModel implements Parcelable {
         mCheckinTime = in.readString();
         mCheckoutTime = in.readString();
         mBeingHandledBy = in.readString();
-        mStatus = in.readInt();
+        mStatus = in.readString();
         mCompensation = in.readParcelable(Compensation.class.getClassLoader());
     }
 
@@ -217,11 +218,11 @@ public class Request extends BaseModel implements Parcelable {
         mBeingHandledBy = beingHandledBy;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return mStatus;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         mStatus = status;
     }
 
@@ -255,7 +256,7 @@ public class Request extends BaseModel implements Parcelable {
         dest.writeString(mCheckinTime);
         dest.writeString(mCheckoutTime);
         dest.writeString(mBeingHandledBy);
-        dest.writeInt(mStatus);
+        dest.writeString(mStatus);
         dest.writeParcelable(mCompensation, flags);
     }
 
@@ -305,11 +306,12 @@ public class Request extends BaseModel implements Parcelable {
             mToTime = toTime;
         }
 
+        @StatusCode
         public int getStatus() {
             return mStatus;
         }
 
-        public void setStatus(int status) {
+        public void setStatus(@StatusCode int status) {
             mStatus = status;
         }
 
