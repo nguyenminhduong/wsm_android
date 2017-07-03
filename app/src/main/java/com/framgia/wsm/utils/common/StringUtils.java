@@ -1,5 +1,7 @@
 package com.framgia.wsm.utils.common;
 
+import com.framgia.wsm.utils.Constant;
+
 /**
  * Created by framgia on 05/05/2017.
  */
@@ -37,5 +39,12 @@ public final class StringUtils {
                 return result;
             }
         }
+    }
+
+    public static String getStaffType(String input) {
+        if (input == null) {
+            return "";
+        }
+        return input.substring(Constant.BEGIN_INDEX, Constant.BEGIN_INDEX);
     }
 }

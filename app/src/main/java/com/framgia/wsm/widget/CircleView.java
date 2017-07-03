@@ -15,8 +15,7 @@ public class CircleView extends View {
     private static final int DEFAULT_CIRCLE_COLOR = Color.RED;
 
     private int mCircleColor = DEFAULT_CIRCLE_COLOR;
-    private Paint mPaintStroke;
-    private Paint mPaintBackground;
+    private Paint mPaint;
 
     public CircleView(Context context) {
         super(context);
@@ -29,8 +28,7 @@ public class CircleView extends View {
     }
 
     private void initView(Context context, AttributeSet attrs) {
-        mPaintStroke = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaintBackground = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     }
 
     public void setCircleColor(int circleColor) {
@@ -61,14 +59,7 @@ public class CircleView extends View {
         int cx = paddingLeft + (usableWidth / 2);
         int cy = paddingTop + (usableHeight / 2);
 
-        mPaintStroke.setColor(mCircleColor);
-        mPaintStroke.setStyle(Paint.Style.STROKE);
-        mPaintStroke.setStrokeWidth(3);
-        mPaintStroke.setStrokeJoin(Paint.Join.ROUND);
-        mPaintStroke.setStrokeCap(Paint.Cap.ROUND);
-        mPaintBackground.setColor(Color.WHITE);
-
-        canvas.drawCircle(cx, cy, radius, mPaintBackground);
-        canvas.drawCircle(cx, cy, radius, mPaintStroke);
+        mPaint.setColor(mCircleColor);
+        canvas.drawCircle(cx, cy, radius, mPaint);
     }
 }

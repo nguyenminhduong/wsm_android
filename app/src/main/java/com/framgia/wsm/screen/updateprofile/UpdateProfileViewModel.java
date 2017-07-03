@@ -105,7 +105,7 @@ public class UpdateProfileViewModel extends BaseObservable
 
     @Override
     public void setAvatarUser(Uri avatarUser) {
-        mAvatar = avatarUser.getPath();
+        mAvatar = avatarUser.toString();
         File file = new File(FileUtils.getRealPathFromURI(mContext, avatarUser));
         mUpdateProfileRequest.setAvatar(file);
         notifyPropertyChanged(BR.avatar);
