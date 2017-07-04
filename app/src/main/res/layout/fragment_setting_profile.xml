@@ -36,33 +36,31 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         >
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorPrimary"
-                            android:gravity="center"
-                            android:padding="@dimen/dp_3"
-                            android:text="@string/default_group_and_workspace"
-                            android:textColor="@color/color_white"
-                            android:textSize="@dimen/sp_17"
-                            />
                         <android.support.design.widget.TextInputLayout
+                            app:hintTextAppearance="@style/TextLabelInputLayout"
                             style="@style/StyleTextHint"
                             >
                             <EditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/default_group"
+                                android:onClick="@{() ->  viewModel.onClickGroup()}"
+                                android:text="@={viewModel.currentGroup}"
+
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
                         <android.support.design.widget.TextInputLayout
+                            app:hintTextAppearance="@style/TextLabelInputLayout"
                             style="@style/StyleTextHint"
                             >
                             <EditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/default_workspace"
+                                android:onClick="@{() -> viewModel.onClickWorkspace()}"
+                                android:text="@={viewModel.currentBranch}"
+
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
@@ -101,9 +99,11 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 >
-                                <View
+                                <TextView
                                     android:layout_width="@dimen/dp_250"
-                                    android:layout_height="@dimen/dp_0"
+                                    android:layout_marginTop="@dimen/dp_10"
+                                    android:text="@string/receive_notification_or_email"
+                                    style="@style/StyleText"
                                     />
                                 <ImageView
                                     android:layout_width="wrap_content"
@@ -118,6 +118,11 @@
                                     app:srcCompat="@drawable/ic_email_2"
                                     />
                             </LinearLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_1"
+                                android:background="@color/color_gray"
+                                />
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -131,17 +136,23 @@
                                     android:text="@string/receive_notification"
                                     style="@style/StyleText"
                                     />
-                                <Switch
+                                <CheckBox
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="@dimen/dp_10"
                                     android:layout_marginStart="@dimen/dp_10"
+                                    android:checked="@={viewModel.setting.notifiAll}"
+                                    android:onClick="@{() -> viewModel.onNotifiAllClicked()}"
+                                    android:theme="@style/StyleSwitch"
                                     />
-                                <Switch
+                                <CheckBox
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/dp_10"
-                                    android:layout_marginStart="@dimen/dp_10"
+                                    android:layout_marginLeft="@dimen/dp_30"
+                                    android:layout_marginStart="@dimen/dp_30"
+                                    android:checked="@={viewModel.setting.emailAll}"
+                                    android:onClick="@{() -> viewModel.onEmailAllClicked()}"
+                                    android:theme="@style/StyleSwitch"
                                     />
                             </LinearLayout>
                             <View
@@ -162,17 +173,23 @@
                                     android:text="@string/notification_list"
                                     style="@style/StyleText"
                                     />
-                                <Switch
+                                <CheckBox
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="@dimen/dp_10"
                                     android:layout_marginStart="@dimen/dp_10"
+                                    android:checked="@={viewModel.setting.notifiList}"
+                                    android:onClick="@{() -> viewModel.onNotifiListClicked()}"
+                                    android:theme="@style/StyleSwitch"
                                     />
-                                <Switch
+                                <CheckBox
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/dp_10"
-                                    android:layout_marginStart="@dimen/dp_10"
+                                    android:layout_marginLeft="@dimen/dp_30"
+                                    android:layout_marginStart="@dimen/dp_30"
+                                    android:checked="@={viewModel.setting.emailList}"
+                                    android:onClick="@{() -> viewModel.onEmailListClicked()}"
+                                    android:theme="@style/StyleSwitch"
                                     />
                             </LinearLayout>
                             <View
@@ -193,17 +210,23 @@
                                     android:text="@string/notification_Change_group"
                                     style="@style/StyleText"
                                     />
-                                <Switch
+                                <CheckBox
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="@dimen/dp_10"
                                     android:layout_marginStart="@dimen/dp_10"
+                                    android:checked="@={viewModel.setting.notifiGroup}"
+                                    android:onClick="@{() -> viewModel.onNotifiGroupClicked()}"
+                                    android:theme="@style/StyleSwitch"
                                     />
-                                <Switch
+                                <CheckBox
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/dp_10"
-                                    android:layout_marginStart="@dimen/dp_10"
+                                    android:layout_marginLeft="@dimen/dp_30"
+                                    android:layout_marginStart="@dimen/dp_30"
+                                    android:checked="@={viewModel.setting.emailGroup}"
+                                    android:onClick="@{() -> viewModel.onEmailGroupClicked()}"
+                                    android:theme="@style/StyleSwitch"
                                     />
                             </LinearLayout>
                             <View
@@ -224,17 +247,23 @@
                                     android:text="@string/notification_Change_workspace"
                                     style="@style/StyleText"
                                     />
-                                <Switch
+                                <CheckBox
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="@dimen/dp_10"
                                     android:layout_marginStart="@dimen/dp_10"
+                                    android:checked="@={viewModel.setting.notifiWorkspace}"
+                                    android:onClick="@{() -> viewModel.onNotifiWorkspaceClicked()}"
+                                    android:theme="@style/StyleSwitch"
                                     />
-                                <Switch
+                                <CheckBox
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/dp_10"
-                                    android:layout_marginStart="@dimen/dp_10"
+                                    android:layout_marginLeft="@dimen/dp_30"
+                                    android:layout_marginStart="@dimen/dp_30"
+                                    android:checked="@={viewModel.setting.emailWorkspace}"
+                                    android:onClick="@{() -> viewModel.onEmailWorkspaceClicked()}"
+                                    android:theme="@style/StyleSwitch"
                                     />
                             </LinearLayout>
                         </LinearLayout>
