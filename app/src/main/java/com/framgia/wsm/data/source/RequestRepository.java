@@ -100,6 +100,8 @@ public class RequestRepository {
             request.setFromTime("19/06/2017");
             request.setToTime("20/06/2017");
             request.setLeaveType(leaveType);
+            request.setTimeRequest("07:45 - 09:44 06/01/2017");
+            request.setBeingHandledBy("Div_test_" + i);
             requests.add(request);
         }
         BaseResponse<List<Request>> baseResponse = new BaseResponse<List<Request>>(requests) {

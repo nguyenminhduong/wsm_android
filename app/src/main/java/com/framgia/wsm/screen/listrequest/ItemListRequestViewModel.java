@@ -32,6 +32,26 @@ public class ItemListRequestViewModel extends BaseObservable {
         }
     }
 
+    public String getTimeRequest() {
+        if (mRequest != null) {
+            return mRequest.getTimeRequest();
+        }
+        return "";
+    }
+
+    public String getBeingHandledBy() {
+        if (mRequest != null) {
+            return mRequest.getBeingHandledBy();
+        }
+        if (mRequestOverTime != null) {
+            return mRequestOverTime.getBeingHandledBy();
+        }
+        if (mRequestOff != null) {
+            return mRequestOff.getBeingHandledBy();
+        }
+        return "";
+    }
+
     public String getCreateAt() {
         if (mRequest != null) {
             return mRequest.getCreatedAt();
@@ -108,31 +128,31 @@ public class ItemListRequestViewModel extends BaseObservable {
 
     public boolean isAcceptStatus() {
         if (mRequest != null) {
-            return mRequest.getStatus() == StatusCode.ACCEPT_CODE;
+            return StatusCode.ACCEPT_CODE.equals(mRequest.getStatus());
         } else if (mRequestOff != null) {
-            return mRequestOff.getStatus() == StatusCode.ACCEPT_CODE;
+            return StatusCode.ACCEPT_CODE.equals(mRequestOff.getStatus());
         } else {
-            return mRequestOverTime.getStatus() == StatusCode.ACCEPT_CODE;
+            return StatusCode.ACCEPT_CODE.equals(mRequestOverTime.getStatus());
         }
     }
 
     public boolean isPendingStatus() {
         if (mRequest != null) {
-            return mRequest.getStatus() == StatusCode.PENDING_CODE;
+            return StatusCode.PENDING_CODE.equals(mRequest.getStatus());
         } else if (mRequestOff != null) {
-            return mRequestOff.getStatus() == StatusCode.PENDING_CODE;
+            return StatusCode.PENDING_CODE.equals(mRequestOff.getStatus());
         } else {
-            return mRequestOverTime.getStatus() == StatusCode.PENDING_CODE;
+            return StatusCode.PENDING_CODE.equals(mRequestOverTime.getStatus());
         }
     }
 
     public boolean isRejectStatus() {
         if (mRequest != null) {
-            return mRequest.getStatus() == StatusCode.REJECT_CODE;
+            return StatusCode.REJECT_CODE.equals(mRequest.getStatus());
         } else if (mRequestOff != null) {
-            return mRequestOff.getStatus() == StatusCode.REJECT_CODE;
+            return StatusCode.REJECT_CODE.equals(mRequestOff.getStatus());
         } else {
-            return mRequestOverTime.getStatus() == StatusCode.REJECT_CODE;
+            return StatusCode.REJECT_CODE.equals(mRequestOverTime.getStatus());
         }
     }
 

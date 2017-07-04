@@ -74,6 +74,9 @@ public class Request extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("compensation")
     private Compensation mCompensation;
+    @Expose
+    @SerializedName("time_request")
+    private String mTimeRequest;
 
     public Request() {
     }
@@ -95,6 +98,7 @@ public class Request extends BaseModel implements Parcelable {
         mCheckoutTime = in.readString();
         mBeingHandledBy = in.readString();
         mStatus = in.readString();
+        mTimeRequest = in.readString();
         mCompensation = in.readParcelable(Compensation.class.getClassLoader());
     }
 
@@ -234,6 +238,14 @@ public class Request extends BaseModel implements Parcelable {
         mCompensation = compensation;
     }
 
+    public String getTimeRequest() {
+        return mTimeRequest;
+    }
+
+    public void setTimeRequest(String timeRequest) {
+        mTimeRequest = timeRequest;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -257,6 +269,7 @@ public class Request extends BaseModel implements Parcelable {
         dest.writeString(mCheckoutTime);
         dest.writeString(mBeingHandledBy);
         dest.writeString(mStatus);
+        dest.writeString(mTimeRequest);
         dest.writeParcelable(mCompensation, flags);
     }
 
