@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
@@ -86,7 +86,7 @@ public class ListRequestViewModel extends BaseObservable
         Bundle bundle = new Bundle();
         switch (mRequestType) {
             case RequestType.REQUEST_LATE_EARLY:
-                bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, (Request) object);
+                bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, (LeaveRequest) object);
                 bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
                 mNavigator.startActivity(ConfirmRequestLeaveActivity.class, bundle);
                 break;
@@ -135,7 +135,7 @@ public class ListRequestViewModel extends BaseObservable
                 mListRequestAdapter.updateDataRequestOff((List<RequestOff>) object);
                 break;
             case RequestType.REQUEST_LATE_EARLY:
-                mListRequestAdapter.updateDataRequest((List<Request>) object);
+                mListRequestAdapter.updateDataRequest((List<LeaveRequest>) object);
                 break;
             default:
                 break;

@@ -14,7 +14,7 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRequestLeave;
@@ -47,7 +47,7 @@ import static com.framgia.wsm.utils.Constant.TimeConst.TWELVE_HOUR;
 import static com.framgia.wsm.utils.common.DateTimeUtils.convertDateTimeToString;
 
 /**
- * Exposes the data to be used in the Request screen.
+ * Exposes the data to be used in the LeaveRequest screen.
  */
 public class RequestLeaveViewModel extends BaseRequestLeave
         implements RequestLeaveContract.ViewModel, DatePickerDialog.OnDateSetListener,
@@ -71,7 +71,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     private String mExampleLeaveInType;
     private String mTitleLeaveOutType;
     private String mExampleLeaveOutType;
-    private Request mRequest;
+    private LeaveRequest mRequest;
     private String mProjectNameError;
     private String mReasonError;
     private String mCheckinTimeError;
@@ -105,7 +105,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     RequestLeaveViewModel(Context context, Navigator navigator,
             RequestLeaveContract.Presenter presenter, DialogManager dialogManager,
-            Request requestLeave, int actionType) {
+            LeaveRequest requestLeave, int actionType) {
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mContext = context;
@@ -120,16 +120,16 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mActionType = actionType;
     }
 
-    private void initRequest(Request requestLeave) {
+    private void initRequest(LeaveRequest requestLeave) {
         if (requestLeave != null) {
             mRequest = requestLeave;
             if (mRequest.getCompensation() == null) {
-                mRequest.setCompensation(new Request.Compensation());
+                mRequest.setCompensation(new LeaveRequest.Compensation());
                 mCurrentLeaveType = mRequest.getLeaveType().getName();
             }
         } else {
-            mRequest = new Request();
-            mRequest.setCompensation(new Request.Compensation());
+            mRequest = new LeaveRequest();
+            mRequest.setCompensation(new LeaveRequest.Compensation());
         }
     }
 

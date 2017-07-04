@@ -1,6 +1,6 @@
 package com.framgia.wsm.data.source.remote;
 
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.RequestDataSource;
@@ -36,22 +36,22 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<Object> createFormRequestLeave(@NonNull Request request) {
+    public Observable<Object> createFormRequestLeave(@NonNull LeaveRequest request) {
         return mWSMApi.createFormRequestLeave(request);
     }
 
     @Override
-    public Observable<BaseResponse<List<Request>>> getListRequestOverTime() {
+    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestOverTime() {
         return mWSMApi.getListRequestOverTime();
     }
 
     @Override
-    public Observable<BaseResponse<List<Request>>> getListRequestOff() {
+    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestOff() {
         return mWSMApi.getListRequestOff();
     }
 
     @Override
-    public Observable<BaseResponse<List<Request>>> getListRequestLateEarly() {
+    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly() {
         return mWSMApi.getListRequestLateEarly();
     }
 
@@ -62,14 +62,14 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<List<Request>>> getListRequestLeaveWithStatusAndTime(int status,
-            String time) {
+    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveWithStatusAndTime(
+            int status, String time) {
         return mWSMApi.getListRequestLeaveWithStatusAndTime(status, time);
     }
 
     @Override
-    public Observable<BaseResponse<List<Request>>> getListRequestOffWithStatusAndTime(int status,
-            String time) {
+    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestOffWithStatusAndTime(
+            int status, String time) {
         return mWSMApi.getListRequestOffWithStatusAndTime(status, time);
     }
 
@@ -127,14 +127,15 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<Request>> editFormRequestLeave(@NonNull Request requestLeave) {
+    public Observable<BaseResponse<LeaveRequest>> editFormRequestLeave(
+            @NonNull LeaveRequest requestLeave) {
         return mWSMApi.editFormRequestLeave(requestLeave)
                 .flatMap(
-                        new Function<BaseResponse<Request>,
-                                ObservableSource<BaseResponse<Request>>>() {
+                        new Function<BaseResponse<LeaveRequest>,
+                                ObservableSource<BaseResponse<LeaveRequest>>>() {
                             @Override
-                            public ObservableSource<BaseResponse<Request>> apply(
-                                    @NonNull BaseResponse<Request> requestBaseResponse)
+                            public ObservableSource<BaseResponse<LeaveRequest>> apply(
+                                    @NonNull BaseResponse<LeaveRequest> requestBaseResponse)
                                     throws Exception {
                                 if (requestBaseResponse != null) {
                                     return Observable.just(requestBaseResponse);

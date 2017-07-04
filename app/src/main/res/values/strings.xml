@@ -178,12 +178,12 @@
     <string name="title_forgot_out">Check out time</string>
     <string name="exmple_forgot_out">Ex: 2017/05/20 15:45</string>
 
-    <!-- Validate Request OverTime -->
+    <!-- Valid LeaveRequest test OverTime -->
     <string name="time_request_overtime_invalid">Time request overtime invalid: It is not in time period request overtime</string>
     <string name="end_time_is_less_than_start_time">End time is less than start time</string>
     <string name="you_have_to_choose_the_from_time_first">  You have to choose the from time first</string>
 
-    <!-- Validate Request Leave -->
+    <!-- Valid LeaveRequest test Leave -->
     <string name="the_working_time_dose_not_fit_to_the_request">The working time dose not fit to the request</string>
     <string name="form_overdue">Form overdue</string>
     <string name="this_is_form_request_late_time_in_is_incorrect">This is form request late, time in is incorrect!</string>
@@ -207,7 +207,7 @@
     <string name="check_in_time">Checkin time</string>
     <string name="check_out_time">Checkout time</string>
 
-    <!-- Validate Request Off -->
+    <!-- ValidLeaveRequestuest Off -->
     <string name="you_can_not_access">You can not access for this month!</string>
     <string name="you_have_to_choose_start_date">You have to choose start date first!</string>
     <string name="end_date_must_greater_than_start_day">End day must greater than start day!</string>

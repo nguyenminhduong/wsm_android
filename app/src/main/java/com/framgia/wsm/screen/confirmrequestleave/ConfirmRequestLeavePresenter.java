@@ -1,6 +1,6 @@
 package com.framgia.wsm.screen.confirmrequestleave;
 
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.UserRepository;
@@ -49,7 +49,7 @@ final class ConfirmRequestLeavePresenter implements ConfirmRequestLeaveContract.
     }
 
     @Override
-    public void createFormRequestLeave(Request request) {
+    public void createFormRequestLeave(LeaveRequest request) {
         Disposable disposable = mRequestRepository.createFormRequestLeave(request)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
@@ -68,7 +68,7 @@ final class ConfirmRequestLeavePresenter implements ConfirmRequestLeaveContract.
     }
 
     @Override
-    public void editFormRequestLeave(Request request) {
+    public void editFormRequestLeave(LeaveRequest request) {
         Disposable disposable = mRequestRepository.editFormRequestLeave(request)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())

@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.R;
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.confirmrequestoff.ConfirmRequestOffActivity;
@@ -34,7 +34,7 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     private static final String TAG = "ConfirmRequestLeaveViewModel";
 
     private ConfirmRequestLeaveContract.Presenter mPresenter;
-    private Request mRequest;
+    private LeaveRequest mRequest;
     private User mUser;
     private Navigator mNavigator;
     private String mLeaveType;
@@ -43,7 +43,8 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     private Context mContext;
 
     ConfirmRequestLeaveViewModel(Context context, ConfirmRequestLeaveContract.Presenter presenter,
-            Request request, Navigator navigator, DialogManager dialogManager, int actionType) {
+            LeaveRequest request, Navigator navigator, DialogManager dialogManager,
+            int actionType) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
@@ -167,7 +168,7 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
         return mContext.getString(R.string.confirm_request_leave);
     }
 
-    public Request getRequest() {
+    public LeaveRequest getRequest() {
         return mRequest;
     }
 

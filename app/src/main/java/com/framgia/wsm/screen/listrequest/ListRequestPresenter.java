@@ -1,6 +1,6 @@
 package com.framgia.wsm.screen.listrequest;
 
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
@@ -101,10 +101,10 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
                 disposable = mRequestRepository.getListRequestLateEarly()
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
-                        .subscribe(new Consumer<BaseResponse<List<Request>>>() {
+                        .subscribe(new Consumer<BaseResponse<List<LeaveRequest>>>() {
                             @Override
                             public void accept(
-                                    @NonNull BaseResponse<List<Request>> listBaseResponse)
+                                    @NonNull BaseResponse<List<LeaveRequest>> listBaseResponse)
                                     throws Exception {
                                 mViewModel.onGetListRequestSuccess(RequestType.REQUEST_LATE_EARLY,
                                         listBaseResponse.getData());
@@ -169,9 +169,9 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
                 mRequestRepository.getListRequestLeaveWithStatusAndTime(status, time)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
-                        .subscribe(new Consumer<BaseResponse<List<Request>>>() {
+                        .subscribe(new Consumer<BaseResponse<List<LeaveRequest>>>() {
                             @Override
-                            public void accept(BaseResponse<List<Request>> listBaseResponse)
+                            public void accept(BaseResponse<List<LeaveRequest>> listBaseResponse)
                                     throws Exception {
                                 mViewModel.onGetListRequestSuccess(RequestType.REQUEST_LATE_EARLY,
                                         listBaseResponse.getData());

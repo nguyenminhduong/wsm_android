@@ -10,17 +10,17 @@ import com.google.gson.annotations.SerializedName;
  * Created by tri on 02/06/2017.
  */
 
-public class Request extends BaseModel implements Parcelable {
+public class LeaveRequest extends BaseModel implements Parcelable {
 
-    public static final Creator<Request> CREATOR = new Creator<Request>() {
+    public static final Creator<LeaveRequest> CREATOR = new Creator<LeaveRequest>() {
         @Override
-        public Request createFromParcel(Parcel in) {
-            return new Request(in);
+        public LeaveRequest createFromParcel(Parcel in) {
+            return new LeaveRequest(in);
         }
 
         @Override
-        public Request[] newArray(int size) {
-            return new Request[size];
+        public LeaveRequest[] newArray(int size) {
+            return new LeaveRequest[size];
         }
     };
 
@@ -78,10 +78,10 @@ public class Request extends BaseModel implements Parcelable {
     @SerializedName("time_request")
     private String mTimeRequest;
 
-    public Request() {
+    public LeaveRequest() {
     }
 
-    protected Request(Parcel in) {
+    protected LeaveRequest(Parcel in) {
         mId = in.readInt();
         mCreatedAt = in.readString();
         mGroup = in.readParcelable(Group.class.getClassLoader());

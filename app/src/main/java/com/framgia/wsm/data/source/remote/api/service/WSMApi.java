@@ -1,6 +1,6 @@
 package com.framgia.wsm.data.source.remote.api.service;
 
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
@@ -84,23 +84,23 @@ public interface WSMApi {
 
     // TODO edit later
     @PUT("/api/request_off")
-    Observable<BaseResponse<Request>> editFormRequestLeave(@Body Request requestLeave);
+    Observable<BaseResponse<LeaveRequest>> editFormRequestLeave(@Body LeaveRequest requestLeave);
 
     // TODO edit later
     @POST("/api/v1/request_leave")
-    Observable<Object> createFormRequestLeave(@Body Request request);
+    Observable<Object> createFormRequestLeave(@Body LeaveRequest request);
 
     // TODO edit later
     @GET("/api/v1/list_request_off")
-    Observable<BaseResponse<List<Request>>> getListRequestOff();
+    Observable<BaseResponse<List<LeaveRequest>>> getListRequestOff();
 
     // TODO edit later
     @GET("/api/v1/list_request_over_time")
-    Observable<BaseResponse<List<Request>>> getListRequestOverTime();
+    Observable<BaseResponse<List<LeaveRequest>>> getListRequestOverTime();
 
     // TODO edit later
     @GET("/api/v1/list_request_late_early")
-    Observable<BaseResponse<List<Request>>> getListRequestLateEarly();
+    Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly();
 
     @GET("/api/dashboard/leave_types")
     Observable<BaseResponse<LeaveTypeResponse>> getListLeaveType();
@@ -115,11 +115,11 @@ public interface WSMApi {
 
     //TODO edit later
     @GET("/api/v1/list_request_leave")
-    Observable<BaseResponse<List<Request>>> getListRequestLeaveWithStatusAndTime(
+    Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveWithStatusAndTime(
             @Query("status") int status, @Query("time") String time);
 
     //TODO edit later
     @GET("/api/v1/list_request_leave")
-    Observable<BaseResponse<List<Request>>> getListRequestOffWithStatusAndTime(
+    Observable<BaseResponse<List<LeaveRequest>>> getListRequestOffWithStatusAndTime(
             @Query("status") int status, @Query("time") String time);
 }

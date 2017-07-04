@@ -1,7 +1,7 @@
 package com.framgia.wsm.screen.listrequest;
 
 import android.databinding.BaseObservable;
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
@@ -13,7 +13,7 @@ import com.framgia.wsm.utils.StatusCode;
 
 public class ItemListRequestViewModel extends BaseObservable {
     private Object mObject;
-    private Request mRequest;
+    private LeaveRequest mRequest;
     private RequestOff mRequestOff;
     private RequestOverTime mRequestOverTime;
     private final BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object>
@@ -23,8 +23,8 @@ public class ItemListRequestViewModel extends BaseObservable {
             BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> itemClickListener) {
         mObject = object;
         mItemClickListener = itemClickListener;
-        if (object instanceof Request) {
-            mRequest = (Request) object;
+        if (object instanceof LeaveRequest) {
+            mRequest = (LeaveRequest) object;
         } else if (object instanceof RequestOff) {
             mRequestOff = (RequestOff) object;
         } else {
