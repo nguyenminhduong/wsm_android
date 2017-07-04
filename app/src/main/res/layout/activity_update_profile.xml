@@ -214,6 +214,7 @@
                             >
                             <EditText
                                 android:hint="@string/start_probation_date"
+                                android:text="@{viewModel.user.startProbationDate}"
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
@@ -235,6 +236,7 @@
                             >
                             <EditText
                                 android:hint="@string/end_probation_date"
+                                android:text="@{viewModel.user.endProbationDate}"
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
@@ -256,6 +258,7 @@
                             >
                             <EditText
                                 android:hint="@string/staff_type"
+                                android:text="@{viewModel.user.nameStaffType}"
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
@@ -277,6 +280,7 @@
                             >
                             <EditText
                                 android:hint="@string/position"
+                                android:text="@{viewModel.user.namePosition}"
                                 style="@style/StyleText"
                                 />
                         </android.support.design.widget.TextInputLayout>
