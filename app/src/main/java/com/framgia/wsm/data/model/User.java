@@ -48,6 +48,9 @@ public class User extends BaseModel implements Parcelable {
     })
     private String mBirthday;
     @Expose
+    @SerializedName("company_name")
+    private String mCompanyName;
+    @Expose
     @SerializedName("contract_date")
     private String mContractDate;
     @Expose
@@ -59,6 +62,21 @@ public class User extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("groups")
     private List<Group> mGroups;
+    @Expose
+    @SerializedName("start_probation_date")
+    private String mStartProbationDate;
+    @Expose
+    @SerializedName("end_probation_date")
+    private String mEndProbationDate;
+    @Expose
+    @SerializedName("individual_code")
+    private String mIndividualCode;
+    @Expose
+    @SerializedName("name_position")
+    private String mNamePosition;
+    @Expose
+    @SerializedName("name_staff_type")
+    private String mNameStaffType;
 
     private List<LeaveType> mLeaveTypes;
 
@@ -76,10 +94,16 @@ public class User extends BaseModel implements Parcelable {
         mEmail = in.readString();
         mGender = in.readString();
         mBirthday = in.readString();
+        mCompanyName = in.readString();
         mContractDate = in.readString();
         mAvatar = in.readString();
         mBranches = in.createTypedArrayList(Branch.CREATOR);
         mGroups = in.createTypedArrayList(Group.CREATOR);
+        mStartProbationDate = in.readString();
+        mEndProbationDate = in.readString();
+        mIndividualCode = in.readString();
+        mNamePosition = in.readString();
+        mNameStaffType = in.readString();
         mLeaveTypes = in.createTypedArrayList(LeaveType.CREATOR);
         mTypesCompany = in.createTypedArrayList(OffType.CREATOR);
         mTypesInsurance = in.createTypedArrayList(OffType.CREATOR);
@@ -134,6 +158,14 @@ public class User extends BaseModel implements Parcelable {
         mBirthday = birthday;
     }
 
+    public String getCompanyName() {
+        return mCompanyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        mCompanyName = companyName;
+    }
+
     public String getContractDate() {
         return DateTimeUtils.convertUiFormatToDataFormat(mContractDate,
                 DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2, DateTimeUtils.FORMAT_DATE);
@@ -165,6 +197,46 @@ public class User extends BaseModel implements Parcelable {
 
     public void setGroups(List<Group> groups) {
         mGroups = groups;
+    }
+
+    public String getStartProbationDate() {
+        return mStartProbationDate;
+    }
+
+    public void setStartProbationDate(String startProbationDate) {
+        mStartProbationDate = startProbationDate;
+    }
+
+    public String getEndProbationDate() {
+        return mEndProbationDate;
+    }
+
+    public void setEndProbationDate(String endProbationDate) {
+        mEndProbationDate = endProbationDate;
+    }
+
+    public String getIndividualCode() {
+        return mIndividualCode;
+    }
+
+    public void setIndividualCode(String individualCode) {
+        mIndividualCode = individualCode;
+    }
+
+    public String getNamePosition() {
+        return mNamePosition;
+    }
+
+    public void setNamePosition(String namePosition) {
+        mNamePosition = namePosition;
+    }
+
+    public String getNameStaffType() {
+        return mNameStaffType;
+    }
+
+    public void setNameStaffType(String nameStaffType) {
+        mNameStaffType = nameStaffType;
     }
 
     public List<LeaveType> getLeaveTypes() {
@@ -204,10 +276,16 @@ public class User extends BaseModel implements Parcelable {
         dest.writeString(mEmail);
         dest.writeString(mGender);
         dest.writeString(mBirthday);
+        dest.writeString(mCompanyName);
         dest.writeString(mContractDate);
         dest.writeString(mAvatar);
         dest.writeTypedList(mBranches);
         dest.writeTypedList(mGroups);
+        dest.writeString(mStartProbationDate);
+        dest.writeString(mEndProbationDate);
+        dest.writeString(mIndividualCode);
+        dest.writeString(mNamePosition);
+        dest.writeString(mNameStaffType);
         dest.writeTypedList(mLeaveTypes);
         dest.writeTypedList(mTypesCompany);
         dest.writeTypedList(mTypesInsurance);

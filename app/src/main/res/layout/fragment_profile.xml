@@ -192,6 +192,7 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:text="@{viewModel.user.companyName}"
                                     style="@style/StyleTextProfile"
                                     />
                             </LinearLayout>
@@ -241,6 +242,7 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:text="@{viewModel.user.startProbationDate}"
                                     style="@style/StyleTextProfile"
                                     />
                             </LinearLayout>
@@ -265,6 +267,7 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:text="@{viewModel.user.endProbationDate}"
                                     style="@style/StyleTextProfile"
                                     />
                             </LinearLayout>
@@ -289,6 +292,7 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:text="@{viewModel.user.namePosition}"
                                     style="@style/StyleTextProfile"
                                     />
                             </LinearLayout>
@@ -313,6 +317,7 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:text="@{viewModel.user.individualCode}"
                                     style="@style/StyleTextProfile"
                                     />
                             </LinearLayout>
@@ -337,6 +342,7 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:text="@{viewModel.user.nameStaffType}"
                                     style="@style/StyleTextProfile"
                                     />
                             </LinearLayout>
