@@ -17,88 +17,102 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dp_10"
-        android:focusableInTouchMode="true"
         android:orientation="vertical"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_10"
             android:baselineAligned="false"
             android:orientation="horizontal"
             >
 
-            <FrameLayout
-                android:layout_width="@dimen/dp_0"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
-                android:layout_weight="0.35"
+                android:layout_weight="0.3"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
                 >
 
-                <android.support.design.widget.TextInputLayout
-                    style="@style/StyleTextHint"
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     >
-
-                    <EditText
-                        android:hint="@string/status"
-                        android:onClick="@{viewModel::onPickTypeStatus}"
-                        android:text="@{viewModel.currentStatus}"
-                        style="@style/StyleText"
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/StyleTextHint"
+                        >
+                        <EditText
+                            android:hint="@string/status"
+                            android:onClick="@{viewModel::onPickTypeStatus}"
+                            android:text="@{viewModel.currentStatus}"
+                            style="@style/StyleText"
+                            />
+                    </android.support.design.widget.TextInputLayout>
+                    <ImageView
+                        tools:ignore="ContentDescription"
+                        style="@style/StyleImageDropDown"
                         />
-                </android.support.design.widget.TextInputLayout>
+                </FrameLayout>
 
-                <ImageView
-                    tools:ignore="ContentDescription"
-                    style="@style/StyleImageDropDown"
-                    />
-            </FrameLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    >
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/StyleTextHint"
+                        >
+                        <EditText
+                            android:hint="@string/month"
+                            android:inputType="date"
+                            android:onClick="@{viewModel::onPickMonthYear}"
+                            android:text="@{viewModel.monthYear}"
+                            style="@style/StyleText"
+                            />
+                    </android.support.design.widget.TextInputLayout>
+                    <ImageView
+                        tools:ignore="ContentDescription"
+                        style="@style/StyleImageDropDown"
+                        />
+                </FrameLayout>
+            </LinearLayout>
 
-            <FrameLayout
-                android:layout_width="@dimen/dp_0"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
-                android:layout_weight="0.35"
+                android:layout_gravity="center"
+                android:layout_weight="0.7"
+                android:orientation="horizontal"
                 >
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/StyleTextHint"
-                    >
-
-                    <EditText
-                        android:hint="@string/month"
-                        android:inputType="date"
-                        android:onClick="@{viewModel::onPickMonthYear}"
-                        android:text="@{viewModel.monthYear}"
-                        style="@style/StyleText"
-                        />
-                </android.support.design.widget.TextInputLayout>
-
-                <ImageView
+                <ImageButton
+                    android:layout_width="@dimen/dp_35"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginStart="@dimen/dp_20"
+                    android:background="@drawable/border_button_cancel"
+                    android:onClick="@{viewModel::onRemoveMonth}"
+                    android:tint="@color/color_white"
+                    app:srcCompat="@drawable/ic_remove"
                     tools:ignore="ContentDescription"
-                    style="@style/StyleImageDropDown"
                     />
-            </FrameLayout>
-            <ImageView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="@dimen/dp_40"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.10"
-                android:background="@drawable/ic_remove"
-                android:onClick="@{viewModel::onRemoveMonth}"
-                tools:ignore="ContentDescription"
-                />
-            <ImageView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="@dimen/dp_40"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.10"
-                android:background="@drawable/ic_search"
-                android:onClick="@{viewModel::onSearchRequest}"
-                tools:ignore="ContentDescription"
-                />
+                <ImageButton
+                    android:layout_width="@dimen/dp_35"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:background="@drawable/border_button_search"
+                    android:onClick="@{viewModel::onSearchRequest}"
+                    android:tint="@color/color_white"
+                    app:srcCompat="@drawable/ic_search"
+                    tools:ignore="ContentDescription"
+                    />
+            </LinearLayout>
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

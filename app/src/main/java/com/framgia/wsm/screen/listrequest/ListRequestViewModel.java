@@ -54,15 +54,13 @@ public class ListRequestViewModel extends BaseObservable
     @RequestType
     private int mRequestType;
 
-    public ListRequestViewModel(Context context, ListRequestContract.Presenter presenter,
+    ListRequestViewModel(Context context, ListRequestContract.Presenter presenter,
             DialogManager dialogManager, ListRequestAdapter listRequestAdapter,
             Navigator navigator) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mDialogManager = dialogManager;
-        mCurrentPositionStatus = PositionStatus.ALL;
-        mCurrentStatus = mContext.getString(R.string.all);
         mCalendar = Calendar.getInstance();
         mYear = mCalendar.get(Calendar.YEAR);
         mMonth = mCalendar.get(Calendar.MONTH) + 1;
@@ -249,16 +247,16 @@ public class ListRequestViewModel extends BaseObservable
 
     public void onRemoveMonth(View view) {
         setMonthYear(null);
-        mCurrentPositionStatus = PositionStatus.ALL;
-        setCurrentStatus(mContext.getString(R.string.all));
+        mCurrentPositionStatus = PositionStatus.FORWARDED;
+        setCurrentStatus(null);
     }
 
     @IntDef({
-            PositionStatus.ALL, PositionStatus.ACCEPTED, PositionStatus.PENDING,
+            PositionStatus.FORWARDED, PositionStatus.ACCEPTED, PositionStatus.PENDING,
             PositionStatus.REJECTED
     })
     @interface PositionStatus {
-        int ALL = 0;
+        int FORWARDED = 0;
         int ACCEPTED = 1;
         int PENDING = 2;
         int REJECTED = 3;

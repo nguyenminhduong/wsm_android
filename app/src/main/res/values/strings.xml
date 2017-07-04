@@ -144,7 +144,8 @@
     <string name="update">Update</string>
     <string name="receive_notification_or_email">Receive Notification or Email</string>
     <string name="edit_request_overtime">Edit request overtime</string>
-
+    <string name="type_leave">Leave type:</string>
+    <string name="statu">Status:</string>
 
     <!-- In late (M) -->
     <string name="leave_type_in_late_m">In late (M)</string>
