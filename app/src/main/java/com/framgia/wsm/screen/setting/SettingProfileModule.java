@@ -1,8 +1,15 @@
 package com.framgia.wsm.screen.setting;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.local.UserLocalDataSource;
+import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.FragmentScope;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import com.framgia.wsm.widget.dialog.DialogManager;
+import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
 import dagger.Provides;
 
@@ -21,14 +28,28 @@ public class SettingProfileModule {
 
     @FragmentScope
     @Provides
-    public SettingProfileContract.ViewModel provideViewModel(
-            SettingProfileContract.Presenter presenter) {
-        return new SettingProfileViewModel(presenter);
+    public SettingProfileContract.ViewModel provideViewModel(Context context,
+            SettingProfileContract.Presenter presenter, DialogManager dialogManager) {
+        return new SettingProfileViewModel(context, presenter, dialogManager);
     }
 
     @FragmentScope
     @Provides
-    public SettingProfileContract.Presenter providePresenter() {
-        return new SettingProfilePresenter();
+    public SettingProfileContract.Presenter providePresenter(UserRepository userRepository,
+            BaseSchedulerProvider baseSchedulerProvider) {
+        return new SettingProfilePresenter(userRepository, baseSchedulerProvider);
+    }
+
+    @FragmentScope
+    @Provides
+    UserRepository provideUserRepository(UserLocalDataSource localDataSource,
+            UserRemoteDataSource remoteDataSource) {
+        return new UserRepository(localDataSource, remoteDataSource);
+    }
+
+    @FragmentScope
+    @Provides
+    DialogManager provideDialogManager() {
+        return new DialogManagerImpl(mFragment.getContext());
     }
 }
