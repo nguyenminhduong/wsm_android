@@ -1,6 +1,6 @@
 package com.framgia.wsm.screen.confirmrequestoff;
 
-import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.UserRepository;
@@ -112,9 +112,9 @@ final class ConfirmRequestOffPresenter implements ConfirmRequestOffContract.Pres
         Disposable disposable = mRequestRepository.editFormRequestOff(requestOffRequest)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
-                .subscribe(new Consumer<BaseResponse<RequestOff>>() {
+                .subscribe(new Consumer<BaseResponse<OffRequest>>() {
                     @Override
-                    public void accept(@NonNull BaseResponse<RequestOff> requestOffBaseResponse)
+                    public void accept(@NonNull BaseResponse<OffRequest> requestOffBaseResponse)
                             throws Exception {
                         mViewModel.onEditFormRequestOffSuccess(requestOffBaseResponse.getData());
                     }

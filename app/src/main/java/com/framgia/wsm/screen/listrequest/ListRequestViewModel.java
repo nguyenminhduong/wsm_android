@@ -12,7 +12,7 @@ import android.widget.DatePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
-import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
@@ -91,7 +91,7 @@ public class ListRequestViewModel extends BaseObservable
                 mNavigator.startActivity(ConfirmRequestLeaveActivity.class, bundle);
                 break;
             case RequestType.REQUEST_OFF:
-                bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, (RequestOff) object);
+                bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, (OffRequest) object);
                 bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
                 mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
                 break;
@@ -132,7 +132,7 @@ public class ListRequestViewModel extends BaseObservable
                 mListRequestAdapter.updateDataRequestOverTime((List<RequestOverTime>) object);
                 break;
             case RequestType.REQUEST_OFF:
-                mListRequestAdapter.updateDataRequestOff((List<RequestOff>) object);
+                mListRequestAdapter.updateDataRequestOff((List<OffRequest>) object);
                 break;
             case RequestType.REQUEST_LATE_EARLY:
                 mListRequestAdapter.updateDataRequest((List<LeaveRequest>) object);

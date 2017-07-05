@@ -1,7 +1,7 @@
 package com.framgia.wsm.data.source;
 
 import com.framgia.wsm.data.model.LeaveRequest;
-import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
@@ -38,7 +38,7 @@ public interface RequestDataSource {
 
         Observable<Object> deleteFormRequestOff(@NonNull int requestOffId);
 
-        Observable<BaseResponse<RequestOff>> editFormRequestOff(
+        Observable<BaseResponse<OffRequest>> editFormRequestOff(
                 @NonNull RequestOffRequest requestOffRequest);
 
         Observable<BaseResponse<RequestOverTime>> editFormRequestOverTime(
@@ -48,7 +48,7 @@ public interface RequestDataSource {
 
         Observable<Object> deleteFormRequestLeave(@NonNull int requestLeaveId);
 
-        Observable<BaseResponse<LeaveRequest>> editFormRequestLeave(@NonNull
-                LeaveRequest requestLeave);
+        Observable<BaseResponse<LeaveRequest>> editFormRequestLeave(
+                @NonNull LeaveRequest requestLeave);
     }
 }

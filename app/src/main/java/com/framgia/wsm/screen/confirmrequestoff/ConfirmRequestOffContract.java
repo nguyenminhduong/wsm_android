@@ -1,6 +1,6 @@
 package com.framgia.wsm.screen.confirmrequestoff;
 
-import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
@@ -27,7 +27,7 @@ interface ConfirmRequestOffContract {
 
         void onDeleteFormRequestOffError(BaseException exception);
 
-        void onEditFormRequestOffSuccess(RequestOff requestOff);
+        void onEditFormRequestOffSuccess(OffRequest requestOff);
 
         void onEditFormRequestOffError(BaseException exception);
     }

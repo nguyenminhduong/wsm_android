@@ -13,7 +13,7 @@ import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.CompanyPay;
 import com.framgia.wsm.data.model.InsuranceCoverage;
-import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRequestOff;
@@ -32,7 +32,7 @@ import static com.framgia.wsm.utils.Constant.BLANK;
 import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
 
 /**
- * Exposes the data to be used in the RequestOff screen.
+ * Exposes the data to be used in the OffRequest screen.
  */
 
 public class RequestOffViewModel extends BaseRequestOff
@@ -48,7 +48,7 @@ public class RequestOffViewModel extends BaseRequestOff
     private RequestOffContract.Presenter mPresenter;
     private DialogManager mDialogManager;
     private Calendar mCalendar;
-    private RequestOff mRequestOff;
+    private OffRequest mRequestOff;
     private Navigator mNavigator;
     private User mUser;
     private String mReasonError;
@@ -80,7 +80,7 @@ public class RequestOffViewModel extends BaseRequestOff
     private int mActionType;
 
     RequestOffViewModel(Context context, RequestOffContract.Presenter presenter,
-            DialogManager dialogManager, Navigator navigator, RequestOff requestOff,
+            DialogManager dialogManager, Navigator navigator, OffRequest requestOff,
             int actionType) {
         mContext = context;
         mPresenter = presenter;
@@ -92,11 +92,11 @@ public class RequestOffViewModel extends BaseRequestOff
         mActionType = actionType;
     }
 
-    private void initData(RequestOff requestOff) {
+    private void initData(OffRequest requestOff) {
         String am = mContext.getString(R.string.am);
         String pm = mContext.getString(R.string.pm);
         if (requestOff == null) {
-            mRequestOff = new RequestOff();
+            mRequestOff = new OffRequest();
 
             mCurrentPositionDaySessionStartDayHaveSalary = DaySession.AM;
             mCurrentPositionDaySessionEndDayHaveSalary = DaySession.AM;
@@ -500,25 +500,25 @@ public class RequestOffViewModel extends BaseRequestOff
 
     private void setRequestOff() {
         if (mStartDateHaveSalary != null) {
-            RequestOff.OffHaveSalaryFrom offHaveSalaryFrom = new RequestOff.OffHaveSalaryFrom();
+            OffRequest.OffHaveSalaryFrom offHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
             offHaveSalaryFrom.setOffPaidFrom(
                     mStartDateHaveSalary + BLANK + mCurrentDaySessionStartDayHaveSalary);
             mRequestOff.setStartDayHaveSalary(offHaveSalaryFrom);
         }
         if (mEndDateHaveSalary != null) {
-            RequestOff.OffHaveSalaryTo offHaveSalaryTo = new RequestOff.OffHaveSalaryTo();
+            OffRequest.OffHaveSalaryTo offHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
             offHaveSalaryTo.setOffPaidTo(
                     mEndDateHaveSalary + BLANK + mCurrentDaySessionEndDayHaveSalary);
             mRequestOff.setEndDayHaveSalary(offHaveSalaryTo);
         }
         if (mStartDateNoSalary != null) {
-            RequestOff.OffNoSalaryFrom offNoSalaryFrom = new RequestOff.OffNoSalaryFrom();
+            OffRequest.OffNoSalaryFrom offNoSalaryFrom = new OffRequest.OffNoSalaryFrom();
             offNoSalaryFrom.setOffFrom(
                     mStartDateNoSalary + BLANK + mCurrentDaySessionStartDayNoSalary);
             mRequestOff.setStartDayNoSalary(offNoSalaryFrom);
         }
         if (mEndDateNoSalary != null) {
-            RequestOff.OffNoSalaryTo offNoSalaryTo = new RequestOff.OffNoSalaryTo();
+            OffRequest.OffNoSalaryTo offNoSalaryTo = new OffRequest.OffNoSalaryTo();
             offNoSalaryTo.setOffTo(mEndDateNoSalary + BLANK + mCurrentDaySessionEndDayNoSalary);
             mRequestOff.setEndDayNoSalary(offNoSalaryTo);
         }
@@ -723,7 +723,7 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     @Bindable
-    public RequestOff getRequestOff() {
+    public OffRequest getRequestOff() {
         return mRequestOff;
     }
 

@@ -1,7 +1,7 @@
 package com.framgia.wsm.data.source.remote;
 
 import com.framgia.wsm.data.model.LeaveRequest;
-import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.RequestDataSource;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
@@ -79,15 +79,15 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<RequestOff>> editFormRequestOff(
+    public Observable<BaseResponse<OffRequest>> editFormRequestOff(
             @NonNull RequestOffRequest requestOffRequest) {
         return mWSMApi.editFormRequestOff(requestOffRequest)
                 .flatMap(
-                        new Function<BaseResponse<RequestOff>,
-                                ObservableSource<BaseResponse<RequestOff>>>() {
+                        new Function<BaseResponse<OffRequest>,
+                                ObservableSource<BaseResponse<OffRequest>>>() {
                             @Override
-                            public ObservableSource<BaseResponse<RequestOff>> apply(
-                                    @NonNull BaseResponse<RequestOff> requestOffBaseResponse)
+                            public ObservableSource<BaseResponse<OffRequest>> apply(
+                                    @NonNull BaseResponse<OffRequest> requestOffBaseResponse)
                                     throws Exception {
                                 if (requestOffBaseResponse != null) {
                                     return Observable.just(requestOffBaseResponse);

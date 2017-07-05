@@ -1,7 +1,7 @@
 package com.framgia.wsm.screen.requestoff;
 
 import android.util.Log;
-import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
@@ -70,7 +70,7 @@ final class RequestOffPresenter implements RequestOffContract.Presenter {
     }
 
     @Override
-    public boolean validateData(RequestOff requestOff) {
+    public boolean validateData(OffRequest requestOff) {
         String errorMessage = mValidator.validateValueNonEmpty(requestOff.getReason());
         if (StringUtils.isNotBlank(errorMessage)) {
             mViewModel.onInputReasonError(errorMessage);
@@ -84,7 +84,7 @@ final class RequestOffPresenter implements RequestOffContract.Presenter {
     }
 
     @Override
-    public boolean validateAllNumberDayHaveSalary(RequestOff requestOff) {
+    public boolean validateAllNumberDayHaveSalary(OffRequest requestOff) {
         return validateAnnualLeave(requestOff.getCompanyPay().getAnnualLeave())
                 && validateLeaveForMarriage(requestOff.getCompanyPay().getLeaveForMarriage())
                 && validateLeaveForChildMarriage(
@@ -101,7 +101,7 @@ final class RequestOffPresenter implements RequestOffContract.Presenter {
     }
 
     @Override
-    public void validateNumberDayHaveSalary(RequestOff requestOff) {
+    public void validateNumberDayHaveSalary(OffRequest requestOff) {
         if (!validateAnnualLeave(requestOff.getCompanyPay().getAnnualLeave())) {
             mViewModel.onInputNumberDayHaveSalaryError(RequestOffViewModel.TypeOfDays.ANNUAL_LEAVE);
         }

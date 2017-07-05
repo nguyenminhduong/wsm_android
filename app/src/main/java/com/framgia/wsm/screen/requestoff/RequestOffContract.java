@@ -1,6 +1,6 @@
 package com.framgia.wsm.screen.requestoff;
 
-import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BasePresenter;
@@ -31,10 +31,10 @@ interface RequestOffContract {
 
         void getUser();
 
-        boolean validateData(RequestOff requestOff);
+        boolean validateData(OffRequest requestOff);
 
-        boolean validateAllNumberDayHaveSalary(RequestOff requestOff);
+        boolean validateAllNumberDayHaveSalary(OffRequest requestOff);
 
-        void validateNumberDayHaveSalary(RequestOff requestOff);
+        void validateNumberDayHaveSalary(OffRequest requestOff);
     }
 }

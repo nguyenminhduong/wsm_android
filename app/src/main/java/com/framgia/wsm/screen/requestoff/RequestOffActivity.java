@@ -11,7 +11,7 @@ import com.framgia.wsm.utils.Constant;
 import javax.inject.Inject;
 
 /**
- * RequestOff Screen.
+ * OffRequest Screen.
  */
 public class RequestOffActivity extends BaseActivity {
 

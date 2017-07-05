@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.R;
-import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
@@ -37,19 +37,19 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     private Navigator mNavigator;
     private DialogManager mDialogManager;
     private User mUser;
-    private RequestOff mRequestOff;
+    private OffRequest mOffRequest;
     private RequestOffRequest mRequestOffRequest;
     private int mActionType;
     private Context mContext;
 
     ConfirmRequestOffViewModel(Context context, ConfirmRequestOffContract.Presenter presenter,
-            Navigator navigator, DialogManager dialogManager, RequestOff requestOff,
+            Navigator navigator, DialogManager dialogManager, OffRequest requestOff,
             int actionType) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mDialogManager = dialogManager;
-        mRequestOff = requestOff;
+        mOffRequest = requestOff;
         mNavigator = navigator;
         mPresenter.getUser();
         mActionType = actionType;
@@ -101,9 +101,9 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     }
 
     @Override
-    public void onEditFormRequestOffSuccess(RequestOff requestOff) {
+    public void onEditFormRequestOffSuccess(OffRequest requestOff) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mRequestOff);
+        bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mOffRequest);
         bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
         mNavigator.startActivityAtRoot(ConfirmRequestOffActivity.class, bundle);
     }
@@ -125,96 +125,96 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     }
 
     @Bindable
-    public RequestOff getRequestOff() {
-        return mRequestOff;
+    public OffRequest getRequestOff() {
+        return mOffRequest;
     }
 
     @Bindable
     public boolean isVisiableProjectName() {
-        return mRequestOff.getProject() != null;
+        return mOffRequest.getProject() != null;
     }
 
     @Bindable
     public boolean isVisiablePosition() {
-        return mRequestOff.getPosition() != null;
+        return mOffRequest.getPosition() != null;
     }
 
     @Bindable
     public boolean isVisiableLayoutCompanyPay() {
-        return mRequestOff.getCompanyPay().getAnnualLeave() != null
-                || mRequestOff.getCompanyPay().getLeaveForChildMarriage() != null
-                || mRequestOff.getCompanyPay().getLeaveForMarriage() != null
-                || mRequestOff.getCompanyPay().getFuneralLeave() != null;
+        return mOffRequest.getCompanyPay().getAnnualLeave() != null
+                || mOffRequest.getCompanyPay().getLeaveForChildMarriage() != null
+                || mOffRequest.getCompanyPay().getLeaveForMarriage() != null
+                || mOffRequest.getCompanyPay().getFuneralLeave() != null;
     }
 
     @Bindable
     public boolean isVisiableLayoutInsurance() {
-        return mRequestOff.getInsuranceCoverage().getLeaveForCareOfSickChild() != null
-                || mRequestOff.getInsuranceCoverage().getSickLeave() != null
-                || mRequestOff.getInsuranceCoverage().getMaternityLeave() != null
-                || mRequestOff.getInsuranceCoverage().getPregnancyExaminationLeave() != null
-                || mRequestOff.getInsuranceCoverage().getMiscarriageLeave() != null
-                || mRequestOff.getInsuranceCoverage().getWifeLaborLeave() != null;
+        return mOffRequest.getInsuranceCoverage().getLeaveForCareOfSickChild() != null
+                || mOffRequest.getInsuranceCoverage().getSickLeave() != null
+                || mOffRequest.getInsuranceCoverage().getMaternityLeave() != null
+                || mOffRequest.getInsuranceCoverage().getPregnancyExaminationLeave() != null
+                || mOffRequest.getInsuranceCoverage().getMiscarriageLeave() != null
+                || mOffRequest.getInsuranceCoverage().getWifeLaborLeave() != null;
     }
 
     @Bindable
     public boolean isVisiableLayoutHaveSalary() {
-        return mRequestOff.getStartDayHaveSalary() != null;
+        return mOffRequest.getStartDayHaveSalary() != null;
     }
 
     @Bindable
     public boolean isVisiableLayoutOffNoSalary() {
-        return mRequestOff.getStartDayNoSalary() != null;
+        return mOffRequest.getStartDayNoSalary() != null;
     }
 
     @Bindable
     public boolean isVisiableAnnualLeave() {
-        return mRequestOff.getCompanyPay().getAnnualLeave() != null;
+        return mOffRequest.getCompanyPay().getAnnualLeave() != null;
     }
 
     @Bindable
     public boolean isVisiableLeaveForChildMarriage() {
-        return mRequestOff.getCompanyPay().getLeaveForChildMarriage() != null;
+        return mOffRequest.getCompanyPay().getLeaveForChildMarriage() != null;
     }
 
     @Bindable
     public boolean isVisiableLeaveForMarriage() {
-        return mRequestOff.getCompanyPay().getLeaveForMarriage() != null;
+        return mOffRequest.getCompanyPay().getLeaveForMarriage() != null;
     }
 
     @Bindable
     public boolean isVisiableFuneralLeave() {
-        return mRequestOff.getCompanyPay().getFuneralLeave() != null;
+        return mOffRequest.getCompanyPay().getFuneralLeave() != null;
     }
 
     @Bindable
     public boolean isVisiableLeaveForCareOfSickChild() {
-        return mRequestOff.getInsuranceCoverage().getLeaveForCareOfSickChild() != null;
+        return mOffRequest.getInsuranceCoverage().getLeaveForCareOfSickChild() != null;
     }
 
     @Bindable
     public boolean isVisiableSickLeave() {
-        return mRequestOff.getInsuranceCoverage().getSickLeave() != null;
+        return mOffRequest.getInsuranceCoverage().getSickLeave() != null;
     }
 
     @Bindable
     public boolean isVisiableMaternityLeave() {
-        return mRequestOff.getInsuranceCoverage().getMaternityLeave() != null;
+        return mOffRequest.getInsuranceCoverage().getMaternityLeave() != null;
     }
 
     @Bindable
     public boolean isVisiablePregnancyExaminationLeave() {
-        return mRequestOff.getInsuranceCoverage().getPregnancyExaminationLeave() != null;
+        return mOffRequest.getInsuranceCoverage().getPregnancyExaminationLeave() != null;
     }
 
     @Bindable
     public boolean isVisiableMiscarriageLeave() {
-        return mRequestOff.getInsuranceCoverage().getMiscarriageLeave() != null;
+        return mOffRequest.getInsuranceCoverage().getMiscarriageLeave() != null;
     }
 
     @Bindable
     public boolean isVisiableWifeLaborLeave() {
-        return mRequestOff.getInsuranceCoverage().getWifeLaborLeave() != null;
+        return mOffRequest.getInsuranceCoverage().getWifeLaborLeave() != null;
     }
 
     public boolean isDetail() {
@@ -222,15 +222,15 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     }
 
     public boolean isAcceptStatus() {
-        return Objects.equals(mRequestOff.getStatus(), StatusCode.ACCEPT_CODE);
+        return Objects.equals(mOffRequest.getStatus(), StatusCode.ACCEPT_CODE);
     }
 
     public boolean isPendingStatus() {
-        return Objects.equals(mRequestOff.getStatus(), StatusCode.PENDING_CODE);
+        return Objects.equals(mOffRequest.getStatus(), StatusCode.PENDING_CODE);
     }
 
     public boolean isRejectStatus() {
-        return Objects.equals(mRequestOff.getStatus(), StatusCode.REJECT_CODE);
+        return Objects.equals(mOffRequest.getStatus(), StatusCode.REJECT_CODE);
     }
 
     public String getTitleToolbar() {
@@ -244,7 +244,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     }
 
     public boolean isVisibleButtonSubmit() {
-        return mRequestOff.getStatus() == StatusCode.PENDING_CODE
+        return mOffRequest.getStatus() == StatusCode.PENDING_CODE
                 || mActionType == ActionType.ACTION_CREATE;
     }
 
@@ -253,10 +253,10 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     }
 
     public void onClickSubmit(View view) {
-        if (mRequestOff == null) {
+        if (mOffRequest == null) {
             return;
         }
-        mRequestOffRequest.setRequestOff(mRequestOff);
+        mRequestOffRequest.setRequestOff(mOffRequest);
         if (mActionType == ActionType.ACTION_CREATE) {
             mPresenter.createFormRequestOff(mRequestOffRequest);
             return;
@@ -265,16 +265,16 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     }
 
     public void onClickDelete(View view) {
-        if (mRequestOff == null) {
+        if (mOffRequest == null) {
             return;
         }
-        mPresenter.deleteFormRequestOff(mRequestOff.getId());
+        mPresenter.deleteFormRequestOff(mOffRequest.getId());
     }
 
     public void onClickEdit(View view) {
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_EDIT);
-        bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mRequestOff);
+        bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mOffRequest);
         mNavigator.startActivity(RequestOffActivity.class, bundle);
     }
 }
