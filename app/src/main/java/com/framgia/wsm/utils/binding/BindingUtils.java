@@ -22,6 +22,7 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.HolidayCalendarDate;
 import com.framgia.wsm.data.model.TimeSheetDate;
 import com.framgia.wsm.databinding.NavHeaderMainBinding;
+import com.framgia.wsm.screen.changepassword.ChangePasswordViewModel;
 import com.framgia.wsm.screen.login.LoginViewModel;
 import com.framgia.wsm.screen.main.MainViewModel;
 import com.framgia.wsm.screen.requestoff.RequestOffViewModel;
@@ -225,6 +226,58 @@ public final class BindingUtils {
             @Override
             public void afterTextChanged(Editable s) {
                 loginViewModel.validateEmail(s.toString());
+            }
+        });
+    }
+
+    @BindingAdapter({ "errorTextInputLayoutNewPassword", "viewModel" })
+    public static void setErrorTextNewPassword(final TextInputLayout textInputLayout,
+            final String text, final ChangePasswordViewModel changePasswordViewModel) {
+        textInputLayout.setError(text);
+        EditText editText = textInputLayout.getEditText();
+        if (editText == null) {
+            return;
+        }
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //No-Op
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //No-Op
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                changePasswordViewModel.validateNewPassword(s.toString());
+            }
+        });
+    }
+
+    @BindingAdapter({ "errorTextInputLayoutConfirmPassword", "viewModel" })
+    public static void setErrorTextConfirmPassword(final TextInputLayout textInputLayout,
+            final String text, final ChangePasswordViewModel changePasswordViewModel) {
+        textInputLayout.setError(text);
+        EditText editText = textInputLayout.getEditText();
+        if (editText == null) {
+            return;
+        }
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //No-Op
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //No-Op
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                changePasswordViewModel.validateConfirmPassword(s.toString());
             }
         });
     }

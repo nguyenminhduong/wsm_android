@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
-import com.framgia.wsm.screen.BaseViewModel;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -231,6 +230,18 @@ public class Validator {
     public String validateEmailFormat(String value) {
         boolean isValid = EMAIL_ADDRESS.matcher(value).matches();
         mMessage = isValid ? "" : mContext.getString(mAllErrorMessage.get(ValidType.EMAIL_FORMAT));
+        return mMessage;
+    }
+
+    @ValidMethod(type = { ValidType.VALUE_RANGE_MIN_6 })
+    public String validateValueRangeMin6(String str) {
+        if (str == null) {
+            return "";
+        }
+        int value = str.length();
+        boolean isValid = value >= 6;
+        mMessage = isValid ? ""
+                : mContext.getString(mAllErrorMessage.get(ValidType.VALUE_RANGE_MIN_6));
         return mMessage;
     }
 

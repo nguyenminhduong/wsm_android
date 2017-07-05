@@ -7,11 +7,13 @@ import android.support.annotation.IntDef;
  */
 
 @IntDef({
-        ValidType.NON_EMPTY, ValidType.NG_WORD, ValidType.VALUE_RANGE_0_100, ValidType.EMAIL_FORMAT
+        ValidType.NON_EMPTY, ValidType.NG_WORD, ValidType.VALUE_RANGE_0_100, ValidType.EMAIL_FORMAT,
+        ValidType.VALUE_RANGE_MIN_6
 })
 public @interface ValidType {
     int NON_EMPTY = 0x00;
     int NG_WORD = 0x01;
     int VALUE_RANGE_0_100 = 0x02;
     int EMAIL_FORMAT = 0x03;
+    int VALUE_RANGE_MIN_6 = 0x04;
 }
