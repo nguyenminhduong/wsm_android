@@ -19,10 +19,18 @@ public class Notification extends BaseModel {
     private String mContent;
     @Expose
     @SerializedName("status")
-    private int mStatus;
+    private boolean isRead;
     @Expose
     @SerializedName("icon")
     private String mIcon;
+
+    public Notification(int id, String date, String content, boolean read, String icon) {
+        mId = id;
+        mDate = date;
+        mContent = content;
+        isRead = read;
+        mIcon = icon;
+    }
 
     public int getId() {
         return mId;
@@ -48,12 +56,12 @@ public class Notification extends BaseModel {
         mContent = content;
     }
 
-    public int getStatus() {
-        return mStatus;
+    public boolean isRead() {
+        return isRead;
     }
 
-    public void setStatus(int status) {
-        mStatus = status;
+    public void setRead(boolean read) {
+        isRead = read;
     }
 
     public String getIcon() {

@@ -31,5 +31,6 @@
     <color name="color_blue_white">#00665c</color>
     <color name="color_black_white">#3f062d1e</color>
     <color name="color_black_transparent_dark">#d0080808</color>
+    <color name="color_gray_transparent">#b04e4c4c</color>
 
 </resources>
