@@ -2,7 +2,7 @@ package com.framgia.wsm.data.source;
 
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.LeaveType;
-import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
@@ -45,7 +45,7 @@ public class RequestRepository {
         return mRemoteDataSource.deleteFormRequestOff(requestOffId);
     }
 
-    public Observable<BaseResponse<RequestOff>> editFormRequestOff(
+    public Observable<BaseResponse<OffRequest>> editFormRequestOff(
             @NonNull RequestOffRequest requestOffRequest) {
         return mRemoteDataSource.editFormRequestOff(requestOffRequest);
     }
@@ -63,24 +63,24 @@ public class RequestRepository {
         return mRemoteDataSource.editFormRequestLeave(request);
     }
 
-    public Observable<BaseResponse<List<RequestOff>>> getListRequestOff() {
+    public Observable<BaseResponse<List<OffRequest>>> getListRequestOff() {
         // TODO: Edit later
         // return mRemoteDataSource.getListRequestOff(userId);
-        List<RequestOff> requestOffs = new ArrayList<>();
+        List<OffRequest> requestOffs = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            RequestOff requestOff = new RequestOff();
+            OffRequest requestOff = new OffRequest();
             requestOff.setCreatedAt("16/06/2017");
             requestOff.setStatus(StatusCode.ACCEPT_CODE);
-            RequestOff.OffHaveSalaryFrom offHaveSalaryFrom = new RequestOff.OffHaveSalaryFrom();
+            OffRequest.OffHaveSalaryFrom offHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
             offHaveSalaryFrom.setOffPaidFrom("16/06/2017");
-            RequestOff.OffHaveSalaryTo offHaveSalaryTo = new RequestOff.OffHaveSalaryTo();
+            OffRequest.OffHaveSalaryTo offHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
             offHaveSalaryTo.setOffPaidTo("16/06/2017");
             requestOff.setStartDayHaveSalary(offHaveSalaryFrom);
             requestOff.setEndDayHaveSalary(offHaveSalaryTo);
             requestOffs.add(requestOff);
         }
-        BaseResponse<List<RequestOff>> baseResponse =
-                new BaseResponse<List<RequestOff>>(requestOffs) {
+        BaseResponse<List<OffRequest>> baseResponse =
+                new BaseResponse<List<OffRequest>>(requestOffs) {
                 };
         return Observable.just(baseResponse);
     }
@@ -215,25 +215,25 @@ public class RequestRepository {
         return Observable.just(baseResponse);
     }
 
-    public Observable<BaseResponse<List<RequestOff>>> getListRequestOffWithStatusAndTime(
+    public Observable<BaseResponse<List<OffRequest>>> getListRequestOffWithStatusAndTime(
             @NonNull int status, String time) {
         //TODO edit later
         //return mRemoteDataSource.getListRequestOffWithStatusAndTime(userId, status, time);
-        List<RequestOff> requestOffs = new ArrayList<>();
+        List<OffRequest> requestOffs = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            RequestOff requestOff = new RequestOff();
+            OffRequest requestOff = new OffRequest();
             requestOff.setCreatedAt("16/06/2017");
             requestOff.setStatus(StatusCode.ACCEPT_CODE);
-            RequestOff.OffHaveSalaryFrom offHaveSalaryFrom = new RequestOff.OffHaveSalaryFrom();
+            OffRequest.OffHaveSalaryFrom offHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
             offHaveSalaryFrom.setOffPaidFrom("16/06/2017");
-            RequestOff.OffHaveSalaryTo offHaveSalaryTo = new RequestOff.OffHaveSalaryTo();
+            OffRequest.OffHaveSalaryTo offHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
             offHaveSalaryTo.setOffPaidTo("16/06/2017");
             requestOff.setStartDayHaveSalary(offHaveSalaryFrom);
             requestOff.setEndDayHaveSalary(offHaveSalaryTo);
             requestOffs.add(requestOff);
         }
-        BaseResponse<List<RequestOff>> baseResponse =
-                new BaseResponse<List<RequestOff>>(requestOffs) {
+        BaseResponse<List<OffRequest>> baseResponse =
+                new BaseResponse<List<OffRequest>>(requestOffs) {
                 };
         return Observable.just(baseResponse);
     }

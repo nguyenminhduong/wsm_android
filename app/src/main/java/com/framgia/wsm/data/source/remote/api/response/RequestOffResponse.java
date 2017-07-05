@@ -1,6 +1,6 @@
 package com.framgia.wsm.data.source.remote.api.response;
 
-import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.OffRequest;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -11,13 +11,13 @@ import com.google.gson.annotations.SerializedName;
 public class RequestOffResponse {
     @Expose
     @SerializedName("request_off")
-    private RequestOff mRequestOff;
+    private OffRequest mRequestOff;
 
-    public RequestOff getRequestOff() {
+    public OffRequest getRequestOff() {
         return mRequestOff;
     }
 
-    public void setRequestOff(RequestOff requestOff) {
+    public void setRequestOff(OffRequest requestOff) {
         mRequestOff = requestOff;
     }
 }

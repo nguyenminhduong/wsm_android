@@ -14,17 +14,17 @@ import com.google.gson.annotations.SerializedName;
  * Created by Vinh on 06/06/2017.
  */
 
-public class RequestOff extends BaseModel implements Parcelable {
+public class OffRequest extends BaseModel implements Parcelable {
 
-    public static final Creator<RequestOff> CREATOR = new Creator<RequestOff>() {
+    public static final Creator<OffRequest> CREATOR = new Creator<OffRequest>() {
         @Override
-        public RequestOff createFromParcel(Parcel in) {
-            return new RequestOff(in);
+        public OffRequest createFromParcel(Parcel in) {
+            return new OffRequest(in);
         }
 
         @Override
-        public RequestOff[] newArray(int size) {
-            return new RequestOff[size];
+        public OffRequest[] newArray(int size) {
+            return new OffRequest[size];
         }
     };
 
@@ -80,12 +80,12 @@ public class RequestOff extends BaseModel implements Parcelable {
     @SerializedName("status")
     private String mStatus;
 
-    public RequestOff() {
+    public OffRequest() {
         mInsuranceCoverage = new InsuranceCoverage();
         mCompanyPay = new CompanyPay();
     }
 
-    protected RequestOff(Parcel in) {
+    protected OffRequest(Parcel in) {
         mPositionRequestOffType = in.readInt();
         mRequestOffName = in.readString();
         mId = in.readInt();

@@ -3,7 +3,7 @@ package com.framgia.wsm.screen.confirmrequestoff;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
@@ -36,11 +36,11 @@ public class ConfirmRequestOffModule {
     public ConfirmRequestOffContract.ViewModel provideViewModel(Context context,
             ConfirmRequestOffContract.Presenter presenter, Navigator navigator,
             DialogManager dialogManager) {
-        RequestOff requestOff =
+        OffRequest offRequest =
                 mActivity.getIntent().getExtras().getParcelable(Constant.EXTRA_REQUEST_OFF);
         int actionType = mActivity.getIntent().getExtras().getInt(Constant.EXTRA_ACTION_TYPE);
         return new ConfirmRequestOffViewModel(context, presenter, navigator, dialogManager,
-                requestOff, actionType);
+                offRequest, actionType);
     }
 
     @ActivityScope

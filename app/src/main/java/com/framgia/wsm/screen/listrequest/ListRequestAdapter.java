@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
-import com.framgia.wsm.data.model.RequestOff;
+import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.databinding.ItemListRequestLeaveBinding;
 import com.framgia.wsm.databinding.ItemListRequestOffBinding;
@@ -26,7 +26,7 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
 
     private OnRecyclerViewItemClickListener<Object> mItemClickListener;
     private List<LeaveRequest> mRequests;
-    private List<RequestOff> mRequestOffs;
+    private List<OffRequest> mRequestOffs;
     private List<RequestOverTime> mRequestOverTimes;
     @RequestType
     private int mRequestType;
@@ -108,7 +108,7 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
         notifyDataSetChanged();
     }
 
-    void updateDataRequestOff(List<RequestOff> requestOffs) {
+    void updateDataRequestOff(List<OffRequest> requestOffs) {
         if (requestOffs == null) {
             return;
         }
@@ -159,7 +159,7 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
             mItemClickListener = listener;
         }
 
-        void bind(RequestOff requestOff) {
+        void bind(OffRequest requestOff) {
             mBinding.setViewModel(new ItemListRequestViewModel(requestOff, mItemClickListener));
             mBinding.executePendingBindings();
         }
