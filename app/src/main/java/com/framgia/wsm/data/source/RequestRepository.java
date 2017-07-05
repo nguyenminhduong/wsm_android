@@ -1,7 +1,7 @@
 package com.framgia.wsm.data.source;
 
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.LeaveType;
-import com.framgia.wsm.data.model.Request;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
@@ -50,7 +50,7 @@ public class RequestRepository {
         return mRemoteDataSource.editFormRequestOff(requestOffRequest);
     }
 
-    public Observable<Object> createFormRequestLeave(@NonNull Request request) {
+    public Observable<Object> createFormRequestLeave(@NonNull LeaveRequest request) {
         return mRemoteDataSource.createFormRequestLeave(request);
     }
 
@@ -58,7 +58,8 @@ public class RequestRepository {
         return mRemoteDataSource.deleteFormRequestLeave(requestId);
     }
 
-    public Observable<BaseResponse<Request>> editFormRequestLeave(@NonNull Request request) {
+    public Observable<BaseResponse<LeaveRequest>> editFormRequestLeave(
+            @NonNull LeaveRequest request) {
         return mRemoteDataSource.editFormRequestLeave(request);
     }
 
@@ -84,16 +85,16 @@ public class RequestRepository {
         return Observable.just(baseResponse);
     }
 
-    public Observable<BaseResponse<List<Request>>> getListRequestLateEarly() {
+    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly() {
         // TODO: Edit later
         // return mRemoteDataSource.getListRequestLateEarly(userId);
-        List<Request> requests = new ArrayList<>();
+        List<LeaveRequest> requests = new ArrayList<>();
         LeaveType leaveType = new LeaveType();
         leaveType.setName("In late (M)");
         leaveType.setCode("ILM");
         leaveType.setId(0);
         for (int i = 0; i < 5; i++) {
-            Request request = new Request();
+            LeaveRequest request = new LeaveRequest();
             request.setCreatedAt("16/06/2017");
             request.setStatus(StatusCode.PENDING_CODE);
             request.setProject("WSM");
@@ -104,8 +105,9 @@ public class RequestRepository {
             request.setBeingHandledBy("Div_test_" + i);
             requests.add(request);
         }
-        BaseResponse<List<Request>> baseResponse = new BaseResponse<List<Request>>(requests) {
-        };
+        BaseResponse<List<LeaveRequest>> baseResponse =
+                new BaseResponse<List<LeaveRequest>>(requests) {
+                };
         return Observable.just(baseResponse);
     }
 
@@ -184,12 +186,12 @@ public class RequestRepository {
         return Observable.just(baseResponse);
     }
 
-    public Observable<BaseResponse<List<Request>>> getListRequestLeaveWithStatusAndTime(
+    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveWithStatusAndTime(
             @NonNull int status, String time) {
         //TODO edit later
         //return mRemoteDataSource.getListRequestLeaveWithStatusAndTime(userId, status,time);
-        List<Request> requestOverTimes = new ArrayList<>();
-        Request requestOverTime = new Request();
+        List<LeaveRequest> requestOverTimes = new ArrayList<>();
+        LeaveRequest requestOverTime = new LeaveRequest();
         requestOverTime.setId(1);
         requestOverTime.setCreatedAt("23/06/2017");
         requestOverTime.setFromTime("21/06/2017 18:00");
@@ -198,7 +200,7 @@ public class RequestRepository {
         requestOverTime.setReason("Ko kịp tiến độ !!!");
         requestOverTime.setProject("WSM Android");
         requestOverTimes.add(requestOverTime);
-        Request requestOverTime3 = new Request();
+        LeaveRequest requestOverTime3 = new LeaveRequest();
         requestOverTime3.setId(1);
         requestOverTime3.setCreatedAt("23/06/2017");
         requestOverTime3.setFromTime("21/06/2017 18:00");
@@ -207,8 +209,8 @@ public class RequestRepository {
         requestOverTime3.setReason("Ko kịp tiến độ !!!");
         requestOverTime3.setProject("WSM Android");
         requestOverTimes.add(requestOverTime3);
-        BaseResponse<List<Request>> baseResponse =
-                new BaseResponse<List<Request>>(requestOverTimes) {
+        BaseResponse<List<LeaveRequest>> baseResponse =
+                new BaseResponse<List<LeaveRequest>>(requestOverTimes) {
                 };
         return Observable.just(baseResponse);
     }

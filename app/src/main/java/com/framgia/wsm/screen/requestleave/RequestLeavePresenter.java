@@ -1,6 +1,6 @@
 package com.framgia.wsm.screen.requestleave;
 
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
@@ -69,7 +69,7 @@ final class RequestLeavePresenter implements RequestLeaveContract.Presenter {
     }
 
     @Override
-    public boolean validateDataInput(Request request) {
+    public boolean validateDataInput(LeaveRequest request) {
         switch (request.getLeaveType().getName()) {
             case RequestLeaveViewModel.LeaveType.IN_LATE_A:
             case RequestLeaveViewModel.LeaveType.IN_LATE_M:

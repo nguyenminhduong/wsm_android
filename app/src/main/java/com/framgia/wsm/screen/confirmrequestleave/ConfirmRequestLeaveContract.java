@@ -1,6 +1,6 @@
 package com.framgia.wsm.screen.confirmrequestleave;
 
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BasePresenter;
@@ -35,9 +35,9 @@ interface ConfirmRequestLeaveContract {
      * Presenter.
      */
     interface Presenter extends BasePresenter<ViewModel> {
-        void createFormRequestLeave(Request request);
+        void createFormRequestLeave(LeaveRequest request);
 
-        void editFormRequestLeave(Request request);
+        void editFormRequestLeave(LeaveRequest request);
 
         void deleteFormRequestLeave(int requestId);
 

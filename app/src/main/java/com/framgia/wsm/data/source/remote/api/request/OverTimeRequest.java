@@ -1,6 +1,6 @@
 package com.framgia.wsm.data.source.remote.api.request;
 
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -12,13 +12,13 @@ public class OverTimeRequest extends BaseRequest {
 
     @SerializedName("request_overtime")
     @Expose
-    private Request mRequest;
+    private LeaveRequest mRequest;
 
-    public Request getRequest() {
+    public LeaveRequest getRequest() {
         return mRequest;
     }
 
-    public void setRequest(Request request) {
+    public void setRequest(LeaveRequest request) {
         mRequest = request;
     }
 }

@@ -3,7 +3,7 @@ package com.framgia.wsm.screen.requestleave;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
@@ -34,7 +34,7 @@ public class RequestLeaveModule {
     @Provides
     public RequestLeaveContract.ViewModel provideViewModel(Context context, Navigator navigator,
             RequestLeaveContract.Presenter presenter, DialogManager dialogManager) {
-        Request requestLeave =
+        LeaveRequest requestLeave =
                 mActivity.getIntent().getParcelableExtra(Constant.EXTRA_REQUEST_LEAVE);
         int actionType = mActivity.getIntent().getExtras().getInt(Constant.EXTRA_ACTION_TYPE);
         return new RequestLeaveViewModel(context, navigator, presenter, dialogManager, requestLeave,

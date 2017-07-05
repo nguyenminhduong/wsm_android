@@ -1,6 +1,6 @@
 package com.framgia.wsm.data.source;
 
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.RequestOff;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
@@ -19,21 +19,21 @@ public interface RequestDataSource {
 
         Observable<Object> createFormRequestOff(@NonNull RequestOffRequest requestOffRequest);
 
-        Observable<Object> createFormRequestLeave(@NonNull Request request);
+        Observable<Object> createFormRequestLeave(@NonNull LeaveRequest request);
 
-        Observable<BaseResponse<List<Request>>> getListRequestOverTime();
+        Observable<BaseResponse<List<LeaveRequest>>> getListRequestOverTime();
 
-        Observable<BaseResponse<List<Request>>> getListRequestOff();
+        Observable<BaseResponse<List<LeaveRequest>>> getListRequestOff();
 
-        Observable<BaseResponse<List<Request>>> getListRequestLateEarly();
+        Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly();
 
         Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTimeWithStatusAndTime(
                 @NonNull int status, String time);
 
-        Observable<BaseResponse<List<Request>>> getListRequestLeaveWithStatusAndTime(
+        Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveWithStatusAndTime(
                 @NonNull int status, String time);
 
-        Observable<BaseResponse<List<Request>>> getListRequestOffWithStatusAndTime(
+        Observable<BaseResponse<List<LeaveRequest>>> getListRequestOffWithStatusAndTime(
                 @NonNull int status, String time);
 
         Observable<Object> deleteFormRequestOff(@NonNull int requestOffId);
@@ -48,6 +48,7 @@ public interface RequestDataSource {
 
         Observable<Object> deleteFormRequestLeave(@NonNull int requestLeaveId);
 
-        Observable<BaseResponse<Request>> editFormRequestLeave(@NonNull Request requestLeave);
+        Observable<BaseResponse<LeaveRequest>> editFormRequestLeave(@NonNull
+                LeaveRequest requestLeave);
     }
 }

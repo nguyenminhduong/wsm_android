@@ -1,6 +1,6 @@
 package com.framgia.wsm.screen.requestleave;
 
-import com.framgia.wsm.data.model.Request;
+import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BasePresenter;
@@ -37,6 +37,6 @@ interface RequestLeaveContract {
     interface Presenter extends BasePresenter<ViewModel> {
         void getUser();
 
-        boolean validateDataInput(Request request);
+        boolean validateDataInput(LeaveRequest request);
     }
 }
