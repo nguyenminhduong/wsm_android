@@ -41,7 +41,7 @@ public class RequestOverTime extends BaseModel implements Parcelable {
     @SerializedName("branch")
     private Branch mBranch;
     @Expose
-    @SerializedName("project")
+    @SerializedName("project_name")
     @Validation({
             @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
     })
@@ -70,6 +70,12 @@ public class RequestOverTime extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("being_handled_by")
     private String mBeingHandledBy;
+    @Expose
+    @SerializedName("group_id")
+    private int mGroupId;
+    @Expose
+    @SerializedName("workspace_id")
+    private int mBranchId;
 
     public RequestOverTime() {
     }
@@ -85,6 +91,8 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         this.mReason = in.readString();
         this.mStatus = in.readString();
         this.mBeingHandledBy = in.readString();
+        this.mGroupId = in.readInt();
+        this.mBranchId = in.readInt();
     }
 
     public int getId() {
@@ -168,6 +176,22 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         mStatus = status;
     }
 
+    public int getGroupId() {
+        return mGroupId;
+    }
+
+    public void setGroupId(int groupId) {
+        mGroupId = groupId;
+    }
+
+    public int getBranchId() {
+        return mBranchId;
+    }
+
+    public void setBranchId(int branchId) {
+        mBranchId = branchId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -185,5 +209,7 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         dest.writeString(this.mReason);
         dest.writeString(this.mStatus);
         dest.writeString(this.mBeingHandledBy);
+        dest.writeInt(this.mGroupId);
+        dest.writeInt(this.mBranchId);
     }
 }

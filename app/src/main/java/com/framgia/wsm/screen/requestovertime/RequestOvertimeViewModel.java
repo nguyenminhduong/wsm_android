@@ -13,6 +13,8 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.model.Branch;
+import com.framgia.wsm.data.model.Group;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
@@ -161,11 +163,15 @@ public class RequestOvertimeViewModel extends BaseObservable
     }
 
     private void setCurrentBranch() {
-        mRequestOverTime.setBranch(mUser.getBranches().get(mCurrentBranchPosition));
+        Branch branch = mUser.getBranches().get(mCurrentBranchPosition);
+        mRequestOverTime.setBranchId(branch.getBranchId());
+        mRequestOverTime.setBranch(branch);
         notifyPropertyChanged(BR.requestOverTime);
     }
 
     private void setCurrentGroup() {
+        Group group = mUser.getGroups().get(mCurrentGroupPosition);
+        mRequestOverTime.setGroupId(group.getGroupId());
         mRequestOverTime.setGroup(mUser.getGroups().get(mCurrentGroupPosition));
         notifyPropertyChanged(BR.requestOverTime);
     }

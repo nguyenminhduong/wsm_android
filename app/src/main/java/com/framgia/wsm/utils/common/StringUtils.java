@@ -45,6 +45,6 @@ public final class StringUtils {
         if (input == null) {
             return "";
         }
-        return input.substring(Constant.BEGIN_INDEX, Constant.BEGIN_INDEX);
+        return input.substring(Constant.BEGIN_INDEX, Constant.END_INDEX);
     }
 }
