@@ -21,14 +21,20 @@ public class NotificationModule {
 
     @FragmentScope
     @Provides
-    public NotificationContract.ViewModel provideViewModel(
-            NotificationContract.Presenter presenter) {
-        return new NotificationViewModel(presenter);
+    public NotificationContract.ViewModel provideViewModel(NotificationContract.Presenter presenter,
+            NotificationAdapter notificationAdapter) {
+        return new NotificationViewModel(presenter, notificationAdapter);
     }
 
     @FragmentScope
     @Provides
     public NotificationContract.Presenter providePresenter() {
         return new NotificationPresenter();
+    }
+
+    @FragmentScope
+    @Provides
+    public NotificationAdapter provideNotificationAdapter() {
+        return new NotificationAdapter(mFragment.getActivity());
     }
 }
