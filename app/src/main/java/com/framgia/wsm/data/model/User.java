@@ -87,6 +87,9 @@ public class User extends BaseModel implements Parcelable {
     @SerializedName("id")
     private int mId;
 
+    public User() {
+    }
+
     protected User(Parcel in) {
         mId = in.readInt();
         mName = in.readString();

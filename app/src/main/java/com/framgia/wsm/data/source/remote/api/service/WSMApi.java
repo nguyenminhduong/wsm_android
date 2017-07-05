@@ -1,14 +1,15 @@
 package com.framgia.wsm.data.source.remote.api.service;
 
 import com.framgia.wsm.data.model.LeaveRequest;
+import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffRequest;
+import com.framgia.wsm.data.model.OffTypeDay;
 import com.framgia.wsm.data.model.RequestOverTime;
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.HolidayCalendarResponse;
-import com.framgia.wsm.data.source.remote.api.response.LeaveTypeResponse;
-import com.framgia.wsm.data.source.remote.api.response.OffTypeResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.source.remote.api.response.TimeSheetResponse;
 import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
@@ -37,7 +38,7 @@ public interface WSMApi {
     Observable<BaseResponse<SignInDataResponse>> login(@Body SignInRequest signInRequest);
 
     @GET("/api/dashboard/users/{user_id}")
-    Observable<BaseResponse<UserProfileResponse>> getUserProfile(@Path("user_id") int userId);
+    Observable<BaseResponse<User>> getUserProfile(@Path("user_id") int userId);
 
     @Multipart
     @PUT("/api/dashboard/users")
@@ -103,10 +104,10 @@ public interface WSMApi {
     Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly();
 
     @GET("/api/dashboard/leave_types")
-    Observable<BaseResponse<LeaveTypeResponse>> getListLeaveType();
+    Observable<BaseResponse<List<LeaveType>>> getListLeaveType();
 
     @GET("api/dashboard/dayoff_settings")
-    Observable<BaseResponse<OffTypeResponse>> getListOffType();
+    Observable<BaseResponse<OffTypeDay>> getListOffType();
 
     //TODO edit later
     @GET("/api/v1/list_request_over_time")

@@ -32,7 +32,7 @@ public interface UserDataSource {
     interface RemoteDataSource {
         Observable<BaseResponse<SignInDataResponse>> login(String userName, String password);
 
-        Observable<BaseResponse<UserProfileResponse>> getUserProfile(int userId);
+        Observable<BaseResponse<User>> getUserProfile(int userId);
 
         Observable<List<LeaveType>> getListLeaveType();
 

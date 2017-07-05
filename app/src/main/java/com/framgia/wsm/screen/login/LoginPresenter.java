@@ -3,12 +3,12 @@ package com.framgia.wsm.screen.login;
 import android.util.Log;
 import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffType;
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.TokenRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
-import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
@@ -47,7 +47,7 @@ final class LoginPresenter implements LoginContract.Presenter {
     private Validator mValidator;
     private CompositeDisposable mCompositeDisposable;
     private BaseSchedulerProvider mSchedulerProvider;
-    private UserProfileResponse mUserProfileResponse;
+    private User mUser;
 
     LoginPresenter(UserRepository userRepository, TokenRepository tokenRepository,
             Validator validator, BaseSchedulerProvider schedulerProvider) {
@@ -56,7 +56,7 @@ final class LoginPresenter implements LoginContract.Presenter {
         mValidator = validator;
         mCompositeDisposable = new CompositeDisposable();
         mSchedulerProvider = schedulerProvider;
-        mUserProfileResponse = new UserProfileResponse();
+        mUser = new User();
     }
 
     @Override
@@ -78,19 +78,19 @@ final class LoginPresenter implements LoginContract.Presenter {
         validateUserNameInput(userName);
         mUserRepository.login(userName, passWord)
                 .subscribeOn(mSchedulerProvider.io())
-                .flatMap(new Function<SignInDataResponse, ObservableSource<UserProfileResponse>>() {
+                .flatMap(new Function<SignInDataResponse, ObservableSource<User>>() {
                     @Override
-                    public ObservableSource<UserProfileResponse> apply(
+                    public ObservableSource<User> apply(
                             @NonNull SignInDataResponse signInDataResponse) throws Exception {
                         mTokenRepository.saveToken(signInDataResponse.getAuthenToken());
                         return mUserRepository.getUserProfile(signInDataResponse.getUser().getId());
                     }
                 })
-                .flatMap(new Function<UserProfileResponse, ObservableSource<List<OffType>>>() {
+                .flatMap(new Function<User, ObservableSource<List<OffType>>>() {
                     @Override
-                    public ObservableSource<List<OffType>> apply(
-                            UserProfileResponse userProfileResponse) throws Exception {
-                        mUserProfileResponse = userProfileResponse;
+                    public ObservableSource<List<OffType>> apply(@NonNull User user)
+                            throws Exception {
+                        mUser = user;
                         return mUserRepository.getListOffType();
                     }
                 })
@@ -113,17 +113,16 @@ final class LoginPresenter implements LoginContract.Presenter {
                     @Override
                     public ObservableSource<List<OffType>> apply(List<OffType> offTypes)
                             throws Exception {
-                        if (DateTimeUtils.getDayOfYear(
-                                mUserProfileResponse.getUser().getContractDate()) >= OVER_YEAR_8) {
+                        if (DateTimeUtils.getDayOfYear(mUser.getContractDate()) >= OVER_YEAR_8) {
                             offTypes.add(new OffType(ID_3, ANNUAL, COMPANY, COUNT_DAY_14));
-                        } else if (DateTimeUtils.getDayOfYear(
-                                mUserProfileResponse.getUser().getContractDate()) >= OVER_YEAR_4) {
+                        } else if (DateTimeUtils.getDayOfYear(mUser.getContractDate())
+                                >= OVER_YEAR_4) {
                             offTypes.add(new OffType(ID_2, ANNUAL, COMPANY, COUNT_DAY_13));
-                        } else if (DateTimeUtils.getDayOfYear(
-                                mUserProfileResponse.getUser().getContractDate()) < OVER_YEAR_4) {
+                        } else if (DateTimeUtils.getDayOfYear(mUser.getContractDate())
+                                < OVER_YEAR_4) {
                             offTypes.add(new OffType(ID_1, ANNUAL, COMPANY, COUNT_DAY_12));
                         }
-                        mUserProfileResponse.getUser().setTypesCompany(offTypes);
+                        mUser.setTypesCompany(offTypes);
                         return mUserRepository.getListOffType();
                     }
                 })
@@ -146,7 +145,7 @@ final class LoginPresenter implements LoginContract.Presenter {
                     @Override
                     public ObservableSource<List<LeaveType>> apply(List<OffType> offTypes)
                             throws Exception {
-                        mUserProfileResponse.getUser().setTypesInsurance(offTypes);
+                        mUser.setTypesInsurance(offTypes);
                         return mUserRepository.getListLeaveType();
                     }
                 })
@@ -154,13 +153,14 @@ final class LoginPresenter implements LoginContract.Presenter {
                 .subscribe(new Consumer<List<LeaveType>>() {
                     @Override
                     public void accept(List<LeaveType> leaveTypes) throws Exception {
-                        mUserProfileResponse.getUser().setLeaveTypes(leaveTypes);
-                        mUserRepository.saveUser(mUserProfileResponse.getUser());
+                        mUser.setLeaveTypes(leaveTypes);
+                        mUserRepository.saveUser(mUser);
                         mViewModel.onLoginSuccess();
                     }
                 }, new RequestError() {
                     @Override
                     public void onRequestError(BaseException error) {
+                        Log.e(TAG, "onRequestError: ", error);
                         mViewModel.onLoginError(error);
                     }
                 });
