@@ -1,5 +1,6 @@
 package com.framgia.wsm.screen.changepassword;
 
+import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
@@ -49,6 +50,11 @@ public class ChangePasswordViewModel extends BaseObservable
     @Override
     public void onStop() {
         mPresenter.onStop();
+    }
+
+    @Override
+    public void onChangePasswordSuccess() {
+        mNavigator.finishActivityWithResult(Activity.RESULT_OK);
     }
 
     @Override

@@ -3,9 +3,17 @@ package com.framgia.wsm.screen.changepassword;
 import android.content.Context;
 import android.util.Log;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Listens to user actions from the UI ({@link ChangePasswordActivity}), retrieves the data and
@@ -16,15 +24,19 @@ final class ChangePasswordPresenter implements ChangePasswordContract.Presenter 
     private static final String TAG = ChangePasswordPresenter.class.getName();
 
     private Context mContext;
+    private UserRepository mUserRepository;
     private ChangePasswordContract.ViewModel mViewModel;
     private Validator mValidator;
     private BaseSchedulerProvider mBaseSchedulerProvider;
+    private CompositeDisposable mCompositeDisposable;
 
-    ChangePasswordPresenter(Context context, Validator validator,
+    ChangePasswordPresenter(Context context, UserRepository userRepository, Validator validator,
             BaseSchedulerProvider baseSchedulerProvider) {
         mContext = context;
+        mUserRepository = userRepository;
         mValidator = validator;
         mBaseSchedulerProvider = baseSchedulerProvider;
+        mCompositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -42,7 +54,23 @@ final class ChangePasswordPresenter implements ChangePasswordContract.Presenter 
 
     @Override
     public void changePassword(String currentPassword, String newPassword) {
-        // TODO: change password
+        ChangePasswordRequest changePasswordRequest =
+                new ChangePasswordRequest(currentPassword, newPassword);
+        Disposable disposable = mUserRepository.changePassword(changePasswordRequest)
+                .subscribeOn(mBaseSchedulerProvider.io())
+                .observeOn(mBaseSchedulerProvider.ui())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        mViewModel.onChangePasswordSuccess();
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onChangePasswordError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
     }
 
     @Override

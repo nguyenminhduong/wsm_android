@@ -5,6 +5,7 @@ import com.framgia.wsm.data.model.OffType;
 import com.framgia.wsm.data.model.OffTypeDay;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.UserDataSource;
+import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
@@ -130,5 +131,10 @@ public class UserRemoteDataSource extends BaseRemoteDataSource
                                 return Observable.error(new NullPointerException());
                             }
                         });
+    }
+
+    @Override
+    public Observable<Object> changePassword(ChangePasswordRequest changePasswordRequest) {
+        return mWSMApi.changePassword(changePasswordRequest);
     }
 }

@@ -12,6 +12,8 @@ interface ChangePasswordContract {
      * View.
      */
     interface ViewModel extends BaseViewModel {
+        void onChangePasswordSuccess();
+
         void onChangePasswordError(BaseException e);
 
         void onInputCurrentPasswordError(String message);
