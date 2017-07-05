@@ -46,23 +46,18 @@ public class UserRepository {
                         });
     }
 
-    public Observable<UserProfileResponse> getUserProfile(int userId) {
+    public Observable<User> getUserProfile(int userId) {
         return mRemoteDataSource.getUserProfile(userId)
-                .flatMap(
-                        new Function<BaseResponse<UserProfileResponse>,
-                                ObservableSource<UserProfileResponse>>() {
-                            @Override
-                            public ObservableSource<UserProfileResponse> apply(@NonNull
-                                    BaseResponse<UserProfileResponse>
-                                    userProfileResponseBaseResponse)
-                                    throws Exception {
-                                if (userProfileResponseBaseResponse != null) {
-                                    return Observable.just(
-                                            userProfileResponseBaseResponse.getData());
-                                }
-                                return Observable.error(new NullPointerException());
-                            }
-                        });
+                .flatMap(new Function<BaseResponse<User>, ObservableSource<User>>() {
+                    @Override
+                    public ObservableSource<User> apply(
+                            @NonNull BaseResponse<User> userBaseResponse) throws Exception {
+                        if (userBaseResponse != null) {
+                            return Observable.just(userBaseResponse.getData());
+                        }
+                        return Observable.error(new NullPointerException());
+                    }
+                });
     }
 
     public Observable<List<LeaveType>> getListLeaveType() {

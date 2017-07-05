@@ -2,12 +2,12 @@ package com.framgia.wsm.data.source.remote;
 
 import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffType;
+import com.framgia.wsm.data.model.OffTypeDay;
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.UserDataSource;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
-import com.framgia.wsm.data.source.remote.api.response.LeaveTypeResponse;
-import com.framgia.wsm.data.source.remote.api.response.OffTypeResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
@@ -56,39 +56,32 @@ public class UserRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<UserProfileResponse>> getUserProfile(int userId) {
+    public Observable<BaseResponse<User>> getUserProfile(int userId) {
         return mWSMApi.getUserProfile(userId)
-                .flatMap(
-                        new Function<BaseResponse<UserProfileResponse>,
-                                ObservableSource<BaseResponse<UserProfileResponse>>>() {
-                            @Override
-                            public ObservableSource<BaseResponse<UserProfileResponse>> apply(
-                                    @NonNull
-                                            BaseResponse<UserProfileResponse>
-                                            userProfileResponseBaseResponse)
-                                    throws Exception {
-                                if (userProfileResponseBaseResponse != null) {
-                                    return Observable.just(userProfileResponseBaseResponse);
-                                }
-                                return Observable.error(new NullPointerException());
-                            }
-                        });
+                .flatMap(new Function<BaseResponse<User>, ObservableSource<BaseResponse<User>>>() {
+                    @Override
+                    public ObservableSource<BaseResponse<User>> apply(
+                            @NonNull BaseResponse<User> userBaseResponse) throws Exception {
+                        if (userBaseResponse != null) {
+                            return Observable.just(userBaseResponse);
+                        }
+                        return Observable.error(new NullPointerException());
+                    }
+                });
     }
 
     @Override
     public Observable<List<LeaveType>> getListLeaveType() {
         return mWSMApi.getListLeaveType()
                 .flatMap(
-                        new Function<BaseResponse<LeaveTypeResponse>,
+                        new Function<BaseResponse<List<LeaveType>>,
                                 ObservableSource<List<LeaveType>>>() {
                             @Override
                             public ObservableSource<List<LeaveType>> apply(
-                                    BaseResponse<LeaveTypeResponse> leaveTypeResponseBaseResponse)
+                                    @NonNull BaseResponse<List<LeaveType>> listBaseResponse)
                                     throws Exception {
-                                if (leaveTypeResponseBaseResponse != null
-                                        && leaveTypeResponseBaseResponse.getData() != null) {
-                                    return Observable.just(
-                                            leaveTypeResponseBaseResponse.getData().getLeaveType());
+                                if (listBaseResponse != null) {
+                                    return Observable.just(listBaseResponse.getData());
                                 }
                                 return Observable.error(new NullPointerException());
                             }
@@ -98,22 +91,19 @@ public class UserRemoteDataSource extends BaseRemoteDataSource
     @Override
     public Observable<List<OffType>> getListOffType() {
         return mWSMApi.getListOffType()
-                .flatMap(
-                        new Function<BaseResponse<OffTypeResponse>,
-                                ObservableSource<List<OffType>>>() {
-                            @Override
-                            public ObservableSource<List<OffType>> apply(
-                                    BaseResponse<OffTypeResponse> leaveTypeResponseBaseResponse)
-                                    throws Exception {
-                                if (leaveTypeResponseBaseResponse != null
-                                        && leaveTypeResponseBaseResponse.getData() != null) {
-                                    return Observable.just(leaveTypeResponseBaseResponse.getData()
-                                            .getOffDay()
-                                            .getOffTypes());
-                                }
-                                return Observable.error(new NullPointerException());
-                            }
-                        });
+                .flatMap(new Function<BaseResponse<OffTypeDay>, ObservableSource<List<OffType>>>() {
+                    @Override
+                    public ObservableSource<List<OffType>> apply(
+                            BaseResponse<OffTypeDay> leaveTypeResponseBaseResponse)
+                            throws Exception {
+                        if (leaveTypeResponseBaseResponse != null
+                                && leaveTypeResponseBaseResponse.getData() != null) {
+                            return Observable.just(
+                                    leaveTypeResponseBaseResponse.getData().getOffTypes());
+                        }
+                        return Observable.error(new NullPointerException());
+                    }
+                });
     }
 
     @Override
