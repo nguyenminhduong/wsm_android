@@ -7,9 +7,11 @@ import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import com.framgia.wsm.widget.dialog.DialogManager;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -25,13 +27,15 @@ final class ConfirmRequestLeavePresenter implements ConfirmRequestLeaveContract.
     private UserRepository mUserRepository;
     private BaseSchedulerProvider mSchedulerProvider;
     private CompositeDisposable mCompositeDisposable;
+    private DialogManager mDialogManager;
 
     ConfirmRequestLeavePresenter(UserRepository userRepository, RequestRepository requestRepository,
-            BaseSchedulerProvider baseSchedulerProvider) {
+            BaseSchedulerProvider baseSchedulerProvider, DialogManager dialogManager) {
         mUserRepository = userRepository;
         mRequestRepository = requestRepository;
         mSchedulerProvider = baseSchedulerProvider;
         mCompositeDisposable = new CompositeDisposable();
+        mDialogManager = dialogManager;
     }
 
     @Override
@@ -52,6 +56,18 @@ final class ConfirmRequestLeavePresenter implements ConfirmRequestLeaveContract.
     public void createFormRequestLeave(LeaveRequest request) {
         Disposable disposable = mRequestRepository.createFormRequestLeave(request)
                 .subscribeOn(mSchedulerProvider.io())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mDialogManager.showIndeterminateProgressDialog();
+                    }
+                })
+                .doAfterTerminate(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mDialogManager.dismissProgressDialog();
+                    }
+                })
                 .observeOn(mSchedulerProvider.ui())
                 .subscribe(new Consumer<Object>() {
                     @Override

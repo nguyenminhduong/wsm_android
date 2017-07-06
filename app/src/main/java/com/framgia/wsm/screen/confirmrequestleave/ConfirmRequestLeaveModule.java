@@ -46,9 +46,10 @@ public class ConfirmRequestLeaveModule {
     @ActivityScope
     @Provides
     public ConfirmRequestLeaveContract.Presenter providePresenter(UserRepository userRepository,
-            RequestRepository requestRepository, BaseSchedulerProvider baseSchedulerProvider) {
+            RequestRepository requestRepository, BaseSchedulerProvider baseSchedulerProvider,
+            DialogManager dialogManager) {
         return new ConfirmRequestLeavePresenter(userRepository, requestRepository,
-                baseSchedulerProvider);
+                baseSchedulerProvider, dialogManager);
     }
 
     @ActivityScope

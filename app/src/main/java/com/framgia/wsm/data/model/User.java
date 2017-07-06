@@ -15,6 +15,7 @@ import java.util.List;
  * Created by tri on 24/05/2017.
  */
 public class User extends BaseModel implements Parcelable {
+
     public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
         public User createFromParcel(Parcel in) {
@@ -48,8 +49,8 @@ public class User extends BaseModel implements Parcelable {
     })
     private String mBirthday;
     @Expose
-    @SerializedName("company_name")
-    private String mCompanyName;
+    @SerializedName("company")
+    private Company mCompany;
     @Expose
     @SerializedName("contract_date")
     private String mContractDate;
@@ -91,13 +92,12 @@ public class User extends BaseModel implements Parcelable {
     }
 
     protected User(Parcel in) {
-        mId = in.readInt();
         mName = in.readString();
         mCode = in.readString();
         mEmail = in.readString();
         mGender = in.readString();
         mBirthday = in.readString();
-        mCompanyName = in.readString();
+        mCompany = in.readParcelable(Company.class.getClassLoader());
         mContractDate = in.readString();
         mAvatar = in.readString();
         mBranches = in.createTypedArrayList(Branch.CREATOR);
@@ -110,6 +110,7 @@ public class User extends BaseModel implements Parcelable {
         mLeaveTypes = in.createTypedArrayList(LeaveType.CREATOR);
         mTypesCompany = in.createTypedArrayList(OffType.CREATOR);
         mTypesInsurance = in.createTypedArrayList(OffType.CREATOR);
+        mId = in.readInt();
     }
 
     public int getId() {
@@ -159,14 +160,6 @@ public class User extends BaseModel implements Parcelable {
 
     public void setBirthday(String birthday) {
         mBirthday = birthday;
-    }
-
-    public String getCompanyName() {
-        return mCompanyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        mCompanyName = companyName;
     }
 
     public String getContractDate() {
@@ -266,31 +259,39 @@ public class User extends BaseModel implements Parcelable {
         mTypesInsurance = typesInsurance;
     }
 
+    public Company getCompany() {
+        return mCompany;
+    }
+
+    public void setCompany(Company company) {
+        mCompany = company;
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mId);
-        dest.writeString(mName);
-        dest.writeString(mCode);
-        dest.writeString(mEmail);
-        dest.writeString(mGender);
-        dest.writeString(mBirthday);
-        dest.writeString(mCompanyName);
-        dest.writeString(mContractDate);
-        dest.writeString(mAvatar);
-        dest.writeTypedList(mBranches);
-        dest.writeTypedList(mGroups);
-        dest.writeString(mStartProbationDate);
-        dest.writeString(mEndProbationDate);
-        dest.writeString(mIndividualCode);
-        dest.writeString(mNamePosition);
-        dest.writeString(mNameStaffType);
-        dest.writeTypedList(mLeaveTypes);
-        dest.writeTypedList(mTypesCompany);
-        dest.writeTypedList(mTypesInsurance);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(mName);
+        parcel.writeString(mCode);
+        parcel.writeString(mEmail);
+        parcel.writeString(mGender);
+        parcel.writeString(mBirthday);
+        parcel.writeParcelable(mCompany, i);
+        parcel.writeString(mContractDate);
+        parcel.writeString(mAvatar);
+        parcel.writeTypedList(mBranches);
+        parcel.writeTypedList(mGroups);
+        parcel.writeString(mStartProbationDate);
+        parcel.writeString(mEndProbationDate);
+        parcel.writeString(mIndividualCode);
+        parcel.writeString(mNamePosition);
+        parcel.writeString(mNameStaffType);
+        parcel.writeTypedList(mLeaveTypes);
+        parcel.writeTypedList(mTypesCompany);
+        parcel.writeTypedList(mTypesInsurance);
+        parcel.writeInt(mId);
     }
 }
