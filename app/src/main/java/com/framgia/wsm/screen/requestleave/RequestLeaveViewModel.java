@@ -7,7 +7,6 @@ import android.databinding.Bindable;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringDef;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -59,7 +58,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     private User mUser;
     private String mCurrentBranch;
     private String mCurrentGroup;
-    private String mCurrentLeaveType;
+    private int mCurrentLeaveType;
+    private String mCurrentLeaveTypeName;
     private int mCurrentBranchPosition;
     private int mCurrentGroupPosition;
     private int mCurrentLeaveTypePosition;
@@ -118,18 +118,19 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mPresenter.getUser();
         initRequest(requestLeave);
         mActionType = actionType;
+        mCurrentLeaveTypeName = "In late (M)";
     }
 
     private void initRequest(LeaveRequest requestLeave) {
         if (requestLeave != null) {
             mRequest = requestLeave;
-            if (mRequest.getCompensation() == null) {
-                mRequest.setCompensation(new LeaveRequest.Compensation());
-                mCurrentLeaveType = mRequest.getLeaveType().getName();
+            if (mRequest.getCompensationRequest() == null) {
+                mRequest.setCompensationRequest(new LeaveRequest.Compensation());
+                mCurrentLeaveType = mRequest.getLeaveTypeId();
             }
         } else {
             mRequest = new LeaveRequest();
-            mRequest.setCompensation(new LeaveRequest.Compensation());
+            mRequest.setCompensationRequest(new LeaveRequest.Compensation());
         }
     }
 
@@ -341,7 +342,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             groups[i] = mUser.getGroups().get(i).getGroupName();
         }
         mDialogManager.dialogListSingleChoice(mContext.getString(R.string.group), groups,
-                mCurrentBranchPosition, new MaterialDialog.ListCallbackSingleChoice() {
+                mCurrentGroupPosition, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog materialDialog, View view,
                             int position, CharSequence charSequence) {
@@ -356,7 +357,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (mUser.getLeaveTypes() == null || mUser.getLeaveTypes().size() == 0) {
             return;
         }
-        String[] leaveTypes = new String[mUser.getLeaveTypes().size()];
+        final String[] leaveTypes = new String[mUser.getLeaveTypes().size()];
         for (int i = 0; i < leaveTypes.length; i++) {
             leaveTypes[i] = mUser.getLeaveTypes().get(i).getName();
         }
@@ -370,6 +371,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                         setTitleExampleLeave();
                         setLayoutLeaveType(mCurrentLeaveType);
                         clearTime();
+                        mCurrentLeaveTypeName = leaveTypes[positionType];
                         return true;
                     }
                 });
@@ -445,12 +447,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private boolean checkIfOnlyHaveCheckoutTime() {
-        return mCurrentLeaveType.equals(LeaveType.LEAVE_EARLY_A)
-                || mCurrentLeaveType.equals(LeaveType.LEAVE_EARLY_M)
-                || mCurrentLeaveType.equals(LeaveType.LEAVE_EARLY_WOMAN_A)
-                || mCurrentLeaveType.equals(LeaveType.LEAVE_EARLY_WOMAN_M)
-                || mCurrentLeaveType.equals(LeaveType.FORGOT_CARD_OUT)
-                || mCurrentLeaveType.equals(LeaveType.FORGOT_TO_CHECK_OUT);
+        return mCurrentLeaveType == (LeaveType.LEAVE_EARLY_A)
+                || mCurrentLeaveType == (LeaveType.LEAVE_EARLY_M)
+                || mCurrentLeaveType == (LeaveType.LEAVE_EARLY_WOMAN_A)
+                || mCurrentLeaveType == (LeaveType.LEAVE_EARLY_WOMAN_M)
+                || mCurrentLeaveType == (LeaveType.FORGOT_CARD_OUT)
+                || mCurrentLeaveType == (LeaveType.FORGOT_TO_CHECK_OUT);
     }
 
     private void validateErrorDialog(String error) {
@@ -973,8 +975,11 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (!mPresenter.validateDataInput(mRequest)) {
             return;
         }
+        //TODO Edit later
+        mRequest.setCompanyId(1);
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, mRequest);
+        mActionType = ActionType.ACTION_CONFIRM_CREATE;
         bundle.putInt(Constant.EXTRA_ACTION_TYPE, mActionType);
         mNavigator.startActivityForResult(ConfirmRequestLeaveActivity.class, bundle,
                 Constant.RequestCode.REQUEST_LEAVE);
@@ -992,10 +997,10 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (mActionType == ActionType.ACTION_CREATE) {
             return mCurrentBranch;
         }
-        if (mRequest.getBranch() == null) {
+        if (mRequest.getWorkspaceName() == null) {
             return "";
         }
-        return mRequest.getBranch().getBranchName();
+        return mRequest.getWorkspaceName();
     }
 
     @Bindable
@@ -1003,35 +1008,35 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (mActionType == ActionType.ACTION_CREATE) {
             return mCurrentGroup;
         }
-        if (mRequest.getGroup() == null) {
+        if (mRequest.getCompanyName() != null) {
             return "";
         }
-        return mRequest.getGroup().getGroupName();
+        return mRequest.getCompanyName();
     }
 
     @Bindable
     public String getCurrentLeaveType() {
-        if (mActionType == ActionType.ACTION_CREATE) {
-            return mCurrentLeaveType;
-        }
-        return mRequest.getLeaveType().getName();
+        return mCurrentLeaveTypeName;
     }
 
     private void setCurrentLeaveType() {
-        mCurrentLeaveType = mUser.getLeaveTypes().get(mCurrentLeaveTypePosition).getName();
+        mCurrentLeaveType = mUser.getLeaveTypes().get(mCurrentLeaveTypePosition).getId();
+        mRequest.setLeaveTypeId(mUser.getLeaveTypes().get(mCurrentLeaveTypePosition).getId());
         mRequest.setLeaveType(mUser.getLeaveTypes().get(mCurrentLeaveTypePosition));
         notifyPropertyChanged(BR.currentLeaveType);
     }
 
     public void setCurrentBranch() {
         mCurrentBranch = mUser.getBranches().get(mCurrentBranchPosition).getBranchName();
-        mRequest.setBranch(mUser.getBranches().get(mCurrentBranchPosition));
+        mRequest.setWorkpaceId(mUser.getBranches().get(mCurrentBranchPosition).getBranchId());
+        mRequest.setWorkspaceName(mCurrentBranch);
         notifyPropertyChanged(BR.currentBranch);
     }
 
     public void setCurrentGroup() {
         mCurrentGroup = mUser.getGroups().get(mCurrentGroupPosition).getGroupName();
-        mRequest.setGroup(mUser.getGroups().get(mCurrentGroupPosition));
+        mRequest.setGroupId(mUser.getGroups().get(mCurrentGroupPosition).getGroupId());
+        mRequest.setCompanyName(mCurrentGroup);
         notifyPropertyChanged(BR.currentGroup);
     }
 
@@ -1132,12 +1137,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     @Bindable
     public String getProjectName() {
-        return mRequest.getProject();
+        return mRequest.getProjectName();
     }
 
     public void setProjectName(String projectName) {
         mProjectName = projectName;
-        mRequest.setProject(projectName);
+        mRequest.setProjectName(projectName);
         notifyPropertyChanged(BR.projectName);
     }
 
@@ -1154,47 +1159,47 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     @Bindable
     public String getCheckinTime() {
-        return mRequest.getCheckinTime();
+        return mRequest.getCheckInTime();
     }
 
     public void setCheckinTime(String checkinTime) {
         mCurrentTimeSelected = CurrentTimeSelected.NONE;
         mCheckinTime = checkinTime;
-        mRequest.setCheckinTime(checkinTime);
+        mRequest.setCheckInTime(checkinTime);
         notifyPropertyChanged(BR.checkinTime);
     }
 
     @Bindable
     public String getCheckoutTime() {
-        return mRequest.getCheckoutTime();
+        return mRequest.getCheckOutTime();
     }
 
     public void setCheckoutTime(String checkoutTime) {
         mCurrentTimeSelected = CurrentTimeSelected.NONE;
         mCheckoutTime = checkoutTime;
-        mRequest.setCheckoutTime(checkoutTime);
+        mRequest.setCheckOutTime(checkoutTime);
         notifyPropertyChanged(BR.checkoutTime);
     }
 
     @Bindable
     public String getCompensationFromTime() {
-        return mRequest.getCompensation().getFromTime();
+        return mRequest.getCompensationRequest().getFromTime();
     }
 
     public void setCompensationFromTime(String compensationFromTime) {
         mCompensationFromTime = compensationFromTime;
-        mRequest.getCompensation().setFromTime(compensationFromTime);
+        mRequest.getCompensationRequest().setFromTime(compensationFromTime);
         notifyPropertyChanged(BR.compensationFromTime);
     }
 
     @Bindable
     public String getCompensationToTime() {
-        return mRequest.getCompensation().getToTime();
+        return mRequest.getCompensationRequest().getToTime();
     }
 
     public void setCompensationToTime(String compensationToTime) {
         mCompensationToTime = compensationToTime;
-        mRequest.getCompensation().setToTime(compensationToTime);
+        mRequest.getCompensationRequest().setToTime(compensationToTime);
         notifyPropertyChanged(BR.compensationToTime);
     }
 
@@ -1215,7 +1220,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         int COMPENSATION_TO = 4;
     }
 
-    @StringDef({
+    @IntDef({
             LeaveType.IN_LATE_M, LeaveType.IN_LATE_A, LeaveType.LEAVE_EARLY_M,
             LeaveType.LEAVE_EARLY_A, LeaveType.LEAVE_OUT, LeaveType.FORGOT_CHECK_ALL_DAY,
             LeaveType.FORGOT_TO_CHECK_IN, LeaveType.FORGOT_TO_CHECK_OUT,
@@ -1223,21 +1228,22 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             LeaveType.IN_LATE_WOMAN_M, LeaveType.IN_LATE_WOMAN_A, LeaveType.LEAVE_EARLY_WOMAN_M,
             LeaveType.LEAVE_EARLY_WOMAN_A
     })
+
     public @interface LeaveType {
-        String IN_LATE_M = "In late (M)";
-        String IN_LATE_A = "In late (A)";
-        String LEAVE_EARLY_M = "Leave early (M)";
-        String LEAVE_EARLY_A = "Leave early (A)";
-        String LEAVE_OUT = "Leave out";
-        String FORGOT_CHECK_ALL_DAY = "Forgot to check in/check out (all day)";
-        String FORGOT_TO_CHECK_IN = "Forgot to check in";
-        String FORGOT_TO_CHECK_OUT = "Forgot to check out";
-        String FORGOT_CARD_ALL_DAY = "Forgot card (all day)";
-        String FORGOT_CARD_IN = "Forgot card (in)";
-        String FORGOT_CARD_OUT = "Forgot card (out)";
-        String IN_LATE_WOMAN_M = "In late (woman only) (M)";
-        String IN_LATE_WOMAN_A = "In late (woman only) (A)";
-        String LEAVE_EARLY_WOMAN_M = "Leave early (woman only) (M)";
-        String LEAVE_EARLY_WOMAN_A = "Leave early (woman only) (A)";
+        int IN_LATE_M = 1;
+        int IN_LATE_A = 4;
+        int LEAVE_EARLY_M = 2;
+        int LEAVE_EARLY_A = 14;
+        int LEAVE_OUT = 3;
+        int FORGOT_CHECK_ALL_DAY = 7;
+        int FORGOT_TO_CHECK_IN = 12;
+        int FORGOT_TO_CHECK_OUT = 13;
+        int FORGOT_CARD_ALL_DAY = 21;
+        int FORGOT_CARD_IN = 19;
+        int FORGOT_CARD_OUT = 20;
+        int IN_LATE_WOMAN_M = 5;
+        int IN_LATE_WOMAN_A = 15;
+        int LEAVE_EARLY_WOMAN_M = 16;
+        int LEAVE_EARLY_WOMAN_A = 17;
     }
 }

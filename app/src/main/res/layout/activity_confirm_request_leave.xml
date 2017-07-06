@@ -156,7 +156,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.request.branch.branchName}"
+                                        android:text="@{viewModel.request.companyName}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
@@ -186,7 +186,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.request.group.groupName}"
+                                        android:text="@{viewModel.request.workspaceName}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
@@ -216,7 +216,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.request.project}"
+                                        android:text="@{viewModel.request.projectName}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
@@ -280,7 +280,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.request.checkinTime}"
+                                        android:text="@{viewModel.request.checkInTime}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
@@ -312,7 +312,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.request.checkoutTime}"
+                                        android:text="@{viewModel.request.checkOutTime}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
@@ -402,7 +402,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.request.beingHandledBy}"
+                                        android:text=""
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
@@ -452,7 +452,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.request.compensation.fromTime}"
+                                        android:text="@{viewModel.request.compensationRequest.fromTime}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
@@ -482,7 +482,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.request.compensation.toTime}"
+                                        android:text="@{viewModel.request.compensationRequest.toTime}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View

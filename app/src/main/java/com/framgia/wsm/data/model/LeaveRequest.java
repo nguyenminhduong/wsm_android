@@ -2,7 +2,6 @@ package com.framgia.wsm.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.framgia.wsm.utils.StatusCode;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -11,6 +10,101 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class LeaveRequest extends BaseModel implements Parcelable {
+
+    @Expose
+    @SerializedName("id")
+    private Integer mId;
+    @Expose
+    @SerializedName("company_name")
+    private String mCompanyName;
+    @Expose
+    @SerializedName("workspace_name")
+    private String mWorkspaceName;
+    @Expose
+    @SerializedName("status")
+    private String mStatus;
+    @Expose
+    @SerializedName("leave_type")
+    private LeaveType mLeaveType;
+    @Expose
+    @SerializedName("project_name")
+    private String mProjectName;
+    @Expose
+    @SerializedName("reason")
+    private String mReason;
+    @Expose
+    @SerializedName("checkin_time")
+    private String mCheckInTime;
+    @Expose
+    @SerializedName("checkout_time")
+    private String mCheckOutTime;
+    @Expose
+    @SerializedName("compensation")
+    private Compensation mCompensation;
+    @Expose
+    @SerializedName("group_id")
+    private Integer mGroupId;
+    @Expose
+    @SerializedName("company_id")
+    private Integer mCompanyId;
+    @Expose
+    @SerializedName("workspace_id")
+    private Integer mWorkpaceId;
+    @Expose
+    @SerializedName("leave_type_id")
+    private Integer mLeaveTypeId;
+    @Expose
+    @SerializedName("compensation_attributes")
+    private Compensation mCompensationRequest;
+    @Expose
+    @SerializedName("group")
+    private Group mGroup;
+    @Expose
+    @SerializedName("branch")
+    private Branch mBranch;
+
+    public LeaveRequest() {
+    }
+
+    protected LeaveRequest(Parcel in) {
+        if (in.readByte() == 0) {
+            mId = null;
+        } else {
+            mId = in.readInt();
+        }
+        mCompanyName = in.readString();
+        mWorkspaceName = in.readString();
+        mStatus = in.readString();
+        mLeaveType = in.readParcelable(LeaveType.class.getClassLoader());
+        mProjectName = in.readString();
+        mReason = in.readString();
+        mCheckInTime = in.readString();
+        mCheckOutTime = in.readString();
+        mCompensation = in.readParcelable(Compensation.class.getClassLoader());
+        if (in.readByte() == 0) {
+            mGroupId = null;
+        } else {
+            mGroupId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            mCompanyId = null;
+        } else {
+            mCompanyId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            mWorkpaceId = null;
+        } else {
+            mWorkpaceId = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            mLeaveTypeId = null;
+        } else {
+            mLeaveTypeId = in.readInt();
+        }
+        mCompensationRequest = in.readParcelable(Compensation.class.getClassLoader());
+        mGroup = in.readParcelable(Group.class.getClassLoader());
+        mBranch = in.readParcelable(Branch.class.getClassLoader());
+    }
 
     public static final Creator<LeaveRequest> CREATOR = new Creator<LeaveRequest>() {
         @Override
@@ -24,98 +118,124 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         }
     };
 
-    @Expose
-    @SerializedName("id")
-    private int mId;
-    @Expose
-    @SerializedName("created_at")
-    private String mCreatedAt;
-    @Expose
-    @SerializedName("group")
-    private Group mGroup;
-    @Expose
-    @SerializedName("branch")
-    private Branch mBranch;
-    @Expose
-    @SerializedName("leave_type")
-    private LeaveType mLeaveType;
-    @Expose
-    @SerializedName("project")
-    private String mProject;
-    @Expose
-    @SerializedName("position")
-    private String mPosition;
-    @Expose
-    @SerializedName("company_pay")
-    private CompanyPay mCompanyPay;
-    @Expose
-    @SerializedName("insurance_coverage")
-    private InsuranceCoverage mInsuranceCoverage;
-    @SerializedName("reason")
-    private String mReason;
-    @Expose
-    @SerializedName("from_time")
-    private String mFromTime;
-    @Expose
-    @SerializedName("end_time")
-    private String mToTime;
-    @Expose
-    @SerializedName("checkin_time")
-    private String mCheckinTime;
-    @Expose
-    @SerializedName("being_handled_by")
-    private String mBeingHandledBy;
-    @Expose
-    @SerializedName("checkout_time")
-    private String mCheckoutTime;
-    @Expose
-    @SerializedName("status")
-    private String mStatus;
-    @Expose
-    @SerializedName("compensation")
-    private Compensation mCompensation;
-    @Expose
-    @SerializedName("time_request")
-    private String mTimeRequest;
-
-    public LeaveRequest() {
-    }
-
-    protected LeaveRequest(Parcel in) {
-        mId = in.readInt();
-        mCreatedAt = in.readString();
-        mGroup = in.readParcelable(Group.class.getClassLoader());
-        mBranch = in.readParcelable(Branch.class.getClassLoader());
-        mLeaveType = in.readParcelable(LeaveType.class.getClassLoader());
-        mProject = in.readString();
-        mPosition = in.readString();
-        mCompanyPay = in.readParcelable(CompanyPay.class.getClassLoader());
-        mInsuranceCoverage = in.readParcelable(InsuranceCoverage.class.getClassLoader());
-        mReason = in.readString();
-        mFromTime = in.readString();
-        mToTime = in.readString();
-        mCheckinTime = in.readString();
-        mCheckoutTime = in.readString();
-        mBeingHandledBy = in.readString();
-        mStatus = in.readString();
-        mTimeRequest = in.readString();
-        mCompensation = in.readParcelable(Compensation.class.getClassLoader());
-    }
-
-    public int getId() {
+    public Integer getId() {
         return mId;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         mId = id;
     }
 
-    public String getCreatedAt() {
-        return mCreatedAt;
+    public String getCompanyName() {
+        return mCompanyName;
     }
 
-    public void setCreatedAt(String createdAt) {
-        mCreatedAt = createdAt;
+    public void setCompanyName(String companyName) {
+        mCompanyName = companyName;
+    }
+
+    public String getWorkspaceName() {
+        return mWorkspaceName;
+    }
+
+    public void setWorkspaceName(String workspaceName) {
+        mWorkspaceName = workspaceName;
+    }
+
+    public String getStatus() {
+        return mStatus;
+    }
+
+    public void setStatus(String status) {
+        mStatus = status;
+    }
+
+    public LeaveType getLeaveType() {
+        return mLeaveType;
+    }
+
+    public void setLeaveType(LeaveType leaveType) {
+        mLeaveType = leaveType;
+    }
+
+    public String getProjectName() {
+        return mProjectName;
+    }
+
+    public void setProjectName(String projectName) {
+        mProjectName = projectName;
+    }
+
+    public String getReason() {
+        return mReason;
+    }
+
+    public void setReason(String reason) {
+        mReason = reason;
+    }
+
+    public String getCheckInTime() {
+        return mCheckInTime;
+    }
+
+    public void setCheckInTime(String checkInTime) {
+        mCheckInTime = checkInTime;
+    }
+
+    public String getCheckOutTime() {
+        return mCheckOutTime;
+    }
+
+    public void setCheckOutTime(String checkOutTime) {
+        mCheckOutTime = checkOutTime;
+    }
+
+    public Compensation getCompensation() {
+        return mCompensation;
+    }
+
+    public void setCompensation(Compensation compensation) {
+        mCompensation = compensation;
+    }
+
+    public Integer getGroupId() {
+        return mGroupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        mGroupId = groupId;
+    }
+
+    public Integer getCompanyId() {
+        return mCompanyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        mCompanyId = companyId;
+    }
+
+    public Integer getWorkpaceId() {
+        return mWorkpaceId;
+    }
+
+    public void setWorkpaceId(Integer workpaceId) {
+        mWorkpaceId = workpaceId;
+    }
+
+    public Integer getLeaveTypeId() {
+        return mLeaveTypeId;
+    }
+
+    public void setLeaveTypeId(Integer leaveTypeId) {
+        mLeaveTypeId = leaveTypeId;
+    }
+
+    public Compensation getCompensationRequest() {
+        return mCompensationRequest;
+    }
+
+    public void setCompensationRequest(Compensation compensationRequest) {
+        mCompensationRequest = compensationRequest;
     }
 
     public Group getGroup() {
@@ -134,146 +254,76 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         mBranch = branch;
     }
 
-    public LeaveType getLeaveType() {
-        return mLeaveType;
-    }
-
-    public void setLeaveType(LeaveType leaveType) {
-        mLeaveType = leaveType;
-    }
-
-    public String getProject() {
-        return mProject;
-    }
-
-    public void setProject(String project) {
-        mProject = project;
-    }
-
-    public String getPosition() {
-        return mPosition;
-    }
-
-    public void setPosition(String position) {
-        mPosition = position;
-    }
-
-    public CompanyPay getCompanyPay() {
-        return mCompanyPay;
-    }
-
-    public void setCompanyPay(CompanyPay companyPay) {
-        mCompanyPay = companyPay;
-    }
-
-    public InsuranceCoverage getInsuranceCoverage() {
-        return mInsuranceCoverage;
-    }
-
-    public void setInsuranceCoverage(InsuranceCoverage insuranceCoverage) {
-        mInsuranceCoverage = insuranceCoverage;
-    }
-
-    public String getReason() {
-        return mReason;
-    }
-
-    public void setReason(String reason) {
-        mReason = reason;
-    }
-
-    public String getFromTime() {
-        return mFromTime;
-    }
-
-    public void setFromTime(String fromTime) {
-        mFromTime = fromTime;
-    }
-
-    public String getToTime() {
-        return mToTime;
-    }
-
-    public void setToTime(String toTime) {
-        mToTime = toTime;
-    }
-
-    public String getCheckinTime() {
-        return mCheckinTime;
-    }
-
-    public void setCheckinTime(String checkinTime) {
-        mCheckinTime = checkinTime;
-    }
-
-    public String getCheckoutTime() {
-        return mCheckoutTime;
-    }
-
-    public void setCheckoutTime(String checkoutTime) {
-        mCheckoutTime = checkoutTime;
-    }
-
-    public String getBeingHandledBy() {
-        return mBeingHandledBy;
-    }
-
-    public void setBeingHandledBy(String beingHandledBy) {
-        mBeingHandledBy = beingHandledBy;
-    }
-
-    public String getStatus() {
-        return mStatus;
-    }
-
-    public void setStatus(String status) {
-        mStatus = status;
-    }
-
-    public Compensation getCompensation() {
-        return mCompensation;
-    }
-
-    public void setCompensation(Compensation compensation) {
-        mCompensation = compensation;
-    }
-
-    public String getTimeRequest() {
-        return mTimeRequest;
-    }
-
-    public void setTimeRequest(String timeRequest) {
-        mTimeRequest = timeRequest;
-    }
-
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mId);
-        dest.writeString(mCreatedAt);
-        dest.writeParcelable(mGroup, flags);
-        dest.writeParcelable(mBranch, flags);
-        dest.writeParcelable(mLeaveType, flags);
-        dest.writeString(mProject);
-        dest.writeString(mPosition);
-        dest.writeParcelable(mCompanyPay, flags);
-        dest.writeParcelable(mInsuranceCoverage, flags);
-        dest.writeString(mReason);
-        dest.writeString(mFromTime);
-        dest.writeString(mToTime);
-        dest.writeString(mCheckinTime);
-        dest.writeString(mCheckoutTime);
-        dest.writeString(mBeingHandledBy);
-        dest.writeString(mStatus);
-        dest.writeString(mTimeRequest);
-        dest.writeParcelable(mCompensation, flags);
+    public void writeToParcel(Parcel parcel, int i) {
+        if (mId == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(mId);
+        }
+        parcel.writeString(mCompanyName);
+        parcel.writeString(mWorkspaceName);
+        parcel.writeString(mStatus);
+        parcel.writeParcelable(mLeaveType, i);
+        parcel.writeString(mProjectName);
+        parcel.writeString(mReason);
+        parcel.writeString(mCheckInTime);
+        parcel.writeString(mCheckOutTime);
+        parcel.writeParcelable(mCompensation, i);
+        if (mGroupId == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(mGroupId);
+        }
+        if (mCompanyId == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(mCompanyId);
+        }
+        if (mWorkpaceId == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(mWorkpaceId);
+        }
+        if (mLeaveTypeId == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(mLeaveTypeId);
+        }
+        parcel.writeParcelable(mCompensationRequest, i);
+        parcel.writeParcelable(mGroup, i);
+        parcel.writeParcelable(mBranch, i);
     }
 
-    public static class Compensation implements Parcelable {
+    /**
+     * Compensation
+     */
+    public static class Compensation extends BaseModel implements Parcelable {
+        @Expose
+        @SerializedName("compensation_from")
+        private String mFromTime;
+        @Expose
+        @SerializedName("compensation_to")
+        private String mToTime;
+
+        protected Compensation(Parcel in) {
+            mFromTime = in.readString();
+            mToTime = in.readString();
+        }
+
+        public Compensation() {
+        }
+
         public static final Creator<Compensation> CREATOR = new Creator<Compensation>() {
             @Override
             public Compensation createFromParcel(Parcel in) {
@@ -285,23 +335,6 @@ public class LeaveRequest extends BaseModel implements Parcelable {
                 return new Compensation[size];
             }
         };
-        @SerializedName("compensation_from")
-        private String mFromTime;
-        @Expose
-        @SerializedName("compensation_to")
-        private String mToTime;
-        @Expose
-        @SerializedName("status")
-        private int mStatus;
-
-        protected Compensation(Parcel in) {
-            mFromTime = in.readString();
-            mToTime = in.readString();
-            mStatus = in.readInt();
-        }
-
-        public Compensation() {
-        }
 
         public String getFromTime() {
             return mFromTime;
@@ -319,25 +352,15 @@ public class LeaveRequest extends BaseModel implements Parcelable {
             mToTime = toTime;
         }
 
-        @StatusCode
-        public int getStatus() {
-            return mStatus;
-        }
-
-        public void setStatus(@StatusCode int status) {
-            mStatus = status;
-        }
-
         @Override
         public int describeContents() {
             return 0;
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(mFromTime);
-            dest.writeString(mToTime);
-            dest.writeInt(mStatus);
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeString(mFromTime);
+            parcel.writeString(mToTime);
         }
     }
 }
