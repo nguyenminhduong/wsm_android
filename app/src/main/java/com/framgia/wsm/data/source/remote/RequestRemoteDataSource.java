@@ -4,6 +4,7 @@ import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.RequestDataSource;
+import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
@@ -36,8 +37,9 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<Object> createFormRequestLeave(@NonNull LeaveRequest request) {
-        return mWSMApi.createFormRequestLeave(request);
+    public Observable<Object> createFormRequestLeave(
+            @NonNull RequestLeaveRequest requestLeaveRequest) {
+        return mWSMApi.createFormRequestLeave(requestLeaveRequest);
     }
 
     @Override
