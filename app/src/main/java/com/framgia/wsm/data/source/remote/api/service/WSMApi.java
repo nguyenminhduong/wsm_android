@@ -6,6 +6,7 @@ import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.OffTypeDay;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
+import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
@@ -44,6 +45,10 @@ public interface WSMApi {
     @PUT("/api/dashboard/users")
     Observable<BaseResponse<UserProfileResponse>> updateProfile(
             @PartMap Map<String, RequestBody> params, @Part MultipartBody.Part file);
+
+    // TODO edit later
+    @PUT("/api/dashboard/users/change_password")
+    Observable<Object> changePassword(@Body ChangePasswordRequest changePasswordRequest);
 
     // TODO edit later
     @GET("v1/time_sheet")

@@ -5,6 +5,7 @@ import com.framgia.wsm.data.model.OffType;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
+import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
 import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
@@ -83,5 +84,9 @@ public class UserRepository {
     public Observable<BaseResponse<UserProfileResponse>> updateProfile(
             UpdateProfileRequest updateProfile) {
         return mRemoteDataSource.updateProfile(updateProfile);
+    }
+
+    public Observable<Object> changePassword(ChangePasswordRequest changePasswordRequest) {
+        return mRemoteDataSource.changePassword(changePasswordRequest);
     }
 }

@@ -3,6 +3,9 @@ package com.framgia.wsm.screen.changepassword;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.local.UserLocalDataSource;
+import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
@@ -32,9 +35,18 @@ public class ChangePasswordModule {
 
     @ActivityScope
     @Provides
-    public ChangePasswordContract.Presenter providePresenter(Context context, Validator validator,
+    public ChangePasswordContract.Presenter providePresenter(Context context,
+            UserRepository userRepository, Validator validator,
             BaseSchedulerProvider baseSchedulerProvider) {
-        return new ChangePasswordPresenter(context, validator, baseSchedulerProvider);
+        return new ChangePasswordPresenter(context, userRepository, validator,
+                baseSchedulerProvider);
+    }
+
+    @ActivityScope
+    @Provides
+    public UserRepository provideUserRepository(UserLocalDataSource userLocalDataSource,
+            UserRemoteDataSource remoteDataSource) {
+        return new UserRepository(userLocalDataSource, remoteDataSource);
     }
 
     @ActivityScope

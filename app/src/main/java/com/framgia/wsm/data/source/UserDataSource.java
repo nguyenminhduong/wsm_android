@@ -3,6 +3,7 @@ package com.framgia.wsm.data.source;
 import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffType;
 import com.framgia.wsm.data.model.User;
+import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
 import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
@@ -40,5 +41,7 @@ public interface UserDataSource {
 
         Observable<BaseResponse<UserProfileResponse>> updateProfile(
                 UpdateProfileRequest updateProfileRequest);
+
+        Observable<Object> changePassword(ChangePasswordRequest changePasswordRequest);
     }
 }
