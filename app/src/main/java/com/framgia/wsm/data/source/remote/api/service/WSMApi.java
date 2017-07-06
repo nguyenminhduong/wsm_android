@@ -50,9 +50,9 @@ public interface WSMApi {
     @PUT("/api/dashboard/users/change_password")
     Observable<Object> changePassword(@Body ChangePasswordRequest changePasswordRequest);
 
-    // TODO edit later
-    @GET("v1/time_sheet")
-    Observable<TimeSheetResponse> getTimeSheet(@Query("month") int month, @Query("year") int year);
+    @GET("/api/dashboard/user_timesheets")
+    Observable<BaseResponse<TimeSheetResponse>> getTimeSheet(@Query("month") int month,
+            @Query("year") int year);
 
     @GET("v1/holiday_calendar")
     Observable<BaseResponse<HolidayCalendarResponse>> getHolidayCalendar(@Query("year") int year);

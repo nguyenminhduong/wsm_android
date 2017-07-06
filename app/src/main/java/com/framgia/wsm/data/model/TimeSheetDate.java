@@ -1,30 +1,50 @@
 package com.framgia.wsm.data.model;
 
 import com.framgia.wsm.utils.common.DateTimeUtils;
+import com.framgia.wsm.utils.common.StringUtils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 /**
- * Created by framgia on 19/05/2017.
+ * Created by minhd on 7/6/2017.
  */
 
 public class TimeSheetDate extends BaseModel {
-    String mDate;
-    int mTimeIn;
-    int mTimeOut;
     @Expose
-    @SerializedName("status")
-    Status mStatus;
+    @SerializedName("date")
+    private String mDate;
+    @Expose
+    @SerializedName("time_in")
+    private String mTimeIn;
+    @Expose
+    @SerializedName("time_out")
+    private String mTimeOut;
+    @Expose
+    @SerializedName("text_morning")
+    private String mTextMorning;
+    @Expose
+    @SerializedName("text_afternoon")
+    private String mTextAfternoon;
+    @Expose
+    @SerializedName("color_morning")
+    private String mColorMorning;
+    @Expose
+    @SerializedName("color_afternoon")
+    private String mColorAfternoon;
 
     public TimeSheetDate() {
     }
 
-    public TimeSheetDate(String date, int timeIn, int timeOut, Status status) {
-        this.mDate = date;
-        this.mTimeIn = timeIn;
-        this.mTimeOut = timeOut;
-        this.mStatus = status;
+    public TimeSheetDate(String date, String timeIn, String timeOut, String textMorning,
+            String textAfternoon, String colorMorning, String colorAfternoon) {
+        mDate = date;
+        mTimeIn = timeIn;
+        mTimeOut = timeOut;
+        mTextMorning = textMorning;
+        mTextAfternoon = textAfternoon;
+        mColorMorning = colorMorning;
+        mColorAfternoon = colorAfternoon;
     }
 
     public String getDateString() {
@@ -39,83 +59,82 @@ public class TimeSheetDate extends BaseModel {
         mDate = date;
     }
 
-    public Status getStatus() {
-        return mStatus;
-    }
-
-    public int getTimeIn() {
+    public String getTimeIn() {
         return mTimeIn;
     }
 
-    public void setTimeIn(int timeIn) {
+    public void setTimeIn(String timeIn) {
         mTimeIn = timeIn;
     }
 
-    public int getTimeOut() {
+    public String getTimeOut() {
         return mTimeOut;
     }
 
-    public void setTimeOut(int timeOut) {
+    public void setTimeOut(String timeOut) {
         mTimeOut = timeOut;
     }
 
-    public enum Status {
-        @Expose @SerializedName("normal")
-        NORMAL(0),
-        @Expose @SerializedName("in_late_leave_early")
-        IN_LATE_LEAVE_EARLY(1),
-        @Expose @SerializedName("holiday")
-        HOLIDAY_DATE(2),
-        @Expose @SerializedName("forgot_checkin_checkout")
-        FORGOT_CHECK_IN_CHECK_OUT(3),
-        @Expose @SerializedName("in_late_leave_early_have_compensation")
-        IN_LATE_LEAVE_EARLY_HAVE_COMPENSATION(4),
-        @Expose @SerializedName("day_off_ro")
-        DAY_OFF_RO(5),
-        @Expose @SerializedName("day_off_half_ro")
-        DAY_OFF_HALF_RO(6),
-        @Expose @SerializedName("day_off_p")
-        DAY_OFF_P(7),
-        @Expose @SerializedName("day_off_half_p")
-        DAY_OFF_HALF_P(8),
-        @Expose @SerializedName("forgot_checkin_checkout_more_five_time")
-        FORGOT_CHECK_IN_CHECK_OUT_MORE_FIVE_TIME(9);
+    public String getTextMorning() {
+        return mTextMorning;
+    }
 
-        private int mValue;
+    public void setTextMorning(String textMorning) {
+        mTextMorning = textMorning;
+    }
 
-        Status(int value) {
-            this.mValue = value;
-        }
+    public String getTextAfternoon() {
+        return mTextAfternoon;
+    }
 
-        public static Status getValue(int value) {
-            switch (value) {
-                case 0:
-                    return NORMAL;
-                case 1:
-                    return IN_LATE_LEAVE_EARLY;
-                case 2:
-                    return HOLIDAY_DATE;
-                case 3:
-                    return FORGOT_CHECK_IN_CHECK_OUT;
-                case 4:
-                    return IN_LATE_LEAVE_EARLY_HAVE_COMPENSATION;
-                case 5:
-                    return DAY_OFF_RO;
-                case 6:
-                    return DAY_OFF_HALF_RO;
-                case 7:
-                    return DAY_OFF_P;
-                case 8:
-                    return DAY_OFF_HALF_P;
-                case 9:
-                    return FORGOT_CHECK_IN_CHECK_OUT_MORE_FIVE_TIME;
-                default:
-                    return NORMAL;
-            }
-        }
+    public void setTextAfternoon(String textAfternoon) {
+        mTextAfternoon = textAfternoon;
+    }
 
-        public int getValue() {
-            return this.mValue;
-        }
+    public String getColorMorning() {
+        return mColorMorning;
+    }
+
+    public void setColorMorning(String colorMorning) {
+        mColorMorning = colorMorning;
+    }
+
+    public String getColorAfternoon() {
+        return mColorAfternoon;
+    }
+
+    public void setColorAfternoon(String colorAfternoon) {
+        mColorAfternoon = colorAfternoon;
+    }
+
+    public boolean isNormalDay() {
+        return StringUtils.isBlank(mTextMorning)
+                && StringUtils.isBlank(mTextAfternoon)
+                && StringUtils.isBlank(mColorMorning)
+                && StringUtils.isBlank(mColorAfternoon);
+    }
+
+    public boolean isDayOffMorning() {
+        return StringUtils.isNotBlank(mTextMorning) && StringUtils.isBlank(mTextAfternoon);
+    }
+
+    public boolean isDayOffAfternoon() {
+        return StringUtils.isBlank(mTextMorning) && StringUtils.isNotBlank(mTextAfternoon);
+    }
+
+    public boolean isDayOffAllDay() {
+        return StringUtils.isNotBlank(mTextMorning) && StringUtils.isNotBlank(mTextAfternoon);
+    }
+
+    public boolean isColorMorning() {
+        return StringUtils.isNotBlank(mColorMorning) && StringUtils.isBlank(mColorAfternoon);
+    }
+
+    public boolean isColorAfternoon() {
+        return StringUtils.isNotBlank(mColorAfternoon) && StringUtils.isBlank(mColorMorning);
+    }
+
+    public boolean isColorAllDay() {
+        return StringUtils.isNotBlank(mColorAfternoon) && StringUtils.isNotBlank(mColorMorning);
     }
 }

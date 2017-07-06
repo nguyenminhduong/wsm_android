@@ -1,9 +1,8 @@
 package com.framgia.wsm.data.source.remote.api.response;
 
-import com.framgia.wsm.data.model.TimeSheetDate;
+import com.framgia.wsm.data.model.UserTimeSheet;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import java.util.List;
 
 /**
  * Created by Duong on 5/26/2017.
@@ -11,36 +10,36 @@ import java.util.List;
 
 public class TimeSheetResponse {
     @Expose
-    @SerializedName("content")
-    private List<TimeSheetDate> mTimeSheetDates;
+    @SerializedName("month")
+    private String mMonth;
     @Expose
-    @SerializedName("status")
-    private int mStatus;
+    @SerializedName("year")
+    private String mYear;
     @Expose
-    @SerializedName("message")
-    private String mMessage;
+    @SerializedName("usertimesheets")
+    private UserTimeSheet mUserTimeSheet;
 
-    public List<TimeSheetDate> getTimeSheetDates() {
-        return mTimeSheetDates;
+    public String getMonth() {
+        return mMonth;
     }
 
-    public void setTimeSheetDates(List<TimeSheetDate> timeSheetDates) {
-        mTimeSheetDates = timeSheetDates;
+    public void setMonth(String month) {
+        mMonth = month;
     }
 
-    public int getStatus() {
-        return mStatus;
+    public String getYear() {
+        return mYear;
     }
 
-    public void setStatus(int status) {
-        mStatus = status;
+    public void setYear(String year) {
+        mYear = year;
     }
 
-    public String getMessage() {
-        return mMessage;
+    public UserTimeSheet getUserTimeSheet() {
+        return mUserTimeSheet;
     }
 
-    public void setMessage(String message) {
-        mMessage = message;
+    public void setUserTimeSheet(UserTimeSheet userTimeSheet) {
+        mUserTimeSheet = userTimeSheet;
     }
 }
