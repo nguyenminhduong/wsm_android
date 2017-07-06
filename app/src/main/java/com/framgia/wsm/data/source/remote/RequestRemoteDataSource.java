@@ -41,7 +41,7 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestOverTime() {
+    public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime() {
         return mWSMApi.getListRequestOverTime();
     }
 

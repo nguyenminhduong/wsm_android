@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
 
@@ -17,61 +18,52 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_3"
+        android:layout_margin="@dimen/dp_2"
+        android:onClick="@{()-> viewModel.onItemClicked()}"
+        app:cardCornerRadius="@dimen/dp_2"
         >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{()-> viewModel.onItemClicked()}"
             android:orientation="horizontal"
-            android:padding="@dimen/dp_3"
             >
 
             <ImageView
-                android:layout_width="@dimen/dp_40"
-                android:layout_height="@dimen/dp_40"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_request_overtime"
+                android:layout_margin="@dimen/dp_10"
+                android:src="@drawable/ic_calendar"
                 tools:ignore="ContentDescription"
                 />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/dp_5"
+                android:layout_marginTop="@dimen/dp_5"
                 android:orientation="vertical"
-                android:padding="@dimen/dp_5"
                 >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="@dimen/dp_5"
                     >
-
                     <TextView
-                        android:layout_width="@dimen/dp_0"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.40"
-                        android:text="@string/date_of_creation"
-                        android:textStyle="bold"
+                        android:layout_weight="0.6"
+                        android:text="@string/statu"
+                        android:textColor="@color/cardview_dark_background"
                         />
-
-                    <TextView
-                        android:layout_width="@dimen/dp_0"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.30"
-                        android:text="@{viewModel.createAt}"
-                        />
-
                     <FrameLayout
-                        android:layout_width="@dimen/dp_0"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_20"
-                        android:layout_marginStart="@dimen/dp_20"
-                        android:layout_weight="0.30"
+                        android:layout_weight="0.4"
                         >
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -80,7 +72,6 @@
                             android:textStyle="bold"
                             android:visibility="@{viewModel.acceptStatus ? View.VISIBLE : View.GONE}"
                             />
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -89,7 +80,6 @@
                             android:textStyle="bold"
                             android:visibility="@{viewModel.pendingStatus ? View.VISIBLE : View.GONE}"
                             />
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -99,59 +89,53 @@
                             android:visibility="@{viewModel.rejectStatus ? View.VISIBLE : View.GONE}"
                             />
                     </FrameLayout>
-
-
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:orientation="horizontal"
                     >
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/dp_5"
-                        >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/from"
-                            android:textStyle="bold"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_10"
-                            android:layout_marginStart="@dimen/dp_10"
-                            android:text="@{viewModel.fromTime}"
-                            />
-                    </LinearLayout>
-                    <LinearLayout
+                        android:layout_weight="0.6"
+                        android:text="@string/date_of_creation"
+                        android:textColor="@color/cardview_dark_background"
+                        />
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/dp_5"
-                        >
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/to"
-                            android:textStyle="bold"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_26"
-                            android:layout_marginStart="@dimen/dp_26"
-                            android:text="@{viewModel.toTime}"
-                            />
-                    </LinearLayout>
+                        android:layout_weight="0.4"
+                        android:text="@{viewModel.createAt}"
+                        />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:text="@string/being_handled_by"
+                        android:textColor="@color/cardview_dark_background"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:text="@{viewModel.beingHandledBy}"
+                        />
+                </LinearLayout>
+
             </LinearLayout>
+
         </LinearLayout>
+
     </android.support.v7.widget.CardView>
 </layout>

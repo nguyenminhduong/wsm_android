@@ -57,7 +57,6 @@ public interface WSMApi {
     @GET("v1/holiday_calendar")
     Observable<BaseResponse<HolidayCalendarResponse>> getHolidayCalendar(@Query("year") int year);
 
-    // TODO edit later
     @POST("/api/dashboard/request_ots")
     Observable<Object> createFormRequestOverTime(@Body RequestOverTime requestOverTime);
 
@@ -100,9 +99,8 @@ public interface WSMApi {
     @GET("/api/v1/list_request_off")
     Observable<BaseResponse<List<LeaveRequest>>> getListRequestOff();
 
-    // TODO edit later
-    @GET("/api/v1/list_request_over_time")
-    Observable<BaseResponse<List<LeaveRequest>>> getListRequestOverTime();
+    @GET("/api/dashboard/request_ots")
+    Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime();
 
     // TODO edit later
     @GET("/api/v1/list_request_late_early")

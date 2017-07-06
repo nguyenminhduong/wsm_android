@@ -100,49 +100,7 @@ public class RequestRepository {
     }
 
     public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime() {
-        // TODO: Edit later
-        //return mRemoteDataSource.getListRequestOverTime();
-        List<RequestOverTime> requestOverTimes = new ArrayList<>();
-        RequestOverTime requestOverTime = new RequestOverTime();
-        requestOverTime.setId(1);
-        requestOverTime.setCreatedAt("23/06/2017");
-        requestOverTime.setFromTime("21/06/2017 18:00");
-        requestOverTime.setToTime("22/06/2017 19:00");
-        requestOverTime.setStatus(StatusCode.PENDING_CODE);
-        requestOverTime.setReason("Ko kịp tiến độ !!!");
-        requestOverTime.setProject("WSM Android");
-        requestOverTimes.add(requestOverTime);
-        RequestOverTime requestOverTime3 = new RequestOverTime();
-        requestOverTime3.setId(1);
-        requestOverTime3.setCreatedAt("23/06/2017");
-        requestOverTime3.setFromTime("21/06/2017 18:00");
-        requestOverTime3.setToTime("22/06/2017 19:00");
-        requestOverTime3.setStatus(StatusCode.REJECT_CODE);
-        requestOverTime3.setReason("Ko kịp tiến độ !!!");
-        requestOverTime3.setProject("WSM Android");
-        requestOverTimes.add(requestOverTime3);
-        RequestOverTime requestOverTime4 = new RequestOverTime();
-        requestOverTime4.setId(1);
-        requestOverTime4.setCreatedAt("23/08/2017");
-        requestOverTime4.setFromTime("21/08/2017 18:00");
-        requestOverTime4.setToTime("22/08/2017 19:00");
-        requestOverTime4.setStatus(StatusCode.ACCEPT_CODE);
-        requestOverTime4.setReason("Ko kịp tiến độ !!!");
-        requestOverTime4.setProject("WSM Android");
-        requestOverTimes.add(requestOverTime4);
-        RequestOverTime requestOverTime2 = new RequestOverTime();
-        requestOverTime2.setId(1);
-        requestOverTime2.setCreatedAt("23/09/2017");
-        requestOverTime2.setFromTime("21/09/2017 18:00");
-        requestOverTime2.setToTime("22/09/2017 19:00");
-        requestOverTime2.setStatus(StatusCode.PENDING_CODE);
-        requestOverTime2.setReason("Ko kịp tiến độ !!!");
-        requestOverTime2.setProject("WSM Android");
-        requestOverTimes.add(requestOverTime2);
-        BaseResponse<List<RequestOverTime>> baseResponse =
-                new BaseResponse<List<RequestOverTime>>(requestOverTimes) {
-                };
-        return Observable.just(baseResponse);
+        return mRemoteDataSource.getListRequestOverTime();
     }
 
     public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTimeWithStatusAndTime(

@@ -17,6 +17,7 @@ import com.framgia.wsm.screen.requestovertime.RequestOvertimeActivity;
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.StatusCode;
+import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
@@ -48,6 +49,17 @@ public class ConfirmOvertimeViewModel extends BaseObservable
         mNavigator = navigator;
         mDialogManager = dialogManager;
         mPresenter.getUser();
+    }
+
+    private void setTimeRequestOverTIme(RequestOverTime requestOverTime) {
+        requestOverTime.setFromTime(
+                DateTimeUtils.convertUiFormatToDataFormat(requestOverTime.getFromTime(),
+                        DateTimeUtils.INPUT_TIME_FORMAT,
+                        DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
+        requestOverTime.setToTime(
+                DateTimeUtils.convertUiFormatToDataFormat(requestOverTime.getToTime(),
+                        DateTimeUtils.INPUT_TIME_FORMAT,
+                        DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
     }
 
     @Override
@@ -164,8 +176,15 @@ public class ConfirmOvertimeViewModel extends BaseObservable
         return StatusCode.REJECT_CODE.equals(mRequestOverTime.getStatus());
     }
 
+    public boolean isForwardedStatus() {
+        return StatusCode.FORWARDED.equals(mRequestOverTime.getStatus());
+    }
+
     public void setActionType(int actionType) {
         mActionType = actionType;
+        if (ActionType.ACTION_DETAIL == mActionType) {
+            setTimeRequestOverTIme(mRequestOverTime);
+        }
     }
 
     public boolean isVisibleButtonSubmit() {
