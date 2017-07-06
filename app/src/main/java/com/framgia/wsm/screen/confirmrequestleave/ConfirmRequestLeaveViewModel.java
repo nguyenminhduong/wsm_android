@@ -92,15 +92,15 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     }
 
     public boolean isAcceptStatus() {
-        return mRequest.getStatus().equals(StatusCode.ACCEPT_CODE);
+        return StatusCode.ACCEPT_CODE.equals(mRequest.getStatus());
     }
 
     public boolean isPendingStatus() {
-        return mRequest.getStatus().equals(StatusCode.PENDING_CODE);
+        return StatusCode.PENDING_CODE.equals(mRequest.getStatus());
     }
 
     public boolean isRejectStatus() {
-        return mRequest.getStatus().equals(StatusCode.REJECT_CODE);
+        return StatusCode.REJECT_CODE.equals(mRequest.getStatus());
     }
 
     @Override

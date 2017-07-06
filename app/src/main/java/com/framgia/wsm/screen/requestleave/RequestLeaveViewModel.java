@@ -155,6 +155,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         setCurrentBranch();
         setCurrentGroup();
         setTitleExampleLeave();
+        mRequest.setCompanyId(mUser.getCompany().getId());
     }
 
     @Override
@@ -975,8 +976,6 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (!mPresenter.validateDataInput(mRequest)) {
             return;
         }
-        //TODO Edit later
-        mRequest.setCompanyId(1);
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, mRequest);
         mActionType = ActionType.ACTION_CONFIRM_CREATE;

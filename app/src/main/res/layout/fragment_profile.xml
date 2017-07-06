@@ -192,7 +192,7 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
-                                    android:text="@{viewModel.user.companyName}"
+                                    android:text="@{viewModel.user.company.companyName}"
                                     style="@style/StyleTextProfile"
                                     />
                             </LinearLayout>
