@@ -1,7 +1,6 @@
 package com.framgia.wsm.data.source;
 
 import com.framgia.wsm.data.model.LeaveRequest;
-import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
@@ -88,17 +87,7 @@ public class RequestRepository {
     }
 
     public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly() {
-        // TODO: Edit later
-        // return mRemoteDataSource.getListRequestLateEarly(userId);
-        List<LeaveRequest> requests = new ArrayList<>();
-        LeaveType leaveType = new LeaveType();
-        leaveType.setName("In late (M)");
-        leaveType.setCode("ILM");
-        leaveType.setId(0);
-        BaseResponse<List<LeaveRequest>> baseResponse =
-                new BaseResponse<List<LeaveRequest>>(requests) {
-                };
-        return Observable.just(baseResponse);
+        return mRemoteDataSource.getListRequestLateEarly();
     }
 
     public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime() {

@@ -54,7 +54,7 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
 
     @Override
     public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly() {
-        return mWSMApi.getListRequestLateEarly();
+        return mWSMApi.getListRequestLeaves();
     }
 
     @Override

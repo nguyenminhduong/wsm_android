@@ -118,7 +118,11 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mPresenter.getUser();
         initRequest(requestLeave);
         mActionType = actionType;
-        mCurrentLeaveTypeName = "In late (M)";
+        if (mActionType == ActionType.ACTION_CREATE) {
+            mCurrentLeaveTypeName = "In late (M)";
+        } else {
+            mCurrentLeaveTypeName = mRequest.getLeaveType().getName();
+        }
     }
 
     private void initRequest(LeaveRequest requestLeave) {
@@ -126,7 +130,11 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             mRequest = requestLeave;
             if (mRequest.getCompensationRequest() == null) {
                 mRequest.setCompensationRequest(new LeaveRequest.Compensation());
-                mCurrentLeaveType = mRequest.getLeaveTypeId();
+                if (mRequest.getLeaveTypeId() != null) {
+                    mCurrentLeaveType = mRequest.getLeaveTypeId();
+                } else {
+                    mCurrentLeaveType = mRequest.getLeaveType().getId();
+                }
             }
         } else {
             mRequest = new LeaveRequest();

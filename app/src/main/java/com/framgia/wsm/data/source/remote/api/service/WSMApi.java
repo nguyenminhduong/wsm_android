@@ -103,8 +103,8 @@ public interface WSMApi {
     Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime();
 
     // TODO edit later
-    @GET("/api/v1/list_request_late_early")
-    Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly();
+    @GET("/api/dashboard/request_leaves")
+    Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaves();
 
     @GET("/api/dashboard/leave_types")
     Observable<BaseResponse<List<LeaveType>>> getListLeaveType();
