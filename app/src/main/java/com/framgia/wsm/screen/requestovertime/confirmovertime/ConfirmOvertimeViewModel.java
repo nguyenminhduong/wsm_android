@@ -75,6 +75,16 @@ public class ConfirmOvertimeViewModel extends BaseObservable
     }
 
     @Override
+    public void onDismissProgressDialog() {
+        mDialogManager.dismissProgressDialog();
+    }
+
+    @Override
+    public void onShowIndeterminateProgressDialog() {
+        mDialogManager.showIndeterminateProgressDialog();
+    }
+
+    @Override
     public void onCreateFormOverTimeSuccess() {
         mNavigator.finishActivityWithResult(Activity.RESULT_OK);
     }

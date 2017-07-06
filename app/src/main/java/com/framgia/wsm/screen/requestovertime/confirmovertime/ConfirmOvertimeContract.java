@@ -30,6 +30,10 @@ interface ConfirmOvertimeContract {
         void onGetUserSuccess(User user);
 
         void onGetUserError(BaseException exception);
+
+        void onDismissProgressDialog();
+
+        void onShowIndeterminateProgressDialog();
     }
 
     /**
