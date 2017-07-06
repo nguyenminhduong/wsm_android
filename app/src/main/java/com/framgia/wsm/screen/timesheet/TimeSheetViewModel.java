@@ -184,7 +184,6 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         mDialogManager.showIndeterminateProgressDialog();
         notifyPropertyChanged(BR.month);
         notifyPropertyChanged(BR.year);
-        notifyPropertyChanged(BR.timeSheetDates);
         mPresenter.getTimeSheet(mMonth, mYear);
     }
 
@@ -198,7 +197,6 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         mDialogManager.showIndeterminateProgressDialog();
         notifyPropertyChanged(BR.month);
         notifyPropertyChanged(BR.year);
-        notifyPropertyChanged(BR.timeSheetDates);
         mPresenter.getTimeSheet(mMonth, mYear);
     }
 }
