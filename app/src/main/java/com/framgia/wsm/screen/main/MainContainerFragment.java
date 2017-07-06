@@ -2,6 +2,7 @@ package com.framgia.wsm.screen.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,5 +97,18 @@ public class MainContainerFragment extends BaseFragment {
 
     public boolean onBackPressed() {
         return mNavigator.goBackChildFragment();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (!isAdded()) {
+            return;
+        }
+        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.layout_container);
+        if (fragment == null) {
+            return;
+        }
+        fragment.setUserVisibleHint(isVisibleToUser);
+        super.setUserVisibleHint(isVisibleToUser);
     }
 }

@@ -6,7 +6,6 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
@@ -14,7 +13,6 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
-import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.screen.confirmrequestleave.ConfirmRequestLeaveActivity;
@@ -50,7 +48,6 @@ public class ListRequestViewModel extends BaseObservable
     private Calendar mCalendar;
     private ListRequestAdapter mListRequestAdapter;
     private Navigator mNavigator;
-    private User mUser;
     @RequestType
     private int mRequestType;
 
@@ -68,7 +65,6 @@ public class ListRequestViewModel extends BaseObservable
         mListRequestAdapter = listRequestAdapter;
         mListRequestAdapter.setItemClickListener(this);
         mNavigator = navigator;
-        mPresenter.getUser();
     }
 
     @Override
@@ -111,21 +107,6 @@ public class ListRequestViewModel extends BaseObservable
     }
 
     @Override
-    public void onGetUserSuccess(User user) {
-        if (user == null) {
-            return;
-        }
-        mUser = user;
-        notifyPropertyChanged(BR.user);
-        mPresenter.getListAllRequest(mRequestType);
-    }
-
-    @Override
-    public void onGetUserError(BaseException e) {
-        Log.e(TAG, "ListRequestViewModel", e);
-    }
-
-    @Override
     public void onGetListRequestSuccess(int requestType, Object object) {
         switch (requestType) {
             case RequestType.REQUEST_OVERTIME:
@@ -149,7 +130,7 @@ public class ListRequestViewModel extends BaseObservable
         updateMonthYear();
     }
 
-    public void setCurrentPositionStatus(int currentPositionStatus) {
+    private void setCurrentPositionStatus(int currentPositionStatus) {
         mCurrentPositionStatus = currentPositionStatus;
     }
 
@@ -158,7 +139,7 @@ public class ListRequestViewModel extends BaseObservable
         return mCurrentStatus;
     }
 
-    public void setCurrentStatus(String currentStatus) {
+    private void setCurrentStatus(String currentStatus) {
         mCurrentStatus = currentStatus;
         notifyPropertyChanged(BR.currentStatus);
     }
@@ -168,7 +149,7 @@ public class ListRequestViewModel extends BaseObservable
         return mMonthYear;
     }
 
-    public void setMonthYear(String monthYear) {
+    private void setMonthYear(String monthYear) {
         mMonthYear = monthYear;
         notifyPropertyChanged(BR.monthYear);
     }
@@ -177,8 +158,10 @@ public class ListRequestViewModel extends BaseObservable
         return mListRequestAdapter;
     }
 
+    @Override
     public void setRequestType(int requestType) {
         mRequestType = requestType;
+        mPresenter.getListAllRequest(mRequestType);
     }
 
     public void onPickMonthYear(View view) {
