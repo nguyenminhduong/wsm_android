@@ -32,17 +32,19 @@ public class ItemListRequestViewModel extends BaseObservable {
         }
     }
 
+    //TODO Edit later
     public String getTimeRequest() {
-        if (mRequest != null) {
-            return mRequest.getTimeRequest();
-        }
+        //        if (mRequest != null) {
+        //            return mRequest.getTimeRequest();
+        //        }
         return "";
     }
 
+    //TODO Edit later
     public String getBeingHandledBy() {
-        if (mRequest != null) {
-            return mRequest.getBeingHandledBy();
-        }
+        //        if (mRequest != null) {
+        //            return mRequest.getBeingHandledBy();
+        //        }
         if (mRequestOverTime != null) {
             return mRequestOverTime.getBeingHandledBy();
         }
@@ -52,10 +54,11 @@ public class ItemListRequestViewModel extends BaseObservable {
         return "";
     }
 
+    //TODO Edit later
     public String getCreateAt() {
-        if (mRequest != null) {
-            return mRequest.getCreatedAt();
-        }
+        //        if (mRequest != null) {
+        //            return mRequest.getCreatedAt();
+        //        }
         if (mRequestOverTime != null) {
             return mRequestOverTime.getCreatedAt();
         }
@@ -88,7 +91,7 @@ public class ItemListRequestViewModel extends BaseObservable {
 
     public String getFromTime() {
         if (mRequest != null) {
-            return mRequest.getFromTime();
+            return mRequest.getCompensation().getFromTime();
         }
         if (mRequestOverTime != null) {
             return mRequestOverTime.getFromTime();
@@ -101,7 +104,7 @@ public class ItemListRequestViewModel extends BaseObservable {
 
     public String getToTime() {
         if (mRequest != null) {
-            return mRequest.getToTime();
+            return mRequest.getCompensation().getToTime();
         }
         if (mRequestOff != null && mRequestOff.getEndDayHaveSalary() != null) {
             return mRequestOff.getEndDayHaveSalary().getOffPaidTo();
@@ -114,14 +117,14 @@ public class ItemListRequestViewModel extends BaseObservable {
 
     public String getCheckinTime() {
         if (mRequest != null) {
-            return mRequest.getCheckinTime();
+            return mRequest.getCheckInTime();
         }
         return "";
     }
 
     public String getCheckoutTime() {
         if (mRequest != null) {
-            return mRequest.getCheckoutTime();
+            return mRequest.getCheckOutTime();
         }
         return "";
     }

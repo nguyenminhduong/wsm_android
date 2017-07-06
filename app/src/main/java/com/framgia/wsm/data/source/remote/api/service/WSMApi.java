@@ -93,7 +93,7 @@ public interface WSMApi {
     Observable<BaseResponse<LeaveRequest>> editFormRequestLeave(@Body LeaveRequest requestLeave);
 
     // TODO edit later
-    @POST("/api/v1/request_leave")
+    @POST("/api/dashboard/request_leaves")
     Observable<Object> createFormRequestLeave(@Body LeaveRequest request);
 
     // TODO edit later

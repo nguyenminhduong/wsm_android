@@ -23,7 +23,6 @@ import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
-import java.util.Objects;
 
 /**
  * Exposes the data to be used in the ConfirmRequestLeave screen.
@@ -37,7 +36,7 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     private LeaveRequest mRequest;
     private User mUser;
     private Navigator mNavigator;
-    private String mLeaveType;
+    private int mLeaveTypeId;
     private DialogManager mDialogManager;
     private int mActionType;
     private Context mContext;
@@ -51,41 +50,41 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
         mNavigator = navigator;
         mDialogManager = dialogManager;
         mRequest = request;
-        mLeaveType = mRequest.getLeaveType().getName();
+        mLeaveTypeId = mRequest.getLeaveTypeId();
         mPresenter.getUser();
         mActionType = actionType;
     }
 
     public boolean isVisibleLayoutCheckout() {
-        return mLeaveType.equals(RequestLeaveViewModel.LeaveType.LEAVE_EARLY_A)
-                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.LEAVE_EARLY_M)
-                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.LEAVE_EARLY_WOMAN_A)
-                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.LEAVE_EARLY_WOMAN_M)
-                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.FORGOT_CARD_OUT)
-                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.FORGOT_TO_CHECK_OUT)
-                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.FORGOT_CARD_ALL_DAY)
-                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.FORGOT_CHECK_ALL_DAY)
-                || mLeaveType.equals(RequestLeaveViewModel.LeaveType.LEAVE_OUT);
+        return mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_EARLY_A)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_EARLY_M)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_EARLY_WOMAN_A)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_EARLY_WOMAN_M)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_CARD_OUT)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_TO_CHECK_OUT)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_CARD_ALL_DAY)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_CHECK_ALL_DAY)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_OUT);
     }
 
     public boolean isVisibleLayoutCheckin() {
-        return mLeaveType.equals(RequestLeaveViewModel.LeaveType.IN_LATE_A) || mLeaveType.equals(
-                RequestLeaveViewModel.LeaveType.IN_LATE_M) || mLeaveType.equals(
-                RequestLeaveViewModel.LeaveType.IN_LATE_WOMAN_A) || mLeaveType.equals(
-                RequestLeaveViewModel.LeaveType.IN_LATE_WOMAN_M) || mLeaveType.equals(
-                RequestLeaveViewModel.LeaveType.FORGOT_CARD_IN) || mLeaveType.equals(
-                RequestLeaveViewModel.LeaveType.FORGOT_TO_CHECK_IN) || mLeaveType.equals(
-                RequestLeaveViewModel.LeaveType.FORGOT_CARD_ALL_DAY) || mLeaveType.equals(
-                RequestLeaveViewModel.LeaveType.FORGOT_CHECK_ALL_DAY) || mLeaveType.equals(
-                RequestLeaveViewModel.LeaveType.LEAVE_OUT);
+        return mLeaveTypeId == (RequestLeaveViewModel.LeaveType.IN_LATE_A)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.IN_LATE_M)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.IN_LATE_WOMAN_A)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.IN_LATE_WOMAN_M)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_CARD_IN)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_TO_CHECK_IN)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_CARD_ALL_DAY)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_CHECK_ALL_DAY)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_OUT);
     }
 
     public boolean isVisibleLayoutCompensation() {
-        return mLeaveType.equals(RequestLeaveViewModel.LeaveType.IN_LATE_A) || mLeaveType.equals(
-                RequestLeaveViewModel.LeaveType.IN_LATE_M) || mLeaveType.equals(
-                RequestLeaveViewModel.LeaveType.LEAVE_EARLY_A) || mLeaveType.equals(
-                RequestLeaveViewModel.LeaveType.LEAVE_EARLY_M) || mLeaveType.equals(
-                RequestLeaveViewModel.LeaveType.LEAVE_OUT);
+        return mLeaveTypeId == (RequestLeaveViewModel.LeaveType.IN_LATE_A)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.IN_LATE_M)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_EARLY_A)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_EARLY_M)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_OUT);
     }
 
     public boolean isDetail() {
@@ -93,15 +92,15 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     }
 
     public boolean isAcceptStatus() {
-        return Objects.equals(mRequest.getStatus(), StatusCode.ACCEPT_CODE);
+        return mRequest.getStatus().equals(StatusCode.ACCEPT_CODE);
     }
 
     public boolean isPendingStatus() {
-        return Objects.equals(mRequest.getStatus(), StatusCode.PENDING_CODE);
+        return mRequest.getStatus().equals(StatusCode.PENDING_CODE);
     }
 
     public boolean isRejectStatus() {
-        return Objects.equals(mRequest.getStatus(), StatusCode.REJECT_CODE);
+        return mRequest.getStatus().equals(StatusCode.REJECT_CODE);
     }
 
     @Override
