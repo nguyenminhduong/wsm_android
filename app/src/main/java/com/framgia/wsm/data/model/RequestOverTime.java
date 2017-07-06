@@ -38,7 +38,7 @@ public class RequestOverTime extends BaseModel implements Parcelable {
     @SerializedName("group")
     private Group mGroup;
     @Expose
-    @SerializedName("branch")
+    @SerializedName("workspace")
     private Branch mBranch;
     @Expose
     @SerializedName("project_name")

@@ -21,7 +21,7 @@ public interface RequestDataSource {
 
         Observable<Object> createFormRequestLeave(@NonNull LeaveRequest request);
 
-        Observable<BaseResponse<List<LeaveRequest>>> getListRequestOverTime();
+        Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime();
 
         Observable<BaseResponse<List<LeaveRequest>>> getListRequestOff();
 
