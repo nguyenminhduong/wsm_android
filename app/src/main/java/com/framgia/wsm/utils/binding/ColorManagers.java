@@ -42,4 +42,9 @@ public class ColorManagers {
     public static int getColorMagentay() {
         return Color.MAGENTA;
     }
+
+    public static int getColorPrimary() {
+        return Color.parseColor("#009688");
+    }
+
 }

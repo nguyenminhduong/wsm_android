@@ -21,10 +21,9 @@ import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
  */
 public final class DateTimeUtils {
 
-    private static final String TAG = DateTimeUtils.class.getName();
-
     public static final String DATE_FORMAT_YYYY_MM_DD = "yyyy/MM/dd";
     public static final String DATE_FORMAT_YYYY_MM_DD_2 = "yyyy-MM-dd";
+    public static final String DATE_FORMAT_EEE_D_MMM__YYYY = "EEE, d MMM yyyy";
     public static final String DATE_FORMAT_YYYY_MM_JAPANESE = "MM/yyyy";
     public static final String DATE_FORMAT_MMMM = "MMMM";
     public static final String FORMAT_DATE = "dd/MM/yyyy";
@@ -32,8 +31,9 @@ public final class DateTimeUtils {
     public static final String DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM = "yyyy/MM/dd - HH:mm";
     public static final String DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY = "HH:mm dd/MM/yyyy";
     public static final String DATE_FORMAT_YYYY_MM_DD_A = "yyyy/MM/dd a";
-    private static final int DAY_OF_YEAR = 365;
     public static final String INPUT_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    private static final String TAG = DateTimeUtils.class.getName();
+    private static final int DAY_OF_YEAR = 365;
 
     private DateTimeUtils() {
         // No-op

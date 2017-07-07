@@ -14,6 +14,7 @@ import com.framgia.wsm.screen.requestoff.RequestOffActivity;
 import com.framgia.wsm.screen.requestovertime.RequestOvertimeActivity;
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import java.util.ArrayList;
@@ -83,18 +84,31 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
 
     @Bindable
     public String getDate() {
-        //todo edit later
-        return mTimeSheetDate.getDateString();
+        return (mTimeSheetDate.getDateString() == null) ? "" : DateTimeUtils.convertToString(
+                DateTimeUtils.convertStringToDate(mTimeSheetDate.getDateString()),
+                DateTimeUtils.DATE_FORMAT_EEE_D_MMM__YYYY);
     }
 
     @Bindable
     public String getTimeIn() {
-        return mContext.getString(R.string.time_in, mTimeSheetDate.getTimeIn());
+        return (mTimeSheetDate.getTextMorning() != null) ? mTimeSheetDate.getTextMorning()
+                : mContext.getString(R.string.time_in, mTimeSheetDate.getTimeIn());
     }
 
     @Bindable
     public String getTimeOut() {
-        return mContext.getString(R.string.time_out, mTimeSheetDate.getTimeOut());
+        return (mTimeSheetDate.getTextAfternoon() != null) ? mTimeSheetDate.getTextAfternoon()
+                : mContext.getString(R.string.time_out, mTimeSheetDate.getTimeOut());
+    }
+
+    @Bindable
+    public String getColorMorning() {
+        return mTimeSheetDate.getColorMorning();
+    }
+
+    @Bindable
+    public String getColorAfternoon() {
+        return mTimeSheetDate.getColorAfternoon();
     }
 
     @Bindable
@@ -148,6 +162,8 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         notifyPropertyChanged(BR.date);
         notifyPropertyChanged(BR.timeIn);
         notifyPropertyChanged(BR.timeOut);
+        notifyPropertyChanged(BR.colorMorning);
+        notifyPropertyChanged(BR.colorAfternoon);
     }
 
     public void onClickRequestLeave(View view) {

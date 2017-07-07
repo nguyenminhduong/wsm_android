@@ -241,4 +241,11 @@
     <string name="saturday_sunday">Saturday/sunday</string>
     <string name="your_notification">Your notification</string>
 
+    <string name="total_day_off">Total Day Off</string>
+    <string name="number_day_off_have_salary">Number Day Off Have Salary</string>
+    <string name="number_day_off_no_salary">Number Day Off No Salary</string>
+    <string name="number_over_time">Number Over Time</string>
+    <string name="total_fining">Total Fining</string>
+    <string name="summary">Summary</string>
+
 </resources>
