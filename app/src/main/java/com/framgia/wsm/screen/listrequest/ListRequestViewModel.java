@@ -84,17 +84,20 @@ public class ListRequestViewModel extends BaseObservable
             case RequestType.REQUEST_LATE_EARLY:
                 bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, (LeaveRequest) object);
                 bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
-                mNavigator.startActivity(ConfirmRequestLeaveActivity.class, bundle);
+                mNavigator.startActivityForResultFromFragment(ConfirmRequestLeaveActivity.class,
+                        bundle, Constant.RequestCode.REQUEST_LEAVE);
                 break;
             case RequestType.REQUEST_OFF:
                 bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, (OffRequest) object);
                 bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
-                mNavigator.startActivity(ConfirmRequestOffActivity.class, bundle);
+                mNavigator.startActivityForResultFromFragment(ConfirmRequestOffActivity.class,
+                        bundle, Constant.RequestCode.REQUEST_OFF);
                 break;
             case RequestType.REQUEST_OVERTIME:
                 bundle.putParcelable(Constant.EXTRA_REQUEST_OVERTIME, (RequestOverTime) object);
                 bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
-                mNavigator.startActivity(ConfirmOvertimeActivity.class, bundle);
+                mNavigator.startActivityForResultFromFragment(ConfirmOvertimeActivity.class, bundle,
+                        Constant.RequestCode.REQUEST_OVERTIME);
                 break;
             default:
                 break;

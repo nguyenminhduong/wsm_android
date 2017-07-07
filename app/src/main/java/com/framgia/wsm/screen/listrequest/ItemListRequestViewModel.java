@@ -95,10 +95,14 @@ public class ItemListRequestViewModel extends BaseObservable {
         //            return mRequest.getCreatedAt();
         //        }
         if (mRequestOverTime != null) {
-            return mRequestOverTime.getCreatedAt();
+            return DateTimeUtils.convertUiFormatToDataFormat(mRequestOverTime.getCreatedAt(),
+                    DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         }
         if (mRequestOff != null) {
-            return mRequestOff.getCreatedAt();
+            return DateTimeUtils.convertUiFormatToDataFormat(mRequestOff.getCreatedAt(),
+                    DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         }
         return "";
     }

@@ -16,6 +16,7 @@ import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.requestovertime.RequestOvertimeActivity;
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
@@ -133,7 +134,9 @@ public class ConfirmOvertimeViewModel extends BaseObservable
 
     @Override
     public void onDeleteFormOverTimeSuccess() {
-        mNavigator.finishActivityWithResult(Activity.RESULT_OK);
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.EXTRA_REQUEST_TYPE_CODE, RequestType.REQUEST_OVERTIME);
+        mNavigator.finishActivityWithResult(bundle, Activity.RESULT_OK);
     }
 
     @Override
@@ -211,7 +214,15 @@ public class ConfirmOvertimeViewModel extends BaseObservable
         if (mRequestOverTime == null) {
             return;
         }
-        mPresenter.deleteFormRequestOvertime(mRequestOverTime.getId());
+        mDialogManager.dialogBasic(mContext.getString(R.string.confirm_delete),
+                mContext.getString(R.string.do_you_want_delete_this_request),
+                new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog materialDialog,
+                            @NonNull DialogAction dialogAction) {
+                        mPresenter.deleteFormRequestOvertime(mRequestOverTime.getId());
+                    }
+                });
     }
 
     public void onClickEdit(View view) {

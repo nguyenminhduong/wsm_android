@@ -102,7 +102,7 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     @Override
     public Observable<BaseResponse<RequestOverTime>> editFormRequestOverTime(
             @NonNull RequestOverTime requestOverTime) {
-        return mWSMApi.editFormRequestOverTime(requestOverTime)
+        return mWSMApi.editFormRequestOverTime(requestOverTime.getId(), requestOverTime)
                 .flatMap(
                         new Function<BaseResponse<RequestOverTime>,
                                 ObservableSource<BaseResponse<RequestOverTime>>>() {
