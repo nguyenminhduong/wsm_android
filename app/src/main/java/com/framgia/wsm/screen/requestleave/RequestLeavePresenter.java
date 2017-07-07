@@ -71,8 +71,8 @@ final class RequestLeavePresenter implements RequestLeaveContract.Presenter {
     @Override
     public boolean validateDataInput(LeaveRequest request) {
         switch (request.getLeaveTypeId()) {
-            case RequestLeaveViewModel.LeaveType.IN_LATE_A:
-            case RequestLeaveViewModel.LeaveType.IN_LATE_M:
+            case RequestLeaveViewModel.LeaveTypeId.IN_LATE_A:
+            case RequestLeaveViewModel.LeaveTypeId.IN_LATE_M:
                 if (validateCheckinTime(request.getCheckInTime()) & validateCompensationFrom(
                         request.getCompensationRequest().getFromTime()) & validateCompensationTo(
                         request.getCompensationRequest().getToTime()) & validateReason(
@@ -80,8 +80,8 @@ final class RequestLeavePresenter implements RequestLeaveContract.Presenter {
                     return true;
                 }
                 break;
-            case RequestLeaveViewModel.LeaveType.LEAVE_EARLY_A:
-            case RequestLeaveViewModel.LeaveType.LEAVE_EARLY_M:
+            case RequestLeaveViewModel.LeaveTypeId.LEAVE_EARLY_A:
+            case RequestLeaveViewModel.LeaveTypeId.LEAVE_EARLY_M:
                 if (validateCheckoutTime(request.getCheckOutTime()) & validateCompensationFrom(
                         request.getCompensationRequest().getFromTime()) & validateCompensationTo(
                         request.getCompensationRequest().getToTime()) & validateReason(
@@ -89,39 +89,39 @@ final class RequestLeavePresenter implements RequestLeaveContract.Presenter {
                     return true;
                 }
                 break;
-            case RequestLeaveViewModel.LeaveType.IN_LATE_WOMAN_A:
-            case RequestLeaveViewModel.LeaveType.IN_LATE_WOMAN_M:
+            case RequestLeaveViewModel.LeaveTypeId.IN_LATE_WOMAN_A:
+            case RequestLeaveViewModel.LeaveTypeId.IN_LATE_WOMAN_M:
                 if (validateCheckinTime(request.getCheckInTime())) {
                     return true;
                 }
                 break;
-            case RequestLeaveViewModel.LeaveType.LEAVE_EARLY_WOMAN_A:
-            case RequestLeaveViewModel.LeaveType.LEAVE_EARLY_WOMAN_M:
+            case RequestLeaveViewModel.LeaveTypeId.LEAVE_EARLY_WOMAN_A:
+            case RequestLeaveViewModel.LeaveTypeId.LEAVE_EARLY_WOMAN_M:
                 if (validateCheckoutTime(request.getCheckOutTime())) {
                     return true;
                 }
                 break;
-            case RequestLeaveViewModel.LeaveType.FORGOT_CARD_ALL_DAY:
-            case RequestLeaveViewModel.LeaveType.FORGOT_CHECK_ALL_DAY:
+            case RequestLeaveViewModel.LeaveTypeId.FORGOT_CARD_ALL_DAY:
+            case RequestLeaveViewModel.LeaveTypeId.FORGOT_CHECK_ALL_DAY:
                 if (validateCheckinTime(request.getCheckInTime()) & validateCheckoutTime(
                         request.getCheckOutTime())) {
                     return true;
                 }
 
                 break;
-            case RequestLeaveViewModel.LeaveType.FORGOT_CARD_IN:
-            case RequestLeaveViewModel.LeaveType.FORGOT_TO_CHECK_IN:
+            case RequestLeaveViewModel.LeaveTypeId.FORGOT_CARD_IN:
+            case RequestLeaveViewModel.LeaveTypeId.FORGOT_TO_CHECK_IN:
                 if (validateCheckinTime(request.getCheckInTime())) {
                     return true;
                 }
                 break;
-            case RequestLeaveViewModel.LeaveType.FORGOT_CARD_OUT:
-            case RequestLeaveViewModel.LeaveType.FORGOT_TO_CHECK_OUT:
+            case RequestLeaveViewModel.LeaveTypeId.FORGOT_CARD_OUT:
+            case RequestLeaveViewModel.LeaveTypeId.FORGOT_TO_CHECK_OUT:
                 if (validateCheckoutTime(request.getCheckOutTime())) {
                     return true;
                 }
                 break;
-            case RequestLeaveViewModel.LeaveType.LEAVE_OUT:
+            case RequestLeaveViewModel.LeaveTypeId.LEAVE_OUT:
                 if (validateCheckinTime(request.getCheckInTime()) & validateCheckoutTime(
                         request.getCheckOutTime()) & validateCompensationFrom(
                         request.getCompensationRequest().getFromTime()) & validateCompensationTo(

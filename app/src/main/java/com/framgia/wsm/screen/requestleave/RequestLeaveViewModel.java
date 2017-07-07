@@ -14,6 +14,7 @@ import android.widget.TimePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
+import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRequestLeave;
@@ -30,6 +31,7 @@ import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
 import java.util.Date;
+import java.util.List;
 
 import static com.framgia.wsm.utils.Constant.TimeConst.EIGHT_HOUR;
 import static com.framgia.wsm.utils.Constant.TimeConst.ELEVEN_HOUR;
@@ -82,6 +84,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     private int mCurrentTimeSelected;
     private int mActionType;
     private String mProjectName;
+    private boolean mIsVisibleGroup;
     @Validation({
             @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
     })
@@ -118,10 +121,13 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mPresenter.getUser();
         initRequest(requestLeave);
         mActionType = actionType;
+        setVisibleGroup(mActionType == ActionType.ACTION_CREATE);
         if (mActionType == ActionType.ACTION_CREATE) {
             mCurrentLeaveTypeName = "In late (M)";
         } else {
+            mActionType = ActionType.ACTION_EDIT;
             mCurrentLeaveTypeName = mRequest.getLeaveType().getName();
+            setLayoutLeaveType(mCurrentLeaveType);
         }
     }
 
@@ -134,12 +140,22 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                     mCurrentLeaveType = mRequest.getLeaveTypeId();
                 } else {
                     mCurrentLeaveType = mRequest.getLeaveType().getId();
+                    mRequest.setLeaveTypeId(mRequest.getLeaveType().getId());
                 }
             }
         } else {
             mRequest = new LeaveRequest();
             mRequest.setCompensationRequest(new LeaveRequest.Compensation());
         }
+    }
+
+    private int searchLeaveTypePosition(List<LeaveType> leaveTypesList, int currentLeaveTypeId) {
+        for (int i = 0; i <= leaveTypesList.size(); i++) {
+            if (leaveTypesList.get(i).getId() == currentLeaveTypeId) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     @Override
@@ -159,11 +175,15 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         }
         mUser = user;
         notifyPropertyChanged(BR.user);
-        setCurrentLeaveType();
+        if (mActionType == ActionType.ACTION_CREATE) {
+            setCurrentLeaveType();
+        }
         setCurrentBranch();
         setCurrentGroup();
         setTitleExampleLeave();
         mRequest.setCompanyId(mUser.getCompany().getId());
+        mCurrentLeaveTypePosition =
+                (searchLeaveTypePosition(mUser.getLeaveTypes(), mCurrentLeaveType));
     }
 
     @Override
@@ -217,20 +237,20 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         String currentDateTime = convertDateTimeToString(mCurrentDate, hourOfDay, minute);
         switch (mCurrentLeaveType) {
-            case LeaveType.FORGOT_CARD_IN:
-            case LeaveType.FORGOT_TO_CHECK_IN:
-            case LeaveType.IN_LATE_WOMAN_M:
-            case LeaveType.IN_LATE_WOMAN_A:
+            case LeaveTypeId.FORGOT_CARD_IN:
+            case LeaveTypeId.FORGOT_TO_CHECK_IN:
+            case LeaveTypeId.IN_LATE_WOMAN_M:
+            case LeaveTypeId.IN_LATE_WOMAN_A:
                 validateCheckinTime(currentDateTime);
                 break;
-            case LeaveType.FORGOT_CARD_OUT:
-            case LeaveType.FORGOT_TO_CHECK_OUT:
-            case LeaveType.LEAVE_EARLY_WOMAN_A:
-            case LeaveType.LEAVE_EARLY_WOMAN_M:
+            case LeaveTypeId.FORGOT_CARD_OUT:
+            case LeaveTypeId.FORGOT_TO_CHECK_OUT:
+            case LeaveTypeId.LEAVE_EARLY_WOMAN_A:
+            case LeaveTypeId.LEAVE_EARLY_WOMAN_M:
                 validateCheckoutTime(currentDateTime);
                 break;
-            case LeaveType.IN_LATE_A:
-            case LeaveType.IN_LATE_M:
+            case LeaveTypeId.IN_LATE_A:
+            case LeaveTypeId.IN_LATE_M:
                 if (mCurrentTimeSelected == CurrentTimeSelected.CHECK_IN) {
                     validateCheckinTime(currentDateTime);
                     break;
@@ -239,8 +259,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                     validateCompensationFromTime(currentDateTime);
                 }
                 break;
-            case LeaveType.LEAVE_EARLY_A:
-            case LeaveType.LEAVE_EARLY_M:
+            case LeaveTypeId.LEAVE_EARLY_A:
+            case LeaveTypeId.LEAVE_EARLY_M:
                 if (mCurrentTimeSelected == CurrentTimeSelected.CHECK_OUT) {
                     validateCheckoutTime(currentDateTime);
                     break;
@@ -249,8 +269,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                     validateCompensationFromTime(currentDateTime);
                 }
                 break;
-            case LeaveType.FORGOT_CARD_ALL_DAY:
-            case LeaveType.FORGOT_CHECK_ALL_DAY:
+            case LeaveTypeId.FORGOT_CARD_ALL_DAY:
+            case LeaveTypeId.FORGOT_CHECK_ALL_DAY:
                 if (mCurrentTimeSelected == CurrentTimeSelected.CHECK_IN) {
                     validateCheckinTime(currentDateTime);
                     break;
@@ -259,7 +279,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                     validateCheckoutTime(currentDateTime);
                 }
                 break;
-            case LeaveType.LEAVE_OUT:
+            case LeaveTypeId.LEAVE_OUT:
                 if (mCurrentTimeSelected == CurrentTimeSelected.CHECK_IN) {
                     validateCheckinTime(currentDateTime);
                     break;
@@ -279,41 +299,41 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     private void setTitleExampleLeave() {
         switch (mCurrentLeaveType) {
-            case LeaveType.IN_LATE_WOMAN_M:
-            case LeaveType.IN_LATE_M:
+            case LeaveTypeId.IN_LATE_WOMAN_M:
+            case LeaveTypeId.IN_LATE_M:
                 setTitleExampleLeaveIn(mContext.getString(R.string.title_in_late_m),
                         mContext.getString(R.string.exmple_in_late_m));
                 break;
-            case LeaveType.IN_LATE_WOMAN_A:
-            case LeaveType.IN_LATE_A:
+            case LeaveTypeId.IN_LATE_WOMAN_A:
+            case LeaveTypeId.IN_LATE_A:
                 setTitleExampleLeaveIn(mContext.getString(R.string.title_in_late_a),
                         mContext.getString(R.string.exmple_in_late_a));
                 break;
-            case LeaveType.LEAVE_EARLY_WOMAN_M:
-            case LeaveType.LEAVE_EARLY_M:
+            case LeaveTypeId.LEAVE_EARLY_WOMAN_M:
+            case LeaveTypeId.LEAVE_EARLY_M:
                 setTitleExampleLeaveOut(mContext.getString(R.string.title_leave_early_m),
                         mContext.getString(R.string.exmple_leave_early_m));
                 break;
-            case LeaveType.LEAVE_EARLY_WOMAN_A:
-            case LeaveType.LEAVE_EARLY_A:
+            case LeaveTypeId.LEAVE_EARLY_WOMAN_A:
+            case LeaveTypeId.LEAVE_EARLY_A:
                 setTitleExampleLeaveOut(mContext.getString(R.string.title_leave_early_a),
                         mContext.getString(R.string.exmple_leave_early_a));
                 break;
-            case LeaveType.LEAVE_OUT:
-            case LeaveType.FORGOT_CHECK_ALL_DAY:
-            case LeaveType.FORGOT_CARD_ALL_DAY:
+            case LeaveTypeId.LEAVE_OUT:
+            case LeaveTypeId.FORGOT_CHECK_ALL_DAY:
+            case LeaveTypeId.FORGOT_CARD_ALL_DAY:
                 setTitleExampleLeaveIn(mContext.getString(R.string.title_leave_out_from),
                         mContext.getString(R.string.exmple_leave_out_from));
                 setTitleExampleLeaveOut(mContext.getString(R.string.title_leave_out_to),
                         mContext.getString(R.string.exmple_leave_out_to));
                 break;
-            case LeaveType.FORGOT_CARD_IN:
-            case LeaveType.FORGOT_TO_CHECK_IN:
+            case LeaveTypeId.FORGOT_CARD_IN:
+            case LeaveTypeId.FORGOT_TO_CHECK_IN:
                 setTitleExampleLeaveIn(mContext.getString(R.string.title_forgot_in),
                         mContext.getString(R.string.exmple_forgot_in));
                 break;
-            case LeaveType.FORGOT_CARD_OUT:
-            case LeaveType.FORGOT_TO_CHECK_OUT:
+            case LeaveTypeId.FORGOT_CARD_OUT:
+            case LeaveTypeId.FORGOT_TO_CHECK_OUT:
                 setTitleExampleLeaveOut(mContext.getString(R.string.title_forgot_out),
                         mContext.getString(R.string.exmple_forgot_out));
                 break;
@@ -407,8 +427,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     public void onClickCompensationFrom(View view) {
         switch (mCurrentLeaveType) {
-            case LeaveType.IN_LATE_A:
-            case LeaveType.IN_LATE_M:
+            case LeaveTypeId.IN_LATE_A:
+            case LeaveTypeId.IN_LATE_M:
                 if (StringUtils.isBlank(mCheckinTime)) {
                     showDialogError(mContext.getString(
                             R.string.you_have_to_choose_the_check_in_time_first));
@@ -417,8 +437,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 mCurrentTimeSelected = CurrentTimeSelected.COMPENSATION_FROM;
                 mDialogManager.showDatePickerDialog();
                 break;
-            case LeaveType.LEAVE_EARLY_A:
-            case LeaveType.LEAVE_EARLY_M:
+            case LeaveTypeId.LEAVE_EARLY_A:
+            case LeaveTypeId.LEAVE_EARLY_M:
                 if (StringUtils.isBlank(mCheckoutTime)) {
                     showDialogError(mContext.getString(
                             R.string.you_have_to_choose_the_check_out_time_first));
@@ -427,7 +447,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 mCurrentTimeSelected = CurrentTimeSelected.COMPENSATION_FROM;
                 mDialogManager.showDatePickerDialog();
                 break;
-            case LeaveType.LEAVE_OUT:
+            case LeaveTypeId.LEAVE_OUT:
                 if (StringUtils.isBlank(mCheckinTime)) {
                     showDialogError(mContext.getString(
                             R.string.you_have_to_choose_the_check_in_time_first));
@@ -456,12 +476,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private boolean checkIfOnlyHaveCheckoutTime() {
-        return mCurrentLeaveType == (LeaveType.LEAVE_EARLY_A)
-                || mCurrentLeaveType == (LeaveType.LEAVE_EARLY_M)
-                || mCurrentLeaveType == (LeaveType.LEAVE_EARLY_WOMAN_A)
-                || mCurrentLeaveType == (LeaveType.LEAVE_EARLY_WOMAN_M)
-                || mCurrentLeaveType == (LeaveType.FORGOT_CARD_OUT)
-                || mCurrentLeaveType == (LeaveType.FORGOT_TO_CHECK_OUT);
+        return mCurrentLeaveType == (LeaveTypeId.LEAVE_EARLY_A)
+                || mCurrentLeaveType == (LeaveTypeId.LEAVE_EARLY_M)
+                || mCurrentLeaveType == (LeaveTypeId.LEAVE_EARLY_WOMAN_A)
+                || mCurrentLeaveType == (LeaveTypeId.LEAVE_EARLY_WOMAN_M)
+                || mCurrentLeaveType == (LeaveTypeId.FORGOT_CARD_OUT)
+                || mCurrentLeaveType == (LeaveTypeId.FORGOT_TO_CHECK_OUT);
     }
 
     private void validateErrorDialog(String error) {
@@ -478,31 +498,31 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         String currentTime = DateTimeUtils.convertToString(new Date(),
                 DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         switch (mCurrentLeaveType) {
-            case LeaveType.FORGOT_CARD_ALL_DAY:
+            case LeaveTypeId.FORGOT_CARD_ALL_DAY:
                 validateCheckinForgotCardAllDay(checkinTime, currentTime);
                 break;
-            case LeaveType.FORGOT_CARD_IN:
+            case LeaveTypeId.FORGOT_CARD_IN:
                 validateForgotCardIn(checkinTime, currentTime);
                 break;
-            case LeaveType.FORGOT_TO_CHECK_IN:
+            case LeaveTypeId.FORGOT_TO_CHECK_IN:
                 validateForgotCheckin(checkinTime, currentTime);
                 break;
-            case LeaveType.FORGOT_CHECK_ALL_DAY:
+            case LeaveTypeId.FORGOT_CHECK_ALL_DAY:
                 validateCheckinForgotCheckAllDay(checkinTime, currentTime);
                 break;
-            case LeaveType.IN_LATE_M:
+            case LeaveTypeId.IN_LATE_M:
                 validateInLateM(checkinTime);
                 break;
-            case LeaveType.IN_LATE_A:
+            case LeaveTypeId.IN_LATE_A:
                 validateInLateA(checkinTime);
                 break;
-            case LeaveType.IN_LATE_WOMAN_M:
+            case LeaveTypeId.IN_LATE_WOMAN_M:
                 validateInLateWomanM(checkinTime);
                 break;
-            case LeaveType.IN_LATE_WOMAN_A:
+            case LeaveTypeId.IN_LATE_WOMAN_A:
                 validateInLateWomanA(checkinTime);
                 break;
-            case LeaveType.LEAVE_OUT:
+            case LeaveTypeId.LEAVE_OUT:
                 validateCheckinLeaveOut(checkinTime);
                 break;
             default:
@@ -676,31 +696,31 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         String currentTime = DateTimeUtils.convertToString(new Date(),
                 DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         switch (mCurrentLeaveType) {
-            case LeaveType.FORGOT_CARD_ALL_DAY:
+            case LeaveTypeId.FORGOT_CARD_ALL_DAY:
                 validateCheckoutForgotCardAllDay(checkoutTime, currentTime);
                 break;
-            case LeaveType.FORGOT_CARD_OUT:
+            case LeaveTypeId.FORGOT_CARD_OUT:
                 validateForgotCardOut(checkoutTime, currentTime);
                 break;
-            case LeaveType.FORGOT_TO_CHECK_OUT:
+            case LeaveTypeId.FORGOT_TO_CHECK_OUT:
                 validateForgotCheckout(checkoutTime, currentTime);
                 break;
-            case LeaveType.FORGOT_CHECK_ALL_DAY:
+            case LeaveTypeId.FORGOT_CHECK_ALL_DAY:
                 validateCheckoutForgotCheckAllDay(checkoutTime, currentTime);
                 break;
-            case LeaveType.LEAVE_EARLY_M:
+            case LeaveTypeId.LEAVE_EARLY_M:
                 validateLeaveEarlyM(checkoutTime);
                 break;
-            case LeaveType.LEAVE_EARLY_A:
+            case LeaveTypeId.LEAVE_EARLY_A:
                 validateLeaveEarlyA(checkoutTime);
                 break;
-            case LeaveType.LEAVE_EARLY_WOMAN_M:
+            case LeaveTypeId.LEAVE_EARLY_WOMAN_M:
                 validateLeaveEarlyWomanM(checkoutTime);
                 break;
-            case LeaveType.LEAVE_EARLY_WOMAN_A:
+            case LeaveTypeId.LEAVE_EARLY_WOMAN_A:
                 validateLeaveEarlyWomanA(checkoutTime);
                 break;
-            case LeaveType.LEAVE_OUT:
+            case LeaveTypeId.LEAVE_OUT:
                 validateCheckoutLeaveOut(checkoutTime);
                 break;
             default:
@@ -890,11 +910,11 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     private void validateCompensationFromTime(String compensationFromTime) {
         switch (mCurrentLeaveType) {
-            case LeaveType.IN_LATE_A:
-            case LeaveType.IN_LATE_M:
-            case LeaveType.LEAVE_EARLY_A:
-            case LeaveType.LEAVE_EARLY_M:
-            case LeaveType.LEAVE_OUT:
+            case LeaveTypeId.IN_LATE_A:
+            case LeaveTypeId.IN_LATE_M:
+            case LeaveTypeId.LEAVE_EARLY_A:
+            case LeaveTypeId.LEAVE_EARLY_M:
+            case LeaveTypeId.LEAVE_OUT:
                 validateCompensationTime(compensationFromTime);
                 break;
             default:
@@ -943,31 +963,31 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         setCompensationFromTime(compensationFromTime);
         String workingTime;
         switch (mCurrentLeaveType) {
-            case LeaveType.IN_LATE_M:
+            case LeaveTypeId.IN_LATE_M:
                 workingTime = DateTimeUtils.changeTimeOfDateString(mCheckinTime, SEVEN_HOUR,
                         FORTY_FIVE_MINUTES);
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
                         DateTimeUtils.getMinutesBetweenTwoDate(mCheckinTime, workingTime)));
                 break;
-            case LeaveType.IN_LATE_A:
+            case LeaveTypeId.IN_LATE_A:
                 workingTime = DateTimeUtils.changeTimeOfDateString(mCheckinTime, TWELVE_HOUR,
                         FORTY_FIVE_MINUTES);
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
                         DateTimeUtils.getMinutesBetweenTwoDate(mCheckinTime, workingTime)));
                 break;
-            case LeaveType.LEAVE_EARLY_M:
+            case LeaveTypeId.LEAVE_EARLY_M:
                 workingTime = DateTimeUtils.changeTimeOfDateString(mCheckoutTime, ELEVEN_HOUR,
                         FORTY_FIVE_MINUTES);
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
                         DateTimeUtils.getMinutesBetweenTwoDate(workingTime, mCheckoutTime)));
                 break;
-            case LeaveType.LEAVE_EARLY_A:
+            case LeaveTypeId.LEAVE_EARLY_A:
                 workingTime = DateTimeUtils.changeTimeOfDateString(mCheckoutTime, SIXTEEN_HOUR,
                         FORTY_FIVE_MINUTES);
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
                         DateTimeUtils.getMinutesBetweenTwoDate(workingTime, mCheckoutTime)));
                 break;
-            case LeaveType.LEAVE_OUT:
+            case LeaveTypeId.LEAVE_OUT:
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
                         DateTimeUtils.getMinutesBetweenTwoDate(mCheckoutTime, mCheckinTime)));
                 break;
@@ -984,9 +1004,13 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (!mPresenter.validateDataInput(mRequest)) {
             return;
         }
+        if (mActionType == ActionType.ACTION_CREATE) {
+            mActionType = ActionType.ACTION_CONFIRM_CREATE;
+        } else {
+            mActionType = ActionType.ACTION_CONFIRM_EDIT;
+        }
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, mRequest);
-        mActionType = ActionType.ACTION_CONFIRM_CREATE;
         bundle.putInt(Constant.EXTRA_ACTION_TYPE, mActionType);
         mNavigator.startActivityForResult(ConfirmRequestLeaveActivity.class, bundle,
                 Constant.RequestCode.REQUEST_LEAVE);
@@ -1015,7 +1039,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (mActionType == ActionType.ACTION_CREATE) {
             return mCurrentGroup;
         }
-        if (mRequest.getCompanyName() != null) {
+        if (mRequest.getCompanyName() == null) {
             return "";
         }
         return mRequest.getCompanyName();
@@ -1045,6 +1069,16 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mRequest.setGroupId(mUser.getGroups().get(mCurrentGroupPosition).getGroupId());
         mRequest.setCompanyName(mCurrentGroup);
         notifyPropertyChanged(BR.currentGroup);
+    }
+
+    @Bindable
+    public boolean isVisibleGroup() {
+        return mIsVisibleGroup;
+    }
+
+    public void setVisibleGroup(boolean visibleGroup) {
+        mIsVisibleGroup = visibleGroup;
+        notifyPropertyChanged(BR.visibleGroup);
     }
 
     @Bindable
@@ -1228,15 +1262,15 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     @IntDef({
-            LeaveType.IN_LATE_M, LeaveType.IN_LATE_A, LeaveType.LEAVE_EARLY_M,
-            LeaveType.LEAVE_EARLY_A, LeaveType.LEAVE_OUT, LeaveType.FORGOT_CHECK_ALL_DAY,
-            LeaveType.FORGOT_TO_CHECK_IN, LeaveType.FORGOT_TO_CHECK_OUT,
-            LeaveType.FORGOT_CARD_ALL_DAY, LeaveType.FORGOT_CARD_IN, LeaveType.FORGOT_CARD_OUT,
-            LeaveType.IN_LATE_WOMAN_M, LeaveType.IN_LATE_WOMAN_A, LeaveType.LEAVE_EARLY_WOMAN_M,
-            LeaveType.LEAVE_EARLY_WOMAN_A
+            LeaveTypeId.IN_LATE_M, LeaveTypeId.IN_LATE_A, LeaveTypeId.LEAVE_EARLY_M,
+            LeaveTypeId.LEAVE_EARLY_A, LeaveTypeId.LEAVE_OUT, LeaveTypeId.FORGOT_CHECK_ALL_DAY,
+            LeaveTypeId.FORGOT_TO_CHECK_IN, LeaveTypeId.FORGOT_TO_CHECK_OUT,
+            LeaveTypeId.FORGOT_CARD_ALL_DAY, LeaveTypeId.FORGOT_CARD_IN,
+            LeaveTypeId.FORGOT_CARD_OUT, LeaveTypeId.IN_LATE_WOMAN_M, LeaveTypeId.IN_LATE_WOMAN_A,
+            LeaveTypeId.LEAVE_EARLY_WOMAN_M, LeaveTypeId.LEAVE_EARLY_WOMAN_A
     })
 
-    public @interface LeaveType {
+    public @interface LeaveTypeId {
         int IN_LATE_M = 1;
         int IN_LATE_A = 4;
         int LEAVE_EARLY_M = 2;
