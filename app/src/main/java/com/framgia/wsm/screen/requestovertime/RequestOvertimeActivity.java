@@ -49,7 +49,7 @@ public class RequestOvertimeActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constant.RequestCode.REQUEST_OVERTIME && resultCode == RESULT_OK) {
-            setResult(RESULT_OK);
+            setResult(RESULT_OK, data);
             finish();
         }
     }

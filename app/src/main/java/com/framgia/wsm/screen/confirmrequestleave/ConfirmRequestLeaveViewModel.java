@@ -18,6 +18,7 @@ import com.framgia.wsm.screen.requestleave.RequestLeaveActivity;
 import com.framgia.wsm.screen.requestleave.RequestLeaveViewModel;
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
@@ -132,7 +133,9 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
 
     @Override
     public void onEditFormRequestLeaveSuccess() {
-        mNavigator.finishActivityWithResult(Activity.RESULT_OK);
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.EXTRA_REQUEST_TYPE_CODE, RequestType.REQUEST_LATE_EARLY);
+        mNavigator.finishActivityWithResult(bundle, Activity.RESULT_OK);
     }
 
     @Override
@@ -230,6 +233,7 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, mRequest);
         bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_EDIT);
-        mNavigator.startActivity(RequestLeaveActivity.class, bundle);
+        mNavigator.startActivityForResult(RequestLeaveActivity.class, bundle,
+                Constant.RequestCode.REQUEST_LEAVE);
     }
 }
