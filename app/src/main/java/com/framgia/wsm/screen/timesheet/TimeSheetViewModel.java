@@ -8,6 +8,7 @@ import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.TimeSheetDate;
+import com.framgia.wsm.data.model.UserTimeSheet;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.requestleave.RequestLeaveActivity;
 import com.framgia.wsm.screen.requestoff.RequestOffActivity;
@@ -22,6 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static com.framgia.wsm.utils.Constant.TimeConst.DAY_25_OF_MONTH;
+import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
 
 /**
  * Exposes the data to be used in the TimeSheet screen.
@@ -37,6 +39,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     private int mYear;
     private boolean isShowInformation;
     private TimeSheetDate mTimeSheetDate;
+    private UserTimeSheet mUserTimeSheet;
     private Navigator mNavigator;
     private boolean isVisibleFloatingActionMenu;
 
@@ -47,12 +50,13 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         mPresenter.setViewModel(this);
         mTimeSheetDates = new ArrayList<>();
         mTimeSheetDate = new TimeSheetDate();
+        mUserTimeSheet = new UserTimeSheet();
         mDialogManager = dialogManager;
         mNavigator = navigator;
         mDialogManager.showIndeterminateProgressDialog();
         setMonth();
         setYear();
-        mPresenter.getTimeSheet(mMonth, mYear);
+        mPresenter.getTimeSheet(mMonth + ONE_MONTH, mYear);
     }
 
     @Override
@@ -72,20 +76,17 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     }
 
     @Override
-    public void onGetTimeSheetSuccess(List<TimeSheetDate> list) {
-        mTimeSheetDates.clear();
-        // TODO: 31/05/2017 remove if (mMonth == 4) when have API
-        if (mMonth == 6) {
-            mTimeSheetDates.addAll(list);
-        }
-        notifyPropertyChanged(BR.timeSheetDates);
+    public void onGetTimeSheetSuccess(UserTimeSheet userTimeSheet) {
+        setTimeSheetDates(userTimeSheet.getTimeSheetDates());
+        setUserTimeSheet(userTimeSheet);
         mDialogManager.dismissProgressDialog();
     }
 
     @Bindable
     public String getDate() {
         return (mTimeSheetDate.getDateString() == null) ? "" : DateTimeUtils.convertToString(
-                DateTimeUtils.convertStringToDate(mTimeSheetDate.getDateString()),
+                DateTimeUtils.convertStringToDate(mTimeSheetDate.getDateString(),
+                        DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2),
                 DateTimeUtils.DATE_FORMAT_EEE_D_MMM__YYYY);
     }
 
@@ -116,6 +117,15 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         return mTimeSheetDates;
     }
 
+    private void setTimeSheetDates(List<TimeSheetDate> timeSheetDates) {
+        if (timeSheetDates == null) {
+            return;
+        }
+        mTimeSheetDates.clear();
+        mTimeSheetDates.addAll(timeSheetDates);
+        notifyPropertyChanged(BR.timeSheetDates);
+    }
+
     @Bindable
     public int getMonth() {
         return mMonth;
@@ -138,6 +148,40 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     private void setYear() {
         Calendar calendar = Calendar.getInstance();
         mYear = calendar.get(Calendar.YEAR);
+    }
+
+    @Bindable
+    public String getTotalDayOff() {
+        return String.valueOf(mUserTimeSheet.getTotalDayOff());
+    }
+
+    @Bindable
+    public String getTotalFining() {
+        return String.valueOf(mUserTimeSheet.getTotalFining());
+    }
+
+    @Bindable
+    public String getNumberDayOffHaveSalary() {
+        return String.valueOf(mUserTimeSheet.getNumberDayOffHaveSalary());
+    }
+
+    @Bindable
+    public String getNumberDayOffNoSalary() {
+        return String.valueOf(mUserTimeSheet.getNumberDayOffNoSalary());
+    }
+
+    @Bindable
+    public String getNumberOverTime() {
+        return String.valueOf(mUserTimeSheet.getNumberOverTime());
+    }
+
+    private void setUserTimeSheet(UserTimeSheet userTimeSheet) {
+        mUserTimeSheet = userTimeSheet;
+        notifyPropertyChanged(BR.totalDayOff);
+        notifyPropertyChanged(BR.totalFining);
+        notifyPropertyChanged(BR.numberDayOffHaveSalary);
+        notifyPropertyChanged(BR.numberDayOffNoSalary);
+        notifyPropertyChanged(BR.numberOverTime);
     }
 
     @Bindable
@@ -200,7 +244,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         mDialogManager.showIndeterminateProgressDialog();
         notifyPropertyChanged(BR.month);
         notifyPropertyChanged(BR.year);
-        mPresenter.getTimeSheet(mMonth, mYear);
+        mPresenter.getTimeSheet(mMonth + ONE_MONTH, mYear);
     }
 
     public void onPreviousMonth() {
@@ -213,6 +257,6 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         mDialogManager.showIndeterminateProgressDialog();
         notifyPropertyChanged(BR.month);
         notifyPropertyChanged(BR.year);
-        mPresenter.getTimeSheet(mMonth, mYear);
+        mPresenter.getTimeSheet(mMonth + ONE_MONTH, mYear);
     }
 }

@@ -11,6 +11,7 @@ import java.util.Date;
  */
 
 public class TimeSheetDate extends BaseModel {
+    private static final int COLOR_CODE_THREE_DIGIT = 4;
     @Expose
     @SerializedName("date")
     private String mDate;
@@ -52,7 +53,7 @@ public class TimeSheetDate extends BaseModel {
     }
 
     public Date getDate() {
-        return DateTimeUtils.convertStringToDate(mDate);
+        return DateTimeUtils.convertStringToDate(mDate, DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2);
     }
 
     public void setDate(String date) {
@@ -92,19 +93,13 @@ public class TimeSheetDate extends BaseModel {
     }
 
     public String getColorMorning() {
-        return mColorMorning;
-    }
-
-    public void setColorMorning(String colorMorning) {
-        mColorMorning = colorMorning;
+        // todo edit later
+        return convertColor(mColorMorning);
     }
 
     public String getColorAfternoon() {
-        return mColorAfternoon;
-    }
-
-    public void setColorAfternoon(String colorAfternoon) {
-        mColorAfternoon = colorAfternoon;
+        // todo edit later
+        return convertColor(mColorAfternoon);
     }
 
     public boolean isNormalDay() {
@@ -130,11 +125,34 @@ public class TimeSheetDate extends BaseModel {
         return StringUtils.isNotBlank(mColorMorning) && StringUtils.isBlank(mColorAfternoon);
     }
 
+    public void setColorMorning(String colorMorning) {
+        mColorMorning = colorMorning;
+    }
+
     public boolean isColorAfternoon() {
         return StringUtils.isNotBlank(mColorAfternoon) && StringUtils.isBlank(mColorMorning);
     }
 
+    public void setColorAfternoon(String colorAfternoon) {
+        mColorAfternoon = colorAfternoon;
+    }
+
     public boolean isColorAllDay() {
         return StringUtils.isNotBlank(mColorAfternoon) && StringUtils.isNotBlank(mColorMorning);
+    }
+
+    private String convertColor(String color) {
+        if (StringUtils.isBlank(color)) {
+            return null;
+        }
+        if (color.length() == COLOR_CODE_THREE_DIGIT) {
+            String result = "#";
+            for (int i = 1; i < color.length(); i++) {
+                char c = color.charAt(i);
+                result = result + c + c;
+            }
+            return result;
+        }
+        return color;
     }
 }

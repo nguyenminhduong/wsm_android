@@ -10,6 +10,9 @@ import java.util.List;
 
 public class UserTimeSheet {
     @Expose
+    @SerializedName("month")
+    private String mMonth;
+    @Expose
     @SerializedName("total_day_off")
     private int mTotalDayOff;
     @Expose
@@ -25,8 +28,16 @@ public class UserTimeSheet {
     @SerializedName("total_fining")
     private int mTotalFining;
     @Expose
-    @SerializedName("timesheets")
+    @SerializedName("timesheet")
     private List<TimeSheetDate> mTimeSheetDates;
+
+    public String getMonth() {
+        return mMonth;
+    }
+
+    public void setMonth(String month) {
+        mMonth = month;
+    }
 
     public int getTotalDayOff() {
         return mTotalDayOff;
