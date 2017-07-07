@@ -6,6 +6,7 @@ import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.OffTypeDay;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
+import com.framgia.wsm.data.model.UserTimeSheet;
 import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
@@ -13,7 +14,6 @@ import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.HolidayCalendarResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
-import com.framgia.wsm.data.source.remote.api.response.TimeSheetResponse;
 import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import io.reactivex.Observable;
 import java.util.List;
@@ -52,7 +52,7 @@ public interface WSMApi {
     Observable<Object> changePassword(@Body ChangePasswordRequest changePasswordRequest);
 
     @GET("/api/dashboard/user_timesheets")
-    Observable<BaseResponse<TimeSheetResponse>> getTimeSheet(@Query("month") int month,
+    Observable<BaseResponse<UserTimeSheet>> getTimeSheet(@Query("month") int month,
             @Query("year") int year);
 
     @GET("v1/holiday_calendar")

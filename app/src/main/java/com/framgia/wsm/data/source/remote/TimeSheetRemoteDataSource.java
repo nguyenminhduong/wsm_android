@@ -1,8 +1,8 @@
 package com.framgia.wsm.data.source.remote;
 
+import com.framgia.wsm.data.model.UserTimeSheet;
 import com.framgia.wsm.data.source.TimeSheetDataSource;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
-import com.framgia.wsm.data.source.remote.api.response.TimeSheetResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -23,14 +23,14 @@ public class TimeSheetRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<TimeSheetResponse>> getTimeSheet(int month, int year) {
+    public Observable<BaseResponse<UserTimeSheet>> getTimeSheet(int month, int year) {
         return mWSMApi.getTimeSheet(month, year)
                 .flatMap(
-                        new Function<BaseResponse<TimeSheetResponse>,
-                                ObservableSource<BaseResponse<TimeSheetResponse>>>() {
+                        new Function<BaseResponse<UserTimeSheet>,
+                                ObservableSource<BaseResponse<UserTimeSheet>>>() {
                             @Override
-                            public ObservableSource<BaseResponse<TimeSheetResponse>> apply(
-                                    @NonNull BaseResponse<TimeSheetResponse> requestOffBaseResponse)
+                            public ObservableSource<BaseResponse<UserTimeSheet>> apply(
+                                    @NonNull BaseResponse<UserTimeSheet> requestOffBaseResponse)
                                     throws Exception {
                                 if (requestOffBaseResponse != null) {
                                     return Observable.just(requestOffBaseResponse);

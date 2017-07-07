@@ -1,10 +1,10 @@
 package com.framgia.wsm.screen.timesheet;
 
+import com.framgia.wsm.data.model.UserTimeSheet;
 import com.framgia.wsm.data.source.TimeSheetRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
-import com.framgia.wsm.data.source.remote.api.response.TimeSheetResponse;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
@@ -49,13 +49,12 @@ final class TimeSheetPresenter implements TimeSheetContract.Presenter {
         Disposable subscription = mTimeSheetRepository.getTimeSheet(month, year)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
-                .subscribe(new Consumer<BaseResponse<TimeSheetResponse>>() {
+                .subscribe(new Consumer<BaseResponse<UserTimeSheet>>() {
                     @Override
-                    public void accept(@NonNull BaseResponse<TimeSheetResponse> baseResponse)
+                    public void accept(@NonNull BaseResponse<UserTimeSheet> baseResponse)
                             throws Exception {
                         if (baseResponse != null && baseResponse.getData() != null) {
-                            mViewModel.onGetTimeSheetSuccess(
-                                    baseResponse.getData().getUserTimeSheet().getTimeSheetDates());
+                            mViewModel.onGetTimeSheetSuccess(baseResponse.getData());
                         }
                     }
                 }, new RequestError() {

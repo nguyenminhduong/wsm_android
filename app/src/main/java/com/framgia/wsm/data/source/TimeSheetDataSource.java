@@ -1,7 +1,7 @@
 package com.framgia.wsm.data.source;
 
+import com.framgia.wsm.data.model.UserTimeSheet;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
-import com.framgia.wsm.data.source.remote.api.response.TimeSheetResponse;
 import io.reactivex.Observable;
 
 /**
@@ -11,6 +11,6 @@ import io.reactivex.Observable;
 public interface TimeSheetDataSource {
 
     interface RemoteDataSource {
-        Observable<BaseResponse<TimeSheetResponse>> getTimeSheet(int month, int year);
+        Observable<BaseResponse<UserTimeSheet>> getTimeSheet(int month, int year);
     }
 }
