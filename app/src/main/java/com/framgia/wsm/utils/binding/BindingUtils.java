@@ -1,6 +1,7 @@
 package com.framgia.wsm.utils.binding;
 
 import android.databinding.BindingAdapter;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -128,6 +130,15 @@ public final class BindingUtils {
         }
         Uri uri = Uri.parse(url);
         Glide.with(imageView.getContext()).load(uri).dontAnimate().into(imageView);
+    }
+
+    @BindingAdapter("cardBackground")
+    public static void setBackground(CardView cardView, String color) {
+        if (TextUtils.isEmpty(color)) {
+            cardView.setCardBackgroundColor(Color.TRANSPARENT);
+            return;
+        }
+        cardView.setCardBackgroundColor(Color.parseColor(color));
     }
 
     @BindingAdapter({ "timeSheetDates", "month", "year" })
