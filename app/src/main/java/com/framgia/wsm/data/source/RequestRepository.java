@@ -66,24 +66,7 @@ public class RequestRepository {
 
     public Observable<BaseResponse<List<OffRequest>>> getListRequestOff() {
         // TODO: Edit later
-        // return mRemoteDataSource.getListRequestOff(userId);
-        List<OffRequest> requestOffs = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            OffRequest requestOff = new OffRequest();
-            requestOff.setCreatedAt("16/06/2017");
-            requestOff.setStatus(StatusCode.ACCEPT_CODE);
-            OffRequest.OffHaveSalaryFrom offHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
-            offHaveSalaryFrom.setOffPaidFrom("16/06/2017");
-            OffRequest.OffHaveSalaryTo offHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
-            offHaveSalaryTo.setOffPaidTo("16/06/2017");
-            requestOff.setStartDayHaveSalary(offHaveSalaryFrom);
-            requestOff.setEndDayHaveSalary(offHaveSalaryTo);
-            requestOffs.add(requestOff);
-        }
-        BaseResponse<List<OffRequest>> baseResponse =
-                new BaseResponse<List<OffRequest>>(requestOffs) {
-                };
-        return Observable.just(baseResponse);
+         return mRemoteDataSource.getListRequestOff();
     }
 
     public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly() {

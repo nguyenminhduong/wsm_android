@@ -63,8 +63,12 @@ public class LeaveRequest extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("workspace")
     private Branch mBranch;
-
-    private String mTimeRequest;
+    @Expose
+    @SerializedName("created_at")
+    private String mCreateAt;
+    @Expose
+    @SerializedName("approver")
+    private Approver mApprover;
 
     public LeaveRequest() {
     }
@@ -107,6 +111,8 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         mCompensationRequest = in.readParcelable(Compensation.class.getClassLoader());
         mGroup = in.readParcelable(Group.class.getClassLoader());
         mBranch = in.readParcelable(Branch.class.getClassLoader());
+        mCreateAt = in.readString();
+        mApprover = in.readParcelable(Approver.class.getClassLoader());
     }
 
     public static final Creator<LeaveRequest> CREATOR = new Creator<LeaveRequest>() {
@@ -257,6 +263,22 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         mBranch = branch;
     }
 
+    public String getCreateAt() {
+        return mCreateAt;
+    }
+
+    public void setCreateAt(String createAt) {
+        mCreateAt = createAt;
+    }
+
+    public Approver getApprover() {
+        return mApprover;
+    }
+
+    public void setApprover(Approver approver) {
+        mApprover = approver;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -306,6 +328,8 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         parcel.writeParcelable(mCompensationRequest, i);
         parcel.writeParcelable(mGroup, i);
         parcel.writeParcelable(mBranch, i);
+        parcel.writeString(mCreateAt);
+        parcel.writeParcelable(mApprover, i);
     }
 
     /**

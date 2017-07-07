@@ -24,7 +24,7 @@ public interface RequestDataSource {
 
         Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime();
 
-        Observable<BaseResponse<List<LeaveRequest>>> getListRequestOff();
+        Observable<BaseResponse<List<OffRequest>>> getListRequestOff();
 
         Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly();
 
