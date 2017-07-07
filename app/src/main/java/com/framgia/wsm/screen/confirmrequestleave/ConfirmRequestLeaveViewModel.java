@@ -13,6 +13,7 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.screen.confirmrequestoff.ConfirmRequestOffActivity;
 import com.framgia.wsm.screen.requestleave.RequestLeaveActivity;
 import com.framgia.wsm.screen.requestleave.RequestLeaveViewModel;
@@ -40,6 +41,7 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     private DialogManager mDialogManager;
     private int mActionType;
     private Context mContext;
+    private RequestLeaveRequest mRequestLeaveRequest;
 
     ConfirmRequestLeaveViewModel(Context context, ConfirmRequestLeaveContract.Presenter presenter,
             LeaveRequest request, Navigator navigator, DialogManager dialogManager,
@@ -53,6 +55,7 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
         mLeaveTypeId = mRequest.getLeaveTypeId();
         mPresenter.getUser();
         mActionType = actionType;
+        mRequestLeaveRequest = new RequestLeaveRequest();
     }
 
     public boolean isVisibleLayoutCheckout() {
@@ -185,7 +188,8 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
             return;
         }
         if (mActionType == ActionType.ACTION_CONFIRM_CREATE) {
-            mPresenter.createFormRequestLeave(mRequest);
+            mRequestLeaveRequest.setLeaveRequest(mRequest);
+            mPresenter.createFormRequestLeave(mRequestLeaveRequest);
             return;
         }
         mPresenter.editFormRequestLeave(mRequest);

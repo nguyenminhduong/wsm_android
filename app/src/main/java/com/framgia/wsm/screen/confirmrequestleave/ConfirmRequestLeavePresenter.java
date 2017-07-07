@@ -6,6 +6,7 @@ import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import io.reactivex.annotations.NonNull;
@@ -53,8 +54,8 @@ final class ConfirmRequestLeavePresenter implements ConfirmRequestLeaveContract.
     }
 
     @Override
-    public void createFormRequestLeave(LeaveRequest request) {
-        Disposable disposable = mRequestRepository.createFormRequestLeave(request)
+    public void createFormRequestLeave(RequestLeaveRequest requestLeaveRequest) {
+        Disposable disposable = mRequestRepository.createFormRequestLeave(requestLeaveRequest)
                 .subscribeOn(mSchedulerProvider.io())
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override

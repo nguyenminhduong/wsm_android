@@ -5,6 +5,7 @@ import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
+import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.utils.StatusCode;
@@ -50,8 +51,9 @@ public class RequestRepository {
         return mRemoteDataSource.editFormRequestOff(requestOffRequest);
     }
 
-    public Observable<Object> createFormRequestLeave(@NonNull LeaveRequest request) {
-        return mRemoteDataSource.createFormRequestLeave(request);
+    public Observable<Object> createFormRequestLeave(
+            @NonNull RequestLeaveRequest requestLeaveRequest) {
+        return mRemoteDataSource.createFormRequestLeave(requestLeaveRequest);
     }
 
     public Observable<Object> deleteFormRequestLeave(@NonNull int requestId) {

@@ -7,6 +7,7 @@ import com.framgia.wsm.data.model.OffTypeDay;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
+import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
@@ -91,9 +92,8 @@ public interface WSMApi {
     @PUT("/api/request_off")
     Observable<BaseResponse<LeaveRequest>> editFormRequestLeave(@Body LeaveRequest requestLeave);
 
-    // TODO edit later
     @POST("/api/dashboard/request_leaves")
-    Observable<Object> createFormRequestLeave(@Body LeaveRequest request);
+    Observable<Object> createFormRequestLeave(@Body RequestLeaveRequest requestLeaveRequest);
 
     // TODO edit later
     @GET("/api/v1/list_request_off")
