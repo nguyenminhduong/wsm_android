@@ -61,15 +61,12 @@ public interface WSMApi {
     @POST("/api/dashboard/request_ots")
     Observable<Object> createFormRequestOverTime(@Body RequestOverTime requestOverTime);
 
-    // TODO edit later
-    @PUT("/api/request_overtime/edit")
+    @PUT("api/dashboard/request_ots/{request_ots_id}")
     Observable<BaseResponse<RequestOverTime>> editFormRequestOverTime(
-            @Body RequestOverTime requestOverTime);
+            @Path("request_ots_id") int requestOverTimeId, @Body RequestOverTime requestOverTime);
 
-    // TODO edit later
-    @DELETE("/api/request_overtime/delete/{request_overtime_id}")
-    Observable<Object> deleteFormRequestOverTime(
-            @Path("request_overtime_id") int requestOverTimeId);
+    @DELETE("api/dashboard/request_ots/{request_ots_id}")
+    Observable<Object> deleteFormRequestOverTime(@Path("request_ots_id") int requestOverTimeId);
 
     // TODO edit later
     @POST("/api/dashboard/request_offs")

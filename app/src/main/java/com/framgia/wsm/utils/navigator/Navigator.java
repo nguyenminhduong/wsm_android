@@ -76,6 +76,14 @@ public class Navigator {
         setActivityTransactionAnimation(ActivityTransition.START);
     }
 
+    public void startActivityForResultFromFragment(@NonNull Class<? extends Activity> clazz,
+            Bundle args, int requestCode) {
+        Intent intent = new Intent(mActivity, clazz);
+        intent.putExtras(args);
+        mFragment.startActivityForResult(intent, requestCode);
+        setActivityTransactionAnimation(ActivityTransition.START);
+    }
+
     public void startActivityForResult(@NonNull Class<? extends Activity> clazz, Bundle args,
             int requestCode) {
         Intent intent = new Intent(mActivity, clazz);

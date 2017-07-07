@@ -1,5 +1,7 @@
 package com.framgia.wsm.screen.listrequest;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -69,5 +71,13 @@ public class ListRequestFragment extends BaseFragment {
         }
         int typeRequest = getArguments().getInt(Constant.EXTRA_REQUEST_TYPE);
         mViewModel.setRequestType(typeRequest);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            mViewModel.setRequestType(data.getExtras().getInt(Constant.EXTRA_REQUEST_TYPE_CODE));
+        }
     }
 }
