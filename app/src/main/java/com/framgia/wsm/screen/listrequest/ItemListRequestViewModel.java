@@ -88,12 +88,11 @@ public class ItemListRequestViewModel extends BaseObservable {
         }
         return "";
     }
-
-    //TODO Edit later
+    
     public String getCreateAt() {
-        //        if (mRequest != null) {
-        //            return mRequest.getCreatedAt();
-        //        }
+        if (mRequest != null) {
+            return mRequest.getCreateAt();
+        }
         if (mRequestOverTime != null) {
             return DateTimeUtils.convertUiFormatToDataFormat(mRequestOverTime.getCreatedAt(),
                     DateTimeUtils.INPUT_TIME_FORMAT,
@@ -102,7 +101,7 @@ public class ItemListRequestViewModel extends BaseObservable {
         if (mRequestOff != null) {
             return DateTimeUtils.convertUiFormatToDataFormat(mRequestOff.getCreatedAt(),
                     DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+                    DateTimeUtils.FORMAT_DATE);
         }
         return "";
     }
@@ -135,8 +134,13 @@ public class ItemListRequestViewModel extends BaseObservable {
         if (mRequestOverTime != null) {
             return mRequestOverTime.getFromTime();
         }
-        if (mRequestOff != null && mRequestOff.getStartDayHaveSalary() != null) {
-            return mRequestOff.getStartDayHaveSalary().getOffPaidFrom();
+        if (mRequestOff != null) {
+            if(!mRequestOff.getStartDayHaveSalary().getOffPaidFrom().equals("")){
+                return mRequestOff.getStartDayHaveSalary().getOffPaidFrom();
+            }
+            if(!mRequestOff.getStartDayNoSalary().getOffFrom().equals("")){
+                return mRequestOff.getStartDayNoSalary().getOffFrom();
+            }
         }
         return "";
     }
@@ -145,8 +149,13 @@ public class ItemListRequestViewModel extends BaseObservable {
         if (mRequest != null) {
             return mRequest.getCompensation().getToTime();
         }
-        if (mRequestOff != null && mRequestOff.getEndDayHaveSalary() != null) {
-            return mRequestOff.getEndDayHaveSalary().getOffPaidTo();
+        if (mRequestOff != null) {
+            if(!mRequestOff.getEndDayHaveSalary().getOffPaidTo().equals("")){
+                return mRequestOff.getEndDayHaveSalary().getOffPaidTo();
+            }
+            if(!mRequestOff.getEndDayNoSalary().getOffTo().equals("")){
+                return mRequestOff.getEndDayNoSalary().getOffTo();
+            }
         }
         if (mRequestOverTime != null) {
             return mRequestOverTime.getToTime();

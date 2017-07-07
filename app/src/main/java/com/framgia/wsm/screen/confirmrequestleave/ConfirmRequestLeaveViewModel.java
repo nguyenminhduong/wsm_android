@@ -20,6 +20,7 @@ import com.framgia.wsm.screen.requestleave.RequestLeaveViewModel;
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.StatusCode;
+import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
@@ -186,6 +187,16 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     public boolean isVisibleButtonSubmit() {
         return StatusCode.PENDING_CODE.equals(mRequest.getStatus())
                 || mActionType == ActionType.ACTION_CREATE;
+    }
+
+    public String getCheckInTime() {
+        return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckInTime(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+    }
+
+    public String getCheckOutTime() {
+        return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
     }
 
     public void onClickArrowBack(View view) {

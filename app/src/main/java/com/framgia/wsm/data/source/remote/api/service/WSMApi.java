@@ -93,8 +93,8 @@ public interface WSMApi {
     Observable<Object> createFormRequestLeave(@Body RequestLeaveRequest requestLeaveRequest);
 
     // TODO edit later
-    @GET("/api/v1/list_request_off")
-    Observable<BaseResponse<List<LeaveRequest>>> getListRequestOff();
+    @GET("/api/dashboard/request_offs")
+    Observable<BaseResponse<List<OffRequest>>> getListRequestOff();
 
     @GET("/api/dashboard/request_ots")
     Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime();

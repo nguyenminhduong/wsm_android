@@ -48,7 +48,7 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestOff() {
+    public Observable<BaseResponse<List<OffRequest>>> getListRequestOff() {
         return mWSMApi.getListRequestOff();
     }
 

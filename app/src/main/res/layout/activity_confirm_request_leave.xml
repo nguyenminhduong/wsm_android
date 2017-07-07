@@ -156,7 +156,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.request.companyName}"
+                                        android:text="@{viewModel.request.branch.branchName}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
@@ -280,7 +280,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.request.checkInTime}"
+                                        android:text="@{viewModel.checkInTime}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
@@ -312,7 +312,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.request.checkOutTime}"
+                                        android:text="@{viewModel.checkOutTime}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
@@ -402,7 +402,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text=""
+                                        android:text="@{viewModel.request.approver.name}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
