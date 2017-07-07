@@ -452,7 +452,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.request.compensationRequest.fromTime}"
+                                        android:text="@{viewModel.detail ? viewModel.request.compensation.fromTime : viewModel.request.compensationRequest.fromTime}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
@@ -482,7 +482,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.request.compensationRequest.toTime}"
+                                        android:text="@{viewModel.detail ? viewModel.request.compensation.toTime : viewModel.request.compensationRequest.toTime}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
@@ -533,6 +533,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:visibility="@{viewModel.visibleButtonSubmit ? View.VISIBLE : View.GONE}"
                 >
                 <Button
                     android:id="@+id/button_submit"

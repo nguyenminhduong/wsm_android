@@ -13,8 +13,8 @@ import static com.framgia.wsm.utils.StatusCode.REJECT_CODE;
 
 @StringDef({ ACCEPT_CODE, PENDING_CODE, REJECT_CODE, FORWARDED })
 public @interface StatusCode {
-    String ACCEPT_CODE = "approved";
+    String ACCEPT_CODE = "approve";
     String PENDING_CODE = "pending";
-    String REJECT_CODE = "rejected";
+    String REJECT_CODE = "discard";
     String FORWARDED = "forwarded";
 }

@@ -52,10 +52,14 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
         mNavigator = navigator;
         mDialogManager = dialogManager;
         mRequest = request;
-        mLeaveTypeId = mRequest.getLeaveTypeId();
         mPresenter.getUser();
         mActionType = actionType;
         mRequestLeaveRequest = new RequestLeaveRequest();
+        if (mActionType == ActionType.ACTION_DETAIL) {
+            mLeaveTypeId = mRequest.getLeaveType().getId();
+        } else {
+            mLeaveTypeId = mRequest.getLeaveTypeId();
+        }
     }
 
     public boolean isVisibleLayoutCheckout() {
@@ -177,6 +181,11 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     @Bindable
     public User getUser() {
         return mUser;
+    }
+
+    public boolean isVisibleButtonSubmit() {
+        return StatusCode.PENDING_CODE.equals(mRequest.getStatus())
+                || mActionType == ActionType.ACTION_CREATE;
     }
 
     public void onClickArrowBack(View view) {

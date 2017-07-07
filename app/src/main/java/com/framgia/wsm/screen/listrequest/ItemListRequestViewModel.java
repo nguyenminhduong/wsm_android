@@ -1,17 +1,21 @@
 package com.framgia.wsm.screen.listrequest;
 
 import android.databinding.BaseObservable;
+import android.support.annotation.IntDef;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.StatusCode;
+import com.framgia.wsm.utils.common.DateTimeUtils;
 
 /**
  * Created by ASUS on 13/06/2017.
  */
 
 public class ItemListRequestViewModel extends BaseObservable {
+
     private Object mObject;
     private LeaveRequest mRequest;
     private OffRequest mRequestOff;
@@ -32,11 +36,42 @@ public class ItemListRequestViewModel extends BaseObservable {
         }
     }
 
-    //TODO Edit later
-    public String getTimeRequest() {
-        //        if (mRequest != null) {
-        //            return mRequest.getTimeRequest();
-        //        }
+    public String getTimeRequestLeave() {
+        if (mRequest != null) {
+            if (mRequest.getLeaveType().getId() == LeaveType.IN_LATE_M) {
+                return Constant.BEGIN_MORNING_TIME
+                        + Constant.DATE_TIME_SPACE
+                        + DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckInTime(),
+                        DateTimeUtils.INPUT_TIME_FORMAT,
+                        DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+            }
+            if (mRequest.getLeaveType().getId() == LeaveType.LEAVE_EARLY_M) {
+                return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
+                        DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.TIME_FORMAT_HH_MM)
+                        + Constant.DATE_TIME_SPACE
+                        + Constant.END_MORNING_TIME
+                        + Constant.BLANK
+                        + DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
+                        DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.FORMAT_DATE);
+            }
+            if (mRequest.getLeaveType().getId() == LeaveType.IN_LATE_A) {
+                return Constant.BEGIN_AFTERNOON_TIME
+                        + Constant.DATE_TIME_SPACE
+                        + DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckInTime(),
+                        DateTimeUtils.INPUT_TIME_FORMAT,
+                        DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+            }
+            if (mRequest.getLeaveType().getId() == LeaveType.LEAVE_EARLY_A) {
+                return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
+                        DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.TIME_FORMAT_HH_MM)
+                        + Constant.DATE_TIME_SPACE
+                        + Constant.END_AFTERNOON_TIME
+                        + Constant.BLANK
+                        + DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
+                        DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.FORMAT_DATE);
+            }
+            //TODO: There are still some cases, add later
+        }
         return "";
     }
 
@@ -164,5 +199,31 @@ public class ItemListRequestViewModel extends BaseObservable {
             return;
         }
         mItemClickListener.onItemRecyclerViewClick(mObject);
+    }
+
+    @IntDef({
+            LeaveType.IN_LATE_M, LeaveType.IN_LATE_A, LeaveType.LEAVE_EARLY_M,
+            LeaveType.LEAVE_EARLY_A, LeaveType.LEAVE_OUT, LeaveType.FORGOT_CHECK_ALL_DAY,
+            LeaveType.FORGOT_TO_CHECK_IN, LeaveType.FORGOT_TO_CHECK_OUT,
+            LeaveType.FORGOT_CARD_ALL_DAY, LeaveType.FORGOT_CARD_IN, LeaveType.FORGOT_CARD_OUT,
+            LeaveType.IN_LATE_WOMAN_M, LeaveType.IN_LATE_WOMAN_A, LeaveType.LEAVE_EARLY_WOMAN_M,
+            LeaveType.LEAVE_EARLY_WOMAN_A
+    })
+    public @interface LeaveType {
+        int IN_LATE_M = 1;
+        int LEAVE_EARLY_M = 2;
+        int LEAVE_OUT = 3;
+        int IN_LATE_A = 4;
+        int IN_LATE_WOMAN_M = 5;
+        int FORGOT_CHECK_ALL_DAY = 7;
+        int FORGOT_TO_CHECK_IN = 12;
+        int FORGOT_TO_CHECK_OUT = 13;
+        int LEAVE_EARLY_A = 14;
+        int IN_LATE_WOMAN_A = 15;
+        int LEAVE_EARLY_WOMAN_M = 16;
+        int LEAVE_EARLY_WOMAN_A = 17;
+        int FORGOT_CARD_IN = 19;
+        int FORGOT_CARD_OUT = 20;
+        int FORGOT_CARD_ALL_DAY = 21;
     }
 }
