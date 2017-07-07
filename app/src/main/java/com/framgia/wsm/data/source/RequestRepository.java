@@ -59,9 +59,9 @@ public class RequestRepository {
         return mRemoteDataSource.deleteFormRequestLeave(requestId);
     }
 
-    public Observable<BaseResponse<LeaveRequest>> editFormRequestLeave(
-            @NonNull LeaveRequest request) {
-        return mRemoteDataSource.editFormRequestLeave(request);
+    public Observable<Object> editFormRequestLeave(@NonNull int requestId,
+            RequestLeaveRequest requestLeaveRequest) {
+        return mRemoteDataSource.editFormRequestLeave(requestId, requestLeaveRequest);
     }
 
     public Observable<BaseResponse<List<OffRequest>>> getListRequestOff() {

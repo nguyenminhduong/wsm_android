@@ -129,21 +129,8 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<LeaveRequest>> editFormRequestLeave(
-            @NonNull LeaveRequest requestLeave) {
-        return mWSMApi.editFormRequestLeave(requestLeave)
-                .flatMap(
-                        new Function<BaseResponse<LeaveRequest>,
-                                ObservableSource<BaseResponse<LeaveRequest>>>() {
-                            @Override
-                            public ObservableSource<BaseResponse<LeaveRequest>> apply(
-                                    @NonNull BaseResponse<LeaveRequest> requestBaseResponse)
-                                    throws Exception {
-                                if (requestBaseResponse != null) {
-                                    return Observable.just(requestBaseResponse);
-                                }
-                                return Observable.error(new NullPointerException());
-                            }
-                        });
+    public Observable<Object> editFormRequestLeave(@NonNull int requestId,
+            RequestLeaveRequest requestLeave) {
+        return mWSMApi.editFormRequestLeave(requestId, requestLeave);
     }
 }

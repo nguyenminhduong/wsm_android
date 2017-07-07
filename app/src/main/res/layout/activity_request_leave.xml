@@ -12,7 +12,6 @@
             name="viewModel"
             type="com.framgia.wsm.screen.requestleave.RequestLeaveViewModel"
             />
-
     </data>
 
 
@@ -126,6 +125,7 @@
                                 style="@style/StyleTextHint"
                                 >
                                 <EditText
+                                    android:enabled="@{viewModel.visibleGroup}"
                                     android:hint="@string/group"
                                     android:onClick="@{viewModel::onPickGroup}"
                                     android:text="@{viewModel.currentGroup}"

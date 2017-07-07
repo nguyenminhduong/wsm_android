@@ -49,7 +49,7 @@ public interface RequestDataSource {
 
         Observable<Object> deleteFormRequestLeave(@NonNull int requestLeaveId);
 
-        Observable<BaseResponse<LeaveRequest>> editFormRequestLeave(
-                @NonNull LeaveRequest requestLeave);
+        Observable<Object> editFormRequestLeave(@NonNull int requestId,
+                RequestLeaveRequest requestLeave);
     }
 }

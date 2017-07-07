@@ -14,7 +14,6 @@ import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
-import com.framgia.wsm.screen.confirmrequestoff.ConfirmRequestOffActivity;
 import com.framgia.wsm.screen.requestleave.RequestLeaveActivity;
 import com.framgia.wsm.screen.requestleave.RequestLeaveViewModel;
 import com.framgia.wsm.utils.ActionType;
@@ -64,35 +63,35 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     }
 
     public boolean isVisibleLayoutCheckout() {
-        return mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_EARLY_A)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_EARLY_M)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_EARLY_WOMAN_A)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_EARLY_WOMAN_M)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_CARD_OUT)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_TO_CHECK_OUT)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_CARD_ALL_DAY)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_CHECK_ALL_DAY)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_OUT);
+        return mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.LEAVE_EARLY_A)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.LEAVE_EARLY_M)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.LEAVE_EARLY_WOMAN_A)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.LEAVE_EARLY_WOMAN_M)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.FORGOT_CARD_OUT)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.FORGOT_TO_CHECK_OUT)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.FORGOT_CARD_ALL_DAY)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.FORGOT_CHECK_ALL_DAY)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.LEAVE_OUT);
     }
 
     public boolean isVisibleLayoutCheckin() {
-        return mLeaveTypeId == (RequestLeaveViewModel.LeaveType.IN_LATE_A)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.IN_LATE_M)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.IN_LATE_WOMAN_A)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.IN_LATE_WOMAN_M)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_CARD_IN)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_TO_CHECK_IN)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_CARD_ALL_DAY)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.FORGOT_CHECK_ALL_DAY)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_OUT);
+        return mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.IN_LATE_A)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.IN_LATE_M)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.IN_LATE_WOMAN_A)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.IN_LATE_WOMAN_M)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.FORGOT_CARD_IN)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.FORGOT_TO_CHECK_IN)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.FORGOT_CARD_ALL_DAY)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.FORGOT_CHECK_ALL_DAY)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.LEAVE_OUT);
     }
 
     public boolean isVisibleLayoutCompensation() {
-        return mLeaveTypeId == (RequestLeaveViewModel.LeaveType.IN_LATE_A)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.IN_LATE_M)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_EARLY_A)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_EARLY_M)
-                || mLeaveTypeId == (RequestLeaveViewModel.LeaveType.LEAVE_OUT);
+        return mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.IN_LATE_A)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.IN_LATE_M)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.LEAVE_EARLY_A)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.LEAVE_EARLY_M)
+                || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.LEAVE_OUT);
     }
 
     public boolean isDetail() {
@@ -133,10 +132,7 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
 
     @Override
     public void onEditFormRequestLeaveSuccess() {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mRequest);
-        bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
-        mNavigator.startActivityAtRoot(ConfirmRequestOffActivity.class, bundle);
+        mNavigator.finishActivityWithResult(Activity.RESULT_OK);
     }
 
     @Override
@@ -186,7 +182,7 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
 
     public boolean isVisibleButtonSubmit() {
         return StatusCode.PENDING_CODE.equals(mRequest.getStatus())
-                || mActionType == ActionType.ACTION_CREATE;
+                || mActionType == ActionType.ACTION_CONFIRM_CREATE;
     }
 
     public String getCheckInTime() {
@@ -207,12 +203,12 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
         if (mRequest == null) {
             return;
         }
+        mRequestLeaveRequest.setLeaveRequest(mRequest);
         if (mActionType == ActionType.ACTION_CONFIRM_CREATE) {
-            mRequestLeaveRequest.setLeaveRequest(mRequest);
             mPresenter.createFormRequestLeave(mRequestLeaveRequest);
             return;
         }
-        mPresenter.editFormRequestLeave(mRequest);
+        mPresenter.editFormRequestLeave(mRequestLeaveRequest);
     }
 
     public void onClickDelete(View view) {
