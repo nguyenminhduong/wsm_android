@@ -184,8 +184,8 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     }
 
     public boolean isVisibleButtonSubmit() {
-        return StatusCode.PENDING_CODE.equals(mRequest.getStatus())
-                || mActionType == ActionType.ACTION_CONFIRM_CREATE;
+        return mActionType == ActionType.ACTION_CONFIRM_CREATE || StatusCode.PENDING_CODE.equals(
+                mRequest.getStatus());
     }
 
     public String getCheckInTime() {
