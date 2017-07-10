@@ -22,15 +22,15 @@
                 <item
                     android:id="@+id/item_manage_overtime"
                     android:icon="@drawable/ic_request_overtime"
-                    android:title="@string/request_overtime"/>
+                    android:title="@string/manage_request_overtime"/>
                 <item
                     android:id="@+id/item_manage_off"
                     android:icon="@drawable/ic_request_off"
-                    android:title="@string/request_day_off"/>
+                    android:title="@string/manage_request_off"/>
                 <item
                     android:id="@+id/item_manage_come_late_leave_early"
                     android:icon="@drawable/ic_request_come_late_leave_early"
-                    android:title="@string/request_come_late_leave_early"/>
+                    android:title="@string/manage_request_leave"/>
             </group>
         </menu>
     </item>

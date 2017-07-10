@@ -30,7 +30,9 @@
     <string name="workspaces">Workspaces data</string>
     <string name="statistics_of_personal">Statistics of personal</string>
     <string name="manage_requests">MANAGE REQUESTS</string>
-
+    <string name="manage_request_overtime">Manage request overtime</string>
+    <string name="manage_request_off">Manage request off</string>
+    <string name="manage_request_leave">Manage request leave</string>
 
     <string name="create_request_ot">Create request OT</string>
     <string name="create_request_leave">Create request leave</string>

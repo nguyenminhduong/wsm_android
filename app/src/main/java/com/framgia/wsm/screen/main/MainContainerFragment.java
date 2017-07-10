@@ -10,6 +10,7 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.screen.BaseFragment;
 import com.framgia.wsm.screen.holidaycalendar.HolidayCalendarFragment;
 import com.framgia.wsm.screen.listrequest.ListRequestFragment;
+import com.framgia.wsm.screen.managelistrequests.ManageListRequestsFragment;
 import com.framgia.wsm.screen.profile.ProfileFragment;
 import com.framgia.wsm.screen.setting.SettingProfileFragment;
 import com.framgia.wsm.screen.timesheet.TimeSheetFragment;
@@ -19,6 +20,9 @@ import com.framgia.wsm.utils.navigator.Navigator;
 
 import static com.framgia.wsm.screen.main.MainViewModel.Page.COME_LATE_LEAVE_EARLY;
 import static com.framgia.wsm.screen.main.MainViewModel.Page.HOLIDAY_CALENDAR;
+import static com.framgia.wsm.screen.main.MainViewModel.Page.MANAGE_COME_LATE_LEAVE_EARLY;
+import static com.framgia.wsm.screen.main.MainViewModel.Page.MANAGE_OFF;
+import static com.framgia.wsm.screen.main.MainViewModel.Page.MANAGE_OVERTIME;
 import static com.framgia.wsm.screen.main.MainViewModel.Page.OFF;
 import static com.framgia.wsm.screen.main.MainViewModel.Page.OVERTIME;
 import static com.framgia.wsm.screen.main.MainViewModel.Page.PERSONAL;
@@ -88,6 +92,21 @@ public class MainContainerFragment extends BaseFragment {
                         NavigateAnim.NONE, ListRequestFragment.TAG);
                 break;
             case WORKSPACE_DATA:
+                break;
+            case MANAGE_OVERTIME:
+                mNavigator.goNextChildFragment(containerViewId,
+                        ManageListRequestsFragment.newInstance(RequestType.REQUEST_OVERTIME), false,
+                        NavigateAnim.NONE, ManageListRequestsFragment.TAG);
+                break;
+            case MANAGE_OFF:
+                mNavigator.goNextChildFragment(containerViewId,
+                        ManageListRequestsFragment.newInstance(RequestType.REQUEST_OFF), false,
+                        NavigateAnim.NONE, ManageListRequestsFragment.TAG);
+                break;
+            case MANAGE_COME_LATE_LEAVE_EARLY:
+                mNavigator.goNextChildFragment(containerViewId,
+                        ManageListRequestsFragment.newInstance(RequestType.REQUEST_LATE_EARLY),
+                        false, NavigateAnim.NONE, ManageListRequestsFragment.TAG);
                 break;
             default:
                 break;

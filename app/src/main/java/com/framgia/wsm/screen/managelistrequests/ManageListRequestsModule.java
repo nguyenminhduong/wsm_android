@@ -1,8 +1,15 @@
 package com.framgia.wsm.screen.managelistrequests;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import com.framgia.wsm.data.source.RequestRepository;
+import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.dagger.FragmentScope;
+import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.widget.dialog.DialogManager;
+import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
 import dagger.Provides;
 
@@ -21,14 +28,45 @@ public class ManageListRequestsModule {
 
     @FragmentScope
     @Provides
-    public ManageListRequestsContract.ViewModel provideViewModel(
-            ManageListRequestsContract.Presenter presenter) {
-        return new ManageListRequestsViewModel(presenter);
+    public ManageListRequestsContract.ViewModel provideViewModel(Context context,
+            ManageListRequestsContract.Presenter presenter, DialogManager dialogManager,
+            ManageListRequestsAdapter manageListRequestsAdapter, Navigator navigator) {
+        ManageListRequestsViewModel viewModel =
+                new ManageListRequestsViewModel(context, presenter, dialogManager,
+                        manageListRequestsAdapter, navigator);
+        viewModel.setRequestType(mFragment.getArguments().getInt(Constant.EXTRA_REQUEST_TYPE));
+        return viewModel;
     }
 
     @FragmentScope
     @Provides
     public ManageListRequestsContract.Presenter providePresenter() {
         return new ManageListRequestsPresenter();
+    }
+
+    @FragmentScope
+    @Provides
+    public DialogManager provideDialogManager() {
+        return new DialogManagerImpl(mFragment.getActivity());
+    }
+
+    @FragmentScope
+    @Provides
+    public ManageListRequestsAdapter provideManageListRequestAdapter() {
+        int mRequestType = mFragment.getArguments().getInt(Constant.EXTRA_REQUEST_TYPE);
+        return new ManageListRequestsAdapter(mFragment.getActivity(), mRequestType);
+    }
+
+    @FragmentScope
+    @Provides
+    public Navigator provideNavigator() {
+        return new Navigator(mFragment);
+    }
+
+    @FragmentScope
+    @Provides
+    public RequestRepository provideRequestRepository(
+            RequestRemoteDataSource requestRemoteDataSource) {
+        return new RequestRepository(requestRemoteDataSource);
     }
 }
