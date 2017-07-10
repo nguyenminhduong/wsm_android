@@ -29,6 +29,8 @@
     <string name="workspaces_data">WORKSPACES DATA</string>
     <string name="workspaces">Workspaces data</string>
     <string name="statistics_of_personal">Statistics of personal</string>
+    <string name="manage_requests">MANAGE REQUESTS</string>
+
 
     <string name="create_request_ot">Create request OT</string>
     <string name="create_request_leave">Create request leave</string>
