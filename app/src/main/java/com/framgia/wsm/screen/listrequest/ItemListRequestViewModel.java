@@ -1,7 +1,10 @@
 package com.framgia.wsm.screen.listrequest;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.IntDef;
+import com.framgia.wsm.BR;
+import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
@@ -16,10 +19,11 @@ import com.framgia.wsm.utils.common.DateTimeUtils;
 
 public class ItemListRequestViewModel extends BaseObservable {
 
-    private Object mObject;
+    private final Object mObject;
     private LeaveRequest mRequest;
     private OffRequest mRequestOff;
     private RequestOverTime mRequestOverTime;
+    private int mStatusImage;
     private final BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object>
             mItemClickListener;
 
@@ -34,6 +38,7 @@ public class ItemListRequestViewModel extends BaseObservable {
         } else {
             mRequestOverTime = (RequestOverTime) object;
         }
+        initValueStatus();
     }
 
     public String getTimeRequestLeave() {
@@ -192,6 +197,11 @@ public class ItemListRequestViewModel extends BaseObservable {
         return "";
     }
 
+    public String getHandler() {
+        //TODO Edit Later
+        return "";
+    }
+
     public boolean isAcceptStatus() {
         if (mRequest != null) {
             return StatusCode.ACCEPT_CODE.equals(mRequest.getStatus());
@@ -253,5 +263,36 @@ public class ItemListRequestViewModel extends BaseObservable {
         int FORGOT_CARD_IN = 19;
         int FORGOT_CARD_OUT = 20;
         int FORGOT_CARD_ALL_DAY = 21;
+    }
+
+    private void initValueStatus() {
+        if (mRequest != null) {
+            switch (mRequest.getStatus()) {
+                case StatusCode.ACCEPT_CODE:
+                    setStatusImage(R.drawable.ic_status_accpect);
+                    break;
+                case StatusCode.PENDING_CODE:
+                    setStatusImage(R.drawable.ic_status_pending);
+                    break;
+                case StatusCode.REJECT_CODE:
+                    setStatusImage(R.drawable.ic_status_reject);
+                    break;
+                case StatusCode.FORWARDED:
+                    setStatusImage(R.drawable.ic_status_forward);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    @Bindable
+    public int getStatusImage() {
+        return mStatusImage;
+    }
+
+    private void setStatusImage(int statusImage) {
+        mStatusImage = statusImage;
+        notifyPropertyChanged(BR.statusImage);
     }
 }
