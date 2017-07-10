@@ -2,7 +2,11 @@ package com.framgia.wsm.screen.notification;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import com.framgia.wsm.data.source.NotificationRepository;
+import com.framgia.wsm.data.source.remote.NotificationRemoteDataSource;
 import com.framgia.wsm.utils.dagger.FragmentScope;
+import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
 
@@ -22,19 +26,34 @@ public class NotificationModule {
     @FragmentScope
     @Provides
     public NotificationContract.ViewModel provideViewModel(NotificationContract.Presenter presenter,
-            NotificationAdapter notificationAdapter) {
-        return new NotificationViewModel(presenter, notificationAdapter);
+            NotificationAdapter notificationAdapter, Navigator navigator) {
+        return new NotificationViewModel(presenter, notificationAdapter, navigator);
     }
 
     @FragmentScope
     @Provides
-    public NotificationContract.Presenter providePresenter() {
-        return new NotificationPresenter();
+    public NotificationContract.Presenter providePresenter(
+            NotificationRepository notificationRepository,
+            BaseSchedulerProvider baseSchedulerProvider) {
+        return new NotificationPresenter(notificationRepository, baseSchedulerProvider);
     }
 
     @FragmentScope
     @Provides
     public NotificationAdapter provideNotificationAdapter() {
         return new NotificationAdapter(mFragment.getActivity());
+    }
+
+    @FragmentScope
+    @Provides
+    NotificationRepository provideNotificationRepository(
+            NotificationRemoteDataSource remoteDataSource) {
+        return new NotificationRepository(remoteDataSource);
+    }
+
+    @FragmentScope
+    @Provides
+    Navigator provideNavigator() {
+        return new Navigator(mFragment);
     }
 }

@@ -1,7 +1,11 @@
 package com.framgia.wsm.screen.notification;
 
+import android.util.Log;
 import com.framgia.wsm.data.model.Notification;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
+import com.framgia.wsm.utils.navigator.Navigator;
+import java.util.List;
 
 /**
  * Exposes the data to be used in the Notification screen.
@@ -9,15 +13,16 @@ import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 
 public class NotificationViewModel implements NotificationContract.ViewModel,
         BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Notification> {
-
+    private static final String TAG = "NotificationViewModel";
     private NotificationContract.Presenter mPresenter;
     private NotificationAdapter mNotificationAdapter;
 
-    public NotificationViewModel(NotificationContract.Presenter presenter,
-            NotificationAdapter notificationAdapter) {
+    NotificationViewModel(NotificationContract.Presenter presenter,
+            NotificationAdapter notificationAdapter, Navigator navigator) {
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mNotificationAdapter = notificationAdapter;
+        mPresenter.getNotification();
     }
 
     @Override
@@ -37,5 +42,18 @@ public class NotificationViewModel implements NotificationContract.ViewModel,
 
     public NotificationAdapter getNotificationAdapter() {
         return mNotificationAdapter;
+    }
+
+    @Override
+    public void onGetNotificationSuccess(List<Notification> list) {
+        if (list == null) {
+            return;
+        }
+        mNotificationAdapter.updateData(list);
+    }
+
+    @Override
+    public void onGetNotificationError(BaseException e) {
+        Log.e(TAG, "NotificationViewModel", e);
     }
 }

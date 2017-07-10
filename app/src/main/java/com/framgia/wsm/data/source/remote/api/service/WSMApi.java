@@ -2,6 +2,7 @@ package com.framgia.wsm.data.source.remote.api.service;
 
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.LeaveType;
+import com.framgia.wsm.data.model.Notification;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.OffTypeDay;
 import com.framgia.wsm.data.model.RequestOverTime;
@@ -122,4 +123,8 @@ public interface WSMApi {
     @GET("/api/v1/list_request_leave")
     Observable<BaseResponse<List<LeaveRequest>>> getListRequestOffWithStatusAndTime(
             @Query("status") int status, @Query("time") String time);
+
+    @Multipart
+    @PUT("/api/dashboard/notification")
+    Observable<BaseResponse<List<Notification>>> getNotification();
 }

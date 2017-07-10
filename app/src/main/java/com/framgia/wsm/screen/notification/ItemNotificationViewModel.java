@@ -28,6 +28,10 @@ public class ItemNotificationViewModel extends BaseObservable {
         return mNotification.getIcon() == null ? "" : mNotification.getIcon();
     }
 
+    public boolean isRead() {
+        return mNotification.isRead();
+    }
+
     public void onItemClicked(View view) {
         if (mItemClickListener == null) {
             return;
