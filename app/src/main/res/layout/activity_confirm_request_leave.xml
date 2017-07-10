@@ -157,6 +157,12 @@
                                         />
                                     <TextView
                                         android:text="@{viewModel.request.branch.branchName}"
+                                        android:visibility="@{viewModel.visibleBranch?View.VISIBLE : View.GONE}"
+                                        style="@style/StyleTextConfirm"
+                                        />
+                                    <TextView
+                                        android:text="@{viewModel.request.workspaceName}"
+                                        android:visibility="@{viewModel.visibleBranch?View.GONE : View.VISIBLE}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
@@ -186,7 +192,7 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.request.workspaceName}"
+                                        android:text="@{viewModel.request.companyName}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
