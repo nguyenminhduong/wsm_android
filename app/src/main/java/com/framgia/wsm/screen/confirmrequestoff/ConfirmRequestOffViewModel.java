@@ -243,9 +243,53 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         return mContext.getString(R.string.confirm_edit_request_off);
     }
 
+    public String getStartDateHaveSalary() {
+        if (mOffRequest != null && mOffRequest.getStartDayHaveSalary() != null) {
+            if (!"".equals(mOffRequest.getStartDayHaveSalary().getOffPaidFrom())) {
+                return mOffRequest.getStartDayHaveSalary().getOffPaidFrom()
+                        + Constant.BLANK
+                        + mOffRequest.getStartDayHaveSalary().getPaidFromPeriod();
+            }
+        }
+        return "";
+    }
+
+    public String getEndDateHaveSalary() {
+        if (mOffRequest != null && mOffRequest.getEndDayHaveSalary() != null) {
+            if (!"".equals(mOffRequest.getEndDayHaveSalary().getOffPaidTo())) {
+                return mOffRequest.getEndDayHaveSalary().getOffPaidTo()
+                        + Constant.BLANK
+                        + mOffRequest.getEndDayHaveSalary().getPaidToPeriod();
+            }
+        }
+        return "";
+    }
+
+    public String getStartDateNoSalary() {
+        if (mOffRequest != null && mOffRequest.getStartDayNoSalary() != null) {
+            if (!"".equals(mOffRequest.getStartDayNoSalary().getOffFrom())) {
+                return mOffRequest.getStartDayNoSalary().getOffFrom() + Constant.BLANK + mOffRequest
+                        .getStartDayNoSalary()
+                        .getOffFromPeriod();
+            }
+        }
+        return "";
+    }
+
+    public String getEndDateNoSalary() {
+        if (mOffRequest != null && mOffRequest.getEndDayNoSalary() != null) {
+            if (!"".equals(mOffRequest.getEndDayNoSalary().getOffTo())) {
+                return mOffRequest.getEndDayNoSalary().getOffTo()
+                        + Constant.BLANK
+                        + mOffRequest.getEndDayNoSalary().getOffToPeriod();
+            }
+        }
+        return "";
+    }
+
     public boolean isVisibleButtonSubmit() {
-        return mOffRequest.getStatus() == StatusCode.PENDING_CODE
-                || mActionType == ActionType.ACTION_CREATE;
+        return mActionType == ActionType.ACTION_CREATE || mOffRequest.getStatus()
+                .equals(StatusCode.PENDING_CODE);
     }
 
     public void onCickArrowBack(View view) {

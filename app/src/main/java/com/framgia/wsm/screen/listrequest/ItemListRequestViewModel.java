@@ -88,7 +88,7 @@ public class ItemListRequestViewModel extends BaseObservable {
         }
         return "";
     }
-    
+
     public String getCreateAt() {
         if (mRequest != null) {
             return mRequest.getCreateAt();
@@ -100,8 +100,7 @@ public class ItemListRequestViewModel extends BaseObservable {
         }
         if (mRequestOff != null) {
             return DateTimeUtils.convertUiFormatToDataFormat(mRequestOff.getCreatedAt(),
-                    DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.FORMAT_DATE);
+                    DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.FORMAT_DATE);
         }
         return "";
     }
@@ -128,18 +127,26 @@ public class ItemListRequestViewModel extends BaseObservable {
     }
 
     public String getFromTime() {
-        if (mRequest != null) {
+        if (mRequest != null && mRequest.getCompensation() != null) {
             return mRequest.getCompensation().getFromTime();
         }
         if (mRequestOverTime != null) {
             return mRequestOverTime.getFromTime();
         }
         if (mRequestOff != null) {
-            if(!mRequestOff.getStartDayHaveSalary().getOffPaidFrom().equals("")){
-                return mRequestOff.getStartDayHaveSalary().getOffPaidFrom();
+            if (mRequestOff.getStartDayHaveSalary() != null) {
+                if (!"".equals(mRequestOff.getStartDayHaveSalary().getOffPaidFrom())) {
+                    return mRequestOff.getStartDayHaveSalary().getOffPaidFrom()
+                            + Constant.BLANK
+                            + mRequestOff.getStartDayHaveSalary().getPaidFromPeriod();
+                }
             }
-            if(!mRequestOff.getStartDayNoSalary().getOffFrom().equals("")){
-                return mRequestOff.getStartDayNoSalary().getOffFrom();
+            if (mRequestOff.getStartDayNoSalary() != null) {
+                if (!"".equals(mRequestOff.getStartDayNoSalary().getOffFrom())) {
+                    return mRequestOff.getStartDayNoSalary().getOffFrom()
+                            + Constant.BLANK
+                            + mRequestOff.getStartDayNoSalary().getOffFromPeriod();
+                }
             }
         }
         return "";
@@ -150,11 +157,19 @@ public class ItemListRequestViewModel extends BaseObservable {
             return mRequest.getCompensation().getToTime();
         }
         if (mRequestOff != null) {
-            if(!mRequestOff.getEndDayHaveSalary().getOffPaidTo().equals("")){
-                return mRequestOff.getEndDayHaveSalary().getOffPaidTo();
+            if (mRequestOff.getEndDayHaveSalary() != null) {
+                if (!"".equals(mRequestOff.getEndDayHaveSalary().getOffPaidTo())) {
+                    return mRequestOff.getEndDayHaveSalary().getOffPaidTo()
+                            + Constant.BLANK
+                            + mRequestOff.getEndDayHaveSalary().getPaidToPeriod();
+                }
             }
-            if(!mRequestOff.getEndDayNoSalary().getOffTo().equals("")){
-                return mRequestOff.getEndDayNoSalary().getOffTo();
+            if (mRequestOff.getEndDayNoSalary() != null) {
+                if (!"".equals(mRequestOff.getEndDayNoSalary().getOffTo())) {
+                    return mRequestOff.getEndDayNoSalary().getOffTo() + Constant.BLANK + mRequestOff
+                            .getEndDayNoSalary()
+                            .getOffToPeriod();
+                }
             }
         }
         if (mRequestOverTime != null) {

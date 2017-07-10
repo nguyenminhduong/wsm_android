@@ -44,7 +44,7 @@ public class OffRequest extends BaseModel implements Parcelable {
     @SerializedName("position_name")
     private String mPosition;
     @Expose
-    @SerializedName("workspaces")
+    @SerializedName("workspace")
     private Branch mBranch;
     @Expose
     @SerializedName("groups")
@@ -79,6 +79,9 @@ public class OffRequest extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("status")
     private String mStatus;
+    @Expose
+    @SerializedName("approver")
+    private Approver mApprover;
 
     public OffRequest() {
         mInsuranceCoverage = new InsuranceCoverage();
@@ -100,6 +103,7 @@ public class OffRequest extends BaseModel implements Parcelable {
         mEndDayHaveSalary = in.readParcelable(OffHaveSalaryTo.class.getClassLoader());
         mStartDayNoSalary = in.readParcelable(OffNoSalaryFrom.class.getClassLoader());
         mEndDayNoSalary = in.readParcelable(OffNoSalaryTo.class.getClassLoader());
+        mApprover = in.readParcelable(Approver.class.getClassLoader());
         mReason = in.readString();
         mBeingHandledBy = in.readString();
         mStatus = in.readString();
@@ -121,6 +125,7 @@ public class OffRequest extends BaseModel implements Parcelable {
         dest.writeParcelable(mEndDayHaveSalary, flags);
         dest.writeParcelable(mStartDayNoSalary, flags);
         dest.writeParcelable(mEndDayNoSalary, flags);
+        dest.writeParcelable(mApprover, flags);
         dest.writeString(mReason);
         dest.writeString(mBeingHandledBy);
         dest.writeString(mStatus);
@@ -266,6 +271,14 @@ public class OffRequest extends BaseModel implements Parcelable {
 
     public void setId(int id) {
         mId = id;
+    }
+
+    public Approver getApprover() {
+        return mApprover;
+    }
+
+    public void setApprover(Approver approver) {
+        mApprover = approver;
     }
 
     // OffHaveSalaryFrom

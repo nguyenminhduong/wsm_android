@@ -346,7 +346,7 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
-                                android:text="@{viewModel.requestOff.beingHandledBy}"
+                                android:text="@{viewModel.requestOff.approver.name}"
                                 style="@style/StyleTextConfirm"
                                 />
                             <View
@@ -569,7 +569,7 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
-                                android:text="@{viewModel.requestOff.startDayHaveSalary.offPaidFrom}"
+                                android:text="@{viewModel.startDateHaveSalary}"
                                 style="@style/StyleTextConfirm"
                                 />
                             <View
@@ -602,7 +602,7 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
-                                android:text="@{viewModel.requestOff.endDayHaveSalary.offPaidTo}"
+                                android:text="@{viewModel.endDateHaveSalary}"
                                 style="@style/StyleTextConfirm"
                                 />
                             <View
@@ -659,7 +659,7 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
-                                    android:text="@{viewModel.requestOff.startDayNoSalary.offFrom}"
+                                    android:text="@{viewModel.startDateNoSalary}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <View
@@ -691,7 +691,7 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
-                                    android:text="@{viewModel.requestOff.endDayNoSalary.offTo}"
+                                    android:text="@{viewModel.endDateNoSalary}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <View
