@@ -42,7 +42,7 @@
 
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_40"
                     android:layout_marginEnd="@dimen/dp_3"
                     android:layout_marginRight="@dimen/dp_3"
                     android:layout_weight="1"
@@ -50,13 +50,13 @@
                     android:hint="@string/status"
                     android:onClick="@{viewModel::onPickTypeStatus}"
                     android:text="@{viewModel.currentStatus}"
-                    tools:ignore="NestedWeights,UnusedAttribute"
+                    tools:ignore="ButtonStyle,NestedWeights,UnusedAttribute"
                     />
 
 
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_40"
                     android:layout_marginLeft="@dimen/dp_3"
                     android:layout_marginStart="@dimen/dp_3"
                     android:layout_weight="1"
@@ -64,13 +64,16 @@
                     android:hint="@string/month"
                     android:onClick="@{viewModel::onPickMonthYear}"
                     android:text="@{viewModel.monthYear}"
+                    tools:ignore="ButtonStyle"
                     />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
+
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_2"
                 android:layout_weight="0.7"
                 android:gravity="center"
                 android:orientation="horizontal"

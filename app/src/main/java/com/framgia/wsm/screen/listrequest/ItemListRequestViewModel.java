@@ -44,9 +44,8 @@ public class ItemListRequestViewModel extends BaseObservable {
     public String getTimeRequestLeave() {
         if (mRequest != null) {
             if (mRequest.getLeaveType().getId() == LeaveType.IN_LATE_M) {
-                return Constant.BEGIN_MORNING_TIME
-                        + Constant.DATE_TIME_SPACE
-                        + DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckInTime(),
+                return Constant.BEGIN_MORNING_TIME + DateTimeUtils.convertUiFormatToDataFormat(
+                        mRequest.getCheckInTime() + Constant.DATE_TIME_SPACE,
                         DateTimeUtils.INPUT_TIME_FORMAT,
                         DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
             }
@@ -101,7 +100,7 @@ public class ItemListRequestViewModel extends BaseObservable {
         if (mRequestOverTime != null) {
             return DateTimeUtils.convertUiFormatToDataFormat(mRequestOverTime.getCreatedAt(),
                     DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
         }
         if (mRequestOff != null) {
             return DateTimeUtils.convertUiFormatToDataFormat(mRequestOff.getCreatedAt(),
@@ -136,7 +135,9 @@ public class ItemListRequestViewModel extends BaseObservable {
             return mRequest.getCompensation().getFromTime();
         }
         if (mRequestOverTime != null) {
-            return mRequestOverTime.getFromTime();
+            return DateTimeUtils.convertUiFormatToDataFormat(mRequestOverTime.getFromTime(),
+                    DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
         }
         if (mRequestOff != null) {
             if (mRequestOff.getStartDayHaveSalary() != null) {
@@ -178,7 +179,9 @@ public class ItemListRequestViewModel extends BaseObservable {
             }
         }
         if (mRequestOverTime != null) {
-            return mRequestOverTime.getToTime();
+            return DateTimeUtils.convertUiFormatToDataFormat(mRequestOverTime.getToTime(),
+                    DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
         }
         return "";
     }
@@ -232,16 +235,6 @@ public class ItemListRequestViewModel extends BaseObservable {
         }
     }
 
-    public boolean isForwardStatus() {
-        if (mRequest != null) {
-            return StatusCode.FORWARD_CODE.equals(mRequest.getStatus());
-        } else if (mRequestOff != null) {
-            return StatusCode.FORWARD_CODE.equals(mRequestOff.getStatus());
-        } else {
-            return StatusCode.FORWARD_CODE.equals(mRequestOverTime.getStatus());
-        }
-    }
-
     public void onItemClicked() {
         if (mItemClickListener == null) {
             return;
@@ -275,24 +268,34 @@ public class ItemListRequestViewModel extends BaseObservable {
         int FORGOT_CARD_ALL_DAY = 21;
     }
 
+    private void setStatus(String status) {
+        switch (status) {
+            case StatusCode.ACCEPT_CODE:
+                setStatusImage(R.drawable.ic_status_accpect);
+                break;
+            case StatusCode.PENDING_CODE:
+                setStatusImage(R.drawable.ic_status_pending);
+                break;
+            case StatusCode.REJECT_CODE:
+                setStatusImage(R.drawable.ic_status_reject);
+                break;
+            case StatusCode.FORWARD_CODE:
+                setStatusImage(R.drawable.ic_status_forward);
+                break;
+            default:
+                break;
+        }
+    }
+
     private void initValueStatus() {
         if (mRequest != null) {
-            switch (mRequest.getStatus()) {
-                case StatusCode.ACCEPT_CODE:
-                    setStatusImage(R.drawable.ic_status_accpect);
-                    break;
-                case StatusCode.PENDING_CODE:
-                    setStatusImage(R.drawable.ic_status_pending);
-                    break;
-                case StatusCode.REJECT_CODE:
-                    setStatusImage(R.drawable.ic_status_reject);
-                    break;
-                case StatusCode.FORWARD_CODE:
-                    setStatusImage(R.drawable.ic_status_forward);
-                    break;
-                default:
-                    break;
-            }
+            setStatus(mRequest.getStatus());
+        }
+        if (mRequestOff != null) {
+            setStatus(mRequestOff.getStatus());
+        }
+        if (mRequestOverTime != null) {
+            setStatus(mRequestOverTime.getStatus());
         }
     }
 
