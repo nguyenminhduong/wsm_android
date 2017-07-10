@@ -10,6 +10,8 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.databinding.FragmentManageListRequestsBinding;
 import com.framgia.wsm.screen.BaseFragment;
 import com.framgia.wsm.screen.main.MainActivity;
+import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.RequestType;
 import javax.inject.Inject;
 
 /**
@@ -22,8 +24,12 @@ public class ManageListRequestsFragment extends BaseFragment {
     @Inject
     ManageListRequestsContract.ViewModel mViewModel;
 
-    public static ManageListRequestsFragment newInstance() {
-        return new ManageListRequestsFragment();
+    public static ManageListRequestsFragment newInstance(@RequestType int requestType) {
+        ManageListRequestsFragment listRequestFragment = new ManageListRequestsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.EXTRA_REQUEST_TYPE, requestType);
+        listRequestFragment.setArguments(bundle);
+        return listRequestFragment;
     }
 
     @Nullable
