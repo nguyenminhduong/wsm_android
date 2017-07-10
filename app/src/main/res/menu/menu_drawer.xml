@@ -16,6 +16,25 @@
         </menu>
     </item>
 
+    <item android:title="@string/manage_requests">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/item_manage_overtime"
+                    android:icon="@drawable/ic_request_overtime"
+                    android:title="@string/request_overtime"/>
+                <item
+                    android:id="@+id/item_manage_off"
+                    android:icon="@drawable/ic_request_off"
+                    android:title="@string/request_day_off"/>
+                <item
+                    android:id="@+id/item_manage_come_late_leave_early"
+                    android:icon="@drawable/ic_request_come_late_leave_early"
+                    android:title="@string/request_come_late_leave_early"/>
+            </group>
+        </menu>
+    </item>
+
     <item android:title="@string/personal_data">
         <menu>
             <group android:checkableBehavior="single">

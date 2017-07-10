@@ -28,7 +28,7 @@ import com.framgia.wsm.utils.navigator.Navigator;
 public class MainViewModel extends BaseObservable implements MainContract.ViewModel {
 
     private static final String TAG = "MainActivity";
-    private static final int PAGE_LIMIT = 8;
+    private static final int PAGE_LIMIT = 11;
 
     private MainContract.Presenter mPresenter;
     private String mStatusDrawerLayout;
@@ -248,6 +248,15 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
             case R.id.item_workspace_data:
                 setCurrentPage(Page.WORKSPACE_DATA);
                 break;
+            case R.id.item_manage_overtime:
+                setCurrentPage(Page.MANAGE_OVERTIME);
+                break;
+            case R.id.item_manage_off:
+                setCurrentPage(Page.MANAGE_OFF);
+                break;
+            case R.id.item_manage_come_late_leave_early:
+                setCurrentPage(Page.MANAGE_COME_LATE_LEAVE_EARLY);
+                break;
             default:
                 break;
         }
@@ -271,7 +280,8 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     @IntDef({
             Page.WORKING_CALENDAR, Page.SETUP_PROFILE, Page.PERSONAL, Page.HOLIDAY_CALENDAR,
             Page.STATISTIC_OF_PERSONAL, Page.OVERTIME, Page.OFF, Page.COME_LATE_LEAVE_EARLY,
-            Page.WORKSPACE_DATA
+            Page.WORKSPACE_DATA, Page.MANAGE_OVERTIME, Page.MANAGE_OFF,
+            Page.MANAGE_COME_LATE_LEAVE_EARLY
     })
     @interface Page {
         int WORKING_CALENDAR = 0;
@@ -283,5 +293,8 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         int OFF = 6;
         int COME_LATE_LEAVE_EARLY = 7;
         int WORKSPACE_DATA = 8;
+        int MANAGE_OVERTIME = 9;
+        int MANAGE_OFF = 10;
+        int MANAGE_COME_LATE_LEAVE_EARLY = 11;
     }
 }
