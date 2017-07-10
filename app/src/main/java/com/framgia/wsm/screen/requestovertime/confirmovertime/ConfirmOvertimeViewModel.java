@@ -116,9 +116,8 @@ public class ConfirmOvertimeViewModel extends BaseObservable
     @Override
     public void onEditFormOverTimeSuccess(RequestOverTime requestOverTime) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constant.EXTRA_REQUEST_OVERTIME, requestOverTime);
-        bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
-        mNavigator.startActivityAtRoot(ConfirmOvertimeActivity.class, bundle);
+        bundle.putInt(Constant.EXTRA_REQUEST_TYPE_CODE, RequestType.REQUEST_OVERTIME);
+        mNavigator.finishActivityWithResult(bundle, Activity.RESULT_OK);
     }
 
     @Override
@@ -229,6 +228,7 @@ public class ConfirmOvertimeViewModel extends BaseObservable
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_EDIT);
         bundle.putParcelable(Constant.EXTRA_REQUEST_OVERTIME, mRequestOverTime);
-        mNavigator.startActivity(RequestOvertimeActivity.class, bundle);
+        mNavigator.startActivityForResult(RequestOvertimeActivity.class, bundle,
+                Constant.RequestCode.REQUEST_OVERTIME);
     }
 }

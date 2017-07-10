@@ -17,6 +17,7 @@ import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.screen.requestoff.RequestOffActivity;
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
@@ -103,9 +104,8 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     @Override
     public void onEditFormRequestOffSuccess(OffRequest requestOff) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mOffRequest);
-        bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_DETAIL);
-        mNavigator.startActivityAtRoot(ConfirmRequestOffActivity.class, bundle);
+        bundle.putInt(Constant.EXTRA_REQUEST_TYPE_CODE, RequestType.REQUEST_OFF);
+        mNavigator.finishActivityWithResult(bundle, Activity.RESULT_OK);
     }
 
     @Override
@@ -275,6 +275,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_EDIT);
         bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mOffRequest);
-        mNavigator.startActivity(RequestOffActivity.class, bundle);
+        mNavigator.startActivityForResult(RequestOffActivity.class, bundle,
+                Constant.RequestCode.REQUEST_OFF);
     }
 }
