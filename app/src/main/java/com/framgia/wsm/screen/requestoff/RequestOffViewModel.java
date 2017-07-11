@@ -28,7 +28,6 @@ import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
 import java.util.Calendar;
 
-import static com.framgia.wsm.utils.Constant.BLANK;
 import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
 
 /**
@@ -49,6 +48,10 @@ public class RequestOffViewModel extends BaseRequestOff
     private DialogManager mDialogManager;
     private Calendar mCalendar;
     private OffRequest mRequestOff;
+    private OffRequest.OffHaveSalaryFrom mOffHaveSalaryFrom;
+    private OffRequest.OffHaveSalaryTo mOffHaveSalaryTo;
+    private OffRequest.OffNoSalaryFrom mOffNoSalaryFrom;
+    private OffRequest.OffNoSalaryTo mOffNoSalaryTo;
     private Navigator mNavigator;
     private User mUser;
     private String mReasonError;
@@ -88,6 +91,8 @@ public class RequestOffViewModel extends BaseRequestOff
         mDialogManager = dialogManager;
         mNavigator = navigator;
         mPresenter.getUser();
+        mCalendar = Calendar.getInstance();
+        mDialogManager.dialogDatePicker(this);
         initData(requestOff);
         mActionType = actionType;
     }
@@ -97,6 +102,14 @@ public class RequestOffViewModel extends BaseRequestOff
         String pm = mContext.getString(R.string.pm);
         if (requestOff == null) {
             mRequestOff = new OffRequest();
+            mOffHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
+            mRequestOff.setStartDayHaveSalary(mOffHaveSalaryFrom);
+            mOffHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
+            mRequestOff.setEndDayHaveSalary(mOffHaveSalaryTo);
+            mOffNoSalaryFrom = new OffRequest.OffNoSalaryFrom();
+            mRequestOff.setStartDayNoSalary(mOffNoSalaryFrom);
+            mOffNoSalaryTo = new OffRequest.OffNoSalaryTo();
+            mRequestOff.setEndDayNoSalary(mOffNoSalaryTo);
 
             mCurrentPositionDaySessionStartDayHaveSalary = DaySession.AM;
             mCurrentPositionDaySessionEndDayHaveSalary = DaySession.AM;
@@ -107,6 +120,10 @@ public class RequestOffViewModel extends BaseRequestOff
             mCurrentPositionDaySessionEndDayNoSalary = DaySession.AM;
             mCurrentDaySessionStartDayNoSalary = am;
             mCurrentDaySessionEndDayNoSalary = am;
+
+            setVisibleLayoutCompanyPay(true);
+            mCurrentPositionOffType = PositionOffType.OFF_HAVE_SALARY_COMPANY_PAY;
+            mCurrentOffType = mContext.getString(R.string.off_have_salary_company_pay);
         } else {
             mRequestOff = requestOff;
             if (mRequestOff.getCompanyPay() == null) {
@@ -121,49 +138,50 @@ public class RequestOffViewModel extends BaseRequestOff
             String startDayNoSalary = mRequestOff.getStartDayNoSalary().getOffFrom();
             String endDayNoSalary = mRequestOff.getEndDayNoSalary().getOffTo();
 
-            mStartDateHaveSalary = DateTimeUtils.convertDateToString(startDayHaveSalary);
-            mEndDateHaveSalary = DateTimeUtils.convertDateToString(endDayHaveSalary);
-            mStartDateNoSalary = DateTimeUtils.convertDateToString(startDayNoSalary);
-            mEndDateNoSalary = DateTimeUtils.convertDateToString(endDayNoSalary);
+            if ("".equals(startDayHaveSalary)) {
+                setVisibleLayoutNoSalary(true);
+                mCurrentPositionOffType = PositionOffType.OFF_NO_SALARY;
+                mCurrentOffType = mContext.getString(R.string.off_no_salary);
+                mStartDateNoSalary = DateTimeUtils.convertDateToString(startDayNoSalary);
+                mEndDateNoSalary = DateTimeUtils.convertDateToString(endDayNoSalary);
+                if (am.equals(mRequestOff.getStartDayNoSalary().getOffFromPeriod())) {
+                    mCurrentDaySessionStartDayNoSalary = am;
+                    mCurrentPositionDaySessionStartDayNoSalary = DaySession.AM;
+                } else {
+                    mCurrentDaySessionStartDayNoSalary = pm;
+                    mCurrentPositionDaySessionStartDayNoSalary = DaySession.PM;
+                }
 
-            if (DateTimeUtils.getSessionDay(startDayHaveSalary) == DaySession.AM) {
-                mCurrentDaySessionStartDayHaveSalary = am;
-                mCurrentPositionDaySessionStartDayHaveSalary = DaySession.AM;
+                if (am.equals(mRequestOff.getEndDayNoSalary().getOffToPeriod())) {
+                    mCurrentDaySessionEndDayNoSalary = am;
+                    mCurrentPositionDaySessionEndDayNoSalary = DaySession.AM;
+                } else {
+                    mCurrentDaySessionEndDayNoSalary = pm;
+                    mCurrentPositionDaySessionEndDayNoSalary = DaySession.PM;
+                }
             } else {
-                mCurrentDaySessionStartDayHaveSalary = pm;
-                mCurrentPositionDaySessionStartDayHaveSalary = DaySession.PM;
-            }
+                setVisibleLayoutCompanyPay(true);
+                mCurrentPositionOffType = PositionOffType.OFF_HAVE_SALARY_COMPANY_PAY;
+                mCurrentOffType = mContext.getString(R.string.off_have_salary_company_pay);
+                mStartDateHaveSalary = DateTimeUtils.convertDateToString(startDayHaveSalary);
+                mEndDateHaveSalary = DateTimeUtils.convertDateToString(endDayHaveSalary);
+                if (am.equals(mRequestOff.getStartDayHaveSalary().getPaidFromPeriod())) {
+                    mCurrentDaySessionStartDayHaveSalary = am;
+                    mCurrentPositionDaySessionStartDayHaveSalary = DaySession.AM;
+                } else {
+                    mCurrentDaySessionStartDayHaveSalary = pm;
+                    mCurrentPositionDaySessionStartDayHaveSalary = DaySession.PM;
+                }
 
-            if (DateTimeUtils.getSessionDay(endDayHaveSalary) == DaySession.AM) {
-                mCurrentDaySessionEndDayHaveSalary = am;
-                mCurrentPositionDaySessionEndDayHaveSalary = DaySession.AM;
-            } else {
-                mCurrentDaySessionEndDayHaveSalary = pm;
-                mCurrentPositionDaySessionEndDayHaveSalary = DaySession.PM;
-            }
-
-            if (DateTimeUtils.getSessionDay(startDayNoSalary) == DaySession.AM) {
-                mCurrentDaySessionStartDayNoSalary = am;
-                mCurrentPositionDaySessionStartDayNoSalary = DaySession.AM;
-            } else {
-                mCurrentDaySessionStartDayNoSalary = pm;
-                mCurrentPositionDaySessionStartDayNoSalary = DaySession.PM;
-            }
-
-            if (DateTimeUtils.getSessionDay(endDayNoSalary) == DaySession.AM) {
-                mCurrentDaySessionEndDayNoSalary = am;
-                mCurrentPositionDaySessionEndDayNoSalary = DaySession.AM;
-            } else {
-                mCurrentDaySessionEndDayNoSalary = pm;
-                mCurrentPositionDaySessionEndDayNoSalary = DaySession.PM;
+                if (am.equals(mRequestOff.getEndDayHaveSalary().getPaidToPeriod())) {
+                    mCurrentDaySessionEndDayHaveSalary = am;
+                    mCurrentPositionDaySessionEndDayHaveSalary = DaySession.AM;
+                } else {
+                    mCurrentDaySessionEndDayHaveSalary = pm;
+                    mCurrentPositionDaySessionEndDayHaveSalary = DaySession.PM;
+                }
             }
         }
-
-        mCalendar = Calendar.getInstance();
-        setVisibleLayoutCompanyPay(true);
-        mDialogManager.dialogDatePicker(this);
-        mCurrentPositionOffType = PositionOffType.OFF_HAVE_SALARY_COMPANY_PAY;
-        mCurrentOffType = mContext.getString(R.string.off_have_salary_company_pay);
     }
 
     @Override
@@ -308,28 +326,42 @@ public class RequestOffViewModel extends BaseRequestOff
 
     @Bindable
     public String getStartDate() {
-        return mIsVisibleLayoutNoSalary ? mStartDateNoSalary : mStartDateHaveSalary;
+        return mIsVisibleLayoutNoSalary ? mRequestOff.getStartDayNoSalary().getOffFrom()
+                : mRequestOff.getStartDayHaveSalary().getOffPaidFrom();
     }
 
     private void setStartDate(String startDate) {
         if (mIsVisibleLayoutNoSalary) {
             mStartDateNoSalary = startDate;
+            OffRequest.OffNoSalaryFrom offNoSalaryFrom = new OffRequest.OffNoSalaryFrom();
+            offNoSalaryFrom.setOffFrom(mStartDateNoSalary);
+            mRequestOff.setStartDayNoSalary(offNoSalaryFrom);
         } else {
             mStartDateHaveSalary = startDate;
+            OffRequest.OffHaveSalaryFrom offHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
+            offHaveSalaryFrom.setOffPaidFrom(mStartDateHaveSalary);
+            mRequestOff.setStartDayHaveSalary(offHaveSalaryFrom);
         }
         notifyPropertyChanged(BR.startDate);
     }
 
     @Bindable
     public String getEndDate() {
-        return mIsVisibleLayoutNoSalary ? mEndDateNoSalary : mEndDateHaveSalary;
+        return mIsVisibleLayoutNoSalary ? mRequestOff.getEndDayNoSalary().getOffTo()
+                : mRequestOff.getEndDayHaveSalary().getOffPaidTo();
     }
 
     private void setEndDate(String endDate) {
         if (mIsVisibleLayoutNoSalary) {
             mEndDateNoSalary = endDate;
+            OffRequest.OffNoSalaryTo offNoSalaryTo = new OffRequest.OffNoSalaryTo();
+            offNoSalaryTo.setOffTo(mEndDateNoSalary);
+            mRequestOff.setEndDayNoSalary(offNoSalaryTo);
         } else {
             mEndDateHaveSalary = endDate;
+            OffRequest.OffHaveSalaryTo offHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
+            offHaveSalaryTo.setOffPaidTo(mEndDateHaveSalary);
+            mRequestOff.setEndDayHaveSalary(offHaveSalaryTo);
         }
         notifyPropertyChanged(BR.endDate);
     }
@@ -501,25 +533,26 @@ public class RequestOffViewModel extends BaseRequestOff
     private void setRequestOff() {
         if (mStartDateHaveSalary != null) {
             OffRequest.OffHaveSalaryFrom offHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
-            offHaveSalaryFrom.setOffPaidFrom(
-                    mStartDateHaveSalary + BLANK + mCurrentDaySessionStartDayHaveSalary);
+            offHaveSalaryFrom.setOffPaidFrom(mStartDateHaveSalary);
+            offHaveSalaryFrom.setPaidFromPeriod(mCurrentDaySessionStartDayHaveSalary);
             mRequestOff.setStartDayHaveSalary(offHaveSalaryFrom);
         }
         if (mEndDateHaveSalary != null) {
             OffRequest.OffHaveSalaryTo offHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
-            offHaveSalaryTo.setOffPaidTo(
-                    mEndDateHaveSalary + BLANK + mCurrentDaySessionEndDayHaveSalary);
+            offHaveSalaryTo.setOffPaidTo(mEndDateHaveSalary);
+            offHaveSalaryTo.setPaidToPeriod(mCurrentDaySessionEndDayHaveSalary);
             mRequestOff.setEndDayHaveSalary(offHaveSalaryTo);
         }
         if (mStartDateNoSalary != null) {
             OffRequest.OffNoSalaryFrom offNoSalaryFrom = new OffRequest.OffNoSalaryFrom();
-            offNoSalaryFrom.setOffFrom(
-                    mStartDateNoSalary + BLANK + mCurrentDaySessionStartDayNoSalary);
+            offNoSalaryFrom.setOffFrom(mStartDateNoSalary);
+            offNoSalaryFrom.setOffFromPeriod(mCurrentDaySessionStartDayNoSalary);
             mRequestOff.setStartDayNoSalary(offNoSalaryFrom);
         }
         if (mEndDateNoSalary != null) {
             OffRequest.OffNoSalaryTo offNoSalaryTo = new OffRequest.OffNoSalaryTo();
-            offNoSalaryTo.setOffTo(mEndDateNoSalary + BLANK + mCurrentDaySessionEndDayNoSalary);
+            offNoSalaryTo.setOffTo(mEndDateNoSalary);
+            offNoSalaryTo.setOffToPeriod(mCurrentDaySessionEndDayNoSalary);
             mRequestOff.setEndDayNoSalary(offNoSalaryTo);
         }
     }

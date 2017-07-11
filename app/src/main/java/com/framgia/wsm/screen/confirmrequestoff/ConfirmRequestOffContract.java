@@ -30,6 +30,10 @@ interface ConfirmRequestOffContract {
         void onEditFormRequestOffSuccess(OffRequest requestOff);
 
         void onEditFormRequestOffError(BaseException exception);
+
+        void onDismissProgressDialog();
+
+        void onShowIndeterminateProgressDialog();
     }
 
     /**
