@@ -2,7 +2,6 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <data>
@@ -14,20 +13,11 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.framgia.wsm.screen.managelistrequests.ManagelistrequestsActivity"
-        >
+        app:layoutManager="LinearLayoutManager"
+        app:recyclerAdapter="@{viewModel.manageListRequestsAdapter}"
+        />
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="368dp"
-            android:layout_height="551dp"
-            app:layoutManager="LinearLayoutManager"
-            app:recyclerAdapter="@{viewModel.manageListRequestsAdapter}"
-            tools:layout_editor_absoluteY="8dp"
-            tools:layout_editor_absoluteX="8dp"
-            />
-
-    </android.support.constraint.ConstraintLayout>
 </layout>

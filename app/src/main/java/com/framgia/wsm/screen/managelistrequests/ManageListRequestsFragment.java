@@ -61,4 +61,14 @@ public class ManageListRequestsFragment extends BaseFragment {
         mViewModel.onStop();
         super.onStop();
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isVisibleToUser) {
+            return;
+        }
+        int typeRequest = getArguments().getInt(Constant.EXTRA_REQUEST_TYPE);
+        mViewModel.setRequestType(typeRequest);
+    }
 }

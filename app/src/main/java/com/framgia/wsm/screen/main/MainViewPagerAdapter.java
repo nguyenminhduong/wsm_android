@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
-    private static final int ITEM_NUMBER = 8;
+    private static final int ITEM_NUMBER = 12;
 
     private Fragment mCurrentFragment;
     private List<Fragment> mFragments;
