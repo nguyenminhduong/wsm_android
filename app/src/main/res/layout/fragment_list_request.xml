@@ -23,98 +23,94 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_10"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_10"
-            android:layout_marginStart="@dimen/dp_10"
             android:baselineAligned="false"
             android:orientation="horizontal"
+            android:paddingEnd="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingStart="@dimen/dp_10"
             >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_5"
                 android:layout_weight="0.3"
                 android:baselineAligned="false"
                 android:orientation="horizontal"
                 >
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_3"
+                    android:layout_marginRight="@dimen/dp_3"
                     android:layout_weight="1"
-                    >
-                    <android.support.design.widget.TextInputLayout
-                        style="@style/StyleTextHint"
-                        >
-                        <EditText
-                            android:hint="@string/status"
-                            android:onClick="@{viewModel::onPickTypeStatus}"
-                            android:text="@{viewModel.currentStatus}"
-                            style="@style/StyleText"
-                            />
-                    </android.support.design.widget.TextInputLayout>
-                    <ImageView
-                        tools:ignore="ContentDescription"
-                        style="@style/StyleImageDropDown"
-                        />
-                </FrameLayout>
+                    android:background="@drawable/border_button_a"
+                    android:hint="@string/status"
+                    android:onClick="@{viewModel::onPickTypeStatus}"
+                    android:text="@{viewModel.currentStatus}"
+                    tools:ignore="NestedWeights,UnusedAttribute"
+                    />
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_3"
+                    android:layout_marginStart="@dimen/dp_3"
                     android:layout_weight="1"
-                    >
-                    <android.support.design.widget.TextInputLayout
-                        style="@style/StyleTextHint"
-                        >
-                        <EditText
-                            android:hint="@string/month"
-                            android:inputType="date"
-                            android:onClick="@{viewModel::onPickMonthYear}"
-                            android:text="@{viewModel.monthYear}"
-                            style="@style/StyleText"
-                            />
-                    </android.support.design.widget.TextInputLayout>
-                    <ImageView
-                        tools:ignore="ContentDescription"
-                        style="@style/StyleImageDropDown"
-                        />
-                </FrameLayout>
+                    android:background="@drawable/border_button_a"
+                    android:hint="@string/month"
+                    android:onClick="@{viewModel::onPickMonthYear}"
+                    android:text="@{viewModel.monthYear}"
+                    />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="0.7"
+                android:gravity="center"
                 android:orientation="horizontal"
                 >
+
                 <ImageButton
-                    android:layout_width="@dimen/dp_35"
-                    android:layout_height="@dimen/dp_30"
-                    android:layout_marginLeft="@dimen/dp_20"
-                    android:layout_marginStart="@dimen/dp_20"
-                    android:background="@drawable/border_button_cancel"
-                    android:onClick="@{viewModel::onRemoveMonth}"
-                    android:tint="@color/color_white"
-                    app:srcCompat="@drawable/ic_remove"
-                    tools:ignore="ContentDescription"
-                    />
-                <ImageButton
-                    android:layout_width="@dimen/dp_35"
-                    android:layout_height="@dimen/dp_30"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_40"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginStart="@dimen/dp_10"
-                    android:background="@drawable/border_button_search"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_button_a"
+                    android:backgroundTint="@color/color_green_light"
                     android:onClick="@{viewModel::onSearchRequest}"
+                    android:src="@drawable/ic_search"
                     android:tint="@color/color_white"
-                    app:srcCompat="@drawable/ic_search"
-                    tools:ignore="ContentDescription"
+                    tools:ignore="ContentDescription,NestedWeights,UnusedAttribute,VectorDrawableCompat"
+                    />
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_button_a"
+                    android:backgroundTint="@color/color_gray_light"
+                    android:onClick="@{viewModel::onRemoveMonth}"
+                    android:src="@drawable/ic_remove"
+                    android:tint="@color/color_white"
+                    tools:ignore="ContentDescription,UnusedAttribute,VectorDrawableCompat"
                     />
             </LinearLayout>
-        </LinearLayout>
 
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_margin="@dimen/dp_3"
+            android:background="@color/color_blue_green"
+            />
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

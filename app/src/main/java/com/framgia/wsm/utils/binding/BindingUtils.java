@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
@@ -97,6 +98,11 @@ public final class BindingUtils {
     @BindingAdapter({ "currentFragment" })
     public static void setCurrentViewPager(final ViewPager viewPager, final int currentPage) {
         viewPager.setCurrentItem(currentPage);
+    }
+
+    @BindingAdapter("backgroundImage")
+    public static void setBackgroundImage(View view, int resId) {
+        view.setBackgroundResource(resId);
     }
 
     @BindingAdapter({ "adapter" })
