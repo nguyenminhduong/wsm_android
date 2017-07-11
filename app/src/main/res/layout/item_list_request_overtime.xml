@@ -88,6 +88,14 @@
                             android:textStyle="bold"
                             android:visibility="@{viewModel.rejectStatus ? View.VISIBLE : View.GONE}"
                             />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/forwarded"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold"
+                            android:visibility="@{viewModel.forwardStatus ? View.VISIBLE : View.GONE}"
+                            />
                     </FrameLayout>
                 </LinearLayout>
 
