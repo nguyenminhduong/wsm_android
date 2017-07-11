@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import static com.framgia.wsm.utils.Constant.TimeConst.DAY_25_OF_MONTH;
@@ -34,6 +35,7 @@ public final class DateTimeUtils {
     public static final String INPUT_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
     private static final String TAG = DateTimeUtils.class.getName();
     private static final int DAY_OF_YEAR = 365;
+    private static final String TIME_ZONE_GMT_7 = "GMT+7";
 
     private DateTimeUtils() {
         // No-op
@@ -249,7 +251,9 @@ public final class DateTimeUtils {
         if (TextUtils.isEmpty(time)) {
             return "";
         }
+        TimeZone gmtTime = TimeZone.getTimeZone(TIME_ZONE_GMT_7);
         SimpleDateFormat sdf = new SimpleDateFormat(inputFormat, Locale.getDefault());
+        sdf.setTimeZone(gmtTime);
         SimpleDateFormat newSdf = new SimpleDateFormat(outputFormat, Locale.getDefault());
         try {
             return newSdf.format(sdf.parse(time));

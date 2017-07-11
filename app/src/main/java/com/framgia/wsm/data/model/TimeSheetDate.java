@@ -12,6 +12,7 @@ import java.util.Date;
 
 public class TimeSheetDate extends BaseModel {
     private static final int COLOR_CODE_THREE_DIGIT = 4;
+    private static final String N_A = "N/A";
     @Expose
     @SerializedName("date")
     private String mDate;
@@ -61,7 +62,14 @@ public class TimeSheetDate extends BaseModel {
     }
 
     public String getTimeIn() {
-        return mTimeIn;
+        if (mTimeIn == null && mTextMorning == null) {
+            return N_A;
+        }
+        if (mTextMorning != null && mTextMorning.equals(mTimeIn)) {
+            return DateTimeUtils.convertUiFormatToDataFormat(mTimeIn,
+                    DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.TIME_FORMAT_HH_MM);
+        }
+        return mTextMorning;
     }
 
     public void setTimeIn(String timeIn) {
@@ -69,7 +77,14 @@ public class TimeSheetDate extends BaseModel {
     }
 
     public String getTimeOut() {
-        return mTimeOut;
+        if (mTimeOut == null && mTextAfternoon == null) {
+            return N_A;
+        }
+        if (mTextAfternoon != null && mTextAfternoon.equals(mTimeOut)) {
+            return DateTimeUtils.convertUiFormatToDataFormat(mTimeOut,
+                    DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.TIME_FORMAT_HH_MM);
+        }
+        return mTextMorning;
     }
 
     public void setTimeOut(String timeOut) {
@@ -102,23 +117,25 @@ public class TimeSheetDate extends BaseModel {
         return convertColor(mColorAfternoon);
     }
 
-    public boolean isNormalDay() {
-        return StringUtils.isBlank(mTextMorning)
-                && StringUtils.isBlank(mTextAfternoon)
-                && StringUtils.isBlank(mColorMorning)
-                && StringUtils.isBlank(mColorAfternoon);
-    }
-
     public boolean isDayOffMorning() {
-        return StringUtils.isNotBlank(mTextMorning) && StringUtils.isBlank(mTextAfternoon);
+        return StringUtils.isNotBlank(mTextMorning)
+                && StringUtils.isBlank(mTextAfternoon)
+                && !mTimeIn.equals(mTextMorning)
+                && mTimeOut.equals(mTextAfternoon);
     }
 
     public boolean isDayOffAfternoon() {
-        return StringUtils.isBlank(mTextMorning) && StringUtils.isNotBlank(mTextAfternoon);
+        return StringUtils.isBlank(mTextMorning)
+                && StringUtils.isNotBlank(mTextAfternoon)
+                && mTimeIn.equals(mTextMorning)
+                && !mTimeOut.equals(mTextAfternoon);
     }
 
     public boolean isDayOffAllDay() {
-        return StringUtils.isNotBlank(mTextMorning) && StringUtils.isNotBlank(mTextAfternoon);
+        return StringUtils.isNotBlank(mTextMorning)
+                && StringUtils.isNotBlank(mTextAfternoon)
+                && !mTimeIn.equals(mTextMorning)
+                && !mTimeOut.equals(mTextAfternoon);
     }
 
     public boolean isColorMorning() {

@@ -31,6 +31,7 @@ public class TimeSheetView extends View {
     private static final int SELECTED_CIRCLE_ALPHA = 128;
     private static final int DEFAULT_HEIGHT = 32;
     private int mDaySelectedCircleSize;
+    private int mCurrentDayCircleSize;
     private int mDaySelectedCircleInSize;
     private int mDaySeparatorWidth = 1;
     private int mMiniDayNumberTextSize;
@@ -48,6 +49,7 @@ public class TimeSheetView extends View {
     private Paint mMonthTitlePaint;
     private Paint mSelectedCirclePaint;
     private Paint mSelectedCircleInPaint;
+    private Paint mCurrentDayCirclePaint;
     private int mCurrentDayTextColor;
     private int mMonthTextColor;
     private int mDayTextColor;
@@ -112,7 +114,7 @@ public class TimeSheetView extends View {
         mDayWeekendColor = typedArray.getColor(R.styleable.DatePickerView_colorWeekendDay,
                 resources.getColor(R.color.color_dark_gray));
         mCurrentDayColor = typedArray.getColor(R.styleable.DatePickerView_colorMonthName,
-                resources.getColor(R.color.color_aquamarine));
+                resources.getColor(R.color.colorPrimary));
         mDayOffStrokeColor = typedArray.getColor(R.styleable.DatePickerView_colorMonthName,
                 resources.getColor(R.color.color_dark_gray));
 
@@ -139,6 +141,9 @@ public class TimeSheetView extends View {
         mDaySelectedCircleInSize =
                 typedArray.getDimensionPixelSize(R.styleable.DatePickerView_selectedDayRadius,
                         resources.getDimensionPixelOffset(R.dimen.dp_18));
+        mCurrentDayCircleSize =
+                typedArray.getDimensionPixelSize(R.styleable.DatePickerView_selectedDayRadius,
+                        resources.getDimensionPixelOffset(R.dimen.dp_5));
         mRowHeight = ((typedArray.getDimensionPixelSize(R.styleable.DatePickerView_calendarHeight,
                 resources.getDimensionPixelOffset(R.dimen.dp_300)) - mMonthHeaderSize) / 5);
 
@@ -222,46 +227,32 @@ public class TimeSheetView extends View {
 
             if (mHasToday && (mToday == dayCheck)) {
                 mMonthNumPaint.setColor(mCurrentDayTextColor);
-                mMonthNumPaint.setTypeface(Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
-                mSelectedCirclePaint.setColor(mCurrentDayColor);
-                canvas.drawCircle(x, y - mMiniDayNumberTextSize / 3, mDaySelectedCircleSize,
-                        mSelectedCirclePaint);
-            } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
-                    || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                mMonthNumPaint.setColor(mDayWeekendColor);
-                mMonthNumPaint.setTypeface(Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
+                mMonthNumPaint.setTypeface(Typeface.create(mDayOfMonthTypeface, Typeface.BOLD));
+                mCurrentDayCirclePaint.setColor(mCurrentDayColor);
             } else {
-                mSelectedCirclePaint.setColor(Color.TRANSPARENT);
-                mMonthNumPaint.setColor(mDayNumColor);
-                mMonthNumPaint.setTypeface(Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
+                mCurrentDayCirclePaint.setColor(Color.TRANSPARENT);
+                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
+                        || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                    mMonthNumPaint.setColor(mDayWeekendColor);
+                    mMonthNumPaint.setTypeface(
+                            Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
+                } else {
+                    mSelectedCirclePaint.setColor(Color.TRANSPARENT);
+                    mMonthNumPaint.setColor(mDayNumColor);
+                    mMonthNumPaint.setTypeface(
+                            Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
+                }
             }
 
             if (mTimeSheetDates != null && mTimeSheetDates.size() > 0) {
                 for (TimeSheetDate timeSheetDate : mTimeSheetDates) {
                     if (date.equals(timeSheetDate.getDate())) {
-                        if (timeSheetDate.isNormalDay()) {
-                            mSelectedCirclePaint.setColor(Color.TRANSPARENT);
-                            drawCircleNormal(canvas, y, x);
-                            drawTextNormal(canvas, y, day, x);
-                            break;
-                        }
-                        if (timeSheetDate.isColorMorning()) {
-                            mSelectedCirclePaint.setColor(
-                                    Color.parseColor(timeSheetDate.getColorMorning()));
-                            drawCircleNormal(canvas, y, x);
-                        }
-                        if (timeSheetDate.isColorAfternoon()) {
-                            mSelectedCirclePaint.setColor(
-                                    Color.parseColor(timeSheetDate.getColorAfternoon()));
-                            drawCircleNormal(canvas, y, x);
-                        }
-                        if (timeSheetDate.isColorAllDay()) {
-                            mSelectedCirclePaint.setColor(
-                                    Color.parseColor(timeSheetDate.getColorMorning()));
-                            mSelectedCircleInPaint.setColor(
-                                    Color.parseColor(timeSheetDate.getColorAfternoon()));
-                            drawCircleAllDay(canvas, y, x);
-                        }
+                        mSelectedCirclePaint.setColor(
+                                Color.parseColor(timeSheetDate.getColorMorning()));
+                        mSelectedCircleInPaint.setColor(
+                                Color.parseColor(timeSheetDate.getColorAfternoon()));
+                        drawCircleAllDay(canvas, y, x);
+                        drawCircleCurrentDay(canvas, y, x);
                         if (timeSheetDate.isDayOffAllDay()
                                 || timeSheetDate.isDayOffMorning()
                                 || timeSheetDate.isDayOffAfternoon()) {
@@ -277,12 +268,14 @@ public class TimeSheetView extends View {
                             }
                             break;
                         }
+                        mSelectedCirclePaint.setColor(Color.TRANSPARENT);
                         drawTextNormal(canvas, y, day, x);
                         break;
                     }
                 }
             } else {
                 drawCircleNormal(canvas, y, x);
+                drawCircleCurrentDay(canvas, y, x);
                 drawTextNormal(canvas, y, day, x);
             }
             dayOffset++;
@@ -328,6 +321,12 @@ public class TimeSheetView extends View {
         canvas.drawCircle(x, y - mMiniDayNumberTextSize / 3, mDaySelectedCircleSize,
                 mSelectedCirclePaint);
         mMonthNumPaint.setTextSize(mMiniDayNumberTextSize);
+    }
+
+    private void drawCircleCurrentDay(Canvas canvas, int y, int x) {
+        mCurrentDayCirclePaint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(x, y - mMiniDayNumberTextSize * 4 / 3, mCurrentDayCircleSize,
+                mCurrentDayCirclePaint);
     }
 
     private void drawCircleAllDay(Canvas canvas, int y, int x) {
@@ -400,6 +399,12 @@ public class TimeSheetView extends View {
         mSelectedCircleInPaint.setAntiAlias(true);
         mSelectedCircleInPaint.setTextAlign(Paint.Align.CENTER);
         mSelectedCircleInPaint.setStyle(Paint.Style.FILL);
+
+        mCurrentDayCirclePaint = new Paint();
+        mCurrentDayCirclePaint.setFakeBoldText(true);
+        mCurrentDayCirclePaint.setAntiAlias(true);
+        mCurrentDayCirclePaint.setTextAlign(Paint.Align.CENTER);
+        mCurrentDayCirclePaint.setStyle(Paint.Style.FILL);
 
         mMonthDayLabelPaint = new Paint();
         mMonthDayLabelPaint.setAntiAlias(true);

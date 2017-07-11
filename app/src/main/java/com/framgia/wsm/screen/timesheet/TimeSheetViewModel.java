@@ -6,7 +6,6 @@ import android.databinding.Bindable;
 import android.os.Bundle;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
-import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.TimeSheetDate;
 import com.framgia.wsm.data.model.UserTimeSheet;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
@@ -92,14 +91,12 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
 
     @Bindable
     public String getTimeIn() {
-        return (mTimeSheetDate.getTextMorning() != null) ? mTimeSheetDate.getTextMorning()
-                : mContext.getString(R.string.time_in, mTimeSheetDate.getTimeIn());
+        return mTimeSheetDate.getTimeIn();
     }
 
     @Bindable
     public String getTimeOut() {
-        return (mTimeSheetDate.getTextAfternoon() != null) ? mTimeSheetDate.getTextAfternoon()
-                : mContext.getString(R.string.time_out, mTimeSheetDate.getTimeOut());
+        return mTimeSheetDate.getTimeOut();
     }
 
     @Bindable
