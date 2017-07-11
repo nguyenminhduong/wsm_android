@@ -332,27 +332,27 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:background="@drawable/border_button"
                                     android:text="@string/accepted"
-                                    android:textColor="@color/color_green_lime"
+                                    android:textColor="@color/color_green_status"
+                                    android:textStyle="bold"
                                     android:visibility="@{viewModel.acceptStatus ? View.VISIBLE : View.GONE}"
                                     />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:background="@drawable/border_button"
                                     android:text="@string/pending"
-                                    android:textColor="@color/color_blue"
+                                    android:textColor="@color/md_material_blue_800"
+                                    android:textStyle="bold"
                                     android:visibility="@{viewModel.pendingStatus ? View.VISIBLE : View.GONE}"
                                     />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:background="@drawable/border_button"
                                     android:text="@string/rejected"
                                     android:textColor="@color/color_red_fresh"
+                                    android:textStyle="bold"
                                     android:visibility="@{viewModel.rejectStatus ? View.VISIBLE : View.GONE}"
                                     />
                             </FrameLayout>
@@ -409,31 +409,40 @@
                 >
                 <Button
                     android:id="@+id/button_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_green"
                     android:onClick="@{viewModel::onClickSubmit}"
                     android:text="@string/submit"
+                    android:textColor="@color/color_white"
                     android:visibility="@{viewModel.detail ? View.GONE : View.VISIBLE}"
-                    style="@style/StyleButton"
                     />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:visibility="@{viewModel.detail ? View.VISIBLE : View.GONE}"
+                    android:weightSum="2"
                     >
                     <Button
-                        android:layout_margin="@dimen/dp_1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/color_red_firebrick"
                         android:onClick="@{viewModel::onClickDelete}"
                         android:text="@string/delete"
-                        style="@style/StyleButton"
+                        android:textColor="@color/color_white"
+                        tools:ignore="ButtonStyle"
                         />
                     <Button
-                        android:layout_margin="@dimen/dp_1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:background="@color/color_green"
                         android:onClick="@{viewModel::onClickEdit}"
                         android:text="@string/edit"
-                        style="@style/StyleButton"
+                        android:textColor="@color/color_white"
+                        tools:ignore="ButtonStyle"
                         />
                 </LinearLayout>
             </FrameLayout>

@@ -360,10 +360,14 @@
             </ScrollView>
 
             <Button
-                android:id="@id/button_next"
+                android:id="@+id/button_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/color_green"
                 android:onClick="@{viewModel::onClickNext}"
                 android:text="@string/next"
-                style="@style/StyleButton"
+                android:textColor="@color/color_white"
                 />
         </RelativeLayout>
     </LinearLayout>
