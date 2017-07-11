@@ -43,6 +43,7 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     private int mActionType;
     private Context mContext;
     private RequestLeaveRequest mRequestLeaveRequest;
+    private boolean mVisibleBranch;
 
     ConfirmRequestLeaveViewModel(Context context, ConfirmRequestLeaveContract.Presenter presenter,
             LeaveRequest request, Navigator navigator, DialogManager dialogManager,
@@ -56,6 +57,7 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
         mPresenter.getUser();
         mActionType = actionType;
         mRequestLeaveRequest = new RequestLeaveRequest();
+        setVisibleBranch(mActionType == ActionType.ACTION_DETAIL);
         if (mActionType == ActionType.ACTION_DETAIL) {
             mLeaveTypeId = mRequest.getLeaveType().getId();
         } else {
@@ -189,13 +191,30 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     }
 
     public String getCheckInTime() {
-        return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckInTime(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+        if (mActionType == ActionType.ACTION_DETAIL) {
+            return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckInTime(),
+                    DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+        }
+        return mRequest.getCheckInTime();
     }
 
     public String getCheckOutTime() {
+        if (mActionType == ActionType.ACTION_CONFIRM_CREATE) {
+            return mRequest.getCheckOutTime();
+        }
         return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
                 DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+    }
+
+    @Bindable
+    public boolean isVisibleBranch() {
+        return mVisibleBranch;
+    }
+
+    public void setVisibleBranch(boolean visibleBranch) {
+        mVisibleBranch = visibleBranch;
+        notifyPropertyChanged(BR.visibleBranch);
     }
 
     public void onClickArrowBack(View view) {

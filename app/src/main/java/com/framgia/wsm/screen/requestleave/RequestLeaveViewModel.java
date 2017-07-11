@@ -1004,7 +1004,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (!mPresenter.validateDataInput(mRequest)) {
             return;
         }
-        if (mActionType == ActionType.ACTION_CREATE) {
+        if (mActionType == ActionType.ACTION_CREATE
+                || mActionType == ActionType.ACTION_CONFIRM_CREATE) {
             mActionType = ActionType.ACTION_CONFIRM_CREATE;
         } else {
             mActionType = ActionType.ACTION_CONFIRM_EDIT;
@@ -1200,6 +1201,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     @Bindable
     public String getCheckinTime() {
+        if (mActionType == ActionType.ACTION_EDIT) {
+            mActionType = ActionType.ACTION_CONFIRM_EDIT;
+            return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckInTime(),
+                    DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+        }
         return mRequest.getCheckInTime();
     }
 

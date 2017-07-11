@@ -154,7 +154,7 @@ public class ItemListRequestViewModel extends BaseObservable {
 
     public String getToTime() {
         if (mRequest != null) {
-            return mRequest.getCompensation().getToTime();
+            mRequest.getCompensation().getToTime();
         }
         if (mRequestOff != null) {
             if (mRequestOff.getEndDayHaveSalary() != null) {
