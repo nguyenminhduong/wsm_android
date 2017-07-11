@@ -556,66 +556,72 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:visibility="@{viewModel.visiableLayoutHaveSalary ? View.VISIBLE : View.GONE}"
                         >
-                        <ImageView
-                            app:srcCompat="@drawable/ic_clock"
-                            tools:ignore="ContentDescription"
-                            style="@style/StyleIconConfirm"
-                            />
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_20"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             >
-                            <TextView
-                                android:id="@+id/textView"
-                                android:text="@string/off_have_salary_from"
-                                style="@style/StyleTitleConfirm"
+                            <ImageView
+                                app:srcCompat="@drawable/ic_clock"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
-                            <TextView
-                                android:text="@{viewModel.startDateHaveSalary}"
-                                style="@style/StyleTextConfirm"
-                                />
-                            <View
-                                style="@style/StyleViewConfirm"
-                                />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:layout_marginStart="@dimen/dp_20"
+                                android:orientation="vertical"
+                                >
+                                <TextView
+                                    android:id="@+id/textView"
+                                    android:text="@string/off_have_salary_from"
+                                    style="@style/StyleTitleConfirm"
+                                    />
+                                <TextView
+                                    android:text="@{viewModel.startDateHaveSalary}"
+                                    style="@style/StyleTextConfirm"
+                                    />
+                                <View
+                                    style="@style/StyleViewConfirm"
+                                    />
+                            </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:visibility="@{viewModel.visiableLayoutHaveSalary ? View.VISIBLE : View.GONE}"
-                        >
-                        <ImageView
-                            app:srcCompat="@drawable/ic_clock"
-                            tools:ignore="ContentDescription"
-                            style="@style/StyleIconConfirm"
-                            />
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_20"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             >
-                            <TextView
-                                android:text="@string/off_have_salary_to"
-                                style="@style/StyleTitleConfirm"
+                            <ImageView
+                                app:srcCompat="@drawable/ic_clock"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
                                 />
-                            <TextView
-                                android:text="@{viewModel.endDateHaveSalary}"
-                                style="@style/StyleTextConfirm"
-                                />
-                            <View
-                                style="@style/StyleViewConfirm"
-                                />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:layout_marginStart="@dimen/dp_20"
+                                android:orientation="vertical"
+                                >
+                                <TextView
+                                    android:text="@string/off_have_salary_to"
+                                    style="@style/StyleTitleConfirm"
+                                    />
+                                <TextView
+                                    android:text="@{viewModel.endDateHaveSalary}"
+                                    style="@style/StyleTextConfirm"
+                                    />
+                                <View
+                                    style="@style/StyleViewConfirm"
+                                    />
+                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
 

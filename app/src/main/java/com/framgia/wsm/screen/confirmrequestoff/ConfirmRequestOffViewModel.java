@@ -23,7 +23,6 @@ import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
-import java.util.Objects;
 
 /**
  * Exposes the data to be used in the ConfirmRequestOff screen.
@@ -93,7 +92,9 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     @Override
     public void onDeleteFormRequestOffSuccess() {
-        mNavigator.finishActivityWithResult(Activity.RESULT_OK);
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.EXTRA_REQUEST_TYPE_CODE, RequestType.REQUEST_OFF);
+        mNavigator.finishActivityWithResult(bundle, Activity.RESULT_OK);
     }
 
     @Override
@@ -117,6 +118,16 @@ public class ConfirmRequestOffViewModel extends BaseObservable
                 mNavigator.finishActivity();
             }
         });
+    }
+
+    @Override
+    public void onDismissProgressDialog() {
+        mDialogManager.dismissProgressDialog();
+    }
+
+    @Override
+    public void onShowIndeterminateProgressDialog() {
+        mDialogManager.showIndeterminateProgressDialog();
     }
 
     @Bindable
@@ -159,12 +170,12 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     @Bindable
     public boolean isVisiableLayoutHaveSalary() {
-        return mOffRequest.getStartDayHaveSalary() != null;
+        return mOffRequest.getStartDayHaveSalary().getOffPaidFrom() != null;
     }
 
     @Bindable
     public boolean isVisiableLayoutOffNoSalary() {
-        return mOffRequest.getStartDayNoSalary() != null;
+        return mOffRequest.getStartDayNoSalary().getOffFrom() != null;
     }
 
     @Bindable
