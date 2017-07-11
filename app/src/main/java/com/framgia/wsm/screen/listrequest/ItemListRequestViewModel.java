@@ -232,6 +232,16 @@ public class ItemListRequestViewModel extends BaseObservable {
         }
     }
 
+    public boolean isForwardStatus() {
+        if (mRequest != null) {
+            return StatusCode.FORWARD_CODE.equals(mRequest.getStatus());
+        } else if (mRequestOff != null) {
+            return StatusCode.FORWARD_CODE.equals(mRequestOff.getStatus());
+        } else {
+            return StatusCode.FORWARD_CODE.equals(mRequestOverTime.getStatus());
+        }
+    }
+
     public void onItemClicked() {
         if (mItemClickListener == null) {
             return;
@@ -277,7 +287,7 @@ public class ItemListRequestViewModel extends BaseObservable {
                 case StatusCode.REJECT_CODE:
                     setStatusImage(R.drawable.ic_status_reject);
                     break;
-                case StatusCode.FORWARDED:
+                case StatusCode.FORWARD_CODE:
                     setStatusImage(R.drawable.ic_status_forward);
                     break;
                 default:

@@ -222,15 +222,19 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     }
 
     public boolean isAcceptStatus() {
-        return Objects.equals(mOffRequest.getStatus(), StatusCode.ACCEPT_CODE);
+        return StatusCode.ACCEPT_CODE.equals(mOffRequest.getStatus());
     }
 
     public boolean isPendingStatus() {
-        return Objects.equals(mOffRequest.getStatus(), StatusCode.PENDING_CODE);
+        return StatusCode.PENDING_CODE.equals(mOffRequest.getStatus());
     }
 
     public boolean isRejectStatus() {
-        return Objects.equals(mOffRequest.getStatus(), StatusCode.REJECT_CODE);
+        return StatusCode.REJECT_CODE.equals(mOffRequest.getStatus());
+    }
+
+    public boolean isForwardStatus() {
+        return StatusCode.FORWARD_CODE.equals(mOffRequest.getStatus());
     }
 
     public String getTitleToolbar() {
@@ -312,7 +316,15 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         if (mOffRequest == null) {
             return;
         }
-        mPresenter.deleteFormRequestOff(mOffRequest.getId());
+        mDialogManager.dialogBasic(mContext.getString(R.string.confirm_delete),
+                mContext.getString(R.string.do_you_want_delete_this_request),
+                new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog materialDialog,
+                            @NonNull DialogAction dialogAction) {
+                        mPresenter.deleteFormRequestOff(mOffRequest.getId());
+                    }
+                });
     }
 
     public void onClickEdit(View view) {

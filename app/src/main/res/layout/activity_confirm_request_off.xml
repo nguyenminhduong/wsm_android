@@ -315,6 +315,14 @@
                                     android:textColor="@color/color_red_fresh"
                                     android:visibility="@{viewModel.rejectStatus ? View.VISIBLE : View.GONE}"
                                     />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/border_button"
+                                    android:text="@string/forwarded"
+                                    android:textColor="@color/color_red_fresh"
+                                    android:visibility="@{viewModel.forwardStatus ? View.VISIBLE : View.GONE}"
+                                    />
                             </FrameLayout>
                             <View
                                 style="@style/StyleViewConfirm"

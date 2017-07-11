@@ -73,9 +73,8 @@ public interface WSMApi {
     @POST("/api/dashboard/request_offs")
     Observable<Object> createFormRequestOff(@Body RequestOffRequest requestOffRequest);
 
-    // TODO edit later
-    @DELETE("/api/request_off")
-    Observable<Object> deleteFormRequestOff(@Query("requestoff_id") int requestOffId);
+    @DELETE("/api/dashboard/request_offs/{request_offs_id}")
+    Observable<Object> deleteFormRequestOff(@Query("request_offs_id") int requestOffId);
 
     // TODO edit later
     @PUT("/api/request_off")

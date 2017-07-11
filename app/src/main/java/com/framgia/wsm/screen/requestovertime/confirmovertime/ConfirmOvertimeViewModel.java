@@ -179,7 +179,7 @@ public class ConfirmOvertimeViewModel extends BaseObservable
     }
 
     public boolean isForwardedStatus() {
-        return StatusCode.FORWARDED.equals(mRequestOverTime.getStatus());
+        return StatusCode.FORWARD_CODE.equals(mRequestOverTime.getStatus());
     }
 
     public void setActionType(int actionType) {
