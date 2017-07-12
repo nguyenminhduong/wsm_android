@@ -8,6 +8,7 @@ import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.dagger.FragmentScope;
 import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
@@ -40,8 +41,9 @@ public class ManageListRequestsModule {
 
     @FragmentScope
     @Provides
-    public ManageListRequestsContract.Presenter providePresenter() {
-        return new ManageListRequestsPresenter();
+    public ManageListRequestsContract.Presenter providePresenter(
+            RequestRepository requestRepository, BaseSchedulerProvider baseSchedulerProvider) {
+        return new ManageListRequestsPresenter(requestRepository, baseSchedulerProvider);
     }
 
     @FragmentScope

@@ -51,5 +51,14 @@ public interface RequestDataSource {
 
         Observable<Object> editFormRequestLeave(@NonNull int requestId,
                 RequestLeaveRequest requestLeave);
+
+        Observable<BaseResponse<List<LeaveRequest>>> getListRequesLeavetManage(String fromTime,
+                String toTime);
+
+        Observable<BaseResponse<List<RequestOverTime>>> getListRequesOvertimetManage(
+                String fromTime, String toTime);
+
+        Observable<BaseResponse<List<OffRequest>>> getListRequesOffManage(String fromTime,
+                String toTime);
     }
 }

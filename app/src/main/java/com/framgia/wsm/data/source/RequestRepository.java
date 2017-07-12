@@ -66,7 +66,7 @@ public class RequestRepository {
 
     public Observable<BaseResponse<List<OffRequest>>> getListRequestOff() {
         // TODO: Edit later
-         return mRemoteDataSource.getListRequestOff();
+        return mRemoteDataSource.getListRequestOff();
     }
 
     public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly() {
@@ -138,5 +138,20 @@ public class RequestRepository {
                 new BaseResponse<List<OffRequest>>(requestOffs) {
                 };
         return Observable.just(baseResponse);
+    }
+
+    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveManage(String fromTime,
+            String toTime) {
+        return mRemoteDataSource.getListRequesLeavetManage(fromTime, toTime);
+    }
+
+    public Observable<BaseResponse<List<OffRequest>>> getListRequestOffManage(String fromTime,
+            String toTime) {
+        return mRemoteDataSource.getListRequesOffManage(fromTime, toTime);
+    }
+
+    public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOvertimeManage(
+            String fromTime, String toTime) {
+        return mRemoteDataSource.getListRequesOvertimetManage(fromTime, toTime);
     }
 }

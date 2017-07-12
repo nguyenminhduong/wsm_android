@@ -126,4 +126,19 @@ public interface WSMApi {
     @Multipart
     @PUT("/api/dashboard/notification")
     Observable<BaseResponse<List<Notification>>> getNotification();
+
+    //TODO edit later
+    @GET("/api/dashboard/request_leaves")
+    Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveManage(
+            @Query("from") String fromTime, @Query("to") String toTime);
+
+    //TODO edit later
+    @GET("/api/dashboard/request_ots")
+    Observable<BaseResponse<List<RequestOverTime>>> getListRequestOvertimeManage(
+            @Query("from") String fromTime, @Query("to") String toTime);
+
+    //TODO edit later
+    @GET("/api/dashboard/request_off")
+    Observable<BaseResponse<List<OffRequest>>> getListRequestOffManage(
+            @Query("from") String fromTime, @Query("to") String toTime);
 }
