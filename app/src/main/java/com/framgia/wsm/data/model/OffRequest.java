@@ -50,6 +50,12 @@ public class OffRequest extends BaseModel implements Parcelable {
     @SerializedName("groups")
     private Group mGroup;
     @Expose
+    @SerializedName("workspace_id")
+    private int mWorkSpaceId;
+    @Expose
+    @SerializedName("group_id")
+    private int mGroupId;
+    @Expose
     @SerializedName("company_pay")
     private CompanyPay mCompanyPay;
     @Expose
@@ -97,6 +103,8 @@ public class OffRequest extends BaseModel implements Parcelable {
         mPosition = in.readString();
         mBranch = in.readParcelable(Branch.class.getClassLoader());
         mGroup = in.readParcelable(Group.class.getClassLoader());
+        mWorkSpaceId = in.readInt();
+        mGroupId = in.readInt();
         mCompanyPay = in.readParcelable(CompanyPay.class.getClassLoader());
         mInsuranceCoverage = in.readParcelable(InsuranceCoverage.class.getClassLoader());
         mStartDayHaveSalary = in.readParcelable(OffHaveSalaryFrom.class.getClassLoader());
@@ -119,6 +127,8 @@ public class OffRequest extends BaseModel implements Parcelable {
         dest.writeString(mPosition);
         dest.writeParcelable(mBranch, flags);
         dest.writeParcelable(mGroup, flags);
+        dest.writeInt(mWorkSpaceId);
+        dest.writeInt(mGroupId);
         dest.writeParcelable(mCompanyPay, flags);
         dest.writeParcelable(mInsuranceCoverage, flags);
         dest.writeParcelable(mStartDayHaveSalary, flags);
@@ -279,6 +289,22 @@ public class OffRequest extends BaseModel implements Parcelable {
 
     public void setApprover(Approver approver) {
         mApprover = approver;
+    }
+
+    public int getWorkSpaceId() {
+        return mWorkSpaceId;
+    }
+
+    public void setWorkSpaceId(int workSpaceId) {
+        mWorkSpaceId = workSpaceId;
+    }
+
+    public int getGroupId() {
+        return mGroupId;
+    }
+
+    public void setGroupId(int groupId) {
+        mGroupId = groupId;
     }
 
     // OffHaveSalaryFrom

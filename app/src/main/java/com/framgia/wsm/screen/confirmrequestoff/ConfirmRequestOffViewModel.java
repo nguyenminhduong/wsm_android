@@ -50,10 +50,36 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         mPresenter.setViewModel(this);
         mDialogManager = dialogManager;
         mOffRequest = requestOff;
+        initData(mOffRequest);
         mNavigator = navigator;
         mPresenter.getUser();
         mActionType = actionType;
         mRequestOffRequest = new RequestOffRequest();
+    }
+
+    private void initData(OffRequest offRequest) {
+        if (offRequest.getStartDayHaveSalary().getOffPaidFrom() == null) {
+            OffRequest.OffHaveSalaryFrom offHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
+            offHaveSalaryFrom.setOffPaidFrom("");
+            offHaveSalaryFrom.setPaidFromPeriod("");
+            mOffRequest.setStartDayHaveSalary(offHaveSalaryFrom);
+
+            OffRequest.OffHaveSalaryTo offHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
+            offHaveSalaryTo.setOffPaidTo("");
+            offHaveSalaryTo.setPaidToPeriod("");
+            mOffRequest.setEndDayHaveSalary(offHaveSalaryTo);
+        }
+        if (offRequest.getStartDayNoSalary().getOffFrom() == null) {
+            OffRequest.OffNoSalaryFrom offNoSalaryFrom = new OffRequest.OffNoSalaryFrom();
+            offNoSalaryFrom.setOffFrom("");
+            offNoSalaryFrom.setOffFromPeriod("");
+            mOffRequest.setStartDayNoSalary(offNoSalaryFrom);
+
+            OffRequest.OffNoSalaryTo offNoSalaryTo = new OffRequest.OffNoSalaryTo();
+            offNoSalaryTo.setOffTo("");
+            offNoSalaryTo.setOffToPeriod("");
+            mOffRequest.setEndDayNoSalary(offNoSalaryTo);
+        }
     }
 
     @Override
@@ -170,12 +196,12 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     @Bindable
     public boolean isVisiableLayoutHaveSalary() {
-        return mOffRequest.getStartDayHaveSalary().getOffPaidFrom() != null;
+        return !"".equals(mOffRequest.getStartDayHaveSalary().getOffPaidFrom());
     }
 
     @Bindable
     public boolean isVisiableLayoutOffNoSalary() {
-        return mOffRequest.getStartDayNoSalary().getOffFrom() != null;
+        return !"".equals(mOffRequest.getStartDayNoSalary().getOffFrom());
     }
 
     @Bindable
