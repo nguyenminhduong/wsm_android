@@ -6,7 +6,7 @@ package com.framgia.wsm.screen.managelistrequests;
 
 public interface ActionRequestListener {
 
-    void onApproveRequest(int requestID);
+    void onApproveRequest(int positionItem, int requestID);
 
-    void onRejectRequest(int requestID);
+    void onRejectRequest(int positionItem, int requestID);
 }

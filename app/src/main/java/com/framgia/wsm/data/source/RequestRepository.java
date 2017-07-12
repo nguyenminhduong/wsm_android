@@ -154,4 +154,28 @@ public class RequestRepository {
             String fromTime, String toTime) {
         return mRemoteDataSource.getListRequesOvertimetManage(fromTime, toTime);
     }
+
+    public Observable<BaseResponse<LeaveRequest>> approveRequestLeave(int requestId) {
+        return mRemoteDataSource.approveRequestLeave(requestId);
+    }
+
+    public Observable<BaseResponse<OffRequest>> approveRequestOff(int requestId) {
+        return mRemoteDataSource.approveRequestOff(requestId);
+    }
+
+    public Observable<BaseResponse<RequestOverTime>> approveRequestOverTime(int requestId) {
+        return mRemoteDataSource.approveRequestOverTime(requestId);
+    }
+
+    public Observable<BaseResponse<LeaveRequest>> rejectRequestLeave(int requestId) {
+        return mRemoteDataSource.rejectRequestLeave(requestId);
+    }
+
+    public Observable<BaseResponse<OffRequest>> rejectRequestOff(int requestId) {
+        return mRemoteDataSource.rejectRequestOff(requestId);
+    }
+
+    public Observable<BaseResponse<RequestOverTime>> rejectRequestOverTime(int requestId) {
+        return mRemoteDataSource.rejectRequestOverTime(requestId);
+    }
 }

@@ -60,5 +60,17 @@ public interface RequestDataSource {
 
         Observable<BaseResponse<List<OffRequest>>> getListRequesOffManage(String fromTime,
                 String toTime);
+
+        Observable<BaseResponse<LeaveRequest>> approveRequestLeave(int requestId);
+
+        Observable<BaseResponse<OffRequest>> approveRequestOff(int requestId);
+
+        Observable<BaseResponse<RequestOverTime>> approveRequestOverTime(int requestId);
+
+        Observable<BaseResponse<LeaveRequest>> rejectRequestLeave(int requestId);
+
+        Observable<BaseResponse<OffRequest>> rejectRequestOff(int requestId);
+
+        Observable<BaseResponse<RequestOverTime>> rejectRequestOverTime(int requestId);
     }
 }

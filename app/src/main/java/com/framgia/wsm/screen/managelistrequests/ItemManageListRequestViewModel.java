@@ -27,13 +27,15 @@ public class ItemManageListRequestViewModel extends BaseObservable {
     private ActionRequestListener mActionRequestListener;
     private int mStatusColor;
     private int mImageRequestType;
+    private int mItemPosition;
 
-    public ItemManageListRequestViewModel(Object object,
+    ItemManageListRequestViewModel(Object object,
             BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> itemClickListener,
-            ActionRequestListener actionRequestListener) {
+            ActionRequestListener actionRequestListener, int itemPosition) {
         mObject = object;
         mItemClickListener = itemClickListener;
         mActionRequestListener = actionRequestListener;
+        mItemPosition = itemPosition;
         if (object instanceof LeaveRequest) {
             mLeaveRequest = (LeaveRequest) object;
         } else if (object instanceof OffRequest) {
@@ -50,13 +52,13 @@ public class ItemManageListRequestViewModel extends BaseObservable {
             return;
         }
         if (mLeaveRequest != null) {
-            mActionRequestListener.onApproveRequest(mLeaveRequest.getId());
+            mActionRequestListener.onApproveRequest(mItemPosition, mLeaveRequest.getId());
         }
         if (mRequestOverTime != null) {
-            mActionRequestListener.onApproveRequest(mRequestOverTime.getId());
+            mActionRequestListener.onApproveRequest(mItemPosition, mRequestOverTime.getId());
         }
         if (mRequestOff != null) {
-            mActionRequestListener.onApproveRequest(mRequestOff.getId());
+            mActionRequestListener.onApproveRequest(mItemPosition, mRequestOff.getId());
         }
     }
 
@@ -65,13 +67,13 @@ public class ItemManageListRequestViewModel extends BaseObservable {
             return;
         }
         if (mLeaveRequest != null) {
-            mActionRequestListener.onRejectRequest(mLeaveRequest.getId());
+            mActionRequestListener.onRejectRequest(mItemPosition, mLeaveRequest.getId());
         }
         if (mRequestOverTime != null) {
-            mActionRequestListener.onRejectRequest(mRequestOverTime.getId());
+            mActionRequestListener.onRejectRequest(mItemPosition, mRequestOverTime.getId());
         }
         if (mRequestOff != null) {
-            mActionRequestListener.onRejectRequest(mRequestOff.getId());
+            mActionRequestListener.onRejectRequest(mItemPosition, mRequestOff.getId());
         }
     }
 

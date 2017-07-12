@@ -65,17 +65,17 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
             case RequestType.REQUEST_OVERTIME:
                 ManageListRequestsAdapter.RequestOverTimeViewHolder requestOverTimeViewHolder =
                         (ManageListRequestsAdapter.RequestOverTimeViewHolder) holder;
-                requestOverTimeViewHolder.bind(mRequestOverTimes.get(position));
+                requestOverTimeViewHolder.bind(mRequestOverTimes.get(position), position);
                 break;
             case RequestType.REQUEST_OFF:
                 ManageListRequestsAdapter.RequestOffViewHolder requestOffViewHolder =
                         (ManageListRequestsAdapter.RequestOffViewHolder) holder;
-                requestOffViewHolder.bind(mRequestsOffs.get(position));
+                requestOffViewHolder.bind(mRequestsOffs.get(position), position);
                 break;
             case RequestType.REQUEST_LATE_EARLY:
                 ManageListRequestsAdapter.RequestLeaveViewHolder requestLeaveViewHolder =
                         (ManageListRequestsAdapter.RequestLeaveViewHolder) holder;
-                requestLeaveViewHolder.bind(mRequestsLeaves.get(position));
+                requestLeaveViewHolder.bind(mRequestsLeaves.get(position), position);
                 break;
         }
     }
@@ -93,6 +93,25 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
             return mRequestsOffs.size();
         } else {
             return mRequestsLeaves.size();
+        }
+    }
+
+    void updateItem(int requestType, int position, String status) {
+        switch (requestType) {
+            case RequestType.REQUEST_LATE_EARLY:
+                mRequestsLeaves.get(position).setStatus(status);
+                notifyItemChanged(position, mRequestsLeaves);
+                break;
+            case RequestType.REQUEST_OFF:
+                mRequestsOffs.get(position).setStatus(status);
+                notifyItemChanged(position, mRequestsOffs);
+                break;
+            case RequestType.REQUEST_OVERTIME:
+                mRequestOverTimes.get(position).setStatus(status);
+                notifyItemChanged(position, mRequestOverTimes);
+                break;
+            default:
+                break;
         }
     }
 
@@ -142,10 +161,10 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
             mItemClickListener = listener;
         }
 
-        void bind(RequestOverTime requestOverTime) {
+        void bind(RequestOverTime requestOverTime, int itemPosition) {
             mBinding.setViewModel(
                     new ItemManageListRequestViewModel(requestOverTime, mItemClickListener,
-                            mActionRequestListener));
+                            mActionRequestListener, itemPosition));
             mBinding.executePendingBindings();
         }
     }
@@ -161,9 +180,9 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
             mItemClickListener = listener;
         }
 
-        void bind(OffRequest offRequest) {
+        void bind(OffRequest offRequest, int itemPosition) {
             mBinding.setViewModel(new ItemManageListRequestViewModel(offRequest, mItemClickListener,
-                    mActionRequestListener));
+                    mActionRequestListener, itemPosition));
             mBinding.executePendingBindings();
         }
     }
@@ -179,10 +198,10 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
             mItemClickListener = listener;
         }
 
-        void bind(LeaveRequest leaveRequest) {
+        void bind(LeaveRequest leaveRequest, int itemPosition) {
             mBinding.setViewModel(
                     new ItemManageListRequestViewModel(leaveRequest, mItemClickListener,
-                            mActionRequestListener));
+                            mActionRequestListener, itemPosition));
             mBinding.executePendingBindings();
         }
     }
