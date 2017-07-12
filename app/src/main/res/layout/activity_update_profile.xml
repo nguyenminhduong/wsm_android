@@ -92,6 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp_15"
                     android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp_40"
                     >
 
                     <LinearLayout
@@ -183,7 +184,7 @@
                         android:orientation="horizontal"
                         >
                         <ImageView
-                            app:srcCompat="@drawable/ic_position_name"
+                            app:srcCompat="@drawable/ic_contract"
                             tools:ignore="ContentDescription"
                             style="@style/StyleIconConfirm"
                             />
@@ -205,7 +206,7 @@
                         android:orientation="horizontal"
                         >
                         <ImageView
-                            app:srcCompat="@drawable/ic_working_calendar"
+                            app:srcCompat="@drawable/ic_holiday_calendar"
                             tools:ignore="ContentDescription"
                             style="@style/StyleIconConfirm"
                             />
@@ -227,7 +228,7 @@
                         android:orientation="horizontal"
                         >
                         <ImageView
-                            app:srcCompat="@drawable/ic_working_calendar"
+                            app:srcCompat="@drawable/ic_holiday_calendar"
                             tools:ignore="ContentDescription"
                             style="@style/StyleIconConfirm"
                             />
@@ -369,10 +370,13 @@
 
         <Button
             android:id="@id/button_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@color/color_green"
             android:onClick="@{viewModel::onCickSubmit}"
             android:text="@string/submit"
-            style="@style/StyleButton"
+            android:textColor="@color/color_white"
             />
     </RelativeLayout>
 
