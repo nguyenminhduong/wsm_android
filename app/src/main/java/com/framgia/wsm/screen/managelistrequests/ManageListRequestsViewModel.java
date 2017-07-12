@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.navigator.Navigator;
@@ -27,6 +28,8 @@ public class ManageListRequestsViewModel extends BaseObservable
     private Navigator mNavigator;
     private ManageListRequestsAdapter mManageListRequestsAdapter;
     private int mRequestType;
+    private String mFromTime;
+    private String mToTime;
 
     public ManageListRequestsViewModel(Context context,
             ManageListRequestsContract.Presenter presenter, DialogManager dialogManager,
@@ -52,30 +55,12 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     @Override
-    public void setRequestType(@RequestType int requestType) {
-        mRequestType = requestType;
+    public void onGetListRequestManageError(BaseException exception) {
+        mNavigator.showToast(exception.getMessage());
     }
 
     @Override
-    public void onItemRecyclerViewClick(Object item) {
-        //TODO on click item
-    }
-
-    @Override
-    public void onApproveRequest(int requestID) {
-        //TODO on click approve request
-    }
-
-    @Override
-    public void onRejectRequest(int requestID) {
-        //TODO on click reject request
-    }
-
-    public ManageListRequestsAdapter getManageListRequestsAdapter() {
-        return mManageListRequestsAdapter;
-    }
-
-    public void onGetListRequestSuccess(int requestType, Object object) {
+    public void onGetListRequestManageSuccess(@RequestType int requestType, Object object) {
         switch (requestType) {
             case RequestType.REQUEST_OVERTIME:
                 mManageListRequestsAdapter.updateDataRequestOverTime(
@@ -90,5 +75,50 @@ public class ManageListRequestsViewModel extends BaseObservable
             default:
                 break;
         }
+    }
+
+    @Override
+    public void setRequestType(@RequestType int requestType) {
+        mRequestType = requestType;
+        mPresenter.getListAllRequestManage(mRequestType, mFromTime, mToTime);
+    }
+
+    @Override
+    public void onApproveRequestSuccess() {
+        mPresenter.getListAllRequestManage(mRequestType, mFromTime, mToTime);
+    }
+
+    @Override
+    public void onApproveRequestError(BaseException exception) {
+        mDialogManager.dialogError(exception);
+    }
+
+    @Override
+    public void onRejectRequestSuccess() {
+        mPresenter.getListAllRequestManage(mRequestType, mFromTime, mToTime);
+    }
+
+    @Override
+    public void onRejectRequestError(BaseException exception) {
+        mDialogManager.dialogError(exception);
+    }
+
+    @Override
+    public void onApproveRequest(int requestID) {
+        mPresenter.approveRequest(mRequestType, requestID);
+    }
+
+    @Override
+    public void onRejectRequest(int requestID) {
+        mPresenter.rejectRequest(mRequestType, requestID);
+    }
+
+    @Override
+    public void onItemRecyclerViewClick(Object item) {
+        //TODO on click item
+    }
+
+    public ManageListRequestsAdapter getManageListRequestsAdapter() {
+        return mManageListRequestsAdapter;
     }
 }

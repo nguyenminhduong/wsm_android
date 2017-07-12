@@ -133,4 +133,22 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
             RequestLeaveRequest requestLeave) {
         return mWSMApi.editFormRequestLeave(requestId, requestLeave);
     }
+
+    @Override
+    public Observable<BaseResponse<List<LeaveRequest>>> getListRequesLeavetManage(String fromTime,
+            String toTime) {
+        return mWSMApi.getListRequestLeaveManage(fromTime, toTime);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<RequestOverTime>>> getListRequesOvertimetManage(
+            String fromTime, String toTime) {
+        return mWSMApi.getListRequestOvertimeManage(fromTime, toTime);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<OffRequest>>> getListRequesOffManage(String fromTime,
+            String toTime) {
+        return mWSMApi.getListRequestOffManage(fromTime, toTime);
+    }
 }

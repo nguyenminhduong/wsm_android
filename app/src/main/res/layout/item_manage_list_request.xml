@@ -72,8 +72,9 @@
                     android:orientation="horizontal"
                     >
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
                         android:drawableLeft="@drawable/ic_circle"
                         android:drawablePadding="@dimen/dp_10"
                         android:drawableStart="@drawable/ic_circle"
@@ -84,8 +85,10 @@
                         android:textStyle="bold"
                         />
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:gravity="center"
                         android:text="@{viewModel.status}"
                         android:textColor="@{viewModel.statusColor}"
                         />
@@ -165,6 +168,7 @@
                             android:layout_height="@dimen/dp_30"
                             android:layout_margin="@dimen/dp_5"
                             android:layout_weight="1"
+                            android:visibility="@{viewModel.visibleButtonApprove ? View.VISIBLE : View.GONE}"
                             app:srcCompat="@drawable/ic_status_accpect"
                             tools:ignore="ContentDescription"
                             />
@@ -173,6 +177,7 @@
                             android:layout_height="@dimen/dp_30"
                             android:layout_margin="@dimen/dp_5"
                             android:layout_weight="1"
+                            android:visibility="@{viewModel.visibleButtonReject ? View.VISIBLE : View.GONE}"
                             app:srcCompat="@drawable/ic_status_reject"
                             tools:ignore="ContentDescription"
                             />

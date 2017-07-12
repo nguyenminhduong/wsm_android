@@ -190,4 +190,30 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         }
         return "";
     }
+
+    public boolean isVisibleButtonApprove() {
+        if (mLeaveRequest != null) {
+            return StatusCode.REJECT_CODE.equals(mLeaveRequest.getStatus())
+                    || StatusCode.PENDING_CODE.equals(mLeaveRequest.getStatus());
+        }
+        if (mRequestOverTime != null) {
+            return StatusCode.REJECT_CODE.equals(mRequestOverTime.getStatus())
+                    || StatusCode.PENDING_CODE.equals(mRequestOverTime.getStatus());
+        }
+        return StatusCode.REJECT_CODE.equals(mRequestOff.getStatus())
+                || StatusCode.PENDING_CODE.equals(mRequestOff.getStatus());
+    }
+
+    public boolean isVisibleButtonReject() {
+        if (mLeaveRequest != null) {
+            return StatusCode.ACCEPT_CODE.equals(mLeaveRequest.getStatus())
+                    || StatusCode.PENDING_CODE.equals(mLeaveRequest.getStatus());
+        }
+        if (mRequestOverTime != null) {
+            return StatusCode.ACCEPT_CODE.equals(mRequestOverTime.getStatus())
+                    || StatusCode.PENDING_CODE.equals(mRequestOverTime.getStatus());
+        }
+        return StatusCode.ACCEPT_CODE.equals(mRequestOff.getStatus())
+                || StatusCode.PENDING_CODE.equals(mRequestOff.getStatus());
+    }
 }
