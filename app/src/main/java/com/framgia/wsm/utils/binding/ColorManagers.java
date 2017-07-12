@@ -8,43 +8,52 @@ import android.graphics.Color;
 
 public class ColorManagers {
 
+    private static final String COLOR_GREEN1 = "#C9E4D6";
+    private static final String COLOR_GREEN2 = "#67BF7F";
+    private static final String COLOR_GREEN3 = "#00AE72";
+    private static final String COLOR_GREEN4 = "#00A06B";
+    private static final String COLOR_GREEN5 = "#008C5E";
+    private static final String COLOR_GREEN6 = "#007F54";
+    private static final String COLOR_GREEN7 = "#006241";
+    private static final String COLOR_GREEN8 = "#00676B";
+    private static final String COLOR_GREEN_DARK = "#009688";
+
     public ColorManagers() {
     }
 
-    public static int getColorRed() {
-        return Color.RED;
+    public static int getColorGreen1() {
+        return Color.parseColor(COLOR_GREEN1);
     }
 
-    public static int getColorBlue() {
-        return Color.BLUE;
+    public static int getColorGreen2() {
+        return Color.parseColor(COLOR_GREEN2);
     }
 
-    public static int getColorGreen() {
-        return Color.GREEN;
+    public static int getColorGreen3() {
+        return Color.parseColor(COLOR_GREEN3);
     }
 
-    public static int getColorYellow() {
-        return Color.YELLOW;
+    public static int getColorGreen4() {
+        return Color.parseColor(COLOR_GREEN4);
     }
 
-    public static int getColorBlack() {
-        return Color.BLACK;
+    public static int getColorGreen5() {
+        return Color.parseColor(COLOR_GREEN5);
     }
 
-    public static int getColorCyan() {
-        return Color.CYAN;
+    public static int getColorGreen6() {
+        return Color.parseColor(COLOR_GREEN6);
     }
 
-    public static int getColorDkgray() {
-        return Color.DKGRAY;
+    public static int getColorGreen7() {
+        return Color.parseColor(COLOR_GREEN7);
     }
 
-    public static int getColorMagentay() {
-        return Color.MAGENTA;
+    public static int getColorGreen8() {
+        return Color.parseColor(COLOR_GREEN8);
     }
 
     public static int getColorPrimary() {
-        return Color.parseColor("#009688");
+        return Color.parseColor(COLOR_GREEN_DARK);
     }
-
 }

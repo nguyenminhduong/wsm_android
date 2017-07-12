@@ -70,9 +70,9 @@
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/color_white_smoke"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 >
-
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -107,18 +107,28 @@
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
-                                app:circleColor="@{color.colorRed}"
+                                app:circleColor="@{color.colorGreen1}"
                                 />
                             <LinearLayout
                                 style="@style/StyleLinearLayoutProfile"
                                 >
                                 <TextView
                                     android:text="@string/employee_code"
+                                    android:textColor="@color/color_black_transparent"
+                                    android:textStyle="bold"
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:layout_marginTop="@dimen/dp_3"
                                     android:text="@{viewModel.user.code}"
+                                    android:textColor="@color/color_gray"
                                     style="@style/StyleTextProfile"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_1"
+                                    android:layout_marginTop="@dimen/dp_2"
+                                    android:background="@color/color_gray_light"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -132,18 +142,28 @@
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
-                                app:circleColor="@{color.colorBlue}"
+                                app:circleColor="@{color.colorGreen2}"
                                 />
                             <LinearLayout
                                 style="@style/StyleLinearLayoutProfile"
                                 >
                                 <TextView
                                     android:text="@string/employee_name"
+                                    android:textColor="@color/color_black_transparent"
+                                    android:textStyle="bold"
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:layout_marginTop="@dimen/dp_3"
                                     android:text="@{viewModel.user.name}"
+                                    android:textColor="@color/color_gray"
                                     style="@style/StyleTextProfile"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_1"
+                                    android:layout_marginTop="@dimen/dp_2"
+                                    android:background="@color/color_gray_light"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -157,18 +177,27 @@
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
-                                app:circleColor="@{color.colorGreen}"
+                                app:circleColor="@{color.colorGreen3}"
                                 />
                             <LinearLayout
                                 style="@style/StyleLinearLayoutProfile"
                                 >
                                 <TextView
                                     android:text="@string/mail"
+                                    android:textColor="@color/color_black_transparent"
+                                    android:textStyle="bold"
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
                                     android:text="@{viewModel.user.email}"
+                                    android:textColor="@color/color_gray"
                                     style="@style/StyleTextProfile"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_1"
+                                    android:layout_marginTop="@dimen/dp_2"
+                                    android:background="@color/color_gray_light"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -182,18 +211,28 @@
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
-                                app:circleColor="@{color.colorYellow}"
+                                app:circleColor="@{color.colorGreen4}"
                                 />
                             <LinearLayout
                                 style="@style/StyleLinearLayoutProfile"
                                 >
                                 <TextView
                                     android:text="@string/company"
+                                    android:textColor="@color/color_black_transparent"
+                                    android:textStyle="bold"
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:layout_marginTop="@dimen/dp_3"
                                     android:text="@{viewModel.user.company.companyName}"
+                                    android:textColor="@color/color_gray"
                                     style="@style/StyleTextProfile"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_1"
+                                    android:layout_marginTop="@dimen/dp_2"
+                                    android:background="@color/color_gray_light"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -207,18 +246,29 @@
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
-                                app:circleColor="@{color.colorBlack}"
+                                app:circleColor="@{color.colorGreen5}"
                                 />
                             <LinearLayout
                                 style="@style/StyleLinearLayoutProfile"
                                 >
                                 <TextView
                                     android:text="@string/contract_date"
+                                    android:textColor="@color/color_black_transparent"
+                                    android:textStyle="bold"
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:layout_marginBottom="@dimen/dp_2"
+                                    android:layout_marginTop="@dimen/dp_3"
                                     android:text="@{viewModel.user.contractDate}"
+                                    android:textColor="@color/color_gray"
                                     style="@style/StyleTextProfile"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_1"
+                                    android:layout_marginTop="@dimen/dp_2"
+                                    android:background="@color/color_gray_light"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -232,18 +282,28 @@
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
-                                app:circleColor="@{color.colorCyan}"
+                                app:circleColor="@{color.colorGreen6}"
                                 />
                             <LinearLayout
                                 style="@style/StyleLinearLayoutProfile"
                                 >
                                 <TextView
                                     android:text="@string/start_probation_date"
+                                    android:textColor="@color/color_black_transparent"
+                                    android:textStyle="bold"
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:layout_marginTop="@dimen/dp_3"
                                     android:text="@{viewModel.user.startProbationDate}"
+                                    android:textColor="@color/color_gray"
                                     style="@style/StyleTextProfile"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_1"
+                                    android:layout_marginTop="@dimen/dp_2"
+                                    android:background="@color/color_gray_light"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -257,18 +317,28 @@
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
-                                app:circleColor="@{color.colorGreen}"
+                                app:circleColor="@{color.colorGreen7}"
                                 />
                             <LinearLayout
                                 style="@style/StyleLinearLayoutProfile"
                                 >
                                 <TextView
                                     android:text="@string/end_probation_date"
+                                    android:textColor="@color/color_black_transparent"
+                                    android:textStyle="bold"
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:layout_marginTop="@dimen/dp_3"
                                     android:text="@{viewModel.user.endProbationDate}"
+                                    android:textColor="@color/color_gray"
                                     style="@style/StyleTextProfile"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_1"
+                                    android:layout_marginTop="@dimen/dp_2"
+                                    android:background="@color/color_gray_light"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -282,18 +352,28 @@
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
-                                app:circleColor="@{color.colorMagentay}"
+                                app:circleColor="@{color.colorGreen8}"
                                 />
                             <LinearLayout
                                 style="@style/StyleLinearLayoutProfile"
                                 >
                                 <TextView
                                     android:text="@string/position_name"
+                                    android:textColor="@color/color_black_transparent"
+                                    android:textStyle="bold"
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:layout_marginTop="@dimen/dp_3"
                                     android:text="@{viewModel.user.namePosition}"
+                                    android:textColor="@color/color_gray"
                                     style="@style/StyleTextProfile"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_1"
+                                    android:layout_marginTop="@dimen/dp_2"
+                                    android:background="@color/color_gray_light"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -307,18 +387,28 @@
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
-                                app:circleColor="@{color.colorRed}"
+                                app:circleColor="@{color.colorGreen7}"
                                 />
                             <LinearLayout
                                 style="@style/StyleLinearLayoutProfile"
                                 >
                                 <TextView
                                     android:text="@string/individual_code"
+                                    android:textColor="@color/color_black_transparent"
+                                    android:textStyle="bold"
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:layout_marginTop="@dimen/dp_3"
                                     android:text="@{viewModel.user.individualCode}"
+                                    android:textColor="@color/color_gray"
                                     style="@style/StyleTextProfile"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_1"
+                                    android:layout_marginTop="@dimen/dp_2"
+                                    android:background="@color/color_gray_light"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -332,18 +422,28 @@
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
-                                app:circleColor="@{color.colorBlue}"
+                                app:circleColor="@{color.colorGreen6}"
                                 />
                             <LinearLayout
                                 style="@style/StyleLinearLayoutProfile"
                                 >
                                 <TextView
                                     android:text="@string/staff_type"
+                                    android:textColor="@color/color_black_transparent"
+                                    android:textStyle="bold"
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:layout_marginTop="@dimen/dp_3"
                                     android:text="@{viewModel.user.nameStaffType}"
+                                    android:textColor="@color/color_gray"
                                     style="@style/StyleTextProfile"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_1"
+                                    android:layout_marginTop="@dimen/dp_2"
+                                    android:background="@color/color_gray_light"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -357,20 +457,30 @@
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
-                                app:circleColor="@{color.colorGreen}"
+                                app:circleColor="@{color.colorGreen5}"
                                 />
                             <LinearLayout
                                 style="@style/StyleLinearLayoutProfile"
                                 >
                                 <TextView
                                     android:text="@string/workspaces"
+                                    android:textColor="@color/color_black_transparent"
+                                    android:textStyle="bold"
                                     style="@style/StyleTitleProfile"
                                     />
                                 <android.support.v7.widget.RecyclerView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
+                                    android:layout_marginTop="@dimen/dp_3"
                                     app:layoutManager="LinearLayoutManager"
                                     app:recyclerAdapter="@{viewModel.branchAdapter}"
+                                    bind:ignore="TooManyViews"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_1"
+                                    android:layout_marginTop="@dimen/dp_2"
+                                    android:background="@color/color_gray_light"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -384,20 +494,29 @@
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
-                                app:circleColor="@{color.colorBlack}"
+                                app:circleColor="@{color.colorGreen4}"
                                 />
                             <LinearLayout
                                 style="@style/StyleLinearLayoutProfile"
                                 >
                                 <TextView
                                     android:text="@string/group"
+                                    android:textColor="@color/color_black_transparent"
+                                    android:textStyle="bold"
                                     style="@style/StyleTitleProfile"
                                     />
                                 <android.support.v7.widget.RecyclerView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
+                                    android:layout_marginTop="@dimen/dp_3"
                                     app:layoutManager="LinearLayoutManager"
                                     app:recyclerAdapter="@{viewModel.groupAdapter}"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_1"
+                                    android:layout_marginTop="@dimen/dp_2"
+                                    android:background="@color/color_gray_light"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -411,18 +530,28 @@
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
-                                app:circleColor="@{color.colorCyan}"
+                                app:circleColor="@{color.colorGreen3}"
                                 />
                             <LinearLayout
                                 style="@style/StyleLinearLayoutProfile"
                                 >
                                 <TextView
                                     android:text="@string/gender"
+                                    android:textColor="@color/color_black_transparent"
+                                    android:textStyle="bold"
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:layout_marginTop="@dimen/dp_3"
                                     android:text="@{viewModel.user.gender}"
+                                    android:textColor="@color/color_gray"
                                     style="@style/StyleTextProfile"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_1"
+                                    android:layout_marginTop="@dimen/dp_2"
+                                    android:background="@color/color_gray_light"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -437,18 +566,28 @@
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_20"
                                 android:layout_height="@dimen/dp_20"
-                                app:circleColor="@{color.colorYellow}"
+                                app:circleColor="@{color.colorGreen2}"
                                 />
                             <LinearLayout
                                 style="@style/StyleLinearLayoutProfile"
                                 >
                                 <TextView
-                                    android:text="@string/birday"
+                                    android:text="@string/birthday"
+                                    android:textColor="@color/color_black_transparent"
+                                    android:textStyle="bold"
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:layout_marginTop="@dimen/dp_3"
                                     android:text="@{viewModel.user.birthday}"
+                                    android:textColor="@color/color_gray"
                                     style="@style/StyleTextProfile"
+                                    />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_1"
+                                    android:layout_marginTop="@dimen/dp_2"
+                                    android:background="@color/color_gray_light"
                                     />
                             </LinearLayout>
                         </LinearLayout>
