@@ -14,11 +14,11 @@ C11.1929,50,0,38.8071,0,25 C0,11.1929,11.1929,0,25,0 Z"/>
         android:strokeColor="@color/color_white"
         android:strokeLineCap="round"
         android:strokeMiterLimit="10"
-        android:strokeWidth="4"/>
+        android:strokeWidth="3"/>
     <path
         android:pathData="M25,37 L25,39"
         android:strokeColor="@color/color_white"
         android:strokeLineCap="round"
         android:strokeMiterLimit="10"
-        android:strokeWidth="4"/>
+        android:strokeWidth="3"/>
 </vector>
