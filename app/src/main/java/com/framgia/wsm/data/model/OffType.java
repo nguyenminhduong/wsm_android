@@ -21,7 +21,7 @@ public class OffType extends BaseModel implements Parcelable {
     private String mPayType;
     @Expose
     @SerializedName("amount")
-    private int mAmount;
+    private float mAmount;
 
     public OffType(int id, String name, String payType, int amount) {
         mId = id;
@@ -65,11 +65,11 @@ public class OffType extends BaseModel implements Parcelable {
         mPayType = payType;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return mAmount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(float amount) {
         mAmount = amount;
     }
 
@@ -83,7 +83,7 @@ public class OffType extends BaseModel implements Parcelable {
         parcel.writeInt(mId);
         parcel.writeString(mName);
         parcel.writeString(mPayType);
-        parcel.writeInt(mAmount);
+        parcel.writeFloat(mAmount);
     }
 
     public int getId() {

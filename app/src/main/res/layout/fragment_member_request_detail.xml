@@ -715,6 +715,7 @@
                             android:layout_margin="@dimen/dp_1"
                             android:layout_weight="1"
                             android:background="@color/color_red_firebrick"
+                            android:onClick="@{() -> viewModel.onClickRejected()}"
                             android:text="@string/rejected"
                             style="@style/StyleButton"
                             />
@@ -723,7 +724,9 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dp_1"
                             android:layout_weight="1"
+                            android:onClick="@{() -> viewModel.onClickApprove()}"
                             android:text="@string/accepted"
+                            android:visibility="@{viewModel.visibleApprove ? View.GONE : View.VISIBLE}"
                             style="@style/StyleButton"
                             />
                     </LinearLayout>

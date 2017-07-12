@@ -6,8 +6,11 @@ import android.databinding.Bindable;
 import android.support.v4.app.Fragment;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.User;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.widget.dialog.DialogManager;
 
 /**
  * Created by ths on 11/07/2017.
@@ -21,20 +24,25 @@ public class MemberRequestDetailViewModel extends BaseObservable
     private Context mContext;
     private MemberRequestDetailContract.Presenter mPresenter;
     private Navigator mNavigator;
+    private DialogManager mDialogManager;
     //TODO edit later
+    private @RequestType
+    int mRequestType;
     private User mUser;
     private OffRequest mRequestOff;
     private boolean mIsVisiableProjectName;
     private DismissDialogListener mDismissDialogListener;
 
     MemberRequestDetailViewModel(Context context, Fragment fragment,
-            MemberRequestDetailContract.Presenter presenter, Navigator navigator) {
+            MemberRequestDetailContract.Presenter presenter, Navigator navigator,
+            DialogManager dialogManager) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mNavigator = navigator;
         mRequestOff = new OffRequest();
         mDismissDialogListener = (DismissDialogListener) fragment;
+        mDialogManager = dialogManager;
     }
 
     @Override
@@ -47,9 +55,30 @@ public class MemberRequestDetailViewModel extends BaseObservable
         mPresenter.onStop();
     }
 
+    @Override
+    public void onRejectedSuccess() {
+        //TODO Edit later
+        mDismissDialogListener.onDismissDialog();
+    }
+
+    @Override
+    public void onApproveSuccess() {
+        //TODO Edit later
+        mDismissDialogListener.onDismissDialog();
+    }
+
+    @Override
+    public void onRejectedOrAcceptedError(BaseException e) {
+        mDialogManager.dialogError(e);
+    }
+
     @Bindable
     public User getUser() {
         return mUser;
+    }
+
+    public boolean isVisibleApprove() {
+        return StatusCode.ACCEPT_CODE.equals(mRequestOff.getStatus());
     }
 
     @Bindable
@@ -163,5 +192,37 @@ public class MemberRequestDetailViewModel extends BaseObservable
 
     public void onClickArrowBack() {
         mDismissDialogListener.onDismissDialog();
+    }
+
+    public void onClickRejected() {
+        switch (mRequestType) {
+            case RequestType.REQUEST_OVERTIME:
+                mPresenter.rejectRequest(mRequestOff.getId());
+                break;
+            case RequestType.REQUEST_OFF:
+                mPresenter.rejectRequest(mRequestOff.getId());
+                break;
+            case RequestType.REQUEST_LATE_EARLY:
+                mPresenter.rejectRequest(mRequestOff.getId());
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void onClickApprove() {
+        switch (mRequestType) {
+            case RequestType.REQUEST_OVERTIME:
+                mPresenter.approveRequest(mRequestOff.getId());
+                break;
+            case RequestType.REQUEST_OFF:
+                mPresenter.approveRequest(mRequestOff.getId());
+                break;
+            case RequestType.REQUEST_LATE_EARLY:
+                mPresenter.approveRequest(mRequestOff.getId());
+                break;
+            default:
+                break;
+        }
     }
 }

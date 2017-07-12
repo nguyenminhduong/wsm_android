@@ -105,7 +105,9 @@
                                 style="@style/StyleTextHint"
                                 >
                                 <EditText
+                                    android:ellipsize="end"
                                     android:hint="@string/branch"
+                                    android:maxLines="1"
                                     android:onClick="@{viewModel::onPickBranch}"
                                     android:text="@{viewModel.currentBranch}"
                                     style="@style/StyleText"
@@ -125,8 +127,10 @@
                                 style="@style/StyleTextHint"
                                 >
                                 <EditText
+                                    android:ellipsize="end"
                                     android:enabled="@{viewModel.visibleGroup}"
                                     android:hint="@string/group"
+                                    android:maxLines="1"
                                     android:onClick="@{viewModel::onPickGroup}"
                                     android:text="@{viewModel.currentGroup}"
                                     style="@style/StyleText"
