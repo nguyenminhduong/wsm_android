@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="off_type">
+        <item>Nghỉ có lương - Công ty trả</item>
+        <item>Nghỉ có lương - Bảo hiểm trả</item>
+        <item>Nghỉ không lương</item>
+    </string-array>
+
+    <string-array name="status">
+        <item>Chuyển tiếp</item>
+        <item>Chấp nhận</item>
+        <item>Đang đợi</item>
+        <item>Từ chối</item>
+    </string-array>
+</resources>

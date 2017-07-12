@@ -1,3 +1,251 @@
 <resources>
+    <string name="app_name">WSM</string>
     <string name="locate">vi</string>
+
+    <!-- Common -->
+    <string name="error">Lỗi</string>
+    <string name="retry">Thử lại</string>
+
+    <!-- Dialog -->
+    <string name="agree">Đồng ý</string>
+    <string name="disagree">Từ chối</string>
+    <string name="allow">Cho phép</string>
+    <string name="deny">Từ chối</string>
+    <string name="dont_ask_again">Không hỏi lại</string>
+    <string name="more_info">Thêm thông tin</string>
+    <string name="choose">Chọn</string>
+    <string name="clear">Xóa</string>
+
+    <!-- MenuDrawer -->
+    <string name="profile">HỒ SƠ CÁ NHÂN</string>
+    <string name="personal_information">Thông tin cá nhân</string>
+    <string name="setup_profile">Thiết lập cá nhân</string>
+    <string name="personal_data">DỮ LIỆU CÁ NHÂN</string>
+    <string name="working_calendar">Lịch làm việc</string>
+    <string name="holiday_calendar">Lịch ngày nghỉ</string>
+    <string name="personal_request">YÊU CẦU CÁ NHÂN</string>
+    <string name="request_overtime">Yêu cầu làm ngoài giờ</string>
+    <string name="request_day_off">Yêu cầu xin nghỉ</string>
+    <string name="request_come_late_leave_early">Yêu cầu đi trễ, về sớm</string>
+    <string name="workspaces_data">DỮ LIỆU WORKSPACES</string>
+    <string name="workspaces">Dữ liệu Workspaces</string>
+    <string name="statistics_of_personal">Thống kê cá nhân</string>
+    <string name="manage_requests">QUẢN LÝ YÊU CẦU</string>
+    <string name="manage_request_overtime">Quản lý yêu cầu làm ngoài giờ</string>
+    <string name="manage_request_off">Quản lý yêu cầu xin nghĩ</string>
+    <string name="manage_request_leave">Quản lý yêu cầu đi trễ, về sớm</string>
+
+    <string name="create_request_ot">Tạo yêu cầu làm ngoài giờ</string>
+    <string name="create_request_leave">Tạo yêu cầu đi trễ, về sớm</string>
+    <string name="create_request_off">Tạo yêu cầu xin nghỉ</string>
+    <string name="navigation_drawer_open">Mở ngăn điều hướng</string>
+    <string name="navigation_drawer_close">Đóng ngăn điều hướng</string>
+    <string name="please_click_back_again_to_exit">Nhấn nút BACK lần nữa để thoát!</string>
+    <string name="email">Email</string>
+    <string name="password">Mật khẩu</string>
+    <string name="new_password">Mật khẩu mới</string>
+    <string name="current_password">Mật khẩu hiện tại</string>
+    <string name="confirm_password">Xác nhận mật khẩu</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="log_in">Đăng nhập</string>
+    <string name="is_empty">Vui lòng nhập trường này !</string>
+    <string name="invalid_email_format">Email không đúng định dạng !</string>
+    <string name="least_6_characters">Vui lòng nhập ít nhất 6 ký tự !</string>
+    <string name="confirm_password_does_not_match">Xác nhận mật khẩu không khớp !</string>
+    <string name="request_leave">Yêu cầu đi trễ, về sớm</string>
+
+    <string name="employee_name">Tên nhân viên</string>
+    <string name="employee_code">Mã nhân viên</string>
+    <string name="project_name">Tên dự án</string>
+    <string name="position_name">Vị trí công việc</string>
+    <string name="branch">Chi nhánh</string>
+    <string name="group">Phòng ban</string>
+    <string name="contract_date"> Ngày bắt đầu làm việc chính thức</string>
+    <string name="start_probation_date">Ngày bắt đầu thử việc</string>
+    <string name="end_probation_date">Ngày kết thúc thử việc</string>
+    <string name="staff_type">Loại nhân viên</string>
+    <string name="position">Vị trí</string>
+    <string name="gender">Giới tính</string>
+    <string name="birthday">Ngày sinh</string>
+    <string name="off_have_salary_company_pay">Nghỉ có lương - Công ty trả</string>
+    <string name="number_day_off">Số ngày nghỉ</string>
+    <string name="off_no_salary">Nghỉ không lương</string>
+
+    <string name="off_type">Hình thức nghỉ</string>
+    <string name="annual_leave">Nghỉ phép thường niên (14.5 ngày)</string>
+    <string name="leave_for_marriage">Kết hôn (3.0 ngày)</string>
+    <string name="leave_for_child_marriage">Con kết hôn (1.0 ngày)</string>
+    <string name="funeral_leave">Nghỉ lễ tang (3.0 ngày)</string>
+    <string name="leave_for_care_of_sick_child">Con ốm (20.0 ngày)</string>
+    <string name="pregnancy_examination_leave">Nghỉ khám thai (5.0 ngày)</string>
+    <string name="sick_leave">Nghỉ đau ốm (60.0 ngày)</string>
+    <string name="miscarriage_leave">Nghỉ sẩy thai (50.0 ngày)</string>
+    <string name="maternity_leave">Nghỉ thai sản (180.0 ngày)</string>
+    <string name="wife_labor_leave">Vợ sinh con (14.0 ngày)</string>
+    <string name="company_pay">Công ty trả</string>
+    <string name="insurance_coverage">Bảo hiểm trả</string>
+    <string name="select_date">Chọn ngày</string>
+    <string name="select_time">Chọn thời gian</string>
+    <string name="reason">Lý do</string>
+    <string name="create">Tạo mới</string>
+    <string name="created_at">Thời gian tạo</string>
+    <string name="confirm_create">Xác nhận</string>
+    <string name="from">Từ</string>
+    <string name="to">Đến</string>
+    <string name="pending">Đang chờ</string>
+    <string name="accepted">Chấp nhận</string>
+    <string name="rejected">Từ chối</string>
+    <string name="forwarded">Chuyển tiếp</string>
+    <string name="leave_type">Hình thức xin phép</string>
+    <string name="compensation_time">Đăng ký thời gian làm bù</string>
+    <string name="example_time_from">Ví dụ: 2017/05/20 17:30</string>
+    <string name="example_time_to">Ví dụ: 2017/05/20 18:30</string>
+    <string name="confirm_request_leave">Xác nhận tạo yêu cầu đi trễ, về sớm</string>
+    <string name="submit">Gửi đi</string>
+    <string name="next">Tiếp theo</string>
+    <string name="status">Trạng thái</string>
+    <string name="all">Tất cả</string>
+    <string name="month">Tháng</string>
+    <string name="date">Ngày:</string>
+    <string name="date_of_creation">Ngày tạo:</string>
+    <string name="day_session">Buổi</string>
+    <string name="time_request">Thời gian yêu cầu:</string>
+    <string name="request_ot">Yêu cầu làm ngoài giờ</string>
+    <string name="confirm_request_overtime">Xác nhận yêu cầu làm ngoài giờ</string>
+    <string name="request_off">Yêu cầu xin nghỉ</string>
+    <string name="confirm_request_off">Xác nhận xin nghỉ</string>
+    <string name="note">Lưu ý: \u0020</string>
+    <string name="am_pm">Buổi sáng: am - am;  Buổi chiều: pm - pm;  Cả ngày: am - pm</string>
+    <string name="off_have_salary_from">Nghỉ có lương từ</string>
+    <string name="off_have_salary_to">Nghỉ có lương đến</string>
+    <string name="off_no_salary_from">Nghỉ không lương từ</string>
+    <string name="off_no_salary_to">Nghỉ không lương đến</string>
+    <string name="off_have_salary_insurance_coverage">Nghỉ có lương - Bảo hiểm trả</string>
+    <string name="edit">Sửa</string>
+    <string name="delete">Xóa</string>
+    <string name="being_handled_by">Nhóm đang xử lý</string>
+    <string name="confirm_edit_request_off">Xác nhận sửa yêu cầu xin nghỉ</string>
+    <string name="confirm_edit_request_overtime">Xác nhận sửa yêu cầu làm ngoài giờ</string>
+    <string name="edit_request_off">Sửa yêu cầu xin nghỉ</string>
+    <string name="edit_profile">Chỉnh sửa thông tin cá nhân</string>
+    <string name="change_password">Đổi mật khẩu</string>
+    <string name="default_group_and_workspace">Nhóm và workspace mặc định</string>
+    <string name="default_group">Nhóm mặc định</string>
+    <string name="default_workspace">Workspace mặc định</string>
+    <string name="notification_settings">Thiết lập thông báo</string>
+    <string name="receive_notification">Nhận thông báo khi có thao tác (bật/tắt TẤT CẢ)</string>
+    <string name="notification_list">Thông báo danh sách nhân viên đặc biệt</string>
+    <string name="notification_Change_workspace">Thông báo thay đổi Workspace</string>
+    <string name="notification_Change_group">Thông báo thay đổi nhóm</string>
+    <string name="update">Cập nhật</string>
+    <string name="receive_notification_or_email">Nhận thông báo hoặc email</string>
+    <string name="edit_request_overtime">Sửa yêu cầu làm ngoài giờ</string>
+    <string name="type_leave">Hình thức xin phép:</string>
+    <string name="statu">Trạng thái:</string>
+
+    <!-- In late (M) -->
+    <string name="leave_type_in_late_m">In late (M)</string>
+    <string name="title_in_late_m">Thời gian đến buổi sáng</string>
+    <string name="exmple_in_late_m">Ví dụ: 2017/05/20 08:45</string>
+
+    <!-- In late (A) -->
+    <string name="title_in_late_a">Thời gian đến buổi chiều</string>
+    <string name="exmple_in_late_a">Ví dụ: 2017/05/20 13:45</string>
+
+    <!-- Leave early (M) -->
+    <string name="title_leave_early_m">Thời gian về</string>
+    <string name="exmple_leave_early_m">Ví dụ: 2017/05/20 10:45</string>
+
+    <!-- Leave early (A) -->
+    <string name="title_leave_early_a">Thời gian về</string>
+    <string name="exmple_leave_early_a">Ví dụ: 2017/05/20 15:45</string>
+
+    <!-- Leave out -->
+    <string name="title_leave_out_from">Từ</string>
+    <string name="exmple_leave_out_from">Ví dụ: 2017/05/20 08:30</string>
+    <string name="title_leave_out_to">Đến</string>
+    <string name="exmple_leave_out_to">Ví dụ: 2017/05/20 09:30</string>
+
+    <!-- Forgot in -->
+    <string name="title_forgot_in">Thời gian đến</string>
+    <string name="exmple_forgot_in">Ví dụ: 2017/05/20 08:45</string>
+
+    <!-- Forgot out -->
+    <string name="title_forgot_out">Thời gian về</string>
+    <string name="exmple_forgot_out">Ví dụ: 2017/05/20 15:45</string>
+
+    <!-- Valid LeaveRequest test OverTime -->
+    <string name="time_request_overtime_invalid">Thời gian làm ngoài giờ không hợp lệ: không nằm trong khoảng thời gian cho phép làm ngoài giờ</string>
+    <string name="end_time_is_less_than_start_time">Thời gian kết thúc phải lớn hơn thời gian bắt đầu</string>
+    <string name="you_have_to_choose_the_from_time_first">Bạn phải chọn thời gian bắt đầu trước</string>
+
+    <!-- Valid LeaveRequest test Leave -->
+    <string name="the_working_time_dose_not_fit_to_the_request">Thời gian làm việc không phù hợp với yêu cầu</string>
+    <string name="form_overdue">Đã quá thời gian tạo request</string>
+    <string name="this_is_form_request_late_time_in_is_incorrect">Đây là form xin đi muộn, thời gian đến của bạn không chính xác</string>
+    <string name="your_amount_tim_can_not_greater_than_max_allow_time">Lượng thời gian của bạn không thể lớn hơn thời gian cho phép tối đa</string>
+    <string name="check_in_time_must_be_in_morning_shift">Thời gian đến phải vào ca làm việc buổi sáng</string>
+    <string name="check_in_time_must_be_in_afternoon_shift">Thời gian đến phải vào ca làm việc buổi chiều</string>
+    <string name="check_out_time_must_be_in_morning_shift">Thời gian về phải vào ca làm việc buổi sáng</string>
+    <string name="check_out_time_must_be_in_afternoon_shift">Thời gian về phải vào ca làm việc buổi chiều</string>
+    <string name="time_into_company_illegal">Thời gian vào công ty không hợp lệ</string>
+    <string name="can_not_be_greater_than_0_5_hours_from_the_work_shift">Yêu cầu IL (chỉ dành cho phụ nữ) không được quá 0,5 giờ kể từ ca làm việc</string>
+    <string name="your_time_can_not_be_sooner_than_time_in_of_company">Thời gian của bạn không thể sớm hơn thời gian vào công ty</string>
+    <string name="your_time_can_not_in_lunch_break_time_of_company">Thời gian của bạn không thể nằm trong thời gian nghỉ trưa của công ty</string>
+    <string name="your_time_can_not_be_later_than_time_out_company">Thời gian của bạn không thể muộn hơn thời gian ra công ty</string>
+    <string name="time_must_be_is_in_a_day">Thời gian phải nằm trong một ngày</string>
+    <string name="request_time_to_can_not_greater_than_request_time_from">Yêu cầu thời gian về phải lớn hơn thời gian đến</string>
+    <string name="you_have_to_choose_the_check_in_time_first">Bạn phải chọn thời gian đến trước</string>
+    <string name="you_have_to_choose_the_check_out_time_first">Bạn phải chọn thời gian về trước</string>
+    <string name="you_just_need_choose_the_compensation_from_time">Bạn chỉ cần chọn thời gian bắt đầu làm bù, thời gian kết thúc sẽ tự xử lý sau đó</string>
+    <string name="compensation_time_is_not_in_the_past">Thời gian làm bù không được trong quá khú</string>
+    <string name="your_compensation_time_can_not_in_working_time">Thời gian làm bù của bạn không thể nằm trong thời gian làm việc của công ty</string>
+    <string name="check_in_time">Thời gian đến</string>
+    <string name="check_out_time">Thời gian về</string>
+
+    <!-- ValidLeaveRequestuest Off -->
+    <string name="you_can_not_access">Bạn không thể xử lý cho tháng này</string>
+    <string name="you_have_to_choose_start_date">Bạn phải chọn ngày bắt đầu trước!</string>
+    <string name="end_date_must_greater_than_start_day">Ngày kết thúc phải lớn hơn ngày bắt đầu!</string>
+    <string name="the_number_of_days_allowed">Số ngày xin nghỉ không được để trống!</string>
+    <string name="the_field_required_can_not_be_blank">Trường bắt buộc không được để trống!</string>
+    <string name="time_must_be_a_working_date">Thời gian phải là một ngày làm việc!</string>
+    <string name="annual_leave_is_not_greater_than_14_5_day">Nghỉ phép thường niên không được quá 14,5 ngày!</string>
+    <string name="leave_for_marriage_is_not_greater_than_3_day">Nghỉ kết hôn không được quá 3 ngày!</string>
+    <string name="leave_for_child_marriage_is_not_greater_than_1_day">Nghỉ con kết hôn không được quá 1 ngày!</string>
+    <string name="funeral_leave_is_not_greater_than_3_day">Nghỉ lễ tang không được quá 3 ngày!</string>
+    <string name="leave_for_care_of_sick_is_not_greater_than_20_day">Nghỉ con ốm không được quá 20 ngày!</string>
+    <string name="pregnacy_examination_leave_is_not_greater_than_14_5_day">Nghỉ khám thai không được quá 5 ngày!</string>
+    <string name="sick_leave_is_not_greater_than_60_day">Nghỉ đau ốm không dduwuocj quá 60 ngày!</string>
+    <string name="miscarriage_leave_is_not_greater_than_50_day">Nghỉ sảy thai không được quá 50 ngày!</string>
+    <string name="maternity_leave_is_not_greater_than_180_day">Nghỉ thai sản không được quá 180 ngày!</string>
+    <string name="wife_labor_leave_is_not_greater_than_14_day">Nghỉ vợ sinh không được quá 14 ngày!</string>
+    <string name="detail_request_off">Chi tiết yêu cầu xin nghỉ</string>
+    <string name="detail_request_overtime">Chi tiết yêu cầu làm ngoài giờ</string>
+    <string name="confirm_delete">Xác nhận xóa</string>
+    <string name="do_you_want_delete_this_request">Bạn có chắc chắn muốn xóa yêu cầu này?</string>
+    <string name="company">Công ty</string>
+    <string name="individual_code">Mã cá nhân</string>
+    <string name="birday">Sinh nhật</string>
+    <string name="mail">Email</string>
+
+    <string name="company_holiday">Ngày nghỉ công ty</string>
+    <string name="normal_holiday">Ngày nghỉ quốc gia</string>
+    <string name="saturday_sunday">Thứ bảy/Chủ nhật</string>
+    <string name="your_notification">Thông báo của bạn</string>
+
+    <string name="total_day_off">Tổng số ngày nghỉ</string>
+    <string name="number_day_off_have_salary">Số ngày nghỉ có lương</string>
+    <string name="number_day_off_no_salary">Số ngày nghỉ không lương</string>
+    <string name="number_over_time">Tổng thời gian làm thêm</string>
+    <string name="total_fining">Tổng số lần phạt</string>
+    <string name="summary">Tổng kết</string>
+    <string name="handler">Người xử lý :</string>
+    <string name="wo_il_le_lo_enough_compensation_time">WO/IL/LE/LO và làm bù đủ</string>
+    <string name="holiday">Ngày lễ</string>
+    <string name="l_lo_le_forgot_card_forgot_checkin_checkout">IL/LO/LE/quên quẹt/quên thẻ</string>
+    <string name="no_data_not_enough_working_time">Không có dữ liệu/Không đủ thời gian làm việc</string>
+    <string name="p_paid_leave_of_absence">P: Nghỉ có lương</string>
+    <string name="ro_unpaid_leave_of_absence">Ro: Nghỉ không lương</string>
+
 </resources>

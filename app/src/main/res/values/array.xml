@@ -1,24 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    //todo delete later
-    <string-array name="leave_type">
-        <item>In late (M)</item>
-        <item>In late (A)</item>
-        <item>Leave early (M)</item>
-        <item>Leave early (A)</item>
-        <item>Leave out</item>
-        <item>Forgot to check in/check out (all day)</item>
-        <item>Forgot to check in</item>
-        <item>Forgot to check out</item>
-        <item>Forgot card (all day)</item>
-        <item>Forgot card (int)</item>
-        <item>Forgot card (out)</item>
-        <item>In late (woman only)(M)</item>
-        <item>In late (woman only)(A)</item>
-        <item>Leave early (woman only)(M)</item>
-        <item>Leave early (woman only)(A)</item>
-    </string-array>
-
     <string-array name="off_type">
         <item>Off have salary - Company Pay </item>
         <item>Off have salary - Insurance Coverage </item>
