@@ -33,7 +33,6 @@ import java.util.Calendar;
 import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
 import static com.framgia.wsm.utils.common.DateTimeUtils.DATE_FORMAT_YYYY_MM_DD;
 import static com.framgia.wsm.utils.common.DateTimeUtils.FORMAT_DATE;
-import static com.framgia.wsm.utils.common.DateTimeUtils.convertUiFormatToDataFormat;
 
 /**
  * Exposes the data to be used in the OffRequest screen.
@@ -336,17 +335,18 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     private void setStartDate(String startDate) {
-        String startDateFormat =
-                convertUiFormatToDataFormat(startDate, DATE_FORMAT_YYYY_MM_DD, FORMAT_DATE);
         if (mIsVisibleLayoutNoSalary) {
-            mStartDateNoSalary = startDateFormat;
+            mStartDateNoSalary = startDate;
             OffRequest.OffNoSalaryFrom offNoSalaryFrom = new OffRequest.OffNoSalaryFrom();
-            offNoSalaryFrom.setOffFrom(mStartDateNoSalary);
+            offNoSalaryFrom.setOffFrom(DateTimeUtils.convertUiFormatToDataFormat(mStartDateNoSalary,
+                    DATE_FORMAT_YYYY_MM_DD, FORMAT_DATE));
             mRequestOff.setStartDayNoSalary(offNoSalaryFrom);
         } else {
-            mStartDateHaveSalary = startDateFormat;
+            mStartDateHaveSalary = startDate;
             OffRequest.OffHaveSalaryFrom offHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
-            offHaveSalaryFrom.setOffPaidFrom(mStartDateHaveSalary);
+            offHaveSalaryFrom.setOffPaidFrom(
+                    DateTimeUtils.convertUiFormatToDataFormat(mStartDateHaveSalary,
+                            DATE_FORMAT_YYYY_MM_DD, FORMAT_DATE));
             mRequestOff.setStartDayHaveSalary(offHaveSalaryFrom);
         }
         notifyPropertyChanged(BR.startDate);
@@ -359,17 +359,18 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     private void setEndDate(String endDate) {
-        String endDateFormat =
-                convertUiFormatToDataFormat(endDate, DATE_FORMAT_YYYY_MM_DD, FORMAT_DATE);
         if (mIsVisibleLayoutNoSalary) {
-            mEndDateNoSalary = endDateFormat;
+            mEndDateNoSalary = endDate;
             OffRequest.OffNoSalaryTo offNoSalaryTo = new OffRequest.OffNoSalaryTo();
-            offNoSalaryTo.setOffTo(mEndDateNoSalary);
+            offNoSalaryTo.setOffTo(DateTimeUtils.convertUiFormatToDataFormat(mEndDateNoSalary,
+                    DATE_FORMAT_YYYY_MM_DD, FORMAT_DATE));
             mRequestOff.setEndDayNoSalary(offNoSalaryTo);
         } else {
-            mEndDateHaveSalary = endDateFormat;
+            mEndDateHaveSalary = endDate;
             OffRequest.OffHaveSalaryTo offHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
-            offHaveSalaryTo.setOffPaidTo(mEndDateHaveSalary);
+            offHaveSalaryTo.setOffPaidTo(
+                    DateTimeUtils.convertUiFormatToDataFormat(mEndDateHaveSalary,
+                            DATE_FORMAT_YYYY_MM_DD, FORMAT_DATE));
             mRequestOff.setEndDayHaveSalary(offHaveSalaryTo);
         }
         notifyPropertyChanged(BR.endDate);
@@ -546,25 +547,31 @@ public class RequestOffViewModel extends BaseRequestOff
     private void setRequestOff() {
         if (mStartDateHaveSalary != null) {
             OffRequest.OffHaveSalaryFrom offHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
-            offHaveSalaryFrom.setOffPaidFrom(mStartDateHaveSalary);
+            offHaveSalaryFrom.setOffPaidFrom(
+                    DateTimeUtils.convertUiFormatToDataFormat(mStartDateHaveSalary,
+                            DATE_FORMAT_YYYY_MM_DD, FORMAT_DATE));
             offHaveSalaryFrom.setPaidFromPeriod(mCurrentDaySessionStartDayHaveSalary);
             mRequestOff.setStartDayHaveSalary(offHaveSalaryFrom);
         }
         if (mEndDateHaveSalary != null) {
             OffRequest.OffHaveSalaryTo offHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
-            offHaveSalaryTo.setOffPaidTo(mEndDateHaveSalary);
+            offHaveSalaryTo.setOffPaidTo(
+                    DateTimeUtils.convertUiFormatToDataFormat(mEndDateHaveSalary,
+                            DATE_FORMAT_YYYY_MM_DD, FORMAT_DATE));
             offHaveSalaryTo.setPaidToPeriod(mCurrentDaySessionEndDayHaveSalary);
             mRequestOff.setEndDayHaveSalary(offHaveSalaryTo);
         }
         if (mStartDateNoSalary != null) {
             OffRequest.OffNoSalaryFrom offNoSalaryFrom = new OffRequest.OffNoSalaryFrom();
-            offNoSalaryFrom.setOffFrom(mStartDateNoSalary);
+            offNoSalaryFrom.setOffFrom(DateTimeUtils.convertUiFormatToDataFormat(mStartDateNoSalary,
+                    DATE_FORMAT_YYYY_MM_DD, FORMAT_DATE));
             offNoSalaryFrom.setOffFromPeriod(mCurrentDaySessionStartDayNoSalary);
             mRequestOff.setStartDayNoSalary(offNoSalaryFrom);
         }
         if (mEndDateNoSalary != null) {
             OffRequest.OffNoSalaryTo offNoSalaryTo = new OffRequest.OffNoSalaryTo();
-            offNoSalaryTo.setOffTo(mEndDateNoSalary);
+            offNoSalaryTo.setOffTo(DateTimeUtils.convertUiFormatToDataFormat(mEndDateNoSalary,
+                    DATE_FORMAT_YYYY_MM_DD, FORMAT_DATE));
             offNoSalaryTo.setOffToPeriod(mCurrentDaySessionEndDayNoSalary);
             mRequestOff.setEndDayNoSalary(offNoSalaryTo);
         }
