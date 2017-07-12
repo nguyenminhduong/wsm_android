@@ -147,7 +147,9 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
 
     @Override
     public void onDeleteFormRequestLeaveSuccess() {
-        mNavigator.finishActivityWithResult(Activity.RESULT_OK);
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.EXTRA_REQUEST_TYPE_CODE, RequestType.REQUEST_LATE_EARLY);
+        mNavigator.finishActivityWithResult(bundle, Activity.RESULT_OK);
     }
 
     @Override
@@ -204,6 +206,16 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
             return mRequest.getCheckOutTime();
         }
         return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+    }
+
+    public String getCompensationFromTime() {
+        return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getFromTime(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+    }
+
+    public String getCompensationToTime() {
+        return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getToTime(),
                 DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
     }
 
