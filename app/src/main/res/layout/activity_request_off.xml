@@ -81,6 +81,8 @@
 
                         <EditText
                             android:hint="@string/employee_name"
+                            android:maxLength="50"
+                            android:maxLines="1"
                             android:text="@{viewModel.user.name}"
                             style="@style/StyleText"
                             />
@@ -92,6 +94,8 @@
 
                         <EditText
                             android:hint="@string/employee_code"
+                            android:maxLength="50"
+                            android:maxLines="1"
                             android:text="@{viewModel.user.code}"
                             style="@style/StyleText"
                             />
@@ -103,6 +107,8 @@
 
                         <EditText
                             android:hint="@string/position_name"
+                            android:maxLength="100"
+                            android:maxLines="1"
                             android:text="@={viewModel.requestOff.project}"
                             style="@style/StyleEditableText"
                             />
@@ -114,6 +120,8 @@
 
                         <EditText
                             android:hint="@string/project_name"
+                            android:maxLength="200"
+                            android:maxLines="1"
                             android:text="@={viewModel.requestOff.position}"
                             style="@style/StyleEditableText"
                             />
@@ -183,7 +191,9 @@
                             >
 
                             <EditText
+                                android:ellipsize="end"
                                 android:hint="@string/off_type"
+                                android:maxLines="1"
                                 android:onClick="@{viewModel::onPickTypeRequestOff}"
                                 android:text="@{viewModel.currentOffType}"
                                 style="@style/StyleText"
