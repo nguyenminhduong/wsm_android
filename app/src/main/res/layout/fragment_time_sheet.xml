@@ -259,7 +259,7 @@
                                     <com.framgia.wsm.widget.CircleView
                                         android:layout_width="@dimen/dp_20"
                                         android:layout_height="@dimen/dp_20"
-                                        app:circleColor="@{color.colorPrimary}"
+                                        app:circleColor="@{color.colorGreen1}"
                                         bind:ignore="TooDeepLayout"
                                         />
                                     <LinearLayout
@@ -291,7 +291,7 @@
                                     <com.framgia.wsm.widget.CircleView
                                         android:layout_width="@dimen/dp_20"
                                         android:layout_height="@dimen/dp_20"
-                                        app:circleColor="@{color.colorPrimary}"
+                                        app:circleColor="@{color.colorGreen2}"
                                         />
                                     <LinearLayout
                                         android:orientation="horizontal"
@@ -323,7 +323,7 @@
                                     <com.framgia.wsm.widget.CircleView
                                         android:layout_width="@dimen/dp_20"
                                         android:layout_height="@dimen/dp_20"
-                                        app:circleColor="@{color.colorPrimary}"
+                                        app:circleColor="@{color.colorGreen3}"
                                         />
                                     <LinearLayout
                                         android:orientation="horizontal"
@@ -355,7 +355,7 @@
                                     <com.framgia.wsm.widget.CircleView
                                         android:layout_width="@dimen/dp_20"
                                         android:layout_height="@dimen/dp_20"
-                                        app:circleColor="@{color.colorPrimary}"
+                                        app:circleColor="@{color.colorGreen4}"
                                         />
                                     <LinearLayout
                                         android:orientation="horizontal"
@@ -387,7 +387,7 @@
                                     <com.framgia.wsm.widget.CircleView
                                         android:layout_width="@dimen/dp_20"
                                         android:layout_height="@dimen/dp_20"
-                                        app:circleColor="@{color.colorPrimary}"
+                                        app:circleColor="@{color.colorGreen5}"
                                         />
                                     <LinearLayout
                                         android:orientation="horizontal"
@@ -479,7 +479,7 @@
             app:menu_colorPressed="@color/color_dark_gray"
             app:menu_colorRipple="@color/color_gray"
             app:menu_fab_size="mini"
-            app:menu_icon="@drawable/ic_info_outline_black_24dp"
+            app:menu_icon="@drawable/ic_info"
             app:menu_labels_colorNormal="@color/color_gray_transparent"
             app:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
             app:menu_labels_padding="@dimen/dp_10"
