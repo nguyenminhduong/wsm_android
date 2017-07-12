@@ -141,4 +141,34 @@ public interface WSMApi {
     @GET("/api/dashboard/request_off")
     Observable<BaseResponse<List<OffRequest>>> getListRequestOffManage(
             @Query("from") String fromTime, @Query("to") String toTime);
+
+    //TODO edit later
+    @POST("api/dashboard/request_ots/{request_ots_id}")
+    Observable<BaseResponse<RequestOverTime>> approveFormRequestOverTime(
+            @Path("request_ots_id") int requestOverTimeId);
+
+    //TODO edit later
+    @POST("/api/dashboard/request_leaves/{request_leave_id}")
+    Observable<BaseResponse<LeaveRequest>> approveFormRequestLeave(
+            @Path("request_leave_id") int requestLeaveId);
+
+    //TODO edit later
+    @POST("/api/dashboard/request_offs/{request_offs_id}")
+    Observable<BaseResponse<OffRequest>> approveFormRequestOff(
+            @Path("request_offs_id") int requestOffId);
+
+    //TODO edit later
+    @POST("api/dashboard/request_ots/{request_ots_id}")
+    Observable<BaseResponse<RequestOverTime>> rejectFormRequestOverTime(
+            @Path("request_ots_id") int requestOverTimeId);
+
+    //TODO edit later
+    @POST("/api/dashboard/request_leaves/{request_leave_id}")
+    Observable<BaseResponse<LeaveRequest>> rejectFormRequestLeave(
+            @Path("request_leave_id") int requestLeaveId);
+
+    //TODO edit later
+    @POST("/api/dashboard/request_offs/{request_offs_id}")
+    Observable<BaseResponse<OffRequest>> rejectFormRequestOff(
+            @Path("request_offs_id") int requestOffId);
 }

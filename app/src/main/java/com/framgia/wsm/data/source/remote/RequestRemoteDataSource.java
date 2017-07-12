@@ -151,4 +151,34 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
             String toTime) {
         return mWSMApi.getListRequestOffManage(fromTime, toTime);
     }
+
+    @Override
+    public Observable<BaseResponse<LeaveRequest>> approveRequestLeave(int requestId) {
+        return mWSMApi.approveFormRequestLeave(requestId);
+    }
+
+    @Override
+    public Observable<BaseResponse<OffRequest>> approveRequestOff(int requestId) {
+        return mWSMApi.approveFormRequestOff(requestId);
+    }
+
+    @Override
+    public Observable<BaseResponse<RequestOverTime>> approveRequestOverTime(int requestId) {
+        return mWSMApi.approveFormRequestOverTime(requestId);
+    }
+
+    @Override
+    public Observable<BaseResponse<LeaveRequest>> rejectRequestLeave(int requestId) {
+        return mWSMApi.rejectFormRequestLeave(requestId);
+    }
+
+    @Override
+    public Observable<BaseResponse<OffRequest>> rejectRequestOff(int requestId) {
+        return mWSMApi.rejectFormRequestOff(requestId);
+    }
+
+    @Override
+    public Observable<BaseResponse<RequestOverTime>> rejectRequestOverTime(int requestId) {
+        return mWSMApi.rejectFormRequestOverTime(requestId);
+    }
 }

@@ -20,13 +20,17 @@ interface ManageListRequestsContract {
 
         void setRequestType(@RequestType int requestType);
 
-        void onApproveRequestSuccess();
+        void onApproveRequestSuccess(@RequestType int requestType, int itemPosition, Object object);
 
         void onApproveRequestError(BaseException exception);
 
-        void onRejectRequestSuccess();
+        void onRejectRequestSuccess(@RequestType int requestType, int itemPosition, Object object);
 
         void onRejectRequestError(BaseException exception);
+
+        void onDismissProgressDialog();
+
+        void onShowIndeterminateProgressDialog();
     }
 
     /**
@@ -36,8 +40,8 @@ interface ManageListRequestsContract {
 
         void getListAllRequestManage(@RequestType int requestType, String fromTime, String toTime);
 
-        void approveRequest(@RequestType int requestType, int requestId);
+        void approveRequest(@RequestType int requestType, int requestId, int itemPosition);
 
-        void rejectRequest(@RequestType int requestType, int requestId);
+        void rejectRequest(@RequestType int requestType, int requestId, int itemPosition);
     }
 }
