@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.model.Branch;
 import com.framgia.wsm.data.model.CompanyPay;
+import com.framgia.wsm.data.model.Group;
 import com.framgia.wsm.data.model.InsuranceCoverage;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.User;
@@ -29,6 +31,9 @@ import com.fstyle.library.MaterialDialog;
 import java.util.Calendar;
 
 import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
+import static com.framgia.wsm.utils.common.DateTimeUtils.DATE_FORMAT_YYYY_MM_DD;
+import static com.framgia.wsm.utils.common.DateTimeUtils.FORMAT_DATE;
+import static com.framgia.wsm.utils.common.DateTimeUtils.convertUiFormatToDataFormat;
 
 /**
  * Exposes the data to be used in the OffRequest screen.
@@ -331,13 +336,15 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     private void setStartDate(String startDate) {
+        String startDateFormat =
+                convertUiFormatToDataFormat(startDate, DATE_FORMAT_YYYY_MM_DD, FORMAT_DATE);
         if (mIsVisibleLayoutNoSalary) {
-            mStartDateNoSalary = startDate;
+            mStartDateNoSalary = startDateFormat;
             OffRequest.OffNoSalaryFrom offNoSalaryFrom = new OffRequest.OffNoSalaryFrom();
             offNoSalaryFrom.setOffFrom(mStartDateNoSalary);
             mRequestOff.setStartDayNoSalary(offNoSalaryFrom);
         } else {
-            mStartDateHaveSalary = startDate;
+            mStartDateHaveSalary = startDateFormat;
             OffRequest.OffHaveSalaryFrom offHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
             offHaveSalaryFrom.setOffPaidFrom(mStartDateHaveSalary);
             mRequestOff.setStartDayHaveSalary(offHaveSalaryFrom);
@@ -352,13 +359,15 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     private void setEndDate(String endDate) {
+        String endDateFormat =
+                convertUiFormatToDataFormat(endDate, DATE_FORMAT_YYYY_MM_DD, FORMAT_DATE);
         if (mIsVisibleLayoutNoSalary) {
-            mEndDateNoSalary = endDate;
+            mEndDateNoSalary = endDateFormat;
             OffRequest.OffNoSalaryTo offNoSalaryTo = new OffRequest.OffNoSalaryTo();
             offNoSalaryTo.setOffTo(mEndDateNoSalary);
             mRequestOff.setEndDayNoSalary(offNoSalaryTo);
         } else {
-            mEndDateHaveSalary = endDate;
+            mEndDateHaveSalary = endDateFormat;
             OffRequest.OffHaveSalaryTo offHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
             offHaveSalaryTo.setOffPaidTo(mEndDateHaveSalary);
             mRequestOff.setEndDayHaveSalary(offHaveSalaryTo);
@@ -427,11 +436,15 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     private void setCurrentBranch() {
-        mRequestOff.setBranch(mUser.getBranches().get(mCurrentBranchPosition));
+        Branch branch = mUser.getBranches().get(mCurrentBranchPosition);
+        mRequestOff.setWorkSpaceId(branch.getBranchId());
+        mRequestOff.setBranch(branch);
         notifyPropertyChanged(BR.requestOff);
     }
 
     private void setCurrentGroup() {
+        Group group = mUser.getGroups().get(mCurrentGroupPosition);
+        mRequestOff.setGroupId(group.getGroupId());
         mRequestOff.setGroup(mUser.getGroups().get(mCurrentGroupPosition));
         notifyPropertyChanged(BR.requestOff);
     }
