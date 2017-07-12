@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">WSM</string>
+    <string name="locate">en</string>
 
     <!-- Common -->
     <string name="error">Error</string>
@@ -24,7 +25,7 @@
     <string name="holiday_calendar">Holiday calendar</string>
     <string name="personal_request">PERSONAL REQUESTS</string>
     <string name="request_overtime">Overtime</string>
-    <string name="request_day_off" translatable="false">Day off</string>
+    <string name="request_day_off">Day off</string>
     <string name="request_come_late_leave_early">Come late, leave early</string>
     <string name="workspaces_data">WORKSPACES DATA</string>
     <string name="workspaces">Workspaces data</string>
@@ -101,10 +102,10 @@
     <string name="confirm_create">Confirm create</string>
     <string name="from">From</string>
     <string name="to">To</string>
-    <string name="pending" translatable="false">Pending</string>
-    <string name="accepted" translatable="false">Accepted</string>
-    <string name="rejected" translatable="false">Rejected</string>
-    <string name="forwarded" translatable="false">Forwarded</string>
+    <string name="pending">Pending</string>
+    <string name="accepted">Accepted</string>
+    <string name="rejected">Rejected</string>
+    <string name="forwarded">Forwarded</string>
     <string name="leave_type">Leave type</string>
     <string name="compensation_time">Compensation time</string>
     <string name="example_time_from">Ex: 2017/05/20 17:30</string>
@@ -112,15 +113,15 @@
     <string name="confirm_request_leave">Confirm request leave</string>
     <string name="submit">Submit</string>
     <string name="next">Next</string>
-    <string name="status" translatable="false">Status</string>
-    <string name="all" translatable="false">All</string>
-    <string name="month" translatable="false">Month</string>
-    <string name="date" translatable="false">Date:</string>
-    <string name="date_of_creation" translatable="false">Date of creation:</string>
-    <string name="day_session" translatable="false">Day session</string>
-    <string name="am" translatable="false">am</string>
-    <string name="pm" translatable="false">pm</string>
-    <string name="time_request" translatable="false">Time request:</string>
+    <string name="status">Status</string>
+    <string name="all">All</string>
+    <string name="month">Month</string>
+    <string name="date">Date:</string>
+    <string name="date_of_creation">Date of creation:</string>
+    <string name="day_session">Day session</string>
+    <string name="am">am</string>
+    <string name="pm">pm</string>
+    <string name="time_request">Time request:</string>
     <string name="request_ot">Request OverTime</string>
     <string name="confirm_request_overtime">Confirm Request OverTime</string>
     <string name="request_off">Request Off</string>
@@ -223,7 +224,6 @@
     <string name="the_number_of_days_allowed">The number of days allowed for vacations may not be left blank!</string>
     <string name="the_field_required_can_not_be_blank">The field required can not be blank!</string>
     <string name="time_must_be_a_working_date">Time must be a working day!</string>
-    <string name="locate">en</string>
     <string name="annual_leave_is_not_greater_than_14_5_day">Annual leave is not greater than 14.5 days !</string>
     <string name="leave_for_marriage_is_not_greater_than_3_day">Leave for marriage is not greater than 3 days !</string>
     <string name="leave_for_child_marriage_is_not_greater_than_1_day">Leave for child\'s marriage is not greater than 1 day !</string>
@@ -257,7 +257,7 @@
     <string name="handler">Handler :</string>
     <string name="wo_il_le_lo_enough_compensation_time">WO/IL/LE/LO and enough compensation time</string>
     <string name="holiday">Holiday</string>
-    <string name="l_lo_le_forgot_card_forgot_checkin_checkout">L/LO/LE/forgot card/forgot checkin/checkout</string>
+    <string name="l_lo_le_forgot_card_forgot_checkin_checkout">IL/LO/LE/forgot card/forgot checkin/checkout</string>
     <string name="no_data_not_enough_working_time">No Data/Not enough working time</string>
     <string name="p_paid_leave_of_absence">P: Paid leave of absence</string>
     <string name="ro_unpaid_leave_of_absence">Ro: Unpaid leave of absence</string>
