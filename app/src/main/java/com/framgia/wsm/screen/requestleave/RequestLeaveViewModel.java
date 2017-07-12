@@ -123,7 +123,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mActionType = actionType;
         setVisibleGroup(mActionType == ActionType.ACTION_CREATE);
         if (mActionType == ActionType.ACTION_CREATE) {
-            mCurrentLeaveTypeName = "In late (M)";
+            mCurrentLeaveTypeName = mContext.getString(R.string.leave_type_in_late_m);
         } else {
             mActionType = ActionType.ACTION_EDIT;
             mCurrentLeaveTypeName = mRequest.getLeaveType().getName();

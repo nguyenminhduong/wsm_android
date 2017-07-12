@@ -2,7 +2,6 @@ package com.framgia.wsm.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -364,9 +363,7 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         };
 
         public String getFromTime() {
-            return DateTimeUtils.convertUiFormatToDataFormat(mFromTime,
-                    DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+            return mFromTime;
         }
 
         public void setFromTime(String fromTime) {
@@ -374,9 +371,7 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         }
 
         public String getToTime() {
-            return DateTimeUtils.convertUiFormatToDataFormat(mToTime,
-                    DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+            return mToTime;
         }
 
         public void setToTime(String toTime) {
