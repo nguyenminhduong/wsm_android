@@ -253,5 +253,11 @@
     <string name="total_fining">Total Fining</string>
     <string name="summary">Summary</string>
     <string name="handler">Handler :</string>
+    <string name="wo_il_le_lo_enough_compensation_time">WO/IL/LE/LO and enough compensation time</string>
+    <string name="holiday">Holiday</string>
+    <string name="l_lo_le_forgot_card_forgot_checkin_checkout">L/LO/LE/forgot card/forgot checkin/checkout</string>
+    <string name="no_data_not_enough_working_time">No Data/Not enough working time</string>
+    <string name="p_paid_leave_of_absence">P: Paid leave of absence</string>
+    <string name="ro_unpaid_leave_of_absence">Ro: Unpaid leave of absence</string>
 
 </resources>

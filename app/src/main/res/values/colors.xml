@@ -20,6 +20,7 @@
     <color name="color_light_teal">#33fdfd</color>
     <color name="color_blue_medium">#0000CD</color>
     <color name="color_pink">#FF4081</color>
+    <color name="color_light_pink">#FFCCCC</color>
     <color name="color_dark_gray">#dcdcdc</color>
     <color name="color_black_transparent">#b9161616</color>
     <color name="color_red_transparent">#80FF0000</color>
@@ -38,5 +39,6 @@
     <color name="color_black_white">#3f062d1e</color>
     <color name="color_black_transparent_dark">#d0080808</color>
     <color name="color_gray_transparent">#b04e4c4c</color>
+    <color name="color_yellow">#f4df42</color>
 
 </resources>
