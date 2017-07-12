@@ -26,6 +26,7 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
     private List<LeaveRequest> mRequestsLeaves;
     private List<OffRequest> mRequestsOffs;
     private List<RequestOverTime> mRequestOverTimes;
+    private ActionRequestListener mActionRequestListener;
     @RequestType
     private int mRequestType;
 
@@ -126,7 +127,11 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
         mItemClickListener = itemClickListener;
     }
 
-    private static class RequestOverTimeViewHolder extends RecyclerView.ViewHolder {
+    void setActionRequestListener(ActionRequestListener actionRequestListener) {
+        mActionRequestListener = actionRequestListener;
+    }
+
+    private class RequestOverTimeViewHolder extends RecyclerView.ViewHolder {
         private ItemManageListRequestBinding mBinding;
         private OnRecyclerViewItemClickListener<Object> mItemClickListener;
 
@@ -139,12 +144,13 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
 
         void bind(RequestOverTime requestOverTime) {
             mBinding.setViewModel(
-                    new ItemManageListRequestViewModel(requestOverTime, mItemClickListener));
+                    new ItemManageListRequestViewModel(requestOverTime, mItemClickListener,
+                            mActionRequestListener));
             mBinding.executePendingBindings();
         }
     }
 
-    private static class RequestOffViewHolder extends RecyclerView.ViewHolder {
+    private class RequestOffViewHolder extends RecyclerView.ViewHolder {
         private ItemManageListRequestBinding mBinding;
         private OnRecyclerViewItemClickListener<Object> mItemClickListener;
 
@@ -156,13 +162,13 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
         }
 
         void bind(OffRequest offRequest) {
-            mBinding.setViewModel(
-                    new ItemManageListRequestViewModel(offRequest, mItemClickListener));
+            mBinding.setViewModel(new ItemManageListRequestViewModel(offRequest, mItemClickListener,
+                    mActionRequestListener));
             mBinding.executePendingBindings();
         }
     }
 
-    private static class RequestLeaveViewHolder extends RecyclerView.ViewHolder {
+    private class RequestLeaveViewHolder extends RecyclerView.ViewHolder {
         private ItemManageListRequestBinding mBinding;
         private OnRecyclerViewItemClickListener<Object> mItemClickListener;
 
@@ -175,7 +181,8 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
 
         void bind(LeaveRequest leaveRequest) {
             mBinding.setViewModel(
-                    new ItemManageListRequestViewModel(leaveRequest, mItemClickListener));
+                    new ItemManageListRequestViewModel(leaveRequest, mItemClickListener,
+                            mActionRequestListener));
             mBinding.executePendingBindings();
         }
     }

@@ -28,7 +28,7 @@ import com.framgia.wsm.utils.navigator.Navigator;
 public class MainViewModel extends BaseObservable implements MainContract.ViewModel {
 
     private static final String TAG = "MainActivity";
-    private static final int PAGE_LIMIT = 11;
+    private static final int PAGE_LIMIT = 12;
 
     private MainContract.Presenter mPresenter;
     private String mStatusDrawerLayout;
