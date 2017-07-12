@@ -312,11 +312,9 @@ public class RequestOvertimeViewModel extends BaseObservable
 
     private void validateToTime(String toTime) {
         if (DateTimeUtils.getDayOfMonth(toTime) == DateTimeUtils.getDayOfMonth(
+                mRequestOverTime.getFromTime()) && DateTimeUtils.convertStringToDateTime(
                 mRequestOverTime.getFromTime())
-                && DateTimeUtils.getHourOfDay(toTime) >= DateTimeUtils.getHourOfDay(
-                mRequestOverTime.getFromTime())
-                && DateTimeUtils.getMinute(toTime) > DateTimeUtils.getMinute(
-                mRequestOverTime.getFromTime())) {
+                .before(DateTimeUtils.convertStringToDateTime(toTime))) {
             setToTime(toTime);
         } else {
             validateErrorDialog(mContext.getString(R.string.end_time_is_less_than_start_time));
