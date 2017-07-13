@@ -476,7 +476,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                             R.string.you_have_to_choose_the_check_in_time_first));
                     break;
                 }
-                if (StringUtils.isBlank(mCheckoutTime)) {
+                if (StringUtils.isBlank(getCheckoutTime())) {
                     showDialogError(mContext.getString(
                             R.string.you_have_to_choose_the_check_out_time_first));
                     break;
@@ -1250,11 +1250,14 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     @Bindable
     public String getCheckoutTime() {
-        if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
+        if (DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY)
+                != null) {
             return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
                     DateTimeUtils.INPUT_TIME_FORMAT,
                     DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
         }
+
         return mRequest.getCheckOutTime();
     }
 
@@ -1267,12 +1270,13 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     @Bindable
     public String getCompensationFromTime() {
-        if (mActionType == ActionType.ACTION_CREATE
-                || mActionType == ActionType.ACTION_CONFIRM_CREATE) {
-            return mRequest.getCompensationRequest().getFromTime();
+        if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
+            return DateTimeUtils.convertUiFormatToDataFormat(
+                    mRequest.getCompensation().getFromTime(), DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
         }
-        return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getFromTime(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+
+        return mRequest.getCompensationRequest().getFromTime();
     }
 
     public void setCompensationFromTime(String compensationFromTime) {
@@ -1283,12 +1287,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     @Bindable
     public String getCompensationToTime() {
-        if (mActionType == ActionType.ACTION_CREATE
-                || mActionType == ActionType.ACTION_CONFIRM_CREATE) {
-            return mRequest.getCompensationRequest().getToTime();
+        if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
+            return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getToTime(),
+                    DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
         }
-        return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getToTime(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+        return mRequest.getCompensationRequest().getToTime();
     }
 
     public void setCompensationToTime(String compensationToTime) {
