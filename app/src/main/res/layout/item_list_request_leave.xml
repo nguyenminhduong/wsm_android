@@ -39,14 +39,14 @@
                 />
             <ImageView
                 android:id="@+id/image_time"
-                android:layout_width="@dimen/dp_50"
-                android:layout_height="@dimen/dp_50"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_5"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_marginStart="@dimen/dp_5"
                 android:background="@drawable/ic_clock_a"
                 tools:ignore="ContentDescription"
                 />
@@ -55,8 +55,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="@dimen/dp_5"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_marginStart="@dimen/dp_5"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_toEndOf="@+id/image_time"
                 android:layout_toLeftOf="@+id/image_status"
@@ -81,52 +81,40 @@
                         android:maxLines="1"
                         android:text="@{viewModel.leaveTypeName}"
                         android:textColor="@color/color_red_firebrick"
-                        android:textSize="@dimen/sp_17"
+                        android:textSize="@dimen/sp_15"
                         android:textStyle="bold"
                         />
 
                 </RelativeLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_1"
-                    android:layout_margin="@dimen/dp_5"
-                    android:background="@color/color_dark_gray"
-                    />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     >
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_5"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:orientation="horizontal"
-                        tools:ignore="UselessParent"
-                        >
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/time_request"
-                            android:textColor="@color/color_gray"
-                            android:textStyle="bold"
-                            />
-                        <TextView
-                            android:id="@+id/text_time_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:paddingEnd="@dimen/dp_3"
-                            android:paddingLeft="@dimen/dp_5"
-                            android:paddingRight="@dimen/dp_3"
-                            android:paddingStart="@dimen/dp_5"
-                            android:text="@{viewModel.timeRequestLeave}"
-                            tools:ignore="RelativeOverlap"
-                            />
-                    </LinearLayout>
+                        android:text="@string/time_request"
+                        android:textColor="@color/color_gray"
+                        android:textStyle="bold"
+                        />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_1"
+                        android:layout_gravity="center"
+                        android:background="@color/color_green_light"
+                        />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/text_time_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{viewModel.timeRequestLeave}"
+                    tools:ignore="RelativeOverlap"
+                    />
             </LinearLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
