@@ -210,13 +210,25 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     }
 
     public String getCompensationFromTime() {
-        return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getFromTime(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+        if (isDetail()) {
+            return DateTimeUtils.convertUiFormatToDataFormat(
+                    mRequest.getCompensation().getFromTime(), DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+        }
+        return DateTimeUtils.convertUiFormatToDataFormat(
+                mRequest.getCompensationRequest().getFromTime(), DateTimeUtils.INPUT_TIME_FORMAT,
+                DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
     }
 
     public String getCompensationToTime() {
-        return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getToTime(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+        if (isDetail()) {
+            return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getToTime(),
+                    DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+        }
+        return DateTimeUtils.convertUiFormatToDataFormat(
+                mRequest.getCompensationRequest().getToTime(), DateTimeUtils.INPUT_TIME_FORMAT,
+                DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
     }
 
     @Bindable

@@ -13,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.model.Branch;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.User;
@@ -158,6 +159,15 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         return 0;
     }
 
+    private int searchBranchPosition(List<Branch> branchList, String branchName) {
+        for (int i = 0; i <= branchList.size(); i++) {
+            if (branchList.get(i).getBranchName().equals(branchName)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
     @Override
     public void onStart() {
         mPresenter.onStart();
@@ -184,6 +194,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mRequest.setCompanyId(mUser.getCompany().getId());
         mCurrentLeaveTypePosition =
                 (searchLeaveTypePosition(mUser.getLeaveTypes(), mCurrentLeaveType));
+        mCurrentBranchPosition =
+                (searchBranchPosition(mUser.getBranches(), mRequest.getBranch().getBranchName()));
     }
 
     @Override
@@ -346,7 +358,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (mUser.getBranches() == null || mUser.getBranches().size() == 0) {
             return;
         }
-        String[] branches = new String[mUser.getBranches().size()];
+        final String[] branches = new String[mUser.getBranches().size()];
         for (int i = 0; i < branches.length; i++) {
             branches[i] = mUser.getBranches().get(i).getBranchName();
         }
@@ -356,7 +368,18 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                     public boolean onSelection(MaterialDialog materialDialog, View view,
                             int position, CharSequence charSequence) {
                         mCurrentBranchPosition = position;
-                        setCurrentBranch();
+                        if (mActionType == ActionType.ACTION_CREATE
+                                || mActionType == ActionType.ACTION_CONFIRM_CREATE) {
+                            setCurrentBranch();
+                        }
+                        if (mActionType == ActionType.ACTION_CONFIRM_EDIT
+                                || mActionType == ActionType.ACTION_EDIT) {
+                            mRequest.getBranch().setBranchName(branches[position]);
+                            mRequest.setWorkspaceName(branches[position]);
+                            mRequest.setWorkpaceId(
+                                    mUser.getBranches().get(mCurrentBranchPosition).getBranchId());
+                            notifyPropertyChanged(BR.currentBranch);
+                        }
                         return true;
                     }
                 });
@@ -1030,7 +1053,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             return mCurrentBranch;
         }
         if (mRequest.getWorkspaceName() == null) {
-            return "";
+            return mRequest.getBranch().getBranchName();
         }
         return mRequest.getWorkspaceName();
     }
@@ -1059,8 +1082,16 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     public void setCurrentBranch() {
-        mCurrentBranch = mUser.getBranches().get(mCurrentBranchPosition).getBranchName();
-        mRequest.setWorkpaceId(mUser.getBranches().get(mCurrentBranchPosition).getBranchId());
+        if (mActionType == ActionType.ACTION_CREATE
+                || mActionType == ActionType.ACTION_CONFIRM_CREATE) {
+            mCurrentBranch = mUser.getBranches().get(mCurrentBranchPosition).getBranchName();
+            mRequest.setWorkpaceId(mUser.getBranches().get(mCurrentBranchPosition).getBranchId());
+        }
+        if (mActionType == ActionType.ACTION_CONFIRM_EDIT
+                || mActionType == ActionType.ACTION_EDIT) {
+            mCurrentBranch = mRequest.getBranch().getBranchName();
+            mRequest.setWorkpaceId(mRequest.getBranch().getBranchId());
+        }
         mRequest.setWorkspaceName(mCurrentBranch);
         notifyPropertyChanged(BR.currentBranch);
     }
@@ -1219,6 +1250,11 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     @Bindable
     public String getCheckoutTime() {
+        if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
+            return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
+                    DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+        }
         return mRequest.getCheckOutTime();
     }
 
@@ -1231,7 +1267,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     @Bindable
     public String getCompensationFromTime() {
-        return mRequest.getCompensationRequest().getFromTime();
+        if (mActionType == ActionType.ACTION_CREATE
+                || mActionType == ActionType.ACTION_CONFIRM_CREATE) {
+            return mRequest.getCompensationRequest().getFromTime();
+        }
+        return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getFromTime(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
     }
 
     public void setCompensationFromTime(String compensationFromTime) {
@@ -1242,7 +1283,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     @Bindable
     public String getCompensationToTime() {
-        return mRequest.getCompensationRequest().getToTime();
+        if (mActionType == ActionType.ACTION_CREATE
+                || mActionType == ActionType.ACTION_CONFIRM_CREATE) {
+            return mRequest.getCompensationRequest().getToTime();
+        }
+        return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getToTime(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
     }
 
     public void setCompensationToTime(String compensationToTime) {
