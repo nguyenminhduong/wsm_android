@@ -32,7 +32,7 @@
     <string name="statistics_of_personal">Thống kê cá nhân</string>
     <string name="manage_requests">QUẢN LÝ YÊU CẦU</string>
     <string name="manage_request_overtime">Quản lý yêu cầu làm ngoài giờ</string>
-    <string name="manage_request_off">Quản lý yêu cầu xin nghĩ</string>
+    <string name="manage_request_off">Quản lý yêu cầu xin nghỉ</string>
     <string name="manage_request_leave">Quản lý yêu cầu đi trễ, về sớm</string>
 
     <string name="create_request_ot">Tạo yêu cầu làm ngoài giờ</string>

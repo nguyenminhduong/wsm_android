@@ -67,63 +67,55 @@
         </RelativeLayout>
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/linear_footer"
+            android:layout_height="match_parent"
             android:layout_below="@+id/relative_control"
             app:layoutManager="LinearLayoutManager"
             app:recyclerAdapter="@{viewModel.holidayCalendarAdapter}"
             />
-        <LinearLayout
-            android:id="@+id/linear_footer"
+        <com.github.clans.fab.FloatingActionMenu
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:padding="@dimen/dp_3"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|bottom"
+            android:padding="@dimen/dp_10"
+            android:tint="@color/colorPrimary"
+            app:menu_animationDelayPerItem="55"
+            app:menu_backgroundColor="@color/color_black_transparent"
+            app:menu_colorNormal="@android:color/white"
+            app:menu_colorPressed="@color/color_dark_gray"
+            app:menu_colorRipple="@color/color_gray"
+            app:menu_fab_size="mini"
+            app:menu_icon="@drawable/ic_info"
+            app:menu_labels_colorNormal="@color/color_gray_transparent"
+            app:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+            app:menu_labels_padding="@dimen/dp_10"
+            app:menu_labels_position="right"
+            app:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+            app:menu_labels_singleLine="false"
+            app:menu_labels_textColor="@android:color/white"
+            app:menu_labels_textSize="@dimen/sp_14"
+            app:menu_openDirection="up"
             >
-            <ImageView
-                android:layout_width="@dimen/dp_35"
-                android:layout_height="@dimen/dp_35"
-                android:background="@drawable/circle_company_holiday"
-                tools:ignore="ContentDescription"
-                />
-            <TextView
+            <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/company_holiday"
-                android:textColor="@color/color_white"
+                app:fab_colorNormal="@color/color_light_teal"
+                app:fab_label="@string/company_holiday"
+                app:fab_size="mini"
                 />
-            <ImageView
-                android:layout_width="@dimen/dp_35"
-                android:layout_height="@dimen/dp_35"
-                android:background="@drawable/circle_normal_holiday"
-                tools:ignore="ContentDescription"
-                />
-            <TextView
+            <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/normal_holiday"
-                android:textColor="@color/color_white"
+                app:fab_colorNormal="@color/color_gray"
+                app:fab_label="@string/saturday_sunday"
+                app:fab_size="mini"
                 />
-            <ImageView
-                android:layout_width="@dimen/dp_35"
-                android:layout_height="@dimen/dp_35"
-                android:background="@drawable/circle_weekend_holiday"
-                tools:ignore="ContentDescription"
-                />
-            <TextView
+            <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/saturday_sunday"
-                android:textColor="@color/color_white"
+                app:fab_colorNormal="@color/color_red_fresh"
+                app:fab_label="@string/normal_holiday"
+                app:fab_size="mini"
                 />
-        </LinearLayout>
+        </com.github.clans.fab.FloatingActionMenu>
     </RelativeLayout>
 </layout>
