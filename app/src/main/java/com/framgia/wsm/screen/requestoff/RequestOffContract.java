@@ -21,7 +21,7 @@ interface RequestOffContract {
 
         void onInputReasonError(String reason);
 
-        void onInputNumberDayHaveSalaryError(int typeOfDay);
+        void onInputNumberDayHaveSalaryError(String typeOfDay);
     }
 
     /**

@@ -421,7 +421,7 @@
                             <TextView
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="@{viewModel.requestOff.companyPay.annualLeave}"
+                                android:text="@{viewModel.requestOff.annualLeave}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
                         </LinearLayout>
@@ -437,7 +437,7 @@
                             <TextView
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="@{viewModel.requestOff.companyPay.leaveForChildMarriage}"
+                                android:text="@{viewModel.requestOff.leaveForChildMarriage}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
                         </LinearLayout>
@@ -453,7 +453,7 @@
                             <TextView
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="@{viewModel.requestOff.companyPay.leaveForMarriage}"
+                                android:text="@{viewModel.requestOff.leaveForMarriage}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
                         </LinearLayout>
@@ -469,7 +469,7 @@
                             <TextView
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="@{viewModel.requestOff.companyPay.funeralLeave}"
+                                android:text="@{viewModel.requestOff.funeralLeave}"
                                 tools:ignore="TooManyViews"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
@@ -520,7 +520,7 @@
                             <TextView
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="@{viewModel.requestOff.insuranceCoverage.leaveForCareOfSickChild}"
+                                android:text="@{viewModel.requestOff.leaveForCareOfSickChild}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
                         </LinearLayout>
@@ -536,7 +536,7 @@
                             <TextView
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="@{viewModel.requestOff.insuranceCoverage.sickLeave}"
+                                android:text="@{viewModel.requestOff.sickLeave}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
                         </LinearLayout>
@@ -552,7 +552,7 @@
                             <TextView
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="@{viewModel.requestOff.insuranceCoverage.maternityLeave}"
+                                android:text="@{viewModel.requestOff.maternityLeave}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
                         </LinearLayout>
@@ -568,7 +568,7 @@
                             <TextView
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="@{viewModel.requestOff.insuranceCoverage.pregnancyExaminationLeave}"
+                                android:text="@{viewModel.requestOff.pregnancyExaminationLeave}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
                         </LinearLayout>
@@ -584,7 +584,7 @@
                             <TextView
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="@{viewModel.requestOff.insuranceCoverage.miscarriageLeave}"
+                                android:text="@{viewModel.requestOff.miscarriageLeave}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
                         </LinearLayout>
@@ -600,7 +600,7 @@
                             <TextView
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="@{viewModel.requestOff.insuranceCoverage.wifeLaborLeave}"
+                                android:text="@{viewModel.requestOff.wifeLaborLeave}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
                         </LinearLayout>

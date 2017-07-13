@@ -9,6 +9,8 @@ import com.framgia.wsm.utils.validator.ValidType;
 import com.framgia.wsm.utils.validator.Validation;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Vinh on 06/06/2017.
@@ -31,6 +33,18 @@ public class OffRequest extends BaseModel implements Parcelable {
     private int mPositionRequestOffType;
     private String mRequestOffName;
 
+    private String mAnnualLeave;
+    private String mLeaveForMarriage;
+    private String mLeaveForChildMarriage;
+    private String mFuneralLeave;
+
+    private String mLeaveForCareOfSickChild;
+    private String mPregnancyExaminationLeave;
+    private String mSickLeave;
+    private String mMiscarriageLeave;
+    private String mMaternityLeave;
+    private String mWifeLaborLeave;
+
     @Expose
     @SerializedName("id")
     private int mId;
@@ -49,6 +63,9 @@ public class OffRequest extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("groups")
     private Group mGroup;
+    @Expose
+    @SerializedName("number_dayoff_normal")
+    private double mNumberDayOffNormal;
     @Expose
     @SerializedName("workspace_id")
     private int mWorkSpaceId;
@@ -88,6 +105,12 @@ public class OffRequest extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("approver")
     private Approver mApprover;
+    @Expose
+    @SerializedName("request_dayoff_type")
+    private List<RequestDayOffType> mRequestDayOffTypes = new ArrayList<>();
+    @Expose
+    @SerializedName("request_dayoff_types_attributes")
+    private List<RequestDayOffTypesAttribute> mRequestDayOffTypesAttributes = new ArrayList<>();
 
     public OffRequest() {
         mInsuranceCoverage = new InsuranceCoverage();
@@ -97,12 +120,23 @@ public class OffRequest extends BaseModel implements Parcelable {
     protected OffRequest(Parcel in) {
         mPositionRequestOffType = in.readInt();
         mRequestOffName = in.readString();
+        mAnnualLeave = in.readString();
+        mLeaveForMarriage = in.readString();
+        mLeaveForChildMarriage = in.readString();
+        mFuneralLeave = in.readString();
+        mLeaveForCareOfSickChild = in.readString();
+        mPregnancyExaminationLeave = in.readString();
+        mSickLeave = in.readString();
+        mMiscarriageLeave = in.readString();
+        mMaternityLeave = in.readString();
+        mWifeLaborLeave = in.readString();
         mId = in.readInt();
         mCreatedAt = in.readString();
         mProject = in.readString();
         mPosition = in.readString();
         mBranch = in.readParcelable(Branch.class.getClassLoader());
         mGroup = in.readParcelable(Group.class.getClassLoader());
+        mNumberDayOffNormal = in.readDouble();
         mWorkSpaceId = in.readInt();
         mGroupId = in.readInt();
         mCompanyPay = in.readParcelable(CompanyPay.class.getClassLoader());
@@ -111,22 +145,36 @@ public class OffRequest extends BaseModel implements Parcelable {
         mEndDayHaveSalary = in.readParcelable(OffHaveSalaryTo.class.getClassLoader());
         mStartDayNoSalary = in.readParcelable(OffNoSalaryFrom.class.getClassLoader());
         mEndDayNoSalary = in.readParcelable(OffNoSalaryTo.class.getClassLoader());
-        mApprover = in.readParcelable(Approver.class.getClassLoader());
         mReason = in.readString();
         mBeingHandledBy = in.readString();
         mStatus = in.readString();
+        mApprover = in.readParcelable(Approver.class.getClassLoader());
+        mRequestDayOffTypes = in.createTypedArrayList(RequestDayOffType.CREATOR);
+        mRequestDayOffTypesAttributes =
+                in.createTypedArrayList(RequestDayOffTypesAttribute.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mPositionRequestOffType);
         dest.writeString(mRequestOffName);
+        dest.writeString(mAnnualLeave);
+        dest.writeString(mLeaveForMarriage);
+        dest.writeString(mLeaveForChildMarriage);
+        dest.writeString(mFuneralLeave);
+        dest.writeString(mLeaveForCareOfSickChild);
+        dest.writeString(mPregnancyExaminationLeave);
+        dest.writeString(mSickLeave);
+        dest.writeString(mMiscarriageLeave);
+        dest.writeString(mMaternityLeave);
+        dest.writeString(mWifeLaborLeave);
         dest.writeInt(mId);
         dest.writeString(mCreatedAt);
         dest.writeString(mProject);
         dest.writeString(mPosition);
         dest.writeParcelable(mBranch, flags);
         dest.writeParcelable(mGroup, flags);
+        dest.writeDouble(mNumberDayOffNormal);
         dest.writeInt(mWorkSpaceId);
         dest.writeInt(mGroupId);
         dest.writeParcelable(mCompanyPay, flags);
@@ -135,10 +183,12 @@ public class OffRequest extends BaseModel implements Parcelable {
         dest.writeParcelable(mEndDayHaveSalary, flags);
         dest.writeParcelable(mStartDayNoSalary, flags);
         dest.writeParcelable(mEndDayNoSalary, flags);
-        dest.writeParcelable(mApprover, flags);
         dest.writeString(mReason);
         dest.writeString(mBeingHandledBy);
         dest.writeString(mStatus);
+        dest.writeParcelable(mApprover, flags);
+        dest.writeTypedList(mRequestDayOffTypes);
+        dest.writeTypedList(mRequestDayOffTypesAttributes);
     }
 
     @Override
@@ -200,6 +250,14 @@ public class OffRequest extends BaseModel implements Parcelable {
 
     public void setGroup(Group group) {
         mGroup = group;
+    }
+
+    public double getNumberDayOffNormal() {
+        return mNumberDayOffNormal;
+    }
+
+    public void setNumberDayOffNormal(int numberDayOffNormal) {
+        mNumberDayOffNormal = numberDayOffNormal;
     }
 
     public CompanyPay getCompanyPay() {
@@ -305,6 +363,103 @@ public class OffRequest extends BaseModel implements Parcelable {
 
     public void setGroupId(int groupId) {
         mGroupId = groupId;
+    }
+
+    public List<RequestDayOffType> getRequestDayOffTypes() {
+        return mRequestDayOffTypes;
+    }
+
+    public void setRequestDayOffTypes(List<RequestDayOffType> requestDayOffTypes) {
+        mRequestDayOffTypes = requestDayOffTypes;
+    }
+
+    public List<RequestDayOffTypesAttribute> getRequestDayOffTypesAttributes() {
+        return mRequestDayOffTypesAttributes;
+    }
+
+    public void setRequestDayOffTypesAttributes(
+            List<RequestDayOffTypesAttribute> requestDayOffTypesAttributes) {
+        mRequestDayOffTypesAttributes = requestDayOffTypesAttributes;
+    }
+
+    public String getAnnualLeave() {
+        return mAnnualLeave;
+    }
+
+    public void setAnnualLeave(String annualLeave) {
+        mAnnualLeave = annualLeave;
+    }
+
+    public String getLeaveForMarriage() {
+        return mLeaveForMarriage;
+    }
+
+    public void setLeaveForMarriage(String leaveForMarriage) {
+        mLeaveForMarriage = leaveForMarriage;
+    }
+
+    public String getLeaveForChildMarriage() {
+        return mLeaveForChildMarriage;
+    }
+
+    public void setLeaveForChildMarriage(String leaveForChildMarriage) {
+        mLeaveForChildMarriage = leaveForChildMarriage;
+    }
+
+    public String getFuneralLeave() {
+        return mFuneralLeave;
+    }
+
+    public void setFuneralLeave(String funeralLeave) {
+        mFuneralLeave = funeralLeave;
+    }
+
+    public String getLeaveForCareOfSickChild() {
+        return mLeaveForCareOfSickChild;
+    }
+
+    public void setLeaveForCareOfSickChild(String leaveForCareOfSickChild) {
+        mLeaveForCareOfSickChild = leaveForCareOfSickChild;
+    }
+
+    public String getPregnancyExaminationLeave() {
+        return mPregnancyExaminationLeave;
+    }
+
+    public void setPregnancyExaminationLeave(String pregnancyExaminationLeave) {
+        mPregnancyExaminationLeave = pregnancyExaminationLeave;
+    }
+
+    public String getSickLeave() {
+        return mSickLeave;
+    }
+
+    public void setSickLeave(String sickLeave) {
+        mSickLeave = sickLeave;
+    }
+
+    public String getMiscarriageLeave() {
+        return mMiscarriageLeave;
+    }
+
+    public void setMiscarriageLeave(String miscarriageLeave) {
+        mMiscarriageLeave = miscarriageLeave;
+    }
+
+    public String getMaternityLeave() {
+        return mMaternityLeave;
+    }
+
+    public void setMaternityLeave(String maternityLeave) {
+        mMaternityLeave = maternityLeave;
+    }
+
+    public String getWifeLaborLeave() {
+        return mWifeLaborLeave;
+    }
+
+    public void setWifeLaborLeave(String wifeLaborLeave) {
+        mWifeLaborLeave = wifeLaborLeave;
     }
 
     // OffHaveSalaryFrom
@@ -534,6 +689,149 @@ public class OffRequest extends BaseModel implements Parcelable {
 
         public void setOffToPeriod(String offToPeriod) {
             mOffToPeriod = offToPeriod;
+        }
+    }
+
+    // RequestDayOffType
+    public static class RequestDayOffType implements Parcelable {
+
+        @Expose
+        @SerializedName("id")
+        private int mId;
+        @Expose
+        @SerializedName("special_dayoff_setting_id")
+        private int mSpecialDayOffSettingId;
+        @Expose
+        @SerializedName("number_dayoff")
+        private double mNumberDayOff;
+
+        public RequestDayOffType() {
+        }
+
+        protected RequestDayOffType(Parcel in) {
+            mId = in.readInt();
+            mSpecialDayOffSettingId = in.readInt();
+            mNumberDayOff = in.readDouble();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(mId);
+            dest.writeInt(mSpecialDayOffSettingId);
+            dest.writeDouble(mNumberDayOff);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<RequestDayOffType> CREATOR = new Creator<RequestDayOffType>() {
+            @Override
+            public RequestDayOffType createFromParcel(Parcel in) {
+                return new RequestDayOffType(in);
+            }
+
+            @Override
+            public RequestDayOffType[] newArray(int size) {
+                return new RequestDayOffType[size];
+            }
+        };
+
+        public int getId() {
+            return mId;
+        }
+
+        public void setId(int id) {
+            mId = id;
+        }
+
+        public int getSpecialDayOffSettingId() {
+            return mSpecialDayOffSettingId;
+        }
+
+        public void setSpecialDayOffSettingId(int specialDayOffSettingId) {
+            mSpecialDayOffSettingId = specialDayOffSettingId;
+        }
+
+        public double getNumberDayOff() {
+            return mNumberDayOff;
+        }
+
+        public void setNumberDayOff(int numberDayOff) {
+            mNumberDayOff = numberDayOff;
+        }
+    }
+
+    // RequestDayOffTypesAttribute
+    public static class RequestDayOffTypesAttribute implements Parcelable {
+
+        @Expose
+        @SerializedName("special_dayoff_setting_id")
+        private String mSpecialDayOffSettingId;
+        @Expose
+        @SerializedName("number_dayoff")
+        private String mNumberDayOff;
+        @Expose
+        @SerializedName("_destroy")
+        private String mDestroy;
+
+        public RequestDayOffTypesAttribute() {
+        }
+
+        public RequestDayOffTypesAttribute(Parcel in) {
+            mSpecialDayOffSettingId = in.readString();
+            mNumberDayOff = in.readString();
+            mDestroy = in.readString();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(mSpecialDayOffSettingId);
+            dest.writeString(mNumberDayOff);
+            dest.writeString(mDestroy);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<RequestDayOffTypesAttribute> CREATOR =
+                new Creator<RequestDayOffTypesAttribute>() {
+                    @Override
+                    public RequestDayOffTypesAttribute createFromParcel(Parcel in) {
+                        return new RequestDayOffTypesAttribute(in);
+                    }
+
+                    @Override
+                    public RequestDayOffTypesAttribute[] newArray(int size) {
+                        return new RequestDayOffTypesAttribute[size];
+                    }
+                };
+
+        public String getSpecialDayOffSettingId() {
+            return mSpecialDayOffSettingId;
+        }
+
+        public void setSpecialDayOffSettingId(String specialDayOffSettingId) {
+            mSpecialDayOffSettingId = specialDayOffSettingId;
+        }
+
+        public String getNumberDayOff() {
+            return mNumberDayOff;
+        }
+
+        public void setNumberDayOff(String numberDayOff) {
+            mNumberDayOff = numberDayOff;
+        }
+
+        public String getDestroy() {
+            return mDestroy;
+        }
+
+        public void setDestroy(String destroy) {
+            mDestroy = destroy;
         }
     }
 }

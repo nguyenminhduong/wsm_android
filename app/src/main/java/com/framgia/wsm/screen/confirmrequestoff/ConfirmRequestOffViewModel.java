@@ -178,20 +178,20 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     @Bindable
     public boolean isVisiableLayoutCompanyPay() {
-        return mOffRequest.getCompanyPay().getAnnualLeave() != null
-                || mOffRequest.getCompanyPay().getLeaveForChildMarriage() != null
-                || mOffRequest.getCompanyPay().getLeaveForMarriage() != null
-                || mOffRequest.getCompanyPay().getFuneralLeave() != null;
+        return mOffRequest.getAnnualLeave() != null
+                || mOffRequest.getLeaveForChildMarriage() != null
+                || mOffRequest.getLeaveForMarriage() != null
+                || mOffRequest.getFuneralLeave() != null;
     }
 
     @Bindable
     public boolean isVisiableLayoutInsurance() {
-        return mOffRequest.getInsuranceCoverage().getLeaveForCareOfSickChild() != null
-                || mOffRequest.getInsuranceCoverage().getSickLeave() != null
-                || mOffRequest.getInsuranceCoverage().getMaternityLeave() != null
-                || mOffRequest.getInsuranceCoverage().getPregnancyExaminationLeave() != null
-                || mOffRequest.getInsuranceCoverage().getMiscarriageLeave() != null
-                || mOffRequest.getInsuranceCoverage().getWifeLaborLeave() != null;
+        return mOffRequest.getLeaveForCareOfSickChild() != null
+                || mOffRequest.getSickLeave() != null
+                || mOffRequest.getMaternityLeave() != null
+                || mOffRequest.getPregnancyExaminationLeave() != null
+                || mOffRequest.getMiscarriageLeave() != null
+                || mOffRequest.getWifeLaborLeave() != null;
     }
 
     @Bindable
@@ -206,52 +206,59 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     @Bindable
     public boolean isVisiableAnnualLeave() {
-        return mOffRequest.getCompanyPay().getAnnualLeave() != null;
+        return mOffRequest.getAnnualLeave() != null && !"".equals(mOffRequest.getAnnualLeave());
     }
 
     @Bindable
     public boolean isVisiableLeaveForChildMarriage() {
-        return mOffRequest.getCompanyPay().getLeaveForChildMarriage() != null;
+        return mOffRequest.getLeaveForChildMarriage() != null && !"".equals(
+                mOffRequest.getLeaveForChildMarriage());
     }
 
     @Bindable
     public boolean isVisiableLeaveForMarriage() {
-        return mOffRequest.getCompanyPay().getLeaveForMarriage() != null;
+        return mOffRequest.getLeaveForMarriage() != null && !"".equals(
+                mOffRequest.getLeaveForMarriage());
     }
 
     @Bindable
     public boolean isVisiableFuneralLeave() {
-        return mOffRequest.getCompanyPay().getFuneralLeave() != null;
+        return mOffRequest.getFuneralLeave() != null && !"".equals(mOffRequest.getFuneralLeave());
     }
 
     @Bindable
     public boolean isVisiableLeaveForCareOfSickChild() {
-        return mOffRequest.getInsuranceCoverage().getLeaveForCareOfSickChild() != null;
+        return mOffRequest.getLeaveForCareOfSickChild() != null && !"".equals(
+                mOffRequest.getLeaveForCareOfSickChild());
     }
 
     @Bindable
     public boolean isVisiableSickLeave() {
-        return mOffRequest.getInsuranceCoverage().getSickLeave() != null;
+        return mOffRequest.getSickLeave() != null && !"".equals(mOffRequest.getSickLeave());
     }
 
     @Bindable
     public boolean isVisiableMaternityLeave() {
-        return mOffRequest.getInsuranceCoverage().getMaternityLeave() != null;
+        return mOffRequest.getMaternityLeave() != null && !"".equals(
+                mOffRequest.getMaternityLeave());
     }
 
     @Bindable
     public boolean isVisiablePregnancyExaminationLeave() {
-        return mOffRequest.getInsuranceCoverage().getPregnancyExaminationLeave() != null;
+        return mOffRequest.getPregnancyExaminationLeave() != null && !"".equals(
+                mOffRequest.getPregnancyExaminationLeave());
     }
 
     @Bindable
     public boolean isVisiableMiscarriageLeave() {
-        return mOffRequest.getInsuranceCoverage().getMiscarriageLeave() != null;
+        return mOffRequest.getMiscarriageLeave() != null && !"".equals(
+                mOffRequest.getMiscarriageLeave());
     }
 
     @Bindable
     public boolean isVisiableWifeLaborLeave() {
-        return mOffRequest.getInsuranceCoverage().getWifeLaborLeave() != null;
+        return mOffRequest.getWifeLaborLeave() != null && !"".equals(
+                mOffRequest.getWifeLaborLeave());
     }
 
     public boolean isDetail() {

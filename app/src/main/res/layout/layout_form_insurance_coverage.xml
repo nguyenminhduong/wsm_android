@@ -30,7 +30,7 @@
             <EditText
                 android:hint="@string/leave_for_care_of_sick_child"
                 android:inputType="numberDecimal"
-                android:text="@={viewModel.requestOff.insuranceCoverage.leaveForCareOfSickChild}"
+                android:text="@={viewModel.requestOff.leaveForCareOfSickChild}"
                 style="@style/StyleEditableText"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -44,7 +44,7 @@
             <EditText
                 android:hint="@string/pregnancy_examination_leave"
                 android:inputType="numberDecimal"
-                android:text="@={viewModel.requestOff.insuranceCoverage.pregnancyExaminationLeave}"
+                android:text="@={viewModel.requestOff.pregnancyExaminationLeave}"
                 style="@style/StyleEditableText"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -58,7 +58,7 @@
             <EditText
                 android:hint="@string/sick_leave"
                 android:inputType="numberDecimal"
-                android:text="@={viewModel.requestOff.insuranceCoverage.sickLeave}"
+                android:text="@={viewModel.requestOff.sickLeave}"
                 style="@style/StyleEditableText"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -72,7 +72,7 @@
             <EditText
                 android:hint="@string/miscarriage_leave"
                 android:inputType="numberDecimal"
-                android:text="@={viewModel.requestOff.insuranceCoverage.miscarriageLeave}"
+                android:text="@={viewModel.requestOff.miscarriageLeave}"
                 style="@style/StyleEditableText"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -86,7 +86,7 @@
             <EditText
                 android:hint="@string/maternity_leave"
                 android:inputType="numberDecimal"
-                android:text="@={viewModel.requestOff.insuranceCoverage.maternityLeave}"
+                android:text="@={viewModel.requestOff.maternityLeave}"
                 style="@style/StyleEditableText"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -100,7 +100,7 @@
             <EditText
                 android:hint="@string/wife_labor_leave"
                 android:inputType="numberDecimal"
-                android:text="@={viewModel.requestOff.insuranceCoverage.wifeLaborLeave}"
+                android:text="@={viewModel.requestOff.wifeLaborLeave}"
                 style="@style/StyleEditableText"
                 />
         </android.support.design.widget.TextInputLayout>

@@ -30,7 +30,7 @@
             <EditText
                 android:hint="@string/annual_leave"
                 android:inputType="numberDecimal"
-                android:text="@={viewModel.requestOff.companyPay.annualLeave}"
+                android:text="@={viewModel.requestOff.annualLeave}"
                 style="@style/StyleEditableText"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -44,7 +44,7 @@
             <EditText
                 android:hint="@string/leave_for_marriage"
                 android:inputType="numberDecimal"
-                android:text="@={viewModel.requestOff.companyPay.leaveForMarriage}"
+                android:text="@={viewModel.requestOff.leaveForMarriage}"
                 style="@style/StyleEditableText"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -58,7 +58,7 @@
             <EditText
                 android:hint="@string/leave_for_child_marriage"
                 android:inputType="numberDecimal"
-                android:text="@={viewModel.requestOff.companyPay.leaveForChildMarriage}"
+                android:text="@={viewModel.requestOff.leaveForChildMarriage}"
                 style="@style/StyleEditableText"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -72,7 +72,7 @@
             <EditText
                 android:hint="@string/funeral_leave"
                 android:inputType="numberDecimal"
-                android:text="@={viewModel.requestOff.companyPay.funeralLeave}"
+                android:text="@={viewModel.requestOff.funeralLeave}"
                 style="@style/StyleEditableText"
                 />
         </android.support.design.widget.TextInputLayout>
