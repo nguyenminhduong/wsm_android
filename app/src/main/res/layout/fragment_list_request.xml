@@ -13,112 +13,172 @@
             />
 
     </data>
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         >
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:paddingEnd="@dimen/dp_10"
-            android:paddingLeft="@dimen/dp_10"
-            android:paddingRight="@dimen/dp_10"
-            android:paddingStart="@dimen/dp_10"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_5"
-                android:layout_weight="0.3"
                 android:baselineAligned="false"
                 android:orientation="horizontal"
+                android:paddingEnd="@dimen/dp_10"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10"
+                android:paddingStart="@dimen/dp_10"
                 >
 
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginEnd="@dimen/dp_3"
-                    android:layout_marginRight="@dimen/dp_3"
-                    android:layout_weight="1"
-                    android:background="@drawable/border_button_a"
-                    android:hint="@string/status"
-                    android:onClick="@{viewModel::onPickTypeStatus}"
-                    android:text="@{viewModel.currentStatus}"
-                    tools:ignore="ButtonStyle,NestedWeights,UnusedAttribute"
-                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_weight="0.3"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    >
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_marginEnd="@dimen/dp_3"
+                        android:layout_marginRight="@dimen/dp_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/border_button_a"
+                        android:hint="@string/status"
+                        android:onClick="@{viewModel::onPickTypeStatus}"
+                        android:text="@{viewModel.currentStatus}"
+                        tools:ignore="ButtonStyle,NestedWeights,UnusedAttribute"
+                        />
 
 
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_3"
-                    android:layout_marginStart="@dimen/dp_3"
-                    android:layout_weight="1"
-                    android:background="@drawable/border_button_a"
-                    android:hint="@string/month"
-                    android:onClick="@{viewModel::onPickMonthYear}"
-                    android:text="@{viewModel.monthYear}"
-                    tools:ignore="ButtonStyle"
-                    />
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_marginLeft="@dimen/dp_3"
+                        android:layout_marginStart="@dimen/dp_3"
+                        android:layout_weight="1"
+                        android:background="@drawable/border_button_a"
+                        android:hint="@string/month"
+                        android:onClick="@{viewModel::onPickMonthYear}"
+                        android:text="@{viewModel.monthYear}"
+                        tools:ignore="ButtonStyle"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:layout_weight="0.7"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageButton
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:layout_weight="1"
+                        android:background="@drawable/border_button_a"
+                        android:backgroundTint="@color/color_green_light"
+                        android:onClick="@{viewModel::onSearchRequest}"
+                        android:src="@drawable/ic_search"
+                        android:tint="@color/color_white"
+                        tools:ignore="ContentDescription,NestedWeights,UnusedAttribute,VectorDrawableCompat"
+                        />
+                    <ImageButton
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_weight="1"
+                        android:background="@drawable/border_button_a"
+                        android:backgroundTint="@color/color_gray_light"
+                        android:onClick="@{viewModel::onRemoveMonth}"
+                        android:src="@drawable/ic_remove"
+                        android:tint="@color/color_white"
+                        tools:ignore="ContentDescription,UnusedAttribute,VectorDrawableCompat"
+                        />
+                </LinearLayout>
+
             </LinearLayout>
-
-            <LinearLayout
+            <View
                 android:layout_width="match_parent"
-
+                android:layout_height="@dimen/dp_1"
+                android:layout_margin="@dimen/dp_3"
+                android:background="@color/color_blue_green"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dp_2"
-                android:layout_weight="0.7"
-                android:gravity="center"
-                android:orientation="horizontal"
-                >
-
-                <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_weight="1"
-                    android:background="@drawable/border_button_a"
-                    android:backgroundTint="@color/color_green_light"
-                    android:onClick="@{viewModel::onSearchRequest}"
-                    android:src="@drawable/ic_search"
-                    android:tint="@color/color_white"
-                    tools:ignore="ContentDescription,NestedWeights,UnusedAttribute,VectorDrawableCompat"
-                    />
-                <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    android:layout_marginStart="@dimen/dp_5"
-                    android:layout_weight="1"
-                    android:background="@drawable/border_button_a"
-                    android:backgroundTint="@color/color_gray_light"
-                    android:onClick="@{viewModel::onRemoveMonth}"
-                    android:src="@drawable/ic_remove"
-                    android:tint="@color/color_white"
-                    tools:ignore="ContentDescription,UnusedAttribute,VectorDrawableCompat"
-                    />
-            </LinearLayout>
-
+                app:layoutManager="LinearLayoutManager"
+                app:recyclerAdapter="@{viewModel.listRequestAdapter}"
+                />
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-            android:layout_margin="@dimen/dp_3"
-            android:background="@color/color_blue_green"
-            />
-        <android.support.v7.widget.RecyclerView
+        <com.github.clans.fab.FloatingActionMenu
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="LinearLayoutManager"
-            app:recyclerAdapter="@{viewModel.listRequestAdapter}"
-            />
-    </LinearLayout>
+            android:layout_gravity="start|bottom"
+            android:padding="@dimen/dp_5"
+            app:menu_animationDelayPerItem="55"
+            app:menu_colorNormal="@color/color_white"
+            app:menu_colorRipple="@color/color_blue_green"
+            app:menu_fab_size="mini"
+            app:menu_icon="@drawable/ic_information"
+            app:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+            app:menu_labels_padding="@dimen/dp_10"
+            app:menu_labels_position="right"
+            app:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+            app:menu_labels_singleLine="false"
+            app:menu_labels_textColor="@android:color/white"
+            app:menu_labels_textSize="@dimen/sp_14"
+            app:menu_openDirection="up"
+            >
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_status_reject"
+                app:fab_colorNormal="@color/color_red_firebrick"
+                app:fab_label="@string/rejected"
+                app:fab_size="mini"
+                tools:ignore="VectorDrawableCompat"
+                />
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_status_forward"
+                app:fab_colorNormal="@color/md_material_blue_800"
+                app:fab_label="@string/forwarded"
+                app:fab_size="mini"
+                tools:ignore="VectorDrawableCompat"
+                />
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_status_pending"
+                app:fab_colorNormal="@color/md_material_blue_600"
+                app:fab_label="@string/pending"
+                app:fab_size="mini"
+                tools:ignore="VectorDrawableCompat"
+                />
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_status_accpect"
+                app:fab_colorNormal="@color/color_green_status"
+                app:fab_label="@string/accepted"
+                app:fab_size="mini"
+                tools:ignore="VectorDrawableCompat"
+                />
+        </com.github.clans.fab.FloatingActionMenu>
+    </RelativeLayout>
 </layout>

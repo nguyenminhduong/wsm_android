@@ -76,12 +76,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/dp_40"
-                        android:layout_marginStart="@dimen/dp_40"
+                        android:layout_marginLeft="@dimen/dp_24"
+                        android:layout_marginStart="@dimen/dp_24"
+                        android:ellipsize="end"
                         android:gravity="center_vertical"
+                        android:maxLines="1"
                         android:text="@{viewModel.currentTitleToolbar}"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/sp_20"
+                        android:textSize="@dimen/sp_18"
                         />
                 </android.support.v7.widget.Toolbar>
 

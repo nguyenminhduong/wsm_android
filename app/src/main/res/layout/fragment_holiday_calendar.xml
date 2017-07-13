@@ -84,7 +84,7 @@
             app:menu_colorPressed="@color/color_dark_gray"
             app:menu_colorRipple="@color/color_gray"
             app:menu_fab_size="mini"
-            app:menu_icon="@drawable/ic_info"
+            app:menu_icon="@drawable/ic_information"
             app:menu_labels_colorNormal="@color/color_gray_transparent"
             app:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
             app:menu_labels_padding="@dimen/dp_10"
