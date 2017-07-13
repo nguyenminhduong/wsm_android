@@ -93,6 +93,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.user.name}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -125,6 +127,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.user.code}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -158,6 +162,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.project}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -191,6 +197,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.position}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -223,6 +231,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.branch.branchName}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -255,6 +265,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.group.groupName}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -354,6 +366,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.approver.name}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -405,6 +419,8 @@
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.companyPay.annualLeave}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
@@ -419,6 +435,8 @@
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.companyPay.leaveForChildMarriage}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
@@ -433,6 +451,8 @@
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.companyPay.leaveForMarriage}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
@@ -447,7 +467,10 @@
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.companyPay.funeralLeave}"
+                                tools:ignore="TooManyViews"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
                         </LinearLayout>
@@ -495,6 +518,8 @@
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.insuranceCoverage.leaveForCareOfSickChild}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
@@ -509,6 +534,8 @@
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.insuranceCoverage.sickLeave}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
@@ -523,6 +550,8 @@
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.insuranceCoverage.maternityLeave}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
@@ -537,6 +566,8 @@
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.insuranceCoverage.pregnancyExaminationLeave}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
@@ -551,6 +582,8 @@
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.insuranceCoverage.miscarriageLeave}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
@@ -565,6 +598,8 @@
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.insuranceCoverage.wifeLaborLeave}"
                                 style="@style/StyleTextNumberConfirmRequestOff"
                                 />
@@ -602,6 +637,8 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.startDateHaveSalary}"
                                     style="@style/StyleTextConfirm"
                                     />
@@ -634,6 +671,8 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.endDateHaveSalary}"
                                     style="@style/StyleTextConfirm"
                                     />
@@ -701,6 +740,8 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.startDateNoSalary}"
                                     style="@style/StyleTextConfirm"
                                     />
@@ -733,6 +774,8 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.endDateNoSalary}"
                                     style="@style/StyleTextConfirm"
                                     />
@@ -768,6 +811,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.reason}"
                                 style="@style/StyleTextConfirm"
                                 />

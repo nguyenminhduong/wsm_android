@@ -84,6 +84,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.user.name}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -114,6 +116,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.user.code}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -144,6 +148,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOverTime.branch.branchName}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -174,6 +180,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOverTime.group.groupName}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -204,6 +212,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOverTime.project}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -234,6 +244,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOverTime.fromTime}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -264,6 +276,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOverTime.toTime}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -294,6 +308,8 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOverTime.reason}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -386,6 +402,8 @@
                                 />
 
                             <TextView
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 android:text="@{viewModel.requestOverTime.beingHandledBy}"
                                 style="@style/StyleTextConfirm"
                                 />
