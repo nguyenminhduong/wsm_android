@@ -72,6 +72,18 @@ public class MemberRequestDetailViewModel extends BaseObservable
         mDialogManager.dialogError(e);
     }
 
+    public boolean isVisibleOffRequest() {
+        return RequestType.REQUEST_OFF == mRequestType;
+    }
+
+    public boolean isVisibleLeaveRequest() {
+        return RequestType.REQUEST_LATE_EARLY == mRequestType;
+    }
+
+    public boolean isVisibleOverTimeRequestOff() {
+        return RequestType.REQUEST_OVERTIME == mRequestType;
+    }
+
     @Bindable
     public User getUser() {
         return mUser;

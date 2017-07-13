@@ -202,11 +202,14 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     }
 
     public String getCheckOutTime() {
-        if (mActionType == ActionType.ACTION_CONFIRM_CREATE) {
-            return mRequest.getCheckOutTime();
+        if (DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY)
+                != null) {
+            return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
+                    DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
         }
-        return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+        return mRequest.getCheckOutTime();
     }
 
     public String getCompensationFromTime() {
