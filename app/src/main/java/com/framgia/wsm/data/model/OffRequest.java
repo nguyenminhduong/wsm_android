@@ -80,7 +80,7 @@ public class OffRequest extends BaseModel implements Parcelable {
     })
     private String mReason;
     @Expose
-    @SerializedName("being_handled_by")
+    @SerializedName("handle_by_group_name")
     private String mBeingHandledBy;
     @Expose
     @SerializedName("status")

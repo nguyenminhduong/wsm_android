@@ -68,7 +68,7 @@ public class RequestOverTime extends BaseModel implements Parcelable {
     @SerializedName("status")
     private String mStatus;
     @Expose
-    @SerializedName("being_handled_by")
+    @SerializedName("handle_by_group_name")
     private String mBeingHandledBy;
     @Expose
     @SerializedName("group_id")

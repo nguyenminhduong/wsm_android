@@ -2,7 +2,6 @@ package com.framgia.wsm.screen.managelistrequests;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.graphics.Color;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
@@ -25,9 +24,9 @@ public class ItemManageListRequestViewModel extends BaseObservable {
     private final BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object>
             mItemClickListener;
     private ActionRequestListener mActionRequestListener;
-    private int mStatusColor;
     private int mImageRequestType;
     private int mItemPosition;
+    private String mStatusRequest;
 
     ItemManageListRequestViewModel(Object object,
             BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> itemClickListener,
@@ -84,46 +83,33 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         mItemClickListener.onItemRecyclerViewClick(mObject);
     }
 
-    @Bindable
-    public int getStatusColor() {
-        return mStatusColor;
+    public boolean isVisibleStatusAccept() {
+        return StatusCode.ACCEPT_CODE.endsWith(mStatusRequest);
     }
 
-    private void setStatusColor(int statusColor) {
-        mStatusColor = statusColor;
-        notifyPropertyChanged(BR.statusColor);
+    public boolean isVisibleStatusReject() {
+        return StatusCode.REJECT_CODE.endsWith(mStatusRequest);
     }
 
-    private void setStatus(String status) {
-        switch (status) {
-            case StatusCode.ACCEPT_CODE:
-                setStatusColor(Color.GREEN);
-                break;
-            case StatusCode.PENDING_CODE:
-                setStatusColor(Color.BLUE);
-                break;
-            case StatusCode.REJECT_CODE:
-                setStatusColor(Color.RED);
-                break;
-            case StatusCode.FORWARD_CODE:
-                setStatusColor(Color.MAGENTA);
-                break;
-            default:
-                break;
-        }
+    public boolean isVisibleStatusPending() {
+        return StatusCode.PENDING_CODE.endsWith(mStatusRequest);
+    }
+
+    public boolean isVisibleStatusFoward() {
+        return StatusCode.FORWARD_CODE.endsWith(mStatusRequest);
     }
 
     private void initValueStatus() {
         if (mLeaveRequest != null) {
-            setStatus(mLeaveRequest.getStatus());
+            mStatusRequest = mLeaveRequest.getStatus();
             return;
         }
         if (mRequestOverTime != null) {
-            setStatus(mRequestOverTime.getStatus());
+            mStatusRequest = mRequestOverTime.getStatus();
             return;
         }
         if (mRequestOff != null) {
-            setStatus(mRequestOff.getStatus());
+            mStatusRequest = mRequestOff.getStatus();
         }
     }
 

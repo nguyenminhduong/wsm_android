@@ -68,6 +68,8 @@ public class LeaveRequest extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("approver")
     private Approver mApprover;
+    @SerializedName("handle_by_group_name")
+    private String mBeingHandledBy;
 
     public LeaveRequest() {
     }
@@ -78,6 +80,7 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         } else {
             mId = in.readInt();
         }
+        mBeingHandledBy = in.readString();
         mCompanyName = in.readString();
         mWorkspaceName = in.readString();
         mStatus = in.readString();
@@ -278,6 +281,14 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         mApprover = approver;
     }
 
+    public String getBeingHandledBy() {
+        return mBeingHandledBy;
+    }
+
+    public void setBeingHandledBy(String beingHandledBy) {
+        mBeingHandledBy = beingHandledBy;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -291,6 +302,7 @@ public class LeaveRequest extends BaseModel implements Parcelable {
             parcel.writeByte((byte) 1);
             parcel.writeInt(mId);
         }
+        parcel.writeString(mBeingHandledBy);
         parcel.writeString(mCompanyName);
         parcel.writeString(mWorkspaceName);
         parcel.writeString(mStatus);
