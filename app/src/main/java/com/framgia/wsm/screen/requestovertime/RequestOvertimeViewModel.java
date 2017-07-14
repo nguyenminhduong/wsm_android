@@ -94,8 +94,12 @@ public class RequestOvertimeViewModel extends BaseObservable
         }
         mUser = user;
         notifyPropertyChanged(BR.user);
-        setCurrentBranch();
-        setCurrentGroup();
+        if (mActionType == ActionType.ACTION_CREATE) {
+            setCurrentBranch();
+            setCurrentGroup();
+            return;
+        }
+        setBranchAndGroupWhenEdit(mUser);
     }
 
     @Override
@@ -318,6 +322,29 @@ public class RequestOvertimeViewModel extends BaseObservable
             setToTime(toTime);
         } else {
             validateErrorDialog(mContext.getString(R.string.end_time_is_less_than_start_time));
+        }
+    }
+
+    private void setBranchAndGroupWhenEdit(User user) {
+        if (user.getBranches() == null || user.getBranches().size() == 0) {
+            return;
+        }
+        for (int i = 0; i < user.getBranches().size(); i++) {
+            String branchName = user.getBranches().get(i).getBranchName();
+            if (branchName.equals(mRequestOverTime.getBranch().getBranchName())) {
+                mCurrentBranchPosition = i;
+                mRequestOverTime.setBranchId(user.getBranches().get(i).getBranchId());
+            }
+        }
+        if (user.getGroups() == null || user.getGroups().size() == 0) {
+            return;
+        }
+        for (int i = 0; i < user.getGroups().size(); i++) {
+            String groupName = user.getGroups().get(i).getGroupName();
+            if (groupName.equals(mRequestOverTime.getGroup().getGroupName())) {
+                mCurrentGroupPosition = i;
+                mRequestOverTime.setGroupId(user.getGroups().get(i).getGroupId());
+            }
         }
     }
 

@@ -113,6 +113,8 @@
                                 >
                                 <EditText
                                     android:hint="@string/branch"
+                                    android:inputType="text"
+                                    android:maxLines="1"
                                     android:onClick="@{viewModel::onPickBranch}"
                                     android:text="@={viewModel.requestOverTime.branch.branchName}"
                                     style="@style/StyleText"
@@ -133,7 +135,11 @@
                                 >
                                 <EditText
                                     android:hint="@string/group"
+                                    android:inputType="text"
+                                    android:maxLines="1"
                                     android:onClick="@{viewModel::onPickGroup}"
+                                    android:paddingEnd="@dimen/dp_24"
+                                    android:paddingRight="@dimen/dp_24"
                                     android:text="@={viewModel.requestOverTime.group.groupName}"
                                     style="@style/StyleText"
                                     />
