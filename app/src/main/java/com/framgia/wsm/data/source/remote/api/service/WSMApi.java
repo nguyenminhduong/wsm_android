@@ -70,17 +70,15 @@ public interface WSMApi {
     @DELETE("api/dashboard/request_ots/{request_ots_id}")
     Observable<Object> deleteFormRequestOverTime(@Path("request_ots_id") int requestOverTimeId);
 
-    // TODO edit later
     @POST("/api/dashboard/request_offs")
     Observable<Object> createFormRequestOff(@Body RequestOffRequest requestOffRequest);
 
     @DELETE("/api/dashboard/request_offs/{request_offs_id}")
     Observable<Object> deleteFormRequestOff(@Path("request_offs_id") int requestOffId);
 
-    // TODO edit later
-    @PUT("/api/request_off")
+    @PUT("/api/dashboard/request_offs/{request_offs_id}")
     Observable<BaseResponse<OffRequest>> editFormRequestOff(
-            @Body RequestOffRequest requestOffRequest);
+            @Path("request_offs_id") int requestOffId, @Body RequestOffRequest requestOffRequest);
 
     @DELETE("/api/dashboard/request_leaves/{request_leave_id}")
     Observable<Object> deleteFormRequestLeave(@Path("request_leave_id") int requestLeaveId);
@@ -92,14 +90,12 @@ public interface WSMApi {
     @POST("/api/dashboard/request_leaves")
     Observable<Object> createFormRequestLeave(@Body RequestLeaveRequest requestLeaveRequest);
 
-    // TODO edit later
     @GET("/api/dashboard/request_offs")
     Observable<BaseResponse<List<OffRequest>>> getListRequestOff();
 
     @GET("/api/dashboard/request_ots")
     Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime();
 
-    // TODO edit later
     @GET("/api/dashboard/request_leaves")
     Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaves();
 

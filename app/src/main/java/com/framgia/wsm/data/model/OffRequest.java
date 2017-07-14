@@ -61,7 +61,7 @@ public class OffRequest extends BaseModel implements Parcelable {
     @SerializedName("workspace")
     private Branch mBranch;
     @Expose
-    @SerializedName("groups")
+    @SerializedName("group")
     private Group mGroup;
     @Expose
     @SerializedName("number_dayoff_normal")
@@ -256,7 +256,7 @@ public class OffRequest extends BaseModel implements Parcelable {
         return mNumberDayOffNormal;
     }
 
-    public void setNumberDayOffNormal(int numberDayOffNormal) {
+    public void setNumberDayOffNormal(double numberDayOffNormal) {
         mNumberDayOffNormal = numberDayOffNormal;
     }
 

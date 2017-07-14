@@ -24,6 +24,7 @@ public final class Constant {
     public static final String STAFF_OFFICIAL = "B";
     public static final int BEGIN_INDEX = 0;
     public static final int END_INDEX = 1;
+    public static final String DEFAULT_DOUBLE_VALUE = "0.0";
     public static final String BEGIN_MORNING_TIME = "07:45";
     public static final String END_MORNING_TIME = "11:45";
     public static final String BEGIN_AFTERNOON_TIME = "12:45";

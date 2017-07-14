@@ -15,14 +15,19 @@ import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.screen.requestoff.RequestOffActivity;
+import com.framgia.wsm.screen.requestoff.RequestOffViewModel;
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
+import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
+
+import static com.framgia.wsm.utils.common.DateTimeUtils.DATE_FORMAT_YYYY_MM_DD;
+import static com.framgia.wsm.utils.common.DateTimeUtils.FORMAT_DATE;
 
 /**
  * Exposes the data to be used in the ConfirmRequestOff screen.
@@ -30,7 +35,6 @@ import com.fstyle.library.MaterialDialog;
 
 public class ConfirmRequestOffViewModel extends BaseObservable
         implements ConfirmRequestOffContract.ViewModel {
-
     private static final String TAG = "ConfirmRequestOffViewModel";
 
     private ConfirmRequestOffContract.Presenter mPresenter;
@@ -50,35 +54,108 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         mPresenter.setViewModel(this);
         mDialogManager = dialogManager;
         mOffRequest = requestOff;
-        initData(mOffRequest);
         mNavigator = navigator;
         mPresenter.getUser();
         mActionType = actionType;
         mRequestOffRequest = new RequestOffRequest();
+        initData(mOffRequest);
     }
 
     private void initData(OffRequest offRequest) {
+        OffRequest.OffHaveSalaryFrom offHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
+        OffRequest.OffHaveSalaryTo offHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
+        OffRequest.OffNoSalaryFrom offNoSalaryFrom = new OffRequest.OffNoSalaryFrom();
+        OffRequest.OffNoSalaryTo offNoSalaryTo = new OffRequest.OffNoSalaryTo();
+
         if (offRequest.getStartDayHaveSalary().getOffPaidFrom() == null) {
-            OffRequest.OffHaveSalaryFrom offHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
             offHaveSalaryFrom.setOffPaidFrom("");
             offHaveSalaryFrom.setPaidFromPeriod("");
             mOffRequest.setStartDayHaveSalary(offHaveSalaryFrom);
 
-            OffRequest.OffHaveSalaryTo offHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
             offHaveSalaryTo.setOffPaidTo("");
             offHaveSalaryTo.setPaidToPeriod("");
             mOffRequest.setEndDayHaveSalary(offHaveSalaryTo);
         }
         if (offRequest.getStartDayNoSalary().getOffFrom() == null) {
-            OffRequest.OffNoSalaryFrom offNoSalaryFrom = new OffRequest.OffNoSalaryFrom();
             offNoSalaryFrom.setOffFrom("");
             offNoSalaryFrom.setOffFromPeriod("");
             mOffRequest.setStartDayNoSalary(offNoSalaryFrom);
 
-            OffRequest.OffNoSalaryTo offNoSalaryTo = new OffRequest.OffNoSalaryTo();
             offNoSalaryTo.setOffTo("");
             offNoSalaryTo.setOffToPeriod("");
             mOffRequest.setEndDayNoSalary(offNoSalaryTo);
+        }
+
+        if (mActionType == ActionType.ACTION_DETAIL) {
+            initDataDetail();
+        }
+
+        if (mActionType == ActionType.ACTION_EDIT) {
+            if (mOffRequest.getAnnualLeave() != null
+                    || !"".equals(mOffRequest.getAnnualLeave())
+                    || !Constant.DEFAULT_DOUBLE_VALUE.equals(mOffRequest.getAnnualLeave())) {
+                mOffRequest.setNumberDayOffNormal(Double.parseDouble(mOffRequest.getAnnualLeave()));
+            } else {
+                mOffRequest.setNumberDayOffNormal(0);
+            }
+        }
+    }
+
+    private void initDataDetail() {
+        mOffRequest.setAnnualLeave(String.valueOf(mOffRequest.getNumberDayOffNormal()));
+        if (mOffRequest.getRequestDayOffTypes() == null
+                || mOffRequest.getRequestDayOffTypes().size() == 0) {
+            return;
+        }
+        int[] requestDayOffTypes = new int[mOffRequest.getRequestDayOffTypes().size()];
+        for (int i = 0; i < requestDayOffTypes.length; i++) {
+            requestDayOffTypes[i] =
+                    mOffRequest.getRequestDayOffTypes().get(i).getSpecialDayOffSettingId();
+            if (requestDayOffTypes[i] == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.LEAVE_FOR_MARRIAGE)) {
+                mOffRequest.setLeaveForMarriage(String.valueOf(
+                        mOffRequest.getRequestDayOffTypes().get(i).getNumberDayOff()));
+            }
+            if (requestDayOffTypes[i] == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.LEAVE_FOR_CHILD_MARRIAGE)) {
+                mOffRequest.setLeaveForChildMarriage(String.valueOf(
+                        mOffRequest.getRequestDayOffTypes().get(i).getNumberDayOff()));
+            }
+            if (requestDayOffTypes[i] == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.MATERNTY_LEAVE)) {
+                mOffRequest.setMaternityLeave(String.valueOf(
+                        mOffRequest.getRequestDayOffTypes().get(i).getNumberDayOff()));
+            }
+            if (requestDayOffTypes[i] == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.LEAVE_FOR_CARE_OF_SICK_CHILD)) {
+                mOffRequest.setLeaveForCareOfSickChild(String.valueOf(
+                        mOffRequest.getRequestDayOffTypes().get(i).getNumberDayOff()));
+            }
+            if (requestDayOffTypes[i] == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.FUNERAL_LEAVE)) {
+                mOffRequest.setFuneralLeave(String.valueOf(
+                        mOffRequest.getRequestDayOffTypes().get(i).getNumberDayOff()));
+            }
+            if (requestDayOffTypes[i] == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.WIFE_LABOR_LEAVE)) {
+                mOffRequest.setWifeLaborLeave(String.valueOf(
+                        mOffRequest.getRequestDayOffTypes().get(i).getNumberDayOff()));
+            }
+            if (requestDayOffTypes[i] == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.MISCARRIAGE_LEAVE)) {
+                mOffRequest.setMiscarriageLeave(String.valueOf(
+                        mOffRequest.getRequestDayOffTypes().get(i).getNumberDayOff()));
+            }
+            if (requestDayOffTypes[i] == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.SICK_LEAVE)) {
+                mOffRequest.setSickLeave(String.valueOf(
+                        mOffRequest.getRequestDayOffTypes().get(i).getNumberDayOff()));
+            }
+            if (requestDayOffTypes[i] == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.PREGNANCY_EXAMINATON)) {
+                mOffRequest.setPregnancyExaminationLeave(String.valueOf(
+                        mOffRequest.getRequestDayOffTypes().get(i).getNumberDayOff()));
+            }
         }
     }
 
@@ -178,20 +255,31 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     @Bindable
     public boolean isVisiableLayoutCompanyPay() {
-        return mOffRequest.getAnnualLeave() != null
-                || mOffRequest.getLeaveForChildMarriage() != null
-                || mOffRequest.getLeaveForMarriage() != null
-                || mOffRequest.getFuneralLeave() != null;
+        return (mOffRequest.getAnnualLeave() != null
+                && !"".equals(mOffRequest.getAnnualLeave())
+                && !Constant.DEFAULT_DOUBLE_VALUE.equals(mOffRequest.getAnnualLeave()))
+                || (mOffRequest.getLeaveForChildMarriage() != null
+                && !"".equals(mOffRequest.getLeaveForChildMarriage()))
+                || (mOffRequest.getLeaveForMarriage() != null && !"".equals(
+                mOffRequest.getLeaveForMarriage()))
+                || (mOffRequest.getFuneralLeave() != null && !"".equals(
+                mOffRequest.getFuneralLeave()));
     }
 
     @Bindable
     public boolean isVisiableLayoutInsurance() {
-        return mOffRequest.getLeaveForCareOfSickChild() != null
-                || mOffRequest.getSickLeave() != null
-                || mOffRequest.getMaternityLeave() != null
-                || mOffRequest.getPregnancyExaminationLeave() != null
-                || mOffRequest.getMiscarriageLeave() != null
-                || mOffRequest.getWifeLaborLeave() != null;
+        return (mOffRequest.getLeaveForCareOfSickChild() != null && !"".equals(
+                mOffRequest.getLeaveForCareOfSickChild()))
+                || (mOffRequest.getSickLeave() != null
+                && !"".equals(mOffRequest.getSickLeave()))
+                || (mOffRequest.getMaternityLeave()
+                != null && !"".equals(mOffRequest.getMaternityLeave()))
+                || (mOffRequest.getPregnancyExaminationLeave() != null && !"".equals(
+                mOffRequest.getPregnancyExaminationLeave()))
+                || (mOffRequest.getMiscarriageLeave() != null && !"".equals(
+                mOffRequest.getMiscarriageLeave()))
+                || (mOffRequest.getWifeLaborLeave() != null && !"".equals(
+                mOffRequest.getWifeLaborLeave()));
     }
 
     @Bindable
@@ -201,12 +289,15 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     @Bindable
     public boolean isVisiableLayoutOffNoSalary() {
-        return !"".equals(mOffRequest.getStartDayNoSalary().getOffFrom());
+        return mOffRequest.getStartDayNoSalary().getOffFrom() != null && !"".equals(
+                mOffRequest.getStartDayNoSalary().getOffFrom());
     }
 
     @Bindable
     public boolean isVisiableAnnualLeave() {
-        return mOffRequest.getAnnualLeave() != null && !"".equals(mOffRequest.getAnnualLeave());
+        return mOffRequest.getAnnualLeave() != null
+                && !"".equals(mOffRequest.getAnnualLeave())
+                && !Constant.DEFAULT_DOUBLE_VALUE.equals(mOffRequest.getAnnualLeave());
     }
 
     @Bindable
@@ -335,6 +426,123 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         return "";
     }
 
+    private void setTimeRequestOff() {
+        if (mOffRequest.getStartDayHaveSalary().getOffPaidFrom() != null) {
+            OffRequest.OffHaveSalaryFrom offHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
+            OffRequest.OffHaveSalaryTo offHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
+            offHaveSalaryFrom.setOffPaidFrom(DateTimeUtils.convertUiFormatToDataFormat(
+                    mOffRequest.getStartDayHaveSalary().getOffPaidFrom(), DATE_FORMAT_YYYY_MM_DD,
+                    FORMAT_DATE));
+            offHaveSalaryFrom.setPaidFromPeriod(
+                    mOffRequest.getStartDayHaveSalary().getPaidFromPeriod());
+            mOffRequest.setStartDayHaveSalary(offHaveSalaryFrom);
+
+            offHaveSalaryTo.setOffPaidTo(DateTimeUtils.convertUiFormatToDataFormat(
+                    mOffRequest.getEndDayHaveSalary().getOffPaidTo(), DATE_FORMAT_YYYY_MM_DD,
+                    FORMAT_DATE));
+            offHaveSalaryTo.setPaidToPeriod(mOffRequest.getEndDayHaveSalary().getPaidToPeriod());
+            mOffRequest.setEndDayHaveSalary(offHaveSalaryTo);
+        }
+        if (mOffRequest.getStartDayNoSalary().getOffFrom() != null) {
+            OffRequest.OffNoSalaryFrom offNoSalaryFrom = new OffRequest.OffNoSalaryFrom();
+            OffRequest.OffNoSalaryTo offNoSalaryTo = new OffRequest.OffNoSalaryTo();
+            offNoSalaryFrom.setOffFrom(DateTimeUtils.convertUiFormatToDataFormat(
+                    mOffRequest.getStartDayNoSalary().getOffFrom(), DATE_FORMAT_YYYY_MM_DD,
+                    FORMAT_DATE));
+            offNoSalaryFrom.setOffFromPeriod(mOffRequest.getStartDayNoSalary().getOffFromPeriod());
+            mOffRequest.setStartDayNoSalary(offNoSalaryFrom);
+
+            offNoSalaryTo.setOffTo(DateTimeUtils.convertUiFormatToDataFormat(
+                    mOffRequest.getEndDayNoSalary().getOffTo(), DATE_FORMAT_YYYY_MM_DD,
+                    FORMAT_DATE));
+            offNoSalaryTo.setOffToPeriod(mOffRequest.getEndDayNoSalary().getOffToPeriod());
+            mOffRequest.setEndDayNoSalary(offNoSalaryTo);
+        }
+    }
+
+    @Bindable
+    public String getAnnualLeave() {
+        if (mOffRequest != null
+                && mOffRequest.getAnnualLeave() != null
+                && !Constant.DEFAULT_DOUBLE_VALUE.equals(mOffRequest.getAnnualLeave())) {
+            return mOffRequest.getAnnualLeave();
+        }
+        return "";
+    }
+
+    @Bindable
+    public String getLeaveForMarriage() {
+        if (mOffRequest != null && mOffRequest.getLeaveForMarriage() != null && !"".equals(
+                mOffRequest.getLeaveForMarriage())) {
+            return mOffRequest.getLeaveForMarriage();
+        }
+        return "";
+    }
+
+    public String getLeaveForChildMarriage() {
+        if (mOffRequest != null && mOffRequest.getLeaveForChildMarriage() != null && !"".equals(
+                mOffRequest.getLeaveForChildMarriage())) {
+            return mOffRequest.getLeaveForChildMarriage();
+        }
+        return "";
+    }
+
+    public String getFuneralLeave() {
+        if (mOffRequest != null && mOffRequest.getFuneralLeave() != null && !"".equals(
+                mOffRequest.getFuneralLeave())) {
+            return mOffRequest.getFuneralLeave();
+        }
+        return "";
+    }
+
+    public String getLeaveForCareOfSickChild() {
+        if (mOffRequest != null && mOffRequest.getLeaveForCareOfSickChild() != null && !"".equals(
+                mOffRequest.getLeaveForCareOfSickChild())) {
+            return mOffRequest.getLeaveForCareOfSickChild();
+        }
+        return "";
+    }
+
+    public String getPregnancyExaminationLeave() {
+        if (mOffRequest != null && mOffRequest.getPregnancyExaminationLeave() != null && !"".equals(
+                mOffRequest.getPregnancyExaminationLeave())) {
+            return mOffRequest.getPregnancyExaminationLeave();
+        }
+        return "";
+    }
+
+    public String getSickLeave() {
+        if (mOffRequest != null && mOffRequest.getSickLeave() != null && !"".equals(
+                mOffRequest.getSickLeave())) {
+            return mOffRequest.getSickLeave();
+        }
+        return "";
+    }
+
+    public String getMiscarriageLeave() {
+        if (mOffRequest != null && mOffRequest.getMiscarriageLeave() != null && !"".equals(
+                mOffRequest.getMiscarriageLeave())) {
+            return mOffRequest.getMiscarriageLeave();
+        }
+        return "";
+    }
+
+    public String getMaternityLeave() {
+        if (mOffRequest != null && mOffRequest.getMaternityLeave() != null && !"".equals(
+                mOffRequest.getMaternityLeave())) {
+            return mOffRequest.getMaternityLeave();
+        }
+        return "";
+    }
+
+    public String getWifeLaborLeave() {
+        if (mOffRequest != null && mOffRequest.getWifeLaborLeave() != null && !"".equals(
+                mOffRequest.getWifeLaborLeave())) {
+            return mOffRequest.getWifeLaborLeave();
+        }
+        return "";
+    }
+
     public boolean isVisibleButtonSubmit() {
         return mActionType == ActionType.ACTION_CREATE || mOffRequest.getStatus()
                 .equals(StatusCode.PENDING_CODE);
@@ -348,6 +556,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         if (mOffRequest == null) {
             return;
         }
+        setTimeRequestOff();
         mRequestOffRequest.setRequestOff(mOffRequest);
         if (mActionType == ActionType.ACTION_CREATE) {
             mPresenter.createFormRequestOff(mRequestOffRequest);

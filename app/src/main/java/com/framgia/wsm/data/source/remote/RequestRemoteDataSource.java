@@ -98,7 +98,8 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     @Override
     public Observable<BaseResponse<OffRequest>> editFormRequestOff(
             @NonNull RequestOffRequest requestOffRequest) {
-        return mWSMApi.editFormRequestOff(requestOffRequest)
+        return mWSMApi.editFormRequestOff(requestOffRequest.getRequestOff().getId(),
+                requestOffRequest)
                 .flatMap(
                         new Function<BaseResponse<OffRequest>,
                                 ObservableSource<BaseResponse<OffRequest>>>() {
