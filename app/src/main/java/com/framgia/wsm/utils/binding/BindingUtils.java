@@ -125,7 +125,7 @@ public final class BindingUtils {
         Glide.with(imageView.getContext())
                 .load(uri)
                 .dontAnimate()
-                .placeholder(R.drawable.ic_placeholder_user)
+                .placeholder(R.drawable.ic_users)
                 .into(imageView);
     }
 

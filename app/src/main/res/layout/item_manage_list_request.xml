@@ -11,7 +11,6 @@
             name="viewModel"
             type="com.framgia.wsm.screen.managelistrequests.ItemManageListRequestViewModel"
             />
-
         <import type="android.view.View"/>
 
     </data>
@@ -28,11 +27,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
-
             <LinearLayout
                 android:id="@+id/layout_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_7"
+                android:layout_height="@dimen/dp_70"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:orientation="horizontal"
                 >
@@ -44,12 +44,11 @@
                     android:visibility="gone"
                     />
                 <ImageView
-                    android:layout_width="@dimen/dp_50"
-                    android:layout_height="@dimen/dp_50"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:layout_marginStart="@dimen/dp_10"
-                    app:backgroundImage="@{viewModel.imageRequestType}"
-                    tools:ignore="ContentDescription"
+                    android:layout_width="@dimen/dp_7"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@{viewModel.colorImage}"
+                    tools:ignore="ContentDescription,UnusedAttribute"
                     />
             </LinearLayout>
 
@@ -86,41 +85,27 @@
                         android:textSize="@dimen/sp_17"
                         android:textStyle="bold"
                         />
-                    <FrameLayout
+                    <TextView
                         android:id="@+id/text_status"
-                        android:layout_width="@dimen/dp_60"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:layout_marginRight="@dimen/dp_5"
-                        >
-                        <TextView
-                            android:background="@drawable/border_status_accept"
-                            android:text="@{viewModel.status}"
-                            android:visibility="@{viewModel.visibleStatusAccept ? View.VISIBLE : View.GONE}"
-                            style="@style/StyleStatus"
-                            />
-                        <TextView
-                            android:background="@drawable/border_status_pending"
-                            android:text="@{viewModel.status}"
-                            android:visibility="@{viewModel.visibleStatusPending ? View.VISIBLE : View.GONE}"
-                            style="@style/StyleStatus"
-                            />
-                        <TextView
-                            android:background="@drawable/border_status_reject"
-                            android:text="@{viewModel.status}"
-                            android:visibility="@{viewModel.visibleStatusReject ? View.VISIBLE : View.GONE}"
-                            style="@style/StyleStatus"
-                            />
-                        <TextView
-                            android:background="@drawable/border_status_forward"
-                            android:text="@{viewModel.status}"
-                            android:visibility="@{viewModel.visibleStatusFoward ? View.VISIBLE : View.GONE}"
-                            style="@style/StyleStatus"
-                            />
-                    </FrameLayout>
+                        android:background="@drawable/border_button_a"
+                        android:backgroundTint="@color/color_white_smoke"
+                        android:paddingBottom="@dimen/dp_5"
+                        android:paddingEnd="@dimen/dp_10"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:paddingRight="@dimen/dp_10"
+                        android:paddingStart="@dimen/dp_10"
+                        android:paddingTop="@dimen/dp_5"
+                        android:text="@{viewModel.status}"
+                        android:textAllCaps="false"
+                        android:textColor="@{viewModel.statusColor}"
+                        android:textStyle="bold"
+                        tools:ignore="UnusedAttribute"
+                        />
                 </RelativeLayout>
 
                 <View
