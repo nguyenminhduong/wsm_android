@@ -42,7 +42,7 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         } else {
             mRequestOverTime = (RequestOverTime) object;
         }
-        initSetImageStatus();
+        initStatus();
     }
 
     public void onApproveRequest() {
@@ -124,28 +124,38 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         return "";
     }
 
-    private void initSetImageStatus() {
+    private void setStatus(String status) {
+        switch (status) {
+            case StatusCode.ACCEPT_CODE:
+                setColorImage(ColorManagers.getColorStatusAccept());
+                setStatusColor(ColorManagers.getColorStatusAccept());
+                break;
+            case StatusCode.PENDING_CODE:
+                setColorImage(ColorManagers.getColorStatusPending());
+                setStatusColor(ColorManagers.getColorStatusPending());
+                break;
+            case StatusCode.FORWARD_CODE:
+                setColorImage(ColorManagers.getColorStatusForward());
+                setStatusColor(ColorManagers.getColorStatusForward());
+                break;
+            case StatusCode.REJECT_CODE:
+                setColorImage(ColorManagers.getColorStatusReject());
+                setStatusColor(ColorManagers.getColorStatusReject());
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void initStatus() {
         if (mLeaveRequest != null) {
-            switch (mLeaveRequest.getStatus()) {
-                case StatusCode.ACCEPT_CODE:
-                    setColorImage(ColorManagers.getColorStatusAccept());
-                    setStatusColor(ColorManagers.getColorStatusAccept());
-                    break;
-                case StatusCode.PENDING_CODE:
-                    setColorImage(ColorManagers.getColorStatusPending());
-                    setStatusColor(ColorManagers.getColorStatusPending());
-                    break;
-                case StatusCode.FORWARD_CODE:
-                    setColorImage(ColorManagers.getColorStatusForward());
-                    setStatusColor(ColorManagers.getColorStatusForward());
-                    break;
-                case StatusCode.REJECT_CODE:
-                    setColorImage(ColorManagers.getColorStatusReject());
-                    setStatusColor(ColorManagers.getColorStatusReject());
-                    break;
-                default:
-                    break;
-            }
+            setStatus(mLeaveRequest.getStatus());
+        }
+        if (mRequestOff != null) {
+            setStatus(mRequestOff.getStatus());
+        }
+        if (mRequestOverTime != null) {
+            setStatus(mRequestOverTime.getStatus());
         }
     }
 
