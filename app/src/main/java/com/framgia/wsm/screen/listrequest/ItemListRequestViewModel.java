@@ -43,38 +43,56 @@ public class ItemListRequestViewModel extends BaseObservable {
 
     public String getTimeRequestLeave() {
         if (mRequest != null) {
-            if (mRequest.getLeaveType().getId() == LeaveType.IN_LATE_M) {
-                return Constant.BEGIN_MORNING_TIME + DateTimeUtils.convertUiFormatToDataFormat(
-                        mRequest.getCheckInTime() + Constant.DATE_TIME_SPACE,
-                        DateTimeUtils.INPUT_TIME_FORMAT,
-                        DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+            final String requestCheckInByTimeAndDate = DateTimeUtils.convertUiFormatToDataFormat(
+                    mRequest.getCheckInTime() + Constant.DATE_TIME_SPACE,
+                    DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY_2);
+            final String requestCheckOutByTimeAndDate =
+                    DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
+                            DateTimeUtils.INPUT_TIME_FORMAT,
+                            DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY_2);
+            final String requestCheckOutByTime =
+                    DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
+                            DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.TIME_FORMAT_HH_MM);
+            final String requestCheckInByTime =
+                    DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckInTime(),
+                            DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.TIME_FORMAT_HH_MM);
+            final String requestCheckOutByDate =
+                    DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
+                            DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.FORMAT_DATE);
+            switch (mRequest.getLeaveType().getId()) {
+                case LeaveType.IN_LATE_M:
+                case LeaveType.IN_LATE_A:
+                    return Constant.BEGIN_MORNING_TIME
+                            + Constant.BLANK_DASH_BLANK
+                            + requestCheckInByTimeAndDate;
+                case LeaveType.LEAVE_EARLY_M:
+                    return requestCheckOutByTime
+                            + Constant.DATE_TIME_SPACE
+                            + Constant.END_MORNING_TIME
+                            + Constant.BLANK
+                            + requestCheckOutByDate;
+                case LeaveType.LEAVE_OUT:
+                case LeaveType.FORGOT_CARD_ALL_DAY:
+                case LeaveType.FORGOT_CHECK_ALL_DAY:
+                    return requestCheckInByTime
+                            + Constant.DATE_TIME_SPACE
+                            + Constant.BLANK
+                            + requestCheckOutByTimeAndDate;
+                case LeaveType.FORGOT_CARD_IN:
+                case LeaveType.IN_LATE_WOMAN_M:
+                case LeaveType.IN_LATE_WOMAN_A:
+                case LeaveType.FORGOT_TO_CHECK_IN:
+                    return requestCheckInByTimeAndDate;
+                case LeaveType.FORGOT_CARD_OUT:
+                case LeaveType.LEAVE_EARLY_A:
+                case LeaveType.LEAVE_EARLY_WOMAN_M:
+                case LeaveType.LEAVE_EARLY_WOMAN_A:
+                case LeaveType.FORGOT_TO_CHECK_OUT:
+                    return requestCheckOutByTimeAndDate;
+                default:
+                    return "";
             }
-            if (mRequest.getLeaveType().getId() == LeaveType.LEAVE_EARLY_M) {
-                return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
-                        DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.TIME_FORMAT_HH_MM)
-                        + Constant.DATE_TIME_SPACE
-                        + Constant.END_MORNING_TIME
-                        + Constant.BLANK
-                        + DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
-                        DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.FORMAT_DATE);
-            }
-            if (mRequest.getLeaveType().getId() == LeaveType.IN_LATE_A) {
-                return Constant.BEGIN_AFTERNOON_TIME
-                        + Constant.DATE_TIME_SPACE
-                        + DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckInTime(),
-                        DateTimeUtils.INPUT_TIME_FORMAT,
-                        DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
-            }
-            if (mRequest.getLeaveType().getId() == LeaveType.LEAVE_EARLY_A) {
-                return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
-                        DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.TIME_FORMAT_HH_MM)
-                        + Constant.DATE_TIME_SPACE
-                        + Constant.END_AFTERNOON_TIME
-                        + Constant.BLANK
-                        + DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
-                        DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.FORMAT_DATE);
-            }
-            //TODO: There are still some cases, add later
         }
         return "";
     }
@@ -95,7 +113,9 @@ public class ItemListRequestViewModel extends BaseObservable {
 
     public String getCreateAt() {
         if (mRequest != null) {
-            return mRequest.getCreateAt();
+            return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCreateAt(),
+                    DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
         }
         if (mRequestOverTime != null) {
             return DateTimeUtils.convertUiFormatToDataFormat(mRequestOverTime.getCreatedAt(),

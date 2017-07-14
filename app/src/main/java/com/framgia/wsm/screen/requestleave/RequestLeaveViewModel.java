@@ -432,6 +432,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     public void onClickCheckinTime(View view) {
         mCurrentTimeSelected = CurrentTimeSelected.CHECK_IN;
         mDialogManager.showDatePickerDialog();
+        if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
+            mActionType = ActionType.ACTION_DETAIL;
+        }
     }
 
     public void onClickCheckoutTime(View view) {
@@ -446,13 +449,16 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             return;
         }
         showDialogError(mContext.getString(R.string.you_have_to_choose_the_check_in_time_first));
+        if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
+            mActionType = ActionType.ACTION_DETAIL;
+        }
     }
 
     public void onClickCompensationFrom(View view) {
         switch (mCurrentLeaveType) {
             case LeaveTypeId.IN_LATE_A:
             case LeaveTypeId.IN_LATE_M:
-                if (StringUtils.isBlank(mCheckinTime)) {
+                if (StringUtils.isBlank(getCheckinTime())) {
                     showDialogError(mContext.getString(
                             R.string.you_have_to_choose_the_check_in_time_first));
                     break;
@@ -462,7 +468,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 break;
             case LeaveTypeId.LEAVE_EARLY_A:
             case LeaveTypeId.LEAVE_EARLY_M:
-                if (StringUtils.isBlank(mCheckoutTime)) {
+                if (StringUtils.isBlank(getCheckoutTime())) {
                     showDialogError(mContext.getString(
                             R.string.you_have_to_choose_the_check_out_time_first));
                     break;
@@ -471,7 +477,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 mDialogManager.showDatePickerDialog();
                 break;
             case LeaveTypeId.LEAVE_OUT:
-                if (StringUtils.isBlank(mCheckinTime)) {
+                if (StringUtils.isBlank(getCheckinTime())) {
                     showDialogError(mContext.getString(
                             R.string.you_have_to_choose_the_check_in_time_first));
                     break;
@@ -955,7 +961,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             }
         } else {
             if (DateTimeUtils.convertStringToDate(compensationFromTime)
-                    .before(DateTimeUtils.convertStringToDate(mCheckoutTime))) {
+                    .before(DateTimeUtils.convertStringToDate(getCheckoutTime()))) {
                 validateErrorDialog(
                         mContext.getString(R.string.compensation_time_is_not_in_the_past));
                 return;
@@ -1275,7 +1281,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                     mRequest.getCompensation().getFromTime(), DateTimeUtils.INPUT_TIME_FORMAT,
                     DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
         }
-
+        if (mActionType == ActionType.ACTION_DETAIL) {
+            return mRequest.getCompensationRequest().getFromTime();
+        }
         return mRequest.getCompensationRequest().getFromTime();
     }
 
@@ -1291,6 +1299,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getToTime(),
                     DateTimeUtils.INPUT_TIME_FORMAT,
                     DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+        }
+        if (mActionType == ActionType.ACTION_DETAIL) {
+            return mRequest.getCompensationRequest().getToTime();
         }
         return mRequest.getCompensationRequest().getToTime();
     }
