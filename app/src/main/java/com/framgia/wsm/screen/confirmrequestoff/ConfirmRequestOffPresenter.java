@@ -75,6 +75,18 @@ final class ConfirmRequestOffPresenter implements ConfirmRequestOffContract.Pres
         Disposable disposable = mRequestRepository.createFormRequestOff(requestOffRequest)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(@NonNull Disposable disposable) throws Exception {
+                        mViewModel.onShowIndeterminateProgressDialog();
+                    }
+                })
+                .doAfterTerminate(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mViewModel.onDismissProgressDialog();
+                    }
+                })
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
@@ -125,6 +137,18 @@ final class ConfirmRequestOffPresenter implements ConfirmRequestOffContract.Pres
         Disposable disposable = mRequestRepository.editFormRequestOff(requestOffRequest)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(@NonNull Disposable disposable) throws Exception {
+                        mViewModel.onShowIndeterminateProgressDialog();
+                    }
+                })
+                .doAfterTerminate(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mViewModel.onDismissProgressDialog();
+                    }
+                })
                 .subscribe(new Consumer<BaseResponse<OffRequest>>() {
                     @Override
                     public void accept(@NonNull BaseResponse<OffRequest> requestOffBaseResponse)
