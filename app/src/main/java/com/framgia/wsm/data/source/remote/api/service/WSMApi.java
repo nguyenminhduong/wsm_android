@@ -31,6 +31,7 @@ import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by le.quang.dao on 10/03/2017.
@@ -128,19 +129,19 @@ public interface WSMApi {
     Observable<BaseResponse<List<Notification>>> getNotification();
 
     //TODO edit later
-    @GET("/api/dashboard/request_leaves")
+    @GET("/api/dashboard/manager/request_leaves?")
     Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveManage(
-            @Query("from") String fromTime, @Query("to") String toTime);
+            @QueryMap Map<String, String> params);
 
     //TODO edit later
-    @GET("/api/dashboard/request_ots")
+    @GET("/api/dashboard/manager/request_ots?")
     Observable<BaseResponse<List<RequestOverTime>>> getListRequestOvertimeManage(
-            @Query("from") String fromTime, @Query("to") String toTime);
+            @QueryMap Map<String, String> params);
 
     //TODO edit later
-    @GET("/api/dashboard/request_off")
+    @GET("/api/dashboard/manager/request_off?")
     Observable<BaseResponse<List<OffRequest>>> getListRequestOffManage(
-            @Query("from") String fromTime, @Query("to") String toTime);
+            @QueryMap Map<String, String> params);
 
     //TODO edit later
     @POST("api/dashboard/request_ots/{request_ots_id}")

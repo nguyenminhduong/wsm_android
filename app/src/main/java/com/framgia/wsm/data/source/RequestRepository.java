@@ -2,6 +2,7 @@ package com.framgia.wsm.data.source;
 
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
+import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
@@ -140,19 +141,19 @@ public class RequestRepository {
         return Observable.just(baseResponse);
     }
 
-    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveManage(String fromTime,
-            String toTime) {
-        return mRemoteDataSource.getListRequesLeavetManage(fromTime, toTime);
+    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveManage(
+            QueryRequest queryRequest) {
+        return mRemoteDataSource.getListRequesLeavetManage(queryRequest);
     }
 
-    public Observable<BaseResponse<List<OffRequest>>> getListRequestOffManage(String fromTime,
-            String toTime) {
-        return mRemoteDataSource.getListRequesOffManage(fromTime, toTime);
+    public Observable<BaseResponse<List<OffRequest>>> getListRequestOffManage(
+            QueryRequest queryRequest) {
+        return mRemoteDataSource.getListRequesOffManage(queryRequest);
     }
 
     public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOvertimeManage(
-            String fromTime, String toTime) {
-        return mRemoteDataSource.getListRequesOvertimetManage(fromTime, toTime);
+            QueryRequest queryRequest) {
+        return mRemoteDataSource.getListRequesOvertimetManage(queryRequest);
     }
 
     public Observable<BaseResponse<LeaveRequest>> approveRequestLeave(int requestId) {

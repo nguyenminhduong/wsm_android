@@ -2,6 +2,7 @@ package com.framgia.wsm.data.source.remote;
 
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
+import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.RequestDataSource;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
@@ -12,7 +13,9 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.inject.Inject;
 
 /**
@@ -21,6 +24,14 @@ import javax.inject.Inject;
 
 public class RequestRemoteDataSource extends BaseRemoteDataSource
         implements RequestDataSource.RemoteDataSource {
+
+    private static final String PARAM_USER_NAME = "user_name";
+    private static final String PARAM_FROM_TIME = "from_time";
+    private static final String PARAM_TO_TIME = "to_time";
+    private static final String PARAM_STATUS = "status";
+    private static final String PARAM_GROUP_ID = "group_id";
+    private static final String PARAM_WORKSPACE_ID = "worksapce_id";
+
     @Inject
     public RequestRemoteDataSource(WSMApi api) {
         super(api);
@@ -135,21 +146,21 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<List<LeaveRequest>>> getListRequesLeavetManage(String fromTime,
-            String toTime) {
-        return mWSMApi.getListRequestLeaveManage(fromTime, toTime);
+    public Observable<BaseResponse<List<LeaveRequest>>> getListRequesLeavetManage(
+            QueryRequest queryRequest) {
+        return mWSMApi.getListRequestLeaveManage(inputParams(queryRequest));
     }
 
     @Override
     public Observable<BaseResponse<List<RequestOverTime>>> getListRequesOvertimetManage(
-            String fromTime, String toTime) {
-        return mWSMApi.getListRequestOvertimeManage(fromTime, toTime);
+            QueryRequest queryRequest) {
+        return mWSMApi.getListRequestOvertimeManage(inputParams(queryRequest));
     }
 
     @Override
-    public Observable<BaseResponse<List<OffRequest>>> getListRequesOffManage(String fromTime,
-            String toTime) {
-        return mWSMApi.getListRequestOffManage(fromTime, toTime);
+    public Observable<BaseResponse<List<OffRequest>>> getListRequesOffManage(
+            QueryRequest queryRequest) {
+        return mWSMApi.getListRequestOffManage(inputParams(queryRequest));
     }
 
     @Override
@@ -180,5 +191,16 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     @Override
     public Observable<BaseResponse<RequestOverTime>> rejectRequestOverTime(int requestId) {
         return mWSMApi.rejectFormRequestOverTime(requestId);
+    }
+
+    private Map<String, String> inputParams(QueryRequest queryRequest) {
+        Map<String, String> params = new HashMap<>();
+        params.put(PARAM_USER_NAME, queryRequest.getUserName());
+        params.put(PARAM_FROM_TIME, queryRequest.getFromTime());
+        params.put(PARAM_TO_TIME, queryRequest.getToTime());
+        params.put(PARAM_STATUS, queryRequest.getStatus());
+        params.put(PARAM_GROUP_ID, String.valueOf(queryRequest.getGroupId()));
+        params.put(PARAM_WORKSPACE_ID, String.valueOf(queryRequest.getWorkspaceId()));
+        return params;
     }
 }
