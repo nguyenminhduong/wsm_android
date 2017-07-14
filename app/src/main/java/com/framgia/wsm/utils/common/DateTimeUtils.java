@@ -67,7 +67,7 @@ public final class DateTimeUtils {
         if (source == null) {
             return null;
         }
-        DateFormat df = new SimpleDateFormat(format);
+        DateFormat df = new SimpleDateFormat(format,Locale.US);
         return df.format(source);
     }
 
