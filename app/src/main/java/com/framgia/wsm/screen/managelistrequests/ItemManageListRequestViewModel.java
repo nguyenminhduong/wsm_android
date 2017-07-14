@@ -3,12 +3,12 @@ package com.framgia.wsm.screen.managelistrequests;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import com.framgia.wsm.BR;
-import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.utils.StatusCode;
+import com.framgia.wsm.utils.binding.ColorManagers;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 
 /**
@@ -17,16 +17,16 @@ import com.framgia.wsm.utils.common.DateTimeUtils;
 
 public class ItemManageListRequestViewModel extends BaseObservable {
 
-    private Object mObject;
+    private final Object mObject;
     private LeaveRequest mLeaveRequest;
     private OffRequest mRequestOff;
     private RequestOverTime mRequestOverTime;
     private final BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object>
             mItemClickListener;
-    private ActionRequestListener mActionRequestListener;
-    private int mImageRequestType;
-    private int mItemPosition;
-    private String mStatusRequest;
+    private final ActionRequestListener mActionRequestListener;
+    private final int mItemPosition;
+    private int mStatusColor;
+    private int mColorImage;
 
     ItemManageListRequestViewModel(Object object,
             BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> itemClickListener,
@@ -42,8 +42,7 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         } else {
             mRequestOverTime = (RequestOverTime) object;
         }
-        initValueStatus();
-        initImageRequestType();
+        initSetImageStatus();
     }
 
     public void onApproveRequest() {
@@ -83,36 +82,6 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         mItemClickListener.onItemRecyclerViewClick(mObject);
     }
 
-    public boolean isVisibleStatusAccept() {
-        return StatusCode.ACCEPT_CODE.endsWith(mStatusRequest);
-    }
-
-    public boolean isVisibleStatusReject() {
-        return StatusCode.REJECT_CODE.endsWith(mStatusRequest);
-    }
-
-    public boolean isVisibleStatusPending() {
-        return StatusCode.PENDING_CODE.endsWith(mStatusRequest);
-    }
-
-    public boolean isVisibleStatusFoward() {
-        return StatusCode.FORWARD_CODE.endsWith(mStatusRequest);
-    }
-
-    private void initValueStatus() {
-        if (mLeaveRequest != null) {
-            mStatusRequest = mLeaveRequest.getStatus();
-            return;
-        }
-        if (mRequestOverTime != null) {
-            mStatusRequest = mRequestOverTime.getStatus();
-            return;
-        }
-        if (mRequestOff != null) {
-            mStatusRequest = mRequestOff.getStatus();
-        }
-    }
-
     private String getFormatTime(String input) {
         return DateTimeUtils.convertUiFormatToDataFormat(input, DateTimeUtils.INPUT_TIME_FORMAT,
                 DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
@@ -142,30 +111,6 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         return mLeaveRequest != null && mLeaveRequest.getLeaveType() != null;
     }
 
-    @Bindable
-    public int getImageRequestType() {
-        return mImageRequestType;
-    }
-
-    private void setImageRequestType(int imageRequestType) {
-        mImageRequestType = imageRequestType;
-        notifyPropertyChanged(BR.imageRequestType);
-    }
-
-    private void initImageRequestType() {
-        if (mLeaveRequest != null) {
-            setImageRequestType(R.drawable.ic_clock_a);
-            return;
-        }
-        if (mRequestOverTime != null) {
-            setImageRequestType(R.drawable.ic_over_time);
-            return;
-        }
-        if (mRequestOff != null) {
-            setImageRequestType(R.drawable.ic_day_off);
-        }
-    }
-
     public String getStatus() {
         if (mLeaveRequest != null) {
             return mLeaveRequest.getStatus();
@@ -177,6 +122,31 @@ public class ItemManageListRequestViewModel extends BaseObservable {
             return mRequestOff.getStatus();
         }
         return "";
+    }
+
+    private void initSetImageStatus() {
+        if (mLeaveRequest != null) {
+            switch (mLeaveRequest.getStatus()) {
+                case StatusCode.ACCEPT_CODE:
+                    setColorImage(ColorManagers.getColorStatusAccept());
+                    setStatusColor(ColorManagers.getColorStatusAccept());
+                    break;
+                case StatusCode.PENDING_CODE:
+                    setColorImage(ColorManagers.getColorStatusPending());
+                    setStatusColor(ColorManagers.getColorStatusPending());
+                    break;
+                case StatusCode.FORWARD_CODE:
+                    setColorImage(ColorManagers.getColorStatusForward());
+                    setStatusColor(ColorManagers.getColorStatusForward());
+                    break;
+                case StatusCode.REJECT_CODE:
+                    setColorImage(ColorManagers.getColorStatusReject());
+                    setStatusColor(ColorManagers.getColorStatusReject());
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public boolean isVisibleButtonApprove() {
@@ -203,5 +173,25 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         }
         return StatusCode.ACCEPT_CODE.equals(mRequestOff.getStatus())
                 || StatusCode.PENDING_CODE.equals(mRequestOff.getStatus());
+    }
+
+    @Bindable
+    public int getColorImage() {
+        return mColorImage;
+    }
+
+    private void setColorImage(int colorImage) {
+        mColorImage = colorImage;
+        notifyPropertyChanged(BR.colorImage);
+    }
+
+    @Bindable
+    public int getStatusColor() {
+        return mStatusColor;
+    }
+
+    private void setStatusColor(int statusColor) {
+        mStatusColor = statusColor;
+        notifyPropertyChanged(BR.statusColor);
     }
 }

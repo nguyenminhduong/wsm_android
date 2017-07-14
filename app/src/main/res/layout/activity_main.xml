@@ -69,9 +69,10 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_menu_nav"
                         android:onClick="@{viewModel::onDrawerIsOpen}"
-                        tools:ignore="ContentDescription"
+                        android:padding="@dimen/dp_7"
+                        android:src="@drawable/ic_menu_nav"
+                        bind:ignore="ContentDescription,VectorDrawableCompat"
                         />
                     <TextView
                         android:layout_width="wrap_content"
