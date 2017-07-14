@@ -157,4 +157,8 @@ public class ChangePasswordViewModel extends BaseObservable
         }
         mPresenter.changePassword(mCurrentPassword, mNewPassword);
     }
+
+    public void onClickArrowBack(View view) {
+        mNavigator.finishActivity();
+    }
 }
