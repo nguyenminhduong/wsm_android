@@ -15,6 +15,7 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import static com.framgia.wsm.utils.Constant.TimeConst.DAY_25_OF_MONTH;
+import static com.framgia.wsm.utils.Constant.TimeConst.DAY_26_OF_MONTH;
 import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
 
 /**
@@ -260,5 +261,20 @@ public final class DateTimeUtils {
         } catch (ParseException e) {
             return null;
         }
+    }
+
+    public static String dayFirstMonthWorking() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - ONE_MONTH);
+        calendar.set(Calendar.DAY_OF_MONTH, DAY_26_OF_MONTH);
+        return DateTimeUtils.convertToString(calendar.getTime(),
+                DateTimeUtils.DATE_FORMAT_YYYY_MM_DD);
+    }
+
+    public static String dayLasttMonthWorking() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, DAY_25_OF_MONTH);
+        return DateTimeUtils.convertToString(calendar.getTime(),
+                DateTimeUtils.DATE_FORMAT_YYYY_MM_DD);
     }
 }

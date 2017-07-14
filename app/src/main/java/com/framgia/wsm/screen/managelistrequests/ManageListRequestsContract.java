@@ -1,5 +1,6 @@
 package com.framgia.wsm.screen.managelistrequests;
 
+import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BasePresenter;
 import com.framgia.wsm.screen.BaseViewModel;
@@ -38,7 +39,7 @@ interface ManageListRequestsContract {
      */
     interface Presenter extends BasePresenter<ViewModel> {
 
-        void getListAllRequestManage(@RequestType int requestType, String fromTime, String toTime);
+        void getListAllRequestManage(@RequestType int requestType, QueryRequest queryRequest);
 
         void approveRequest(@RequestType int requestType, int requestId, int itemPosition);
 

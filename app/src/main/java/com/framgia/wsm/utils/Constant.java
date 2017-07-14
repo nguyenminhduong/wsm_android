@@ -50,6 +50,7 @@ public final class Constant {
         public static final int FORTY_FIVE_MINUTES = 45;
         public static final int ONE_MONTH = 1;
         public static final int DAY_25_OF_MONTH = 25;
+        public static final int DAY_26_OF_MONTH = 26;
     }
 
     public static class NumberConst {

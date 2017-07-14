@@ -4,10 +4,12 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
+import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.utils.RequestType;
+import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import java.util.List;
@@ -28,6 +30,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     private Navigator mNavigator;
     private ManageListRequestsAdapter mManageListRequestsAdapter;
     private int mRequestType;
+    private QueryRequest mQueryRequest;
     private String mFromTime;
     private String mToTime;
 
@@ -42,6 +45,15 @@ public class ManageListRequestsViewModel extends BaseObservable
         mManageListRequestsAdapter = manageListRequestsAdapter;
         mManageListRequestsAdapter.setItemClickListener(this);
         mManageListRequestsAdapter.setActionRequestListener(this);
+        initData();
+    }
+
+    private void initData() {
+        mFromTime = DateTimeUtils.dayFirstMonthWorking();
+        mToTime = DateTimeUtils.dayLasttMonthWorking();
+        mQueryRequest = new QueryRequest();
+        mQueryRequest.setFromTime(mFromTime);
+        mQueryRequest.setToTime(mToTime);
     }
 
     @Override
@@ -79,7 +91,7 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     @Override
     public void onReloadData(@RequestType int requestType) {
-        mPresenter.getListAllRequestManage(mRequestType, mFromTime, mToTime);
+        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
     }
 
     public void setRequestType(@RequestType int requestType) {
