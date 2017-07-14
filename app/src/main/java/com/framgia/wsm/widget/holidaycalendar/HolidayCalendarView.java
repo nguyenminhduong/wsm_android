@@ -102,7 +102,7 @@ public class HolidayCalendarView extends View {
                         resources.getDimensionPixelSize(R.dimen.sp_14));
         mMonthLabelTextSize =
                 typedArray.getDimensionPixelSize(R.styleable.DatePickerView_textSizeMonth,
-                        resources.getDimensionPixelSize(R.dimen.sp_25));
+                        resources.getDimensionPixelSize(R.dimen.sp_20));
         mMonthDayLabelTextSize =
                 typedArray.getDimensionPixelSize(R.styleable.DatePickerView_textSizeDayName,
                         resources.getDimensionPixelSize(R.dimen.sp_9));
@@ -134,7 +134,7 @@ public class HolidayCalendarView extends View {
             String dayOfWeek = mDateFormatSymbols.getShortWeekdays()[mDayLabelCalendar.get(
                     Calendar.DAY_OF_WEEK)].toUpperCase(Locale.US);
 
-            canvas.drawText(dayOfWeek.substring(0, 1), x, y, mMonthDayLabelPaint);
+            canvas.drawText(dayOfWeek.substring(0, 2), x, y, mMonthDayLabelPaint);
         }
     }
 
