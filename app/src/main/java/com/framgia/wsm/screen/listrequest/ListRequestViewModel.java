@@ -127,6 +127,11 @@ public class ListRequestViewModel extends BaseObservable
     }
 
     @Override
+    public void onReloadData(int requestType) {
+        mPresenter.getListAllRequest(requestType);
+    }
+
+    @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         mYear = year;
         mMonth = month;
@@ -161,10 +166,8 @@ public class ListRequestViewModel extends BaseObservable
         return mListRequestAdapter;
     }
 
-    @Override
     public void setRequestType(int requestType) {
         mRequestType = requestType;
-        mPresenter.getListAllRequest(mRequestType);
     }
 
     public void onPickMonthYear(View view) {

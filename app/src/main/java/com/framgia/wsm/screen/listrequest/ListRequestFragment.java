@@ -70,14 +70,14 @@ public class ListRequestFragment extends BaseFragment {
             return;
         }
         int typeRequest = getArguments().getInt(Constant.EXTRA_REQUEST_TYPE);
-        mViewModel.setRequestType(typeRequest);
+        mViewModel.onReloadData(typeRequest);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            mViewModel.setRequestType(data.getExtras().getInt(Constant.EXTRA_REQUEST_TYPE_CODE));
+            mViewModel.onReloadData(data.getExtras().getInt(Constant.EXTRA_REQUEST_TYPE_CODE));
         }
     }
 }

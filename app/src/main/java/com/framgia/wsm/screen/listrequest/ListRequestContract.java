@@ -17,7 +17,7 @@ interface ListRequestContract {
 
         void onGetListRequestSuccess(@RequestType int requestType, Object object);
 
-        void setRequestType(int requestType);
+        void onReloadData(int requestType);
     }
 
     /**
