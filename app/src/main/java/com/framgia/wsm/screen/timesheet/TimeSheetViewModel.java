@@ -232,8 +232,8 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     }
 
     public void onNextMonth() {
-        if (mMonth == 12) {
-            mMonth = 1;
+        if (mMonth == 11) {
+            mMonth = 0;
             mYear++;
         } else {
             mMonth++;
@@ -245,8 +245,8 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     }
 
     public void onPreviousMonth() {
-        if (mMonth == 1) {
-            mMonth = 12;
+        if (mMonth == 0) {
+            mMonth = 11;
             mYear--;
         } else {
             mMonth--;
