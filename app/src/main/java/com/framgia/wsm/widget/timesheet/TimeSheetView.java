@@ -30,6 +30,7 @@ public class TimeSheetView extends View {
 
     private static final int SELECTED_CIRCLE_ALPHA = 128;
     private static final int DEFAULT_HEIGHT = 32;
+    private static final int CALENDAR_DECEMBER = 11;
     private int mDaySelectedCircleSize;
     private int mCurrentDayCircleSize;
     private int mDaySelectedCircleInSize;
@@ -209,12 +210,17 @@ public class TimeSheetView extends View {
         while (day <= mNumCells) {
             int x = paddingDay * (1 + dayOffset * 2) + mPadding;
 
-            int range = DateTimeUtils.getDaysInMonth(mMonth - 1, mYear);
+            int range;
+            if (mMonth == 0) {
+                range = DateTimeUtils.getDaysInMonth(CALENDAR_DECEMBER, mYear - 1);
+            } else {
+                range = DateTimeUtils.getDaysInMonth(mMonth - 1, mYear);
+            }
             if (day > range) {
                 dayCheck = day - range;
                 month = mMonth + 1;
-                if (month > 12) {
-                    month = 1;
+                if (month > CALENDAR_DECEMBER) {
+                    month = 0;
                     year = mYear + 1;
                 }
             } else {
@@ -300,18 +306,32 @@ public class TimeSheetView extends View {
 
     private void drawTextNormal(Canvas canvas, int y, int day, int x) {
         mMonthNumPaint.setTextSize(mMiniDayNumberTextSize);
-        canvas.drawText(String.format(Locale.US, "%d",
-                day > DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) ? day
-                        - DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) : day), x, y,
-                mMonthNumPaint);
+        if (mMonth == 0) {
+            canvas.drawText(String.format(Locale.US, "%d",
+                    day > DateTimeUtils.getDaysInMonth(CALENDAR_DECEMBER, mYear - 1) ? day
+                            - DateTimeUtils.getDaysInMonth(CALENDAR_DECEMBER, mYear - 1) : day), x,
+                    y, mMonthNumPaint);
+        } else {
+            canvas.drawText(String.format(Locale.US, "%d",
+                    day > DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) ? day
+                            - DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) : day), x, y,
+                    mMonthNumPaint);
+        }
     }
 
     private void drawTextRoP(Canvas canvas, int y, int day, int x, String label) {
         mMonthNumPaint.setTextSize(mDayLabelTextSizeSmall);
-        canvas.drawText(String.format(Locale.US, "%d",
-                day > DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) ? day
-                        - DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) : day), x,
-                y - (float) (mMiniDayNumberTextSize / 2), mMonthNumPaint);
+        if (mMonth == 0) {
+            canvas.drawText(String.format(Locale.US, "%d",
+                    day > DateTimeUtils.getDaysInMonth(CALENDAR_DECEMBER, mYear - 1) ? day
+                            - DateTimeUtils.getDaysInMonth(CALENDAR_DECEMBER, mYear - 1) : day), x,
+                    y - (float) (mMiniDayNumberTextSize / 2), mMonthNumPaint);
+        } else {
+            canvas.drawText(String.format(Locale.US, "%d",
+                    day > DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) ? day
+                            - DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) : day), x,
+                    y - (float) (mMiniDayNumberTextSize / 2), mMonthNumPaint);
+        }
         mMonthNumPaint.setTextSize(mMonthDayLabelTextSize);
         canvas.drawText(label, x, y + mMiniDayNumberTextSize / 3, mMonthNumPaint);
     }
@@ -350,7 +370,12 @@ public class TimeSheetView extends View {
         int month = mMonth;
         int year = mYear;
 
-        int range = DateTimeUtils.getDaysInMonth(mMonth - 1, mYear);
+        int range;
+        if (mMonth == 0) {
+            range = DateTimeUtils.getDaysInMonth(CALENDAR_DECEMBER, mYear - 1);
+        } else {
+            range = DateTimeUtils.getDaysInMonth(mMonth - 1, mYear);
+        }
         int delta = range - 25;
         if (day <= delta) {
             day = day + 25;
@@ -484,14 +509,21 @@ public class TimeSheetView extends View {
         mCalendar.set(Calendar.DAY_OF_MONTH, 1);
 
         Calendar calendar2 = Calendar.getInstance();
-        calendar2.set(Calendar.MONTH, mMonth == 0 ? 12 : mMonth - 1);
-        calendar2.set(Calendar.YEAR, mYear);
+        if (mMonth == 0) {
+            calendar2.set(Calendar.MONTH, CALENDAR_DECEMBER);
+            calendar2.set(Calendar.YEAR, mYear - 1);
+            mNumCells = DateTimeUtils.getDaysInMonth(CALENDAR_DECEMBER, mYear - 1) + 25;
+        } else {
+            calendar2.set(Calendar.MONTH, mMonth - 1);
+            calendar2.set(Calendar.YEAR, mYear);
+            mNumCells = DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) + 25;
+        }
+
         calendar2.set(Calendar.DAY_OF_MONTH, 26);
         mDayOfWeekStart = calendar2.get(Calendar.DAY_OF_WEEK);
 
         mWeekStart = mCalendar.getFirstDayOfWeek();
 
-        mNumCells = DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) + 25;
         for (int i = 0; i < mNumCells; i++) {
             final int day = i + 1;
             if (sameDay(day, today)) {
