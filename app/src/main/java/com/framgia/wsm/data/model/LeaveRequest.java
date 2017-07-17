@@ -68,6 +68,7 @@ public class LeaveRequest extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("approver")
     private Approver mApprover;
+    @Expose
     @SerializedName("handle_by_group_name")
     private String mBeingHandledBy;
 

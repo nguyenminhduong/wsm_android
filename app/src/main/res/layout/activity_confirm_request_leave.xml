@@ -425,7 +425,7 @@
                                     <TextView
                                         android:ellipsize="end"
                                         android:maxLines="1"
-                                        android:text="@{viewModel.request.approver.name}"
+                                        android:text="@{viewModel.request.beingHandledBy}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <View
