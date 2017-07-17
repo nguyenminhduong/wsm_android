@@ -9,6 +9,7 @@ import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
+import com.framgia.wsm.utils.RequestType;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.annotations.NonNull;
@@ -25,12 +26,15 @@ import javax.inject.Inject;
 public class RequestRemoteDataSource extends BaseRemoteDataSource
         implements RequestDataSource.RemoteDataSource {
 
-    private static final String PARAM_USER_NAME = "user_name";
-    private static final String PARAM_FROM_TIME = "from_time";
-    private static final String PARAM_TO_TIME = "to_time";
-    private static final String PARAM_STATUS = "status";
-    private static final String PARAM_GROUP_ID = "group_id";
-    private static final String PARAM_WORKSPACE_ID = "worksapce_id";
+    private static final String PARAM_USER_NAME = "q[user_name_cont]";
+    private static final String PARAM_FROM_TIME_REQUEST_OVERTIME = "q[from_time_or_end_time_gteq]";
+    private static final String PARAM_TO_TIME_REQUEST_OVERTIME = "q[from_time_or_end_time_lteq]";
+    private static final String PARAM_STATUS = "q[status_eq]";
+    private static final String PARAM_GROUP_ID = "q[group_id_eq]";
+    private static final String PARAM_WORKSPACE_ID = "q[workspace_id_eq]";
+    private static final String PARAM_FROM_TIME_REQUEST_OFF =
+            "q[off_have_salary_from][off_paid_from]";
+    private static final String PARAM_TO_TIME_REQUEST_OFF = "q[off_have_salary_from][off_paid_to]";
 
     @Inject
     public RequestRemoteDataSource(WSMApi api) {
@@ -148,19 +152,19 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     @Override
     public Observable<BaseResponse<List<LeaveRequest>>> getListRequesLeavetManage(
             QueryRequest queryRequest) {
-        return mWSMApi.getListRequestLeaveManage(inputParams(queryRequest));
+        return mWSMApi.getListRequestLeaveManage(inputParamsRequests(queryRequest));
     }
 
     @Override
     public Observable<BaseResponse<List<RequestOverTime>>> getListRequesOvertimetManage(
             QueryRequest queryRequest) {
-        return mWSMApi.getListRequestOvertimeManage(inputParams(queryRequest));
+        return mWSMApi.getListRequestOvertimeManage(inputParamsRequests(queryRequest));
     }
 
     @Override
     public Observable<BaseResponse<List<OffRequest>>> getListRequesOffManage(
             QueryRequest queryRequest) {
-        return mWSMApi.getListRequestOffManage(inputParams(queryRequest));
+        return mWSMApi.getListRequestOffManage(inputParamsRequests(queryRequest));
     }
 
     @Override
@@ -193,14 +197,27 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
         return mWSMApi.rejectFormRequestOverTime(requestId);
     }
 
-    private Map<String, String> inputParams(QueryRequest queryRequest) {
+    private Map<String, String> inputParamsRequests(QueryRequest queryRequest) {
         Map<String, String> params = new HashMap<>();
         params.put(PARAM_USER_NAME, queryRequest.getUserName());
-        params.put(PARAM_FROM_TIME, queryRequest.getFromTime());
-        params.put(PARAM_TO_TIME, queryRequest.getToTime());
         params.put(PARAM_STATUS, queryRequest.getStatus());
-        params.put(PARAM_GROUP_ID, String.valueOf(queryRequest.getGroupId()));
-        params.put(PARAM_WORKSPACE_ID, String.valueOf(queryRequest.getWorkspaceId()));
+        params.put(PARAM_GROUP_ID, queryRequest.getGroupId());
+        params.put(PARAM_WORKSPACE_ID, queryRequest.getWorkspaceId());
+        switch (queryRequest.getRequestType()) {
+            case RequestType.REQUEST_LATE_EARLY:
+                //TODO edit later
+                break;
+            case RequestType.REQUEST_OVERTIME:
+                params.put(PARAM_FROM_TIME_REQUEST_OVERTIME, queryRequest.getFromTime());
+                params.put(PARAM_TO_TIME_REQUEST_OVERTIME, queryRequest.getToTime());
+                break;
+            case RequestType.REQUEST_OFF:
+                params.put(PARAM_FROM_TIME_REQUEST_OFF, queryRequest.getFromTime());
+                params.put(PARAM_TO_TIME_REQUEST_OFF, queryRequest.getToTime());
+                break;
+            default:
+                break;
+        }
         return params;
     }
 }

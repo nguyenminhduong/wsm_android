@@ -68,7 +68,6 @@ public class ManageListRequestsFragment extends BaseFragment {
         if (!isVisibleToUser) {
             return;
         }
-        int typeRequest = getArguments().getInt(Constant.EXTRA_REQUEST_TYPE);
-        mViewModel.onReloadData(typeRequest);
+        mViewModel.onReloadData();
     }
 }

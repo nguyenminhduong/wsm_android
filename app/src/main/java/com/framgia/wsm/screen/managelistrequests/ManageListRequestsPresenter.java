@@ -15,6 +15,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -65,6 +66,7 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                             public void accept(
                                     @NonNull BaseResponse<List<LeaveRequest>> listBaseResponse)
                                     throws Exception {
+                                Collections.reverse(listBaseResponse.getData());
                                 mViewModel.onGetListRequestManageSuccess(
                                         RequestType.REQUEST_LATE_EARLY, listBaseResponse.getData());
                             }
@@ -85,6 +87,7 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                             public void accept(
                                     @NonNull BaseResponse<List<OffRequest>> listBaseResponse)
                                     throws Exception {
+                                Collections.reverse(listBaseResponse.getData());
                                 mViewModel.onGetListRequestManageSuccess(RequestType.REQUEST_OFF,
                                         listBaseResponse.getData());
                             }
@@ -105,6 +108,7 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                             public void accept(
                                     @NonNull BaseResponse<List<RequestOverTime>> listBaseResponse)
                                     throws Exception {
+                                Collections.reverse(listBaseResponse.getData());
                                 mViewModel.onGetListRequestManageSuccess(
                                         RequestType.REQUEST_OVERTIME, listBaseResponse.getData());
                             }
