@@ -35,6 +35,10 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     private static final String PARAM_FROM_TIME_REQUEST_OFF =
             "q[off_have_salary_from][off_paid_from]";
     private static final String PARAM_TO_TIME_REQUEST_OFF = "q[off_have_salary_from][off_paid_to]";
+    private static final String PARAM_FROM_TIME_REQUEST_LEAVE =
+            "q[checkin_time_or_checkout_time_gteq]";
+    private static final String PARAM_TO_TIME_REQUEST_LEAVE =
+            "q[checkin_time_or_checkout_time_lteq]";
 
     @Inject
     public RequestRemoteDataSource(WSMApi api) {
@@ -206,7 +210,8 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
         params.put(PARAM_WORKSPACE_ID, queryRequest.getWorkspaceId());
         switch (queryRequest.getRequestType()) {
             case RequestType.REQUEST_LATE_EARLY:
-                //TODO edit later
+                params.put(PARAM_FROM_TIME_REQUEST_LEAVE, queryRequest.getFromTime());
+                params.put(PARAM_TO_TIME_REQUEST_LEAVE, queryRequest.getToTime());
                 break;
             case RequestType.REQUEST_OVERTIME:
                 params.put(PARAM_FROM_TIME_REQUEST_OVERTIME, queryRequest.getFromTime());
