@@ -90,12 +90,13 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     @Override
-    public void onReloadData(@RequestType int requestType) {
+    public void onReloadData() {
         mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
     }
 
     public void setRequestType(@RequestType int requestType) {
         mRequestType = requestType;
+        mQueryRequest.setRequestType(requestType);
     }
 
     @Override

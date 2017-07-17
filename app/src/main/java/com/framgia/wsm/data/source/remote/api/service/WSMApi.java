@@ -139,7 +139,7 @@ public interface WSMApi {
             @QueryMap Map<String, String> params);
 
     //TODO edit later
-    @GET("/api/dashboard/manager/request_off?")
+    @GET("/api/dashboard/manager/request_offs?")
     Observable<BaseResponse<List<OffRequest>>> getListRequestOffManage(
             @QueryMap Map<String, String> params);
 

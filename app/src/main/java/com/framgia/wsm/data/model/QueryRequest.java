@@ -10,8 +10,9 @@ public class QueryRequest extends BaseModel {
     private String mFromTime;
     private String mToTime;
     private String mStatus;
-    private int mGroupId;
-    private int mWorkspaceId;
+    private String mGroupId;
+    private String mWorkspaceId;
+    private int mRequestType;
 
     public QueryRequest() {
     }
@@ -60,19 +61,33 @@ public class QueryRequest extends BaseModel {
         mStatus = status;
     }
 
-    public int getGroupId() {
+    public String getGroupId() {
+        if (mGroupId == null) {
+            return "";
+        }
         return mGroupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(String groupId) {
         mGroupId = groupId;
     }
 
-    public int getWorkspaceId() {
+    public String getWorkspaceId() {
+        if (mWorkspaceId == null) {
+            return "";
+        }
         return mWorkspaceId;
     }
 
-    public void setWorkspaceId(int workspaceId) {
+    public void setWorkspaceId(String workspaceId) {
         mWorkspaceId = workspaceId;
+    }
+
+    public int getRequestType() {
+        return mRequestType;
+    }
+
+    public void setRequestType(int requestType) {
+        mRequestType = requestType;
     }
 }

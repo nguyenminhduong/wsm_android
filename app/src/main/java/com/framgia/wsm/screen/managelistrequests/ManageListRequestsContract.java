@@ -19,7 +19,7 @@ interface ManageListRequestsContract {
 
         void onGetListRequestManageSuccess(@RequestType int requestType, Object object);
 
-        void onReloadData(@RequestType int requestType);
+        void onReloadData();
 
         void onApproveRequestSuccess(@RequestType int requestType, int itemPosition, Object object);
 
