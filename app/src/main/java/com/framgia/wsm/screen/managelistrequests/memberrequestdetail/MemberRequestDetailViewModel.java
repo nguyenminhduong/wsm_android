@@ -80,7 +80,7 @@ public class MemberRequestDetailViewModel extends BaseObservable
         return RequestType.REQUEST_LATE_EARLY == mRequestType;
     }
 
-    public boolean isVisibleOverTimeRequestOff() {
+    public boolean isVisibleOverTimeRequest() {
         return RequestType.REQUEST_OVERTIME == mRequestType;
     }
 
@@ -124,6 +124,12 @@ public class MemberRequestDetailViewModel extends BaseObservable
                 || mRequestOff.getInsuranceCoverage().getPregnancyExaminationLeave() != null
                 || mRequestOff.getInsuranceCoverage().getMiscarriageLeave() != null
                 || mRequestOff.getInsuranceCoverage().getWifeLaborLeave() != null;
+    }
+
+    @Bindable
+    public boolean isVisiableLayoutTimeCompensation() {
+        //TODO Edit later
+        return mRequestOff.getStartDayHaveSalary() != null;
     }
 
     @Bindable
