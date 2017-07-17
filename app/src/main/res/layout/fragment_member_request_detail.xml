@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"
         >
         <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="500dp"
+            android:layout_width="@dimen/dp_360"
+            android:layout_height="@dimen/dp_550"
             android:orientation="vertical"
             >
 
@@ -59,6 +59,7 @@
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingBottom="@dimen/dp_100"
                     android:scrollbars="none"
                     >
 
@@ -68,7 +69,38 @@
                         android:layout_margin="@dimen/dp_15"
                         android:orientation="vertical"
                         >
-
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:visibility="@{viewModel.visibleOffRequest ? View.VISIBLE : View.GONE}"
+                            >
+                            <ImageView
+                                app:srcCompat="@drawable/ic_over_time"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
+                                />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:layout_marginStart="@dimen/dp_20"
+                                android:orientation="vertical"
+                                >
+                                <TextView
+                                    android:text="@string/created_at"
+                                    style="@style/StyleTitleConfirm"
+                                    />
+                                <TextView
+                                    android:text="@{viewModel.user.code}"
+                                    style="@style/StyleTextConfirm"
+                                    />
+                                <View
+                                    style="@style/StyleViewConfirm"
+                                    />
+                            </LinearLayout>
+                        </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -171,7 +203,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:visibility="@{viewModel.visiablePosition ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{viewModel.visibleOffRequest ? View.VISIBLE : View.GONE}"
                             >
                             <ImageView
                                 app:srcCompat="@drawable/ic_position_name"
@@ -320,291 +352,210 @@
                             </LinearLayout>
                         </LinearLayout>
 
-
+                        <!--Off Request-->
                         <!--Off have salary - Company pay-->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
                             android:orientation="vertical"
-                            android:visibility="@{viewModel.visiableLayoutCompanyPay ? View.VISIBLE : View.GONE}"
-                            >
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/border_button"
-                                android:paddingBottom="@dimen/dp_3"
-                                android:paddingEnd="@dimen/dp_5"
-                                android:paddingLeft="@dimen/dp_5"
-                                android:paddingRight="@dimen/dp_5"
-                                android:paddingStart="@dimen/dp_5"
-                                android:paddingTop="@dimen/dp_3"
-                                android:text="@string/off_have_salary_company_pay"
-                                android:textColor="@android:color/white"
-                                android:textSize="@dimen/sp_15"
-                                />
-
-                            <LinearLayout
-                                android:visibility="@{viewModel.visiableAnnualLeave ? View.VISIBLE : View.GONE}"
-                                style="@style/StyleLinearLayoutConfirmRequestOff"
-                                >
-                                <TextView
-                                    android:text="@string/annual_leave"
-                                    style="@style/StyleTextConfirmRequestOff"
-                                    />
-                                <TextView
-                                    android:text="@{viewModel.requestOff.companyPay.annualLeave}"
-                                    style="@style/StyleTextNumberConfirmRequestOff"
-                                    />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:visibility="@{viewModel.visiableLeaveForChildMarriage ? View.VISIBLE : View.GONE}"
-                                style="@style/StyleLinearLayoutConfirmRequestOff"
-                                >
-                                <TextView
-                                    android:text="@string/leave_for_child_marriage"
-                                    style="@style/StyleTextConfirmRequestOff"
-                                    />
-                                <TextView
-                                    android:text="@{viewModel.requestOff.companyPay.leaveForChildMarriage}"
-                                    style="@style/StyleTextNumberConfirmRequestOff"
-                                    />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:visibility="@{viewModel.visiableLeaveForMarriage ? View.VISIBLE : View.GONE}"
-                                style="@style/StyleLinearLayoutConfirmRequestOff"
-                                >
-                                <TextView
-                                    android:text="@string/leave_for_marriage"
-                                    style="@style/StyleTextConfirmRequestOff"
-                                    />
-                                <TextView
-                                    android:text="@{viewModel.requestOff.companyPay.leaveForMarriage}"
-                                    style="@style/StyleTextNumberConfirmRequestOff"
-                                    />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:visibility="@{viewModel.visiableFuneralLeave ? View.VISIBLE : View.GONE}"
-                                style="@style/StyleLinearLayoutConfirmRequestOff"
-                                >
-                                <TextView
-                                    android:text="@string/funeral_leave"
-                                    style="@style/StyleTextConfirmRequestOff"
-                                    />
-                                <TextView
-                                    android:text="@{viewModel.requestOff.companyPay.funeralLeave}"
-                                    style="@style/StyleTextNumberConfirmRequestOff"
-                                    />
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <!--Off have salary - Insurance coverage-->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
-                            android:orientation="vertical"
-                            android:visibility="@{viewModel.visiableLayoutInsurance ? View.VISIBLE : View.GONE}"
-                            >
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/border_button"
-                                android:paddingBottom="@dimen/dp_3"
-                                android:paddingEnd="@dimen/dp_5"
-                                android:paddingLeft="@dimen/dp_5"
-                                android:paddingRight="@dimen/dp_5"
-                                android:paddingStart="@dimen/dp_5"
-                                android:paddingTop="@dimen/dp_3"
-                                android:text="@string/off_have_salary_insurance_coverage"
-                                android:textColor="@android:color/white"
-                                android:textSize="@dimen/sp_15"
-                                />
-
-                            <LinearLayout
-                                android:visibility="@{viewModel.visiableLeaveForCareOfSickChild ? View.VISIBLE : View.GONE}"
-                                style="@style/StyleLinearLayoutConfirmRequestOff"
-                                >
-                                <TextView
-                                    android:text="@string/leave_for_care_of_sick_child"
-                                    style="@style/StyleTextConfirmRequestOff"
-                                    />
-                                <TextView
-                                    android:text="@{viewModel.requestOff.insuranceCoverage.leaveForCareOfSickChild}"
-                                    style="@style/StyleTextNumberConfirmRequestOff"
-                                    />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:visibility="@{viewModel.visiableSickLeave ? View.VISIBLE : View.GONE}"
-                                style="@style/StyleLinearLayoutConfirmRequestOff"
-                                >
-                                <TextView
-                                    android:text="@string/sick_leave"
-                                    style="@style/StyleTextConfirmRequestOff"
-                                    />
-                                <TextView
-                                    android:text="@{viewModel.requestOff.insuranceCoverage.sickLeave}"
-                                    style="@style/StyleTextNumberConfirmRequestOff"
-                                    />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:visibility="@{viewModel.visiableMaternityLeave ? View.VISIBLE : View.GONE}"
-                                style="@style/StyleLinearLayoutConfirmRequestOff"
-                                >
-                                <TextView
-                                    android:text="@string/maternity_leave"
-                                    style="@style/StyleTextConfirmRequestOff"
-                                    />
-                                <TextView
-                                    android:text="@{viewModel.requestOff.insuranceCoverage.maternityLeave}"
-                                    style="@style/StyleTextNumberConfirmRequestOff"
-                                    />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:visibility="@{viewModel.visiablePregnancyExaminationLeave ? View.VISIBLE : View.GONE}"
-                                style="@style/StyleLinearLayoutConfirmRequestOff"
-                                >
-                                <TextView
-                                    android:text="@string/pregnancy_examination_leave"
-                                    style="@style/StyleTextConfirmRequestOff"
-                                    />
-                                <TextView
-                                    android:text="@{viewModel.requestOff.insuranceCoverage.pregnancyExaminationLeave}"
-                                    style="@style/StyleTextNumberConfirmRequestOff"
-                                    />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:visibility="@{viewModel.visiableMiscarriageLeave ? View.VISIBLE : View.GONE}"
-                                style="@style/StyleLinearLayoutConfirmRequestOff"
-                                >
-                                <TextView
-                                    android:text="@string/miscarriage_leave"
-                                    style="@style/StyleTextConfirmRequestOff"
-                                    />
-                                <TextView
-                                    android:text="@{viewModel.requestOff.insuranceCoverage.miscarriageLeave}"
-                                    style="@style/StyleTextNumberConfirmRequestOff"
-                                    />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:visibility="@{viewModel.visiableWifeLaborLeave ? View.VISIBLE : View.GONE}"
-                                style="@style/StyleLinearLayoutConfirmRequestOff"
-                                >
-                                <TextView
-                                    android:text="@string/wife_labor_leave"
-                                    style="@style/StyleTextConfirmRequestOff"
-                                    />
-                                <TextView
-                                    android:text="@{viewModel.requestOff.insuranceCoverage.wifeLaborLeave}"
-                                    style="@style/StyleTextNumberConfirmRequestOff"
-                                    />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:visibility="@{viewModel.visiableLayoutHaveSalary ? View.VISIBLE : View.GONE}"
-                            >
-                            <ImageView
-                                app:srcCompat="@drawable/ic_clock"
-                                tools:ignore="ContentDescription"
-                                style="@style/StyleIconConfirm"
-                                />
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/dp_20"
-                                android:layout_marginStart="@dimen/dp_20"
-                                android:orientation="vertical"
-                                >
-                                <TextView
-                                    android:id="@+id/textView"
-                                    android:text="@string/off_have_salary_from"
-                                    style="@style/StyleTitleConfirm"
-                                    />
-                                <TextView
-                                    style="@style/StyleTextConfirm"
-                                    />
-                                <View
-                                    style="@style/StyleViewConfirm"
-                                    />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:visibility="@{viewModel.visiableLayoutHaveSalary ? View.VISIBLE : View.GONE}"
-                            >
-                            <ImageView
-                                app:srcCompat="@drawable/ic_clock"
-                                tools:ignore="ContentDescription"
-                                style="@style/StyleIconConfirm"
-                                />
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/dp_20"
-                                android:layout_marginStart="@dimen/dp_20"
-                                android:orientation="vertical"
-                                >
-                                <TextView
-                                    android:text="@string/off_have_salary_to"
-                                    style="@style/StyleTitleConfirm"
-                                    />
-                                <TextView
-                                    style="@style/StyleTextConfirm"
-                                    />
-                                <View
-                                    style="@style/StyleViewConfirm"
-                                    />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <!--Off no salary-->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
-                            android:orientation="vertical"
-                            android:visibility="@{viewModel.visiableLayoutOffNoSalary ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{viewModel.visibleOffRequest ? View.VISIBLE : View.GONE}"
                             >
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/border_button"
-                                android:paddingBottom="@dimen/dp_3"
-                                android:paddingEnd="@dimen/dp_5"
-                                android:paddingLeft="@dimen/dp_5"
-                                android:paddingRight="@dimen/dp_5"
-                                android:paddingStart="@dimen/dp_5"
-                                android:paddingTop="@dimen/dp_3"
-                                android:text="@string/off_no_salary"
-                                android:textColor="@android:color/white"
-                                android:textSize="@dimen/sp_15"
-                                />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dp_10"
+                                android:orientation="vertical"
+                                android:visibility="@{viewModel.visiableLayoutCompanyPay ? View.VISIBLE : View.GONE}"
+                                >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/border_button"
+                                    android:paddingBottom="@dimen/dp_3"
+                                    android:paddingEnd="@dimen/dp_5"
+                                    android:paddingLeft="@dimen/dp_5"
+                                    android:paddingRight="@dimen/dp_5"
+                                    android:paddingStart="@dimen/dp_5"
+                                    android:paddingTop="@dimen/dp_3"
+                                    android:text="@string/off_have_salary_company_pay"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="@dimen/sp_15"
+                                    />
+
+                                <LinearLayout
+                                    android:visibility="@{viewModel.visiableAnnualLeave ? View.VISIBLE : View.GONE}"
+                                    style="@style/StyleLinearLayoutConfirmRequestOff"
+                                    >
+                                    <TextView
+                                        android:text="@string/annual_leave"
+                                        style="@style/StyleTextConfirmRequestOff"
+                                        />
+                                    <TextView
+                                        android:text="@{viewModel.requestOff.companyPay.annualLeave}"
+                                        style="@style/StyleTextNumberConfirmRequestOff"
+                                        />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:visibility="@{viewModel.visiableLeaveForChildMarriage ? View.VISIBLE : View.GONE}"
+                                    style="@style/StyleLinearLayoutConfirmRequestOff"
+                                    >
+                                    <TextView
+                                        android:text="@string/leave_for_child_marriage"
+                                        style="@style/StyleTextConfirmRequestOff"
+                                        />
+                                    <TextView
+                                        android:text="@{viewModel.requestOff.companyPay.leaveForChildMarriage}"
+                                        style="@style/StyleTextNumberConfirmRequestOff"
+                                        />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:visibility="@{viewModel.visiableLeaveForMarriage ? View.VISIBLE : View.GONE}"
+                                    style="@style/StyleLinearLayoutConfirmRequestOff"
+                                    >
+                                    <TextView
+                                        android:text="@string/leave_for_marriage"
+                                        style="@style/StyleTextConfirmRequestOff"
+                                        />
+                                    <TextView
+                                        android:text="@{viewModel.requestOff.companyPay.leaveForMarriage}"
+                                        style="@style/StyleTextNumberConfirmRequestOff"
+                                        />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:visibility="@{viewModel.visiableFuneralLeave ? View.VISIBLE : View.GONE}"
+                                    style="@style/StyleLinearLayoutConfirmRequestOff"
+                                    >
+                                    <TextView
+                                        android:text="@string/funeral_leave"
+                                        style="@style/StyleTextConfirmRequestOff"
+                                        />
+                                    <TextView
+                                        android:text="@{viewModel.requestOff.companyPay.funeralLeave}"
+                                        style="@style/StyleTextNumberConfirmRequestOff"
+                                        />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <!--Off have salary - Insurance coverage-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_10"
+                                android:orientation="vertical"
+                                android:visibility="@{viewModel.visiableLayoutInsurance ? View.VISIBLE : View.GONE}"
+                                >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/border_button"
+                                    android:paddingBottom="@dimen/dp_3"
+                                    android:paddingEnd="@dimen/dp_5"
+                                    android:paddingLeft="@dimen/dp_5"
+                                    android:paddingRight="@dimen/dp_5"
+                                    android:paddingStart="@dimen/dp_5"
+                                    android:paddingTop="@dimen/dp_3"
+                                    android:text="@string/off_have_salary_insurance_coverage"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="@dimen/sp_15"
+                                    />
+
+                                <LinearLayout
+                                    android:visibility="@{viewModel.visiableLeaveForCareOfSickChild ? View.VISIBLE : View.GONE}"
+                                    style="@style/StyleLinearLayoutConfirmRequestOff"
+                                    >
+                                    <TextView
+                                        android:text="@string/leave_for_care_of_sick_child"
+                                        style="@style/StyleTextConfirmRequestOff"
+                                        />
+                                    <TextView
+                                        android:text="@{viewModel.requestOff.insuranceCoverage.leaveForCareOfSickChild}"
+                                        style="@style/StyleTextNumberConfirmRequestOff"
+                                        />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:visibility="@{viewModel.visiableSickLeave ? View.VISIBLE : View.GONE}"
+                                    style="@style/StyleLinearLayoutConfirmRequestOff"
+                                    >
+                                    <TextView
+                                        android:text="@string/sick_leave"
+                                        style="@style/StyleTextConfirmRequestOff"
+                                        />
+                                    <TextView
+                                        android:text="@{viewModel.requestOff.insuranceCoverage.sickLeave}"
+                                        style="@style/StyleTextNumberConfirmRequestOff"
+                                        />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:visibility="@{viewModel.visiableMaternityLeave ? View.VISIBLE : View.GONE}"
+                                    style="@style/StyleLinearLayoutConfirmRequestOff"
+                                    >
+                                    <TextView
+                                        android:text="@string/maternity_leave"
+                                        style="@style/StyleTextConfirmRequestOff"
+                                        />
+                                    <TextView
+                                        android:text="@{viewModel.requestOff.insuranceCoverage.maternityLeave}"
+                                        style="@style/StyleTextNumberConfirmRequestOff"
+                                        />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:visibility="@{viewModel.visiablePregnancyExaminationLeave ? View.VISIBLE : View.GONE}"
+                                    style="@style/StyleLinearLayoutConfirmRequestOff"
+                                    >
+                                    <TextView
+                                        android:text="@string/pregnancy_examination_leave"
+                                        style="@style/StyleTextConfirmRequestOff"
+                                        />
+                                    <TextView
+                                        android:text="@{viewModel.requestOff.insuranceCoverage.pregnancyExaminationLeave}"
+                                        style="@style/StyleTextNumberConfirmRequestOff"
+                                        />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:visibility="@{viewModel.visiableMiscarriageLeave ? View.VISIBLE : View.GONE}"
+                                    style="@style/StyleLinearLayoutConfirmRequestOff"
+                                    >
+                                    <TextView
+                                        android:text="@string/miscarriage_leave"
+                                        style="@style/StyleTextConfirmRequestOff"
+                                        />
+                                    <TextView
+                                        android:text="@{viewModel.requestOff.insuranceCoverage.miscarriageLeave}"
+                                        style="@style/StyleTextNumberConfirmRequestOff"
+                                        />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:visibility="@{viewModel.visiableWifeLaborLeave ? View.VISIBLE : View.GONE}"
+                                    style="@style/StyleLinearLayoutConfirmRequestOff"
+                                    >
+                                    <TextView
+                                        android:text="@string/wife_labor_leave"
+                                        style="@style/StyleTextConfirmRequestOff"
+                                        />
+                                    <TextView
+                                        android:text="@{viewModel.requestOff.insuranceCoverage.wifeLaborLeave}"
+                                        style="@style/StyleTextNumberConfirmRequestOff"
+                                        />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal"
+                                android:visibility="@{viewModel.visiableLayoutHaveSalary ? View.VISIBLE : View.GONE}"
                                 >
                                 <ImageView
                                     app:srcCompat="@drawable/ic_clock"
@@ -619,7 +570,8 @@
                                     android:orientation="vertical"
                                     >
                                     <TextView
-                                        android:text="@string/off_no_salary_from"
+                                        android:id="@+id/textView"
+                                        android:text="@string/off_have_salary_from"
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
@@ -631,6 +583,133 @@
                                 </LinearLayout>
                             </LinearLayout>
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:visibility="@{viewModel.visiableLayoutHaveSalary ? View.VISIBLE : View.GONE}"
+                                >
+                                <ImageView
+                                    app:srcCompat="@drawable/ic_clock"
+                                    tools:ignore="ContentDescription"
+                                    style="@style/StyleIconConfirm"
+                                    />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_20"
+                                    android:layout_marginStart="@dimen/dp_20"
+                                    android:orientation="vertical"
+                                    >
+                                    <TextView
+                                        android:text="@string/off_have_salary_to"
+                                        style="@style/StyleTitleConfirm"
+                                        />
+                                    <TextView
+                                        style="@style/StyleTextConfirm"
+                                        />
+                                    <View
+                                        style="@style/StyleViewConfirm"
+                                        />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!--Off no salary-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_10"
+                                android:orientation="vertical"
+                                android:visibility="@{viewModel.visiableLayoutOffNoSalary ? View.VISIBLE : View.GONE}"
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/border_button"
+                                    android:paddingBottom="@dimen/dp_3"
+                                    android:paddingEnd="@dimen/dp_5"
+                                    android:paddingLeft="@dimen/dp_5"
+                                    android:paddingRight="@dimen/dp_5"
+                                    android:paddingStart="@dimen/dp_5"
+                                    android:paddingTop="@dimen/dp_3"
+                                    android:text="@string/off_no_salary"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="@dimen/sp_15"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dp_10"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    >
+                                    <ImageView
+                                        app:srcCompat="@drawable/ic_clock"
+                                        tools:ignore="ContentDescription"
+                                        style="@style/StyleIconConfirm"
+                                        />
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/dp_20"
+                                        android:layout_marginStart="@dimen/dp_20"
+                                        android:orientation="vertical"
+                                        >
+                                        <TextView
+                                            android:text="@string/off_no_salary_from"
+                                            style="@style/StyleTitleConfirm"
+                                            />
+                                        <TextView
+                                            style="@style/StyleTextConfirm"
+                                            />
+                                        <View
+                                            style="@style/StyleViewConfirm"
+                                            />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    >
+                                    <ImageView
+                                        app:srcCompat="@drawable/ic_clock"
+                                        tools:ignore="ContentDescription"
+                                        style="@style/StyleIconConfirm"
+                                        />
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/dp_20"
+                                        android:layout_marginStart="@dimen/dp_20"
+                                        android:orientation="vertical"
+                                        >
+                                        <TextView
+                                            android:text="@string/off_no_salary_to"
+                                            style="@style/StyleTitleConfirm"
+                                            />
+                                        <TextView
+                                            style="@style/StyleTextConfirm"
+                                            />
+                                        <View
+                                            style="@style/StyleViewConfirm"
+                                            />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <!--Leave Request-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="@{viewModel.visibleLeaveRequest ? View.VISIBLE : View.GONE }"
+                            >
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -650,7 +729,7 @@
                                     android:orientation="vertical"
                                     >
                                     <TextView
-                                        android:text="@string/off_no_salary_to"
+                                        android:text="@string/time_request"
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
@@ -661,9 +740,137 @@
                                         />
                                 </LinearLayout>
                             </LinearLayout>
-
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                >
+                                <ImageView
+                                    app:srcCompat="@drawable/ic_leave_type"
+                                    tools:ignore="ContentDescription"
+                                    style="@style/StyleIconConfirm"
+                                    />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_20"
+                                    android:layout_marginStart="@dimen/dp_20"
+                                    android:orientation="vertical"
+                                    >
+                                    <TextView
+                                        android:text="@string/type_leave"
+                                        style="@style/StyleTitleConfirm"
+                                        />
+                                    <TextView
+                                        style="@style/StyleTextConfirm"
+                                        />
+                                    <View
+                                        style="@style/StyleViewConfirm"
+                                        />
+                                </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:visibility="@{viewModel.visiableLayoutTimeCompensation ? View.VISIBLE : View.GONE }"
+                                >
+                                <ImageView
+                                    app:srcCompat="@drawable/ic_clock"
+                                    tools:ignore="ContentDescription"
+                                    style="@style/StyleIconConfirm"
+                                    />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_20"
+                                    android:layout_marginStart="@dimen/dp_20"
+                                    android:orientation="vertical"
+                                    >
+                                    <TextView
+                                        android:text="@string/compensation_time"
+                                        style="@style/StyleTitleConfirm"
+                                        />
+                                    <TextView
+                                        style="@style/StyleTextConfirm"
+                                        />
+                                    <View
+                                        style="@style/StyleViewConfirm"
+                                        />
+                                </LinearLayout>
+                            </LinearLayout>
                         </LinearLayout>
 
+                        <!--OverTime Request-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="@{viewModel.visibleOverTimeRequest ? View.VISIBLE : View.GONE}"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                >
+                                <ImageView
+                                    app:srcCompat="@drawable/ic_clock"
+                                    tools:ignore="ContentDescription"
+                                    style="@style/StyleIconConfirm"
+                                    />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_20"
+                                    android:layout_marginStart="@dimen/dp_20"
+                                    android:orientation="vertical"
+                                    >
+                                    <TextView
+                                        android:text="@string/from"
+                                        style="@style/StyleTitleConfirm"
+                                        />
+                                    <TextView
+                                        style="@style/StyleTextConfirm"
+                                        />
+                                    <View
+                                        style="@style/StyleViewConfirm"
+                                        />
+                                </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                >
+                                <ImageView
+                                    app:srcCompat="@drawable/ic_clock"
+                                    tools:ignore="ContentDescription"
+                                    style="@style/StyleIconConfirm"
+                                    />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_20"
+                                    android:layout_marginStart="@dimen/dp_20"
+                                    android:orientation="vertical"
+                                    >
+                                    <TextView
+                                        android:text="@string/to"
+                                        style="@style/StyleTitleConfirm"
+                                        />
+                                    <TextView
+                                        style="@style/StyleTextConfirm"
+                                        />
+                                    <View
+                                        style="@style/StyleViewConfirm"
+                                        />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -696,6 +903,7 @@
                                     />
                             </LinearLayout>
                         </LinearLayout>
+
                     </LinearLayout>
                 </ScrollView>
                 <LinearLayout
