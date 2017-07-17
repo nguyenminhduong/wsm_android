@@ -247,5 +247,8 @@
     <string name="no_data_not_enough_working_time">Không có dữ liệu/Không đủ thời gian làm việc</string>
     <string name="p_paid_leave_of_absence">P: Nghỉ có lương</string>
     <string name="ro_unpaid_leave_of_absence">Ro: Nghỉ không lương</string>
+    <string name="employee_name_italic"><i>Tên nhân viên</i></string>
+    <string name="hide">Ẩn bộ lọc</string>
+    <string name="search">Tìm kiếm</string>
 
 </resources>
