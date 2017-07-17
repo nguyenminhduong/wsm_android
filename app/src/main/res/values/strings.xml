@@ -261,5 +261,8 @@
     <string name="no_data_not_enough_working_time">No Data/Not enough working time</string>
     <string name="p_paid_leave_of_absence">P: Paid leave of absence</string>
     <string name="ro_unpaid_leave_of_absence">Ro: Unpaid leave of absence</string>
+    <string name="employee_name_italic"><i>Employee name</i></string>
+    <string name="hide">Hide</string>
+    <string name="search">Search</string>
 
 </resources>
