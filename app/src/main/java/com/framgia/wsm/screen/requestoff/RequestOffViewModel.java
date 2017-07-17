@@ -94,6 +94,18 @@ public class RequestOffViewModel extends BaseRequestOff
     private OffRequest.RequestDayOffTypesAttribute mRequestDayOffTypesAttribute =
             new OffRequest.RequestDayOffTypesAttribute();
 
+    private String mAnnualLeave;
+    private String mLeaveForMarriage;
+    private String mLeaveForChildMarriage;
+    private String mFuneralLeave;
+
+    private String mLeaveForCareOfSickChild;
+    private String mPregnancyExaminationLeave;
+    private String mSickLeave;
+    private String mMiscarriageLeave;
+    private String mMaternityLeave;
+    private String mWifeLaborLeave;
+
     RequestOffViewModel(Context context, RequestOffContract.Presenter presenter,
             DialogManager dialogManager, Navigator navigator, OffRequest requestOff,
             int actionType) {
@@ -105,8 +117,8 @@ public class RequestOffViewModel extends BaseRequestOff
         mPresenter.getUser();
         mCalendar = Calendar.getInstance();
         mDialogManager.dialogDatePicker(this);
-        initData(requestOff);
         mActionType = actionType;
+        initData(requestOff);
     }
 
     private void initData(OffRequest requestOff) {
@@ -149,13 +161,27 @@ public class RequestOffViewModel extends BaseRequestOff
             String endDayHaveSalary = mRequestOff.getEndDayHaveSalary().getOffPaidTo();
             String startDayNoSalary = mRequestOff.getStartDayNoSalary().getOffFrom();
             String endDayNoSalary = mRequestOff.getEndDayNoSalary().getOffTo();
+            mAnnualLeave = String.valueOf(mRequestOff.getNumberDayOffNormal());
+            mLeaveForMarriage = mRequestOff.getLeaveForMarriage();
+            mLeaveForChildMarriage = mRequestOff.getLeaveForChildMarriage();
+            mFuneralLeave = mRequestOff.getFuneralLeave();
+            mLeaveForCareOfSickChild = mRequestOff.getLeaveForCareOfSickChild();
+            mPregnancyExaminationLeave = mRequestOff.getPregnancyExaminationLeave();
+            mSickLeave = mRequestOff.getSickLeave();
+            mMiscarriageLeave = mRequestOff.getMiscarriageLeave();
+            mMaternityLeave = mRequestOff.getMaternityLeave();
+            mWifeLaborLeave = mRequestOff.getWifeLaborLeave();
 
             if ("".equals(startDayHaveSalary)) {
                 setVisibleLayoutNoSalary(true);
                 mCurrentPositionOffType = PositionOffType.OFF_NO_SALARY;
                 mCurrentOffType = mContext.getString(R.string.off_no_salary);
-                mStartDateNoSalary = startDayNoSalary;
-                mEndDateNoSalary = endDayNoSalary;
+                mStartDateNoSalary =
+                        DateTimeUtils.convertUiFormatToDataFormat(startDayNoSalary, FORMAT_DATE,
+                                DATE_FORMAT_YYYY_MM_DD);
+                mEndDateNoSalary =
+                        DateTimeUtils.convertUiFormatToDataFormat(endDayNoSalary, FORMAT_DATE,
+                                DATE_FORMAT_YYYY_MM_DD);
                 if (am.equals(mRequestOff.getStartDayNoSalary().getOffFromPeriod())) {
                     mCurrentDaySessionStartDayNoSalary = am;
                     mCurrentPositionDaySessionStartDayNoSalary = DaySession.AM;
@@ -192,6 +218,9 @@ public class RequestOffViewModel extends BaseRequestOff
                     mCurrentDaySessionEndDayHaveSalary = pm;
                     mCurrentPositionDaySessionEndDayHaveSalary = DaySession.PM;
                 }
+            }
+            if (Constant.DEFAULT_DOUBLE_VALUE.equals(mRequestOff.getAnnualLeave())) {
+                mRequestOff.setAnnualLeave("");
             }
         }
     }
@@ -338,21 +367,22 @@ public class RequestOffViewModel extends BaseRequestOff
 
     @Bindable
     public String getStartDate() {
+        if (mActionType == ActionType.ACTION_CREATE) {
+            return mIsVisibleLayoutNoSalary ? mRequestOff.getStartDayNoSalary().getOffFrom()
+                    : mRequestOff.getStartDayHaveSalary().getOffPaidFrom();
+        }
         return mIsVisibleLayoutNoSalary ? mRequestOff.getStartDayNoSalary().getOffFrom()
                 : mRequestOff.getStartDayHaveSalary().getOffPaidFrom();
     }
 
     private void setStartDate(String startDate) {
-        String startDateFormat =
-                DateTimeUtils.convertUiFormatToDataFormat(startDate, DATE_FORMAT_YYYY_MM_DD,
-                        FORMAT_DATE);
         if (mIsVisibleLayoutNoSalary) {
-            mStartDateNoSalary = startDateFormat;
+            mStartDateNoSalary = startDate;
             OffRequest.OffNoSalaryFrom offNoSalaryFrom = new OffRequest.OffNoSalaryFrom();
             offNoSalaryFrom.setOffFrom(mStartDateNoSalary);
             mRequestOff.setStartDayNoSalary(offNoSalaryFrom);
         } else {
-            mStartDateHaveSalary = startDateFormat;
+            mStartDateHaveSalary = startDate;
             OffRequest.OffHaveSalaryFrom offHaveSalaryFrom = new OffRequest.OffHaveSalaryFrom();
             offHaveSalaryFrom.setOffPaidFrom(mStartDateHaveSalary);
             mRequestOff.setStartDayHaveSalary(offHaveSalaryFrom);
@@ -362,21 +392,22 @@ public class RequestOffViewModel extends BaseRequestOff
 
     @Bindable
     public String getEndDate() {
+        if (mActionType == ActionType.ACTION_CREATE) {
+            return mIsVisibleLayoutNoSalary ? mRequestOff.getEndDayNoSalary().getOffTo()
+                    : mRequestOff.getEndDayHaveSalary().getOffPaidTo();
+        }
         return mIsVisibleLayoutNoSalary ? mRequestOff.getEndDayNoSalary().getOffTo()
                 : mRequestOff.getEndDayHaveSalary().getOffPaidTo();
     }
 
     private void setEndDate(String endDate) {
-        String endDateFormat =
-                DateTimeUtils.convertUiFormatToDataFormat(endDate, DATE_FORMAT_YYYY_MM_DD,
-                        FORMAT_DATE);
         if (mIsVisibleLayoutNoSalary) {
-            mEndDateNoSalary = endDateFormat;
+            mEndDateNoSalary = endDate;
             OffRequest.OffNoSalaryTo offNoSalaryTo = new OffRequest.OffNoSalaryTo();
             offNoSalaryTo.setOffTo(mEndDateNoSalary);
             mRequestOff.setEndDayNoSalary(offNoSalaryTo);
         } else {
-            mEndDateHaveSalary = endDateFormat;
+            mEndDateHaveSalary = endDate;
             OffRequest.OffHaveSalaryTo offHaveSalaryTo = new OffRequest.OffHaveSalaryTo();
             offHaveSalaryTo.setOffPaidTo(mEndDateHaveSalary);
             mRequestOff.setEndDayHaveSalary(offHaveSalaryTo);
@@ -520,6 +551,116 @@ public class RequestOffViewModel extends BaseRequestOff
                 R.string.wife_labor_leave_is_not_greater_than_14_day) : null;
     }
 
+    @Bindable
+    public String getAnnualLeave() {
+        return mAnnualLeave;
+    }
+
+    public void setAnnualLeave(String annualLeave) {
+        mAnnualLeave = annualLeave;
+        mRequestOff.setAnnualLeave(mAnnualLeave);
+        notifyPropertyChanged(BR.annualLeave);
+    }
+
+    @Bindable
+    public String getLeaveForMarriage() {
+        return mLeaveForMarriage;
+    }
+
+    public void setLeaveForMarriage(String leaveForMarriage) {
+        mLeaveForMarriage = leaveForMarriage;
+        mRequestOff.setLeaveForMarriage(mLeaveForMarriage);
+        notifyPropertyChanged(BR.leaveForMarriage);
+    }
+
+    @Bindable
+    public String getLeaveForChildMarriage() {
+        return mLeaveForChildMarriage;
+    }
+
+    public void setLeaveForChildMarriage(String leaveForChildMarriage) {
+        mLeaveForChildMarriage = leaveForChildMarriage;
+        mRequestOff.setLeaveForChildMarriage(mLeaveForChildMarriage);
+        notifyPropertyChanged(BR.leaveForChildMarriage);
+    }
+
+    @Bindable
+    public String getFuneralLeave() {
+        return mFuneralLeave;
+    }
+
+    public void setFuneralLeave(String funeralLeave) {
+        mFuneralLeave = funeralLeave;
+        mRequestOff.setFuneralLeave(mFuneralLeave);
+        notifyPropertyChanged(BR.funeralLeave);
+    }
+
+    @Bindable
+    public String getLeaveForCareOfSickChild() {
+        return mLeaveForCareOfSickChild;
+    }
+
+    public void setLeaveForCareOfSickChild(String leaveForCareOfSickChild) {
+        mLeaveForCareOfSickChild = leaveForCareOfSickChild;
+        mRequestOff.setLeaveForCareOfSickChild(mLeaveForCareOfSickChild);
+        notifyPropertyChanged(BR.leaveForCareOfSickChild);
+    }
+
+    @Bindable
+    public String getPregnancyExaminationLeave() {
+        return mPregnancyExaminationLeave;
+    }
+
+    public void setPregnancyExaminationLeave(String pregnancyExaminationLeave) {
+        mPregnancyExaminationLeave = pregnancyExaminationLeave;
+        mRequestOff.setPregnancyExaminationLeave(mPregnancyExaminationLeave);
+        notifyPropertyChanged(BR.pregnancyExaminationLeave);
+    }
+
+    @Bindable
+    public String getSickLeave() {
+        return mSickLeave;
+    }
+
+    public void setSickLeave(String sickLeave) {
+        mSickLeave = sickLeave;
+        mRequestOff.setSickLeave(mSickLeave);
+        notifyPropertyChanged(BR.sickLeave);
+    }
+
+    @Bindable
+    public String getMiscarriageLeave() {
+        return mMiscarriageLeave;
+    }
+
+    public void setMiscarriageLeave(String miscarriageLeave) {
+        mMiscarriageLeave = miscarriageLeave;
+        mRequestOff.setMiscarriageLeave(mMiscarriageLeave);
+        notifyPropertyChanged(BR.miscarriageLeave);
+    }
+
+    @Bindable
+    public String getMaternityLeave() {
+        return mMaternityLeave;
+    }
+
+    public void setMaternityLeave(String maternityLeave) {
+        mMaternityLeave = maternityLeave;
+        mRequestOff.setMaternityLeave(mMaternityLeave);
+        notifyPropertyChanged(BR.maternityLeave);
+    }
+
+    @Bindable
+    public String getWifeLaborLeave() {
+        return mWifeLaborLeave;
+    }
+
+    public void setWifeLaborLeave(String wifeLaborLeave) {
+        mWifeLaborLeave = wifeLaborLeave;
+        mRequestOff.setWifeLaborLeave(mWifeLaborLeave);
+        notifyPropertyChanged(BR.wifeLaborLeave);
+    }
+
     public String getTitleToolbar() {
         if (mActionType == ActionType.ACTION_CREATE) {
             return mContext.getString(R.string.request_off);
@@ -546,8 +687,10 @@ public class RequestOffViewModel extends BaseRequestOff
 
     private void setRequestDayOffTypesAttribute() {
         mRequestDayOffTypesAttributes.clear();
-        if (mRequestOff.getAnnualLeave() != null && !"".equals(mRequestOff.getAnnualLeave())) {
-            mRequestOff.setNumberDayOffNormal(Integer.parseInt(mRequestOff.getAnnualLeave()));
+        if (mRequestOff.getAnnualLeave() != null
+                && !"".equals(mRequestOff.getAnnualLeave())
+                && !Constant.DEFAULT_DOUBLE_VALUE.equals(mRequestOff.getAnnualLeave())) {
+            mRequestOff.setNumberDayOffNormal(Double.parseDouble(mRequestOff.getAnnualLeave()));
         }
         if (mRequestOff.getLeaveForMarriage() != null && !"".equals(
                 mRequestOff.getLeaveForMarriage())) {
@@ -872,7 +1015,7 @@ public class RequestOffViewModel extends BaseRequestOff
             TypeOfDays.SICK_LEAVE, TypeOfDays.MISCARRIAGE_LEAVE, TypeOfDays.MATERNTY_LEAVE,
             TypeOfDays.WIFE_LABOR_LEAVE
     })
-    @interface TypeOfDays {
+    public @interface TypeOfDays {
         String ANNUAL_LEAVE = "";
         String LEAVE_FOR_CHILD_MARRIAGE = "3";
         String LEAVE_FOR_MARRIAGE = "2";
