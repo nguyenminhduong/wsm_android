@@ -256,5 +256,6 @@
     <string name="from_italic"><i>Từ:</i></string>
     <string name="to_italic"><i>Tới:</i></string>
     <string name="can_not_find_data">Không thể tìm thấy dữ liệu</string>
+    <string name="start_time_can_not_greater_than_end_time">Thời gian bắt đầu không được lớn hơn thời gian kết thúc</string>
 
 </resources>

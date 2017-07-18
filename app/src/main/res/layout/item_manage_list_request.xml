@@ -81,9 +81,9 @@
                         android:drawableStart="@drawable/ic_circle"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:textColor="@color/color_red_firebrick"
+                        android:text="@{viewModel.employeeName}"
+                        android:textColor="@color/cardview_dark_background"
                         android:textSize="@dimen/sp_17"
-                        android:textStyle="bold"
                         />
                     <TextView
                         android:id="@+id/text_status"

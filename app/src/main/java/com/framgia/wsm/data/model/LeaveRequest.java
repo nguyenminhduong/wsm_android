@@ -71,6 +71,9 @@ public class LeaveRequest extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("handle_by_group_name")
     private String mBeingHandledBy;
+    @Expose
+    @SerializedName("user")
+    private User mUser;
 
     public LeaveRequest() {
     }
@@ -116,6 +119,7 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         mBranch = in.readParcelable(Branch.class.getClassLoader());
         mCreateAt = in.readString();
         mApprover = in.readParcelable(Approver.class.getClassLoader());
+        mUser = in.readParcelable(User.class.getClassLoader());
     }
 
     public static final Creator<LeaveRequest> CREATOR = new Creator<LeaveRequest>() {
@@ -290,6 +294,14 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         mBeingHandledBy = beingHandledBy;
     }
 
+    public User getUser() {
+        return mUser;
+    }
+
+    public void setUser(User user) {
+        mUser = user;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -342,6 +354,7 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         parcel.writeParcelable(mBranch, i);
         parcel.writeString(mCreateAt);
         parcel.writeParcelable(mApprover, i);
+        parcel.writeParcelable(mUser, i);
     }
 
     /**
