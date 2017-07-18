@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
@@ -18,6 +19,7 @@ import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
+import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
 import java.util.List;
 
@@ -175,7 +177,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String dateTime = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
         if (mIsFromTimeSelected) {
-            setFromTime(dateTime);
+            validateFromTime(dateTime);
         } else {
             setToTime(dateTime);
         }
@@ -256,6 +258,23 @@ public class ManageListRequestsViewModel extends BaseObservable
         mUserName = userName;
         mQueryRequest.setUserName(userName);
         notifyPropertyChanged(BR.userName);
+    }
+
+    private void validateFromTime(String fromTime) {
+        if (DateTimeUtils.convertStringToDate(fromTime)
+                .after((DateTimeUtils.convertStringToDate(mToTime)))) {
+            mDialogManager.dialogError(
+                    mContext.getString(R.string.start_time_can_not_greater_than_end_time),
+                    new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog materialDialog,
+                                @NonNull DialogAction dialogAction) {
+                            mDialogManager.showDatePickerDialog();
+                        }
+                    });
+            return;
+        }
+        setFromTime(fromTime);
     }
 
     public void onPickTypeStatus(View view) {

@@ -204,4 +204,17 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         mStatusColor = statusColor;
         notifyPropertyChanged(BR.statusColor);
     }
+
+    public String getEmployeeName() {
+        if (mLeaveRequest != null) {
+            return mLeaveRequest.getUser().getName();
+        }
+        if (mRequestOverTime != null) {
+            return mRequestOverTime.getUser().getName();
+        }
+        if (mRequestOff != null) {
+            return mRequestOff.getUser().getName();
+        }
+        return "";
+    }
 }

@@ -112,6 +112,10 @@ public class OffRequest extends BaseModel implements Parcelable {
     @SerializedName("request_dayoff_types_attributes")
     private List<RequestDayOffTypesAttribute> mRequestDayOffTypesAttributes = new ArrayList<>();
 
+    @Expose
+    @SerializedName("user")
+    private User mUser;
+
     public OffRequest() {
         mInsuranceCoverage = new InsuranceCoverage();
         mCompanyPay = new CompanyPay();
@@ -152,6 +156,7 @@ public class OffRequest extends BaseModel implements Parcelable {
         mRequestDayOffTypes = in.createTypedArrayList(RequestDayOffType.CREATOR);
         mRequestDayOffTypesAttributes =
                 in.createTypedArrayList(RequestDayOffTypesAttribute.CREATOR);
+        mUser = in.readParcelable(User.class.getClassLoader());
     }
 
     @Override
@@ -189,6 +194,7 @@ public class OffRequest extends BaseModel implements Parcelable {
         dest.writeParcelable(mApprover, flags);
         dest.writeTypedList(mRequestDayOffTypes);
         dest.writeTypedList(mRequestDayOffTypesAttributes);
+        dest.writeParcelable(mUser, flags);
     }
 
     @Override
@@ -460,6 +466,14 @@ public class OffRequest extends BaseModel implements Parcelable {
 
     public void setWifeLaborLeave(String wifeLaborLeave) {
         mWifeLaborLeave = wifeLaborLeave;
+    }
+
+    public User getUser() {
+        return mUser;
+    }
+
+    public void setUser(User user) {
+        mUser = user;
     }
 
     // OffHaveSalaryFrom

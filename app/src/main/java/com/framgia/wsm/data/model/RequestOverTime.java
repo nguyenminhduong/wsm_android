@@ -76,6 +76,9 @@ public class RequestOverTime extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("workspace_id")
     private int mBranchId;
+    @Expose
+    @SerializedName("user")
+    private User mUser;
 
     public RequestOverTime() {
     }
@@ -83,6 +86,7 @@ public class RequestOverTime extends BaseModel implements Parcelable {
     protected RequestOverTime(Parcel in) {
         this.mId = in.readInt();
         this.mCreatedAt = in.readString();
+        this.mUser = in.readParcelable(User.class.getClassLoader());
         this.mGroup = in.readParcelable(Group.class.getClassLoader());
         this.mBranch = in.readParcelable(Branch.class.getClassLoader());
         this.mProject = in.readString();
@@ -192,6 +196,14 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         mBranchId = branchId;
     }
 
+    public User getUser() {
+        return mUser;
+    }
+
+    public void setUser(User user) {
+        mUser = user;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -201,6 +213,7 @@ public class RequestOverTime extends BaseModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.mId);
         dest.writeString(this.mCreatedAt);
+        dest.writeParcelable(this.mUser, flags);
         dest.writeParcelable(this.mGroup, flags);
         dest.writeParcelable(this.mBranch, flags);
         dest.writeString(this.mProject);
