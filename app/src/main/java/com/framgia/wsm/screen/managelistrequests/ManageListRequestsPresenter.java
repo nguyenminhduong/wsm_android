@@ -61,6 +61,18 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                 disposable = mRequestRepository.getListRequestLeaveManage(queryRequest)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
+                        .doOnSubscribe(new Consumer<Disposable>() {
+                            @Override
+                            public void accept(@NonNull Disposable disposable) throws Exception {
+                                mViewModel.onShowIndeterminateProgressDialog();
+                            }
+                        })
+                        .doAfterTerminate(new Action() {
+                            @Override
+                            public void run() throws Exception {
+                                mViewModel.onDismissProgressDialog();
+                            }
+                        })
                         .subscribe(new Consumer<BaseResponse<List<LeaveRequest>>>() {
                             @Override
                             public void accept(
@@ -82,6 +94,18 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                 disposable = mRequestRepository.getListRequestOffManage(queryRequest)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
+                        .doOnSubscribe(new Consumer<Disposable>() {
+                            @Override
+                            public void accept(@NonNull Disposable disposable) throws Exception {
+                                mViewModel.onShowIndeterminateProgressDialog();
+                            }
+                        })
+                        .doAfterTerminate(new Action() {
+                            @Override
+                            public void run() throws Exception {
+                                mViewModel.onDismissProgressDialog();
+                            }
+                        })
                         .subscribe(new Consumer<BaseResponse<List<OffRequest>>>() {
                             @Override
                             public void accept(
@@ -103,6 +127,18 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                 disposable = mRequestRepository.getListRequestOvertimeManage(queryRequest)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
+                        .doOnSubscribe(new Consumer<Disposable>() {
+                            @Override
+                            public void accept(@NonNull Disposable disposable) throws Exception {
+                                mViewModel.onShowIndeterminateProgressDialog();
+                            }
+                        })
+                        .doAfterTerminate(new Action() {
+                            @Override
+                            public void run() throws Exception {
+                                mViewModel.onDismissProgressDialog();
+                            }
+                        })
                         .subscribe(new Consumer<BaseResponse<List<RequestOverTime>>>() {
                             @Override
                             public void accept(

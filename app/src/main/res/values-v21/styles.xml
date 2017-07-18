@@ -168,15 +168,29 @@
         <item name="android:textSize">@dimen/sp_12</item>
     </style>
 
-    <style name="StyleTextActionFilter">
+    <style name="StyleButtonActionFilter">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">@dimen/dp_35</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:padding">@dimen/dp_7</item>
-        <item name="android:layout_margin">@dimen/dp_10</item>
+        <item name="android:layout_marginTop">@dimen/dp_10</item>
+        <item name="android:layout_marginBottom">@dimen/dp_10</item>
+        <item name="android:layout_marginLeft">@dimen/dp_24</item>
+        <item name="android:layout_marginEnd">@dimen/dp_24</item>
+        <item name="android:layout_marginStart">@dimen/dp_24</item>
+        <item name="android:layout_marginRight">@dimen/dp_24</item>
         <item name="android:textSize">@dimen/sp_15</item>
+    </style>
+
+    <style name="StyleImageDateTime">
+        <item name="android:layout_width">@dimen/dp_24</item>
+        <item name="android:layout_height">@dimen/dp_24</item>
+        <item name="android:layout_gravity">center|end</item>
+        <item name="android:src">@drawable/ic_calendar</item>
+        <item name="android:layout_marginRight">@dimen/dp_5</item>
+        <item name="android:layout_marginEnd">@dimen/dp_5</item>
     </style>
 
 </resources>

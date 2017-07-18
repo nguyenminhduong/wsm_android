@@ -264,5 +264,11 @@
     <string name="employee_name_italic"><i>Employee name</i></string>
     <string name="hide">Hide</string>
     <string name="search">Search</string>
+    <string name="choose_status"><i>Choose status</i></string>
+    <string name="choose_group"><i>Choose group</i></string>
+    <string name="choose_workspace"><i>Choose worksapce</i></string>
+    <string name="from_italic"><i>From:</i></string>
+    <string name="to_italic"><i>To:</i></string>
+    <string name="can_not_find_data">Can\'t find data</string>
 
 </resources>
