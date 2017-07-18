@@ -250,5 +250,11 @@
     <string name="employee_name_italic"><i>Tên nhân viên</i></string>
     <string name="hide">Ẩn bộ lọc</string>
     <string name="search">Tìm kiếm</string>
+    <string name="choose_status"><i>Chọn trạng thái</i></string>
+    <string name="choose_group"><i>Chọn phòng ban</i></string>
+    <string name="choose_workspace"><i>Chọn văn phòng</i></string>
+    <string name="from_italic"><i>Từ:</i></string>
+    <string name="to_italic"><i>Tới:</i></string>
+    <string name="can_not_find_data">Không thể tìm thấy dữ liệu</string>
 
 </resources>

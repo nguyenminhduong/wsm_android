@@ -1,7 +1,13 @@
 package com.framgia.wsm.screen.managelistrequests;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.view.View;
+import android.widget.DatePicker;
+import com.framgia.wsm.BR;
+import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.QueryRequest;
@@ -12,6 +18,7 @@ import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
+import com.fstyle.library.MaterialDialog;
 import java.util.List;
 
 /**
@@ -20,7 +27,8 @@ import java.util.List;
 
 public class ManageListRequestsViewModel extends BaseObservable
         implements ManageListRequestsContract.ViewModel,
-        BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object>, ActionRequestListener {
+        BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object>, ActionRequestListener,
+        DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = "ListRequestViewModel";
 
@@ -33,10 +41,15 @@ public class ManageListRequestsViewModel extends BaseObservable
     private QueryRequest mQueryRequest;
     private String mFromTime;
     private String mToTime;
+    private String mCurrentStatus;
+    private boolean mIsVisibleLayoutSearch;
+    private boolean mIsFromTimeSelected;
+    private int mCurrentPositionStatus;
+    private String mUserName;
 
-    public ManageListRequestsViewModel(Context context,
-            ManageListRequestsContract.Presenter presenter, DialogManager dialogManager,
-            ManageListRequestsAdapter manageListRequestsAdapter, Navigator navigator) {
+    ManageListRequestsViewModel(Context context, ManageListRequestsContract.Presenter presenter,
+            DialogManager dialogManager, ManageListRequestsAdapter manageListRequestsAdapter,
+            Navigator navigator) {
         mContext = context;
         mNavigator = navigator;
         mPresenter = presenter;
@@ -45,6 +58,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         mManageListRequestsAdapter = manageListRequestsAdapter;
         mManageListRequestsAdapter.setItemClickListener(this);
         mManageListRequestsAdapter.setActionRequestListener(this);
+        mDialogManager.dialogDatePicker(this);
         initData();
     }
 
@@ -75,14 +89,25 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void onGetListRequestManageSuccess(@RequestType int requestType, Object object) {
         switch (requestType) {
             case RequestType.REQUEST_OVERTIME:
-                mManageListRequestsAdapter.updateDataRequestOverTime(
-                        (List<RequestOverTime>) object);
+                List<RequestOverTime> listOverTime = (List<RequestOverTime>) object;
+                if (listOverTime.size() == 0) {
+                    mNavigator.showToast(mContext.getString(R.string.can_not_find_data));
+                }
+                mManageListRequestsAdapter.updateDataRequestOverTime(listOverTime);
                 break;
             case RequestType.REQUEST_OFF:
-                mManageListRequestsAdapter.updateDataRequestOff((List<OffRequest>) object);
+                List<OffRequest> listOff = (List<OffRequest>) object;
+                if (listOff.size() == 0) {
+                    mNavigator.showToast(mContext.getString(R.string.can_not_find_data));
+                }
+                mManageListRequestsAdapter.updateDataRequestOff(listOff);
                 break;
             case RequestType.REQUEST_LATE_EARLY:
-                mManageListRequestsAdapter.updateDataRequest((List<LeaveRequest>) object);
+                List<LeaveRequest> listLeave = (List<LeaveRequest>) object;
+                if (listLeave.size() == 0) {
+                    mNavigator.showToast(mContext.getString(R.string.can_not_find_data));
+                }
+                mManageListRequestsAdapter.updateDataRequest(listLeave);
                 break;
             default:
                 break;
@@ -146,6 +171,16 @@ public class ManageListRequestsViewModel extends BaseObservable
         //TODO on click item
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String dateTime = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
+        if (mIsFromTimeSelected) {
+            setFromTime(dateTime);
+        } else {
+            setToTime(dateTime);
+        }
+    }
+
     public ManageListRequestsAdapter getManageListRequestsAdapter() {
         return mManageListRequestsAdapter;
     }
@@ -167,5 +202,106 @@ public class ManageListRequestsViewModel extends BaseObservable
             default:
                 break;
         }
+    }
+
+    @Bindable
+    public boolean isVisibleLayoutSearch() {
+        return mIsVisibleLayoutSearch;
+    }
+
+    private void setVisibleLayoutSearch(boolean visibleLayoutSearch) {
+        mIsVisibleLayoutSearch = visibleLayoutSearch;
+        notifyPropertyChanged(BR.visibleLayoutSearch);
+    }
+
+    @Bindable
+    public String getFromTime() {
+        return mFromTime;
+    }
+
+    public void setFromTime(String fromTime) {
+        mFromTime = fromTime;
+        mQueryRequest.setFromTime(fromTime);
+        notifyPropertyChanged(BR.fromTime);
+    }
+
+    @Bindable
+    public String getToTime() {
+        return mToTime;
+    }
+
+    public void setToTime(String toTime) {
+        mToTime = toTime;
+        mQueryRequest.setToTime(toTime);
+        notifyPropertyChanged(BR.toTime);
+    }
+
+    @Bindable
+    public String getCurrentStatus() {
+        return mCurrentStatus;
+    }
+
+    private void setCurrentStatus(String currentStatus) {
+        mCurrentStatus = currentStatus;
+        mQueryRequest.setStatus(currentStatus);
+        notifyPropertyChanged(BR.currentStatus);
+    }
+
+    @Bindable
+    public String getUserName() {
+        return mUserName;
+    }
+
+    public void setUserName(String userName) {
+        mUserName = userName;
+        mQueryRequest.setUserName(userName);
+        notifyPropertyChanged(BR.userName);
+    }
+
+    public void onPickTypeStatus(View view) {
+        mDialogManager.dialogListSingleChoice(mContext.getString(R.string.status), R.array.status,
+                mCurrentPositionStatus, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog materialDialog, View view,
+                            int positionType, CharSequence charSequence) {
+                        mCurrentPositionStatus = positionType;
+                        setCurrentStatus(String.valueOf(charSequence));
+                        return true;
+                    }
+                });
+    }
+
+    public void onCickFromTime(View view) {
+        mIsFromTimeSelected = true;
+        mDialogManager.showDatePickerDialog();
+    }
+
+    public void onCickToTime(View view) {
+        mIsFromTimeSelected = false;
+        mDialogManager.showDatePickerDialog();
+    }
+
+    public void onClickFloatingButtonSearch(View view) {
+        if (mIsVisibleLayoutSearch) {
+            setVisibleLayoutSearch(false);
+            return;
+        }
+        setVisibleLayoutSearch(true);
+    }
+
+    public void onClickClearDataFilter(View view) {
+        setUserName(null);
+        setCurrentStatus(null);
+        mFromTime = DateTimeUtils.dayFirstMonthWorking();
+        mToTime = DateTimeUtils.dayLasttMonthWorking();
+        setFromTime(mFromTime);
+        setToTime(mToTime);
+        mQueryRequest.setFromTime(mFromTime);
+        mQueryRequest.setToTime(mToTime);
+        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
+    }
+
+    public void onClickSearch(View view) {
+        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
     }
 }
