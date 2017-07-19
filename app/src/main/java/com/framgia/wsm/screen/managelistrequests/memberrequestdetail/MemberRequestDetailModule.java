@@ -22,10 +22,12 @@ public class MemberRequestDetailModule {
 
     private Fragment mFragment;
     private DismissDialogListener mDismissDialogListener;
+    private Object mItem;
 
-    public MemberRequestDetailModule(@NonNull Fragment fragment) {
+    public MemberRequestDetailModule(@NonNull Fragment fragment, Object item) {
         mFragment = fragment;
         mDismissDialogListener = (DismissDialogListener) fragment;
+        mItem = item;
     }
 
     @FragmentScope
@@ -34,7 +36,7 @@ public class MemberRequestDetailModule {
             MemberRequestDetailContract.Presenter presenter, Navigator navigator,
             DialogManager dialogManager) {
         return new MemberRequestDetailViewModel(context, mFragment, presenter, navigator,
-                dialogManager);
+                dialogManager, mItem);
     }
 
     @FragmentScope
