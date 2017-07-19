@@ -4,7 +4,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import com.framgia.wsm.data.source.RequestRepository;
+import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
+import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.FragmentScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
@@ -42,8 +45,10 @@ public class MemberRequestDetailModule {
     @FragmentScope
     @Provides
     public MemberRequestDetailContract.Presenter providePresenter(
-            BaseSchedulerProvider baseSchedulerProvider, RequestRepository requestRepository) {
-        return new MemberRequestDetailPresenter(baseSchedulerProvider, requestRepository);
+            BaseSchedulerProvider baseSchedulerProvider, RequestRepository requestRepository,
+            UserRepository userRepository) {
+        return new MemberRequestDetailPresenter(baseSchedulerProvider, requestRepository,
+                userRepository);
     }
 
     @FragmentScope
@@ -63,5 +68,12 @@ public class MemberRequestDetailModule {
     public RequestRepository provideRequestRepository(
             RequestRemoteDataSource requestRemoteDataSource) {
         return new RequestRepository(requestRemoteDataSource);
+    }
+
+    @FragmentScope
+    @Provides
+    public UserRepository provideUserRepository(UserLocalDataSource userLocalDataSource,
+            UserRemoteDataSource userRemoteDataSource) {
+        return new UserRepository(userLocalDataSource, userRemoteDataSource);
     }
 }

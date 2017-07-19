@@ -1,6 +1,7 @@
 package com.framgia.wsm.screen.managelistrequests.memberrequestdetail;
 
 import com.framgia.wsm.data.source.RequestRepository;
+import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
@@ -18,12 +19,14 @@ final class MemberRequestDetailPresenter implements MemberRequestDetailContract.
     private BaseSchedulerProvider mSchedulerProvider;
     private CompositeDisposable mCompositeDisposable;
     private RequestRepository mRequestRepository;
+    private UserRepository mUserRepository;
 
     MemberRequestDetailPresenter(BaseSchedulerProvider baseSchedulerProvider,
-            RequestRepository requestRepository) {
+            RequestRepository requestRepository, UserRepository userRepository) {
         mSchedulerProvider = baseSchedulerProvider;
         mRequestRepository = requestRepository;
         mCompositeDisposable = new CompositeDisposable();
+        mUserRepository = userRepository;
     }
 
     @Override

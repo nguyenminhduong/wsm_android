@@ -432,21 +432,39 @@
                                 android:orientation="vertical"
                                 android:visibility="@{viewModel.visiableLayoutCompanyPay ? View.VISIBLE : View.GONE}"
                                 >
-                                <TextView
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@drawable/border_button"
-                                    android:paddingBottom="@dimen/dp_3"
-                                    android:paddingEnd="@dimen/dp_5"
-                                    android:paddingLeft="@dimen/dp_5"
-                                    android:paddingRight="@dimen/dp_5"
-                                    android:paddingStart="@dimen/dp_5"
-                                    android:paddingTop="@dimen/dp_3"
-                                    android:text="@string/off_have_salary_company_pay"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="@dimen/sp_15"
-                                    />
+                                    android:orientation="horizontal"
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/border_button"
+                                        android:paddingBottom="@dimen/dp_3"
+                                        android:paddingEnd="@dimen/dp_5"
+                                        android:paddingLeft="@dimen/dp_5"
+                                        android:paddingRight="@dimen/dp_5"
+                                        android:paddingStart="@dimen/dp_5"
+                                        android:paddingTop="@dimen/dp_3"
+                                        android:text="@string/off_have_salary_company_pay"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="@dimen/sp_15"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/dp_15"
+                                        android:layout_marginStart="@dimen/dp_15"
+                                        android:background="@drawable/border_button"
+                                        android:paddingBottom="@dimen/dp_3"
+                                        android:paddingTop="@dimen/dp_3"
+                                        android:text="@string/number_day"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="@dimen/sp_15"
+                                        />
 
+                                </LinearLayout>
                                 <LinearLayout
                                     android:visibility="@{viewModel.visiableAnnualLeave ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleLinearLayoutConfirmRequestOff"
@@ -456,7 +474,7 @@
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.offRequest.companyPay.annualLeave}"
+                                        android:text="@{viewModel.dateLeaveAnnual}"
                                         style="@style/StyleTextNumberConfirmRequestOff"
                                         />
                                 </LinearLayout>
@@ -470,7 +488,7 @@
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.offRequest.companyPay.leaveForChildMarriage}"
+                                        android:text="@{viewModel.dateLeaveForChildIsMarriage}"
                                         style="@style/StyleTextNumberConfirmRequestOff"
                                         />
                                 </LinearLayout>
@@ -484,7 +502,7 @@
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.offRequest.companyPay.leaveForMarriage}"
+                                        android:text="@{viewModel.dateLeaveForMarriage}"
                                         style="@style/StyleTextNumberConfirmRequestOff"
                                         />
                                 </LinearLayout>
@@ -498,7 +516,7 @@
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.offRequest.companyPay.funeralLeave}"
+                                        android:text="@{viewModel.dateFuneralLeave}"
                                         style="@style/StyleTextNumberConfirmRequestOff"
                                         />
                                 </LinearLayout>
@@ -537,7 +555,7 @@
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.offRequest.insuranceCoverage.leaveForCareOfSickChild}"
+                                        android:text="@{viewModel.dateLeaveForCareOfSickChild}"
                                         style="@style/StyleTextNumberConfirmRequestOff"
                                         />
                                 </LinearLayout>
@@ -551,7 +569,7 @@
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.offRequest.insuranceCoverage.sickLeave}"
+                                        android:text="@{viewModel.dateSickLeave}"
                                         style="@style/StyleTextNumberConfirmRequestOff"
                                         />
                                 </LinearLayout>
@@ -565,7 +583,7 @@
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.offRequest.insuranceCoverage.maternityLeave}"
+                                        android:text="@{viewModel.dateMaternityLeave}"
                                         style="@style/StyleTextNumberConfirmRequestOff"
                                         />
                                 </LinearLayout>
@@ -579,7 +597,7 @@
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.offRequest.insuranceCoverage.pregnancyExaminationLeave}"
+                                        android:text="@{viewModel.datePregnancyExaminationLeave}"
                                         style="@style/StyleTextNumberConfirmRequestOff"
                                         />
                                 </LinearLayout>
@@ -593,7 +611,7 @@
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.offRequest.insuranceCoverage.miscarriageLeave}"
+                                        android:text="@{viewModel.dateMiscarriageLeave}"
                                         style="@style/StyleTextNumberConfirmRequestOff"
                                         />
                                 </LinearLayout>
@@ -607,7 +625,7 @@
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
-                                        android:text="@{viewModel.offRequest.insuranceCoverage.wifeLaborLeave}"
+                                        android:text="@{viewModel.dateWifeLaborLeave}"
                                         style="@style/StyleTextNumberConfirmRequestOff"
                                         />
                                 </LinearLayout>

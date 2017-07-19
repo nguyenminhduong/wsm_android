@@ -17,7 +17,7 @@ public interface MemberRequestDetailContract {
 
         void onApproveSuccess();
 
-        void onRejectedOrAcceptedError(BaseException e);
+        void onError(BaseException e);
     }
 
     /**
