@@ -65,6 +65,10 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
         }
     }
 
+    public boolean isVisibleGroup() {
+        return (mActionType == ActionType.ACTION_DETAIL);
+    }
+
     public boolean isVisibleLayoutCheckout() {
         return mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.LEAVE_EARLY_A)
                 || mLeaveTypeId == (RequestLeaveViewModel.LeaveTypeId.LEAVE_EARLY_M)

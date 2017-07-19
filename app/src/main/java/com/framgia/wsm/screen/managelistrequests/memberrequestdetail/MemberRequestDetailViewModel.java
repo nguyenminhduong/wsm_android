@@ -152,7 +152,15 @@ public class MemberRequestDetailViewModel extends BaseObservable
     }
 
     public boolean isVisibleApprove() {
-        return StatusCode.ACCEPT_CODE.equals(mOffRequest.getStatus());
+        return StatusCode.ACCEPT_CODE.equals(mOffRequest.getStatus())
+                || StatusCode.ACCEPT_CODE.equals(mLeaveRequest.getStatus())
+                || StatusCode.ACCEPT_CODE.equals(mOverTimeRequest.getStatus());
+    }
+
+    public boolean isVisibleReject() {
+        return StatusCode.REJECT_CODE.equals(mOffRequest.getStatus())
+                || StatusCode.REJECT_CODE.equals(mLeaveRequest.getStatus())
+                || StatusCode.REJECT_CODE.equals(mOverTimeRequest.getStatus());
     }
 
     public boolean isVisiableLayoutCompanyPay() {
