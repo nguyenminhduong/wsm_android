@@ -15,8 +15,11 @@ import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
+import com.framgia.wsm.screen.managelistrequests.memberrequestdetail
+        .MemberRequestDetailDialogFragment;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.common.DateTimeUtils;
+import com.framgia.wsm.utils.navigator.NavigateAnim;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
@@ -170,7 +173,9 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     @Override
     public void onItemRecyclerViewClick(Object item) {
-        //TODO on click item
+        mNavigator.showDialogFragment(R.id.layout_container,
+                MemberRequestDetailDialogFragment.newInstance(item), false, NavigateAnim.NONE,
+                MemberRequestDetailDialogFragment.TAG);
     }
 
     @Override

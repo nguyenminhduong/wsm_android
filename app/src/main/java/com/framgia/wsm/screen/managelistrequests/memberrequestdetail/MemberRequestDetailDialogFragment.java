@@ -2,6 +2,7 @@ package com.framgia.wsm.screen.managelistrequests.memberrequestdetail;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -26,16 +27,22 @@ public class MemberRequestDetailDialogFragment extends DialogFragment
     @Inject
     MemberRequestDetailContract.ViewModel mViewModel;
 
-    public static MemberRequestDetailDialogFragment newInstance() {
-        return new MemberRequestDetailDialogFragment();
+    public static MemberRequestDetailDialogFragment newInstance(Object item) {
+        MemberRequestDetailDialogFragment memberRequestDetailDialogFragment =
+                new MemberRequestDetailDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(TAG, (Parcelable) item);
+        memberRequestDetailDialogFragment.setArguments(bundle);
+        return memberRequestDetailDialogFragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        Object item = getArguments().getParcelable(TAG);
         DaggerMemberRequestDetailComponent.builder()
                 .mainComponent(((MainActivity) getActivity()).getMainComponent())
-                .memberRequestDetailModule(new MemberRequestDetailModule(this))
+                .memberRequestDetailModule(new MemberRequestDetailModule(this, item))
                 .build()
                 .inject(this);
 

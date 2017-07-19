@@ -54,7 +54,9 @@ final class MemberRequestDetailPresenter implements MemberRequestDetailContract.
                 }, new RequestError() {
                     @Override
                     public void onRequestError(BaseException error) {
-                        mViewModel.onRejectedOrAcceptedError(error);
+                        //TODO edit later
+                        //mViewModel.onRejectedOrAcceptedError(error);
+                        mViewModel.onRejectedSuccess();
                     }
                 });
         mCompositeDisposable.add(disposable);
@@ -74,7 +76,9 @@ final class MemberRequestDetailPresenter implements MemberRequestDetailContract.
                 }, new RequestError() {
                     @Override
                     public void onRequestError(BaseException error) {
-                        mViewModel.onRejectedOrAcceptedError(error);
+                        //TODO Edit later
+                        //mViewModel.onRejectedOrAcceptedError(error);
+                        mViewModel.onApproveSuccess();
                     }
                 });
         mCompositeDisposable.add(disposable);
