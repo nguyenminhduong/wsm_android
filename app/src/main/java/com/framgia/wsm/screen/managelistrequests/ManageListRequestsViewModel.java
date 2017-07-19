@@ -163,12 +163,44 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     @Override
     public void onApproveRequest(int itemPosition, int requestId) {
-        mPresenter.approveRequest(mRequestType, itemPosition, requestId);
+        //        mPresenter.approveRequest(mRequestType, itemPosition, requestId);
+        //TODO Remove later when have api
+
+        switch (mRequestType) {
+            case RequestType.REQUEST_LATE_EARLY:
+                mManageListRequestsAdapter.updateItem(mRequestType, itemPosition, "approve");
+                break;
+            case RequestType.REQUEST_OFF:
+                mManageListRequestsAdapter.updateItem(mRequestType, itemPosition, "approve");
+                break;
+            case RequestType.REQUEST_OVERTIME:
+                mManageListRequestsAdapter.updateItem(mRequestType, itemPosition, "approve");
+                break;
+            default:
+                break;
+        }
+        mNavigator.showToast(mContext.getString(R.string.approve_success));
     }
 
     @Override
     public void onRejectRequest(int itemPosition, int requestId) {
-        mPresenter.rejectRequest(mRequestType, itemPosition, requestId);
+        //       mPresenter.rejectRequest(mRequestType, itemPosition, requestId);
+        // TODO Remove later when have api
+
+        switch (mRequestType) {
+            case RequestType.REQUEST_LATE_EARLY:
+                mManageListRequestsAdapter.updateItem(mRequestType, itemPosition, "discard");
+                break;
+            case RequestType.REQUEST_OFF:
+                mManageListRequestsAdapter.updateItem(mRequestType, itemPosition, "discard");
+                break;
+            case RequestType.REQUEST_OVERTIME:
+                mManageListRequestsAdapter.updateItem(mRequestType, itemPosition, "discard");
+                break;
+            default:
+                break;
+        }
+        mNavigator.showToast(mContext.getString(R.string.reject_success));
     }
 
     @Override
