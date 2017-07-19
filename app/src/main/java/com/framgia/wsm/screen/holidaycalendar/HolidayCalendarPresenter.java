@@ -1,15 +1,16 @@
 package com.framgia.wsm.screen.holidaycalendar;
 
+import com.framgia.wsm.data.model.HolidayCalendar;
 import com.framgia.wsm.data.source.HolidayCalendarRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
-import com.framgia.wsm.data.source.remote.api.response.HolidayCalendarResponse;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import java.util.List;
 
 /**
  * Listens to user actions from the UI ({@link HolidayCalendarFragment}), retrieves the data and
@@ -49,12 +50,11 @@ final class HolidayCalendarPresenter implements HolidayCalendarContract.Presente
         Disposable disposable = mHolidayCalendarRepository.getHolidayCalendar(year)
                 .subscribeOn(mBaseSchedulerProvider.io())
                 .observeOn(mBaseSchedulerProvider.ui())
-                .subscribe(new Consumer<BaseResponse<HolidayCalendarResponse>>() {
+                .subscribe(new Consumer<BaseResponse<List<HolidayCalendar>>>() {
                     @Override
-                    public void accept(@NonNull BaseResponse<HolidayCalendarResponse> response)
+                    public void accept(@NonNull BaseResponse<List<HolidayCalendar>> response)
                             throws Exception {
-                        mViewModel.onGetHolidayCalendarSuccess(
-                                response.getData().getHolidayCalendars());
+                        mViewModel.onGetHolidayCalendarSuccess(response.getData());
                     }
                 }, new RequestError() {
                     @Override

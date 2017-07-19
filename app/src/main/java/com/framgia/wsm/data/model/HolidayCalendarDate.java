@@ -14,31 +14,18 @@ public class HolidayCalendarDate extends BaseModel {
     @SerializedName("date")
     String mDate;
     @Expose
-    @SerializedName("holiday_name")
+    @SerializedName("name")
     String mHolidayName;
     @Expose
-    @SerializedName("status")
-    Status mStatus;
-
-    public HolidayCalendarDate(String date, Status status) {
-        mDate = date;
-        mStatus = status;
-    }
+    @SerializedName("holiday_type")
+    String mHolidayType;
 
     public Date getDate() {
-        return DateTimeUtils.convertStringToDate(mDate);
+        return DateTimeUtils.convertStringToDate(mDate, DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2);
     }
 
     public void setDate(String date) {
         mDate = date;
-    }
-
-    public Status getStatus() {
-        return mStatus;
-    }
-
-    public void setStatus(Status status) {
-        mStatus = status;
     }
 
     public String getHolidayName() {
@@ -49,33 +36,11 @@ public class HolidayCalendarDate extends BaseModel {
         mHolidayName = holidayName;
     }
 
-    public enum Status {
-        @Expose @SerializedName("normal")
-        NORMAL(0), @Expose @SerializedName("normal_holiday")
-        NORMAL_HOLIDAY(1), @Expose @SerializedName("company_holiday")
-        COMPANY_HOLIDAY(2);
+    public String getHolidayType() {
+        return mHolidayType;
+    }
 
-        private int mValue;
-
-        Status(int value) {
-            this.mValue = value;
-        }
-
-        public static Status getValue(int value) {
-            switch (value) {
-                case 0:
-                    return NORMAL;
-                case 1:
-                    return NORMAL_HOLIDAY;
-                case 2:
-                    return COMPANY_HOLIDAY;
-                default:
-                    return NORMAL;
-            }
-        }
-
-        public int getValue() {
-            return this.mValue;
-        }
+    public void setHolidayType(String holidayType) {
+        mHolidayType = holidayType;
     }
 }
