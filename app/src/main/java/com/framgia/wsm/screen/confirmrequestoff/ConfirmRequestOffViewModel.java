@@ -85,24 +85,55 @@ public class ConfirmRequestOffViewModel extends BaseObservable
             offNoSalaryTo.setOffToPeriod("");
             mOffRequest.setEndDayNoSalary(offNoSalaryTo);
         }
-
         if (mActionType == ActionType.ACTION_DETAIL) {
             initDataDetail();
-        }
+            if (offRequest.getStartDayNoSalary().getOffFrom() != null) {
+                offNoSalaryFrom.setOffFrom(DateTimeUtils.convertUiFormatToDataFormat(
+                        mOffRequest.getStartDayNoSalary().getOffFrom(), FORMAT_DATE,
+                        DATE_FORMAT_YYYY_MM_DD));
+                offNoSalaryFrom.setOffFromPeriod(
+                        mOffRequest.getStartDayNoSalary().getOffFromPeriod());
+                mOffRequest.setStartDayNoSalary(offNoSalaryFrom);
 
-        if (mActionType == ActionType.ACTION_EDIT) {
+                offNoSalaryTo.setOffTo(DateTimeUtils.convertUiFormatToDataFormat(
+                        mOffRequest.getEndDayNoSalary().getOffTo(), FORMAT_DATE,
+                        DATE_FORMAT_YYYY_MM_DD));
+                offHaveSalaryTo.setPaidToPeriod(mOffRequest.getEndDayNoSalary().getOffToPeriod());
+                mOffRequest.setEndDayNoSalary(offNoSalaryTo);
+            }
+            if (offRequest.getStartDayHaveSalary().getOffPaidFrom() != null) {
+                offHaveSalaryFrom.setOffPaidFrom(DateTimeUtils.convertUiFormatToDataFormat(
+                        mOffRequest.getStartDayHaveSalary().getOffPaidFrom(), FORMAT_DATE,
+                        DATE_FORMAT_YYYY_MM_DD));
+                offHaveSalaryFrom.setPaidFromPeriod(
+                        mOffRequest.getStartDayHaveSalary().getPaidFromPeriod());
+                mOffRequest.setStartDayHaveSalary(offHaveSalaryFrom);
+
+                offHaveSalaryTo.setOffPaidTo(DateTimeUtils.convertUiFormatToDataFormat(
+                        mOffRequest.getEndDayHaveSalary().getOffPaidTo(), FORMAT_DATE,
+                        DATE_FORMAT_YYYY_MM_DD));
+                offHaveSalaryTo.setPaidToPeriod(
+                        mOffRequest.getEndDayHaveSalary().getPaidToPeriod());
+                mOffRequest.setEndDayHaveSalary(offHaveSalaryTo);
+            }
+        }
+        if (mActionType == ActionType.ACTION_EDIT || mActionType == ActionType.ACTION_CREATE) {
             if (mOffRequest.getAnnualLeave() != null
-                    || !"".equals(mOffRequest.getAnnualLeave())
-                    || !Constant.DEFAULT_DOUBLE_VALUE.equals(mOffRequest.getAnnualLeave())) {
+                    && !"".equals(mOffRequest.getAnnualLeave())
+                    && !Constant.DEFAULT_DOUBLE_VALUE.equals(mOffRequest.getAnnualLeave())) {
                 mOffRequest.setNumberDayOffNormal(Double.parseDouble(mOffRequest.getAnnualLeave()));
             } else {
-                mOffRequest.setNumberDayOffNormal(0);
+                mOffRequest.setNumberDayOffNormal(null);
             }
         }
     }
 
     private void initDataDetail() {
-        mOffRequest.setAnnualLeave(String.valueOf(mOffRequest.getNumberDayOffNormal()));
+        if (mOffRequest.getNumberDayOffNormal() == null) {
+            mOffRequest.setAnnualLeave("");
+        } else {
+            mOffRequest.setAnnualLeave(String.valueOf(mOffRequest.getNumberDayOffNormal()));
+        }
         if (mOffRequest.getRequestDayOffTypes() == null
                 || mOffRequest.getRequestDayOffTypes().size() == 0) {
             return;
