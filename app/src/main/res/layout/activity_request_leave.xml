@@ -134,8 +134,11 @@
                                     android:ellipsize="end"
                                     android:enabled="@{viewModel.visibleGroup}"
                                     android:hint="@string/group"
+                                    android:inputType="text"
                                     android:maxLines="1"
                                     android:onClick="@{viewModel::onPickGroup}"
+                                    android:paddingEnd="@dimen/dp_24"
+                                    android:paddingRight="@dimen/dp_24"
                                     android:text="@{viewModel.currentGroup}"
                                     style="@style/StyleText"
                                     />

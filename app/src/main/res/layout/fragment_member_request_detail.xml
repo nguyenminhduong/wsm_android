@@ -1008,6 +1008,7 @@
                             android:background="@color/color_red_firebrick"
                             android:onClick="@{() -> viewModel.onClickRejected()}"
                             android:text="@string/rejected"
+                            android:visibility="@{viewModel.visibleReject ? View.GONE : View.VISIBLE}"
                             style="@style/StyleButton"
                             />
                         <Button
