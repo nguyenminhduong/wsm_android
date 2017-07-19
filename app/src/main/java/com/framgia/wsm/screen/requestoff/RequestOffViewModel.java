@@ -44,6 +44,7 @@ import static com.framgia.wsm.utils.common.DateTimeUtils.FORMAT_DATE;
 public class RequestOffViewModel extends BaseRequestOff
         implements RequestOffContract.ViewModel, DatePickerDialog.OnDateSetListener {
     private static final String TAG = "RequestOffViewModel";
+    private static final String TRUE = "true";
     private static final String FALSE = "false";
 
     private static final int FLAG_START_DATE = 1;
@@ -91,8 +92,7 @@ public class RequestOffViewModel extends BaseRequestOff
     private int mActionType;
     private List<OffRequest.RequestDayOffTypesAttribute> mRequestDayOffTypesAttributes =
             new ArrayList<>();
-    private OffRequest.RequestDayOffTypesAttribute mRequestDayOffTypesAttribute =
-            new OffRequest.RequestDayOffTypesAttribute();
+    private OffRequest.RequestDayOffTypesAttribute mRequestDayOffTypesAttribute;
 
     private String mAnnualLeave;
     private String mLeaveForMarriage;
@@ -161,7 +161,11 @@ public class RequestOffViewModel extends BaseRequestOff
             String endDayHaveSalary = mRequestOff.getEndDayHaveSalary().getOffPaidTo();
             String startDayNoSalary = mRequestOff.getStartDayNoSalary().getOffFrom();
             String endDayNoSalary = mRequestOff.getEndDayNoSalary().getOffTo();
-            mAnnualLeave = String.valueOf(mRequestOff.getNumberDayOffNormal());
+            if (mRequestOff.getNumberDayOffNormal() == null) {
+                mAnnualLeave = "";
+            } else {
+                mAnnualLeave = String.valueOf(mRequestOff.getNumberDayOffNormal());
+            }
             mLeaveForMarriage = mRequestOff.getLeaveForMarriage();
             mLeaveForChildMarriage = mRequestOff.getLeaveForChildMarriage();
             mFuneralLeave = mRequestOff.getFuneralLeave();
@@ -198,9 +202,17 @@ public class RequestOffViewModel extends BaseRequestOff
                     mCurrentPositionDaySessionEndDayNoSalary = DaySession.PM;
                 }
             } else {
-                setVisibleLayoutCompanyPay(true);
-                mCurrentPositionOffType = PositionOffType.OFF_HAVE_SALARY_COMPANY_PAY;
-                mCurrentOffType = mContext.getString(R.string.off_have_salary_company_pay);
+                if (layoutCompanyPayIsVisible()) {
+                    setVisibleLayoutCompanyPay(true);
+                    mCurrentPositionOffType = PositionOffType.OFF_HAVE_SALARY_COMPANY_PAY;
+                    mCurrentOffType = mContext.getString(R.string.off_have_salary_company_pay);
+                } else {
+                    setVisibleLayoutInsuranceCoverage(true);
+                    mCurrentPositionOffType = PositionOffType.OFF_HAVE_SALARY_INSURANCE_COVERAGE;
+                    mCurrentOffType =
+                            mContext.getString(R.string.off_have_salary_insurance_coverage);
+                }
+
                 mStartDateHaveSalary = startDayHaveSalary;
                 mEndDateHaveSalary = endDayHaveSalary;
                 if (am.equals(mRequestOff.getStartDayHaveSalary().getPaidFromPeriod())) {
@@ -491,63 +503,61 @@ public class RequestOffViewModel extends BaseRequestOff
 
     @Bindable
     public String getAnnualError() {
-        return mRequestOff.getCompanyPay().getAnnualLeave() != null ? mContext.getString(
+        return mRequestOff.getAnnualLeave() != null ? mContext.getString(
                 R.string.annual_leave_is_not_greater_than_14_5_day) : null;
     }
 
     @Bindable
     public String getLeaveForMarriageError() {
-        return mRequestOff.getCompanyPay().getLeaveForMarriage() != null ? mContext.getString(
+        return mRequestOff.getLeaveForMarriage() != null ? mContext.getString(
                 R.string.leave_for_marriage_is_not_greater_than_3_day) : null;
     }
 
     @Bindable
     public String getLeaveForChildMarriageError() {
-        return mRequestOff.getCompanyPay().getLeaveForChildMarriage() != null ? mContext.getString(
+        return mRequestOff.getLeaveForChildMarriage() != null ? mContext.getString(
                 R.string.leave_for_child_marriage_is_not_greater_than_1_day) : null;
     }
 
     @Bindable
     public String getFuneralLeaveError() {
-        return mRequestOff.getCompanyPay().getFuneralLeave() != null ? mContext.getString(
+        return mRequestOff.getFuneralLeave() != null ? mContext.getString(
                 R.string.funeral_leave_is_not_greater_than_3_day) : null;
     }
 
     @Bindable
     public String getLeaveForCareOfSickChildError() {
-        return mRequestOff.getInsuranceCoverage().getLeaveForCareOfSickChild() != null
-                ? mContext.getString(R.string.leave_for_care_of_sick_is_not_greater_than_20_day)
-                : null;
+        return mRequestOff.getLeaveForCareOfSickChild() != null ? mContext.getString(
+                R.string.leave_for_care_of_sick_is_not_greater_than_20_day) : null;
     }
 
     @Bindable
     public String getPregnancyExaminationLeaveError() {
-        return mRequestOff.getInsuranceCoverage().getPregnancyExaminationLeave() != null
-                ? mContext.getString(
+        return mRequestOff.getPregnancyExaminationLeave() != null ? mContext.getString(
                 R.string.pregnacy_examination_leave_is_not_greater_than_14_5_day) : null;
     }
 
     @Bindable
     public String getSickLeaveError() {
-        return mRequestOff.getInsuranceCoverage().getSickLeave() != null ? mContext.getString(
+        return mRequestOff.getSickLeave() != null ? mContext.getString(
                 R.string.sick_leave_is_not_greater_than_60_day) : null;
     }
 
     @Bindable
     public String getMiscarriageLeaveError() {
-        return mRequestOff.getInsuranceCoverage().getMiscarriageLeave() != null
-                ? mContext.getString(R.string.miscarriage_leave_is_not_greater_than_50_day) : null;
+        return mRequestOff.getMiscarriageLeave() != null ? mContext.getString(
+                R.string.miscarriage_leave_is_not_greater_than_50_day) : null;
     }
 
     @Bindable
     public String getMaternityLeavedError() {
-        return mRequestOff.getInsuranceCoverage().getMaternityLeave() != null ? mContext.getString(
+        return mRequestOff.getMaternityLeave() != null ? mContext.getString(
                 R.string.maternity_leave_is_not_greater_than_180_day) : null;
     }
 
     @Bindable
     public String getWifeLaborLeaveError() {
-        return mRequestOff.getInsuranceCoverage().getWifeLaborLeave() != null ? mContext.getString(
+        return mRequestOff.getWifeLaborLeave() != null ? mContext.getString(
                 R.string.wife_labor_leave_is_not_greater_than_14_day) : null;
     }
 
@@ -661,6 +671,84 @@ public class RequestOffViewModel extends BaseRequestOff
         notifyPropertyChanged(BR.wifeLaborLeave);
     }
 
+    private boolean layoutCompanyPayIsVisible() {
+        return (mRequestOff.getAnnualLeave() != null
+                && !"".equals(mRequestOff.getAnnualLeave())
+                && !Constant.DEFAULT_DOUBLE_VALUE.equals(mRequestOff.getAnnualLeave()))
+                || (mRequestOff.getLeaveForChildMarriage() != null
+                && !"".equals(mRequestOff.getLeaveForChildMarriage()))
+                || (mRequestOff.getLeaveForMarriage() != null && !"".equals(
+                mRequestOff.getLeaveForMarriage()))
+                || (mRequestOff.getFuneralLeave() != null && !"".equals(
+                mRequestOff.getFuneralLeave()));
+    }
+
+    private boolean dayOffTypeListNoneEmpty() {
+        return mRequestOff != null
+                && mRequestOff.getRequestDayOffTypes() != null
+                && mRequestOff.getRequestDayOffTypes().size() != 0;
+    }
+
+    private boolean annualLeaveNoneEmpty() {
+        return mRequestOff.getAnnualLeave() != null
+                && !"".equals(mRequestOff.getAnnualLeave())
+                && !Constant.DEFAULT_DOUBLE_VALUE.equals(mRequestOff.getAnnualLeave());
+    }
+
+    private boolean leaveForMarriageIsEmpty() {
+        return mRequestOff.getLeaveForMarriage() == null || "".equals(
+                mRequestOff.getLeaveForMarriage()) || Constant.DEFAULT_DOUBLE_VALUE.equals(
+                mRequestOff.getLeaveForMarriage());
+    }
+
+    private boolean leaveForChildMarriageIsEmpty() {
+        return mRequestOff.getLeaveForChildMarriage() == null || "".equals(
+                mRequestOff.getLeaveForChildMarriage()) || Constant.DEFAULT_DOUBLE_VALUE.equals(
+                mRequestOff.getLeaveForChildMarriage());
+    }
+
+    private boolean maternityLeaveIsEmpty() {
+        return mRequestOff.getMaternityLeave() == null
+                || "".equals(mRequestOff.getMaternityLeave())
+                || Constant.DEFAULT_DOUBLE_VALUE.equals(mRequestOff.getMaternityLeave());
+    }
+
+    private boolean leaveForCareOfSickChildIsEmpty() {
+        return mRequestOff.getLeaveForCareOfSickChild() == null || "".equals(
+                mRequestOff.getLeaveForCareOfSickChild()) || Constant.DEFAULT_DOUBLE_VALUE.equals(
+                mRequestOff.getLeaveForCareOfSickChild());
+    }
+
+    private boolean funeralLeaveIsEmpty() {
+        return mRequestOff.getFuneralLeave() == null
+                || "".equals(mRequestOff.getFuneralLeave())
+                || Constant.DEFAULT_DOUBLE_VALUE.equals(mRequestOff.getFuneralLeave());
+    }
+
+    private boolean wifeLaborLeaveIsEmpty() {
+        return mRequestOff.getWifeLaborLeave() == null
+                || "".equals(mRequestOff.getWifeLaborLeave())
+                || Constant.DEFAULT_DOUBLE_VALUE.equals(mRequestOff.getWifeLaborLeave());
+    }
+
+    private boolean miscarriageLeaveIsEmpty() {
+        return mRequestOff.getMiscarriageLeave() == null || "".equals(
+                mRequestOff.getMiscarriageLeave()) || Constant.DEFAULT_DOUBLE_VALUE.equals(
+                mRequestOff.getMiscarriageLeave());
+    }
+
+    private boolean sickLeaveIsEmpty() {
+        return mRequestOff.getSickLeave() == null
+                || "".equals(mRequestOff.getSickLeave())
+                || Constant.DEFAULT_DOUBLE_VALUE.equals(mRequestOff.getSickLeave());
+    }
+
+    private boolean pregnancyExaminationLeaveIsEmpty() {
+        return mRequestOff.getPregnancyExaminationLeave() == null || "".equals(
+                mRequestOff.getPregnancyExaminationLeave()) || Constant.DEFAULT_DOUBLE_VALUE.equals(
+                mRequestOff.getPregnancyExaminationLeave());
+    }
+
     public String getTitleToolbar() {
         if (mActionType == ActionType.ACTION_CREATE) {
             return mContext.getString(R.string.request_off);
@@ -685,77 +773,130 @@ public class RequestOffViewModel extends BaseRequestOff
                 + StringUtils.convertStringToDouble(mRequestOff.getWifeLaborLeave());
     }
 
-    private void setRequestDayOffTypesAttribute() {
-        mRequestDayOffTypesAttributes.clear();
-        if (mRequestOff.getAnnualLeave() != null
-                && !"".equals(mRequestOff.getAnnualLeave())
-                && !Constant.DEFAULT_DOUBLE_VALUE.equals(mRequestOff.getAnnualLeave())) {
-            mRequestOff.setNumberDayOffNormal(Double.parseDouble(mRequestOff.getAnnualLeave()));
+    private void setDestroyDayOffTypesAttribute() {
+        if (mRequestDayOffTypesAttribute.getNumberDayOff() == null
+                || "".equals(mRequestDayOffTypesAttribute.getNumberDayOff())
+                || Constant.DEFAULT_DOUBLE_VALUE.equals(
+                mRequestDayOffTypesAttribute.getNumberDayOff())) {
+            mRequestDayOffTypesAttribute.setDestroy(TRUE);
+        } else {
+            mRequestDayOffTypesAttribute.setDestroy(FALSE);
         }
-        if (mRequestOff.getLeaveForMarriage() != null && !"".equals(
-                mRequestOff.getLeaveForMarriage())) {
-            mRequestDayOffTypesAttribute.setSpecialDayOffSettingId(TypeOfDays.LEAVE_FOR_MARRIAGE);
+    }
+
+    private void setAttributeOffType(String specialDayOffSettingId) {
+        mRequestDayOffTypesAttribute = new OffRequest.RequestDayOffTypesAttribute();
+        mRequestDayOffTypesAttribute.setId(null);
+        mRequestDayOffTypesAttribute.setSpecialDayOffSettingId(specialDayOffSettingId);
+        mRequestDayOffTypesAttribute.setDestroy(FALSE);
+        if (specialDayOffSettingId.equals(TypeOfDays.LEAVE_FOR_MARRIAGE)) {
             mRequestDayOffTypesAttribute.setNumberDayOff(mRequestOff.getLeaveForMarriage());
-            mRequestDayOffTypesAttribute.setDestroy(FALSE);
-            mRequestDayOffTypesAttributes.add(mRequestDayOffTypesAttribute);
+            setDestroyDayOffTypesAttribute();
         }
-        if (mRequestOff.getLeaveForChildMarriage() != null && !"".equals(
-                mRequestOff.getLeaveForChildMarriage())) {
-            mRequestDayOffTypesAttribute.setSpecialDayOffSettingId(
-                    TypeOfDays.LEAVE_FOR_CHILD_MARRIAGE);
+        if (specialDayOffSettingId.equals(TypeOfDays.LEAVE_FOR_CHILD_MARRIAGE)) {
             mRequestDayOffTypesAttribute.setNumberDayOff(mRequestOff.getLeaveForChildMarriage());
-            mRequestDayOffTypesAttribute.setDestroy(FALSE);
-            mRequestDayOffTypesAttributes.add(mRequestDayOffTypesAttribute);
+            setDestroyDayOffTypesAttribute();
         }
-        if (mRequestOff.getMaternityLeave() != null && !"".equals(
-                mRequestOff.getMaternityLeave())) {
-            mRequestDayOffTypesAttribute.setSpecialDayOffSettingId(TypeOfDays.MATERNTY_LEAVE);
+        if (specialDayOffSettingId.equals(TypeOfDays.MATERNTY_LEAVE)) {
             mRequestDayOffTypesAttribute.setNumberDayOff(mRequestOff.getMaternityLeave());
-            mRequestDayOffTypesAttribute.setDestroy(FALSE);
-            mRequestDayOffTypesAttributes.add(mRequestDayOffTypesAttribute);
+            setDestroyDayOffTypesAttribute();
         }
-        if (mRequestOff.getLeaveForCareOfSickChild() != null && !"".equals(
-                mRequestOff.getLeaveForCareOfSickChild())) {
-            mRequestDayOffTypesAttribute.setSpecialDayOffSettingId(
-                    TypeOfDays.LEAVE_FOR_CARE_OF_SICK_CHILD);
+        if (specialDayOffSettingId.equals(TypeOfDays.LEAVE_FOR_CARE_OF_SICK_CHILD)) {
             mRequestDayOffTypesAttribute.setNumberDayOff(mRequestOff.getLeaveForCareOfSickChild());
-            mRequestDayOffTypesAttribute.setDestroy(FALSE);
-            mRequestDayOffTypesAttributes.add(mRequestDayOffTypesAttribute);
+            setDestroyDayOffTypesAttribute();
         }
-        if (mRequestOff.getFuneralLeave() != null && !"".equals(mRequestOff.getFuneralLeave())) {
-            mRequestDayOffTypesAttribute.setSpecialDayOffSettingId(TypeOfDays.FUNERAL_LEAVE);
+        if (specialDayOffSettingId.equals(TypeOfDays.FUNERAL_LEAVE)) {
             mRequestDayOffTypesAttribute.setNumberDayOff(mRequestOff.getFuneralLeave());
-            mRequestDayOffTypesAttribute.setDestroy(FALSE);
-            mRequestDayOffTypesAttributes.add(mRequestDayOffTypesAttribute);
+            setDestroyDayOffTypesAttribute();
         }
-        if (mRequestOff.getWifeLaborLeave() != null && !"".equals(
-                mRequestOff.getWifeLaborLeave())) {
-            mRequestDayOffTypesAttribute.setSpecialDayOffSettingId(TypeOfDays.WIFE_LABOR_LEAVE);
+        if (specialDayOffSettingId.equals(TypeOfDays.WIFE_LABOR_LEAVE)) {
             mRequestDayOffTypesAttribute.setNumberDayOff(mRequestOff.getWifeLaborLeave());
-            mRequestDayOffTypesAttribute.setDestroy(FALSE);
-            mRequestDayOffTypesAttributes.add(mRequestDayOffTypesAttribute);
+            setDestroyDayOffTypesAttribute();
         }
-        if (mRequestOff.getMiscarriageLeave() != null && !"".equals(
-                mRequestOff.getMiscarriageLeave())) {
-            mRequestDayOffTypesAttribute.setSpecialDayOffSettingId(TypeOfDays.MISCARRIAGE_LEAVE);
+        if (specialDayOffSettingId.equals(TypeOfDays.MISCARRIAGE_LEAVE)) {
             mRequestDayOffTypesAttribute.setNumberDayOff(mRequestOff.getMiscarriageLeave());
-            mRequestDayOffTypesAttribute.setDestroy(FALSE);
-            mRequestDayOffTypesAttributes.add(mRequestDayOffTypesAttribute);
+            setDestroyDayOffTypesAttribute();
         }
-        if (mRequestOff.getSickLeave() != null && !"".equals(mRequestOff.getSickLeave())) {
-            mRequestDayOffTypesAttribute.setSpecialDayOffSettingId(TypeOfDays.SICK_LEAVE);
+        if (specialDayOffSettingId.equals(TypeOfDays.SICK_LEAVE)) {
             mRequestDayOffTypesAttribute.setNumberDayOff(mRequestOff.getSickLeave());
-            mRequestDayOffTypesAttribute.setDestroy(FALSE);
-            mRequestDayOffTypesAttributes.add(mRequestDayOffTypesAttribute);
+            setDestroyDayOffTypesAttribute();
         }
-        if (mRequestOff.getPregnancyExaminationLeave() != null && !"".equals(
-                mRequestOff.getPregnancyExaminationLeave())) {
-            mRequestDayOffTypesAttribute.setSpecialDayOffSettingId(TypeOfDays.PREGNANCY_EXAMINATON);
+        if (specialDayOffSettingId.equals(TypeOfDays.PREGNANCY_EXAMINATON)) {
             mRequestDayOffTypesAttribute.setNumberDayOff(
                     mRequestOff.getPregnancyExaminationLeave());
-            mRequestDayOffTypesAttribute.setDestroy(FALSE);
-            mRequestDayOffTypesAttributes.add(mRequestDayOffTypesAttribute);
+            setDestroyDayOffTypesAttribute();
         }
+        if (dayOffTypeListNoneEmpty()) {
+            for (int i = 0; i < mRequestOff.getRequestDayOffTypes().size(); i++) {
+                if (mRequestOff.getRequestDayOffTypes().get(i).getSpecialDayOffSettingId()
+                        == Integer.parseInt(specialDayOffSettingId)) {
+                    mRequestDayOffTypesAttribute.setId(
+                            mRequestOff.getRequestDayOffTypes().get(i).getId());
+                }
+            }
+            if (specialDayOffSettingId.equals(TypeOfDays.LEAVE_FOR_MARRIAGE)) {
+                if (leaveForMarriageIsEmpty()) {
+                    mRequestDayOffTypesAttribute.setDestroy(TRUE);
+                }
+            }
+            if (specialDayOffSettingId.equals(TypeOfDays.LEAVE_FOR_CHILD_MARRIAGE)) {
+                if (leaveForChildMarriageIsEmpty()) {
+                    mRequestDayOffTypesAttribute.setDestroy(TRUE);
+                }
+            }
+            if (specialDayOffSettingId.equals(TypeOfDays.MATERNTY_LEAVE)) {
+                if (maternityLeaveIsEmpty()) {
+                    mRequestDayOffTypesAttribute.setDestroy(TRUE);
+                }
+            }
+            if (specialDayOffSettingId.equals(TypeOfDays.LEAVE_FOR_CARE_OF_SICK_CHILD)) {
+                if (leaveForCareOfSickChildIsEmpty()) {
+                    mRequestDayOffTypesAttribute.setDestroy(TRUE);
+                }
+            }
+            if (specialDayOffSettingId.equals(TypeOfDays.FUNERAL_LEAVE)) {
+                if (funeralLeaveIsEmpty()) {
+                    mRequestDayOffTypesAttribute.setDestroy(TRUE);
+                }
+            }
+            if (specialDayOffSettingId.equals(TypeOfDays.WIFE_LABOR_LEAVE)) {
+                if (wifeLaborLeaveIsEmpty()) {
+                    mRequestDayOffTypesAttribute.setDestroy(TRUE);
+                }
+            }
+            if (specialDayOffSettingId.equals(TypeOfDays.MISCARRIAGE_LEAVE)) {
+                if (miscarriageLeaveIsEmpty()) {
+                    mRequestDayOffTypesAttribute.setDestroy(TRUE);
+                }
+            }
+            if (specialDayOffSettingId.equals(TypeOfDays.SICK_LEAVE)) {
+                if (sickLeaveIsEmpty()) {
+                    mRequestDayOffTypesAttribute.setDestroy(TRUE);
+                }
+            }
+            if (specialDayOffSettingId.equals(TypeOfDays.PREGNANCY_EXAMINATON)) {
+                if (pregnancyExaminationLeaveIsEmpty()) {
+                    mRequestDayOffTypesAttribute.setDestroy(TRUE);
+                }
+            }
+        }
+        mRequestDayOffTypesAttributes.add(mRequestDayOffTypesAttribute);
+    }
+
+    private void setRequestDayOffTypesAttribute() {
+        mRequestDayOffTypesAttributes.clear();
+        if (annualLeaveNoneEmpty()) {
+            mRequestOff.setNumberDayOffNormal(Double.parseDouble(mRequestOff.getAnnualLeave()));
+        }
+        setAttributeOffType(TypeOfDays.LEAVE_FOR_MARRIAGE);
+        setAttributeOffType(TypeOfDays.LEAVE_FOR_CHILD_MARRIAGE);
+        setAttributeOffType(TypeOfDays.MATERNTY_LEAVE);
+        setAttributeOffType(TypeOfDays.LEAVE_FOR_CARE_OF_SICK_CHILD);
+        setAttributeOffType(TypeOfDays.FUNERAL_LEAVE);
+        setAttributeOffType(TypeOfDays.WIFE_LABOR_LEAVE);
+        setAttributeOffType(TypeOfDays.MISCARRIAGE_LEAVE);
+        setAttributeOffType(TypeOfDays.SICK_LEAVE);
+        setAttributeOffType(TypeOfDays.PREGNANCY_EXAMINATON);
         mRequestOff.setRequestDayOffTypesAttributes(mRequestDayOffTypesAttributes);
     }
 

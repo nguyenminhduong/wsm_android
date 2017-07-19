@@ -65,7 +65,7 @@ public class OffRequest extends BaseModel implements Parcelable {
     private Group mGroup;
     @Expose
     @SerializedName("number_dayoff_normal")
-    private double mNumberDayOffNormal;
+    private Double mNumberDayOffNormal;
     @Expose
     @SerializedName("workspace_id")
     private int mWorkSpaceId;
@@ -140,7 +140,11 @@ public class OffRequest extends BaseModel implements Parcelable {
         mPosition = in.readString();
         mBranch = in.readParcelable(Branch.class.getClassLoader());
         mGroup = in.readParcelable(Group.class.getClassLoader());
-        mNumberDayOffNormal = in.readDouble();
+        if (in.readByte() == 0) {
+            mNumberDayOffNormal = null;
+        } else {
+            mNumberDayOffNormal = in.readDouble();
+        }
         mWorkSpaceId = in.readInt();
         mGroupId = in.readInt();
         mCompanyPay = in.readParcelable(CompanyPay.class.getClassLoader());
@@ -179,7 +183,12 @@ public class OffRequest extends BaseModel implements Parcelable {
         dest.writeString(mPosition);
         dest.writeParcelable(mBranch, flags);
         dest.writeParcelable(mGroup, flags);
-        dest.writeDouble(mNumberDayOffNormal);
+        if (mNumberDayOffNormal == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(mNumberDayOffNormal);
+        }
         dest.writeInt(mWorkSpaceId);
         dest.writeInt(mGroupId);
         dest.writeParcelable(mCompanyPay, flags);
@@ -258,11 +267,11 @@ public class OffRequest extends BaseModel implements Parcelable {
         mGroup = group;
     }
 
-    public double getNumberDayOffNormal() {
+    public Double getNumberDayOffNormal() {
         return mNumberDayOffNormal;
     }
 
-    public void setNumberDayOffNormal(double numberDayOffNormal) {
+    public void setNumberDayOffNormal(Double numberDayOffNormal) {
         mNumberDayOffNormal = numberDayOffNormal;
     }
 
@@ -781,6 +790,9 @@ public class OffRequest extends BaseModel implements Parcelable {
     public static class RequestDayOffTypesAttribute implements Parcelable {
 
         @Expose
+        @SerializedName("id")
+        private Integer mId;
+        @Expose
         @SerializedName("special_dayoff_setting_id")
         private String mSpecialDayOffSettingId;
         @Expose
@@ -794,6 +806,11 @@ public class OffRequest extends BaseModel implements Parcelable {
         }
 
         public RequestDayOffTypesAttribute(Parcel in) {
+            if (in.readByte() == 0) {
+                mId = null;
+            } else {
+                mId = in.readInt();
+            }
             mSpecialDayOffSettingId = in.readString();
             mNumberDayOff = in.readString();
             mDestroy = in.readString();
@@ -801,6 +818,12 @@ public class OffRequest extends BaseModel implements Parcelable {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
+            if (mId == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeInt(mId);
+            }
             dest.writeString(mSpecialDayOffSettingId);
             dest.writeString(mNumberDayOff);
             dest.writeString(mDestroy);
@@ -823,6 +846,14 @@ public class OffRequest extends BaseModel implements Parcelable {
                         return new RequestDayOffTypesAttribute[size];
                     }
                 };
+
+        public Integer getId() {
+            return mId;
+        }
+
+        public void setId(Integer id) {
+            mId = id;
+        }
 
         public String getSpecialDayOffSettingId() {
             return mSpecialDayOffSettingId;
