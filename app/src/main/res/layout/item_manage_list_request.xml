@@ -235,9 +235,9 @@
                             android:layout_height="@dimen/dp_35"
                             android:layout_margin="@dimen/dp_5"
                             android:layout_weight="1"
-                            android:onClick="@{()-> viewModel.onApproveRequest()}"
-                            android:visibility="@{viewModel.visibleButtonApprove ? View.VISIBLE : View.GONE}"
-                            app:srcCompat="@drawable/ic_status_accpect"
+                            android:onClick="@{()-> viewModel.onRejectRequest()}"
+                            android:visibility="@{viewModel.visibleButtonReject ? View.VISIBLE : View.GONE}"
+                            app:srcCompat="@drawable/ic_status_reject"
                             tools:ignore="ContentDescription"
                             />
                         <ImageView
@@ -245,9 +245,9 @@
                             android:layout_height="@dimen/dp_35"
                             android:layout_margin="@dimen/dp_5"
                             android:layout_weight="1"
-                            android:onClick="@{()-> viewModel.onRejectRequest()}"
-                            android:visibility="@{viewModel.visibleButtonReject ? View.VISIBLE : View.GONE}"
-                            app:srcCompat="@drawable/ic_status_reject"
+                            android:onClick="@{()-> viewModel.onApproveRequest()}"
+                            android:visibility="@{viewModel.visibleButtonApprove ? View.VISIBLE : View.GONE}"
+                            app:srcCompat="@drawable/ic_status_accpect"
                             tools:ignore="ContentDescription"
                             />
                     </LinearLayout>
