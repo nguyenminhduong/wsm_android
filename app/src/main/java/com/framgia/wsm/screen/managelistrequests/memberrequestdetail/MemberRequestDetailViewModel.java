@@ -83,7 +83,7 @@ public class MemberRequestDetailViewModel extends BaseObservable
     }
 
     @Override
-    public void onRejectedOrAcceptedError(BaseException e) {
+    public void onError(BaseException e) {
         mDialogManager.dialogError(e);
     }
 
@@ -164,19 +164,38 @@ public class MemberRequestDetailViewModel extends BaseObservable
     }
 
     public boolean isVisiableLayoutCompanyPay() {
-        return mOffRequest.getCompanyPay().getAnnualLeave() != null
-                || mOffRequest.getCompanyPay().getLeaveForChildMarriage() != null
-                || mOffRequest.getCompanyPay().getLeaveForMarriage() != null
-                || mOffRequest.getCompanyPay().getFuneralLeave() != null;
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return false;
+        }
+        if (mOffRequest.getNumberDayOffNormal() != null) {
+            return true;
+        }
+        for (OffRequest.RequestDayOffType offType : mOffRequest.getRequestDayOffTypes()) {
+            if ((offType.getSpecialDayOffSettingId() == OffTypeId.LEAVE_FOR_MARRIAGE
+                    || offType.getSpecialDayOffSettingId() == OffTypeId.LEAVE_FOR_CHILD_IS_MARRIAGE
+                    || offType.getSpecialDayOffSettingId() == OffTypeId.FUNERAL_LEAVE)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isVisiableLayoutInsurance() {
-        return mOffRequest.getInsuranceCoverage().getLeaveForCareOfSickChild() != null
-                || mOffRequest.getInsuranceCoverage().getSickLeave() != null
-                || mOffRequest.getInsuranceCoverage().getMaternityLeave() != null
-                || mOffRequest.getInsuranceCoverage().getPregnancyExaminationLeave() != null
-                || mOffRequest.getInsuranceCoverage().getMiscarriageLeave() != null
-                || mOffRequest.getInsuranceCoverage().getWifeLaborLeave() != null;
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return false;
+        }
+        for (OffRequest.RequestDayOffType offType : mOffRequest.getRequestDayOffTypes()) {
+            if ((offType.getSpecialDayOffSettingId() == OffTypeId.MATERNITY_LEAVE
+                    || offType.getSpecialDayOffSettingId() == OffTypeId.LEAVE_FOR_CARE_OF_SICK_CHILD
+                    || offType.getSpecialDayOffSettingId() == OffTypeId.WIFE_IS_LABOR_LEAVE
+                    || offType.getSpecialDayOffSettingId() == OffTypeId.MISCARRIAGE_LEAVE
+                    || offType.getSpecialDayOffSettingId() == OffTypeId.SICK_LEAVE
+                    || offType.getSpecialDayOffSettingId()
+                    == OffTypeId.PREGNANCY_EXAMINATION_LEAVE)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isVisiableLayoutTimeCompensation() {
@@ -201,43 +220,230 @@ public class MemberRequestDetailViewModel extends BaseObservable
     }
 
     public boolean isVisiableAnnualLeave() {
-        return mOffRequest.getCompanyPay().getAnnualLeave() != null;
+        return (mOffRequest.getNumberDayOffNormal() != null);
     }
 
     public boolean isVisiableLeaveForChildMarriage() {
-        return mOffRequest.getCompanyPay().getLeaveForChildMarriage() != null;
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return false;
+        }
+        for (OffRequest.RequestDayOffType offType : mOffRequest.getRequestDayOffTypes()) {
+            if (offType.getSpecialDayOffSettingId() == OffTypeId.LEAVE_FOR_CHILD_IS_MARRIAGE) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isVisiableLeaveForMarriage() {
-        return mOffRequest.getCompanyPay().getLeaveForMarriage() != null;
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return false;
+        }
+        for (OffRequest.RequestDayOffType offType : mOffRequest.getRequestDayOffTypes()) {
+            if (offType.getSpecialDayOffSettingId() == OffTypeId.LEAVE_FOR_MARRIAGE) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isVisiableFuneralLeave() {
-        return mOffRequest.getCompanyPay().getFuneralLeave() != null;
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return false;
+        }
+        for (OffRequest.RequestDayOffType offType : mOffRequest.getRequestDayOffTypes()) {
+            if (offType.getSpecialDayOffSettingId() == OffTypeId.FUNERAL_LEAVE) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isVisiableLeaveForCareOfSickChild() {
-        return mOffRequest.getInsuranceCoverage().getLeaveForCareOfSickChild() != null;
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return false;
+        }
+        for (OffRequest.RequestDayOffType offType : mOffRequest.getRequestDayOffTypes()) {
+            if (offType.getSpecialDayOffSettingId() == OffTypeId.LEAVE_FOR_CARE_OF_SICK_CHILD) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isVisiableSickLeave() {
-        return mOffRequest.getInsuranceCoverage().getSickLeave() != null;
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return false;
+        }
+        for (OffRequest.RequestDayOffType offType : mOffRequest.getRequestDayOffTypes()) {
+            if (offType.getSpecialDayOffSettingId() == OffTypeId.SICK_LEAVE) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isVisiableMaternityLeave() {
-        return mOffRequest.getInsuranceCoverage().getMaternityLeave() != null;
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return false;
+        }
+        for (OffRequest.RequestDayOffType offType : mOffRequest.getRequestDayOffTypes()) {
+            if (offType.getSpecialDayOffSettingId() == OffTypeId.MATERNITY_LEAVE) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isVisiablePregnancyExaminationLeave() {
-        return mOffRequest.getInsuranceCoverage().getPregnancyExaminationLeave() != null;
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return false;
+        }
+        for (OffRequest.RequestDayOffType offType : mOffRequest.getRequestDayOffTypes()) {
+            if (offType.getSpecialDayOffSettingId() == OffTypeId.PREGNANCY_EXAMINATION_LEAVE) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isVisiableMiscarriageLeave() {
-        return mOffRequest.getInsuranceCoverage().getMiscarriageLeave() != null;
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return false;
+        }
+        for (OffRequest.RequestDayOffType offType : mOffRequest.getRequestDayOffTypes()) {
+            if (offType.getSpecialDayOffSettingId() == OffTypeId.MISCARRIAGE_LEAVE) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isVisiableWifeLaborLeave() {
-        return mOffRequest.getInsuranceCoverage().getWifeLaborLeave() != null;
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return false;
+        }
+        for (OffRequest.RequestDayOffType offType : mOffRequest.getRequestDayOffTypes()) {
+            if (offType.getSpecialDayOffSettingId() == OffTypeId.WIFE_IS_LABOR_LEAVE) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getDateWifeLaborLeave() {
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return "";
+        }
+        for (OffRequest.RequestDayOffType offRequest : mOffRequest.getRequestDayOffTypes()) {
+            if (offRequest.getSpecialDayOffSettingId() == OffTypeId.WIFE_IS_LABOR_LEAVE) {
+                return String.valueOf(offRequest.getNumberDayOff());
+            }
+        }
+        return "";
+    }
+
+    public String getDateMiscarriageLeave() {
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return "";
+        }
+        for (OffRequest.RequestDayOffType offRequest : mOffRequest.getRequestDayOffTypes()) {
+            if (offRequest.getSpecialDayOffSettingId() == OffTypeId.MISCARRIAGE_LEAVE) {
+                return String.valueOf(offRequest.getNumberDayOff());
+            }
+        }
+        return "";
+    }
+
+    public String getDatePregnancyExaminationLeave() {
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return "";
+        }
+        for (OffRequest.RequestDayOffType offRequest : mOffRequest.getRequestDayOffTypes()) {
+            if (offRequest.getSpecialDayOffSettingId() == OffTypeId.PREGNANCY_EXAMINATION_LEAVE) {
+                return String.valueOf(offRequest.getNumberDayOff());
+            }
+        }
+        return "";
+    }
+
+    public String getDateMaternityLeave() {
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return "";
+        }
+        for (OffRequest.RequestDayOffType offRequest : mOffRequest.getRequestDayOffTypes()) {
+            if (offRequest.getSpecialDayOffSettingId() == OffTypeId.MATERNITY_LEAVE) {
+                return String.valueOf(offRequest.getNumberDayOff());
+            }
+        }
+        return "";
+    }
+
+    public String getDateSickLeave() {
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return "";
+        }
+        for (OffRequest.RequestDayOffType offRequest : mOffRequest.getRequestDayOffTypes()) {
+            if (offRequest.getSpecialDayOffSettingId() == OffTypeId.SICK_LEAVE) {
+                return String.valueOf(offRequest.getNumberDayOff());
+            }
+        }
+        return "";
+    }
+
+    public String getDateLeaveForCareOfSickChild() {
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return "";
+        }
+        for (OffRequest.RequestDayOffType offRequest : mOffRequest.getRequestDayOffTypes()) {
+            if (offRequest.getSpecialDayOffSettingId() == OffTypeId.LEAVE_FOR_CARE_OF_SICK_CHILD) {
+                return String.valueOf(offRequest.getNumberDayOff());
+            }
+        }
+        return "";
+    }
+
+    public String getDateFuneralLeave() {
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return "";
+        }
+        for (OffRequest.RequestDayOffType offRequest : mOffRequest.getRequestDayOffTypes()) {
+            if (offRequest.getSpecialDayOffSettingId() == OffTypeId.FUNERAL_LEAVE) {
+                return String.valueOf(offRequest.getNumberDayOff());
+            }
+        }
+        return "";
+    }
+
+    public String getDateLeaveAnnual() {
+        if (mOffRequest.getNumberDayOffNormal() == null) {
+            return "";
+        }
+        return String.valueOf(mOffRequest.getNumberDayOffNormal());
+    }
+
+    public String getDateLeaveForChildIsMarriage() {
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return "";
+        }
+        for (OffRequest.RequestDayOffType offRequest : mOffRequest.getRequestDayOffTypes()) {
+            if (offRequest.getSpecialDayOffSettingId() == OffTypeId.LEAVE_FOR_CHILD_IS_MARRIAGE) {
+                return String.valueOf(offRequest.getNumberDayOff());
+            }
+        }
+        return "";
+    }
+
+    public String getDateLeaveForMarriage() {
+        if (mOffRequest.getRequestDayOffTypes() == null) {
+            return "";
+        }
+        for (OffRequest.RequestDayOffType offRequest : mOffRequest.getRequestDayOffTypes()) {
+            if (offRequest.getSpecialDayOffSettingId() == OffTypeId.LEAVE_FOR_MARRIAGE) {
+                return String.valueOf(offRequest.getNumberDayOff());
+            }
+        }
+        return "";
     }
 
     public String getCompensationTime() {
@@ -415,5 +621,23 @@ public class MemberRequestDetailViewModel extends BaseObservable
         int FORGOT_CARD_IN = 19;
         int FORGOT_CARD_OUT = 20;
         int FORGOT_CARD_ALL_DAY = 21;
+    }
+
+    @IntDef({
+            OffTypeId.LEAVE_FOR_MARRIAGE, OffTypeId.LEAVE_FOR_CHILD_IS_MARRIAGE,
+            OffTypeId.MATERNITY_LEAVE, OffTypeId.LEAVE_FOR_CARE_OF_SICK_CHILD,
+            OffTypeId.FUNERAL_LEAVE, OffTypeId.WIFE_IS_LABOR_LEAVE, OffTypeId.MISCARRIAGE_LEAVE,
+            OffTypeId.SICK_LEAVE, OffTypeId.PREGNANCY_EXAMINATION_LEAVE
+    })
+    public @interface OffTypeId {
+        int LEAVE_FOR_MARRIAGE = 2;
+        int LEAVE_FOR_CHILD_IS_MARRIAGE = 3;
+        int MATERNITY_LEAVE = 6;
+        int LEAVE_FOR_CARE_OF_SICK_CHILD = 9;
+        int FUNERAL_LEAVE = 10;
+        int WIFE_IS_LABOR_LEAVE = 14;
+        int MISCARRIAGE_LEAVE = 17;
+        int SICK_LEAVE = 19;
+        int PREGNANCY_EXAMINATION_LEAVE = 22;
     }
 }

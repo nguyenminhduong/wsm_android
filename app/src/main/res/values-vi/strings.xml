@@ -259,4 +259,5 @@
     <string name="start_time_can_not_greater_than_end_time">Thời gian bắt đầu không được lớn hơn thời gian kết thúc</string>
     <string name="reject_success">Từ chối thành công !</string>
     <string name="approve_success">Phê duyệt thành công !</string>
+    <string name="number_day">Số ngày</string>
 </resources>
