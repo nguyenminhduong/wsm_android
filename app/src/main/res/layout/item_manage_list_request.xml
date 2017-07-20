@@ -74,8 +74,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/text_status"
-                        android:layout_toStartOf="@+id/text_status"
+                        android:layout_toLeftOf="@+id/framme_layout_status"
+                        android:layout_toStartOf="@+id/framme_layout_status"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         >
@@ -96,24 +96,54 @@
                             />
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/text_status"
+                    <FrameLayout
+                        android:id="@+id/framme_layout_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginRight="@dimen/dp_5"
-                        android:background="@drawable/border_button_a"
-                        android:backgroundTint="@color/color_white_smoke"
                         android:gravity="center"
                         android:padding="@dimen/dp_3"
-                        android:text="@{viewModel.status}"
-                        android:textColor="@{viewModel.statusColor}"
-                        android:textSize="@dimen/sp_15"
-                        android:textStyle="bold"
-                        tools:ignore="UnusedAttribute"
-                        />
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/accepted"
+                            android:textColor="@color/color_green_status"
+                            android:textSize="@dimen/sp_15"
+                            android:textStyle="bold"
+                            android:visibility="@{viewModel.acceptStatus ? View.VISIBLE : View.GONE}"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pending"
+                            android:textColor="@color/md_material_blue_600"
+                            android:textSize="@dimen/sp_15"
+                            android:textStyle="bold"
+                            android:visibility="@{viewModel.pendingStatus ? View.VISIBLE : View.GONE}"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/rejected"
+                            android:textColor="@color/color_red_fresh"
+                            android:textSize="@dimen/sp_15"
+                            android:textStyle="bold"
+                            android:visibility="@{viewModel.rejectStatus ? View.VISIBLE : View.GONE}"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/forwarded"
+                            android:textColor="@color/md_material_blue_800"
+                            android:textSize="@dimen/sp_15"
+                            android:textStyle="bold"
+                            android:visibility="@{viewModel.forwardStatus ? View.VISIBLE : View.GONE}"
+                            />
+                    </FrameLayout>
                 </RelativeLayout>
 
                 <View

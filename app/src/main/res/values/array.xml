@@ -7,10 +7,10 @@
     </string-array>
 
     <string-array name="status" translatable="false">
-        <item>Forwarded</item>
-        <item>Accepted</item>
         <item>Pending</item>
+        <item>Aprroved</item>
         <item>Rejected</item>
+        <item>Forwarded</item>
     </string-array>
 
     <string-array name="day_session" translatable="false">
