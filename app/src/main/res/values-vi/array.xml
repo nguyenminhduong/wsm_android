@@ -7,9 +7,9 @@
     </string-array>
 
     <string-array name="status">
-        <item>Chuyển tiếp</item>
-        <item>Chấp nhận</item>
         <item>Đang đợi</item>
+        <item>Chấp nhận</item>
         <item>Từ chối</item>
+        <item>Chuyển tiếp</item>
     </string-array>
 </resources>

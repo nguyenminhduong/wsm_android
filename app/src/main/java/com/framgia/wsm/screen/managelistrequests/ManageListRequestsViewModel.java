@@ -282,7 +282,6 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     private void setCurrentStatus(String currentStatus) {
         mCurrentStatus = currentStatus;
-        mQueryRequest.setStatus(currentStatus);
         notifyPropertyChanged(BR.currentStatus);
     }
 
@@ -321,6 +320,7 @@ public class ManageListRequestsViewModel extends BaseObservable
                     public boolean onSelection(MaterialDialog materialDialog, View view,
                             int positionType, CharSequence charSequence) {
                         mCurrentPositionStatus = positionType;
+                        mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
                         setCurrentStatus(String.valueOf(charSequence));
                         return true;
                     }
@@ -352,6 +352,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         mToTime = DateTimeUtils.dayLasttMonthWorking();
         setFromTime(mFromTime);
         setToTime(mToTime);
+        mQueryRequest.setStatus(null);
         mQueryRequest.setFromTime(mFromTime);
         mQueryRequest.setToTime(mToTime);
         mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);

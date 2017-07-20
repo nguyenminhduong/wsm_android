@@ -217,4 +217,44 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         }
         return "";
     }
+
+    public boolean isAcceptStatus() {
+        if (mLeaveRequest != null) {
+            return StatusCode.ACCEPT_CODE.equals(mLeaveRequest.getStatus());
+        }
+        if (mRequestOverTime != null) {
+            return StatusCode.ACCEPT_CODE.equals(mRequestOverTime.getStatus());
+        }
+        return StatusCode.ACCEPT_CODE.equals(mRequestOff.getStatus());
+    }
+
+    public boolean isPendingStatus() {
+        if (mLeaveRequest != null) {
+            return StatusCode.PENDING_CODE.equals(mLeaveRequest.getStatus());
+        }
+        if (mRequestOverTime != null) {
+            return StatusCode.PENDING_CODE.equals(mRequestOverTime.getStatus());
+        }
+        return StatusCode.PENDING_CODE.equals(mRequestOff.getStatus());
+    }
+
+    public boolean isRejectStatus() {
+        if (mLeaveRequest != null) {
+            return StatusCode.REJECT_CODE.equals(mLeaveRequest.getStatus());
+        }
+        if (mRequestOverTime != null) {
+            return StatusCode.REJECT_CODE.equals(mRequestOverTime.getStatus());
+        }
+        return StatusCode.REJECT_CODE.equals(mRequestOff.getStatus());
+    }
+
+    public boolean isForwardStatus() {
+        if (mLeaveRequest != null) {
+            return StatusCode.FORWARD_CODE.equals(mLeaveRequest.getStatus());
+        }
+        if (mRequestOverTime != null) {
+            return StatusCode.FORWARD_CODE.equals(mRequestOverTime.getStatus());
+        }
+        return StatusCode.FORWARD_CODE.equals(mRequestOff.getStatus());
+    }
 }
