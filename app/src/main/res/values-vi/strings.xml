@@ -73,15 +73,15 @@
 
     <string name="off_type">Hình thức nghỉ</string>
     <string name="annual_leave">Nghỉ phép thường niên (14.5 ngày)</string>
-    <string name="leave_for_marriage">Kết hôn (3.0 ngày)</string>
-    <string name="leave_for_child_marriage">Con kết hôn (1.0 ngày)</string>
-    <string name="funeral_leave">Nghỉ lễ tang (3.0 ngày)</string>
-    <string name="leave_for_care_of_sick_child">Con ốm (20.0 ngày)</string>
-    <string name="pregnancy_examination_leave">Nghỉ khám thai (5.0 ngày)</string>
-    <string name="sick_leave">Nghỉ đau ốm (60.0 ngày)</string>
-    <string name="miscarriage_leave">Nghỉ sẩy thai (50.0 ngày)</string>
-    <string name="maternity_leave">Nghỉ thai sản (180.0 ngày)</string>
-    <string name="wife_labor_leave">Vợ sinh con (14.0 ngày)</string>
+    <string name="leave_for_marriage">Kết hôn (%s days)</string>
+    <string name="leave_for_child_marriage">Con kết hôn (%s days)</string>
+    <string name="funeral_leave">Nghỉ lễ tang (%s days)</string>
+    <string name="leave_for_care_of_sick_child">Con ốm (%s days)</string>
+    <string name="pregnancy_examination_leave">Nghỉ khám thai (%s days)</string>
+    <string name="sick_leave">Nghỉ đau ốm (%s days)</string>
+    <string name="miscarriage_leave">Nghỉ sẩy thai (%s days)</string>
+    <string name="maternity_leave">Nghỉ thai sản (%s days)</string>
+    <string name="wife_labor_leave">Vợ sinh con (%s days)</string>
     <string name="company_pay">Công ty trả</string>
     <string name="insurance_coverage">Bảo hiểm trả</string>
     <string name="select_date">Chọn ngày</string>

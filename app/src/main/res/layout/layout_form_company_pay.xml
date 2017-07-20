@@ -22,13 +22,13 @@
         >
 
         <android.support.design.widget.TextInputLayout
+            android:hint="@string/annual_leave"
             bind:errorText="@{viewModel.annualError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
             >
 
             <EditText
-                android:hint="@string/annual_leave"
                 android:inputType="numberDecimal"
                 android:text="@={viewModel.annualLeave}"
                 style="@style/StyleEditableText"
@@ -36,13 +36,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:hint="@{viewModel.leaveForMarriageAmount}"
             bind:errorText="@{viewModel.leaveForMarriageError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
             >
 
             <EditText
-                android:hint="@string/leave_for_marriage"
                 android:inputType="numberDecimal"
                 android:text="@={viewModel.leaveForMarriage}"
                 style="@style/StyleEditableText"
@@ -50,13 +50,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:hint="@{viewModel.leaveForChildMarriageAmount}"
             bind:errorText="@{viewModel.leaveForChildMarriageError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
             >
 
             <EditText
-                android:hint="@string/leave_for_child_marriage"
                 android:inputType="numberDecimal"
                 android:text="@={viewModel.leaveForChildMarriage}"
                 style="@style/StyleEditableText"
@@ -64,13 +64,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:hint="@{viewModel.funeralLeaveAmount}"
             bind:errorText="@{viewModel.funeralLeaveError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
             >
 
             <EditText
-                android:hint="@string/funeral_leave"
                 android:inputType="numberDecimal"
                 android:text="@={viewModel.funeralLeave}"
                 style="@style/StyleEditableText"

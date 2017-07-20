@@ -83,15 +83,15 @@
 
     <string name="off_type">Off type</string>
     <string name="annual_leave">Annual leave (14.5 days)</string>
-    <string name="leave_for_marriage">Leave for marriage (3.0 days)</string>
-    <string name="leave_for_child_marriage">Leave for child\'s marriage (1.0 days)</string>
-    <string name="funeral_leave">Funeral leave (3.0 days)</string>
-    <string name="leave_for_care_of_sick_child">Leave for care of sick child (20.0 day)</string>
-    <string name="pregnancy_examination_leave">Pregnancy examination leave (5.0 day)</string>
-    <string name="sick_leave">Sick leave (60.0 days)</string>
-    <string name="miscarriage_leave">Miscarriage leave (50.0 days)</string>
-    <string name="maternity_leave">Maternity leave (180.0 days)</string>
-    <string name="wife_labor_leave">Wife’s labor leave (14.0 days)</string>
+    <string name="leave_for_marriage">Leave for marriage (%s days)</string>
+    <string name="leave_for_child_marriage">Leave for child\'s marriage (%s days)</string>
+    <string name="funeral_leave">Funeral leave</string>
+    <string name="leave_for_care_of_sick_child">Leave for care of sick child (%s days)</string>
+    <string name="pregnancy_examination_leave">Pregnancy examination leave (%s days)</string>
+    <string name="sick_leave">Sick leave (%s days)</string>
+    <string name="miscarriage_leave">Miscarriage leave (%s days)</string>
+    <string name="maternity_leave">Maternity leave (%s days)</string>
+    <string name="wife_labor_leave">Wife’s labor leave (%s days)</string>
     <string name="company_pay">Company Pay</string>
     <string name="insurance_coverage">Insurance Coverage</string>
     <string name="select_date">Select date</string>
