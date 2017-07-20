@@ -569,10 +569,6 @@ public class MemberRequestDetailViewModel extends BaseObservable
                 || StatusCode.REJECT_CODE.equals(mOverTimeRequest.getStatus());
     }
 
-    public void onClickClose() {
-        mDismissDialogListener.onDismissDialog();
-    }
-
     public void onClickArrowBack() {
         mDismissDialogListener.onDismissDialog();
     }
