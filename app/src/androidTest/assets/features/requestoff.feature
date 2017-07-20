@@ -7,7 +7,7 @@ Feature: RequestOff
     Given I have a Create request off Screen
     When I input project name <project>
     And I input position name <position>
-    And I choose Off have salary - Company pay
+    And I choose Off have salary - Company pay <off type>
     And I input number day off annual leave <annual leave>
     And I input number day off leave for child marriage <leave for child marriage>
     And I input number day off funeral leave <funeral leave>
@@ -18,16 +18,16 @@ Feature: RequestOff
     Then I should see error on the <view>
 
     Examples:
-      | project     | position | annual leave | leave for child marriage | funeral leave | from          | to            | reason | view         |
-      | WSM Android | Leader   | 1            |                          |               | 07/06/2017 am | 07/06/2017 am | Rest   | to           |
-      | WSM Android | Leader   | 1            |                          |               |               | 07/06/2017 am | Rest   | from         |
-      | WSM Android | Leader   | 1            |                          |               | 07/06/2017 am |               | Rest   | to           |
-      | WSM Android | Leader   | 1            |                          |               | 07/06/2017 am | 07/06/2017 pm |        | reason       |
-      | WSM Android | Leader   | 1            | 1                        | 1             | 05/06/2017 am | 07/06/2017 pm | Rest   | from         |
-      | WSM Android | Leader   | 1            | 1                        | 1             | 07/06/2017 am | 04/06/2017 pm | Rest   | to           |
-      | WSM Android | Leader   |              |                          |               | 07/06/2017 am | 07/06/2017 am | Rest   | annual leave |
+      | project     | position | off type                      | annual leave | leave for child marriage | funeral leave | from          | to            | reason | view         |
+      | WSM Android | Leader   | Off have salary - Company pay | 1            |                          |               | 07/06/2017 am | 07/06/2017 am | Rest   | to           |
+      | WSM Android | Leader   | Off have salary - Company pay | 1            |                          |               |               | 07/06/2017 am | Rest   | from         |
+      | WSM Android | Leader   | Off have salary - Company pay | 1            |                          |               | 07/06/2017 am |               | Rest   | to           |
+      | WSM Android | Leader   | Off have salary - Company pay | 1            |                          |               | 07/06/2017 am | 07/06/2017 pm |        | reason       |
+      | WSM Android | Leader   | Off have salary - Company pay | 1            | 1                        | 1             | 05/06/2017 am | 07/06/2017 pm | Rest   | from         |
+      | WSM Android | Leader   | Off have salary - Company pay | 1            | 1                        | 1             | 07/06/2017 am | 04/06/2017 pm | Rest   | to           |
+      | WSM Android | Leader   | Off have salary - Company pay |              |                          |               | 07/06/2017 am | 07/06/2017 am | Rest   | annual leave |
 
-  Scenario : Input in right format Off have salary - Company pay
+  Scenario Outline: Input in right format Off have salary - Company pay
     Given I have a Create request off Screen
     When I input project name <WSM Android>
     And I input position name <Leader>
@@ -40,6 +40,9 @@ Feature: RequestOff
     And I input reason <Rest>
     And I click save button
     Then I should see confirm request off screen
+    Examples:
+      | WSM Android | Leader | 1 | 07/06/2017 am | 09/06/2017 pm | Rest |
+      | WSM Android | Leader | 1 | 07/06/2017 am | 09/06/2017 pm | Rest |
 
 #  Off have salary - Insurance coverage
 
@@ -70,7 +73,7 @@ Feature: RequestOff
       | WSM Android | Leader   |                              |                       |      |             |           |              | 07/06/2017 am | 07/06/2017 am | Rest   | leave for care of sick child |
       | WSM Android | Leader   | 1                            |                       |      |             |           |              | 07/06/2017 am | 05/06/2017 am | Rest   | to                           |
 
-  Scenario : Input in right format Off have salary - Insurance coverage
+  Scenario Outline: Input in right format Off have salary - Insurance coverage
     Given I have a Create request off Screen
     When I input project name <WSM Android>
     And I input position name <Leader>
@@ -86,6 +89,9 @@ Feature: RequestOff
     And I input reason <Rest>
     And I click save button
     Then I should see confirm request off screen
+    Examples:
+      | WSM Android | Leader | 1 | 0 | 07/06/2017 am | 07/06/2017 pm | Rest |
+      | WSM Android | Leader | 1 | 0 | 07/06/2017 am | 07/06/2017 pm | Rest |
 
     #  Off no salary
 
@@ -109,7 +115,7 @@ Feature: RequestOff
       | WSM Android | Leader   | 07/06/2017 am | 05/06/2017 pm | Rest   | to     |
 
 
-  Scenario : Input in right format Off no salary
+  Scenario Outline: Input in right format Off no salary
     Given I have a Create request off Screen
     When I input project name <WSM Android>
     And I input position name <Leader>
@@ -119,3 +125,6 @@ Feature: RequestOff
     And I input reason <Rest>
     And I click save button
     Then I should see confirm request off screen
+    Examples:
+      | WSM Android | Leader | 07/06/2017 am | 07/06/2017 pm | Rest |
+      | WSM Android | Leader | 07/06/2017 am | 07/06/2017 pm | Rest |

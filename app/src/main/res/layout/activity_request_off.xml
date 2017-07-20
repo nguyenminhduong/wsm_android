@@ -106,6 +106,7 @@
                         >
 
                         <EditText
+                            android:id="@+id/edit_position"
                             android:hint="@string/position_name"
                             android:maxLength="100"
                             android:maxLines="1"
@@ -119,6 +120,7 @@
                         >
 
                         <EditText
+                            android:id="@+id/edit_project"
                             android:hint="@string/project_name"
                             android:maxLength="200"
                             android:maxLines="1"

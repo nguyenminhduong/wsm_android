@@ -416,7 +416,7 @@
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
         <com.github.clans.fab.FloatingActionMenu
-            android:id="@+id/social_floating_menu"
+            android:id="@+id/float_button_create_request"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|end"
