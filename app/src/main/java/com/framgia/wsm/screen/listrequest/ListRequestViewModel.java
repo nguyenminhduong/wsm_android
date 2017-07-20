@@ -238,6 +238,7 @@ public class ListRequestViewModel extends BaseObservable
         setMonthYear(null);
         mCurrentPositionStatus = PositionStatus.FORWARDED;
         setCurrentStatus(null);
+        mPresenter.getListAllRequest(mRequestType);
     }
 
     @IntDef({

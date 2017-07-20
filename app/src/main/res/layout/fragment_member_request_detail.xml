@@ -16,8 +16,10 @@
         android:layout_height="wrap_content"
         >
         <LinearLayout
-            android:layout_width="@dimen/dp_360"
-            android:layout_height="@dimen/dp_570"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/dp_570"
+            android:minWidth="@dimen/dp_360"
             android:orientation="vertical"
             >
 
@@ -1011,6 +1013,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:orientation="vertical"
                     >
                     <LinearLayout
@@ -1034,17 +1038,13 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dp_1"
                             android:layout_weight="1"
+                            android:background="@color/color_green_status"
                             android:onClick="@{() -> viewModel.onClickApprove()}"
                             android:text="@string/accepted"
                             android:visibility="@{viewModel.visibleApprove ? View.GONE : View.VISIBLE}"
                             style="@style/StyleButton"
                             />
                     </LinearLayout>
-                    <Button
-                        android:onClick="@{() -> viewModel.onClickClose()}"
-                        android:text="@string/close"
-                        style="@style/StyleButton"
-                        />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
