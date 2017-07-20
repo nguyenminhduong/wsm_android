@@ -1,10 +1,11 @@
 package com.framgia.wsm.data.source.remote;
 
+import com.framgia.wsm.data.model.HolidayCalendar;
 import com.framgia.wsm.data.source.HolidayCalendarDataSource;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
-import com.framgia.wsm.data.source.remote.api.response.HolidayCalendarResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
 import io.reactivex.Observable;
+import java.util.List;
 import javax.inject.Inject;
 
 /**
@@ -19,7 +20,7 @@ public class HolidayCalendarRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<HolidayCalendarResponse>> getHolidayCalendar(int year) {
+    public Observable<BaseResponse<List<HolidayCalendar>>> getHolidayCalendar(int year) {
         return mWSMApi.getHolidayCalendar(year);
     }
 }

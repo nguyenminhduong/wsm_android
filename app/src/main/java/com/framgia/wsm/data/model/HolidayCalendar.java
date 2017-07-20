@@ -16,7 +16,7 @@ public class HolidayCalendar extends BaseModel {
     @SerializedName("year")
     private int mYear;
     @Expose
-    @SerializedName("data")
+    @SerializedName("holidays")
     private List<HolidayCalendarDate> mHolidayCalendarDates;
 
     public int getMonth() {

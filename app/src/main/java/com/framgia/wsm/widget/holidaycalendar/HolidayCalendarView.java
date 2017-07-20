@@ -25,6 +25,8 @@ public class HolidayCalendarView extends View {
 
     private static final int SELECTED_CIRCLE_ALPHA = 128;
     private static final int DEFAULT_HEIGHT = 32;
+    private static final String NORMAL_HOLIDAY = "normal_holiday";
+    private static final String COMPANY_HOLIDAY = "company_holiday";
     private int mDaySelectedCircleSize;
     private int mDaySeparatorWidth = 1;
     private int mMiniDayNumberTextSize;
@@ -181,11 +183,7 @@ public class HolidayCalendarView extends View {
             if (mHolidayCalendarDates != null && mHolidayCalendarDates.size() > 0) {
                 for (HolidayCalendarDate holidayCalendarDate : mHolidayCalendarDates) {
                     if (date.equals(holidayCalendarDate.getDate())) {
-                        switch (holidayCalendarDate.getStatus()) {
-                            case NORMAL:
-                                mMonthNumPaint.setColor(mDayTextColor);
-                                mSelectedCirclePaint.setColor(Color.TRANSPARENT);
-                                break;
+                        switch (holidayCalendarDate.getHolidayType()) {
                             case NORMAL_HOLIDAY:
                                 mMonthNumPaint.setColor(Color.WHITE);
                                 mSelectedCirclePaint.setColor(mNormalHoliday);
@@ -337,7 +335,7 @@ public class HolidayCalendarView extends View {
     }
 
     public void setTime(int month, int year) {
-        mMonth = month;
+        mMonth = month - 1;
         mYear = year;
         mCalendar.set(Calendar.MONTH, mMonth);
         mCalendar.set(Calendar.YEAR, mYear);

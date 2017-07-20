@@ -1,5 +1,6 @@
 package com.framgia.wsm.data.source.remote.api.service;
 
+import com.framgia.wsm.data.model.HolidayCalendar;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.Notification;
@@ -13,7 +14,6 @@ import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
-import com.framgia.wsm.data.source.remote.api.response.HolidayCalendarResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import io.reactivex.Observable;
@@ -57,8 +57,8 @@ public interface WSMApi {
     Observable<BaseResponse<UserTimeSheet>> getTimeSheet(@Query("month") int month,
             @Query("year") int year);
 
-    @GET("v1/holiday_calendar")
-    Observable<BaseResponse<HolidayCalendarResponse>> getHolidayCalendar(@Query("year") int year);
+    @GET("/api/dashboard/holidays")
+    Observable<BaseResponse<List<HolidayCalendar>>> getHolidayCalendar(@Query("year") int year);
 
     @POST("/api/dashboard/request_ots")
     Observable<Object> createFormRequestOverTime(@Body RequestOverTime requestOverTime);
