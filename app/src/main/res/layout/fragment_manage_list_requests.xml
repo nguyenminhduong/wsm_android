@@ -152,34 +152,12 @@
                         android:baselineAligned="false"
                         android:orientation="horizontal"
                         >
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center_horizontal"
-                            android:orientation="horizontal"
-                            >
-                            <ImageButton
-                                android:background="@drawable/border_textview_search"
-                                android:onClick="@{viewModel::onClickSearch}"
-                                app:srcCompat="@drawable/ic_search_white"
-                                tools:ignore="ContentDescription"
-                                style="@style/StyleButtonActionFilter"
-                                />
-                            <ImageButton
-                                android:background="@drawable/border_textview_clear"
-                                android:onClick="@{viewModel::onClickClearDataFilter}"
-                                app:srcCompat="@drawable/ic_clear_white"
-                                tools:ignore="ContentDescription"
-                                style="@style/StyleButtonActionFilter"
-                                />
-                        </LinearLayout>
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/dp_5"
-                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:layout_marginRight="@dimen/dp_5"
                             android:layout_weight="1"
                             android:background="@drawable/border_button_a"
                             android:onClick="@{viewModel::onPickTypeStatus}"
@@ -200,6 +178,31 @@
                                 android:textSize="@dimen/sp_17"
                                 />
                         </FrameLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_5"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            >
+                            <ImageButton
+                                android:background="@drawable/border_textview_clear"
+                                android:onClick="@{viewModel::onClickClearDataFilter}"
+                                app:srcCompat="@drawable/ic_clear_white"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleButtonActionFilter"
+                                />
+                            <ImageButton
+                                android:background="@drawable/border_textview_search"
+                                android:onClick="@{viewModel::onClickSearch}"
+                                app:srcCompat="@drawable/ic_search_white"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleButtonActionFilter"
+                                />
+                        </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>
