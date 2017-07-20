@@ -9,7 +9,9 @@ import android.os.Build;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.R;
@@ -17,7 +19,9 @@ import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.utils.validator.Validator;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 
 /**
@@ -33,6 +37,7 @@ public class DialogManagerImpl implements DialogManager {
     private MaterialDialog mProgressDialog;
     private DatePickerDialog mDatePickerDialog;
     private TimePickerDialog mTimePickerDialog;
+    private DatePicker mDatePicker;
     private Calendar mCalendar;
 
     public DialogManagerImpl(Context context) {
@@ -211,25 +216,30 @@ public class DialogManagerImpl implements DialogManager {
     @Override
     public DialogManager dialogMonthYearPicker(DatePickerDialog.OnDateSetListener onDateSetListener,
             int year, int month) {
-        mDatePickerDialog =
-                new DatePickerDialog(mContext, AlertDialog.THEME_HOLO_LIGHT, onDateSetListener,
-                        year, month, -1);
+        if (Build.VERSION.SDK_INT == 24) {
+            final Context contextThemeWrapper =
+                    new ContextThemeWrapper(mContext, android.R.style.Theme_Holo_Light_Dialog);
+            try {
+                mDatePickerDialog =
+                        new FixedHoloDatePickerDialog(contextThemeWrapper, onDateSetListener, year,
+                                month, -1);
+            } catch (ClassNotFoundException | IllegalAccessException | NoSuchMethodException |
+                    InvocationTargetException | InstantiationException e) {
+                e.printStackTrace();
+            }
+        } else {
+            mDatePickerDialog =
+                    new DatePickerDialog(mContext, AlertDialog.THEME_HOLO_LIGHT, onDateSetListener,
+                            year, month, -1);
+        }
         try {
-            Field[] datePickerDialogFields = mDatePickerDialog.getClass().getDeclaredFields();
-            for (Field datePickerDialogField : datePickerDialogFields) {
-                if (datePickerDialogField.getName().equals(DATE_PICKER)) {
-                    datePickerDialogField.setAccessible(true);
-                    DatePicker datePicker =
-                            (DatePicker) datePickerDialogField.get(mDatePickerDialog);
+            Field[] fields = mDatePickerDialog.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                if (field.getName().equals(DATE_PICKER)) {
+                    field.setAccessible(true);
+                    mDatePicker = (DatePicker) field.get(mDatePickerDialog);
                     if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        int daySpinnerId =
-                                Resources.getSystem().getIdentifier(DAY_FIELD, ID, ANDROID);
-                        if (daySpinnerId != 0) {
-                            View daySpinner = datePicker.findViewById(daySpinnerId);
-                            if (daySpinner != null) {
-                                daySpinner.setVisibility(View.GONE);
-                            }
-                        }
+                        customDatePicker(mDatePicker);
                     }
                 }
             }
@@ -275,5 +285,73 @@ public class DialogManagerImpl implements DialogManager {
             return;
         }
         mTimePickerDialog.show();
+    }
+
+    private final class FixedHoloDatePickerDialog extends DatePickerDialog {
+        private FixedHoloDatePickerDialog(Context context, OnDateSetListener callBack, int year,
+                int monthOfYear, int dayOfMonth)
+                throws ClassNotFoundException, IllegalAccessException, NoSuchMethodException,
+                InvocationTargetException, InstantiationException {
+            super(context, callBack, year, monthOfYear, dayOfMonth);
+
+            final Field field =
+                    this.findField(DatePickerDialog.class, DatePicker.class, "mDatePicker");
+            assert field != null;
+            try {
+                mDatePicker = (DatePicker) field.get(this);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            final Class<?> delegateClass =
+                    Class.forName("android.widget.DatePicker$DatePickerDelegate");
+            final Field delegateField =
+                    this.findField(DatePicker.class, delegateClass, "mDelegate");
+            assert delegateField != null;
+            final Object delegate = delegateField.get(mDatePicker);
+            final Class<?> spinnerDelegateClass =
+                    Class.forName("android.widget.DatePickerSpinnerDelegate");
+            if (delegate.getClass() != spinnerDelegateClass) {
+                delegateField.set(mDatePicker, null);
+                mDatePicker.removeAllViews();
+                final Constructor spinnerDelegateConstructor =
+                        spinnerDelegateClass.getDeclaredConstructor(DatePicker.class, Context.class,
+                                AttributeSet.class, int.class, int.class);
+                spinnerDelegateConstructor.setAccessible(true);
+                final Object spinnerDelegate =
+                        spinnerDelegateConstructor.newInstance(mDatePicker, context, null,
+                                android.R.attr.datePickerStyle, 0);
+                delegateField.set(mDatePicker, spinnerDelegate);
+                mDatePicker.init(year, monthOfYear, dayOfMonth, this);
+                customDatePicker(mDatePicker);
+                mDatePicker.setCalendarViewShown(false);
+                mDatePicker.setSpinnersShown(true);
+            }
+        }
+
+        private Field findField(Class objectClass, Class fieldClass, String expectedName) {
+            try {
+                final Field field = objectClass.getDeclaredField(expectedName);
+                field.setAccessible(true);
+                return field;
+            } catch (NoSuchFieldException ignored) {
+            }
+            for (final Field field : objectClass.getDeclaredFields()) {
+                if (field.getType() == fieldClass) {
+                    field.setAccessible(true);
+                    return field;
+                }
+            }
+            return null;
+        }
+    }
+
+    private void customDatePicker(DatePicker datePicker) {
+        int daySpinnerId = Resources.getSystem().getIdentifier(DAY_FIELD, ID, ANDROID);
+        if (daySpinnerId != 0) {
+            View daySpinner = datePicker.findViewById(daySpinnerId);
+            if (daySpinner != null) {
+                daySpinner.setVisibility(View.GONE);
+            }
+        }
     }
 }

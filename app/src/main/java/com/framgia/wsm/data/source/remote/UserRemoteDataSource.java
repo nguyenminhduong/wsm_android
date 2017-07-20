@@ -95,12 +95,10 @@ public class UserRemoteDataSource extends BaseRemoteDataSource
                 .flatMap(new Function<BaseResponse<OffTypeDay>, ObservableSource<List<OffType>>>() {
                     @Override
                     public ObservableSource<List<OffType>> apply(
-                            BaseResponse<OffTypeDay> leaveTypeResponseBaseResponse)
-                            throws Exception {
-                        if (leaveTypeResponseBaseResponse != null
-                                && leaveTypeResponseBaseResponse.getData() != null) {
-                            return Observable.just(
-                                    leaveTypeResponseBaseResponse.getData().getOffTypes());
+                            BaseResponse<OffTypeDay> offTypeDayBaseResponse) throws Exception {
+                        if (offTypeDayBaseResponse != null
+                                && offTypeDayBaseResponse.getData() != null) {
+                            return Observable.just(offTypeDayBaseResponse.getData().getOffTypes());
                         }
                         return Observable.error(new NullPointerException());
                     }

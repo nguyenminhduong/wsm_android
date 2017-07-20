@@ -22,13 +22,13 @@
         >
 
         <android.support.design.widget.TextInputLayout
+            android:hint="@{viewModel.leaveForCareOfSickChildAmount}"
             bind:errorText="@{viewModel.leaveForCareOfSickChildError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
             >
 
             <EditText
-                android:hint="@string/leave_for_care_of_sick_child"
                 android:inputType="numberDecimal"
                 android:text="@={viewModel.leaveForCareOfSickChild}"
                 style="@style/StyleEditableText"
@@ -36,13 +36,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:hint="@{viewModel.pregnancyExaminationLeaveAmount}"
             bind:errorText="@{viewModel.pregnancyExaminationLeaveError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
             >
 
             <EditText
-                android:hint="@string/pregnancy_examination_leave"
                 android:inputType="numberDecimal"
                 android:text="@={viewModel.pregnancyExaminationLeave}"
                 style="@style/StyleEditableText"
@@ -50,13 +50,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:hint="@{viewModel.sickLeaveAmount}"
             bind:errorText="@{viewModel.sickLeaveError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
             >
 
             <EditText
-                android:hint="@string/sick_leave"
                 android:inputType="numberDecimal"
                 android:text="@={viewModel.sickLeave}"
                 style="@style/StyleEditableText"
@@ -64,13 +64,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:hint="@{viewModel.miscarriageLeaveAmount}"
             bind:errorText="@{viewModel.miscarriageLeaveError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
             >
 
             <EditText
-                android:hint="@string/miscarriage_leave"
                 android:inputType="numberDecimal"
                 android:text="@={viewModel.miscarriageLeave}"
                 style="@style/StyleEditableText"
@@ -78,13 +78,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:hint="@{viewModel.maternityLeaveAmount}"
             bind:errorText="@{viewModel.maternityLeavedError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
             >
 
             <EditText
-                android:hint="@string/maternity_leave"
                 android:inputType="numberDecimal"
                 android:text="@={viewModel.maternityLeave}"
                 style="@style/StyleEditableText"
@@ -92,13 +92,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:hint="@{viewModel.wifeLaborLeaveAmount}"
             bind:errorText="@{viewModel.wifeLaborLeaveError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
             >
 
             <EditText
-                android:hint="@string/wife_labor_leave"
                 android:inputType="numberDecimal"
                 android:text="@={viewModel.wifeLaborLeave}"
                 style="@style/StyleEditableText"

@@ -17,6 +17,7 @@ import com.framgia.wsm.data.model.CompanyPay;
 import com.framgia.wsm.data.model.Group;
 import com.framgia.wsm.data.model.InsuranceCoverage;
 import com.framgia.wsm.data.model.OffRequest;
+import com.framgia.wsm.data.model.OffType;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRequestOff;
@@ -93,6 +94,8 @@ public class RequestOffViewModel extends BaseRequestOff
     private List<OffRequest.RequestDayOffTypesAttribute> mRequestDayOffTypesAttributes =
             new ArrayList<>();
     private OffRequest.RequestDayOffTypesAttribute mRequestDayOffTypesAttribute;
+    private List<OffType> mOffTypesCompanyPay = new ArrayList<>();
+    private List<OffType> mOffTypesInsurancePay = new ArrayList<>();
 
     private String mAnnualLeave;
     private String mLeaveForMarriage;
@@ -105,6 +108,18 @@ public class RequestOffViewModel extends BaseRequestOff
     private String mMiscarriageLeave;
     private String mMaternityLeave;
     private String mWifeLaborLeave;
+
+    private String mAnnualLeaveAmount;
+    private String mLeaveForMarriageAmount;
+    private String mLeaveForChildMarriageAmount;
+    private String mFuneralLeaveAmount;
+
+    private String mLeaveForCareOfSickChildAmount;
+    private String mPregnancyExaminationLeaveAmount;
+    private String mSickLeaveAmount;
+    private String mMiscarriageLeaveAmount;
+    private String mMaternityLeaveAmount;
+    private String mWifeLaborLeaveAmount;
 
     RequestOffViewModel(Context context, RequestOffContract.Presenter presenter,
             DialogManager dialogManager, Navigator navigator, OffRequest requestOff,
@@ -254,8 +269,14 @@ public class RequestOffViewModel extends BaseRequestOff
         }
         mUser = user;
         notifyPropertyChanged(BR.user);
-        setCurrentBranch();
-        setCurrentGroup();
+        getAmountOffDayCompany(mUser);
+        getAmountOffDayInsurance(mUser);
+        if (mActionType == ActionType.ACTION_CREATE) {
+            setCurrentBranch();
+            setCurrentGroup();
+            return;
+        }
+        setBranchAndGroupWhenEdit(mUser);
     }
 
     @Override
@@ -671,6 +692,160 @@ public class RequestOffViewModel extends BaseRequestOff
         notifyPropertyChanged(BR.wifeLaborLeave);
     }
 
+    @Bindable
+    public String getAnnualLeaveAmount() {
+        return String.format(mContext.getString(R.string.annual_leave), mAnnualLeaveAmount);
+    }
+
+    @Bindable
+    public void setAnnualLeaveAmount(String annualLeaveAmount) {
+        mAnnualLeaveAmount = annualLeaveAmount;
+    }
+
+    @Bindable
+    public String getLeaveForMarriageAmount() {
+        return String.format(mContext.getString(R.string.leave_for_marriage),
+                mLeaveForMarriageAmount);
+    }
+
+    private void setLeaveForMarriageAmount(String leaveForMarriageAmount) {
+        mLeaveForMarriageAmount = leaveForMarriageAmount;
+        notifyPropertyChanged(BR.leaveForMarriageAmount);
+    }
+
+    @Bindable
+    public String getLeaveForChildMarriageAmount() {
+        return String.format(mContext.getString(R.string.leave_for_child_marriage),
+                mLeaveForChildMarriageAmount);
+    }
+
+    private void setLeaveForChildMarriageAmount(String leaveForChildMarriageAmount) {
+        mLeaveForChildMarriageAmount = leaveForChildMarriageAmount;
+        notifyPropertyChanged(BR.leaveForChildMarriageAmount);
+    }
+
+    @Bindable
+    public String getFuneralLeaveAmount() {
+        return String.format(mContext.getString(R.string.funeral_leave), mFuneralLeaveAmount);
+    }
+
+    private void setFuneralLeaveAmount(String funeralLeaveAmount) {
+        mFuneralLeaveAmount = funeralLeaveAmount;
+        notifyPropertyChanged(BR.funeralLeaveAmount);
+    }
+
+    @Bindable
+    public String getLeaveForCareOfSickChildAmount() {
+        return String.format(mContext.getString(R.string.leave_for_care_of_sick_child),
+                mLeaveForCareOfSickChildAmount);
+    }
+
+    private void setLeaveForCareOfSickChildAmount(String leaveForCareOfSickChildAmount) {
+        mLeaveForCareOfSickChildAmount = leaveForCareOfSickChildAmount;
+        notifyPropertyChanged(BR.leaveForCareOfSickChildAmount);
+    }
+
+    @Bindable
+    public String getPregnancyExaminationLeaveAmount() {
+        return String.format(mContext.getString(R.string.pregnancy_examination_leave),
+                mPregnancyExaminationLeaveAmount);
+    }
+
+    private void setPregnancyExaminationLeaveAmount(String pregnancyExaminationLeaveAmount) {
+        mPregnancyExaminationLeaveAmount = pregnancyExaminationLeaveAmount;
+        notifyPropertyChanged(BR.pregnancyExaminationLeaveAmount);
+    }
+
+    @Bindable
+    public String getSickLeaveAmount() {
+        return String.format(mContext.getString(R.string.sick_leave), mSickLeaveAmount);
+    }
+
+    private void setSickLeaveAmount(String sickLeaveAmount) {
+        mSickLeaveAmount = sickLeaveAmount;
+        notifyPropertyChanged(BR.sickLeaveAmount);
+    }
+
+    @Bindable
+    public String getMiscarriageLeaveAmount() {
+        return String.format(mContext.getString(R.string.miscarriage_leave),
+                mMiscarriageLeaveAmount);
+    }
+
+    private void setMiscarriageLeaveAmount(String miscarriageLeaveAmount) {
+        mMiscarriageLeaveAmount = miscarriageLeaveAmount;
+        notifyPropertyChanged(BR.miscarriageLeaveAmount);
+    }
+
+    @Bindable
+    public String getMaternityLeaveAmount() {
+        return String.format(mContext.getString(R.string.maternity_leave), mMaternityLeaveAmount);
+    }
+
+    private void setMaternityLeaveAmount(String maternityLeaveAmount) {
+        mMaternityLeaveAmount = maternityLeaveAmount;
+        notifyPropertyChanged(BR.maternityLeaveAmount);
+    }
+
+    @Bindable
+    public String getWifeLaborLeaveAmount() {
+        return String.format(mContext.getString(R.string.wife_labor_leave), mWifeLaborLeaveAmount);
+    }
+
+    private void setWifeLaborLeaveAmount(String wifeLaborLeaveAmount) {
+        mWifeLaborLeaveAmount = wifeLaborLeaveAmount;
+        notifyPropertyChanged(BR.wifeLaborLeaveAmount);
+    }
+
+    private void getAmountOffDayCompany(User user) {
+        mOffTypesCompanyPay = user.getTypesCompany();
+        for (int i = 0; i < mOffTypesCompanyPay.size(); i++) {
+            if (mOffTypesCompanyPay.get(i).getId() == Integer.parseInt(
+                    TypeOfDays.LEAVE_FOR_MARRIAGE)) {
+                setLeaveForMarriageAmount(String.valueOf(mOffTypesCompanyPay.get(i).getAmount()));
+            }
+            if (mOffTypesCompanyPay.get(i).getId() == Integer.parseInt(
+                    TypeOfDays.LEAVE_FOR_CHILD_MARRIAGE)) {
+                setLeaveForChildMarriageAmount(
+                        String.valueOf(mOffTypesCompanyPay.get(i).getAmount()));
+            }
+            if (mOffTypesCompanyPay.get(i).getId() == Integer.parseInt(TypeOfDays.FUNERAL_LEAVE)) {
+                setFuneralLeaveAmount(String.valueOf(mOffTypesCompanyPay.get(i).getAmount()));
+            }
+        }
+    }
+
+    private void getAmountOffDayInsurance(User user) {
+        mOffTypesInsurancePay = user.getTypesInsurance();
+        for (int i = 0; i < mOffTypesInsurancePay.size(); i++) {
+            if (mOffTypesInsurancePay.get(i).getId() == Integer.parseInt(
+                    TypeOfDays.LEAVE_FOR_CARE_OF_SICK_CHILD)) {
+                setLeaveForCareOfSickChildAmount(
+                        String.valueOf(mOffTypesCompanyPay.get(i).getAmount()));
+            }
+            if (mOffTypesInsurancePay.get(i).getId() == Integer.parseInt(
+                    TypeOfDays.PREGNANCY_EXAMINATON)) {
+                setPregnancyExaminationLeaveAmount(
+                        String.valueOf(mOffTypesCompanyPay.get(i).getAmount()));
+            }
+            if (mOffTypesInsurancePay.get(i).getId() == Integer.parseInt(TypeOfDays.SICK_LEAVE)) {
+                setSickLeaveAmount(String.valueOf(mOffTypesCompanyPay.get(i).getAmount()));
+            }
+            if (mOffTypesInsurancePay.get(i).getId() == Integer.parseInt(
+                    TypeOfDays.MISCARRIAGE_LEAVE)) {
+                setMiscarriageLeaveAmount(String.valueOf(mOffTypesCompanyPay.get(i).getAmount()));
+            }
+            if (mOffTypesInsurancePay.get(i).getId() == Integer.parseInt(
+                    TypeOfDays.MATERNTY_LEAVE)) {
+                setMaternityLeaveAmount(String.valueOf(mOffTypesCompanyPay.get(i).getAmount()));
+            }
+            if (mOffTypesInsurancePay.get(i).getId() == Integer.parseInt(
+                    TypeOfDays.WIFE_LABOR_LEAVE)) {
+                setWifeLaborLeaveAmount(String.valueOf(mOffTypesCompanyPay.get(i).getAmount()));
+            }
+        }
+    }
+
     private boolean layoutCompanyPayIsVisible() {
         return (mRequestOff.getAnnualLeave() != null
                 && !"".equals(mRequestOff.getAnnualLeave())
@@ -926,6 +1101,29 @@ public class RequestOffViewModel extends BaseRequestOff
             mRequestOff.setEndDayNoSalary(offNoSalaryTo);
         }
         setRequestDayOffTypesAttribute();
+    }
+
+    private void setBranchAndGroupWhenEdit(User user) {
+        if (user.getBranches() == null || user.getBranches().size() == 0) {
+            return;
+        }
+        for (int i = 0; i < user.getBranches().size(); i++) {
+            String branchName = user.getBranches().get(i).getBranchName();
+            if (branchName.equals(mRequestOff.getBranch().getBranchName())) {
+                mCurrentBranchPosition = i;
+                mRequestOff.setWorkSpaceId(user.getBranches().get(i).getBranchId());
+            }
+        }
+        if (user.getGroups() == null || user.getGroups().size() == 0) {
+            return;
+        }
+        for (int i = 0; i < user.getGroups().size(); i++) {
+            String groupName = user.getGroups().get(i).getGroupName();
+            if (groupName.equals(mRequestOff.getGroup().getGroupName())) {
+                mCurrentGroupPosition = i;
+                mRequestOff.setGroupId(user.getGroups().get(i).getGroupId());
+            }
+        }
     }
 
     public void onPickBranch(View view) {
