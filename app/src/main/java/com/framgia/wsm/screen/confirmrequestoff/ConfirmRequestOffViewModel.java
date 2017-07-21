@@ -11,6 +11,7 @@ import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.OffRequest;
+import com.framgia.wsm.data.model.OffType;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
@@ -25,6 +26,7 @@ import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
+import java.util.List;
 
 import static com.framgia.wsm.utils.common.DateTimeUtils.DATE_FORMAT_YYYY_MM_DD;
 import static com.framgia.wsm.utils.common.DateTimeUtils.FORMAT_DATE;
@@ -37,6 +39,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         implements ConfirmRequestOffContract.ViewModel {
     private static final String TAG = "ConfirmRequestOffViewModel";
 
+    private Context mContext;
     private ConfirmRequestOffContract.Presenter mPresenter;
     private Navigator mNavigator;
     private DialogManager mDialogManager;
@@ -44,7 +47,18 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     private OffRequest mOffRequest;
     private RequestOffRequest mRequestOffRequest;
     private int mActionType;
-    private Context mContext;
+
+    private String mAnnualLeaveAmount;
+    private String mLeaveForMarriageAmount;
+    private String mLeaveForChildMarriageAmount;
+    private String mFuneralLeaveAmount;
+
+    private String mLeaveForCareOfSickChildAmount;
+    private String mPregnancyExaminationLeaveAmount;
+    private String mSickLeaveAmount;
+    private String mMiscarriageLeaveAmount;
+    private String mMaternityLeaveAmount;
+    private String mWifeLaborLeaveAmount;
 
     ConfirmRequestOffViewModel(Context context, ConfirmRequestOffContract.Presenter presenter,
             Navigator navigator, DialogManager dialogManager, OffRequest requestOff,
@@ -98,7 +112,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
                 offNoSalaryTo.setOffTo(DateTimeUtils.convertUiFormatToDataFormat(
                         mOffRequest.getEndDayNoSalary().getOffTo(), FORMAT_DATE,
                         DATE_FORMAT_YYYY_MM_DD));
-                offHaveSalaryTo.setPaidToPeriod(mOffRequest.getEndDayNoSalary().getOffToPeriod());
+                offNoSalaryTo.setOffToPeriod(mOffRequest.getEndDayNoSalary().getOffToPeriod());
                 mOffRequest.setEndDayNoSalary(offNoSalaryTo);
             }
             if (offRequest.getStartDayHaveSalary().getOffPaidFrom() != null) {
@@ -217,6 +231,8 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         }
         mUser = user;
         notifyPropertyChanged(BR.user);
+        getAmountOffDayCompany(mUser);
+        getAmountOffDayInsurance(mUser);
     }
 
     @Override
@@ -383,6 +399,101 @@ public class ConfirmRequestOffViewModel extends BaseObservable
                 mOffRequest.getWifeLaborLeave());
     }
 
+    @Bindable
+    public String getLeaveForMarriageAmount() {
+        return String.format(mContext.getString(R.string.leave_for_marriage),
+                mLeaveForMarriageAmount);
+    }
+
+    private void setLeaveForMarriageAmount(String leaveForMarriageAmount) {
+        mLeaveForMarriageAmount = leaveForMarriageAmount;
+        notifyPropertyChanged(com.framgia.wsm.BR.leaveForMarriageAmount);
+    }
+
+    @Bindable
+    public String getLeaveForChildMarriageAmount() {
+        return String.format(mContext.getString(R.string.leave_for_child_marriage),
+                mLeaveForChildMarriageAmount);
+    }
+
+    private void setLeaveForChildMarriageAmount(String leaveForChildMarriageAmount) {
+        mLeaveForChildMarriageAmount = leaveForChildMarriageAmount;
+        notifyPropertyChanged(com.framgia.wsm.BR.leaveForChildMarriageAmount);
+    }
+
+    @Bindable
+    public String getFuneralLeaveAmount() {
+        return String.format(mContext.getString(R.string.funeral_leave), mFuneralLeaveAmount);
+    }
+
+    private void setFuneralLeaveAmount(String funeralLeaveAmount) {
+        mFuneralLeaveAmount = funeralLeaveAmount;
+        notifyPropertyChanged(com.framgia.wsm.BR.funeralLeaveAmount);
+    }
+
+    @Bindable
+    public String getLeaveForCareOfSickChildAmount() {
+        return String.format(mContext.getString(R.string.leave_for_care_of_sick_child),
+                mLeaveForCareOfSickChildAmount);
+    }
+
+    private void setLeaveForCareOfSickChildAmount(String leaveForCareOfSickChildAmount) {
+        mLeaveForCareOfSickChildAmount = leaveForCareOfSickChildAmount;
+        notifyPropertyChanged(com.framgia.wsm.BR.leaveForCareOfSickChildAmount);
+    }
+
+    @Bindable
+    public String getPregnancyExaminationLeaveAmount() {
+        return String.format(mContext.getString(R.string.pregnancy_examination_leave),
+                mPregnancyExaminationLeaveAmount);
+    }
+
+    private void setPregnancyExaminationLeaveAmount(String pregnancyExaminationLeaveAmount) {
+        mPregnancyExaminationLeaveAmount = pregnancyExaminationLeaveAmount;
+        notifyPropertyChanged(com.framgia.wsm.BR.pregnancyExaminationLeaveAmount);
+    }
+
+    @Bindable
+    public String getSickLeaveAmount() {
+        return String.format(mContext.getString(R.string.sick_leave), mSickLeaveAmount);
+    }
+
+    private void setSickLeaveAmount(String sickLeaveAmount) {
+        mSickLeaveAmount = sickLeaveAmount;
+        notifyPropertyChanged(com.framgia.wsm.BR.sickLeaveAmount);
+    }
+
+    @Bindable
+    public String getMiscarriageLeaveAmount() {
+        return String.format(mContext.getString(R.string.miscarriage_leave),
+                mMiscarriageLeaveAmount);
+    }
+
+    private void setMiscarriageLeaveAmount(String miscarriageLeaveAmount) {
+        mMiscarriageLeaveAmount = miscarriageLeaveAmount;
+        notifyPropertyChanged(com.framgia.wsm.BR.miscarriageLeaveAmount);
+    }
+
+    @Bindable
+    public String getMaternityLeaveAmount() {
+        return String.format(mContext.getString(R.string.maternity_leave), mMaternityLeaveAmount);
+    }
+
+    private void setMaternityLeaveAmount(String maternityLeaveAmount) {
+        mMaternityLeaveAmount = maternityLeaveAmount;
+        notifyPropertyChanged(com.framgia.wsm.BR.maternityLeaveAmount);
+    }
+
+    @Bindable
+    public String getWifeLaborLeaveAmount() {
+        return String.format(mContext.getString(R.string.wife_labor_leave), mWifeLaborLeaveAmount);
+    }
+
+    private void setWifeLaborLeaveAmount(String wifeLaborLeaveAmount) {
+        mWifeLaborLeaveAmount = wifeLaborLeaveAmount;
+        notifyPropertyChanged(com.framgia.wsm.BR.wifeLaborLeaveAmount);
+    }
+
     public boolean isDetail() {
         return mActionType == ActionType.ACTION_DETAIL;
     }
@@ -416,7 +527,9 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     public String getStartDateHaveSalary() {
         if (mOffRequest != null && mOffRequest.getStartDayHaveSalary() != null) {
             if (!"".equals(mOffRequest.getStartDayHaveSalary().getOffPaidFrom())) {
-                return mOffRequest.getStartDayHaveSalary().getOffPaidFrom()
+                return DateTimeUtils.convertUiFormatToDataFormat(
+                        mOffRequest.getStartDayHaveSalary().getOffPaidFrom(),
+                        DATE_FORMAT_YYYY_MM_DD, FORMAT_DATE)
                         + Constant.BLANK
                         + mOffRequest.getStartDayHaveSalary().getPaidFromPeriod();
             }
@@ -427,9 +540,10 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     public String getEndDateHaveSalary() {
         if (mOffRequest != null && mOffRequest.getEndDayHaveSalary() != null) {
             if (!"".equals(mOffRequest.getEndDayHaveSalary().getOffPaidTo())) {
-                return mOffRequest.getEndDayHaveSalary().getOffPaidTo()
-                        + Constant.BLANK
-                        + mOffRequest.getEndDayHaveSalary().getPaidToPeriod();
+                return DateTimeUtils.convertUiFormatToDataFormat(
+                        mOffRequest.getEndDayHaveSalary().getOffPaidTo(), DATE_FORMAT_YYYY_MM_DD,
+                        FORMAT_DATE) + Constant.BLANK + mOffRequest.getEndDayHaveSalary()
+                        .getPaidToPeriod();
             }
         }
         return "";
@@ -438,8 +552,9 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     public String getStartDateNoSalary() {
         if (mOffRequest != null && mOffRequest.getStartDayNoSalary() != null) {
             if (!"".equals(mOffRequest.getStartDayNoSalary().getOffFrom())) {
-                return mOffRequest.getStartDayNoSalary().getOffFrom() + Constant.BLANK + mOffRequest
-                        .getStartDayNoSalary()
+                return DateTimeUtils.convertUiFormatToDataFormat(
+                        mOffRequest.getStartDayNoSalary().getOffFrom(), DATE_FORMAT_YYYY_MM_DD,
+                        FORMAT_DATE) + Constant.BLANK + mOffRequest.getStartDayNoSalary()
                         .getOffFromPeriod();
             }
         }
@@ -449,12 +564,64 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     public String getEndDateNoSalary() {
         if (mOffRequest != null && mOffRequest.getEndDayNoSalary() != null) {
             if (!"".equals(mOffRequest.getEndDayNoSalary().getOffTo())) {
-                return mOffRequest.getEndDayNoSalary().getOffTo()
-                        + Constant.BLANK
-                        + mOffRequest.getEndDayNoSalary().getOffToPeriod();
+                return DateTimeUtils.convertUiFormatToDataFormat(
+                        mOffRequest.getEndDayNoSalary().getOffTo(), DATE_FORMAT_YYYY_MM_DD,
+                        FORMAT_DATE) + Constant.BLANK + mOffRequest.getEndDayNoSalary()
+                        .getOffToPeriod();
             }
         }
         return "";
+    }
+
+    private void getAmountOffDayCompany(User user) {
+        List<OffType> offTypesCompanyPay = user.getTypesCompany();
+        for (int i = 0; i < offTypesCompanyPay.size(); i++) {
+            if (offTypesCompanyPay.get(i).getId() == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.LEAVE_FOR_MARRIAGE)) {
+                setLeaveForMarriageAmount(String.valueOf(offTypesCompanyPay.get(i).getAmount()));
+            }
+            if (offTypesCompanyPay.get(i).getId() == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.LEAVE_FOR_CHILD_MARRIAGE)) {
+                setLeaveForChildMarriageAmount(
+                        String.valueOf(offTypesCompanyPay.get(i).getAmount()));
+            }
+            if (offTypesCompanyPay.get(i).getId() == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.FUNERAL_LEAVE)) {
+                setFuneralLeaveAmount(String.valueOf(offTypesCompanyPay.get(i).getAmount()));
+            }
+        }
+    }
+
+    private void getAmountOffDayInsurance(User user) {
+        List<OffType> offTypesInsurancePay = user.getTypesInsurance();
+        for (int i = 0; i < offTypesInsurancePay.size(); i++) {
+            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.LEAVE_FOR_CARE_OF_SICK_CHILD)) {
+                setLeaveForCareOfSickChildAmount(
+                        String.valueOf(offTypesInsurancePay.get(i).getAmount()));
+            }
+            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.PREGNANCY_EXAMINATON)) {
+                setPregnancyExaminationLeaveAmount(
+                        String.valueOf(offTypesInsurancePay.get(i).getAmount()));
+            }
+            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.SICK_LEAVE)) {
+                setSickLeaveAmount(String.valueOf(offTypesInsurancePay.get(i).getAmount()));
+            }
+            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.MISCARRIAGE_LEAVE)) {
+                setMiscarriageLeaveAmount(String.valueOf(offTypesInsurancePay.get(i).getAmount()));
+            }
+            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.MATERNTY_LEAVE)) {
+                setMaternityLeaveAmount(String.valueOf(offTypesInsurancePay.get(i).getAmount()));
+            }
+            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
+                    RequestOffViewModel.TypeOfDays.WIFE_LABOR_LEAVE)) {
+                setWifeLaborLeaveAmount(String.valueOf(offTypesInsurancePay.get(i).getAmount()));
+            }
+        }
     }
 
     private void setTimeRequestOff() {
@@ -491,7 +658,6 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         }
     }
 
-    @Bindable
     public String getAnnualLeave() {
         if (mOffRequest != null
                 && mOffRequest.getAnnualLeave() != null
@@ -501,7 +667,6 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         return "";
     }
 
-    @Bindable
     public String getLeaveForMarriage() {
         if (mOffRequest != null && mOffRequest.getLeaveForMarriage() != null && !"".equals(
                 mOffRequest.getLeaveForMarriage())) {

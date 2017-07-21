@@ -431,7 +431,7 @@
                             style="@style/StyleLinearLayoutConfirmRequestOff"
                             >
                             <TextView
-                                android:text="@string/leave_for_child_marriage"
+                                android:text="@{viewModel.leaveForChildMarriageAmount}"
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
@@ -447,7 +447,7 @@
                             style="@style/StyleLinearLayoutConfirmRequestOff"
                             >
                             <TextView
-                                android:text="@string/leave_for_marriage"
+                                android:text="@{viewModel.leaveForMarriageAmount}"
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
@@ -463,7 +463,7 @@
                             style="@style/StyleLinearLayoutConfirmRequestOff"
                             >
                             <TextView
-                                android:text="@string/funeral_leave"
+                                android:text="@{viewModel.funeralLeaveAmount}"
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
@@ -514,7 +514,7 @@
                             style="@style/StyleLinearLayoutConfirmRequestOff"
                             >
                             <TextView
-                                android:text="@string/leave_for_care_of_sick_child"
+                                android:text="@{viewModel.leaveForCareOfSickChildAmount}"
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
@@ -530,7 +530,7 @@
                             style="@style/StyleLinearLayoutConfirmRequestOff"
                             >
                             <TextView
-                                android:text="@string/sick_leave"
+                                android:text="@{viewModel.sickLeaveAmount}"
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
@@ -546,7 +546,7 @@
                             style="@style/StyleLinearLayoutConfirmRequestOff"
                             >
                             <TextView
-                                android:text="@string/maternity_leave"
+                                android:text="@{viewModel.maternityLeaveAmount}"
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
@@ -562,7 +562,7 @@
                             style="@style/StyleLinearLayoutConfirmRequestOff"
                             >
                             <TextView
-                                android:text="@string/pregnancy_examination_leave"
+                                android:text="@{viewModel.pregnancyExaminationLeaveAmount}"
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
@@ -578,7 +578,7 @@
                             style="@style/StyleLinearLayoutConfirmRequestOff"
                             >
                             <TextView
-                                android:text="@string/miscarriage_leave"
+                                android:text="@{viewModel.miscarriageLeaveAmount}"
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
@@ -594,7 +594,7 @@
                             style="@style/StyleLinearLayoutConfirmRequestOff"
                             >
                             <TextView
-                                android:text="@string/wife_labor_leave"
+                                android:text="@{viewModel.wifeLaborLeaveAmount}"
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
