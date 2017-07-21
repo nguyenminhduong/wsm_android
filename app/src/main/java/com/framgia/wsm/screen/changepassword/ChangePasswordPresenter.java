@@ -53,9 +53,9 @@ final class ChangePasswordPresenter implements ChangePasswordContract.Presenter 
     }
 
     @Override
-    public void changePassword(String currentPassword, String newPassword) {
+    public void changePassword(String currentPassword, String newPassword, String confirmPassword) {
         ChangePasswordRequest changePasswordRequest =
-                new ChangePasswordRequest(currentPassword, newPassword);
+                new ChangePasswordRequest(currentPassword, newPassword, confirmPassword);
         Disposable disposable = mUserRepository.changePassword(changePasswordRequest)
                 .subscribeOn(mBaseSchedulerProvider.io())
                 .observeOn(mBaseSchedulerProvider.ui())

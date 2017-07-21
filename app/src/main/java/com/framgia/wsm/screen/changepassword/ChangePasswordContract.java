@@ -27,7 +27,7 @@ interface ChangePasswordContract {
      * Presenter.
      */
     interface Presenter extends BasePresenter<ViewModel> {
-        void changePassword(String currentPassword, String newPassword);
+        void changePassword(String currentPassword, String newPassword, String confirmPassword);
 
         boolean validateDataInput(String currentPassword, String newPassword,
                 String confirmPassword);

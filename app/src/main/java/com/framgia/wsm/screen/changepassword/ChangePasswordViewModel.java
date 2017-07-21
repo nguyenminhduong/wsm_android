@@ -155,7 +155,7 @@ public class ChangePasswordViewModel extends BaseObservable
         if (!mPresenter.validateDataInput(mCurrentPassword, mNewPassword, mConfirmPassword)) {
             return;
         }
-        mPresenter.changePassword(mCurrentPassword, mNewPassword);
+        mPresenter.changePassword(mCurrentPassword, mNewPassword, mConfirmPassword);
     }
 
     public void onClickArrowBack(View view) {

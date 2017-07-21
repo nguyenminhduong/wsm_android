@@ -9,11 +9,20 @@ import com.google.gson.annotations.SerializedName;
 
 public class ChangePasswordRequest extends BaseRequest {
     @Expose
-    @SerializedName("change_password")
+    @SerializedName("user")
     private ChangePassword mChangePassword;
 
-    public ChangePasswordRequest(String currentPassword, String newPassword) {
-        mChangePassword = new ChangePassword(currentPassword, newPassword);
+    public ChangePasswordRequest(String currentPassword, String newPassword,
+            String confirmPassword) {
+        mChangePassword = new ChangePassword(currentPassword, newPassword, confirmPassword);
+    }
+
+    public ChangePassword getChangePassword() {
+        return mChangePassword;
+    }
+
+    public void setChangePassword(ChangePassword changePassword) {
+        mChangePassword = changePassword;
     }
 
     private static final class ChangePassword {
@@ -21,12 +30,16 @@ public class ChangePasswordRequest extends BaseRequest {
         @SerializedName("current_password")
         private String mCurrentPassword;
         @Expose
-        @SerializedName("new_password")
+        @SerializedName("password")
         private String mNewPassword;
+        @Expose
+        @SerializedName("password_confirmation")
+        private String mPasswordConfirm;
 
-        private ChangePassword(String currentPassword, String newPassword) {
+        private ChangePassword(String currentPassword, String newPassword, String confirmPassword) {
             mCurrentPassword = currentPassword;
             mNewPassword = newPassword;
+            mPasswordConfirm = confirmPassword;
         }
 
         public String getCurrentPassword() {
@@ -43,6 +56,14 @@ public class ChangePasswordRequest extends BaseRequest {
 
         public void setNewPassword(String newPassword) {
             mNewPassword = newPassword;
+        }
+
+        public String getPasswordConfirm() {
+            return mPasswordConfirm;
+        }
+
+        public void setPasswordConfirm(String passwordConfirm) {
+            mPasswordConfirm = passwordConfirm;
         }
     }
 }
