@@ -27,6 +27,14 @@ interface UpdateProfileContract {
         void setAvatarUser(Uri avatarUser);
 
         void pickAvatarUser();
+
+        void onDismissProgressDialog();
+
+        void onShowIndeterminateProgressDialog();
+
+        void onGetUserLocalSuccess(User user);
+
+        void onGetUserLocalError(BaseException exception);
     }
 
     /**
@@ -37,5 +45,9 @@ interface UpdateProfileContract {
         boolean validateData(User user);
 
         void updateProfile(UpdateProfileRequest updateProfileRequest);
+
+        void updateUserLocal(User user);
+
+        void getUserLocal();
     }
 }

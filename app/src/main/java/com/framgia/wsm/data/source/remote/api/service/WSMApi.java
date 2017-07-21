@@ -15,7 +15,6 @@ import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
-import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import io.reactivex.Observable;
 import java.util.List;
 import java.util.Map;
@@ -45,8 +44,8 @@ public interface WSMApi {
     Observable<BaseResponse<User>> getUserProfile(@Path("user_id") int userId);
 
     @Multipart
-    @PUT("/api/dashboard/users")
-    Observable<BaseResponse<UserProfileResponse>> updateProfile(
+    @PUT("/api/dashboard/users/{user_id}")
+    Observable<BaseResponse<User>> updateProfile(@Path("user_id") int userId,
             @PartMap Map<String, RequestBody> params, @Part MultipartBody.Part file);
 
     @PUT("/api/dashboard/passwords")

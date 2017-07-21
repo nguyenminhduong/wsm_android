@@ -9,7 +9,6 @@ import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
 import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
-import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.annotations.NonNull;
@@ -81,8 +80,7 @@ public class UserRepository {
         mLocalDataSource.clearData();
     }
 
-    public Observable<BaseResponse<UserProfileResponse>> updateProfile(
-            UpdateProfileRequest updateProfile) {
+    public Observable<BaseResponse<User>> updateProfile(UpdateProfileRequest updateProfile) {
         return mRemoteDataSource.updateProfile(updateProfile);
     }
 

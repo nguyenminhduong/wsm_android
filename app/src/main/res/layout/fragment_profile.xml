@@ -59,7 +59,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:scaleType="centerCrop"
-                            bind:imageUrl="@{viewModel.user.avatar}"
+                            bind:imageUrl="@{viewModel.avatar}"
                             tools:ignore="ContentDescription"
                             />
                     </FrameLayout>
@@ -579,7 +579,7 @@
                                     />
                                 <TextView
                                     android:layout_marginTop="@dimen/dp_3"
-                                    android:text="@{viewModel.user.birthday}"
+                                    android:text="@{viewModel.birthday}"
                                     android:textColor="@color/color_gray"
                                     style="@style/StyleTextProfile"
                                     />

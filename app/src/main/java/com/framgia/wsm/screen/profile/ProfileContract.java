@@ -13,9 +13,12 @@ interface ProfileContract {
      * View.
      */
     interface ViewModel extends BaseViewModel {
+
         void onGetUserSuccess(User user);
 
         void onGetUserError(BaseException exception);
+
+        void reloadData();
     }
 
     /**

@@ -10,7 +10,6 @@ import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
-import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
 import com.framgia.wsm.utils.RetrofitUtils;
 import io.reactivex.Observable;
@@ -29,8 +28,8 @@ import okhttp3.RequestBody;
 
 public class UserRemoteDataSource extends BaseRemoteDataSource
         implements UserDataSource.RemoteDataSource {
-    private static final String PARAM_NAME = "name";
-    private static final String PARAM_BIRTHDAY = "birthday";
+    private static final String PARAM_NAME = "user[name]";
+    private static final String PARAM_BIRTHDAY = "user[birthday]";
 
     @Inject
     public UserRemoteDataSource(WSMApi api) {
@@ -106,29 +105,14 @@ public class UserRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<UserProfileResponse>> updateProfile(
-            UpdateProfileRequest updateProfileRequest) {
+    public Observable<BaseResponse<User>> updateProfile(UpdateProfileRequest updateProfileRequest) {
 
         Map<String, RequestBody> params = new HashMap<>();
         params.put(PARAM_NAME, RetrofitUtils.toRequestBody(updateProfileRequest.getName()));
         params.put(PARAM_BIRTHDAY, RetrofitUtils.toRequestBody(updateProfileRequest.getBirthday()));
 
-        return mWSMApi.updateProfile(params,
-                RetrofitUtils.toMutilPartBody(updateProfileRequest.getAvatar()))
-                .flatMap(
-                        new Function<BaseResponse<UserProfileResponse>,
-                                ObservableSource<BaseResponse<UserProfileResponse>>>() {
-
-                            @Override
-                            public ObservableSource<BaseResponse<UserProfileResponse>> apply(
-                                    @NonNull BaseResponse<UserProfileResponse> userBaseResponse)
-                                    throws Exception {
-                                if (userBaseResponse != null) {
-                                    return Observable.just(userBaseResponse);
-                                }
-                                return Observable.error(new NullPointerException());
-                            }
-                        });
+        return mWSMApi.updateProfile(updateProfileRequest.getUserId(), params,
+                RetrofitUtils.toMutilPartBody(updateProfileRequest.getAvatar()));
     }
 
     @Override
