@@ -13,65 +13,92 @@
             />
 
     </data>
-    <RelativeLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-        <RelativeLayout
-            android:id="@+id/relative_control"
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             >
-            <ImageButton
-                android:id="@+id/button_previous_year"
-                android:layout_width="@dimen/dp_50"
-                android:layout_height="@dimen/dp_30"
-                android:layout_centerVertical="true"
-                android:background="@drawable/md_transparent"
-                android:onClick="@{()-> viewModel.onPreviousYear()}"
-                android:scaleType="centerCrop"
-                android:tint="@color/color_white"
-                app:srcCompat="@drawable/ic_menu_left"
-                tools:ignore="ContentDescription"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/button_previous_year"
-                android:layout_toLeftOf="@+id/button_next_year"
-                android:layout_toRightOf="@+id/button_previous_year"
-                android:layout_toStartOf="@+id/button_next_year"
-                android:gravity="center"
-                android:text="@{viewModel.year}"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/sp_25"
-                android:textStyle="bold"
-                />
-            <ImageButton
-                android:id="@+id/button_next_year"
-                android:layout_width="@dimen/dp_50"
-                android:layout_height="@dimen/dp_30"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/md_transparent"
-                android:onClick="@{()-> viewModel.onNextYear()}"
-                android:scaleType="centerCrop"
-                android:tint="@color/color_white"
-                app:srcCompat="@drawable/ic_menu_right"
-                tools:ignore="ContentDescription"
-                />
-        </RelativeLayout>
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                >
+                <RelativeLayout
+                    android:id="@+id/relative_control"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:paddingLeft="@dimen/dp_40"
+                    android:paddingRight="@dimen/dp_40"
+                    android:paddingTop="@dimen/dp_10"
+                    >
+                    <ImageButton
+                        android:id="@+id/button_previous_year"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/md_transparent"
+                        android:onClick="@{()-> viewModel.onPreviousYear()}"
+                        android:scaleType="centerCrop"
+                        android:tint="@color/color_white"
+                        app:srcCompat="@drawable/ic_menu_left"
+                        tools:ignore="ContentDescription"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/button_previous_year"
+                        android:layout_toLeftOf="@+id/button_next_year"
+                        android:layout_toRightOf="@+id/button_previous_year"
+                        android:layout_toStartOf="@+id/button_next_year"
+                        android:gravity="center"
+                        android:text="@{viewModel.year}"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/sp_25"
+                        android:textStyle="bold"
+                        />
+                    <ImageButton
+                        android:id="@+id/button_next_year"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/md_transparent"
+                        android:onClick="@{()-> viewModel.onNextYear()}"
+                        android:scaleType="centerCrop"
+                        android:tint="@color/color_white"
+                        app:srcCompat="@drawable/ic_menu_right"
+                        tools:ignore="ContentDescription"
+                        />
+                </RelativeLayout>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/relative_control"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/dp_10"
             app:layoutManager="LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:recyclerAdapter="@{viewModel.holidayCalendarAdapter}"
             />
+
         <com.github.clans.fab.FloatingActionMenu
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -117,5 +144,6 @@
                 app:fab_size="mini"
                 />
         </com.github.clans.fab.FloatingActionMenu>
-    </RelativeLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
 </layout>
