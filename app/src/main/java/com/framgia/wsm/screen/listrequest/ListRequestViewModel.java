@@ -5,13 +5,13 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
+import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
@@ -21,6 +21,7 @@ import com.framgia.wsm.screen.requestovertime.confirmovertime.ConfirmOvertimeAct
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
+import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.MaterialDialog;
@@ -50,6 +51,7 @@ public class ListRequestViewModel extends BaseObservable
     private Navigator mNavigator;
     @RequestType
     private int mRequestType;
+    private QueryRequest mQueryRequest;
 
     ListRequestViewModel(Context context, ListRequestContract.Presenter presenter,
             DialogManager dialogManager, ListRequestAdapter listRequestAdapter,
@@ -65,6 +67,13 @@ public class ListRequestViewModel extends BaseObservable
         mListRequestAdapter = listRequestAdapter;
         mListRequestAdapter.setItemClickListener(this);
         mNavigator = navigator;
+        initData();
+    }
+
+    private void initData() {
+        mMonthYear = DateTimeUtils.getMonthWorking();
+        mQueryRequest = new QueryRequest();
+        mQueryRequest.setMonthWorking(mMonthYear);
     }
 
     @Override
@@ -75,6 +84,16 @@ public class ListRequestViewModel extends BaseObservable
     @Override
     public void onStop() {
         mPresenter.onStop();
+    }
+
+    @Override
+    public void onDismissProgressDialog() {
+        mDialogManager.dismissProgressDialog();
+    }
+
+    @Override
+    public void onShowIndeterminateProgressDialog() {
+        mDialogManager.showIndeterminateProgressDialog();
     }
 
     @Override
@@ -128,7 +147,7 @@ public class ListRequestViewModel extends BaseObservable
 
     @Override
     public void onReloadData(int requestType) {
-        mPresenter.getListAllRequest(requestType);
+        mPresenter.getListAllRequest(requestType, mQueryRequest);
     }
 
     @Override
@@ -191,6 +210,7 @@ public class ListRequestViewModel extends BaseObservable
                     public boolean onSelection(MaterialDialog materialDialog, View view,
                             int positionType, CharSequence charSequence) {
                         setCurrentPositionStatus(positionType);
+                        mQueryRequest.setStatus(String.valueOf(positionType));
                         setCurrentStatus(String.valueOf(charSequence));
                         return true;
                     }
@@ -198,57 +218,14 @@ public class ListRequestViewModel extends BaseObservable
     }
 
     public void onSearchRequest(View view) {
-        switch (mRequestType) {
-            case RequestType.REQUEST_OVERTIME:
-                if (mMonthYear != null) {
-                    mPresenter.getListRequestOverTimeWithStatusAndTime(mCurrentPositionStatus,
-                            mMonthYear);
-                } else if (mCurrentPositionStatus == 0) {
-                    mPresenter.getListAllRequest(mRequestType);
-                } else {
-                    mPresenter.getListRequestOverTimeWithStatusAndTime(mCurrentPositionStatus, "");
-                }
-                break;
-            case RequestType.REQUEST_LATE_EARLY:
-                if (mMonthYear != null) {
-                    mPresenter.getListRequestLeaveWithStatusAndTime(mCurrentPositionStatus,
-                            mMonthYear);
-                } else if (mCurrentPositionStatus == 0) {
-                    mPresenter.getListAllRequest(mRequestType);
-                } else {
-                    mPresenter.getListRequestLeaveWithStatusAndTime(mCurrentPositionStatus, "");
-                }
-                break;
-            case RequestType.REQUEST_OFF:
-                if (mMonthYear != null) {
-                    mPresenter.getListRequestOffWithStatusAndTime(mCurrentPositionStatus,
-                            mMonthYear);
-                } else if (mCurrentPositionStatus == 0) {
-                    mPresenter.getListAllRequest(mRequestType);
-                } else {
-                    mPresenter.getListRequestOffWithStatusAndTime(mCurrentPositionStatus, "");
-                }
-                break;
-            default:
-                break;
-        }
+        mPresenter.getListAllRequest(mRequestType, mQueryRequest);
     }
 
-    public void onRemoveMonth(View view) {
-        setMonthYear(null);
-        mCurrentPositionStatus = PositionStatus.FORWARDED;
+    public void onClearData(View view) {
         setCurrentStatus(null);
-        mPresenter.getListAllRequest(mRequestType);
-    }
-
-    @IntDef({
-            PositionStatus.FORWARDED, PositionStatus.ACCEPTED, PositionStatus.PENDING,
-            PositionStatus.REJECTED
-    })
-    @interface PositionStatus {
-        int FORWARDED = 0;
-        int ACCEPTED = 1;
-        int PENDING = 2;
-        int REJECTED = 3;
+        setMonthYear(DateTimeUtils.getMonthWorking());
+        mQueryRequest.setStatus(null);
+        mQueryRequest.setMonthWorking(DateTimeUtils.getMonthWorking());
+        mPresenter.getListAllRequest(mRequestType, mQueryRequest);
     }
 }

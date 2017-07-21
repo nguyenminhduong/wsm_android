@@ -1,5 +1,7 @@
 package com.framgia.wsm.data.model;
 
+import com.framgia.wsm.utils.common.StringUtils;
+
 /**
  * Created by tri on 14/07/2017.
  */
@@ -13,12 +15,13 @@ public class QueryRequest extends BaseModel {
     private String mGroupId;
     private String mWorkspaceId;
     private int mRequestType;
+    private String mMonthWorking;
 
     public QueryRequest() {
     }
 
     public String getUserName() {
-        if (mUserName == null) {
+        if (StringUtils.isBlank(mUserName)) {
             return "";
         }
         return mUserName;
@@ -29,7 +32,7 @@ public class QueryRequest extends BaseModel {
     }
 
     public String getFromTime() {
-        if (mFromTime == null) {
+        if (StringUtils.isBlank(mFromTime)) {
             return "";
         }
         return mFromTime;
@@ -40,7 +43,7 @@ public class QueryRequest extends BaseModel {
     }
 
     public String getToTime() {
-        if (mToTime == null) {
+        if (StringUtils.isBlank(mToTime)) {
             return "";
         }
         return mToTime;
@@ -51,7 +54,7 @@ public class QueryRequest extends BaseModel {
     }
 
     public String getStatus() {
-        if (mStatus == null) {
+        if (StringUtils.isBlank(mStatus)) {
             return "";
         }
         return mStatus;
@@ -62,7 +65,7 @@ public class QueryRequest extends BaseModel {
     }
 
     public String getGroupId() {
-        if (mGroupId == null) {
+        if (StringUtils.isBlank(mGroupId)) {
             return "";
         }
         return mGroupId;
@@ -73,7 +76,7 @@ public class QueryRequest extends BaseModel {
     }
 
     public String getWorkspaceId() {
-        if (mWorkspaceId == null) {
+        if (StringUtils.isBlank(mWorkspaceId)) {
             return "";
         }
         return mWorkspaceId;
@@ -89,5 +92,16 @@ public class QueryRequest extends BaseModel {
 
     public void setRequestType(int requestType) {
         mRequestType = requestType;
+    }
+
+    public String getMonthWorking() {
+        if (StringUtils.isBlank(mMonthWorking)) {
+            return "";
+        }
+        return mMonthWorking;
+    }
+
+    public void setMonthWorking(String monthWorking) {
+        mMonthWorking = monthWorking;
     }
 }

@@ -103,7 +103,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/border_button_a"
                         android:backgroundTint="@color/color_gray_light"
-                        android:onClick="@{viewModel::onRemoveMonth}"
+                        android:onClick="@{viewModel::onClearData}"
                         android:src="@drawable/ic_remove"
                         android:tint="@color/color_white"
                         tools:ignore="ContentDescription,UnusedAttribute,VectorDrawableCompat"

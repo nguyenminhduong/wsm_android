@@ -38,6 +38,7 @@ public final class DateTimeUtils {
     private static final String TAG = DateTimeUtils.class.getName();
     private static final int DAY_OF_YEAR = 365;
     private static final String TIME_ZONE_GMT_7 = "GMT+7";
+    public static final String DATE_FORMAT_YYYY_MM = "MM/yyyy";
 
     private DateTimeUtils() {
         // No-op
@@ -69,7 +70,7 @@ public final class DateTimeUtils {
         if (source == null) {
             return null;
         }
-        DateFormat df = new SimpleDateFormat(format,Locale.US);
+        DateFormat df = new SimpleDateFormat(format, Locale.US);
         return df.format(source);
     }
 
@@ -277,5 +278,10 @@ public final class DateTimeUtils {
         calendar.set(Calendar.DAY_OF_MONTH, DAY_25_OF_MONTH);
         return DateTimeUtils.convertToString(calendar.getTime(),
                 DateTimeUtils.DATE_FORMAT_YYYY_MM_DD);
+    }
+
+    public static String getMonthWorking() {
+        Calendar calendar = Calendar.getInstance();
+        return DateTimeUtils.convertToString(calendar.getTime(), DateTimeUtils.DATE_FORMAT_YYYY_MM);
     }
 }

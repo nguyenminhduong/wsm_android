@@ -39,6 +39,7 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
             "q[checkin_time_or_checkout_time_gteq]";
     private static final String PARAM_TO_TIME_REQUEST_LEAVE =
             "q[checkin_time_or_checkout_time_lteq]";
+    private static final String PARAM_MONTH = "month";
 
     @Inject
     public RequestRemoteDataSource(WSMApi api) {
@@ -62,36 +63,20 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime() {
-        return mWSMApi.getListRequestOverTime();
+    public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime(
+            QueryRequest queryRequest) {
+        return mWSMApi.getListRequestOverTime(inputParamsRequestsPersonal(queryRequest));
     }
 
     @Override
-    public Observable<BaseResponse<List<OffRequest>>> getListRequestOff() {
-        return mWSMApi.getListRequestOff();
+    public Observable<BaseResponse<List<OffRequest>>> getListRequestOff(QueryRequest queryRequest) {
+        return mWSMApi.getListRequestOff(inputParamsRequestsPersonal(queryRequest));
     }
 
     @Override
-    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly() {
-        return mWSMApi.getListRequestLeaves();
-    }
-
-    @Override
-    public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTimeWithStatusAndTime(
-            int status, String time) {
-        return mWSMApi.getListRequestOverTimeWithStatusAndTime(status, time);
-    }
-
-    @Override
-    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveWithStatusAndTime(
-            int status, String time) {
-        return mWSMApi.getListRequestLeaveWithStatusAndTime(status, time);
-    }
-
-    @Override
-    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestOffWithStatusAndTime(
-            int status, String time) {
-        return mWSMApi.getListRequestOffWithStatusAndTime(status, time);
+    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly(
+            QueryRequest queryRequest) {
+        return mWSMApi.getListRequestLeaves(inputParamsRequestsPersonal(queryRequest));
     }
 
     @Override
@@ -157,19 +142,19 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     @Override
     public Observable<BaseResponse<List<LeaveRequest>>> getListRequesLeavetManage(
             QueryRequest queryRequest) {
-        return mWSMApi.getListRequestLeaveManage(inputParamsRequests(queryRequest));
+        return mWSMApi.getListRequestLeaveManage(inputParamsRequestsManage(queryRequest));
     }
 
     @Override
     public Observable<BaseResponse<List<RequestOverTime>>> getListRequesOvertimetManage(
             QueryRequest queryRequest) {
-        return mWSMApi.getListRequestOvertimeManage(inputParamsRequests(queryRequest));
+        return mWSMApi.getListRequestOvertimeManage(inputParamsRequestsManage(queryRequest));
     }
 
     @Override
     public Observable<BaseResponse<List<OffRequest>>> getListRequesOffManage(
             QueryRequest queryRequest) {
-        return mWSMApi.getListRequestOffManage(inputParamsRequests(queryRequest));
+        return mWSMApi.getListRequestOffManage(inputParamsRequestsManage(queryRequest));
     }
 
     @Override
@@ -202,7 +187,7 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
         return mWSMApi.rejectFormRequestOverTime(requestId);
     }
 
-    private Map<String, String> inputParamsRequests(QueryRequest queryRequest) {
+    private Map<String, String> inputParamsRequestsManage(QueryRequest queryRequest) {
         Map<String, String> params = new HashMap<>();
         params.put(PARAM_USER_NAME, queryRequest.getUserName());
         params.put(PARAM_STATUS, queryRequest.getStatus());
@@ -224,6 +209,13 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
             default:
                 break;
         }
+        return params;
+    }
+
+    private Map<String, String> inputParamsRequestsPersonal(QueryRequest queryRequest) {
+        Map<String, String> params = new HashMap<>();
+        params.put(PARAM_STATUS, queryRequest.getStatus());
+        params.put(PARAM_MONTH, queryRequest.getMonthWorking());
         return params;
     }
 }

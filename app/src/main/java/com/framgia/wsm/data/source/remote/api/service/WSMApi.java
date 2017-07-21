@@ -89,14 +89,17 @@ public interface WSMApi {
     @POST("/api/dashboard/request_leaves")
     Observable<Object> createFormRequestLeave(@Body RequestLeaveRequest requestLeaveRequest);
 
-    @GET("/api/dashboard/request_offs")
-    Observable<BaseResponse<List<OffRequest>>> getListRequestOff();
+    @GET("/api/dashboard/request_offs?")
+    Observable<BaseResponse<List<OffRequest>>> getListRequestOff(
+            @QueryMap Map<String, String> params);
 
-    @GET("/api/dashboard/request_ots")
-    Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime();
+    @GET("/api/dashboard/request_ots?")
+    Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime(
+            @QueryMap Map<String, String> params);
 
-    @GET("/api/dashboard/request_leaves")
-    Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaves();
+    @GET("/api/dashboard/request_leaves?")
+    Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaves(
+            @QueryMap Map<String, String> params);
 
     @GET("/api/dashboard/leave_types")
     Observable<BaseResponse<List<LeaveType>>> getListLeaveType();
@@ -104,36 +107,18 @@ public interface WSMApi {
     @GET("api/dashboard/dayoff_settings")
     Observable<BaseResponse<OffTypeDay>> getListOffType();
 
-    //TODO edit later
-    @GET("/api/v1/list_request_over_time")
-    Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTimeWithStatusAndTime(
-            @Query("status") int status, @Query("time") String time);
-
-    //TODO edit later
-    @GET("/api/v1/list_request_leave")
-    Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveWithStatusAndTime(
-            @Query("status") int status, @Query("time") String time);
-
-    //TODO edit later
-    @GET("/api/v1/list_request_leave")
-    Observable<BaseResponse<List<LeaveRequest>>> getListRequestOffWithStatusAndTime(
-            @Query("status") int status, @Query("time") String time);
-
     @Multipart
     @PUT("/api/dashboard/notification")
     Observable<BaseResponse<List<Notification>>> getNotification();
 
-    //TODO edit later
     @GET("/api/dashboard/manager/request_leaves?")
     Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveManage(
             @QueryMap Map<String, String> params);
 
-    //TODO edit later
     @GET("/api/dashboard/manager/request_ots?")
     Observable<BaseResponse<List<RequestOverTime>>> getListRequestOvertimeManage(
             @QueryMap Map<String, String> params);
 
-    //TODO edit later
     @GET("/api/dashboard/manager/request_offs?")
     Observable<BaseResponse<List<OffRequest>>> getListRequestOffManage(
             @QueryMap Map<String, String> params);
