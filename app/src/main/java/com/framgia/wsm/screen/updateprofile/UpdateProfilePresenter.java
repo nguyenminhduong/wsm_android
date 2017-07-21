@@ -7,13 +7,13 @@ import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
-import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -69,16 +69,52 @@ final class UpdateProfilePresenter implements UpdateProfileContract.Presenter {
         Disposable disposable = mUserRepository.updateProfile(updateProfileRequest)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
-                .subscribe(new Consumer<BaseResponse<UserProfileResponse>>() {
+                .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
-                    public void accept(@NonNull BaseResponse<UserProfileResponse> userBaseResponse)
+                    public void accept(@NonNull Disposable disposable) throws Exception {
+                        mViewModel.onShowIndeterminateProgressDialog();
+                    }
+                })
+                .doAfterTerminate(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mViewModel.onDismissProgressDialog();
+                    }
+                })
+                .subscribe(new Consumer<BaseResponse<User>>() {
+                    @Override
+                    public void accept(@NonNull BaseResponse<User> userBaseResponse)
                             throws Exception {
-                        mViewModel.onUpdateProfileSuccess(userBaseResponse.getData().getUser());
+                        mViewModel.onUpdateProfileSuccess(userBaseResponse.getData());
                     }
                 }, new RequestError() {
                     @Override
                     public void onRequestError(BaseException error) {
                         mViewModel.onUpdateProfileError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void updateUserLocal(final User userUpdatte) {
+        mUserRepository.saveUser(userUpdatte);
+    }
+
+    @Override
+    public void getUserLocal() {
+        Disposable disposable = mUserRepository.getUser()
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Consumer<User>() {
+                    @Override
+                    public void accept(@NonNull User user) throws Exception {
+                        mViewModel.onGetUserLocalSuccess(user);
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onGetUserLocalError(error);
                     }
                 });
         mCompositeDisposable.add(disposable);

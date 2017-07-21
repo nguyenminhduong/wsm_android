@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.net.Uri;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
@@ -30,6 +30,8 @@ import java.io.File;
 public class UpdateProfileViewModel extends BaseObservable
         implements UpdateProfileContract.ViewModel, DatePickerDialog.OnDateSetListener {
 
+    private static final String TAG = "UpdateProfileViewModel";
+
     private UpdateProfileContract.Presenter mPresenter;
 
     private Context mContext;
@@ -42,6 +44,7 @@ public class UpdateProfileViewModel extends BaseObservable
     private String mBirthday;
     private RequestPermissionManager mPermissionManager;
     private UpdateProfileRequest mUpdateProfileRequest;
+    private User mUserLocal;
 
     UpdateProfileViewModel(Context context, User user, Navigator navigator,
             DialogManager dialogManager, UpdateProfileContract.Presenter presenter,
@@ -54,8 +57,17 @@ public class UpdateProfileViewModel extends BaseObservable
         mDialogManager = dialogManager;
         mDialogManager.dialogDatePicker(this);
         mPermissionManager = requestPermissionManager;
+        initData(mUser);
+    }
+
+    private void initData(User user) {
         mUpdateProfileRequest = new UpdateProfileRequest();
         mUpdateProfileRequest.setBirthday(mUser.getBirthday());
+        mAvatar = Constant.END_POINT_URL + mUser.getAvatar();
+        mUserLocal = new User();
+        mBirthday = DateTimeUtils.convertUiFormatToDataFormat(user.getBirthday(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.FORMAT_DATE);
+        mPresenter.getUserLocal();
     }
 
     @Override
@@ -66,6 +78,29 @@ public class UpdateProfileViewModel extends BaseObservable
     @Override
     public void onStop() {
         mPresenter.onStop();
+    }
+
+    @Override
+    public void onDismissProgressDialog() {
+        mDialogManager.dismissProgressDialog();
+    }
+
+    @Override
+    public void onShowIndeterminateProgressDialog() {
+        mDialogManager.showIndeterminateProgressDialog();
+    }
+
+    @Override
+    public void onGetUserLocalSuccess(User userLocal) {
+        if (userLocal == null) {
+            return;
+        }
+        mUserLocal = userLocal;
+    }
+
+    @Override
+    public void onGetUserLocalError(BaseException exception) {
+        Log.e(TAG, "onGetUserError", exception);
     }
 
     @Bindable
@@ -87,9 +122,11 @@ public class UpdateProfileViewModel extends BaseObservable
 
     @Override
     public void onUpdateProfileSuccess(User user) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constant.EXTRA_USER, user);
-        mNavigator.finishActivityWithResult(bundle, Activity.RESULT_OK);
+        mUserLocal.setBirthday(user.getBirthday());
+        mUserLocal.setAvatar(user.getAvatar());
+        mUserLocal.setName(user.getName());
+        mPresenter.updateUserLocal(mUserLocal);
+        mNavigator.finishActivityWithResult(Activity.RESULT_OK);
     }
 
     @Override
@@ -120,9 +157,6 @@ public class UpdateProfileViewModel extends BaseObservable
 
     @Bindable
     public String getBirthday() {
-        if (mBirthday == null) {
-            return mUser.getBirthday();
-        }
         return mBirthday;
     }
 
@@ -170,6 +204,7 @@ public class UpdateProfileViewModel extends BaseObservable
                     mContext.getString(R.string.the_field_required_can_not_be_blank));
             return;
         }
+        mUpdateProfileRequest.setUserId(mUser.getId());
         mUpdateProfileRequest.setName(mUser.getName());
         mPresenter.updateProfile(mUpdateProfileRequest);
     }

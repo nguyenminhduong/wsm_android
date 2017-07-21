@@ -1,5 +1,6 @@
 package com.framgia.wsm.utils;
 
+import com.framgia.wsm.utils.common.StringUtils;
 import java.io.File;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -16,12 +17,18 @@ public class RetrofitUtils {
     }
 
     public static RequestBody toRequestBody(String value) {
+        if (StringUtils.isBlank(value)) {
+            return null;
+        }
         return RequestBody.create(MediaType.parse("text/plain"), value);
     }
 
     public static MultipartBody.Part toMutilPartBody(File file) {
+        if (file == null) {
+            return null;
+        }
         RequestBody requestFileAvatar =
                 RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        return MultipartBody.Part.createFormData("avatar", file.getName(), requestFileAvatar);
+        return MultipartBody.Part.createFormData("user[avatar]", file.getName(), requestFileAvatar);
     }
 }

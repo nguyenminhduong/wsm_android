@@ -13,6 +13,7 @@ import com.framgia.wsm.screen.profile.branch.BranchAdapter;
 import com.framgia.wsm.screen.profile.group.GroupAdapter;
 import com.framgia.wsm.screen.updateprofile.UpdateProfileActivity;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 
 /**
@@ -55,6 +56,8 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
         }
         mUser = user;
         notifyPropertyChanged(BR.user);
+        notifyPropertyChanged(BR.avatar);
+        notifyPropertyChanged(BR.birthday);
         mBranchAdapter.updateDataBranch(mUser.getBranches());
         mGroupAdapter.updateDataGroup(mUser.getGroups());
     }
@@ -64,9 +67,25 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
         Log.e(TAG, "onGetUserError", exception);
     }
 
+    @Override
+    public void reloadData() {
+        mPresenter.getUser();
+    }
+
     @Bindable
     public User getUser() {
         return mUser;
+    }
+
+    @Bindable
+    public String getAvatar() {
+        return mUser != null ? Constant.END_POINT_URL + mUser.getAvatar() : "";
+    }
+
+    @Bindable
+    public String getBirthday() {
+        return mUser != null ? DateTimeUtils.convertUiFormatToDataFormat(mUser.getBirthday(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.FORMAT_DATE) : "";
     }
 
     public BranchAdapter getBranchAdapter() {
@@ -80,7 +99,7 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
     public void onClickEditProfile(View view) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_USER, mUser);
-        mNavigator.startActivityForResult(UpdateProfileActivity.class, bundle,
+        mNavigator.startActivityForResultFromFragment(UpdateProfileActivity.class, bundle,
                 Constant.RequestCode.PROFILE_USER);
     }
 

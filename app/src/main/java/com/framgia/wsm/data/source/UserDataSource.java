@@ -7,7 +7,6 @@ import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
 import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
-import com.framgia.wsm.data.source.remote.api.response.UserProfileResponse;
 import io.reactivex.Observable;
 import java.util.List;
 
@@ -39,8 +38,7 @@ public interface UserDataSource {
 
         Observable<List<OffType>> getListOffType();
 
-        Observable<BaseResponse<UserProfileResponse>> updateProfile(
-                UpdateProfileRequest updateProfileRequest);
+        Observable<BaseResponse<User>> updateProfile(UpdateProfileRequest updateProfileRequest);
 
         Observable<Object> changePassword(ChangePasswordRequest changePasswordRequest);
     }

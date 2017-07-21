@@ -154,8 +154,7 @@ public class User extends BaseModel implements Parcelable {
     }
 
     public String getBirthday() {
-        return DateTimeUtils.convertUiFormatToDataFormat(mBirthday, DateTimeUtils.INPUT_TIME_FORMAT,
-                DateTimeUtils.FORMAT_DATE);
+        return mBirthday;
     }
 
     public void setBirthday(String birthday) {

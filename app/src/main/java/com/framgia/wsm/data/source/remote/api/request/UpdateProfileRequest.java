@@ -9,6 +9,7 @@ import java.io.File;
 
 public class UpdateProfileRequest extends BaseModel {
 
+    private int mUserId;
     private String mName;
     private String mBirthday;
     private File mAvatar;
@@ -35,5 +36,13 @@ public class UpdateProfileRequest extends BaseModel {
 
     public void setAvatar(File avatar) {
         mAvatar = avatar;
+    }
+
+    public int getUserId() {
+        return mUserId;
+    }
+
+    public void setUserId(int userId) {
+        mUserId = userId;
     }
 }
