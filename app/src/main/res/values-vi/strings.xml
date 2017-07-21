@@ -68,6 +68,7 @@
     <string name="gender">Giới tính</string>
     <string name="birthday">Ngày sinh</string>
     <string name="off_have_salary_company_pay">Nghỉ có lương - Công ty trả</string>
+    <string name="off_have_salary">Nghỉ có lương</string>
     <string name="number_day_off">Số ngày nghỉ</string>
     <string name="off_no_salary">Nghỉ không lương</string>
 
