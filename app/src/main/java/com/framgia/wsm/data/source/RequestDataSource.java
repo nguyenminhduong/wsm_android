@@ -23,20 +23,13 @@ public interface RequestDataSource {
 
         Observable<Object> createFormRequestLeave(@NonNull RequestLeaveRequest requestLeaveRequest);
 
-        Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime();
+        Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime(
+                QueryRequest queryRequest);
 
-        Observable<BaseResponse<List<OffRequest>>> getListRequestOff();
+        Observable<BaseResponse<List<OffRequest>>> getListRequestOff(QueryRequest queryRequest);
 
-        Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly();
-
-        Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTimeWithStatusAndTime(
-                @NonNull int status, String time);
-
-        Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveWithStatusAndTime(
-                @NonNull int status, String time);
-
-        Observable<BaseResponse<List<LeaveRequest>>> getListRequestOffWithStatusAndTime(
-                @NonNull int status, String time);
+        Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly(
+                QueryRequest queryRequest);
 
         Observable<Object> deleteFormRequestOff(@NonNull int requestOffId);
 
