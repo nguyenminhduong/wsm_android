@@ -61,7 +61,7 @@
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingBottom="@dimen/dp_100"
+                    android:paddingBottom="@dimen/dp_50"
                     android:scrollbars="none"
                     >
 
@@ -136,16 +136,22 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.offRequest.user.name}"
                                     android:visibility="@{viewModel.visibleOffRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.overTimeRequest.user.name}"
                                     android:visibility="@{viewModel.visibleOverTimeRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.leaveRequest.user.name}"
                                     android:visibility="@{viewModel.visibleLeaveRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
@@ -179,16 +185,22 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.offRequest.user.code}"
                                     android:visibility="@{viewModel.visibleOffRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.overTimeRequest.user.code}"
                                     android:visibility="@{viewModel.visibleOverTimeRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.leaveRequest.user.code}"
                                     android:visibility="@{viewModel.visibleLeaveRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
@@ -222,16 +234,22 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.offRequest.project}"
                                     android:visibility="@{viewModel.visibleOffRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.overTimeRequest.project}"
                                     android:visibility="@{viewModel.visibleOverTimeRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.leaveRequest.projectName}"
                                     android:visibility="@{viewModel.visibleLeaveRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
@@ -266,6 +284,8 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.offRequest.position}"
                                     style="@style/StyleTextConfirm"
                                     />
@@ -298,16 +318,22 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.offRequest.branch.branchName}"
                                     android:visibility="@{viewModel.visibleOffRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.overTimeRequest.branch.branchName}"
                                     android:visibility="@{viewModel.visibleOverTimeRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.leaveRequest.branch.branchName}"
                                     android:visibility="@{viewModel.visibleLeaveRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
@@ -341,16 +367,22 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.offRequest.group.groupName}"
                                     android:visibility="@{viewModel.visibleOffRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.overTimeRequest.group.groupName}"
                                     android:visibility="@{viewModel.visibleOverTimeRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.leaveRequest.group.groupName}"
                                     android:visibility="@{viewModel.visibleLeaveRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
@@ -449,15 +481,15 @@
                                         android:paddingRight="@dimen/dp_5"
                                         android:paddingStart="@dimen/dp_5"
                                         android:paddingTop="@dimen/dp_3"
-                                        android:text="@string/off_have_salary_company_pay"
+                                        android:text="@string/off_have_salary"
                                         android:textColor="@android:color/white"
                                         android:textSize="@dimen/sp_15"
                                         />
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="@dimen/dp_15"
-                                        android:layout_marginStart="@dimen/dp_15"
+                                        android:layout_marginLeft="@dimen/dp_90"
+                                        android:layout_marginStart="@dimen/dp_90"
                                         android:background="@drawable/border_button"
                                         android:paddingBottom="@dimen/dp_3"
                                         android:paddingTop="@dimen/dp_3"
@@ -473,6 +505,7 @@
                                     >
                                     <TextView
                                         android:text="@string/annual_leave"
+                                        android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
@@ -487,6 +520,7 @@
                                     >
                                     <TextView
                                         android:text="@string/leave_for_child_marriage"
+                                        android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
@@ -501,6 +535,7 @@
                                     >
                                     <TextView
                                         android:text="@string/leave_for_marriage"
+                                        android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
@@ -515,6 +550,7 @@
                                     >
                                     <TextView
                                         android:text="@string/funeral_leave"
+                                        android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
@@ -554,6 +590,7 @@
                                     >
                                     <TextView
                                         android:text="@string/leave_for_care_of_sick_child"
+                                        android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
@@ -568,6 +605,7 @@
                                     >
                                     <TextView
                                         android:text="@string/sick_leave"
+                                        android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
@@ -582,6 +620,7 @@
                                     >
                                     <TextView
                                         android:text="@string/maternity_leave"
+                                        android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
@@ -596,6 +635,7 @@
                                     >
                                     <TextView
                                         android:text="@string/pregnancy_examination_leave"
+                                        android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
@@ -610,6 +650,7 @@
                                     >
                                     <TextView
                                         android:text="@string/miscarriage_leave"
+                                        android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
@@ -624,6 +665,7 @@
                                     >
                                     <TextView
                                         android:text="@string/wife_labor_leave"
+                                        android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
                                     <TextView
@@ -1038,7 +1080,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dp_1"
                             android:layout_weight="1"
-                            android:background="@color/color_green_status"
+                            android:background="@color/color_green_lime"
                             android:onClick="@{() -> viewModel.onClickApprove()}"
                             android:text="@string/accepted"
                             android:visibility="@{viewModel.visibleApprove ? View.GONE : View.VISIBLE}"
