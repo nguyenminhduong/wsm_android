@@ -49,8 +49,7 @@ public interface WSMApi {
     Observable<BaseResponse<UserProfileResponse>> updateProfile(
             @PartMap Map<String, RequestBody> params, @Part MultipartBody.Part file);
 
-    // TODO edit later
-    @PUT("/api/dashboard/users/change_password")
+    @PUT("/api/dashboard/passwords")
     Observable<Object> changePassword(@Body ChangePasswordRequest changePasswordRequest);
 
     @GET("/api/dashboard/user_timesheets")
