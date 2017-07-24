@@ -37,7 +37,7 @@ public final class DateTimeUtils {
     public static final String INPUT_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
     private static final String TAG = DateTimeUtils.class.getName();
     private static final int DAY_OF_YEAR = 365;
-    private static final String TIME_ZONE_GMT_7 = "GMT+7";
+    private static final String TIME_ZONE_GMT = "GMT";
     public static final String DATE_FORMAT_YYYY_MM = "MM/yyyy";
 
     private DateTimeUtils() {
@@ -254,10 +254,11 @@ public final class DateTimeUtils {
         if (TextUtils.isEmpty(time)) {
             return "";
         }
-        TimeZone gmtTime = TimeZone.getTimeZone(TIME_ZONE_GMT_7);
+        TimeZone gmtTime = TimeZone.getTimeZone(TIME_ZONE_GMT);
         SimpleDateFormat sdf = new SimpleDateFormat(inputFormat, Locale.getDefault());
         sdf.setTimeZone(gmtTime);
         SimpleDateFormat newSdf = new SimpleDateFormat(outputFormat, Locale.getDefault());
+        newSdf.setTimeZone(gmtTime);
         try {
             return newSdf.format(sdf.parse(time));
         } catch (ParseException e) {
