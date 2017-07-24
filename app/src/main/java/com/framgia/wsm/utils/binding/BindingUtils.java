@@ -56,10 +56,10 @@ public final class BindingUtils {
         recyclerView.setAdapter(adapter);
     }
 
-    @BindingAdapter({ "itemSelected", "currentItem", "viewModel", "staffType" })
+    @BindingAdapter({ "itemSelected", "currentItem", "viewModel", "staffType", "isManage" })
     public static void setNavigationItemSelected(NavigationView navigationView,
             NavigationView.OnNavigationItemSelectedListener listen, int currentItem,
-            MainViewModel viewModel, String staffType) {
+            MainViewModel viewModel, String staffType, boolean isManage) {
 
         //TODO edit version later
         navigationView.getMenu().findItem(R.id.item_statistic_of_personal).setVisible(false);
@@ -70,6 +70,20 @@ public final class BindingUtils {
             menuDayOff.setVisible(true);
         } else {
             menuDayOff.setVisible(false);
+        }
+
+        MenuItem menuOffManage = navigationView.getMenu().findItem(R.id.item_manage_off);
+        MenuItem menuLeaveManage =
+                navigationView.getMenu().findItem(R.id.item_manage_come_late_leave_early);
+        MenuItem menuOverTimeManage = navigationView.getMenu().findItem(R.id.item_manage_overtime);
+        if (isManage) {
+            menuOffManage.setVisible(true);
+            menuLeaveManage.setVisible(true);
+            menuOverTimeManage.setVisible(true);
+        } else {
+            menuOffManage.setVisible(false);
+            menuLeaveManage.setVisible(false);
+            menuOverTimeManage.setVisible(false);
         }
 
         navigationView.setNavigationItemSelectedListener(listen);

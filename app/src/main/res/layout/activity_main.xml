@@ -111,6 +111,7 @@
             android:animateLayoutChanges="true"
             app:menu="@menu/menu_drawer"
             bind:currentItem="@{viewModel.currentItem}"
+            bind:isManage="@{viewModel.manage}"
             bind:itemSelected="@{viewModel::onItemSelected}"
             bind:staffType="@{viewModel.staffType}"
             bind:viewModel="@{viewModel}"
