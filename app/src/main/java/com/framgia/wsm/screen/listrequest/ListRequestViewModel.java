@@ -178,6 +178,7 @@ public class ListRequestViewModel extends BaseObservable
 
     private void setMonthYear(String monthYear) {
         mMonthYear = monthYear;
+        mQueryRequest.setMonthWorking(monthYear);
         notifyPropertyChanged(BR.monthYear);
     }
 
