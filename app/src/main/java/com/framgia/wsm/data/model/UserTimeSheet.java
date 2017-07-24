@@ -14,19 +14,19 @@ public class UserTimeSheet {
     private String mMonth;
     @Expose
     @SerializedName("total_day_off")
-    private int mTotalDayOff;
+    private float mTotalDayOff;
     @Expose
     @SerializedName("number_day_off_have_salary")
-    private int mNumberDayOffHaveSalary;
+    private float mNumberDayOffHaveSalary;
     @Expose
     @SerializedName("number_day_off_no_salary")
-    private int mNumberDayOffNoSalary;
+    private float mNumberDayOffNoSalary;
     @Expose
     @SerializedName("number_over_time")
-    private Double mNumberOverTime;
+    private float mNumberOverTime;
     @Expose
     @SerializedName("total_fining")
-    private int mTotalFining;
+    private float mTotalFining;
     @Expose
     @SerializedName("timesheet")
     private List<TimeSheetDate> mTimeSheetDates;
@@ -39,43 +39,43 @@ public class UserTimeSheet {
         mMonth = month;
     }
 
-    public int getTotalDayOff() {
+    public double getTotalDayOff() {
         return mTotalDayOff;
     }
 
-    public void setTotalDayOff(int totalDayOff) {
+    public void setTotalDayOff(float totalDayOff) {
         mTotalDayOff = totalDayOff;
     }
 
-    public int getNumberDayOffHaveSalary() {
+    public float getNumberDayOffHaveSalary() {
         return mNumberDayOffHaveSalary;
     }
 
-    public void setNumberDayOffHaveSalary(int numberDayOffHaveSalary) {
+    public void setNumberDayOffHaveSalary(float numberDayOffHaveSalary) {
         mNumberDayOffHaveSalary = numberDayOffHaveSalary;
     }
 
-    public int getNumberDayOffNoSalary() {
+    public float getNumberDayOffNoSalary() {
         return mNumberDayOffNoSalary;
     }
 
-    public void setNumberDayOffNoSalary(int numberDayOffNoSalary) {
+    public void setNumberDayOffNoSalary(float numberDayOffNoSalary) {
         mNumberDayOffNoSalary = numberDayOffNoSalary;
     }
 
-    public Double getNumberOverTime() {
+    public float getNumberOverTime() {
         return mNumberOverTime;
     }
 
-    public void setNumberOverTime(Double numberOverTime) {
+    public void setNumberOverTime(float numberOverTime) {
         mNumberOverTime = numberOverTime;
     }
 
-    public int getTotalFining() {
+    public float getTotalFining() {
         return mTotalFining;
     }
 
-    public void setTotalFining(int totalFining) {
+    public void setTotalFining(float totalFining) {
         mTotalFining = totalFining;
     }
 
