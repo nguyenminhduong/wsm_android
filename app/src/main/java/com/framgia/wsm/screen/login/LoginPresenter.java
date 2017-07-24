@@ -48,6 +48,7 @@ final class LoginPresenter implements LoginContract.Presenter {
     private CompositeDisposable mCompositeDisposable;
     private BaseSchedulerProvider mSchedulerProvider;
     private User mUser;
+    private boolean mIsManage;
 
     LoginPresenter(UserRepository userRepository, TokenRepository tokenRepository,
             Validator validator, BaseSchedulerProvider schedulerProvider) {
@@ -83,6 +84,7 @@ final class LoginPresenter implements LoginContract.Presenter {
                     public ObservableSource<User> apply(
                             @NonNull SignInDataResponse signInDataResponse) throws Exception {
                         mTokenRepository.saveToken(signInDataResponse.getAuthenToken());
+                        mIsManage = signInDataResponse.isManager();
                         return mUserRepository.getUserProfile(signInDataResponse.getUser().getId());
                     }
                 })
@@ -153,6 +155,7 @@ final class LoginPresenter implements LoginContract.Presenter {
                 .subscribe(new Consumer<List<LeaveType>>() {
                     @Override
                     public void accept(List<LeaveType> leaveTypes) throws Exception {
+                        mUser.setManage(mIsManage);
                         mUser.setLeaveTypes(leaveTypes);
                         mUserRepository.saveUser(mUser);
                         mViewModel.onLoginSuccess();

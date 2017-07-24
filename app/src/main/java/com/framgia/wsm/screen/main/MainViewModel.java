@@ -119,6 +119,11 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         return mUser != null ? StringUtils.getStaffType(mUser.getCode()) : "";
     }
 
+    @Bindable
+    public boolean isManage() {
+        return mUser.isManage();
+    }
+
     @Override
     public void onStart() {
         mPresenter.onStart();
@@ -139,6 +144,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         notifyPropertyChanged(BR.email);
         notifyPropertyChanged(BR.avatar);
         notifyPropertyChanged(BR.staffType);
+        notifyPropertyChanged(BR.manage);
     }
 
     @Override

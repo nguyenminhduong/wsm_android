@@ -15,6 +15,9 @@ public class SignInDataResponse {
     @Expose
     @SerializedName("authen_token")
     private String mAuthenToken;
+    @Expose
+    @SerializedName("is_manager")
+    private boolean mIsManager;
 
     public String getAuthenToken() {
         return mAuthenToken;
@@ -30,5 +33,13 @@ public class SignInDataResponse {
 
     public void setUser(User user) {
         mUser = user;
+    }
+
+    public boolean isManager() {
+        return mIsManager;
+    }
+
+    public void setManager(boolean manager) {
+        mIsManager = manager;
     }
 }
