@@ -2,6 +2,7 @@ package com.framgia.wsm.screen.managelistrequests;
 
 import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.screen.BasePresenter;
 import com.framgia.wsm.screen.BaseViewModel;
 import com.framgia.wsm.utils.RequestType;
@@ -41,8 +42,10 @@ interface ManageListRequestsContract {
 
         void getListAllRequestManage(@RequestType int requestType, QueryRequest queryRequest);
 
-        void approveRequest(@RequestType int requestType, int requestId, int itemPosition);
+        void approveRequest(@RequestType int requestType, int itemPosition,
+                ActionRequest actionRequest);
 
-        void rejectRequest(@RequestType int requestType, int requestId, int itemPosition);
+        void rejectRequest(@RequestType int requestType, int itemPosition,
+                ActionRequest actionRequest);
     }
 }

@@ -7,6 +7,7 @@ import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
@@ -162,12 +163,12 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
     }
 
     @Override
-    public void approveRequest(@RequestType int requestType, int requestId,
-            final int itemPosition) {
+    public void approveRequest(@RequestType int requestType, final int itemPosition,
+            ActionRequest actionRequest) {
         Disposable disposable;
         switch (requestType) {
             case RequestType.REQUEST_LATE_EARLY:
-                disposable = mRequestRepository.approveRequestLeave(requestId)
+                disposable = mRequestRepository.approveRequestLeave(actionRequest)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
                         .doOnSubscribe(new Consumer<Disposable>() {
@@ -199,7 +200,7 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                 mCompositeDisposable.add(disposable);
                 break;
             case RequestType.REQUEST_OFF:
-                disposable = mRequestRepository.approveRequestOff(requestId)
+                disposable = mRequestRepository.approveRequestOff(actionRequest)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
                         .doOnSubscribe(new Consumer<Disposable>() {
@@ -231,7 +232,7 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                 mCompositeDisposable.add(disposable);
                 break;
             case RequestType.REQUEST_OVERTIME:
-                disposable = mRequestRepository.approveRequestOverTime(requestId)
+                disposable = mRequestRepository.approveRequestOverTime(actionRequest)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
                         .doOnSubscribe(new Consumer<Disposable>() {
@@ -268,11 +269,12 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
     }
 
     @Override
-    public void rejectRequest(@RequestType int requestType, int requestId, final int itemPosition) {
+    public void rejectRequest(@RequestType int requestType, final int itemPosition,
+            ActionRequest actionRequest) {
         Disposable disposable;
         switch (requestType) {
             case RequestType.REQUEST_LATE_EARLY:
-                disposable = mRequestRepository.rejectRequestLeave(requestId)
+                disposable = mRequestRepository.rejectRequestLeave(actionRequest)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
                         .doOnSubscribe(new Consumer<Disposable>() {
@@ -304,7 +306,7 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                 mCompositeDisposable.add(disposable);
                 break;
             case RequestType.REQUEST_OFF:
-                disposable = mRequestRepository.rejectRequestOff(requestId)
+                disposable = mRequestRepository.rejectRequestOff(actionRequest)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
                         .doOnSubscribe(new Consumer<Disposable>() {
@@ -336,7 +338,7 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                 mCompositeDisposable.add(disposable);
                 break;
             case RequestType.REQUEST_OVERTIME:
-                disposable = mRequestRepository.rejectRequestOverTime(requestId)
+                disposable = mRequestRepository.rejectRequestOverTime(actionRequest)
                         .subscribeOn(mBaseSchedulerProvider.io())
                         .observeOn(mBaseSchedulerProvider.ui())
                         .doOnSubscribe(new Consumer<Disposable>() {
