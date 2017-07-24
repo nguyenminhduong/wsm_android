@@ -9,6 +9,7 @@ import com.framgia.wsm.data.model.OffTypeDay;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.model.UserTimeSheet;
+import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
@@ -122,33 +123,25 @@ public interface WSMApi {
     Observable<BaseResponse<List<OffRequest>>> getListRequestOffManage(
             @QueryMap Map<String, String> params);
 
-    //TODO edit later
-    @POST("api/dashboard/request_ots/{request_ots_id}")
+    @PUT("api/dashboard/manager/approvals")
     Observable<BaseResponse<RequestOverTime>> approveFormRequestOverTime(
-            @Path("request_ots_id") int requestOverTimeId);
+            @Body ActionRequest actionRequest);
 
-    //TODO edit later
-    @POST("/api/dashboard/request_leaves/{request_leave_id}")
+    @PUT("api/dashboard/manager/approvals")
     Observable<BaseResponse<LeaveRequest>> approveFormRequestLeave(
-            @Path("request_leave_id") int requestLeaveId);
+            @Body ActionRequest actionRequest);
 
-    //TODO edit later
-    @POST("/api/dashboard/request_offs/{request_offs_id}")
-    Observable<BaseResponse<OffRequest>> approveFormRequestOff(
-            @Path("request_offs_id") int requestOffId);
+    @PUT("api/dashboard/manager/approvals")
+    Observable<BaseResponse<OffRequest>> approveFormRequestOff(@Body ActionRequest actionRequest);
 
-    //TODO edit later
-    @POST("api/dashboard/request_ots/{request_ots_id}")
+    @PUT("api/dashboard/manager/approvals")
     Observable<BaseResponse<RequestOverTime>> rejectFormRequestOverTime(
-            @Path("request_ots_id") int requestOverTimeId);
+            @Body ActionRequest actionRequest);
 
-    //TODO edit later
-    @POST("/api/dashboard/request_leaves/{request_leave_id}")
+    @PUT("api/dashboard/manager/approvals")
     Observable<BaseResponse<LeaveRequest>> rejectFormRequestLeave(
-            @Path("request_leave_id") int requestLeaveId);
+            @Body ActionRequest actionRequest);
 
-    //TODO edit later
-    @POST("/api/dashboard/request_offs/{request_offs_id}")
-    Observable<BaseResponse<OffRequest>> rejectFormRequestOff(
-            @Path("request_offs_id") int requestOffId);
+    @PUT("api/dashboard/manager/approvals")
+    Observable<BaseResponse<OffRequest>> rejectFormRequestOff(@Body ActionRequest actionRequest);
 }

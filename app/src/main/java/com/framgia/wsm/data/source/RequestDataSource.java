@@ -4,6 +4,7 @@ import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
+import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
@@ -55,16 +56,18 @@ public interface RequestDataSource {
         Observable<BaseResponse<List<OffRequest>>> getListRequesOffManage(
                 QueryRequest queryRequest);
 
-        Observable<BaseResponse<LeaveRequest>> approveRequestLeave(int requestId);
+        Observable<BaseResponse<LeaveRequest>> approveRequestLeave(ActionRequest actionRequest);
 
-        Observable<BaseResponse<OffRequest>> approveRequestOff(int requestId);
+        Observable<BaseResponse<OffRequest>> approveRequestOff(ActionRequest actionRequest);
 
-        Observable<BaseResponse<RequestOverTime>> approveRequestOverTime(int requestId);
+        Observable<BaseResponse<RequestOverTime>> approveRequestOverTime(
+                ActionRequest actionRequest);
 
-        Observable<BaseResponse<LeaveRequest>> rejectRequestLeave(int requestId);
+        Observable<BaseResponse<LeaveRequest>> rejectRequestLeave(ActionRequest actionRequest);
 
-        Observable<BaseResponse<OffRequest>> rejectRequestOff(int requestId);
+        Observable<BaseResponse<OffRequest>> rejectRequestOff(ActionRequest actionRequest);
 
-        Observable<BaseResponse<RequestOverTime>> rejectRequestOverTime(int requestId);
+        Observable<BaseResponse<RequestOverTime>> rejectRequestOverTime(
+                ActionRequest actionRequest);
     }
 }

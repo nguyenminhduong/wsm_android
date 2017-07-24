@@ -27,6 +27,7 @@ public class User extends BaseModel implements Parcelable {
             return new User[size];
         }
     };
+
     @Expose
     @SerializedName("name")
     @Validation({
@@ -87,6 +88,9 @@ public class User extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("id")
     private int mId;
+    @Expose
+    @SerializedName("is_manager")
+    private boolean mIsManage;
 
     public User() {
     }
@@ -111,6 +115,36 @@ public class User extends BaseModel implements Parcelable {
         mTypesCompany = in.createTypedArrayList(OffType.CREATOR);
         mTypesInsurance = in.createTypedArrayList(OffType.CREATOR);
         mId = in.readInt();
+        mIsManage = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mName);
+        dest.writeString(mCode);
+        dest.writeString(mEmail);
+        dest.writeString(mGender);
+        dest.writeString(mBirthday);
+        dest.writeParcelable(mCompany, flags);
+        dest.writeString(mContractDate);
+        dest.writeString(mAvatar);
+        dest.writeTypedList(mBranches);
+        dest.writeTypedList(mGroups);
+        dest.writeString(mStartProbationDate);
+        dest.writeString(mEndProbationDate);
+        dest.writeString(mIndividualCode);
+        dest.writeString(mNamePosition);
+        dest.writeString(mNameStaffType);
+        dest.writeTypedList(mLeaveTypes);
+        dest.writeTypedList(mTypesCompany);
+        dest.writeTypedList(mTypesInsurance);
+        dest.writeInt(mId);
+        dest.writeByte((byte) (mIsManage ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public int getId() {
@@ -266,31 +300,11 @@ public class User extends BaseModel implements Parcelable {
         mCompany = company;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public boolean isManage() {
+        return mIsManage;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(mName);
-        parcel.writeString(mCode);
-        parcel.writeString(mEmail);
-        parcel.writeString(mGender);
-        parcel.writeString(mBirthday);
-        parcel.writeParcelable(mCompany, i);
-        parcel.writeString(mContractDate);
-        parcel.writeString(mAvatar);
-        parcel.writeTypedList(mBranches);
-        parcel.writeTypedList(mGroups);
-        parcel.writeString(mStartProbationDate);
-        parcel.writeString(mEndProbationDate);
-        parcel.writeString(mIndividualCode);
-        parcel.writeString(mNamePosition);
-        parcel.writeString(mNameStaffType);
-        parcel.writeTypedList(mLeaveTypes);
-        parcel.writeTypedList(mTypesCompany);
-        parcel.writeTypedList(mTypesInsurance);
-        parcel.writeInt(mId);
+    public void setManage(boolean manage) {
+        mIsManage = manage;
     }
 }

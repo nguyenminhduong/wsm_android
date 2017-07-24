@@ -5,6 +5,7 @@ import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
+import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
@@ -92,27 +93,29 @@ public class RequestRepository {
         return mRemoteDataSource.getListRequesOvertimetManage(queryRequest);
     }
 
-    public Observable<BaseResponse<LeaveRequest>> approveRequestLeave(int requestId) {
-        return mRemoteDataSource.approveRequestLeave(requestId);
+    public Observable<BaseResponse<LeaveRequest>> approveRequestLeave(ActionRequest actionRequest) {
+        return mRemoteDataSource.approveRequestLeave(actionRequest);
     }
 
-    public Observable<BaseResponse<OffRequest>> approveRequestOff(int requestId) {
-        return mRemoteDataSource.approveRequestOff(requestId);
+    public Observable<BaseResponse<OffRequest>> approveRequestOff(ActionRequest actionRequest) {
+        return mRemoteDataSource.approveRequestOff(actionRequest);
     }
 
-    public Observable<BaseResponse<RequestOverTime>> approveRequestOverTime(int requestId) {
-        return mRemoteDataSource.approveRequestOverTime(requestId);
+    public Observable<BaseResponse<RequestOverTime>> approveRequestOverTime(
+            ActionRequest actionRequest) {
+        return mRemoteDataSource.approveRequestOverTime(actionRequest);
     }
 
-    public Observable<BaseResponse<LeaveRequest>> rejectRequestLeave(int requestId) {
-        return mRemoteDataSource.rejectRequestLeave(requestId);
+    public Observable<BaseResponse<LeaveRequest>> rejectRequestLeave(ActionRequest actionRequest) {
+        return mRemoteDataSource.rejectRequestLeave(actionRequest);
     }
 
-    public Observable<BaseResponse<OffRequest>> rejectRequestOff(int requestId) {
-        return mRemoteDataSource.rejectRequestOff(requestId);
+    public Observable<BaseResponse<OffRequest>> rejectRequestOff(ActionRequest actionRequest) {
+        return mRemoteDataSource.rejectRequestOff(actionRequest);
     }
 
-    public Observable<BaseResponse<RequestOverTime>> rejectRequestOverTime(int requestId) {
-        return mRemoteDataSource.rejectRequestOverTime(requestId);
+    public Observable<BaseResponse<RequestOverTime>> rejectRequestOverTime(
+            ActionRequest actionRequest) {
+        return mRemoteDataSource.rejectRequestOverTime(actionRequest);
     }
 }

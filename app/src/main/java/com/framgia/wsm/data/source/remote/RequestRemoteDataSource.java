@@ -5,6 +5,7 @@ import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.RequestDataSource;
+import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
@@ -158,33 +159,35 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<LeaveRequest>> approveRequestLeave(int requestId) {
-        return mWSMApi.approveFormRequestLeave(requestId);
+    public Observable<BaseResponse<LeaveRequest>> approveRequestLeave(ActionRequest actionRequest) {
+        return mWSMApi.approveFormRequestLeave(actionRequest);
     }
 
     @Override
-    public Observable<BaseResponse<OffRequest>> approveRequestOff(int requestId) {
-        return mWSMApi.approveFormRequestOff(requestId);
+    public Observable<BaseResponse<OffRequest>> approveRequestOff(ActionRequest actionRequest) {
+        return mWSMApi.approveFormRequestOff(actionRequest);
     }
 
     @Override
-    public Observable<BaseResponse<RequestOverTime>> approveRequestOverTime(int requestId) {
-        return mWSMApi.approveFormRequestOverTime(requestId);
+    public Observable<BaseResponse<RequestOverTime>> approveRequestOverTime(
+            ActionRequest actionRequest) {
+        return mWSMApi.approveFormRequestOverTime(actionRequest);
     }
 
     @Override
-    public Observable<BaseResponse<LeaveRequest>> rejectRequestLeave(int requestId) {
-        return mWSMApi.rejectFormRequestLeave(requestId);
+    public Observable<BaseResponse<LeaveRequest>> rejectRequestLeave(ActionRequest actionRequest) {
+        return mWSMApi.rejectFormRequestLeave(actionRequest);
     }
 
     @Override
-    public Observable<BaseResponse<OffRequest>> rejectRequestOff(int requestId) {
-        return mWSMApi.rejectFormRequestOff(requestId);
+    public Observable<BaseResponse<OffRequest>> rejectRequestOff(ActionRequest actionRequest) {
+        return mWSMApi.rejectFormRequestOff(actionRequest);
     }
 
     @Override
-    public Observable<BaseResponse<RequestOverTime>> rejectRequestOverTime(int requestId) {
-        return mWSMApi.rejectFormRequestOverTime(requestId);
+    public Observable<BaseResponse<RequestOverTime>> rejectRequestOverTime(
+            ActionRequest actionRequest) {
+        return mWSMApi.rejectFormRequestOverTime(actionRequest);
     }
 
     private Map<String, String> inputParamsRequestsManage(QueryRequest queryRequest) {

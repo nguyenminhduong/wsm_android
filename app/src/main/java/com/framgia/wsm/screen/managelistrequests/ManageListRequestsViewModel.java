@@ -5,6 +5,7 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
@@ -14,10 +15,12 @@ import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.screen.managelistrequests.memberrequestdetail
         .MemberRequestDetailDialogFragment;
 import com.framgia.wsm.utils.RequestType;
+import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.NavigateAnim;
 import com.framgia.wsm.utils.navigator.Navigator;
@@ -51,6 +54,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     private boolean mIsFromTimeSelected;
     private int mCurrentPositionStatus;
     private String mUserName;
+    private ActionRequest mActionRequest;
 
     ManageListRequestsViewModel(Context context, ManageListRequestsContract.Presenter presenter,
             DialogManager dialogManager, ManageListRequestsAdapter manageListRequestsAdapter,
@@ -68,6 +72,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     private void initData() {
+        mActionRequest = new ActionRequest();
         mFromTime = DateTimeUtils.dayFirstMonthWorking();
         mToTime = DateTimeUtils.dayLasttMonthWorking();
         mQueryRequest = new QueryRequest();
@@ -127,12 +132,26 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void setRequestType(@RequestType int requestType) {
         mRequestType = requestType;
         mQueryRequest.setRequestType(requestType);
+        switch (requestType) {
+            case RequestType.REQUEST_LATE_EARLY:
+                mActionRequest.setTypeRequest(TypeRequest.LEAVE);
+                break;
+            case RequestType.REQUEST_OFF:
+                mActionRequest.setTypeRequest(TypeRequest.OFF);
+                break;
+            case RequestType.REQUEST_OVERTIME:
+                mActionRequest.setTypeRequest(TypeRequest.OT);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
     public void onApproveRequestSuccess(@RequestType int requestType, int itemPosition,
             Object object) {
         updateItemRequest(requestType, itemPosition, object);
+        mNavigator.showToast(mContext.getString(R.string.approve_success));
     }
 
     @Override
@@ -144,6 +163,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void onRejectRequestSuccess(@RequestType int requestType, int itemPosition,
             Object object) {
         updateItemRequest(requestType, itemPosition, object);
+        mNavigator.showToast(mContext.getString(R.string.reject_success));
     }
 
     @Override
@@ -163,44 +183,16 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     @Override
     public void onApproveRequest(int itemPosition, int requestId) {
-        //        mPresenter.approveRequest(mRequestType, itemPosition, requestId);
-        //TODO Remove later when have api
-
-        switch (mRequestType) {
-            case RequestType.REQUEST_LATE_EARLY:
-                mManageListRequestsAdapter.updateItem(mRequestType, itemPosition, "approve");
-                break;
-            case RequestType.REQUEST_OFF:
-                mManageListRequestsAdapter.updateItem(mRequestType, itemPosition, "approve");
-                break;
-            case RequestType.REQUEST_OVERTIME:
-                mManageListRequestsAdapter.updateItem(mRequestType, itemPosition, "approve");
-                break;
-            default:
-                break;
-        }
-        mNavigator.showToast(mContext.getString(R.string.approve_success));
+        mActionRequest.setStatus(StatusCode.ACCEPT_CODE);
+        mActionRequest.setRequestId(requestId);
+        mPresenter.approveRequest(mRequestType, itemPosition, mActionRequest);
     }
 
     @Override
     public void onRejectRequest(int itemPosition, int requestId) {
-        //       mPresenter.rejectRequest(mRequestType, itemPosition, requestId);
-        // TODO Remove later when have api
-
-        switch (mRequestType) {
-            case RequestType.REQUEST_LATE_EARLY:
-                mManageListRequestsAdapter.updateItem(mRequestType, itemPosition, "discard");
-                break;
-            case RequestType.REQUEST_OFF:
-                mManageListRequestsAdapter.updateItem(mRequestType, itemPosition, "discard");
-                break;
-            case RequestType.REQUEST_OVERTIME:
-                mManageListRequestsAdapter.updateItem(mRequestType, itemPosition, "discard");
-                break;
-            default:
-                break;
-        }
-        mNavigator.showToast(mContext.getString(R.string.reject_success));
+        mActionRequest.setStatus(StatusCode.REJECT_CODE);
+        mActionRequest.setRequestId(requestId);
+        mPresenter.rejectRequest(mRequestType, itemPosition, mActionRequest);
     }
 
     @Override
@@ -360,5 +352,12 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     public void onClickSearch(View view) {
         mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
+    }
+
+    @StringDef({ TypeRequest.LEAVE, TypeRequest.OFF, TypeRequest.OT })
+    @interface TypeRequest {
+        String LEAVE = "leave";
+        String OFF = "off";
+        String OT = "ot";
     }
 }
