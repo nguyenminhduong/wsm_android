@@ -119,23 +119,23 @@ public class TimeSheetDate extends BaseModel {
 
     public boolean isDayOffMorning() {
         return StringUtils.isNotBlank(mTextMorning)
-                && StringUtils.isBlank(mTextAfternoon)
-                && !mTimeIn.equals(mTextMorning)
-                && mTimeOut.equals(mTextAfternoon);
+                && StringUtils.isNotBlank(mTextAfternoon)
+                && !mTextMorning.equals(mTimeIn)
+                && mTextAfternoon.equals(mTimeOut);
     }
 
     public boolean isDayOffAfternoon() {
-        return StringUtils.isBlank(mTextMorning)
+        return StringUtils.isNotBlank(mTextMorning)
                 && StringUtils.isNotBlank(mTextAfternoon)
-                && mTimeIn.equals(mTextMorning)
-                && !mTimeOut.equals(mTextAfternoon);
+                && mTextMorning.equals(mTimeIn)
+                && !mTextAfternoon.equals(mTimeOut);
     }
 
     public boolean isDayOffAllDay() {
         return StringUtils.isNotBlank(mTextMorning)
                 && StringUtils.isNotBlank(mTextAfternoon)
-                && !mTimeIn.equals(mTextMorning)
-                && !mTimeOut.equals(mTextAfternoon);
+                && !mTextMorning.equals(mTimeIn)
+                && !mTextAfternoon.equals(mTimeOut);
     }
 
     public boolean isColorMorning() {
