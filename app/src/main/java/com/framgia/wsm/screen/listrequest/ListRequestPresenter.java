@@ -80,7 +80,6 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
                             public void accept(
                                     @NonNull BaseResponse<List<RequestOverTime>> listBaseResponse)
                                     throws Exception {
-                                Collections.reverse(listBaseResponse.getData());
                                 mViewModel.onGetListRequestSuccess(RequestType.REQUEST_OVERTIME,
                                         listBaseResponse.getData());
                             }
@@ -113,7 +112,6 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
                             public void accept(
                                     @NonNull BaseResponse<List<OffRequest>> listBaseResponse)
                                     throws Exception {
-                                Collections.reverse(listBaseResponse.getData());
                                 mViewModel.onGetListRequestSuccess(RequestType.REQUEST_OFF,
                                         listBaseResponse.getData());
                             }
@@ -146,7 +144,6 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
                             public void accept(
                                     @NonNull BaseResponse<List<LeaveRequest>> listBaseResponse)
                                     throws Exception {
-                                Collections.reverse(listBaseResponse.getData());
                                 mViewModel.onGetListRequestSuccess(RequestType.REQUEST_LATE_EARLY,
                                         listBaseResponse.getData());
                             }

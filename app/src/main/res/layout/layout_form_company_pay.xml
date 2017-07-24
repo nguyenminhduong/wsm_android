@@ -22,7 +22,7 @@
         >
 
         <android.support.design.widget.TextInputLayout
-            android:hint="@string/annual_leave"
+            android:hint="@{viewModel.annualLeaveAmount}"
             bind:errorText="@{viewModel.annualError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
