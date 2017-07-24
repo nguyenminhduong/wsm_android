@@ -45,6 +45,7 @@ import static com.framgia.wsm.utils.common.DateTimeUtils.FORMAT_DATE;
 public class RequestOffViewModel extends BaseRequestOff
         implements RequestOffContract.ViewModel, DatePickerDialog.OnDateSetListener {
     private static final String TAG = "RequestOffViewModel";
+    private static final String ANNUAL = "Annual";
     private static final String TRUE = "true";
     private static final String FALSE = "false";
 
@@ -474,12 +475,18 @@ public class RequestOffViewModel extends BaseRequestOff
 
     @Bindable
     public String getAnnualError() {
-        return mRequestOff.getAnnualLeave() != null ? mContext.getString(
-                R.string.annual_leave_error) : null;
+        if (mAnnualLeaveAmount == null) {
+            return "";
+        }
+        return mRequestOff.getAnnualLeave() != null ? String.format(
+                mContext.getString(R.string.annual_leave_error), mAnnualLeaveAmount) : null;
     }
 
     @Bindable
     public String getLeaveForMarriageError() {
+        if (mLeaveForMarriageAmount == null) {
+            return "";
+        }
         return mRequestOff.getLeaveForMarriage() != null ? String.format(
                 mContext.getString(R.string.leave_for_marriage_error), mLeaveForMarriageAmount)
                 : null;
@@ -487,6 +494,9 @@ public class RequestOffViewModel extends BaseRequestOff
 
     @Bindable
     public String getLeaveForChildMarriageError() {
+        if (mLeaveForChildMarriageAmount == null) {
+            return "";
+        }
         return mRequestOff.getLeaveForChildMarriage() != null ? String.format(
                 mContext.getString(R.string.leave_for_child_marriage_error),
                 mLeaveForChildMarriageAmount) : null;
@@ -494,12 +504,18 @@ public class RequestOffViewModel extends BaseRequestOff
 
     @Bindable
     public String getFuneralLeaveError() {
+        if (mFuneralLeaveAmount == null) {
+            return "";
+        }
         return mRequestOff.getFuneralLeave() != null ? String.format(
                 mContext.getString(R.string.funeral_leave_error), mFuneralLeaveAmount) : null;
     }
 
     @Bindable
     public String getLeaveForCareOfSickChildError() {
+        if (mLeaveForCareOfSickChildAmount == null) {
+            return "";
+        }
         return mRequestOff.getLeaveForCareOfSickChild() != null ? String.format(
                 mContext.getString(R.string.leave_for_care_of_sick_error),
                 mLeaveForCareOfSickChildAmount) : null;
@@ -507,6 +523,9 @@ public class RequestOffViewModel extends BaseRequestOff
 
     @Bindable
     public String getPregnancyExaminationLeaveError() {
+        if (mPregnancyExaminationLeaveAmount == null) {
+            return "";
+        }
         return mRequestOff.getPregnancyExaminationLeave() != null ? String.format(
                 mContext.getString(R.string.pregnacy_examination_leave_error),
                 mPregnancyExaminationLeaveAmount) : null;
@@ -514,12 +533,18 @@ public class RequestOffViewModel extends BaseRequestOff
 
     @Bindable
     public String getSickLeaveError() {
+        if (mSickLeaveAmount == null) {
+            return "";
+        }
         return mRequestOff.getSickLeave() != null ? String.format(
                 mContext.getString(R.string.sick_leave_error), mSickLeaveAmount) : null;
     }
 
     @Bindable
     public String getMiscarriageLeaveError() {
+        if (mMiscarriageLeaveAmount == null) {
+            return "";
+        }
         return mRequestOff.getMiscarriageLeave() != null ? String.format(
                 mContext.getString(R.string.miscarriage_leave_error), mMiscarriageLeaveAmount)
                 : null;
@@ -527,12 +552,18 @@ public class RequestOffViewModel extends BaseRequestOff
 
     @Bindable
     public String getMaternityLeavedError() {
+        if (mMaternityLeaveAmount == null) {
+            return "";
+        }
         return mRequestOff.getMaternityLeave() != null ? String.format(
                 mContext.getString(R.string.maternity_leave_error), mMaternityLeaveAmount) : null;
     }
 
     @Bindable
     public String getWifeLaborLeaveError() {
+        if (mWifeLaborLeaveAmount == null) {
+            return "";
+        }
         return mRequestOff.getWifeLaborLeave() != null ? String.format(
                 mContext.getString(R.string.wife_labor_leave_error), mWifeLaborLeaveAmount) : null;
     }
@@ -648,6 +679,16 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     @Bindable
+    public String getAnnualLeaveAmount() {
+        return String.format(mContext.getString(R.string.annual_leave), mAnnualLeaveAmount);
+    }
+
+    private void setAnnualLeaveAmount(String annualLeaveAmount) {
+        mAnnualLeaveAmount = annualLeaveAmount;
+        notifyPropertyChanged(BR.annualLeaveAmount);
+    }
+
+    @Bindable
     public String getLeaveForMarriageAmount() {
         return String.format(mContext.getString(R.string.leave_for_marriage),
                 mLeaveForMarriageAmount);
@@ -745,6 +786,9 @@ public class RequestOffViewModel extends BaseRequestOff
     private void getAmountOffDayCompany(User user) {
         List<OffType> offTypesCompanyPay = user.getTypesCompany();
         for (int i = 0; i < offTypesCompanyPay.size(); i++) {
+            if (offTypesCompanyPay.get(i).getName().equals(ANNUAL)) {
+                setAnnualLeaveAmount(String.valueOf(offTypesCompanyPay.get(i).getAmount()));
+            }
             if (offTypesCompanyPay.get(i).getId() == Integer.parseInt(
                     TypeOfDays.LEAVE_FOR_MARRIAGE)) {
                 setLeaveForMarriageAmount(String.valueOf(offTypesCompanyPay.get(i).getAmount()));
@@ -870,7 +914,8 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     private boolean validateAllNumberDayHaveSalary() {
-        return validateLeaveForMarriage(mLeaveForMarriage)
+        return validateAnnualLeave(mAnnualLeave)
+                && validateLeaveForMarriage(mLeaveForMarriage)
                 && validateLeaveForChildMarriage(mLeaveForChildMarriage)
                 && validateFuneralLeave(mFuneralLeave)
                 && validateLeaveForCareOfSickChild(mLeaveForCareOfSickChild)
@@ -879,6 +924,11 @@ public class RequestOffViewModel extends BaseRequestOff
                 && validateMiscarriageLeave(mMiscarriageLeave)
                 && validateMaternityLeave(mMaternityLeave)
                 && validateWifeLaborLeave(mWifeLaborLeave);
+    }
+
+    private boolean validateAnnualLeave(String input) {
+        return StringUtils.convertStringToDouble(input) <= StringUtils.convertStringToDouble(
+                mAnnualLeaveAmount);
     }
 
     private boolean validateLeaveForMarriage(String input) {
@@ -934,6 +984,9 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     public void validateNumberDayHaveSalary() {
+        if (!validateAnnualLeave(mAnnualLeave)) {
+            notifyPropertyChanged(BR.annualError);
+        }
         if (!validateLeaveForMarriage(mLeaveForMarriage)) {
             notifyPropertyChanged(BR.leaveForMarriageError);
         }

@@ -38,6 +38,7 @@ import static com.framgia.wsm.utils.common.DateTimeUtils.FORMAT_DATE;
 public class ConfirmRequestOffViewModel extends BaseObservable
         implements ConfirmRequestOffContract.ViewModel {
     private static final String TAG = "ConfirmRequestOffViewModel";
+    private static final String ANNUAL = "Annual";
 
     private Context mContext;
     private ConfirmRequestOffContract.Presenter mPresenter;
@@ -400,6 +401,16 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     }
 
     @Bindable
+    public String getAnnualLeaveAmount() {
+        return String.format(mContext.getString(R.string.annual_leave), mAnnualLeaveAmount);
+    }
+
+    private void setAnnualLeaveAmount(String annualLeaveAmount) {
+        mAnnualLeaveAmount = annualLeaveAmount;
+        notifyPropertyChanged(BR.annualLeaveAmount);
+    }
+
+    @Bindable
     public String getLeaveForMarriageAmount() {
         return String.format(mContext.getString(R.string.leave_for_marriage),
                 mLeaveForMarriageAmount);
@@ -407,7 +418,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     private void setLeaveForMarriageAmount(String leaveForMarriageAmount) {
         mLeaveForMarriageAmount = leaveForMarriageAmount;
-        notifyPropertyChanged(com.framgia.wsm.BR.leaveForMarriageAmount);
+        notifyPropertyChanged(BR.leaveForMarriageAmount);
     }
 
     @Bindable
@@ -418,7 +429,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     private void setLeaveForChildMarriageAmount(String leaveForChildMarriageAmount) {
         mLeaveForChildMarriageAmount = leaveForChildMarriageAmount;
-        notifyPropertyChanged(com.framgia.wsm.BR.leaveForChildMarriageAmount);
+        notifyPropertyChanged(BR.leaveForChildMarriageAmount);
     }
 
     @Bindable
@@ -428,7 +439,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     private void setFuneralLeaveAmount(String funeralLeaveAmount) {
         mFuneralLeaveAmount = funeralLeaveAmount;
-        notifyPropertyChanged(com.framgia.wsm.BR.funeralLeaveAmount);
+        notifyPropertyChanged(BR.funeralLeaveAmount);
     }
 
     @Bindable
@@ -439,7 +450,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     private void setLeaveForCareOfSickChildAmount(String leaveForCareOfSickChildAmount) {
         mLeaveForCareOfSickChildAmount = leaveForCareOfSickChildAmount;
-        notifyPropertyChanged(com.framgia.wsm.BR.leaveForCareOfSickChildAmount);
+        notifyPropertyChanged(BR.leaveForCareOfSickChildAmount);
     }
 
     @Bindable
@@ -450,7 +461,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     private void setPregnancyExaminationLeaveAmount(String pregnancyExaminationLeaveAmount) {
         mPregnancyExaminationLeaveAmount = pregnancyExaminationLeaveAmount;
-        notifyPropertyChanged(com.framgia.wsm.BR.pregnancyExaminationLeaveAmount);
+        notifyPropertyChanged(BR.pregnancyExaminationLeaveAmount);
     }
 
     @Bindable
@@ -460,7 +471,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     private void setSickLeaveAmount(String sickLeaveAmount) {
         mSickLeaveAmount = sickLeaveAmount;
-        notifyPropertyChanged(com.framgia.wsm.BR.sickLeaveAmount);
+        notifyPropertyChanged(BR.sickLeaveAmount);
     }
 
     @Bindable
@@ -471,7 +482,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     private void setMiscarriageLeaveAmount(String miscarriageLeaveAmount) {
         mMiscarriageLeaveAmount = miscarriageLeaveAmount;
-        notifyPropertyChanged(com.framgia.wsm.BR.miscarriageLeaveAmount);
+        notifyPropertyChanged(BR.miscarriageLeaveAmount);
     }
 
     @Bindable
@@ -481,7 +492,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     private void setMaternityLeaveAmount(String maternityLeaveAmount) {
         mMaternityLeaveAmount = maternityLeaveAmount;
-        notifyPropertyChanged(com.framgia.wsm.BR.maternityLeaveAmount);
+        notifyPropertyChanged(BR.maternityLeaveAmount);
     }
 
     @Bindable
@@ -491,7 +502,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     private void setWifeLaborLeaveAmount(String wifeLaborLeaveAmount) {
         mWifeLaborLeaveAmount = wifeLaborLeaveAmount;
-        notifyPropertyChanged(com.framgia.wsm.BR.wifeLaborLeaveAmount);
+        notifyPropertyChanged(BR.wifeLaborLeaveAmount);
     }
 
     public boolean isDetail() {
@@ -576,6 +587,9 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     private void getAmountOffDayCompany(User user) {
         List<OffType> offTypesCompanyPay = user.getTypesCompany();
         for (int i = 0; i < offTypesCompanyPay.size(); i++) {
+            if (offTypesCompanyPay.get(i).getName().equals(ANNUAL)) {
+                setAnnualLeaveAmount(String.valueOf(offTypesCompanyPay.get(i).getAmount()));
+            }
             if (offTypesCompanyPay.get(i).getId() == Integer.parseInt(
                     RequestOffViewModel.TypeOfDays.LEAVE_FOR_MARRIAGE)) {
                 setLeaveForMarriageAmount(String.valueOf(offTypesCompanyPay.get(i).getAmount()));

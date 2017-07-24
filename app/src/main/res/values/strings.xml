@@ -83,7 +83,7 @@
     <string name="off_no_salary">Off no salary</string>
 
     <string name="off_type">Off type</string>
-    <string name="annual_leave">Annual leave (14.5 days)</string>
+    <string name="annual_leave">Annual leave (%s days)</string>
     <string name="leave_for_marriage">Leave for marriage (%s days)</string>
     <string name="leave_for_child_marriage">Leave for child\'s marriage (%s days)</string>
     <string name="funeral_leave">Funeral leave (%s days)</string>
@@ -225,7 +225,7 @@
     <string name="the_number_of_days_allowed">The number of days allowed for vacations may not be left blank!</string>
     <string name="the_field_required_can_not_be_blank">The field required can not be blank!</string>
     <string name="time_must_be_a_working_date">Time must be a working day!</string>
-    <string name="annual_leave_error">Annual leave is not greater than 14.5 days !</string>
+    <string name="annual_leave_error">Annual leave is not greater than %s days !</string>
     <string name="leave_for_marriage_error">Leave for marriage is not greater than %s days !</string>
     <string name="leave_for_child_marriage_error">Leave for child\'s marriage is not greater than %s day !</string>
     <string name="funeral_leave_error">Funeral leave is not greater than %s days !</string>

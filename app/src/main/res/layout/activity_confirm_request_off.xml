@@ -415,7 +415,7 @@
                             style="@style/StyleLinearLayoutConfirmRequestOff"
                             >
                             <TextView
-                                android:text="@string/annual_leave"
+                                android:text="@{viewModel.annualLeaveAmount}"
                                 style="@style/StyleTextConfirmRequestOff"
                                 />
                             <TextView
