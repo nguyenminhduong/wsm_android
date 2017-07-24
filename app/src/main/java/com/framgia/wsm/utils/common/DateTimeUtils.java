@@ -267,7 +267,9 @@ public final class DateTimeUtils {
 
     public static String dayFirstMonthWorking() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - ONE_MONTH);
+        if (calendar.get(Calendar.DAY_OF_MONTH) < DAY_26_OF_MONTH) {
+            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - ONE_MONTH);
+        }
         calendar.set(Calendar.DAY_OF_MONTH, DAY_26_OF_MONTH);
         return DateTimeUtils.convertToString(calendar.getTime(),
                 DateTimeUtils.DATE_FORMAT_YYYY_MM_DD);
@@ -275,6 +277,9 @@ public final class DateTimeUtils {
 
     public static String dayLasttMonthWorking() {
         Calendar calendar = Calendar.getInstance();
+        if (calendar.get(Calendar.DAY_OF_MONTH) >= DAY_26_OF_MONTH) {
+            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + ONE_MONTH);
+        }
         calendar.set(Calendar.DAY_OF_MONTH, DAY_25_OF_MONTH);
         return DateTimeUtils.convertToString(calendar.getTime(),
                 DateTimeUtils.DATE_FORMAT_YYYY_MM_DD);
@@ -282,6 +287,9 @@ public final class DateTimeUtils {
 
     public static String getMonthWorking() {
         Calendar calendar = Calendar.getInstance();
+        if (calendar.get(Calendar.DAY_OF_MONTH) >= DAY_26_OF_MONTH) {
+            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + ONE_MONTH);
+        }
         return DateTimeUtils.convertToString(calendar.getTime(), DateTimeUtils.DATE_FORMAT_YYYY_MM);
     }
 }
