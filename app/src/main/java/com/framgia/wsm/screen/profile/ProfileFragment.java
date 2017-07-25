@@ -1,6 +1,7 @@
 package com.framgia.wsm.screen.profile;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class ProfileFragment extends BaseFragment {
 
     public static final String TAG = "ProfileFragment";
 
+    private UpdateAvatarListener mListener;
     @Inject
     ProfileContract.ViewModel mViewModel;
 
@@ -63,6 +65,21 @@ public class ProfileFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constant.RequestCode.PROFILE_USER && resultCode == Activity.RESULT_OK) {
             mViewModel.reloadData();
+            mListener.onUpdateAvatar();
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ProfileFragment.UpdateAvatarListener) {
+            mListener = (ProfileFragment.UpdateAvatarListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + TAG);
+        }
+    }
+
+    public interface UpdateAvatarListener {
+        void onUpdateAvatar();
     }
 }
