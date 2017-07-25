@@ -1,6 +1,8 @@
 package com.framgia.wsm.screen.managelistrequests.memberrequestdetail;
 
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
+import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.screen.BasePresenter;
 import com.framgia.wsm.screen.BaseViewModel;
 
@@ -18,14 +20,18 @@ public interface MemberRequestDetailContract {
         void onApproveSuccess();
 
         void onError(BaseException e);
+
+        void onDismissProgressDialog();
+
+        void onShowIndeterminateProgressDialog();
+
+        void onApproveOrRejectRequestSuccess(ActionRequestResponse actionRequestResponse);
     }
 
     /**
      * Presenter
      */
     interface Presenter extends BasePresenter<ViewModel> {
-        void rejectRequest(int requestId);
-
-        void approveRequest(int requestId);
+        void approveOrRejectRequest(ActionRequest actionRequest);
     }
 }

@@ -31,6 +31,7 @@ public final class Constant {
     public static final String END_AFTERNOON_TIME = "16:45";
     public static final String DATE_TIME_SPACE = " - ";
     public static final String EXTRA_REQUEST_TYPE_CODE = "EXTRA_REQUEST_TYPE_CODE";
+    public static final String EXTRA_MEMBER_REQUEST = "EXTRA_MEMBER_REQUEST";
 
     private Constant() {
         // No-op

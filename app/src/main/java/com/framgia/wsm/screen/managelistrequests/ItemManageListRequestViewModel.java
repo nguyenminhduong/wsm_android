@@ -6,7 +6,6 @@ import com.framgia.wsm.BR;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
-import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.binding.ColorManagers;
 import com.framgia.wsm.utils.common.DateTimeUtils;
@@ -21,15 +20,13 @@ public class ItemManageListRequestViewModel extends BaseObservable {
     private LeaveRequest mLeaveRequest;
     private OffRequest mRequestOff;
     private RequestOverTime mRequestOverTime;
-    private final BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object>
-            mItemClickListener;
+    private final ItemRecyclerViewClickListener mItemClickListener;
     private final ActionRequestListener mActionRequestListener;
     private final int mItemPosition;
     private int mStatusColor;
     private int mColorImage;
 
-    ItemManageListRequestViewModel(Object object,
-            BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> itemClickListener,
+    ItemManageListRequestViewModel(Object object, ItemRecyclerViewClickListener itemClickListener,
             ActionRequestListener actionRequestListener, int itemPosition) {
         mObject = object;
         mItemClickListener = itemClickListener;
@@ -79,7 +76,7 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         if (mItemClickListener == null) {
             return;
         }
-        mItemClickListener.onItemRecyclerViewClick(mObject);
+        mItemClickListener.onItemRecyclerViewClick(mObject, mItemPosition);
     }
 
     private String getFormatTime(String input) {
