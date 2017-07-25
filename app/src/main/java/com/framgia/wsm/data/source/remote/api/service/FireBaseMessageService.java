@@ -22,10 +22,16 @@ public class FireBaseMessageService extends FirebaseMessagingService {
     private static final String TAG = "FireBaseMessageService";
     private static final String TITLE = "WSM";
     private static final String NOTIFICATION_NUMBER = "NOTIFICATION_NUMBER";
+    private static final String MESSAGE = "message";
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        sendNotification(remoteMessage.getNotification().getBody());
+        if (remoteMessage.getData().size() > 0) {
+            sendNotification(String.valueOf(remoteMessage.getData().get(MESSAGE)));
+        }
+        if (remoteMessage.getNotification() != null) {
+            sendNotification(remoteMessage.getNotification().getBody());
+        }
     }
 
     private void sendNotification(String messageBody) {

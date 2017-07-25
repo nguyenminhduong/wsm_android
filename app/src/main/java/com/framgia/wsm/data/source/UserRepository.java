@@ -28,8 +28,8 @@ public class UserRepository {
         mRemoteDataSource = remoteDataSource;
     }
 
-    public Observable<SignInDataResponse> login(String userName, String passWord) {
-        return mRemoteDataSource.login(userName, passWord)
+    public Observable<SignInDataResponse> login(String userName, String passWord, String deviceId) {
+        return mRemoteDataSource.login(userName, passWord, deviceId)
                 .flatMap(
                         new Function<BaseResponse<SignInDataResponse>,
                                 ObservableSource<SignInDataResponse>>() {

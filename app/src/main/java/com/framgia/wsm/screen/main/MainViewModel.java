@@ -13,7 +13,6 @@ import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
-import com.framgia.wsm.data.source.remote.api.service.FireBaseInstanceIDService;
 import com.framgia.wsm.screen.login.LoginActivity;
 import com.framgia.wsm.screen.notification.NotificationDialogFragment;
 import com.framgia.wsm.utils.Constant;
@@ -51,7 +50,6 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         mCurrentItem = R.id.item_working_calendar;
         mCurrentTitleToolbar = titleWorkingCalendar();
         mPresenter.getUser();
-        onStartFireBaseServices();
     }
 
     public int getPageLimit() {
@@ -276,12 +274,6 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         setCurrentTitleToolbar(String.valueOf(item.getTitle()));
         setStatusDrawerLayout(Constant.DRAWER_IS_CLOSE);
         return true;
-    }
-
-    private void onStartFireBaseServices() {
-        FireBaseInstanceIDService fireBaseInstanceIDService = new FireBaseInstanceIDService();
-        String token = fireBaseInstanceIDService.getToken();
-        Log.d(TAG, "Token FireBase: " + token);
     }
 
     @NonNull

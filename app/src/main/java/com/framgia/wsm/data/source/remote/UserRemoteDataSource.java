@@ -37,8 +37,9 @@ public class UserRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<SignInDataResponse>> login(String userName, String password) {
-        SignInRequest signInRequest = new SignInRequest(userName, password);
+    public Observable<BaseResponse<SignInDataResponse>> login(String userName, String password,
+            String deviceId) {
+        SignInRequest signInRequest = new SignInRequest(userName, password, deviceId);
         return mWSMApi.login(signInRequest)
                 .flatMap(
                         new Function<BaseResponse<SignInDataResponse>,

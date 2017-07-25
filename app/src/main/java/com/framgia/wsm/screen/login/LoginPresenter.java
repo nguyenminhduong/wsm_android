@@ -75,9 +75,9 @@ final class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void login(final String userName, String passWord) {
+    public void login(final String userName, String passWord, String deviceId) {
         validateUserNameInput(userName);
-        mUserRepository.login(userName, passWord)
+        mUserRepository.login(userName, passWord, deviceId)
                 .subscribeOn(mSchedulerProvider.io())
                 .flatMap(new Function<SignInDataResponse, ObservableSource<User>>() {
                     @Override

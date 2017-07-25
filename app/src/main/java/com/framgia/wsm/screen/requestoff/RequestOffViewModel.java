@@ -167,10 +167,10 @@ public class RequestOffViewModel extends BaseRequestOff
                 mRequestOff.setInsuranceCoverage(new InsuranceCoverage());
             }
 
-            String startDayHaveSalary = mRequestOff.getStartDayHaveSalary().getOffPaidFrom();
-            String endDayHaveSalary = mRequestOff.getEndDayHaveSalary().getOffPaidTo();
-            String startDayNoSalary = mRequestOff.getStartDayNoSalary().getOffFrom();
-            String endDayNoSalary = mRequestOff.getEndDayNoSalary().getOffTo();
+            mStartDateHaveSalary = mRequestOff.getStartDayHaveSalary().getOffPaidFrom();
+            mEndDateHaveSalary = mRequestOff.getEndDayHaveSalary().getOffPaidTo();
+            mStartDateNoSalary = mRequestOff.getStartDayNoSalary().getOffFrom();
+            mEndDateNoSalary = mRequestOff.getEndDayNoSalary().getOffTo();
             if (mRequestOff.getNumberDayOffNormal() == null) {
                 mAnnualLeave = "";
             } else {
@@ -186,12 +186,10 @@ public class RequestOffViewModel extends BaseRequestOff
             mMaternityLeave = mRequestOff.getMaternityLeave();
             mWifeLaborLeave = mRequestOff.getWifeLaborLeave();
 
-            if ("".equals(startDayHaveSalary)) {
+            if ("".equals(mStartDateHaveSalary)) {
                 setVisibleLayoutNoSalary(true);
                 mCurrentPositionOffType = PositionOffType.OFF_NO_SALARY;
                 mCurrentOffType = mContext.getString(R.string.off_no_salary);
-                mStartDateNoSalary = startDayNoSalary;
-                mEndDateNoSalary = endDayNoSalary;
                 if (am.equals(mRequestOff.getStartDayNoSalary().getOffFromPeriod())) {
                     mCurrentDaySessionStartDayNoSalary = am;
                     mCurrentPositionDaySessionStartDayNoSalary = DaySession.AM;
@@ -207,6 +205,10 @@ public class RequestOffViewModel extends BaseRequestOff
                     mCurrentDaySessionEndDayNoSalary = pm;
                     mCurrentPositionDaySessionEndDayNoSalary = DaySession.PM;
                 }
+                mCurrentDaySessionStartDayHaveSalary = am;
+                mCurrentPositionDaySessionStartDayHaveSalary = DaySession.AM;
+                mCurrentDaySessionEndDayHaveSalary = am;
+                mCurrentPositionDaySessionEndDayHaveSalary = DaySession.AM;
             } else {
                 if (layoutCompanyPayIsVisible()) {
                     setVisibleLayoutCompanyPay(true);
@@ -218,9 +220,6 @@ public class RequestOffViewModel extends BaseRequestOff
                     mCurrentOffType =
                             mContext.getString(R.string.off_have_salary_insurance_coverage);
                 }
-
-                mStartDateHaveSalary = startDayHaveSalary;
-                mEndDateHaveSalary = endDayHaveSalary;
                 if (am.equals(mRequestOff.getStartDayHaveSalary().getPaidFromPeriod())) {
                     mCurrentDaySessionStartDayHaveSalary = am;
                     mCurrentPositionDaySessionStartDayHaveSalary = DaySession.AM;
@@ -236,6 +235,10 @@ public class RequestOffViewModel extends BaseRequestOff
                     mCurrentDaySessionEndDayHaveSalary = pm;
                     mCurrentPositionDaySessionEndDayHaveSalary = DaySession.PM;
                 }
+                mCurrentDaySessionStartDayNoSalary = am;
+                mCurrentPositionDaySessionStartDayNoSalary = DaySession.AM;
+                mCurrentDaySessionEndDayNoSalary = am;
+                mCurrentPositionDaySessionEndDayNoSalary = DaySession.AM;
             }
             if (Constant.DEFAULT_DOUBLE_VALUE.equals(mRequestOff.getAnnualLeave())) {
                 mRequestOff.setAnnualLeave("");
@@ -1391,8 +1394,8 @@ public class RequestOffViewModel extends BaseRequestOff
             mNavigator.startActivityForResult(ConfirmRequestOffActivity.class, bundle,
                     Constant.RequestCode.REQUEST_OFF);
         } else {
-            if (mEndDateHaveSalary == null) {
-                if (mEndDateNoSalary == null) {
+            if (mEndDateHaveSalary == null || "".equals(mEndDateHaveSalary)) {
+                if (mEndDateNoSalary == null || "".equals(mEndDateNoSalary)) {
                     showErrorDialog(
                             mContext.getString(R.string.the_field_required_can_not_be_blank));
                     return;
