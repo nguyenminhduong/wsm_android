@@ -26,6 +26,8 @@ interface MainContract {
         void goNextFragmentListRequestLeave();
 
         void goNextFragmentPersonalInformation();
+
+        void onReloadDataUser();
     }
 
     /**

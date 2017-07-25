@@ -121,7 +121,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
 
     @Bindable
     public boolean isManage() {
-        return mUser.isManage();
+        return mUser != null && mUser.isManage();
     }
 
     @Override
@@ -174,6 +174,11 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     public void goNextFragmentPersonalInformation() {
         setCurrentPage(Page.PERSONAL);
         setCurrentItem(R.id.item_personal);
+    }
+
+    @Override
+    public void onReloadDataUser() {
+        mPresenter.getUser();
     }
 
     @Override
