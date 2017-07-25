@@ -3,10 +3,13 @@ package com.framgia.wsm.screen.changepassword;
 import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.util.Log;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.validator.Rule;
 import com.framgia.wsm.utils.validator.ValidType;
@@ -18,6 +21,7 @@ import com.framgia.wsm.utils.validator.Validation;
 
 public class ChangePasswordViewModel extends BaseObservable
         implements ChangePasswordContract.ViewModel {
+    private static final String TAG = "ChangePasswordViewModel";
 
     private ChangePasswordContract.Presenter mPresenter;
     @Validation({
@@ -34,12 +38,14 @@ public class ChangePasswordViewModel extends BaseObservable
     })
     private String mCurrentPassword;
     private String mConfirmPassword;
+    private User mUser;
 
     public ChangePasswordViewModel(ChangePasswordContract.Presenter presenter,
             Navigator navigator) {
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mNavigator = navigator;
+        mPresenter.getUser();
     }
 
     @Override
@@ -53,6 +59,16 @@ public class ChangePasswordViewModel extends BaseObservable
     }
 
     @Override
+    public void onGetUserSuccess(User user) {
+        if (user == null) {
+            return;
+        }
+        mUser = user;
+        notifyPropertyChanged(BR.user);
+        notifyPropertyChanged(BR.avatar);
+    }
+
+    @Override
     public void onChangePasswordSuccess() {
         mNavigator.finishActivityWithResult(Activity.RESULT_OK);
     }
@@ -60,6 +76,11 @@ public class ChangePasswordViewModel extends BaseObservable
     @Override
     public void onChangePasswordError(BaseException e) {
         mNavigator.showToast(e.getMessage());
+    }
+
+    @Override
+    public void onGetUserError(BaseException exception) {
+        Log.e(TAG, "onGetUserError", exception);
     }
 
     @Override
@@ -78,6 +99,16 @@ public class ChangePasswordViewModel extends BaseObservable
     public void onInputConfirmPasswordError(String message) {
         mConfirmPasswordError = message;
         notifyPropertyChanged(BR.confirmPasswordError);
+    }
+
+    @Bindable
+    public User getUser() {
+        return mUser;
+    }
+
+    @Bindable
+    public String getAvatar() {
+        return mUser != null ? Constant.END_POINT_URL + mUser.getAvatar() : "";
     }
 
     @Bindable
@@ -127,6 +158,7 @@ public class ChangePasswordViewModel extends BaseObservable
 
     public void setNewPassword(String newPassword) {
         mNewPassword = newPassword;
+        notifyPropertyChanged(BR.newPassword);
     }
 
     @Bindable
@@ -136,6 +168,7 @@ public class ChangePasswordViewModel extends BaseObservable
 
     public void setConfirmPassword(String confirmPassword) {
         mConfirmPassword = confirmPassword;
+        notifyPropertyChanged(BR.confirmPassword);
     }
 
     public void validateNewPassword(String newPassWord) {

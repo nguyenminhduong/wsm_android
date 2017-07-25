@@ -13,6 +13,10 @@ public class ErrorMessage extends BaseModel {
     @SerializedName("base")
     private List<String> mMessageList;
 
+    public List<String> getMessages() {
+        return mMessageList;
+    }
+
     public String getMessageList() {
         String listMessage = "";
         for (String message : mMessageList) {
