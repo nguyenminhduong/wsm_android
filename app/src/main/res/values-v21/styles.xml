@@ -122,11 +122,13 @@
     <style name="StyleTitleProfile">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@color/color_black_transparent</item>
         <item name="android:textSize">@dimen/sp_17</item>
     </style>
 
     <style name="StyleTextProfile">
+        <item name="android:layout_marginTop">@dimen/dp_3</item>
+        <item name="android:textColor">@color/color_gray</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/sp_15</item>
@@ -135,8 +137,8 @@
     <style name="StyleLinearLayoutProfile">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">@dimen/dp_40</item>
-        <item name="android:layout_marginStart">@dimen/dp_40</item>
+        <item name="android:layout_marginLeft">@dimen/dp_30</item>
+        <item name="android:layout_marginStart">@dimen/dp_30</item>
         <item name="android:orientation">vertical</item>
     </style>
 
@@ -181,6 +183,19 @@
         <item name="android:src">@drawable/ic_calendar</item>
         <item name="android:layout_marginRight">@dimen/dp_5</item>
         <item name="android:layout_marginEnd">@dimen/dp_5</item>
+    </style>
+
+    <style name="StyleCircleView">
+        <item name="android:layout_width">@dimen/dp_20</item>
+        <item name="android:layout_height">@dimen/dp_20</item>
+        <item name="android:layout_marginTop">@dimen/dp_2</item>
+    </style>
+
+    <style name="StyleViewProfile">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_1</item>
+        <item name="android:layout_marginTop">@dimen/dp_2</item>
+        <item name="android:background">@color/color_gray_light</item>
     </style>
 
 </resources>
