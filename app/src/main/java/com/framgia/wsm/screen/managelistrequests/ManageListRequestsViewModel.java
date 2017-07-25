@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
+import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.screen.managelistrequests.memberrequestdetail
         .MemberRequestDetailDialogFragment;
@@ -55,6 +57,8 @@ public class ManageListRequestsViewModel extends BaseObservable
     private int mCurrentPositionStatus;
     private String mUserName;
     private ActionRequest mActionRequest;
+    private int mItemPosition;
+    private int mAction;
 
     ManageListRequestsViewModel(Context context, ManageListRequestsContract.Presenter presenter,
             DialogManager dialogManager, ManageListRequestsAdapter manageListRequestsAdapter,
@@ -96,8 +100,8 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     @Override
-    public void onGetListRequestManageSuccess(@RequestType int requestType, Object object) {
-        switch (requestType) {
+    public void onGetListRequestManageSuccess(Object object) {
+        switch (mRequestType) {
             case RequestType.REQUEST_OVERTIME:
                 List<RequestOverTime> listOverTime = (List<RequestOverTime>) object;
                 if (listOverTime.size() == 0) {
@@ -129,7 +133,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
     }
 
-    public void setRequestType(@RequestType int requestType) {
+    void setRequestType(@RequestType int requestType) {
         mRequestType = requestType;
         mQueryRequest.setRequestType(requestType);
         switch (requestType) {
@@ -148,26 +152,17 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     @Override
-    public void onApproveRequestSuccess(@RequestType int requestType, int itemPosition,
-            Object object) {
-        updateItemRequest(requestType, itemPosition, object);
-        mNavigator.showToast(mContext.getString(R.string.approve_success));
-    }
-
-    @Override
-    public void onApproveRequestError(BaseException exception) {
-        mDialogManager.dialogError(exception);
-    }
-
-    @Override
-    public void onRejectRequestSuccess(@RequestType int requestType, int itemPosition,
-            Object object) {
-        updateItemRequest(requestType, itemPosition, object);
+    public void onApproveOrRejectRequestSuccess(ActionRequestResponse actionRequestResponse) {
+        updateItemRequest(mRequestType, mItemPosition, actionRequestResponse);
+        if (mAction == TypeAction.APPROVE) {
+            mNavigator.showToast(mContext.getString(R.string.approve_success));
+            return;
+        }
         mNavigator.showToast(mContext.getString(R.string.reject_success));
     }
 
     @Override
-    public void onRejectRequestError(BaseException exception) {
+    public void onApproveOrRejectRequestError(BaseException exception) {
         mDialogManager.dialogError(exception);
     }
 
@@ -183,16 +178,14 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     @Override
     public void onApproveRequest(int itemPosition, int requestId) {
-        mActionRequest.setStatus(StatusCode.ACCEPT_CODE);
-        mActionRequest.setRequestId(requestId);
-        mPresenter.approveRequest(mRequestType, itemPosition, mActionRequest);
+        mAction = TypeAction.APPROVE;
+        approveOrRejectRequest(itemPosition, requestId, StatusCode.ACCEPT_CODE);
     }
 
     @Override
     public void onRejectRequest(int itemPosition, int requestId) {
-        mActionRequest.setStatus(StatusCode.REJECT_CODE);
-        mActionRequest.setRequestId(requestId);
-        mPresenter.rejectRequest(mRequestType, itemPosition, mActionRequest);
+        mAction = TypeAction.REJECT;
+        approveOrRejectRequest(itemPosition, requestId, StatusCode.REJECT_CODE);
     }
 
     @Override
@@ -216,23 +209,31 @@ public class ManageListRequestsViewModel extends BaseObservable
         return mManageListRequestsAdapter;
     }
 
-    private void updateItemRequest(@RequestType int requestType, int itemPosition, Object object) {
+    private void updateItemRequest(@RequestType int requestType, int itemPosition,
+            ActionRequestResponse actionRequestResponse) {
         switch (requestType) {
             case RequestType.REQUEST_LATE_EARLY:
                 mManageListRequestsAdapter.updateItem(requestType, itemPosition,
-                        ((LeaveRequest) object).getStatus());
+                        actionRequestResponse.getStatus());
                 break;
             case RequestType.REQUEST_OFF:
                 mManageListRequestsAdapter.updateItem(requestType, itemPosition,
-                        ((OffRequest) object).getStatus());
+                        actionRequestResponse.getStatus());
                 break;
             case RequestType.REQUEST_OVERTIME:
                 mManageListRequestsAdapter.updateItem(requestType, itemPosition,
-                        ((RequestOverTime) object).getStatus());
+                        actionRequestResponse.getStatus());
                 break;
             default:
                 break;
         }
+    }
+
+    private void approveOrRejectRequest(int itemPosition, int requestId, String statusCode) {
+        mItemPosition = itemPosition;
+        mActionRequest.setStatus(statusCode);
+        mActionRequest.setRequestId(requestId);
+        mPresenter.approveOrRejectRequest(mActionRequest);
     }
 
     @Bindable
@@ -359,5 +360,11 @@ public class ManageListRequestsViewModel extends BaseObservable
         String LEAVE = "leave";
         String OFF = "off";
         String OT = "ot";
+    }
+
+    @IntDef({ TypeAction.APPROVE, TypeAction.REJECT })
+    @interface TypeAction {
+        int APPROVE = 0;
+        int REJECT = 1;
     }
 }

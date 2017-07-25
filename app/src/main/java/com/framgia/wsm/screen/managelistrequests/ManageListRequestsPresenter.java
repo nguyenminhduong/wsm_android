@@ -8,6 +8,7 @@ import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
+import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
@@ -54,8 +55,7 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
     }
 
     @Override
-    public void getListAllRequestManage(@RequestType final int requestType,
-            QueryRequest queryRequest) {
+    public void getListAllRequestManage(int requestType, QueryRequest queryRequest) {
         Disposable disposable;
         switch (requestType) {
             case RequestType.REQUEST_LATE_EARLY:
@@ -81,7 +81,7 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                                     throws Exception {
                                 Collections.reverse(listBaseResponse.getData());
                                 mViewModel.onGetListRequestManageSuccess(
-                                        RequestType.REQUEST_LATE_EARLY, listBaseResponse.getData());
+                                        listBaseResponse.getData());
                             }
                         }, new RequestError() {
                             @Override
@@ -113,7 +113,7 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                                     @NonNull BaseResponse<List<OffRequest>> listBaseResponse)
                                     throws Exception {
                                 Collections.reverse(listBaseResponse.getData());
-                                mViewModel.onGetListRequestManageSuccess(RequestType.REQUEST_OFF,
+                                mViewModel.onGetListRequestManageSuccess(
                                         listBaseResponse.getData());
                             }
                         }, new RequestError() {
@@ -147,7 +147,7 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                                     throws Exception {
                                 Collections.reverse(listBaseResponse.getData());
                                 mViewModel.onGetListRequestManageSuccess(
-                                        RequestType.REQUEST_OVERTIME, listBaseResponse.getData());
+                                        listBaseResponse.getData());
                             }
                         }, new RequestError() {
                             @Override
@@ -163,214 +163,36 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
     }
 
     @Override
-    public void approveRequest(@RequestType int requestType, final int itemPosition,
-            ActionRequest actionRequest) {
-        Disposable disposable;
-        switch (requestType) {
-            case RequestType.REQUEST_LATE_EARLY:
-                disposable = mRequestRepository.approveRequestLeave(actionRequest)
-                        .subscribeOn(mBaseSchedulerProvider.io())
-                        .observeOn(mBaseSchedulerProvider.ui())
-                        .doOnSubscribe(new Consumer<Disposable>() {
-                            @Override
-                            public void accept(@NonNull Disposable disposable) throws Exception {
-                                mViewModel.onShowIndeterminateProgressDialog();
-                            }
-                        })
-                        .doAfterTerminate(new Action() {
-                            @Override
-                            public void run() throws Exception {
-                                mViewModel.onDismissProgressDialog();
-                            }
-                        })
-                        .subscribe(new Consumer<BaseResponse<LeaveRequest>>() {
-                            @Override
-                            public void accept(
-                                    @NonNull BaseResponse<LeaveRequest> leaveRequestBaseResponse)
-                                    throws Exception {
-                                mViewModel.onApproveRequestSuccess(RequestType.REQUEST_LATE_EARLY,
-                                        itemPosition, leaveRequestBaseResponse.getData());
-                            }
-                        }, new RequestError() {
-                            @Override
-                            public void onRequestError(BaseException error) {
-                                mViewModel.onApproveRequestError(error);
-                            }
-                        });
-                mCompositeDisposable.add(disposable);
-                break;
-            case RequestType.REQUEST_OFF:
-                disposable = mRequestRepository.approveRequestOff(actionRequest)
-                        .subscribeOn(mBaseSchedulerProvider.io())
-                        .observeOn(mBaseSchedulerProvider.ui())
-                        .doOnSubscribe(new Consumer<Disposable>() {
-                            @Override
-                            public void accept(@NonNull Disposable disposable) throws Exception {
-                                mViewModel.onShowIndeterminateProgressDialog();
-                            }
-                        })
-                        .doAfterTerminate(new Action() {
-                            @Override
-                            public void run() throws Exception {
-                                mViewModel.onDismissProgressDialog();
-                            }
-                        })
-                        .subscribe(new Consumer<BaseResponse<OffRequest>>() {
-                            @Override
-                            public void accept(
-                                    @NonNull BaseResponse<OffRequest> leaveRequestBaseResponse)
-                                    throws Exception {
-                                mViewModel.onApproveRequestSuccess(RequestType.REQUEST_OFF,
-                                        itemPosition, leaveRequestBaseResponse.getData());
-                            }
-                        }, new RequestError() {
-                            @Override
-                            public void onRequestError(BaseException error) {
-                                mViewModel.onApproveRequestError(error);
-                            }
-                        });
-                mCompositeDisposable.add(disposable);
-                break;
-            case RequestType.REQUEST_OVERTIME:
-                disposable = mRequestRepository.approveRequestOverTime(actionRequest)
-                        .subscribeOn(mBaseSchedulerProvider.io())
-                        .observeOn(mBaseSchedulerProvider.ui())
-                        .doOnSubscribe(new Consumer<Disposable>() {
-                            @Override
-                            public void accept(@NonNull Disposable disposable) throws Exception {
-                                mViewModel.onShowIndeterminateProgressDialog();
-                            }
-                        })
-                        .doAfterTerminate(new Action() {
-                            @Override
-                            public void run() throws Exception {
-                                mViewModel.onDismissProgressDialog();
-                            }
-                        })
-                        .subscribe(new Consumer<BaseResponse<RequestOverTime>>() {
-                            @Override
-                            public void accept(
-                                    @NonNull BaseResponse<RequestOverTime> leaveRequestBaseResponse)
-                                    throws Exception {
-                                mViewModel.onApproveRequestSuccess(RequestType.REQUEST_OVERTIME,
-                                        itemPosition, leaveRequestBaseResponse.getData());
-                            }
-                        }, new RequestError() {
-                            @Override
-                            public void onRequestError(BaseException error) {
-                                mViewModel.onApproveRequestError(error);
-                            }
-                        });
-                mCompositeDisposable.add(disposable);
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void rejectRequest(@RequestType int requestType, final int itemPosition,
-            ActionRequest actionRequest) {
-        Disposable disposable;
-        switch (requestType) {
-            case RequestType.REQUEST_LATE_EARLY:
-                disposable = mRequestRepository.rejectRequestLeave(actionRequest)
-                        .subscribeOn(mBaseSchedulerProvider.io())
-                        .observeOn(mBaseSchedulerProvider.ui())
-                        .doOnSubscribe(new Consumer<Disposable>() {
-                            @Override
-                            public void accept(@NonNull Disposable disposable) throws Exception {
-                                mViewModel.onShowIndeterminateProgressDialog();
-                            }
-                        })
-                        .doAfterTerminate(new Action() {
-                            @Override
-                            public void run() throws Exception {
-                                mViewModel.onDismissProgressDialog();
-                            }
-                        })
-                        .subscribe(new Consumer<BaseResponse<LeaveRequest>>() {
-                            @Override
-                            public void accept(
-                                    @NonNull BaseResponse<LeaveRequest> leaveRequestBaseResponse)
-                                    throws Exception {
-                                mViewModel.onRejectRequestSuccess(RequestType.REQUEST_LATE_EARLY,
-                                        itemPosition, leaveRequestBaseResponse.getData());
-                            }
-                        }, new RequestError() {
-                            @Override
-                            public void onRequestError(BaseException error) {
-                                mViewModel.onRejectRequestError(error);
-                            }
-                        });
-                mCompositeDisposable.add(disposable);
-                break;
-            case RequestType.REQUEST_OFF:
-                disposable = mRequestRepository.rejectRequestOff(actionRequest)
-                        .subscribeOn(mBaseSchedulerProvider.io())
-                        .observeOn(mBaseSchedulerProvider.ui())
-                        .doOnSubscribe(new Consumer<Disposable>() {
-                            @Override
-                            public void accept(@NonNull Disposable disposable) throws Exception {
-                                mViewModel.onShowIndeterminateProgressDialog();
-                            }
-                        })
-                        .doAfterTerminate(new Action() {
-                            @Override
-                            public void run() throws Exception {
-                                mViewModel.onDismissProgressDialog();
-                            }
-                        })
-                        .subscribe(new Consumer<BaseResponse<OffRequest>>() {
-                            @Override
-                            public void accept(
-                                    @NonNull BaseResponse<OffRequest> leaveRequestBaseResponse)
-                                    throws Exception {
-                                mViewModel.onRejectRequestSuccess(RequestType.REQUEST_OFF,
-                                        itemPosition, leaveRequestBaseResponse.getData());
-                            }
-                        }, new RequestError() {
-                            @Override
-                            public void onRequestError(BaseException error) {
-                                mViewModel.onRejectRequestError(error);
-                            }
-                        });
-                mCompositeDisposable.add(disposable);
-                break;
-            case RequestType.REQUEST_OVERTIME:
-                disposable = mRequestRepository.rejectRequestOverTime(actionRequest)
-                        .subscribeOn(mBaseSchedulerProvider.io())
-                        .observeOn(mBaseSchedulerProvider.ui())
-                        .doOnSubscribe(new Consumer<Disposable>() {
-                            @Override
-                            public void accept(@NonNull Disposable disposable) throws Exception {
-                                mViewModel.onShowIndeterminateProgressDialog();
-                            }
-                        })
-                        .doAfterTerminate(new Action() {
-                            @Override
-                            public void run() throws Exception {
-                                mViewModel.onDismissProgressDialog();
-                            }
-                        })
-                        .subscribe(new Consumer<BaseResponse<RequestOverTime>>() {
-                            @Override
-                            public void accept(
-                                    @NonNull BaseResponse<RequestOverTime> leaveRequestBaseResponse)
-                                    throws Exception {
-                                mViewModel.onRejectRequestSuccess(RequestType.REQUEST_OVERTIME,
-                                        itemPosition, leaveRequestBaseResponse.getData());
-                            }
-                        }, new RequestError() {
-                            @Override
-                            public void onRequestError(BaseException error) {
-                                mViewModel.onRejectRequestError(error);
-                            }
-                        });
-                mCompositeDisposable.add(disposable);
-                break;
-            default:
-                break;
-        }
+    public void approveOrRejectRequest(ActionRequest actionRequest) {
+        Disposable disposable = mRequestRepository.actionApproveRejectRequest(actionRequest)
+                .subscribeOn(mBaseSchedulerProvider.io())
+                .observeOn(mBaseSchedulerProvider.ui())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(@NonNull Disposable disposable) throws Exception {
+                        mViewModel.onShowIndeterminateProgressDialog();
+                    }
+                })
+                .doAfterTerminate(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mViewModel.onDismissProgressDialog();
+                    }
+                })
+                .subscribe(new Consumer<BaseResponse<ActionRequestResponse>>() {
+                    @Override
+                    public void accept(@NonNull
+                            BaseResponse<ActionRequestResponse> actionRequestResponseBaseResponse)
+                            throws Exception {
+                        mViewModel.onApproveOrRejectRequestSuccess(
+                                actionRequestResponseBaseResponse.getData());
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onApproveOrRejectRequestError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
     }
 }

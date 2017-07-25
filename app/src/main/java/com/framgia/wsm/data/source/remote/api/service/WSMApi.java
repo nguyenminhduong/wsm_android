@@ -14,6 +14,7 @@ import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
+import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import io.reactivex.Observable;
@@ -124,24 +125,6 @@ public interface WSMApi {
             @QueryMap Map<String, String> params);
 
     @PUT("api/dashboard/manager/approvals")
-    Observable<BaseResponse<RequestOverTime>> approveFormRequestOverTime(
+    Observable<BaseResponse<ActionRequestResponse>> approveOrRejectRequest(
             @Body ActionRequest actionRequest);
-
-    @PUT("api/dashboard/manager/approvals")
-    Observable<BaseResponse<LeaveRequest>> approveFormRequestLeave(
-            @Body ActionRequest actionRequest);
-
-    @PUT("api/dashboard/manager/approvals")
-    Observable<BaseResponse<OffRequest>> approveFormRequestOff(@Body ActionRequest actionRequest);
-
-    @PUT("api/dashboard/manager/approvals")
-    Observable<BaseResponse<RequestOverTime>> rejectFormRequestOverTime(
-            @Body ActionRequest actionRequest);
-
-    @PUT("api/dashboard/manager/approvals")
-    Observable<BaseResponse<LeaveRequest>> rejectFormRequestLeave(
-            @Body ActionRequest actionRequest);
-
-    @PUT("api/dashboard/manager/approvals")
-    Observable<BaseResponse<OffRequest>> rejectFormRequestOff(@Body ActionRequest actionRequest);
 }

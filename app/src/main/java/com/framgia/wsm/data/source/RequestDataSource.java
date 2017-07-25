@@ -7,6 +7,7 @@ import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
+import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
@@ -56,18 +57,7 @@ public interface RequestDataSource {
         Observable<BaseResponse<List<OffRequest>>> getListRequesOffManage(
                 QueryRequest queryRequest);
 
-        Observable<BaseResponse<LeaveRequest>> approveRequestLeave(ActionRequest actionRequest);
-
-        Observable<BaseResponse<OffRequest>> approveRequestOff(ActionRequest actionRequest);
-
-        Observable<BaseResponse<RequestOverTime>> approveRequestOverTime(
-                ActionRequest actionRequest);
-
-        Observable<BaseResponse<LeaveRequest>> rejectRequestLeave(ActionRequest actionRequest);
-
-        Observable<BaseResponse<OffRequest>> rejectRequestOff(ActionRequest actionRequest);
-
-        Observable<BaseResponse<RequestOverTime>> rejectRequestOverTime(
+        Observable<BaseResponse<ActionRequestResponse>> approveOrRejectRequest(
                 ActionRequest actionRequest);
     }
 }

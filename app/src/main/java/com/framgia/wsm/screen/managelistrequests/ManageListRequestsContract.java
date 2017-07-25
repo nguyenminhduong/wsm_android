@@ -3,9 +3,9 @@ package com.framgia.wsm.screen.managelistrequests;
 import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
+import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.screen.BasePresenter;
 import com.framgia.wsm.screen.BaseViewModel;
-import com.framgia.wsm.utils.RequestType;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -18,17 +18,13 @@ interface ManageListRequestsContract {
 
         void onGetListRequestManageError(BaseException exception);
 
-        void onGetListRequestManageSuccess(@RequestType int requestType, Object object);
+        void onGetListRequestManageSuccess(Object object);
 
         void onReloadData();
 
-        void onApproveRequestSuccess(@RequestType int requestType, int itemPosition, Object object);
+        void onApproveOrRejectRequestSuccess(ActionRequestResponse actionRequestResponse);
 
-        void onApproveRequestError(BaseException exception);
-
-        void onRejectRequestSuccess(@RequestType int requestType, int itemPosition, Object object);
-
-        void onRejectRequestError(BaseException exception);
+        void onApproveOrRejectRequestError(BaseException exception);
 
         void onDismissProgressDialog();
 
@@ -40,12 +36,8 @@ interface ManageListRequestsContract {
      */
     interface Presenter extends BasePresenter<ViewModel> {
 
-        void getListAllRequestManage(@RequestType int requestType, QueryRequest queryRequest);
+        void getListAllRequestManage(int requestType, QueryRequest queryRequest);
 
-        void approveRequest(@RequestType int requestType, int itemPosition,
-                ActionRequest actionRequest);
-
-        void rejectRequest(@RequestType int requestType, int itemPosition,
-                ActionRequest actionRequest);
+        void approveOrRejectRequest(ActionRequest actionRequest);
     }
 }
