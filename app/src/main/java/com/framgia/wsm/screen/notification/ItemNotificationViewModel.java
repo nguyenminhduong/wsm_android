@@ -17,11 +17,11 @@ public class ItemNotificationViewModel extends BaseObservable {
     }
 
     public String getContent() {
-        return mNotification.getContent();
+        return mNotification.getMessage();
     }
 
     public String getDate() {
-        return mNotification.getDate();
+        return mNotification.getCreatedAt();
     }
 
     public String getIcon() {
@@ -29,7 +29,7 @@ public class ItemNotificationViewModel extends BaseObservable {
     }
 
     public boolean isRead() {
-        return mNotification.isRead();
+        return mNotification.getRead();
     }
 
     public void onItemClicked(View view) {
