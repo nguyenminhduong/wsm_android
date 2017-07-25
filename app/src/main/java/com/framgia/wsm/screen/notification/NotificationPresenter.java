@@ -1,16 +1,15 @@
 package com.framgia.wsm.screen.notification;
 
-import com.framgia.wsm.data.model.Notification;
 import com.framgia.wsm.data.source.NotificationRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.data.source.remote.api.response.NotificationResponse;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import java.util.List;
 
 /**
  * Listens to user actions from the UI ({@link NotificationDialogFragment}), retrieves the data and
@@ -46,16 +45,17 @@ final class NotificationPresenter implements NotificationContract.Presenter {
     }
 
     @Override
-    public void getNotification() {
-        Disposable subscription = mNotificationRepository.getNotification()
+    public void getNotification(int page) {
+        Disposable subscription = mNotificationRepository.getNotification(page)
                 .subscribeOn(mSchedulerProvider.io())
                 .observeOn(mSchedulerProvider.ui())
-                .subscribe(new Consumer<BaseResponse<List<Notification>>>() {
+                .subscribe(new Consumer<BaseResponse<NotificationResponse>>() {
                     @Override
-                    public void accept(@NonNull BaseResponse<List<Notification>> baseResponse)
+                    public void accept(@NonNull BaseResponse<NotificationResponse> baseResponse)
                             throws Exception {
                         if (baseResponse != null && baseResponse.getData() != null) {
-                            mViewModel.onGetNotificationSuccess(baseResponse.getData());
+                            mViewModel.onGetNotificationSuccess(
+                                    baseResponse.getData().getNotifications());
                         }
                     }
                 }, new RequestError() {

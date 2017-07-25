@@ -8,60 +8,61 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Notification extends BaseModel {
-    @Expose
     @SerializedName("id")
-    private int mId;
     @Expose
-    @SerializedName("date")
-    private String mDate;
+    private Integer mId;
+    @SerializedName("trackable_type")
     @Expose
-    @SerializedName("content")
-    private String mContent;
+    private String mTrackableType;
+    @SerializedName("read")
     @Expose
-    @SerializedName("status")
-    private boolean isRead;
+    private Boolean isRead;
+    @SerializedName("message")
     @Expose
-    @SerializedName("icon")
+    private String mMessage;
+    @SerializedName("created_at")
+    @Expose
+    private String mCreatedAt;
     private String mIcon;
 
-    public Notification(int id, String date, String content, boolean read, String icon) {
-        mId = id;
-        mDate = date;
-        mContent = content;
-        isRead = read;
-        mIcon = icon;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return mId;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         mId = id;
     }
 
-    public String getDate() {
-        return mDate;
+    public String getTrackableType() {
+        return mTrackableType;
     }
 
-    public void setDate(String date) {
-        mDate = date;
+    public void setTrackableType(String trackableType) {
+        mTrackableType = trackableType;
     }
 
-    public String getContent() {
-        return mContent;
-    }
-
-    public void setContent(String content) {
-        mContent = content;
-    }
-
-    public boolean isRead() {
+    public Boolean getRead() {
         return isRead;
     }
 
-    public void setRead(boolean read) {
+    public void setRead(Boolean read) {
         isRead = read;
+    }
+
+    public String getMessage() {
+        return mMessage;
+    }
+
+    public void setMessage(String message) {
+        mMessage = message;
+    }
+
+    public String getCreatedAt() {
+        return mCreatedAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        mCreatedAt = createdAt;
     }
 
     public String getIcon() {

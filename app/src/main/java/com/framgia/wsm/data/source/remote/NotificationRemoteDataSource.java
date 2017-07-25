@@ -1,11 +1,11 @@
 package com.framgia.wsm.data.source.remote;
 
-import com.framgia.wsm.data.model.Notification;
 import com.framgia.wsm.data.source.NotificationDataSource;
+import com.framgia.wsm.data.source.remote.api.request.NotificationRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.data.source.remote.api.response.NotificationResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
 import io.reactivex.Observable;
-import java.util.List;
 import javax.inject.Inject;
 
 /**
@@ -20,7 +20,12 @@ public class NotificationRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<List<Notification>>> getNotification() {
-        return mWSMApi.getNotification();
+    public Observable<BaseResponse<NotificationResponse>> getNotification(int page) {
+        return mWSMApi.getNotification(page);
+    }
+
+    @Override
+    public Observable<BaseResponse> setReadNotification(NotificationRequest notificationRequest) {
+        return mWSMApi.setReadNotifcation(notificationRequest);
     }
 }

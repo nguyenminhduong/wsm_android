@@ -3,7 +3,6 @@ package com.framgia.wsm.data.source.remote.api.service;
 import com.framgia.wsm.data.model.HolidayCalendar;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.LeaveType;
-import com.framgia.wsm.data.model.Notification;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.OffTypeDay;
 import com.framgia.wsm.data.model.RequestOverTime;
@@ -11,11 +10,13 @@ import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.model.UserTimeSheet;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
+import com.framgia.wsm.data.source.remote.api.request.NotificationRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.data.source.remote.api.response.NotificationResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import io.reactivex.Observable;
 import java.util.List;
@@ -108,9 +109,11 @@ public interface WSMApi {
     @GET("api/dashboard/dayoff_settings")
     Observable<BaseResponse<OffTypeDay>> getListOffType();
 
-    @Multipart
-    @PUT("/api/dashboard/notification")
-    Observable<BaseResponse<List<Notification>>> getNotification();
+    @GET("/api/dashboard/notifications")
+    Observable<BaseResponse<NotificationResponse>> getNotification(@Query("page") int page);
+
+    @PUT("/api/dashboard/set_notifications")
+    Observable<BaseResponse> setReadNotifcation(@Body NotificationRequest notificationRequest);
 
     @GET("/api/dashboard/manager/request_leaves?")
     Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveManage(

@@ -1,9 +1,9 @@
 package com.framgia.wsm.data.source;
 
-import com.framgia.wsm.data.model.Notification;
+import com.framgia.wsm.data.source.remote.api.request.NotificationRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.data.source.remote.api.response.NotificationResponse;
 import io.reactivex.Observable;
-import java.util.List;
 
 /**
  * Created by minhd on 7/5/2017.
@@ -11,6 +11,8 @@ import java.util.List;
 
 public interface NotificationDataSource {
     interface RemoteDataSource {
-        Observable<BaseResponse<List<Notification>>> getNotification();
+        Observable<BaseResponse<NotificationResponse>> getNotification(int page);
+
+        Observable<BaseResponse> setReadNotification(NotificationRequest notificationRequest);
     }
 }

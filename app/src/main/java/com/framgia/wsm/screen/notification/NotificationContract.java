@@ -23,6 +23,6 @@ interface NotificationContract {
      * Presenter.
      */
     interface Presenter extends BasePresenter<ViewModel> {
-        void getNotification();
+        void getNotification(int page);
     }
 }

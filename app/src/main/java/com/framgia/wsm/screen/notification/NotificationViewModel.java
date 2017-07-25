@@ -16,13 +16,15 @@ public class NotificationViewModel implements NotificationContract.ViewModel,
     private static final String TAG = "NotificationViewModel";
     private NotificationContract.Presenter mPresenter;
     private NotificationAdapter mNotificationAdapter;
+    private int mPage;
 
     NotificationViewModel(NotificationContract.Presenter presenter,
             NotificationAdapter notificationAdapter, Navigator navigator) {
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mNotificationAdapter = notificationAdapter;
-        mPresenter.getNotification();
+        mPage = 1;
+        mPresenter.getNotification(mPage);
     }
 
     @Override
