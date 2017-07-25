@@ -53,7 +53,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/employee_name_italic"
                         android:inputType="text"
-                        android:padding="@dimen/dp_10"
+                        android:padding="@dimen/dp_7"
                         android:text="@={viewModel.userName}"
                         android:textColor="@color/cardview_dark_background"
                         android:textColorHint="@color/cardview_shadow_start_color"
@@ -83,7 +83,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:padding="@dimen/dp_10"
+                                android:padding="@dimen/dp_7"
                                 >
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -118,7 +118,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:padding="@dimen/dp_10"
+                                android:padding="@dimen/dp_7"
                                 >
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -161,7 +161,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/border_button_a"
                             android:onClick="@{viewModel::onPickTypeStatus}"
-                            android:padding="@dimen/dp_10"
+                            android:padding="@dimen/dp_7"
                             >
                             <ImageView
                                 tools:ignore="ContentDescription"
@@ -181,9 +181,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_5"
-                            android:layout_marginStart="@dimen/dp_5"
-                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginLeft="@dimen/dp_7"
+                            android:layout_marginStart="@dimen/dp_7"
                             android:layout_weight="1"
                             android:gravity="center"
                             android:orientation="horizontal"

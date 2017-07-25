@@ -80,7 +80,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="@{viewModel.leaveTypeName}"
-                        android:textColor="@color/color_red_firebrick"
+                        android:textColor="@color/color_green_dark_transparent"
                         android:textSize="@dimen/sp_15"
                         android:textStyle="bold"
                         />
@@ -102,6 +102,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_1"
                         android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:layout_marginRight="@dimen/dp_5"
+                        android:layout_marginStart="@dimen/dp_5"
                         android:background="@color/color_green_light"
                         />
                 </LinearLayout>
