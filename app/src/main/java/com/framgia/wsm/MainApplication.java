@@ -1,6 +1,7 @@
 package com.framgia.wsm;
 
 import android.app.Application;
+import android.support.v7.app.AppCompatDelegate;
 import com.crashlytics.android.Crashlytics;
 import com.framgia.wsm.data.source.RepositoryModule;
 import com.framgia.wsm.data.source.remote.api.NetworkModule;
@@ -29,5 +30,6 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 }
