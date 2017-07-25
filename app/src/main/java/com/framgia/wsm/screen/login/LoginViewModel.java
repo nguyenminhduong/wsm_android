@@ -3,10 +3,12 @@ package com.framgia.wsm.screen.login;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.util.Log;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.service.FireBaseInstanceIDService;
 import com.framgia.wsm.screen.main.MainActivity;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.validator.Rule;
@@ -19,6 +21,7 @@ import com.framgia.wsm.widget.dialog.DialogManager;
  */
 
 public class LoginViewModel extends BaseObservable implements LoginContract.ViewModel {
+    private static final String TAG = "LoginViewModel";
 
     private Context mContext;
     private Navigator mNavigator;
@@ -26,6 +29,7 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
     private LoginContract.Presenter mPresenter;
     private String mUsernameError;
     private String mPasswordError;
+    private String mDeviceId;
 
     @Validation({
             @Rule(types = ValidType.EMAIL_FORMAT, message = R.string.invalid_email_format),
@@ -45,6 +49,7 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
         mPresenter.setViewModel(this);
         mNavigator = navigator;
         mDialogManager = dialogManager;
+        onStartFireBaseServices();
         mPresenter.checkUserLogin();
     }
 
@@ -132,12 +137,18 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
         mPassword = password;
     }
 
+    private void onStartFireBaseServices() {
+        FireBaseInstanceIDService fireBaseInstanceIDService = new FireBaseInstanceIDService();
+        mDeviceId = fireBaseInstanceIDService.getToken();
+        Log.d(TAG, "Token FireBase: " + mDeviceId);
+    }
+
     public void onLoginClick(View view) {
         if (!mPresenter.validateDataInput(mUsername, mPassword)) {
             return;
         }
         mDialogManager.showIndeterminateProgressDialog();
-        mPresenter.login(mUsername, mPassword);
+        mPresenter.login(mUsername, mPassword, mDeviceId);
     }
 
     public void validateEmail(String userName) {

@@ -30,7 +30,8 @@ public interface UserDataSource {
      * RemoteData For User
      */
     interface RemoteDataSource {
-        Observable<BaseResponse<SignInDataResponse>> login(String userName, String password);
+        Observable<BaseResponse<SignInDataResponse>> login(String userName, String password,
+                String deviceId);
 
         Observable<BaseResponse<User>> getUserProfile(int userId);
 

@@ -29,7 +29,7 @@ interface LoginContract {
      * Presenter.
      */
     interface Presenter extends BasePresenter<ViewModel> {
-        void login(String userName, String passWord);
+        void login(String userName, String passWord, String deviceId);
 
         boolean validateDataInput(String userName, String passWord);
 

@@ -12,8 +12,8 @@ public class SignInRequest extends BaseRequest {
     @SerializedName("sign_in")
     private SignIn mSignIn;
 
-    public SignInRequest(String username, String password) {
-        mSignIn = new SignIn(username, password);
+    public SignInRequest(String username, String password, String deviceId) {
+        mSignIn = new SignIn(username, password, deviceId);
     }
 
     private static class SignIn {
@@ -23,10 +23,14 @@ public class SignInRequest extends BaseRequest {
         @Expose
         @SerializedName("password")
         private String mPassword;
+        @Expose
+        @SerializedName("device_id")
+        private String mDeviceId;
 
-        private SignIn(String email, String password) {
+        SignIn(String email, String password, String deviceId) {
             mEmail = email;
             mPassword = password;
+            mDeviceId = deviceId;
         }
 
         public String getEmail() {
@@ -43,6 +47,14 @@ public class SignInRequest extends BaseRequest {
 
         public void setPassword(String password) {
             mPassword = password;
+        }
+
+        public String getDeviceId() {
+            return mDeviceId;
+        }
+
+        public void setDeviceId(String deviceId) {
+            mDeviceId = deviceId;
         }
     }
 }
