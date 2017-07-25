@@ -8,6 +8,7 @@ import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
+import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
@@ -93,29 +94,8 @@ public class RequestRepository {
         return mRemoteDataSource.getListRequesOvertimetManage(queryRequest);
     }
 
-    public Observable<BaseResponse<LeaveRequest>> approveRequestLeave(ActionRequest actionRequest) {
-        return mRemoteDataSource.approveRequestLeave(actionRequest);
-    }
-
-    public Observable<BaseResponse<OffRequest>> approveRequestOff(ActionRequest actionRequest) {
-        return mRemoteDataSource.approveRequestOff(actionRequest);
-    }
-
-    public Observable<BaseResponse<RequestOverTime>> approveRequestOverTime(
+    public Observable<BaseResponse<ActionRequestResponse>> actionApproveRejectRequest(
             ActionRequest actionRequest) {
-        return mRemoteDataSource.approveRequestOverTime(actionRequest);
-    }
-
-    public Observable<BaseResponse<LeaveRequest>> rejectRequestLeave(ActionRequest actionRequest) {
-        return mRemoteDataSource.rejectRequestLeave(actionRequest);
-    }
-
-    public Observable<BaseResponse<OffRequest>> rejectRequestOff(ActionRequest actionRequest) {
-        return mRemoteDataSource.rejectRequestOff(actionRequest);
-    }
-
-    public Observable<BaseResponse<RequestOverTime>> rejectRequestOverTime(
-            ActionRequest actionRequest) {
-        return mRemoteDataSource.rejectRequestOverTime(actionRequest);
+        return mRemoteDataSource.approveOrRejectRequest(actionRequest);
     }
 }
