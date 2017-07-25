@@ -24,7 +24,9 @@ public class ErrorResponse {
     }
 
     public String getMessage() {
-        if (mErrorMessage != null) {
+        if (mErrorMessage != null
+                && mErrorMessage.getMessages() != null
+                && mErrorMessage.getMessages().size() != 0) {
             return messages.toUpperCase(Locale.getDefault())
                     + "\n"
                     + mErrorMessage.getMessageList();

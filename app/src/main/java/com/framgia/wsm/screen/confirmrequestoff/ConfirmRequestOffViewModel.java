@@ -138,7 +138,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
                     && !Constant.DEFAULT_DOUBLE_VALUE.equals(mOffRequest.getAnnualLeave())) {
                 mOffRequest.setNumberDayOffNormal(Double.parseDouble(mOffRequest.getAnnualLeave()));
             } else {
-                mOffRequest.setNumberDayOffNormal(null);
+                mOffRequest.setNumberDayOffNormal(Double.valueOf(Constant.DEFAULT_DOUBLE_VALUE));
             }
         }
     }

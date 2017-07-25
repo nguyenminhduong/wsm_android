@@ -3,6 +3,7 @@ package com.framgia.wsm.screen.changepassword;
 import android.content.Context;
 import android.util.Log;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
@@ -50,6 +51,25 @@ final class ChangePasswordPresenter implements ChangePasswordContract.Presenter 
     @Override
     public void setViewModel(ChangePasswordContract.ViewModel viewModel) {
         mViewModel = viewModel;
+    }
+
+    @Override
+    public void getUser() {
+        Disposable disposable = mUserRepository.getUser()
+                .subscribeOn(mBaseSchedulerProvider.io())
+                .observeOn(mBaseSchedulerProvider.ui())
+                .subscribe(new Consumer<User>() {
+                    @Override
+                    public void accept(@NonNull User user) throws Exception {
+                        mViewModel.onGetUserSuccess(user);
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onGetUserError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
     }
 
     @Override
@@ -117,6 +137,12 @@ final class ChangePasswordPresenter implements ChangePasswordContract.Presenter 
 
     @Override
     public boolean validateConfirmPasswordInput(String newPassword, String confirmPassword) {
+        if (newPassword == null) {
+            newPassword = "";
+        }
+        if (confirmPassword == null) {
+            confirmPassword = "";
+        }
         boolean isValid;
         if (!newPassword.equals(confirmPassword)) {
             mViewModel.onInputConfirmPasswordError(

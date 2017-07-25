@@ -224,9 +224,9 @@ public class ListRequestViewModel extends BaseObservable
 
     public void onClearData(View view) {
         setCurrentStatus(null);
-        setMonthYear(DateTimeUtils.getMonthWorking());
+        setMonthYear(null);
         mQueryRequest.setStatus(null);
-        mQueryRequest.setMonthWorking(DateTimeUtils.getMonthWorking());
+        mQueryRequest.setMonthWorking(null);
         mPresenter.getListAllRequest(mRequestType, mQueryRequest);
     }
 }
