@@ -141,10 +141,10 @@ public class TimeSheetView extends View {
                         resources.getDimensionPixelOffset(R.dimen.dp_20));
         mDaySelectedCircleInSize =
                 typedArray.getDimensionPixelSize(R.styleable.DatePickerView_selectedDayRadius,
-                        resources.getDimensionPixelOffset(R.dimen.dp_18));
+                        resources.getDimensionPixelOffset(R.dimen.dp_15));
         mCurrentDayCircleSize =
                 typedArray.getDimensionPixelSize(R.styleable.DatePickerView_selectedDayRadius,
-                        resources.getDimensionPixelOffset(R.dimen.dp_5));
+                        resources.getDimensionPixelOffset(R.dimen.dp_3));
         mRowHeight = ((typedArray.getDimensionPixelSize(R.styleable.DatePickerView_calendarHeight,
                 resources.getDimensionPixelOffset(R.dimen.dp_300)) - mMonthHeaderSize) / 5);
 
@@ -258,18 +258,15 @@ public class TimeSheetView extends View {
                         mSelectedCircleInPaint.setColor(
                                 Color.parseColor(timeSheetDate.getColorAfternoon()));
                         drawCircleAllDay(canvas, y, x);
+                        drawCircleStrokeOut(canvas, y, x);
                         drawCircleCurrentDay(canvas, y, x);
                         if (timeSheetDate.isDayOffAllDay()
                                 || timeSheetDate.isDayOffMorning()
                                 || timeSheetDate.isDayOffAfternoon()) {
                             if (timeSheetDate.isDayOffAllDay() || timeSheetDate.isDayOffMorning()) {
-                                mSelectedCirclePaint.setColor(mDayOffStrokeColor);
-                                drawCircleRoP(canvas, y, x);
                                 drawTextRoP(canvas, y, day, x, timeSheetDate.getTextMorning());
                             }
                             if (timeSheetDate.isDayOffAfternoon()) {
-                                mSelectedCirclePaint.setColor(mDayOffStrokeColor);
-                                drawCircleRoP(canvas, y, x);
                                 drawTextRoP(canvas, y, day, x, timeSheetDate.getTextAfternoon());
                             }
                             break;
@@ -280,7 +277,7 @@ public class TimeSheetView extends View {
                     }
                 }
             } else {
-                drawCircleNormal(canvas, y, x);
+                drawCircleStrokeOut(canvas, y, x);
                 drawCircleCurrentDay(canvas, y, x);
                 drawTextNormal(canvas, y, day, x);
             }
@@ -293,7 +290,8 @@ public class TimeSheetView extends View {
         }
     }
 
-    private void drawCircleRoP(Canvas canvas, int y, int x) {
+    private void drawCircleStrokeOut(Canvas canvas, int y, int x) {
+        mSelectedCirclePaint.setColor(mDayOffStrokeColor);
         mSelectedCirclePaint.setStyle(Paint.Style.STROKE);
         mSelectedCirclePaint.setAntiAlias(true);
         mSelectedCirclePaint.setStrokeWidth(2);
