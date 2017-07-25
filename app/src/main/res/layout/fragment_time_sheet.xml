@@ -263,6 +263,8 @@
                                         bind:ignore="TooDeepLayout"
                                         />
                                     <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:orientation="horizontal"
                                         style="@style/StyleLinearLayoutProfile"
                                         >
@@ -274,6 +276,8 @@
                                             android:textSize="@dimen/sp_16"
                                             />
                                         <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
                                             android:gravity="end"
                                             android:text="@{viewModel.totalDayOff}"
                                             android:textColor="@color/colorPrimary"
@@ -294,6 +298,8 @@
                                         app:circleColor="@{color.colorGreen2}"
                                         />
                                     <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:orientation="horizontal"
                                         style="@style/StyleLinearLayoutProfile"
                                         >
@@ -305,6 +311,8 @@
                                             android:textSize="@dimen/sp_16"
                                             />
                                         <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
                                             android:gravity="end"
                                             android:text="@{viewModel.totalFining}"
                                             android:textColor="@color/colorPrimary"
@@ -326,6 +334,8 @@
                                         app:circleColor="@{color.colorGreen3}"
                                         />
                                     <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:orientation="horizontal"
                                         style="@style/StyleLinearLayoutProfile"
                                         >
@@ -337,6 +347,8 @@
                                             android:textSize="@dimen/sp_16"
                                             />
                                         <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
                                             android:gravity="end"
                                             android:text="@{viewModel.numberDayOffHaveSalary}"
                                             android:textColor="@color/colorPrimary"
@@ -358,6 +370,8 @@
                                         app:circleColor="@{color.colorGreen4}"
                                         />
                                     <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:orientation="horizontal"
                                         style="@style/StyleLinearLayoutProfile"
                                         >
@@ -369,6 +383,8 @@
                                             android:textSize="@dimen/sp_16"
                                             />
                                         <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
                                             android:gravity="end"
                                             android:text="@{viewModel.numberDayOffNoSalary}"
                                             android:textColor="@color/colorPrimary"
@@ -390,6 +406,8 @@
                                         app:circleColor="@{color.colorGreen5}"
                                         />
                                     <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:orientation="horizontal"
                                         style="@style/StyleLinearLayoutProfile"
                                         >
@@ -401,6 +419,8 @@
                                             android:textSize="@dimen/sp_16"
                                             />
                                         <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
                                             android:gravity="end"
                                             android:text="@{viewModel.numberOverTime}"
                                             android:textColor="@color/colorPrimary"
@@ -450,7 +470,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{viewModel::onClickRequestLeave}"
+                android:padding="@dimen/dp_10"
                 android:src="@drawable/fab_add"
+                android:tint="@color/colorPrimary"
                 app:fab_colorNormal="@color/color_green_lime"
                 app:fab_colorPressed="@color/color_green_dark_sea"
                 app:fab_colorRipple="@color/color_dark_gray"
@@ -479,7 +501,7 @@
             app:menu_colorPressed="@color/color_dark_gray"
             app:menu_colorRipple="@color/color_gray"
             app:menu_fab_size="mini"
-            app:menu_icon="@drawable/ic_information"
+            app:menu_icon="@drawable/ic_help_blue_a400_36dp"
             app:menu_labels_colorNormal="@color/color_gray_transparent"
             app:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
             app:menu_labels_padding="@dimen/dp_10"
@@ -503,22 +525,22 @@
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_ro"
                 app:fab_colorNormal="@color/color_white"
                 app:fab_colorPressed="@color/color_dark_gray"
                 app:fab_colorRipple="@color/color_gray"
                 app:fab_label="@string/p_paid_leave_of_absence"
                 app:fab_size="mini"
+                app:srcCompat="@drawable/ic_ro"
                 />
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_ro"
                 app:fab_colorNormal="@color/color_white"
                 app:fab_colorPressed="@color/color_dark_gray"
                 app:fab_colorRipple="@color/color_gray"
                 app:fab_label="@string/ro_unpaid_leave_of_absence"
                 app:fab_size="mini"
+                app:srcCompat="@drawable/ic_ro"
                 />
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"

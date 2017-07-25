@@ -118,6 +118,7 @@
                                     />
                             </android.support.design.widget.TextInputLayout>
                             <ImageView
+                                app:srcCompat="@drawable/ic_arrow_drop_down"
                                 tools:ignore="ContentDescription"
                                 style="@style/StyleImageDropDown"
                                 />
@@ -144,6 +145,7 @@
                                     />
                             </android.support.design.widget.TextInputLayout>
                             <ImageView
+                                app:srcCompat="@drawable/ic_arrow_drop_down"
                                 tools:ignore="ContentDescription"
                                 style="@style/StyleImageDropDown"
                                 />
@@ -180,6 +182,7 @@
                                 />
                         </android.support.design.widget.TextInputLayout>
                         <ImageView
+                            app:srcCompat="@drawable/ic_arrow_drop_down"
                             tools:ignore="ContentDescription"
                             style="@style/StyleImageDropDown"
                             />

@@ -51,7 +51,7 @@
                             android:layout_height="@dimen/dp_30"
                             android:layout_marginEnd="@dimen/dp_10"
                             android:layout_marginRight="@dimen/dp_10"
-                            android:background="@drawable/ic_notifications"
+                            android:background="@{@drawable/ic_notifications}"
                             tools:ignore="ContentDescription"
                             />
                         <TextView
@@ -60,7 +60,7 @@
                             android:layout_gravity="top|end"
                             android:layout_marginEnd="@dimen/dp_5"
                             android:layout_marginRight="@dimen/dp_5"
-                            android:background="@drawable/circle_normal_holiday"
+                            android:background="@{@drawable/circle_normal_holiday}"
                             android:gravity="center"
                             android:textColor="@color/color_white"
                             />
@@ -74,7 +74,7 @@
                         android:paddingEnd="@dimen/dp_10"
                         android:paddingRight="@dimen/dp_10"
                         android:paddingTop="@dimen/dp_10"
-                        android:src="@drawable/ic_menu_nav"
+                        android:src="@{@drawable/ic_menu_nav}"
                         bind:ignore="ContentDescription,VectorDrawableCompat"
                         />
                     <TextView
