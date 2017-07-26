@@ -261,4 +261,8 @@
     <string name="reject_success">Từ chối thành công !</string>
     <string name="approve_success">Phê duyệt thành công !</string>
     <string name="number_day">Số ngày</string>
+    <string name="create_form_success">Tạo yêu cầu thành công!</string>
+    <string name="edit_form_success">Sửa yêu cầu thành công!</string>
+    <string name="delete_form_success">Xóa yêu cầu thành công!</string>
+
 </resources>

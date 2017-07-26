@@ -21,6 +21,7 @@ import com.framgia.wsm.screen.requestovertime.confirmovertime.ConfirmOvertimeAct
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
+import com.framgia.wsm.utils.TypeToast;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
@@ -125,20 +126,26 @@ public class ListRequestViewModel extends BaseObservable
 
     @Override
     public void onGetListRequestError(BaseException e) {
-        mNavigator.showToast(e.getMessage());
+        mNavigator.showToastCustom(TypeToast.ERROR, e.getMessage());
     }
 
     @Override
     public void onGetListRequestSuccess(int requestType, Object object) {
         switch (requestType) {
             case RequestType.REQUEST_OVERTIME:
-                mListRequestAdapter.updateDataRequestOverTime((List<RequestOverTime>) object);
+                List<RequestOverTime> listOverTime = (List<RequestOverTime>) object;
+                showToastError(listOverTime.size());
+                mListRequestAdapter.updateDataRequestOverTime(listOverTime);
                 break;
             case RequestType.REQUEST_OFF:
-                mListRequestAdapter.updateDataRequestOff((List<OffRequest>) object);
+                List<OffRequest> listOff = (List<OffRequest>) object;
+                showToastError(listOff.size());
+                mListRequestAdapter.updateDataRequestOff(listOff);
                 break;
             case RequestType.REQUEST_LATE_EARLY:
-                mListRequestAdapter.updateDataRequest((List<LeaveRequest>) object);
+                List<LeaveRequest> listLeave = (List<LeaveRequest>) object;
+                showToastError(listLeave.size());
+                mListRequestAdapter.updateDataRequest(listLeave);
                 break;
             default:
                 break;
@@ -184,6 +191,13 @@ public class ListRequestViewModel extends BaseObservable
 
     public ListRequestAdapter getListRequestAdapter() {
         return mListRequestAdapter;
+    }
+
+    private void showToastError(int size) {
+        if (size == 0) {
+            mNavigator.showToastCustom(TypeToast.INFOR,
+                    mContext.getString(R.string.can_not_find_data));
+        }
     }
 
     public void setRequestType(int requestType) {

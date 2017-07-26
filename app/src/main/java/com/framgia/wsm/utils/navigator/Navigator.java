@@ -15,6 +15,8 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.widget.Toast;
 import com.framgia.wsm.R;
+import com.framgia.wsm.utils.TypeToast;
+import es.dmoral.toasty.Toasty;
 
 /**
  * Created by le.quang.dao on 17/03/2017.
@@ -203,6 +205,25 @@ public class Navigator {
                 mActivity.overridePendingTransition(R.anim.translate_still, R.anim.translate_right);
                 break;
             case ActivityTransition.NONE:
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void showToastCustom(@TypeToast int typeToast, String message) {
+        switch (typeToast) {
+            case TypeToast.SUCCESS:
+                Toasty.success(mActivity, message, Toast.LENGTH_SHORT, true).show();
+                break;
+            case TypeToast.ERROR:
+                Toasty.error(mActivity, message, Toast.LENGTH_SHORT, true).show();
+                break;
+            case TypeToast.INFOR:
+                Toasty.info(mActivity, message, Toast.LENGTH_SHORT, true).show();
+                break;
+            case TypeToast.WARNING:
+                Toasty.warning(mActivity, message, Toast.LENGTH_SHORT, true).show();
                 break;
             default:
                 break;

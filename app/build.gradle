@@ -130,6 +130,7 @@ dependencies {
   compile dependencies.cardView
   compile dependencies.glide
   compile dependencies.fcm
+  compile 'com.github.GrenderG:Toasty:1.2.5'
 
   annotationProcessor dependencies.dagger2Compile
   compile dependencies.dagger2
