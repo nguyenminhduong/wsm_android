@@ -76,6 +76,7 @@
                             android:onClick="@{viewModel::onCickFromTime}"
                             >
                             <ImageView
+                                app:srcCompat="@drawable/ic_calendar"
                                 tools:ignore="ContentDescription"
                                 style="@style/StyleImageDateTime"
                                 />
@@ -140,6 +141,7 @@
                                     />
                             </LinearLayout>
                             <ImageView
+                                app:srcCompat="@drawable/ic_calendar"
                                 tools:ignore="ContentDescription"
                                 style="@style/StyleImageDateTime"
                                 />
@@ -164,6 +166,7 @@
                             android:padding="@dimen/dp_7"
                             >
                             <ImageView
+                                app:srcCompat="@drawable/ic_arrow_drop_down"
                                 tools:ignore="ContentDescription"
                                 style="@style/StyleImageDropDown"
                                 />

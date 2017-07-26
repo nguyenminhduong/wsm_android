@@ -51,7 +51,7 @@
                     android:layout_height="@dimen/dp_45"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/dp_10"
-                    android:src="@drawable/ic_day_off"
+                    app:srcCompat="@drawable/ic_day_off"
                     tools:ignore="ContentDescription,VectorDrawableCompat"
                     />
 
@@ -73,9 +73,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_circle"
+                            android:drawableLeft="@{@drawable/ic_circle}"
                             android:drawablePadding="@dimen/dp_5"
-                            android:drawableStart="@drawable/ic_circle"
+                            android:drawableStart="@{@drawable/ic_circle}"
                             android:text="@{viewModel.fromTime}"
                             android:textColor="@color/color_gray"
                             android:textStyle="bold"
@@ -88,7 +88,7 @@
                             android:layout_marginLeft="@dimen/dp_10"
                             android:layout_marginRight="@dimen/dp_10"
                             android:layout_marginStart="@dimen/dp_10"
-                            android:src="@drawable/ic_right"
+                            app:srcCompat="@drawable/ic_right"
                             tools:ignore="ContentDescription,VectorDrawableCompat"
                             />
                         <TextView
