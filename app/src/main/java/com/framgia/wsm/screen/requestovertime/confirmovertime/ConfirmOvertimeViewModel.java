@@ -18,6 +18,7 @@ import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
+import com.framgia.wsm.utils.TypeToast;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
@@ -100,6 +101,8 @@ public class ConfirmOvertimeViewModel extends BaseObservable
     @Override
     public void onCreateFormOverTimeSuccess() {
         mNavigator.finishActivityWithResult(Activity.RESULT_OK);
+        mNavigator.showToastCustom(TypeToast.SUCCESS,
+                mContext.getString(R.string.create_form_success));
     }
 
     @Override
@@ -118,6 +121,8 @@ public class ConfirmOvertimeViewModel extends BaseObservable
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.EXTRA_REQUEST_TYPE_CODE, RequestType.REQUEST_OVERTIME);
         mNavigator.finishActivityWithResult(bundle, Activity.RESULT_OK);
+        mNavigator.showToastCustom(TypeToast.SUCCESS,
+                mContext.getString(R.string.edit_form_success));
     }
 
     @Override
@@ -136,6 +141,8 @@ public class ConfirmOvertimeViewModel extends BaseObservable
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.EXTRA_REQUEST_TYPE_CODE, RequestType.REQUEST_OVERTIME);
         mNavigator.finishActivityWithResult(bundle, Activity.RESULT_OK);
+        mNavigator.showToastCustom(TypeToast.SUCCESS,
+                mContext.getString(R.string.delete_form_success));
     }
 
     @Override

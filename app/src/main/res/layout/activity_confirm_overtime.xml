@@ -371,6 +371,15 @@
                                     android:textStyle="bold"
                                     android:visibility="@{viewModel.rejectStatus ? View.VISIBLE : View.GONE}"
                                     />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/forwarded"
+                                    android:textColor="@color/color_blue_medium"
+                                    android:textStyle="bold"
+                                    android:visibility="@{viewModel.forwardedStatus ? View.VISIBLE : View.GONE}"
+                                    />
                             </FrameLayout>
                             <View
                                 android:layout_width="match_parent"

@@ -23,6 +23,7 @@ import com.framgia.wsm.screen.managelistrequests.memberrequestdetail
         .MemberRequestDetailDialogFragment;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
+import com.framgia.wsm.utils.TypeToast;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.NavigateAnim;
 import com.framgia.wsm.utils.navigator.Navigator;
@@ -96,7 +97,7 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     @Override
     public void onGetListRequestManageError(BaseException exception) {
-        mNavigator.showToast(exception.getMessage());
+        mNavigator.showToastCustom(TypeToast.ERROR, exception.getMessage());
     }
 
     @Override
@@ -104,23 +105,17 @@ public class ManageListRequestsViewModel extends BaseObservable
         switch (mRequestType) {
             case RequestType.REQUEST_OVERTIME:
                 List<RequestOverTime> listOverTime = (List<RequestOverTime>) object;
-                if (listOverTime.size() == 0) {
-                    mNavigator.showToast(mContext.getString(R.string.can_not_find_data));
-                }
+                showToastError(listOverTime.size());
                 mManageListRequestsAdapter.updateDataRequestOverTime(listOverTime);
                 break;
             case RequestType.REQUEST_OFF:
                 List<OffRequest> listOff = (List<OffRequest>) object;
-                if (listOff.size() == 0) {
-                    mNavigator.showToast(mContext.getString(R.string.can_not_find_data));
-                }
+                showToastError(listOff.size());
                 mManageListRequestsAdapter.updateDataRequestOff(listOff);
                 break;
             case RequestType.REQUEST_LATE_EARLY:
                 List<LeaveRequest> listLeave = (List<LeaveRequest>) object;
-                if (listLeave.size() == 0) {
-                    mNavigator.showToast(mContext.getString(R.string.can_not_find_data));
-                }
+                showToastError(listLeave.size());
                 mManageListRequestsAdapter.updateDataRequest(listLeave);
                 break;
             default:
@@ -155,10 +150,11 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void onApproveOrRejectRequestSuccess(ActionRequestResponse actionRequestResponse) {
         updateItemRequest(mRequestType, mItemPosition, actionRequestResponse);
         if (mAction == TypeAction.APPROVE) {
-            mNavigator.showToast(mContext.getString(R.string.approve_success));
+            mNavigator.showToastCustom(TypeToast.SUCCESS,
+                    mContext.getString(R.string.approve_success));
             return;
         }
-        mNavigator.showToast(mContext.getString(R.string.reject_success));
+        mNavigator.showToastCustom(TypeToast.SUCCESS, mContext.getString(R.string.reject_success));
     }
 
     @Override
@@ -234,6 +230,13 @@ public class ManageListRequestsViewModel extends BaseObservable
         mActionRequest.setStatus(statusCode);
         mActionRequest.setRequestId(requestId);
         mPresenter.approveOrRejectRequest(mActionRequest);
+    }
+
+    private void showToastError(int size) {
+        if (size == 0) {
+            mNavigator.showToastCustom(TypeToast.INFOR,
+                    mContext.getString(R.string.can_not_find_data));
+        }
     }
 
     @Bindable
