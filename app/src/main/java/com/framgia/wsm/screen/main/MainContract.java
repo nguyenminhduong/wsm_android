@@ -19,6 +19,10 @@ interface MainContract {
 
         void onGetUserError(BaseException exception);
 
+        void onLogoutSuccess();
+
+        void onLogoutError(BaseException exception);
+
         void goNextFragmentListRequestOff();
 
         void goNextFragmentListRequestOverTime();
@@ -34,6 +38,8 @@ interface MainContract {
      * Presenter.
      */
     interface Presenter extends BasePresenter<ViewModel> {
+        void logout();
+
         void clearUser();
 
         void getUser();
