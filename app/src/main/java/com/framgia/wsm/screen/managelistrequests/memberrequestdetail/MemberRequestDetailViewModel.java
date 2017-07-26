@@ -2,14 +2,20 @@ package com.framgia.wsm.screen.managelistrequests.memberrequestdetail;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.IntDef;
+import android.support.annotation.StringDef;
 import android.support.v4.app.Fragment;
+import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
+import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
@@ -32,10 +38,20 @@ public class MemberRequestDetailViewModel extends BaseObservable
     private LeaveRequest mLeaveRequest;
     private RequestOverTime mOverTimeRequest;
     private DismissDialogListener mDismissDialogListener;
+    private ActionRequest mActionRequest;
+    private boolean mIsVisibleApprove;
+    private boolean mIsVisibleReject;
+    private boolean mIsStatusAccept;
+    private boolean mIsStatusReject;
+    private boolean mIsStatusPending;
+    private int mPosition;
+    private ApproveOrRejectListener mResultListener;
+    private int mCurrentRequestType;
 
     MemberRequestDetailViewModel(Context context, Fragment fragment,
             MemberRequestDetailContract.Presenter presenter, Navigator navigator,
-            DialogManager dialogManager, Object item) {
+            DialogManager dialogManager, Object item, int position,
+            ApproveOrRejectListener resultListener) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
@@ -45,16 +61,40 @@ public class MemberRequestDetailViewModel extends BaseObservable
         mOffRequest = new OffRequest();
         mLeaveRequest = new LeaveRequest();
         mOverTimeRequest = new RequestOverTime();
+        mActionRequest = new ActionRequest();
         setItemMemberRequest(item);
+        setIsVisibleApprove(StatusCode.ACCEPT_CODE.equals(mOffRequest.getStatus())
+                || StatusCode.ACCEPT_CODE.equals(mLeaveRequest.getStatus())
+                || StatusCode.ACCEPT_CODE.equals(mOverTimeRequest.getStatus()));
+        setIsVisibleReject(StatusCode.REJECT_CODE.equals(mOffRequest.getStatus())
+                || StatusCode.REJECT_CODE.equals(mLeaveRequest.getStatus())
+                || StatusCode.REJECT_CODE.equals(mOverTimeRequest.getStatus()));
+        setStatusAccept(StatusCode.ACCEPT_CODE.equals(mOffRequest.getStatus())
+                || StatusCode.ACCEPT_CODE.equals(mLeaveRequest.getStatus())
+                || StatusCode.ACCEPT_CODE.equals(mOverTimeRequest.getStatus()));
+        setStatusReject(StatusCode.REJECT_CODE.equals(mOffRequest.getStatus())
+                || StatusCode.REJECT_CODE.equals(mLeaveRequest.getStatus())
+                || StatusCode.REJECT_CODE.equals(mOverTimeRequest.getStatus()));
+        setStatusPending(StatusCode.PENDING_CODE.equals(mOffRequest.getStatus())
+                || StatusCode.PENDING_CODE.equals(mLeaveRequest.getStatus())
+                || StatusCode.PENDING_CODE.equals(mOverTimeRequest.getStatus()));
+        mPosition = position;
+        mResultListener = resultListener;
     }
 
     private void setItemMemberRequest(Object item) {
         if (item instanceof LeaveRequest) {
             mLeaveRequest = (LeaveRequest) item;
+            mActionRequest.setTypeRequest(TypeRequest.LEAVE);
+            mCurrentRequestType = RequestType.REQUEST_LATE_EARLY;
         } else if (item instanceof RequestOverTime) {
             mOverTimeRequest = (RequestOverTime) item;
+            mActionRequest.setTypeRequest(TypeRequest.OT);
+            mCurrentRequestType = RequestType.REQUEST_OVERTIME;
         } else {
             mOffRequest = (OffRequest) item;
+            mActionRequest.setTypeRequest(TypeRequest.OFF);
+            mCurrentRequestType = RequestType.REQUEST_OFF;
         }
     }
 
@@ -70,21 +110,48 @@ public class MemberRequestDetailViewModel extends BaseObservable
 
     @Override
     public void onRejectedSuccess() {
-        //TODO Edit later
-        mDismissDialogListener.onDismissDialog();
-        mNavigator.showToast(R.string.reject_success);
+
     }
 
     @Override
     public void onApproveSuccess() {
-        //TODO Edit later
-        mDismissDialogListener.onDismissDialog();
-        mNavigator.showToast(R.string.approve_success);
+
     }
 
     @Override
     public void onError(BaseException e) {
         mDialogManager.dialogError(e);
+    }
+
+    @Override
+    public void onDismissProgressDialog() {
+        mDialogManager.dismissProgressDialog();
+    }
+
+    @Override
+    public void onShowIndeterminateProgressDialog() {
+        mDialogManager.showIndeterminateProgressDialog();
+    }
+
+    @Override
+    public void onApproveOrRejectRequestSuccess(ActionRequestResponse actionRequestResponse) {
+        mResultListener.onApproveOrRejectListener(mCurrentRequestType, mPosition,
+                actionRequestResponse);
+        if (actionRequestResponse.getStatus().equals(StatusCode.ACCEPT_CODE)) {
+            mNavigator.showToast(R.string.approve_success);
+            setIsVisibleReject(false);
+            setIsVisibleApprove(true);
+            setStatusAccept(true);
+            setStatusReject(false);
+            setStatusPending(false);
+        } else {
+            mNavigator.showToast(R.string.reject_success);
+            setIsVisibleReject(true);
+            setIsVisibleApprove(false);
+            setStatusReject(true);
+            setStatusAccept(false);
+            setStatusPending(false);
+        }
     }
 
     public boolean isVisibleOffRequest() {
@@ -151,16 +218,24 @@ public class MemberRequestDetailViewModel extends BaseObservable
                 DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
     }
 
+    @Bindable
     public boolean isVisibleApprove() {
-        return StatusCode.ACCEPT_CODE.equals(mOffRequest.getStatus())
-                || StatusCode.ACCEPT_CODE.equals(mLeaveRequest.getStatus())
-                || StatusCode.ACCEPT_CODE.equals(mOverTimeRequest.getStatus());
+        return mIsVisibleApprove;
     }
 
+    private void setIsVisibleApprove(boolean visibleApprove) {
+        mIsVisibleApprove = visibleApprove;
+        notifyPropertyChanged(BR.visibleApprove);
+    }
+
+    @Bindable
     public boolean isVisibleReject() {
-        return StatusCode.REJECT_CODE.equals(mOffRequest.getStatus())
-                || StatusCode.REJECT_CODE.equals(mLeaveRequest.getStatus())
-                || StatusCode.REJECT_CODE.equals(mOverTimeRequest.getStatus());
+        return mIsVisibleReject;
+    }
+
+    private void setIsVisibleReject(boolean visibleReject) {
+        mIsVisibleReject = visibleReject;
+        notifyPropertyChanged(BR.visibleReject);
     }
 
     public boolean isVisiableLayoutCompanyPay() {
@@ -551,22 +626,34 @@ public class MemberRequestDetailViewModel extends BaseObservable
         return "";
     }
 
+    @Bindable
     public boolean isAcceptStatus() {
-        return StatusCode.ACCEPT_CODE.equals(mOffRequest.getStatus())
-                || StatusCode.ACCEPT_CODE.equals(mLeaveRequest.getStatus())
-                || StatusCode.ACCEPT_CODE.equals(mOverTimeRequest.getStatus());
+        return mIsStatusAccept;
     }
 
+    private void setStatusAccept(boolean isStatusAccept) {
+        mIsStatusAccept = isStatusAccept;
+        notifyPropertyChanged(BR.acceptStatus);
+    }
+
+    @Bindable
     public boolean isPendingStatus() {
-        return StatusCode.PENDING_CODE.equals(mOffRequest.getStatus())
-                || StatusCode.PENDING_CODE.equals(mLeaveRequest.getStatus())
-                || StatusCode.PENDING_CODE.equals(mOverTimeRequest.getStatus());
+        return mIsStatusPending;
     }
 
+    private void setStatusPending(boolean statusPending) {
+        mIsStatusPending = statusPending;
+        notifyPropertyChanged(BR.pendingStatus);
+    }
+
+    private void setStatusReject(boolean isStatusReject) {
+        mIsStatusReject = isStatusReject;
+        notifyPropertyChanged(BR.rejectStatus);
+    }
+
+    @Bindable
     public boolean isRejectStatus() {
-        return StatusCode.REJECT_CODE.equals(mOffRequest.getStatus())
-                || StatusCode.REJECT_CODE.equals(mLeaveRequest.getStatus())
-                || StatusCode.REJECT_CODE.equals(mOverTimeRequest.getStatus());
+        return mIsStatusReject;
     }
 
     public void onClickArrowBack() {
@@ -575,21 +662,33 @@ public class MemberRequestDetailViewModel extends BaseObservable
 
     public void onClickRejected() {
         if (mOffRequest.getId() != 0) {
-            mPresenter.rejectRequest(mOffRequest.getId());
+            mActionRequest.setStatus(StatusCode.REJECT_CODE);
+            mActionRequest.setRequestId(mOffRequest.getId());
+            mPresenter.approveOrRejectRequest(mActionRequest);
         } else if (mOverTimeRequest.getId() != 0) {
-            mPresenter.rejectRequest(mOverTimeRequest.getId());
+            mActionRequest.setStatus(StatusCode.REJECT_CODE);
+            mActionRequest.setRequestId(mOverTimeRequest.getId());
+            mPresenter.approveOrRejectRequest(mActionRequest);
         } else {
-            mPresenter.rejectRequest(mLeaveRequest.getId());
+            mActionRequest.setStatus(StatusCode.REJECT_CODE);
+            mActionRequest.setRequestId(mLeaveRequest.getId());
+            mPresenter.approveOrRejectRequest(mActionRequest);
         }
     }
 
     public void onClickApprove() {
         if (mOffRequest.getId() != 0) {
-            mPresenter.approveRequest(mOffRequest.getId());
+            mActionRequest.setStatus(StatusCode.ACCEPT_CODE);
+            mActionRequest.setRequestId(mOffRequest.getId());
+            mPresenter.approveOrRejectRequest(mActionRequest);
         } else if (mOverTimeRequest.getId() != 0) {
-            mPresenter.approveRequest(mOverTimeRequest.getId());
+            mActionRequest.setStatus(StatusCode.ACCEPT_CODE);
+            mActionRequest.setRequestId(mOverTimeRequest.getId());
+            mPresenter.approveOrRejectRequest(mActionRequest);
         } else {
-            mPresenter.approveRequest(mLeaveRequest.getId());
+            mActionRequest.setStatus(StatusCode.ACCEPT_CODE);
+            mActionRequest.setRequestId(mLeaveRequest.getId());
+            mPresenter.approveOrRejectRequest(mActionRequest);
         }
     }
 
@@ -635,5 +734,19 @@ public class MemberRequestDetailViewModel extends BaseObservable
         int MISCARRIAGE_LEAVE = 17;
         int SICK_LEAVE = 19;
         int PREGNANCY_EXAMINATION_LEAVE = 22;
+    }
+
+    @StringDef({
+            TypeRequest.LEAVE, TypeRequest.OFF, TypeRequest.OT
+    })
+    @interface TypeRequest {
+        String LEAVE = "leave";
+        String OFF = "off";
+        String OT = "ot";
+    }
+
+    public interface ApproveOrRejectListener {
+        void onApproveOrRejectListener(@RequestType int requestType, int itemPosition,
+                ActionRequestResponse actionRequestResponse);
     }
 }

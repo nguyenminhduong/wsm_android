@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerView.ViewHolder> {
 
-    private OnRecyclerViewItemClickListener<Object> mItemClickListener;
+    private ItemRecyclerViewClickListener mItemClickListener;
     private List<LeaveRequest> mRequestsLeaves;
     private List<OffRequest> mRequestsOffs;
     private List<RequestOverTime> mRequestOverTimes;
@@ -142,7 +142,7 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
         notifyDataSetChanged();
     }
 
-    void setItemClickListener(OnRecyclerViewItemClickListener<Object> itemClickListener) {
+    void setItemClickListener(ItemRecyclerViewClickListener itemClickListener) {
         mItemClickListener = itemClickListener;
     }
 
@@ -152,10 +152,10 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
 
     private class RequestOverTimeViewHolder extends RecyclerView.ViewHolder {
         private ItemManageListRequestBinding mBinding;
-        private OnRecyclerViewItemClickListener<Object> mItemClickListener;
+        private ItemRecyclerViewClickListener mItemClickListener;
 
         RequestOverTimeViewHolder(ItemManageListRequestBinding binding,
-                BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> listener) {
+                ItemRecyclerViewClickListener listener) {
             super(binding.getRoot());
             mBinding = binding;
             mItemClickListener = listener;
@@ -171,10 +171,10 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
 
     private class RequestOffViewHolder extends RecyclerView.ViewHolder {
         private ItemManageListRequestBinding mBinding;
-        private OnRecyclerViewItemClickListener<Object> mItemClickListener;
+        private ItemRecyclerViewClickListener mItemClickListener;
 
         RequestOffViewHolder(ItemManageListRequestBinding binding,
-                BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> listener) {
+                ItemRecyclerViewClickListener listener) {
             super(binding.getRoot());
             mBinding = binding;
             mItemClickListener = listener;
@@ -189,10 +189,10 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
 
     private class RequestLeaveViewHolder extends RecyclerView.ViewHolder {
         private ItemManageListRequestBinding mBinding;
-        private OnRecyclerViewItemClickListener<Object> mItemClickListener;
+        private ItemRecyclerViewClickListener mItemClickListener;
 
         RequestLeaveViewHolder(ItemManageListRequestBinding binding,
-                BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> listener) {
+                ItemRecyclerViewClickListener listener) {
             super(binding.getRoot());
             mBinding = binding;
             mItemClickListener = listener;

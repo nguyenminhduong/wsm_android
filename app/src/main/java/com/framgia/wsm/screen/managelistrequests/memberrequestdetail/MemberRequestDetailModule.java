@@ -26,11 +26,16 @@ public class MemberRequestDetailModule {
     private Fragment mFragment;
     private DismissDialogListener mDismissDialogListener;
     private Object mItem;
+    private int mPosition;
+    private MemberRequestDetailViewModel.ApproveOrRejectListener mApproveOrRejectListener;
 
-    public MemberRequestDetailModule(@NonNull Fragment fragment, Object item) {
+    public MemberRequestDetailModule(@NonNull Fragment fragment, Object item, int position,
+            MemberRequestDetailViewModel.ApproveOrRejectListener resultListener) {
         mFragment = fragment;
         mDismissDialogListener = (DismissDialogListener) fragment;
         mItem = item;
+        mPosition = position;
+        mApproveOrRejectListener = resultListener;
     }
 
     @FragmentScope
@@ -39,7 +44,7 @@ public class MemberRequestDetailModule {
             MemberRequestDetailContract.Presenter presenter, Navigator navigator,
             DialogManager dialogManager) {
         return new MemberRequestDetailViewModel(context, mFragment, presenter, navigator,
-                dialogManager, mItem);
+                dialogManager, mItem, mPosition, mApproveOrRejectListener);
     }
 
     @FragmentScope

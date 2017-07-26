@@ -18,9 +18,9 @@ import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
-import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.screen.managelistrequests.memberrequestdetail
         .MemberRequestDetailDialogFragment;
+import com.framgia.wsm.screen.managelistrequests.memberrequestdetail.MemberRequestDetailViewModel;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.common.DateTimeUtils;
@@ -36,9 +36,9 @@ import java.util.List;
  */
 
 public class ManageListRequestsViewModel extends BaseObservable
-        implements ManageListRequestsContract.ViewModel,
-        BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object>, ActionRequestListener,
-        DatePickerDialog.OnDateSetListener {
+        implements ManageListRequestsContract.ViewModel, ItemRecyclerViewClickListener,
+        ActionRequestListener, DatePickerDialog.OnDateSetListener,
+        MemberRequestDetailViewModel.ApproveOrRejectListener {
 
     private static final String TAG = "ListRequestViewModel";
 
@@ -189,10 +189,12 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     @Override
-    public void onItemRecyclerViewClick(Object item) {
-        mNavigator.showDialogFragment(R.id.layout_container,
-                MemberRequestDetailDialogFragment.newInstance(item), false, NavigateAnim.NONE,
-                MemberRequestDetailDialogFragment.TAG);
+    public void onItemRecyclerViewClick(Object object, int position) {
+        MemberRequestDetailDialogFragment dialogFragment =
+                MemberRequestDetailDialogFragment.newInstance(object, position);
+        dialogFragment.setApproveOrRejectListener(this);
+        mNavigator.showDialogFragment(R.id.layout_container, dialogFragment, false,
+                NavigateAnim.NONE, MemberRequestDetailDialogFragment.TAG);
     }
 
     @Override
@@ -353,6 +355,12 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     public void onClickSearch(View view) {
         mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
+    }
+
+    @Override
+    public void onApproveOrRejectListener(@RequestType int requestType, int itemPosition,
+            ActionRequestResponse actionRequestResponse) {
+        updateItemRequest(requestType, itemPosition, actionRequestResponse);
     }
 
     @StringDef({ TypeRequest.LEAVE, TypeRequest.OFF, TypeRequest.OT })
