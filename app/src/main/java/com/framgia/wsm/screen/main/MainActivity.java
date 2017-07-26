@@ -10,6 +10,7 @@ import com.framgia.wsm.MainApplication;
 import com.framgia.wsm.R;
 import com.framgia.wsm.databinding.ActivityMainBinding;
 import com.framgia.wsm.screen.BaseActivity;
+import com.framgia.wsm.screen.notification.NotificationDialogFragment;
 import com.framgia.wsm.screen.profile.ProfileFragment;
 import com.framgia.wsm.utils.Constant;
 import javax.inject.Inject;
@@ -17,7 +18,8 @@ import javax.inject.Inject;
 /**
  * Main Screen.
  */
-public class MainActivity extends BaseActivity implements ProfileFragment.UpdateAvatarListener {
+public class MainActivity extends BaseActivity implements ProfileFragment.UpdateAvatarListener,
+        NotificationDialogFragment.UpdateNotificationListener {
     private static final int DELAY_TIME_TWO_TAP_BACK_BUTTON = 2000;
 
     @Inject
@@ -108,5 +110,15 @@ public class MainActivity extends BaseActivity implements ProfileFragment.Update
     @Override
     public void onUpdateAvatar() {
         mViewModel.onReloadDataUser();
+    }
+
+    @Override
+    public void onUpdateNotificationReadAll() {
+        // todo update notification unread
+    }
+
+    @Override
+    public void onClickNotification(String trackableType) {
+        // todo open screen
     }
 }

@@ -45,9 +45,20 @@ public class NotificationAdapter
         if (notifications == null) {
             return;
         }
-        mNotifications.clear();
         mNotifications.addAll(notifications);
         notifyDataSetChanged();
+    }
+
+    public void setReadAll() {
+        for (Notification notification : mNotifications) {
+            notification.setRead(true);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void setReadOne(Notification notification) {
+        notification.setRead(true);
+        notifyItemChanged(mNotifications.indexOf(notification));
     }
 
     void setItemClickListener(OnRecyclerViewItemClickListener<Notification> itemClickListener) {
