@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.ArrayRes;
@@ -30,6 +31,7 @@ import java.util.Calendar;
 public class DialogManagerImpl implements DialogManager {
     private static final String TAG = Validator.class.getName();
     private static final String DATE_PICKER = "mDatePicker";
+    private static final String DELEGATE = "mDelegate";
     private static final String DAY_FIELD = "day";
     private static final String ID = "id";
     private static final String ANDROID = "android";
@@ -257,10 +259,18 @@ public class DialogManagerImpl implements DialogManager {
     }
 
     @Override
-    public DialogManager dialogDatePicker(DatePickerDialog.OnDateSetListener onDateSetListener) {
+    public DialogManager dialogDatePicker(
+            final DatePickerDialog.OnDateSetListener onDateSetListener) {
         mDatePickerDialog =
                 new DatePickerDialog(mContext, onDateSetListener, mCalendar.get(Calendar.YEAR),
                         mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
+        mDatePickerDialog.setButton(DialogInterface.BUTTON_NEUTRAL,
+                mContext.getText(R.string.clear), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        onDateSetListener.onDateSet(mDatePicker, 0, 0, 0);
+                    }
+                });
         return this;
     }
 
@@ -295,7 +305,7 @@ public class DialogManagerImpl implements DialogManager {
             super(context, callBack, year, monthOfYear, dayOfMonth);
 
             final Field field =
-                    this.findField(DatePickerDialog.class, DatePicker.class, "mDatePicker");
+                    this.findField(DatePickerDialog.class, DatePicker.class, DATE_PICKER);
             assert field != null;
             try {
                 mDatePicker = (DatePicker) field.get(this);
@@ -304,8 +314,7 @@ public class DialogManagerImpl implements DialogManager {
             }
             final Class<?> delegateClass =
                     Class.forName("android.widget.DatePicker$DatePickerDelegate");
-            final Field delegateField =
-                    this.findField(DatePicker.class, delegateClass, "mDelegate");
+            final Field delegateField = this.findField(DatePicker.class, delegateClass, DELEGATE);
             assert delegateField != null;
             final Object delegate = delegateField.get(mDatePicker);
             final Class<?> spinnerDelegateClass =

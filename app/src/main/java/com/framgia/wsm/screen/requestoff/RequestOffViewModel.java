@@ -300,26 +300,31 @@ public class RequestOffViewModel extends BaseRequestOff
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
-        int dayOfWeek = DateTimeUtils.getDayOfWeek(year, month, dayOfMonth);
-        if (mFlagDate == FLAG_START_DATE) {
-            if (DateTimeUtils.convertStringToDate(date)
-                    .after(DateTimeUtils.currentMonthWorking())) {
-                if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
-                    setEndDate(null);
-                    setStartDate(date);
-                    return;
+        if (year == 0) {
+            setStartDate(null);
+            setEndDate(null);
+        } else {
+            String date = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
+            int dayOfWeek = DateTimeUtils.getDayOfWeek(year, month, dayOfMonth);
+            if (mFlagDate == FLAG_START_DATE) {
+                if (DateTimeUtils.convertStringToDate(date)
+                        .after(DateTimeUtils.currentMonthWorking())) {
+                    if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
+                        setEndDate(null);
+                        setStartDate(date);
+                        return;
+                    }
+                    showErrorDialogWithButtonRetry(
+                            mContext.getString(R.string.time_must_be_a_working_date));
+                } else {
+                    setStartDate(null);
+                    showErrorDialogWithButtonRetry(mContext.getString(R.string.you_can_not_access));
                 }
-                showErrorDialogWithButtonRetry(
-                        mContext.getString(R.string.time_must_be_a_working_date));
-            } else {
-                setStartDate(null);
-                showErrorDialogWithButtonRetry(mContext.getString(R.string.you_can_not_access));
+                mCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH) + ONE_MONTH);
+                return;
             }
-            mCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH) + ONE_MONTH);
-            return;
+            validateEndDate(date);
         }
-        validateEndDate(date);
     }
 
     @Bindable
@@ -1383,7 +1388,7 @@ public class RequestOffViewModel extends BaseRequestOff
         bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mRequestOff);
 
         if (getSumDateOffHaveSalary() > 0) {
-            if (mEndDateHaveSalary == null) {
+            if (StringUtils.isBlank(mEndDateHaveSalary)) {
                 showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
                 return;
             }
@@ -1394,15 +1399,24 @@ public class RequestOffViewModel extends BaseRequestOff
             mNavigator.startActivityForResult(ConfirmRequestOffActivity.class, bundle,
                     Constant.RequestCode.REQUEST_OFF);
         } else {
-            if (mEndDateHaveSalary == null || "".equals(mEndDateHaveSalary)) {
-                if (mEndDateNoSalary == null || "".equals(mEndDateNoSalary)) {
+            if (StringUtils.isBlank(mEndDateHaveSalary) && StringUtils.isBlank(
+                    mStartDateHaveSalary)) {
+                if (StringUtils.isBlank(mEndDateNoSalary) || StringUtils.isBlank(
+                        mStartDateNoSalary)) {
                     showErrorDialog(
                             mContext.getString(R.string.the_field_required_can_not_be_blank));
                     return;
+                } else {
+                    if (StringUtils.isNotBlank(mEndDateHaveSalary) || StringUtils.isNotBlank(
+                            mEndDateHaveSalary)) {
+                        showErrorDialog(
+                                mContext.getString(R.string.the_field_required_can_not_be_blank));
+                        return;
+                    }
+                    mNavigator.startActivityForResult(ConfirmRequestOffActivity.class, bundle,
+                            Constant.RequestCode.REQUEST_OFF);
+                    return;
                 }
-                mNavigator.startActivityForResult(ConfirmRequestOffActivity.class, bundle,
-                        Constant.RequestCode.REQUEST_OFF);
-                return;
             }
             showErrorDialog(mContext.getString(R.string.the_number_of_days_allowed));
         }

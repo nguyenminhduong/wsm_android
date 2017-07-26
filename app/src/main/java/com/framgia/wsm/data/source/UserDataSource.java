@@ -33,6 +33,8 @@ public interface UserDataSource {
         Observable<BaseResponse<SignInDataResponse>> login(String userName, String password,
                 String deviceId);
 
+        Observable<Object> logout();
+
         Observable<BaseResponse<User>> getUserProfile(int userId);
 
         Observable<List<LeaveType>> getListLeaveType();

@@ -43,6 +43,9 @@ public interface WSMApi {
     @POST("/api/sign_in")
     Observable<BaseResponse<SignInDataResponse>> login(@Body SignInRequest signInRequest);
 
+    @DELETE("/api/sign_out")
+    Observable<Object> logout();
+
     @GET("/api/dashboard/users/{user_id}")
     Observable<BaseResponse<User>> getUserProfile(@Path("user_id") int userId);
 

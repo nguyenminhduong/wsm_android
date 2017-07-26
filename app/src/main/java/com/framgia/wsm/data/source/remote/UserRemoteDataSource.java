@@ -57,6 +57,11 @@ public class UserRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
+    public Observable<Object> logout() {
+        return mWSMApi.logout();
+    }
+
+    @Override
     public Observable<BaseResponse<User>> getUserProfile(int userId) {
         return mWSMApi.getUserProfile(userId)
                 .flatMap(new Function<BaseResponse<User>, ObservableSource<BaseResponse<User>>>() {

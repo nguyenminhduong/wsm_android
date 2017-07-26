@@ -46,6 +46,10 @@ public class UserRepository {
                         });
     }
 
+    public Observable<Object> logout() {
+        return mRemoteDataSource.logout();
+    }
+
     public Observable<User> getUserProfile(int userId) {
         return mRemoteDataSource.getUserProfile(userId)
                 .flatMap(new Function<BaseResponse<User>, ObservableSource<User>>() {

@@ -43,6 +43,25 @@ final class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void logout() {
+        Disposable disposable = mUserRepository.logout()
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        mViewModel.onLogoutSuccess();
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onLogoutError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
     public void clearUser() {
         mUserRepository.clearData();
     }

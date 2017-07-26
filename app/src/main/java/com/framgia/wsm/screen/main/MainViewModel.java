@@ -151,6 +151,18 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     }
 
     @Override
+    public void onLogoutSuccess() {
+        mPresenter.clearUser();
+        mNavigator.startActivity(LoginActivity.class);
+        mNavigator.finishActivity();
+    }
+
+    @Override
+    public void onLogoutError(BaseException exception) {
+        mNavigator.showToast(exception.getMessage());
+    }
+
+    @Override
     public void goNextFragmentListRequestOff() {
         setCurrentPage(Page.OFF);
         setCurrentItem(R.id.item_off);
@@ -214,9 +226,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     }
 
     public void onLogoutClick(View view) {
-        mPresenter.clearUser();
-        mNavigator.startActivity(LoginActivity.class);
-        mNavigator.finishActivity();
+        mPresenter.logout();
     }
 
     public void onClickDetailProfile(View view) {
