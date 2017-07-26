@@ -466,10 +466,9 @@
                                 android:orientation="vertical"
                                 android:visibility="@{viewModel.visiableLayoutCompanyPay ? View.VISIBLE : View.GONE}"
                                 >
-                                <LinearLayout
+                                <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
                                     >
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -488,8 +487,8 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="@dimen/dp_90"
-                                        android:layout_marginStart="@dimen/dp_90"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_alignParentRight="true"
                                         android:background="@drawable/border_button"
                                         android:paddingBottom="@dimen/dp_3"
                                         android:paddingTop="@dimen/dp_3"
@@ -498,13 +497,13 @@
                                         android:textSize="@dimen/sp_15"
                                         />
 
-                                </LinearLayout>
+                                </RelativeLayout>
                                 <LinearLayout
                                     android:visibility="@{viewModel.visiableAnnualLeave ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleLinearLayoutConfirmRequestOff"
                                     >
                                     <TextView
-                                        android:text="@string/annual_leave"
+                                        android:text="@{viewModel.annualLeaveAmount}"
                                         android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
@@ -519,7 +518,7 @@
                                     style="@style/StyleLinearLayoutConfirmRequestOff"
                                     >
                                     <TextView
-                                        android:text="@string/leave_for_child_marriage"
+                                        android:text="@{viewModel.leaveForChildMarriageAmount}"
                                         android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
@@ -534,7 +533,7 @@
                                     style="@style/StyleLinearLayoutConfirmRequestOff"
                                     >
                                     <TextView
-                                        android:text="@string/leave_for_marriage"
+                                        android:text="@{viewModel.leaveForMarriageAmount}"
                                         android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
@@ -549,7 +548,7 @@
                                     style="@style/StyleLinearLayoutConfirmRequestOff"
                                     >
                                     <TextView
-                                        android:text="@string/funeral_leave"
+                                        android:text="@{viewModel.funeralLeaveAmount}"
                                         android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
@@ -589,7 +588,7 @@
                                     style="@style/StyleLinearLayoutConfirmRequestOff"
                                     >
                                     <TextView
-                                        android:text="@string/leave_for_care_of_sick_child"
+                                        android:text="@{viewModel.leaveForCareOfSickChildAmount}"
                                         android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
@@ -604,7 +603,7 @@
                                     style="@style/StyleLinearLayoutConfirmRequestOff"
                                     >
                                     <TextView
-                                        android:text="@string/sick_leave"
+                                        android:text="@{viewModel.sickLeaveAmount}"
                                         android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
@@ -619,7 +618,7 @@
                                     style="@style/StyleLinearLayoutConfirmRequestOff"
                                     >
                                     <TextView
-                                        android:text="@string/maternity_leave"
+                                        android:text="@{viewModel.maternityLeaveAmount}"
                                         android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
@@ -634,7 +633,7 @@
                                     style="@style/StyleLinearLayoutConfirmRequestOff"
                                     >
                                     <TextView
-                                        android:text="@string/pregnancy_examination_leave"
+                                        android:text="@{viewModel.pregnancyExaminationLeaveAmount}"
                                         android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
@@ -649,7 +648,7 @@
                                     style="@style/StyleLinearLayoutConfirmRequestOff"
                                     >
                                     <TextView
-                                        android:text="@string/miscarriage_leave"
+                                        android:text="@{viewModel.miscarriageLeaveAmount}"
                                         android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
@@ -664,7 +663,7 @@
                                     style="@style/StyleLinearLayoutConfirmRequestOff"
                                     >
                                     <TextView
-                                        android:text="@string/wife_labor_leave"
+                                        android:text="@{viewModel.wifeLaborLeaveAmount}"
                                         android:textStyle="bold"
                                         style="@style/StyleTextConfirmRequestOff"
                                         />
@@ -1080,7 +1079,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/dp_1"
                             android:layout_weight="1"
-                            android:background="@color/color_green_lime"
+                            android:background="@color/color_green_status"
                             android:onClick="@{() -> viewModel.onClickApprove()}"
                             android:text="@string/accepted"
                             android:visibility="@{viewModel.visibleApprove ? View.GONE : View.VISIBLE}"

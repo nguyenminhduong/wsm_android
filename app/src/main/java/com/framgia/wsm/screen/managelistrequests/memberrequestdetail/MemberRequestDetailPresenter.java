@@ -1,5 +1,6 @@
 package com.framgia.wsm.screen.managelistrequests.memberrequestdetail;
 
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
@@ -72,6 +73,25 @@ final class MemberRequestDetailPresenter implements MemberRequestDetailContract.
                             throws Exception {
                         mViewModel.onApproveOrRejectRequestSuccess(
                                 actionRequestResponseBaseResponse.getData());
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void getUser() {
+        Disposable disposable = mUserRepository.getUser()
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Consumer<User>() {
+                    @Override
+                    public void accept(@NonNull User user) throws Exception {
+                        mViewModel.onGetUserSuccess(user);
                     }
                 }, new RequestError() {
                     @Override
