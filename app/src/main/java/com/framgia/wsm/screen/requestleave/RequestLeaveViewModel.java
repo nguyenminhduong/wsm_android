@@ -243,7 +243,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         if (year == 0) {
             setCheckinTime(null);
-        } else {
+        }
+        if (view.isShown()) {
             mCurrentDate = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
             mDialogManager.showTimePickerDialog();
         }
@@ -251,6 +252,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        if (!view.isShown()) {
+            return;
+        }
         String currentDateTime = convertDateTimeToString(mCurrentDate, hourOfDay, minute);
         switch (mCurrentLeaveType) {
             case LeaveTypeId.FORGOT_CARD_IN:
