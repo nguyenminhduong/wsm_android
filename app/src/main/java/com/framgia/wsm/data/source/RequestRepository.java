@@ -10,7 +10,7 @@ import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import java.util.List;
 
@@ -25,76 +25,73 @@ public class RequestRepository {
         mRemoteDataSource = remoteDataSource;
     }
 
-    public Observable<Object> createFormRequestOverTime(@NonNull RequestOverTime requestOverTime) {
+    public Single<Object> createFormRequestOverTime(@NonNull RequestOverTime requestOverTime) {
         return mRemoteDataSource.createFormRequestOverTime(requestOverTime);
     }
 
-    public Observable<Object> deleteFormRequestOverTime(@NonNull int requestOverTimeId) {
+    public Single<Object> deleteFormRequestOverTime(@NonNull int requestOverTimeId) {
         return mRemoteDataSource.deleteFormRequestOverTime(requestOverTimeId);
     }
 
-    public Observable<BaseResponse<RequestOverTime>> editFormRequestOverTime(
-            @NonNull RequestOverTime requestOverTime) {
+    public Single<Object> editFormRequestOverTime(@NonNull RequestOverTime requestOverTime) {
         return mRemoteDataSource.editFormRequestOverTime(requestOverTime);
     }
 
-    public Observable<Object> createFormRequestOff(@NonNull RequestOffRequest requestOffRequest) {
+    public Single<Object> createFormRequestOff(@NonNull RequestOffRequest requestOffRequest) {
         return mRemoteDataSource.createFormRequestOff(requestOffRequest);
     }
 
-    public Observable<Object> deleteFormRequestOff(@NonNull int requestOffId) {
+    public Single<Object> deleteFormRequestOff(@NonNull int requestOffId) {
         return mRemoteDataSource.deleteFormRequestOff(requestOffId);
     }
 
-    public Observable<BaseResponse<OffRequest>> editFormRequestOff(
-            @NonNull RequestOffRequest requestOffRequest) {
+    public Single<Object> editFormRequestOff(@NonNull RequestOffRequest requestOffRequest) {
         return mRemoteDataSource.editFormRequestOff(requestOffRequest);
     }
 
-    public Observable<Object> createFormRequestLeave(
-            @NonNull RequestLeaveRequest requestLeaveRequest) {
+    public Single<Object> createFormRequestLeave(@NonNull RequestLeaveRequest requestLeaveRequest) {
         return mRemoteDataSource.createFormRequestLeave(requestLeaveRequest);
     }
 
-    public Observable<Object> deleteFormRequestLeave(@NonNull int requestId) {
+    public Single<Object> deleteFormRequestLeave(@NonNull int requestId) {
         return mRemoteDataSource.deleteFormRequestLeave(requestId);
     }
 
-    public Observable<Object> editFormRequestLeave(@NonNull int requestId,
+    public Single<Object> editFormRequestLeave(@NonNull int requestId,
             RequestLeaveRequest requestLeaveRequest) {
         return mRemoteDataSource.editFormRequestLeave(requestId, requestLeaveRequest);
     }
 
-    public Observable<BaseResponse<List<OffRequest>>> getListRequestOff(QueryRequest queryRequest) {
+    public Single<BaseResponse<List<OffRequest>>> getListRequestOff(QueryRequest queryRequest) {
         return mRemoteDataSource.getListRequestOff(queryRequest);
     }
 
-    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly(
+    public Single<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly(
             QueryRequest queryRequest) {
         return mRemoteDataSource.getListRequestLateEarly(queryRequest);
     }
 
-    public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime(
+    public Single<BaseResponse<List<RequestOverTime>>> getListRequestOverTime(
             QueryRequest queryRequest) {
         return mRemoteDataSource.getListRequestOverTime(queryRequest);
     }
 
-    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveManage(
+    public Single<BaseResponse<List<LeaveRequest>>> getListRequestLeaveManage(
             QueryRequest queryRequest) {
         return mRemoteDataSource.getListRequesLeavetManage(queryRequest);
     }
 
-    public Observable<BaseResponse<List<OffRequest>>> getListRequestOffManage(
+    public Single<BaseResponse<List<OffRequest>>> getListRequestOffManage(
             QueryRequest queryRequest) {
         return mRemoteDataSource.getListRequesOffManage(queryRequest);
     }
 
-    public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOvertimeManage(
+    public Single<BaseResponse<List<RequestOverTime>>> getListRequestOvertimeManage(
             QueryRequest queryRequest) {
         return mRemoteDataSource.getListRequesOvertimetManage(queryRequest);
     }
 
-    public Observable<BaseResponse<ActionRequestResponse>> actionApproveRejectRequest(
+    public Single<BaseResponse<ActionRequestResponse>> actionApproveRejectRequest(
             ActionRequest actionRequest) {
         return mRemoteDataSource.approveOrRejectRequest(actionRequest);
     }

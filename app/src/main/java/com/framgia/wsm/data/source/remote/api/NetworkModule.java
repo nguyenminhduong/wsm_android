@@ -14,7 +14,6 @@ import com.framgia.wsm.utils.dagger.AppScope;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import dagger.Module;
 import dagger.Provides;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +22,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -50,8 +50,7 @@ public class NetworkModule {
     public Gson provideGson() {
         BooleanAdapter booleanAdapter = new BooleanAdapter();
         IntegerAdapter integerAdapter = new IntegerAdapter();
-        return new GsonBuilder()
-                .registerTypeAdapter(Boolean.class, booleanAdapter)
+        return new GsonBuilder().registerTypeAdapter(Boolean.class, booleanAdapter)
                 .registerTypeAdapter(boolean.class, booleanAdapter)
                 .registerTypeAdapter(Integer.class, integerAdapter)
                 .registerTypeAdapter(int.class, integerAdapter)
@@ -99,8 +98,7 @@ public class NetworkModule {
     @AppScope
     @Provides
     public Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
-        return new Retrofit.Builder()
-                .baseUrl(Constant.END_POINT_URL)
+        return new Retrofit.Builder().baseUrl(Constant.END_POINT_URL)
                 .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)

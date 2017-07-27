@@ -74,10 +74,10 @@ final class ConfirmRequestLeavePresenter implements ConfirmRequestLeaveContract.
                     public void accept(@NonNull Object o) throws Exception {
                         mViewModel.onCreateFormRequestLeaveSuccess();
                     }
-                }, new RequestError() {
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onRequestError(BaseException error) {
-                        mViewModel.onCreateFormFormRequestLeaveError(error);
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        mViewModel.onCreateFormFormRequestLeaveError((BaseException) throwable);
                     }
                 });
         mCompositeDisposable.add(disposable);
@@ -106,10 +106,10 @@ final class ConfirmRequestLeavePresenter implements ConfirmRequestLeaveContract.
                     public void accept(@NonNull Object o) throws Exception {
                         mViewModel.onEditFormRequestLeaveSuccess();
                     }
-                }, new RequestError() {
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onRequestError(BaseException error) {
-                        mViewModel.onEditFormFormRequestLeaveError(error);
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        mViewModel.onEditFormFormRequestLeaveError((BaseException) throwable);
                     }
                 });
         mCompositeDisposable.add(disposable);
@@ -137,10 +137,10 @@ final class ConfirmRequestLeavePresenter implements ConfirmRequestLeaveContract.
                     public void accept(@NonNull Object o) throws Exception {
                         mViewModel.onDeleteFormRequestLeaveSuccess();
                     }
-                }, new RequestError() {
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onRequestError(BaseException error) {
-                        mViewModel.onDeleteFormFormRequestLeaveError(error);
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        mViewModel.onDeleteFormFormRequestLeaveError((BaseException) throwable);
                     }
                 });
         mCompositeDisposable.add(disposable);

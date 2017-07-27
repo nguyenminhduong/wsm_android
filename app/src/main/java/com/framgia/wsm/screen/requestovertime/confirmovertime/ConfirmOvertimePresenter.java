@@ -6,7 +6,6 @@ import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
-import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
@@ -91,10 +90,10 @@ final class ConfirmOvertimePresenter implements ConfirmOvertimeContract.Presente
                     public void accept(@NonNull Object o) throws Exception {
                         mViewModel.onCreateFormOverTimeSuccess();
                     }
-                }, new RequestError() {
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onRequestError(BaseException error) {
-                        mViewModel.onCreateFormOverTimeError(error);
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        mViewModel.onCreateFormOverTimeError((BaseException) throwable);
                     }
                 });
         mCompositeDisposable.add(disposable);
@@ -117,19 +116,15 @@ final class ConfirmOvertimePresenter implements ConfirmOvertimeContract.Presente
                         mViewModel.onDismissProgressDialog();
                     }
                 })
-                .subscribe(new Consumer<BaseResponse<RequestOverTime>>() {
+                .subscribe(new Consumer<Object>() {
                     @Override
-                    public void accept(@NonNull
-                            BaseResponse<RequestOverTime> requestOverTimeResponseBaseResponse)
-                            throws Exception {
-
-                        mViewModel.onEditFormOverTimeSuccess(
-                                requestOverTimeResponseBaseResponse.getData());
+                    public void accept(@NonNull Object o) throws Exception {
+                        mViewModel.onEditFormOverTimeSuccess();
                     }
-                }, new RequestError() {
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onRequestError(BaseException error) {
-                        mViewModel.onEditFormOverTimeError(error);
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        mViewModel.onEditFormOverTimeError((BaseException) throwable);
                     }
                 });
         mCompositeDisposable.add(disposable);
@@ -157,10 +152,10 @@ final class ConfirmOvertimePresenter implements ConfirmOvertimeContract.Presente
                     public void accept(@NonNull Object o) throws Exception {
                         mViewModel.onDeleteFormOverTimeSuccess();
                     }
-                }, new RequestError() {
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onRequestError(BaseException error) {
-                        mViewModel.onDeleteFormOverTimeError(error);
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        mViewModel.onDeleteFormOverTimeError((BaseException) throwable);
                     }
                 });
         mCompositeDisposable.add(disposable);

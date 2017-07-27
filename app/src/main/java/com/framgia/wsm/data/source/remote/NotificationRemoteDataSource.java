@@ -6,6 +6,7 @@ import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.NotificationResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import javax.inject.Inject;
 
 /**
@@ -20,7 +21,7 @@ public class NotificationRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<BaseResponse<NotificationResponse>> getNotification(int page) {
+    public Single<BaseResponse<NotificationResponse>> getNotification(int page) {
         return mWSMApi.getNotification(page);
     }
 

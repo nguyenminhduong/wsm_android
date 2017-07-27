@@ -12,10 +12,8 @@ import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
 import com.framgia.wsm.utils.RequestType;
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
+import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Function;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,118 +47,88 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Observable<Object> createFormRequestOverTime(@NonNull RequestOverTime requestOverTime) {
+    public Single<Object> createFormRequestOverTime(@NonNull RequestOverTime requestOverTime) {
         return mWSMApi.createFormRequestOverTime(requestOverTime);
     }
 
     @Override
-    public Observable<Object> createFormRequestOff(@NonNull RequestOffRequest requestOffRequest) {
+    public Single<Object> createFormRequestOff(@NonNull RequestOffRequest requestOffRequest) {
         return mWSMApi.createFormRequestOff(requestOffRequest);
     }
 
     @Override
-    public Observable<Object> createFormRequestLeave(
-            @NonNull RequestLeaveRequest requestLeaveRequest) {
+    public Single<Object> createFormRequestLeave(@NonNull RequestLeaveRequest requestLeaveRequest) {
         return mWSMApi.createFormRequestLeave(requestLeaveRequest);
     }
 
     @Override
-    public Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime(
+    public Single<BaseResponse<List<RequestOverTime>>> getListRequestOverTime(
             QueryRequest queryRequest) {
         return mWSMApi.getListRequestOverTime(inputParamsRequestsPersonal(queryRequest));
     }
 
     @Override
-    public Observable<BaseResponse<List<OffRequest>>> getListRequestOff(QueryRequest queryRequest) {
+    public Single<BaseResponse<List<OffRequest>>> getListRequestOff(QueryRequest queryRequest) {
         return mWSMApi.getListRequestOff(inputParamsRequestsPersonal(queryRequest));
     }
 
     @Override
-    public Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly(
+    public Single<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly(
             QueryRequest queryRequest) {
         return mWSMApi.getListRequestLeaves(inputParamsRequestsPersonal(queryRequest));
     }
 
     @Override
-    public Observable<Object> deleteFormRequestOff(@NonNull int requestOffId) {
+    public Single<Object> deleteFormRequestOff(@NonNull int requestOffId) {
         return mWSMApi.deleteFormRequestOff(requestOffId);
     }
 
     @Override
-    public Observable<BaseResponse<OffRequest>> editFormRequestOff(
-            @NonNull RequestOffRequest requestOffRequest) {
+    public Single<Object> editFormRequestOff(@NonNull RequestOffRequest requestOffRequest) {
         return mWSMApi.editFormRequestOff(requestOffRequest.getRequestOff().getId(),
-                requestOffRequest)
-                .flatMap(
-                        new Function<BaseResponse<OffRequest>,
-                                ObservableSource<BaseResponse<OffRequest>>>() {
-                            @Override
-                            public ObservableSource<BaseResponse<OffRequest>> apply(
-                                    @NonNull BaseResponse<OffRequest> requestOffBaseResponse)
-                                    throws Exception {
-                                if (requestOffBaseResponse != null) {
-                                    return Observable.just(requestOffBaseResponse);
-                                }
-                                return Observable.error(new NullPointerException());
-                            }
-                        });
+                requestOffRequest);
     }
 
     @Override
-    public Observable<BaseResponse<RequestOverTime>> editFormRequestOverTime(
-            @NonNull RequestOverTime requestOverTime) {
-        return mWSMApi.editFormRequestOverTime(requestOverTime.getId(), requestOverTime)
-                .flatMap(
-                        new Function<BaseResponse<RequestOverTime>,
-                                ObservableSource<BaseResponse<RequestOverTime>>>() {
-
-                            @Override
-                            public ObservableSource<BaseResponse<RequestOverTime>> apply(@NonNull
-                                    BaseResponse<RequestOverTime> requestOverTimeBaseResponse)
-                                    throws Exception {
-                                if (requestOverTimeBaseResponse != null) {
-                                    return Observable.just(requestOverTimeBaseResponse);
-                                }
-                                return Observable.error(new NullPointerException());
-                            }
-                        });
+    public Single<Object> editFormRequestOverTime(@NonNull RequestOverTime requestOverTime) {
+        return mWSMApi.editFormRequestOverTime(requestOverTime.getId(), requestOverTime);
     }
 
     @Override
-    public Observable<Object> deleteFormRequestOverTime(@NonNull int requestOverTimeId) {
+    public Single<Object> deleteFormRequestOverTime(@NonNull int requestOverTimeId) {
         return mWSMApi.deleteFormRequestOverTime(requestOverTimeId);
     }
 
-    public Observable<Object> deleteFormRequestLeave(@NonNull int requestLeaveId) {
+    public Single<Object> deleteFormRequestLeave(@NonNull int requestLeaveId) {
         return mWSMApi.deleteFormRequestLeave(requestLeaveId);
     }
 
     @Override
-    public Observable<Object> editFormRequestLeave(@NonNull int requestId,
+    public Single<Object> editFormRequestLeave(@NonNull int requestId,
             RequestLeaveRequest requestLeave) {
         return mWSMApi.editFormRequestLeave(requestId, requestLeave);
     }
 
     @Override
-    public Observable<BaseResponse<List<LeaveRequest>>> getListRequesLeavetManage(
+    public Single<BaseResponse<List<LeaveRequest>>> getListRequesLeavetManage(
             QueryRequest queryRequest) {
         return mWSMApi.getListRequestLeaveManage(inputParamsRequestsManage(queryRequest));
     }
 
     @Override
-    public Observable<BaseResponse<List<RequestOverTime>>> getListRequesOvertimetManage(
+    public Single<BaseResponse<List<RequestOverTime>>> getListRequesOvertimetManage(
             QueryRequest queryRequest) {
         return mWSMApi.getListRequestOvertimeManage(inputParamsRequestsManage(queryRequest));
     }
 
     @Override
-    public Observable<BaseResponse<List<OffRequest>>> getListRequesOffManage(
+    public Single<BaseResponse<List<OffRequest>>> getListRequesOffManage(
             QueryRequest queryRequest) {
         return mWSMApi.getListRequestOffManage(inputParamsRequestsManage(queryRequest));
     }
 
     @Override
-    public Observable<BaseResponse<ActionRequestResponse>> approveOrRejectRequest(
+    public Single<BaseResponse<ActionRequestResponse>> approveOrRejectRequest(
             ActionRequest actionRequest) {
         return mWSMApi.approveOrRejectRequest(actionRequest);
     }

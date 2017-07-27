@@ -117,7 +117,7 @@ public class ConfirmOvertimeViewModel extends BaseObservable
     }
 
     @Override
-    public void onEditFormOverTimeSuccess(RequestOverTime requestOverTime) {
+    public void onEditFormOverTimeSuccess() {
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.EXTRA_REQUEST_TYPE_CODE, RequestType.REQUEST_OVERTIME);
         mNavigator.finishActivityWithResult(bundle, Activity.RESULT_OK);
