@@ -129,6 +129,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             mActionType = ActionType.ACTION_EDIT;
             mCurrentLeaveTypeName = mRequest.getLeaveType().getName();
             setLayoutLeaveType(mCurrentLeaveType);
+            mRequest.setCompanyName(mRequest.getGroup().getGroupName());
         }
     }
 
@@ -151,16 +152,17 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private int searchLeaveTypePosition(List<LeaveType> leaveTypesList, int currentLeaveTypeId) {
-        for (int i = 0; i <= leaveTypesList.size(); i++) {
+        for (int i = 0; i < leaveTypesList.size(); i++) {
             if (leaveTypesList.get(i).getId() == currentLeaveTypeId) {
                 return i;
             }
         }
+
         return 0;
     }
 
     private int searchBranchPosition(List<Branch> branchList, String branchName) {
-        for (int i = 0; i <= branchList.size(); i++) {
+        for (int i = 0; i < branchList.size(); i++) {
             if (branchList.get(i).getBranchName().equals(branchName)) {
                 return i;
             }
@@ -187,15 +189,19 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         notifyPropertyChanged(BR.user);
         if (mActionType == ActionType.ACTION_CREATE) {
             setCurrentLeaveType();
+            mCurrentBranchPosition =
+                    (searchBranchPosition(mUser.getBranches(), mRequest.getWorkspaceName()));
+            setCurrentGroup();
         }
         setCurrentBranch();
-        setCurrentGroup();
         setTitleExampleLeave();
+        if (mActionType == ActionType.ACTION_EDIT) {
+            mCurrentBranchPosition = (searchBranchPosition(mUser.getBranches(),
+                    mRequest.getBranch().getBranchName()));
+        }
         mRequest.setCompanyId(mUser.getCompany().getId());
         mCurrentLeaveTypePosition =
                 (searchLeaveTypePosition(mUser.getLeaveTypes(), mCurrentLeaveType));
-        mCurrentBranchPosition =
-                (searchBranchPosition(mUser.getBranches(), mRequest.getBranch().getBranchName()));
     }
 
     @Override
