@@ -5,12 +5,15 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import com.framgia.wsm.R;
 import com.framgia.wsm.screen.login.LoginActivity;
 import com.framgia.wsm.screen.main.MainActivity;
+import com.framgia.wsm.utils.binding.ColorManagers;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -20,7 +23,6 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class FireBaseMessageService extends FirebaseMessagingService {
     private static final String TAG = "FireBaseMessageService";
-    private static final String TITLE = "WSM";
     private static final String NOTIFICATION_NUMBER = "NOTIFICATION_NUMBER";
     private static final String MESSAGE = "message";
 
@@ -46,13 +48,22 @@ public class FireBaseMessageService extends FirebaseMessagingService {
 
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_notifications)
-                        .setContentTitle(TITLE)
+                new NotificationCompat.Builder(this)
+                        .setCategory(NotificationCompat.CATEGORY_PROMO)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(),
+                                R.mipmap.ic_launcher_round))
+                        .setAutoCancel(true)
+                        .addAction(R.drawable.ic_view, getString(R.string.view_detail),
+                                pendingIntent)
+                        .setSmallIcon(R.drawable.ic_notification_w)
                         .setContentText(messageBody)
                         .setAutoCancel(true)
+                        .setColor(Color.parseColor(ColorManagers.COLOR_GREEN_DARK))
                         .setSound(uri)
-                        .setContentIntent(pendingIntent);
-
+                        .setContentIntent(pendingIntent)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setDefaults(NotificationCompat.DEFAULT_ALL)
+                        .setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 

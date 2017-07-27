@@ -119,6 +119,8 @@
                                     />
                                 <TextView
                                     android:layout_marginTop="@dimen/dp_3"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.user.code}"
                                     style="@style/StyleTextProfile"
                                     />
@@ -146,6 +148,8 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.user.name}"
                                     style="@style/StyleTextProfile"
                                     />
@@ -173,6 +177,8 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.user.email}"
                                     style="@style/StyleTextProfile"
                                     />
@@ -228,6 +234,8 @@
                                     />
                                 <TextView
                                     android:layout_marginBottom="@dimen/dp_2"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.user.contractDate}"
                                     style="@style/StyleTextProfile"
                                     />
@@ -282,6 +290,8 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.user.endProbationDate}"
                                     style="@style/StyleTextProfile"
                                     />
@@ -336,6 +346,8 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="2"
                                     android:text="@{viewModel.user.individualCode}"
                                     style="@style/StyleTextProfile"
                                     />
@@ -363,6 +375,8 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="2"
                                     android:text="@{viewModel.user.nameStaffType}"
                                     style="@style/StyleTextProfile"
                                     />
@@ -451,6 +465,8 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.user.gender}"
                                     style="@style/StyleTextProfile"
                                     />
@@ -479,6 +495,8 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
                                     android:text="@{viewModel.birthday}"
                                     style="@style/StyleTextProfile"
                                     />

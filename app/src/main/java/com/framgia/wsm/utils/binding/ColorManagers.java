@@ -16,7 +16,7 @@ public class ColorManagers {
     private static final String COLOR_GREEN6 = "#007F54";
     private static final String COLOR_GREEN7 = "#006241";
     private static final String COLOR_GREEN8 = "#00676B";
-    private static final String COLOR_GREEN_DARK = "#009688";
+    public static final String COLOR_GREEN_DARK = "#009688";
     private static final String COLOR_STATUS_GREEN = "#4CAF50";
     private static final String COLOR_STATUS_BLUE = "#2196F3";
     private static final String COLOR_STATUS_BLUE_DARK = "#1565C0";

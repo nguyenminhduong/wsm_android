@@ -154,7 +154,9 @@
                             style="@style/StyleTextHintEditProfile"
                             >
                             <EditText
+                                android:ellipsize="end"
                                 android:hint="@string/employee_code"
+                                android:maxLines="1"
                                 android:text="@{viewModel.user.code}"
                                 style="@style/StyleText"
                                 />
@@ -176,7 +178,9 @@
                             style="@style/StyleTextHintEditProfile"
                             >
                             <EditText
+                                android:ellipsize="end"
                                 android:hint="@string/email"
+                                android:maxLines="1"
                                 android:text="@{viewModel.user.email}"
                                 style="@style/StyleText"
                                 />
@@ -198,7 +202,9 @@
                             style="@style/StyleTextHintEditProfile"
                             >
                             <EditText
+                                android:ellipsize="end"
                                 android:hint="@string/contract_date"
+                                android:maxLines="1"
                                 android:text="@{viewModel.user.contractDate}"
                                 style="@style/StyleText"
                                 />
@@ -220,7 +226,9 @@
                             style="@style/StyleTextHintEditProfile"
                             >
                             <EditText
+                                android:ellipsize="end"
                                 android:hint="@string/start_probation_date"
+                                android:maxLines="1"
                                 android:text="@{viewModel.user.startProbationDate}"
                                 style="@style/StyleText"
                                 />
@@ -242,7 +250,9 @@
                             style="@style/StyleTextHintEditProfile"
                             >
                             <EditText
+                                android:ellipsize="end"
                                 android:hint="@string/end_probation_date"
+                                android:maxLines="1"
                                 android:text="@{viewModel.user.endProbationDate}"
                                 style="@style/StyleText"
                                 />
@@ -264,7 +274,9 @@
                             style="@style/StyleTextHintEditProfile"
                             >
                             <EditText
+                                android:ellipsize="end"
                                 android:hint="@string/staff_type"
+                                android:maxLines="1"
                                 android:text="@{viewModel.user.nameStaffType}"
                                 style="@style/StyleText"
                                 />
@@ -308,7 +320,9 @@
                             style="@style/StyleTextHintEditProfile"
                             >
                             <EditText
+                                android:ellipsize="end"
                                 android:hint="@string/gender"
+                                android:maxLines="1"
                                 android:text="@{viewModel.user.gender}"
                                 style="@style/StyleText"
                                 />
