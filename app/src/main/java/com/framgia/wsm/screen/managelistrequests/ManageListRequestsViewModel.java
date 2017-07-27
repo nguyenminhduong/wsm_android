@@ -154,7 +154,7 @@ public class ManageListRequestsViewModel extends BaseObservable
                     mContext.getString(R.string.approve_success));
             return;
         }
-        mNavigator.showToastCustom(TypeToast.SUCCESS, mContext.getString(R.string.reject_success));
+        mNavigator.showToastCustom(TypeToast.ERROR, mContext.getString(R.string.reject_success));
     }
 
     @Override

@@ -25,7 +25,8 @@ interface NotificationContract {
 
         void onSetReadError(BaseException e);
 
-        void setListener(NotificationDialogFragment.UpdateNotificationListener listener);
+        void setUpdateNotificationListener(
+                NotificationDialogFragment.UpdateNotificationListener listener);
     }
 
     /**

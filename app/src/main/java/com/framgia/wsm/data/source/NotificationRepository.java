@@ -5,6 +5,7 @@ import com.framgia.wsm.data.source.remote.api.request.NotificationRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.NotificationResponse;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by minhd on 7/5/2017.
@@ -17,7 +18,7 @@ public class NotificationRepository {
         mRemoteDataSource = remoteDataSource;
     }
 
-    public Observable<BaseResponse<NotificationResponse>> getNotification(int page) {
+    public Single<BaseResponse<NotificationResponse>> getNotification(int page) {
         return mRemoteDataSource.getNotification(page);
     }
 

@@ -115,7 +115,8 @@ public class NotificationViewModel extends BaseObservable implements Notificatio
     }
 
     @Override
-    public void setListener(NotificationDialogFragment.UpdateNotificationListener listener) {
+    public void setUpdateNotificationListener(
+            NotificationDialogFragment.UpdateNotificationListener listener) {
         mListener = listener;
     }
 

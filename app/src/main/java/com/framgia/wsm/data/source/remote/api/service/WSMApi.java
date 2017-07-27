@@ -19,6 +19,7 @@ import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.NotificationResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import java.util.List;
 import java.util.Map;
 import okhttp3.MultipartBody;
@@ -65,45 +66,44 @@ public interface WSMApi {
     Observable<BaseResponse<List<HolidayCalendar>>> getHolidayCalendar(@Query("year") int year);
 
     @POST("/api/dashboard/request_ots")
-    Observable<Object> createFormRequestOverTime(@Body RequestOverTime requestOverTime);
+    Single<Object> createFormRequestOverTime(@Body RequestOverTime requestOverTime);
 
     @PUT("api/dashboard/request_ots/{request_ots_id}")
-    Observable<BaseResponse<RequestOverTime>> editFormRequestOverTime(
-            @Path("request_ots_id") int requestOverTimeId, @Body RequestOverTime requestOverTime);
+    Single<Object> editFormRequestOverTime(@Path("request_ots_id") int requestOverTimeId,
+            @Body RequestOverTime requestOverTime);
 
     @DELETE("api/dashboard/request_ots/{request_ots_id}")
-    Observable<Object> deleteFormRequestOverTime(@Path("request_ots_id") int requestOverTimeId);
+    Single<Object> deleteFormRequestOverTime(@Path("request_ots_id") int requestOverTimeId);
 
     @POST("/api/dashboard/request_offs")
-    Observable<Object> createFormRequestOff(@Body RequestOffRequest requestOffRequest);
+    Single<Object> createFormRequestOff(@Body RequestOffRequest requestOffRequest);
 
     @DELETE("/api/dashboard/request_offs/{request_offs_id}")
-    Observable<Object> deleteFormRequestOff(@Path("request_offs_id") int requestOffId);
+    Single<Object> deleteFormRequestOff(@Path("request_offs_id") int requestOffId);
 
     @PUT("/api/dashboard/request_offs/{request_offs_id}")
-    Observable<BaseResponse<OffRequest>> editFormRequestOff(
-            @Path("request_offs_id") int requestOffId, @Body RequestOffRequest requestOffRequest);
+    Single<Object> editFormRequestOff(@Path("request_offs_id") int requestOffId,
+            @Body RequestOffRequest requestOffRequest);
 
     @DELETE("/api/dashboard/request_leaves/{request_leave_id}")
-    Observable<Object> deleteFormRequestLeave(@Path("request_leave_id") int requestLeaveId);
+    Single<Object> deleteFormRequestLeave(@Path("request_leave_id") int requestLeaveId);
 
     @PUT("/api/dashboard/request_leaves/{request_leave_id}")
-    Observable<Object> editFormRequestLeave(@Path("request_leave_id") int requestLeaveId,
+    Single<Object> editFormRequestLeave(@Path("request_leave_id") int requestLeaveId,
             @Body RequestLeaveRequest requestLeaveRequest);
 
     @POST("/api/dashboard/request_leaves")
-    Observable<Object> createFormRequestLeave(@Body RequestLeaveRequest requestLeaveRequest);
+    Single<Object> createFormRequestLeave(@Body RequestLeaveRequest requestLeaveRequest);
 
     @GET("/api/dashboard/request_offs?")
-    Observable<BaseResponse<List<OffRequest>>> getListRequestOff(
-            @QueryMap Map<String, String> params);
+    Single<BaseResponse<List<OffRequest>>> getListRequestOff(@QueryMap Map<String, String> params);
 
     @GET("/api/dashboard/request_ots?")
-    Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime(
+    Single<BaseResponse<List<RequestOverTime>>> getListRequestOverTime(
             @QueryMap Map<String, String> params);
 
     @GET("/api/dashboard/request_leaves?")
-    Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaves(
+    Single<BaseResponse<List<LeaveRequest>>> getListRequestLeaves(
             @QueryMap Map<String, String> params);
 
     @GET("/api/dashboard/leave_types")
@@ -113,24 +113,24 @@ public interface WSMApi {
     Observable<BaseResponse<OffTypeDay>> getListOffType();
 
     @GET("/api/dashboard/notifications")
-    Observable<BaseResponse<NotificationResponse>> getNotification(@Query("page") int page);
+    Single<BaseResponse<NotificationResponse>> getNotification(@Query("page") int page);
 
     @PUT("/api/dashboard/set_notifications")
     Observable<BaseResponse> setReadNotifcation(@Body NotificationRequest notificationRequest);
 
     @GET("/api/dashboard/manager/request_leaves?")
-    Observable<BaseResponse<List<LeaveRequest>>> getListRequestLeaveManage(
+    Single<BaseResponse<List<LeaveRequest>>> getListRequestLeaveManage(
             @QueryMap Map<String, String> params);
 
     @GET("/api/dashboard/manager/request_ots?")
-    Observable<BaseResponse<List<RequestOverTime>>> getListRequestOvertimeManage(
+    Single<BaseResponse<List<RequestOverTime>>> getListRequestOvertimeManage(
             @QueryMap Map<String, String> params);
 
     @GET("/api/dashboard/manager/request_offs?")
-    Observable<BaseResponse<List<OffRequest>>> getListRequestOffManage(
+    Single<BaseResponse<List<OffRequest>>> getListRequestOffManage(
             @QueryMap Map<String, String> params);
 
     @PUT("api/dashboard/manager/approvals")
-    Observable<BaseResponse<ActionRequestResponse>> approveOrRejectRequest(
+    Single<BaseResponse<ActionRequestResponse>> approveOrRejectRequest(
             @Body ActionRequest actionRequest);
 }

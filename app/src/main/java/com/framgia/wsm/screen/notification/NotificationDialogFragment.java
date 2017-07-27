@@ -66,7 +66,7 @@ public class NotificationDialogFragment extends DialogFragment {
                         mViewModel.onLoadMoreNotification();
                     }
                 });
-        mViewModel.setListener(mListener);
+        mViewModel.setUpdateNotificationListener(mListener);
         return binding.getRoot();
     }
 

@@ -9,7 +9,7 @@ import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
 import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import java.util.List;
 
@@ -19,45 +19,41 @@ import java.util.List;
 
 public interface RequestDataSource {
     interface RemoteDataSource {
-        Observable<Object> createFormRequestOverTime(@NonNull RequestOverTime requestOverTime);
+        Single<Object> createFormRequestOverTime(@NonNull RequestOverTime requestOverTime);
 
-        Observable<Object> createFormRequestOff(@NonNull RequestOffRequest requestOffRequest);
+        Single<Object> createFormRequestOff(@NonNull RequestOffRequest requestOffRequest);
 
-        Observable<Object> createFormRequestLeave(@NonNull RequestLeaveRequest requestLeaveRequest);
+        Single<Object> createFormRequestLeave(@NonNull RequestLeaveRequest requestLeaveRequest);
 
-        Observable<BaseResponse<List<RequestOverTime>>> getListRequestOverTime(
+        Single<BaseResponse<List<RequestOverTime>>> getListRequestOverTime(
                 QueryRequest queryRequest);
 
-        Observable<BaseResponse<List<OffRequest>>> getListRequestOff(QueryRequest queryRequest);
+        Single<BaseResponse<List<OffRequest>>> getListRequestOff(QueryRequest queryRequest);
 
-        Observable<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly(
-                QueryRequest queryRequest);
+        Single<BaseResponse<List<LeaveRequest>>> getListRequestLateEarly(QueryRequest queryRequest);
 
-        Observable<Object> deleteFormRequestOff(@NonNull int requestOffId);
+        Single<Object> deleteFormRequestOff(@NonNull int requestOffId);
 
-        Observable<BaseResponse<OffRequest>> editFormRequestOff(
-                @NonNull RequestOffRequest requestOffRequest);
+        Single<Object> editFormRequestOff(@NonNull RequestOffRequest requestOffRequest);
 
-        Observable<BaseResponse<RequestOverTime>> editFormRequestOverTime(
-                @NonNull RequestOverTime requestOverTime);
+        Single<Object> editFormRequestOverTime(@NonNull RequestOverTime requestOverTime);
 
-        Observable<Object> deleteFormRequestOverTime(@NonNull int requestOverTimeId);
+        Single<Object> deleteFormRequestOverTime(@NonNull int requestOverTimeId);
 
-        Observable<Object> deleteFormRequestLeave(@NonNull int requestLeaveId);
+        Single<Object> deleteFormRequestLeave(@NonNull int requestLeaveId);
 
-        Observable<Object> editFormRequestLeave(@NonNull int requestId,
+        Single<Object> editFormRequestLeave(@NonNull int requestId,
                 RequestLeaveRequest requestLeave);
 
-        Observable<BaseResponse<List<LeaveRequest>>> getListRequesLeavetManage(
+        Single<BaseResponse<List<LeaveRequest>>> getListRequesLeavetManage(
                 QueryRequest queryRequest);
 
-        Observable<BaseResponse<List<RequestOverTime>>> getListRequesOvertimetManage(
+        Single<BaseResponse<List<RequestOverTime>>> getListRequesOvertimetManage(
                 QueryRequest queryRequest);
 
-        Observable<BaseResponse<List<OffRequest>>> getListRequesOffManage(
-                QueryRequest queryRequest);
+        Single<BaseResponse<List<OffRequest>>> getListRequesOffManage(QueryRequest queryRequest);
 
-        Observable<BaseResponse<ActionRequestResponse>> approveOrRejectRequest(
+        Single<BaseResponse<ActionRequestResponse>> approveOrRejectRequest(
                 ActionRequest actionRequest);
     }
 }

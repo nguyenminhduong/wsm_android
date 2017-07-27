@@ -19,7 +19,7 @@ interface ConfirmOvertimeContract {
 
         void onCreateFormOverTimeError(BaseException exception);
 
-        void onEditFormOverTimeSuccess(RequestOverTime requestOverTime);
+        void onEditFormOverTimeSuccess();
 
         void onEditFormOverTimeError(BaseException exception);
 

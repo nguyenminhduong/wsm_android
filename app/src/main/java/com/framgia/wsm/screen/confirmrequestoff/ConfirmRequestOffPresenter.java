@@ -1,13 +1,11 @@
 package com.framgia.wsm.screen.confirmrequestoff;
 
-import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
-import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
@@ -92,10 +90,10 @@ final class ConfirmRequestOffPresenter implements ConfirmRequestOffContract.Pres
                     public void accept(@NonNull Object o) throws Exception {
                         mViewModel.onCreateFormRequestOffSuccess();
                     }
-                }, new RequestError() {
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onRequestError(BaseException error) {
-                        mViewModel.onCreateFormFormRequestOffError(error);
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        mViewModel.onCreateFormFormRequestOffError((BaseException) throwable);
                     }
                 });
         mCompositeDisposable.add(disposable);
@@ -123,10 +121,10 @@ final class ConfirmRequestOffPresenter implements ConfirmRequestOffContract.Pres
                     public void accept(@NonNull Object o) throws Exception {
                         mViewModel.onDeleteFormRequestOffSuccess();
                     }
-                }, new RequestError() {
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onRequestError(BaseException error) {
-                        mViewModel.onDeleteFormRequestOffError(error);
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        mViewModel.onDeleteFormRequestOffError((BaseException) throwable);
                     }
                 });
         mCompositeDisposable.add(disposable);
@@ -149,16 +147,15 @@ final class ConfirmRequestOffPresenter implements ConfirmRequestOffContract.Pres
                         mViewModel.onDismissProgressDialog();
                     }
                 })
-                .subscribe(new Consumer<BaseResponse<OffRequest>>() {
+                .subscribe(new Consumer<Object>() {
                     @Override
-                    public void accept(@NonNull BaseResponse<OffRequest> requestOffBaseResponse)
-                            throws Exception {
-                        mViewModel.onEditFormRequestOffSuccess(requestOffBaseResponse.getData());
+                    public void accept(@NonNull Object o) throws Exception {
+                        mViewModel.onEditFormRequestOffSuccess();
                     }
-                }, new RequestError() {
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onRequestError(BaseException error) {
-                        mViewModel.onEditFormRequestOffError(error);
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        mViewModel.onEditFormRequestOffError((BaseException) throwable);
                     }
                 });
         mCompositeDisposable.add(disposable);

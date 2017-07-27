@@ -259,7 +259,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     }
 
     @Override
-    public void onEditFormRequestOffSuccess(OffRequest requestOff) {
+    public void onEditFormRequestOffSuccess() {
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.EXTRA_REQUEST_TYPE_CODE, RequestType.REQUEST_OFF);
         mNavigator.finishActivityWithResult(bundle, Activity.RESULT_OK);
