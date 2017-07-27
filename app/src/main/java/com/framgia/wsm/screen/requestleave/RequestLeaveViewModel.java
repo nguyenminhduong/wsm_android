@@ -241,8 +241,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        mCurrentDate = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
-        mDialogManager.showTimePickerDialog();
+        if (year == 0) {
+            setCheckinTime(null);
+        } else {
+            mCurrentDate = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
+            mDialogManager.showTimePickerDialog();
+        }
     }
 
     @Override
