@@ -18,6 +18,12 @@ public class NotificationRequest extends BaseRequest {
     @Expose
     private Boolean isReadAll;
 
+    public NotificationRequest(Integer id, Boolean isRead, Boolean isReadAll) {
+        mId = id;
+        this.isRead = isRead;
+        this.isReadAll = isReadAll;
+    }
+
     public Integer getId() {
         return mId;
     }

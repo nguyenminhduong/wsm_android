@@ -2,6 +2,7 @@ package com.framgia.wsm.screen.notification;
 
 import com.framgia.wsm.data.model.Notification;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.request.NotificationRequest;
 import com.framgia.wsm.screen.BasePresenter;
 import com.framgia.wsm.screen.BaseViewModel;
 import java.util.List;
@@ -17,6 +18,14 @@ interface NotificationContract {
         void onGetNotificationSuccess(List<Notification> list);
 
         void onGetNotificationError(BaseException e);
+
+        void onLoadMoreNotification();
+
+        void onSetReadSuccess();
+
+        void onSetReadError(BaseException e);
+
+        void setListener(NotificationDialogFragment.UpdateNotificationListener listener);
     }
 
     /**
@@ -24,5 +33,7 @@ interface NotificationContract {
      */
     interface Presenter extends BasePresenter<ViewModel> {
         void getNotification(int page);
+
+        void setRead(NotificationRequest notificationRequest);
     }
 }
