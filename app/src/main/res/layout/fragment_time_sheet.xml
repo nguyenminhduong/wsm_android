@@ -525,22 +525,22 @@
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_ro"
                 app:fab_colorNormal="@color/color_white"
                 app:fab_colorPressed="@color/color_dark_gray"
                 app:fab_colorRipple="@color/color_gray"
                 app:fab_label="@string/p_paid_leave_of_absence"
                 app:fab_size="mini"
-                app:srcCompat="@drawable/ic_ro"
                 />
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_ro"
                 app:fab_colorNormal="@color/color_white"
                 app:fab_colorPressed="@color/color_dark_gray"
                 app:fab_colorRipple="@color/color_gray"
                 app:fab_label="@string/ro_unpaid_leave_of_absence"
                 app:fab_size="mini"
-                app:srcCompat="@drawable/ic_ro"
                 />
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
