@@ -139,7 +139,8 @@ public class RequestOvertimeViewModel extends BaseObservable
             } else {
                 setToTime(null);
             }
-        } else {
+        }
+        if (view.isShown()) {
             mCurrentDate = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
             mDialogManager.showTimePickerDialog();
         }
@@ -147,6 +148,9 @@ public class RequestOvertimeViewModel extends BaseObservable
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        if (!view.isShown()) {
+            return;
+        }
         String currentDateTime =
                 DateTimeUtils.convertDateTimeToString(mCurrentDate, hourOfDay, minute);
         if (mIsFromTimeSelected) {

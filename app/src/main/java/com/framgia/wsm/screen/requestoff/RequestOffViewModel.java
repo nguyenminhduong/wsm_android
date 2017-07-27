@@ -300,31 +300,36 @@ public class RequestOffViewModel extends BaseRequestOff
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        if (year == 0) {
-            setStartDate(null);
-            setEndDate(null);
-        } else {
-            String date = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
-            int dayOfWeek = DateTimeUtils.getDayOfWeek(year, month, dayOfMonth);
-            if (mFlagDate == FLAG_START_DATE) {
-                if (DateTimeUtils.convertStringToDate(date)
-                        .after(DateTimeUtils.currentMonthWorking())) {
-                    if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
-                        setEndDate(null);
-                        setStartDate(date);
-                        return;
-                    }
-                    showErrorDialogWithButtonRetry(
-                            mContext.getString(R.string.time_must_be_a_working_date));
-                } else {
-                    setStartDate(null);
-                    showErrorDialogWithButtonRetry(mContext.getString(R.string.you_can_not_access));
-                }
-                mCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH) + ONE_MONTH);
-                return;
-            }
-            validateEndDate(date);
+        if (!view.isShown()) {
+            return;
         }
+        if (year == 0) {
+            if (mFlagDate == FLAG_START_DATE) {
+                setStartDate(null);
+            } else {
+                setEndDate(null);
+            }
+        }
+        String date = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
+        int dayOfWeek = DateTimeUtils.getDayOfWeek(year, month, dayOfMonth);
+        if (mFlagDate == FLAG_START_DATE) {
+            if (DateTimeUtils.convertStringToDate(date)
+                    .after(DateTimeUtils.currentMonthWorking())) {
+                if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
+                    setEndDate(null);
+                    setStartDate(date);
+                    return;
+                }
+                showErrorDialogWithButtonRetry(
+                        mContext.getString(R.string.time_must_be_a_working_date));
+            } else {
+                setStartDate(null);
+                showErrorDialogWithButtonRetry(mContext.getString(R.string.you_can_not_access));
+            }
+            mCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH) + ONE_MONTH);
+            return;
+        }
+        validateEndDate(date);
     }
 
     @Bindable

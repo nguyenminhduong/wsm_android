@@ -240,9 +240,7 @@ public class DialogManagerImpl implements DialogManager {
                 if (field.getName().equals(DATE_PICKER)) {
                     field.setAccessible(true);
                     mDatePicker = (DatePicker) field.get(mDatePickerDialog);
-                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        customDatePicker(mDatePicker);
-                    }
+                    customDatePicker(mDatePicker);
                 }
             }
         } catch (IllegalAccessException e) {
@@ -268,6 +266,7 @@ public class DialogManagerImpl implements DialogManager {
                 mContext.getText(R.string.clear), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        mDatePicker = new DatePicker(mContext);
                         onDateSetListener.onDateSet(mDatePicker, 0, 0, 0);
                     }
                 });
