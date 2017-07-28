@@ -452,6 +452,7 @@
             app:menu_labels_textColor="@android:color/white"
             app:menu_labels_textSize="@dimen/sp_16"
             app:menu_openDirection="up"
+            app:closedOnTouchOutside="@{true}"
             app:visibleFloatingActionMenu="@{viewModel.visibleFloatingActionMenu}"
             >
 
@@ -511,6 +512,7 @@
             app:menu_labels_textColor="@android:color/white"
             app:menu_labels_textSize="@dimen/sp_14"
             app:menu_openDirection="up"
+            app:closedOnTouchOutside="@{true}"
             app:visibleFloatingActionMenu="@{viewModel.visibleFloatingActionMenu}"
             >
             <com.github.clans.fab.FloatingActionButton

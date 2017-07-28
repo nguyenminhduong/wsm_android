@@ -204,6 +204,12 @@ public final class BindingUtils {
         }
     }
 
+    @BindingAdapter({ "closedOnTouchOutside" })
+    public static void setClosedOnTouchOutside(FloatingActionMenu floatingActionMenu,
+            boolean close) {
+        floatingActionMenu.setClosedOnTouchOutside(close);
+    }
+
     @BindingAdapter("errorTextInputLayout")
     public static void setErrorTextInputLayout(final TextInputLayout textInputLayout,
             final String text) {
