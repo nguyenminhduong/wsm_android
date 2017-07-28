@@ -13,6 +13,7 @@
             />
 
     </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -120,12 +121,28 @@
                 android:background="@color/color_blue_green"
                 />
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="LinearLayoutManager"
                 app:recyclerAdapter="@{viewModel.listRequestAdapter}"
                 />
         </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floating_button_create"
+            android:layout_width="@dimen/dp_56"
+            android:layout_height="@dimen/dp_56"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/dp_16"
+            android:background="@color/color_white"
+            android:onClick="@{viewModel::onCreateRequest}"
+            android:src="@drawable/fab_add"
+            android:tint="@color/color_white"
+            />
+
         <com.github.clans.fab.FloatingActionMenu
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -186,4 +203,5 @@
                 />
         </com.github.clans.fab.FloatingActionMenu>
     </RelativeLayout>
+
 </layout>

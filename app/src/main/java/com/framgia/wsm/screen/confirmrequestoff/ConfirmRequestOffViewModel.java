@@ -218,7 +218,9 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     @Override
     public void onCreateFormRequestOffSuccess() {
-        mNavigator.finishActivityWithResult(Activity.RESULT_OK);
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.EXTRA_REQUEST_TYPE_CODE, RequestType.REQUEST_OFF);
+        mNavigator.finishActivityWithResult(bundle, Activity.RESULT_OK);
         mNavigator.showToastCustom(TypeToast.SUCCESS,
                 mContext.getString(R.string.create_form_success));
     }

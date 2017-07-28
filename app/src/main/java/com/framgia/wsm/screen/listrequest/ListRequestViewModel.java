@@ -17,6 +17,9 @@ import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.screen.confirmrequestleave.ConfirmRequestLeaveActivity;
 import com.framgia.wsm.screen.confirmrequestoff.ConfirmRequestOffActivity;
+import com.framgia.wsm.screen.requestleave.RequestLeaveActivity;
+import com.framgia.wsm.screen.requestoff.RequestOffActivity;
+import com.framgia.wsm.screen.requestovertime.RequestOvertimeActivity;
 import com.framgia.wsm.screen.requestovertime.confirmovertime.ConfirmOvertimeActivity;
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
@@ -234,6 +237,27 @@ public class ListRequestViewModel extends BaseObservable
 
     public void onSearchRequest(View view) {
         mPresenter.getListAllRequest(mRequestType, mQueryRequest);
+    }
+
+    public void onCreateRequest(View view) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.EXTRA_ACTION_TYPE, ActionType.ACTION_CREATE);
+        switch (mRequestType) {
+            case RequestType.REQUEST_LATE_EARLY:
+                mNavigator.startActivityForResultFromFragment(RequestLeaveActivity.class, bundle,
+                        Constant.RequestCode.REQUEST_LEAVE);
+                break;
+            case RequestType.REQUEST_OVERTIME:
+                mNavigator.startActivityForResultFromFragment(RequestOvertimeActivity.class, bundle,
+                        Constant.RequestCode.REQUEST_OVERTIME);
+                break;
+            case RequestType.REQUEST_OFF:
+                mNavigator.startActivityForResultFromFragment(RequestOffActivity.class, bundle,
+                        Constant.RequestCode.REQUEST_OFF);
+                break;
+            default:
+                break;
+        }
     }
 
     public void onClearData(View view) {

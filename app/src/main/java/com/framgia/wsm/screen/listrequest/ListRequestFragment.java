@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +49,7 @@ public class ListRequestFragment extends BaseFragment {
 
         FragmentListRequestBinding binding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_list_request, container, false);
+        initView(binding);
         binding.setViewModel((ListRequestViewModel) mViewModel);
         return binding.getRoot();
     }
@@ -79,5 +82,21 @@ public class ListRequestFragment extends BaseFragment {
         if (resultCode == Activity.RESULT_OK) {
             mViewModel.onReloadData(data.getExtras().getInt(Constant.EXTRA_REQUEST_TYPE_CODE));
         }
+    }
+
+    private void initView(FragmentListRequestBinding binding) {
+        RecyclerView recyclerView = binding.recyclerview;
+        final FloatingActionButton actionButton = binding.floatingButtonCreate;
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    actionButton.hide();
+                    return;
+                }
+                actionButton.show();
+            }
+        });
     }
 }
