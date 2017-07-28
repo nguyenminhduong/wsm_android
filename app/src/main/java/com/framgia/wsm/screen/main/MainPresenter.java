@@ -1,9 +1,12 @@
 package com.framgia.wsm.screen.main;
 
 import com.framgia.wsm.data.model.User;
+import com.framgia.wsm.data.source.NotificationRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
+import com.framgia.wsm.data.source.remote.api.response.NotificationResponse;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
@@ -21,9 +24,12 @@ final class MainPresenter implements MainContract.Presenter {
     private UserRepository mUserRepository;
     private BaseSchedulerProvider mSchedulerProvider;
     private CompositeDisposable mCompositeDisposable;
+    private NotificationRepository mNotificationRepository;
 
-    MainPresenter(UserRepository userRepository, BaseSchedulerProvider baseSchedulerProvider) {
+    MainPresenter(UserRepository userRepository, NotificationRepository notificationRepository,
+            BaseSchedulerProvider baseSchedulerProvider) {
         mUserRepository = userRepository;
+        mNotificationRepository = notificationRepository;
         mSchedulerProvider = baseSchedulerProvider;
         mCompositeDisposable = new CompositeDisposable();
     }
@@ -83,5 +89,27 @@ final class MainPresenter implements MainContract.Presenter {
                     }
                 });
         mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void getNotification() {
+        Disposable subscription = mNotificationRepository.getNotification(1)
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Consumer<BaseResponse<NotificationResponse>>() {
+                    @Override
+                    public void accept(@NonNull BaseResponse<NotificationResponse> baseResponse)
+                            throws Exception {
+                        if (baseResponse != null && baseResponse.getData() != null) {
+                            mViewModel.onGetNotificationSuccess(baseResponse.getData());
+                        }
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onGetNotificationError(error);
+                    }
+                });
+        mCompositeDisposable.add(subscription);
     }
 }

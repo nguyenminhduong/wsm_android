@@ -13,8 +13,10 @@ import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.response.NotificationResponse;
 import com.framgia.wsm.screen.login.LoginActivity;
 import com.framgia.wsm.screen.notification.NotificationDialogFragment;
+import com.framgia.wsm.screen.notification.NotificationViewModel;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.navigator.NavigateAnim;
@@ -38,6 +40,8 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     private Navigator mNavigator;
     private MainViewPagerAdapter mViewPagerAdapter;
     private String mCurrentTitleToolbar;
+    private boolean mIsShowNumberNotification;
+    private int mNumberOfNotificationUnread;
     private Context mContext;
 
     MainViewModel(Context context, MainContract.Presenter presenter,
@@ -50,6 +54,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         mCurrentItem = R.id.item_working_calendar;
         mCurrentTitleToolbar = titleWorkingCalendar();
         mPresenter.getUser();
+        mPresenter.getNotification();
     }
 
     public int getPageLimit() {
@@ -122,6 +127,26 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         return mUser != null && mUser.isManage();
     }
 
+    @Bindable
+    public boolean isShowNumberNotification() {
+        return mIsShowNumberNotification;
+    }
+
+    public void setShowNumberNotification(boolean showNumberNotification) {
+        mIsShowNumberNotification = showNumberNotification;
+        notifyPropertyChanged(BR.showNumberNotification);
+    }
+
+    @Bindable
+    public String getNumberOfNotificationUnread() {
+        return String.valueOf(mNumberOfNotificationUnread);
+    }
+
+    public void setNumberOfNotificationUnread(int numberOfNotificationUnread) {
+        mNumberOfNotificationUnread = numberOfNotificationUnread;
+        notifyPropertyChanged(BR.numberOfNotificationUnread);
+    }
+
     @Override
     public void onStart() {
         mPresenter.onStart();
@@ -166,18 +191,21 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     public void goNextFragmentListRequestOff() {
         setCurrentPage(Page.OFF);
         setCurrentItem(R.id.item_off);
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.request_off));
     }
 
     @Override
     public void goNextFragmentListRequestOverTime() {
         setCurrentPage(Page.OVERTIME);
         setCurrentItem(R.id.item_overtime);
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.request_overtime));
     }
 
     @Override
     public void goNextFragmentListRequestLeave() {
         setCurrentPage(Page.COME_LATE_LEAVE_EARLY);
         setCurrentItem(R.id.item_come_late_leave_early);
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.request_leave));
     }
 
     @Override
@@ -189,6 +217,44 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     @Override
     public void onReloadDataUser() {
         mPresenter.getUser();
+    }
+
+    @Override
+    public void onGetNotificationSuccess(NotificationResponse notificationResponse) {
+        setNumberOfNotificationUnread(notificationResponse.getCountUnreadNotifications());
+        if (mNumberOfNotificationUnread == 0) {
+            setShowNumberNotification(false);
+            return;
+        }
+        setShowNumberNotification(true);
+    }
+
+    @Override
+    public void onGetNotificationError(BaseException e) {
+        Log.e(TAG, "onGetUserError", e);
+    }
+
+    @Override
+    public void updateNotificationUnRead() {
+        mPresenter.getNotification();
+    }
+
+    @Override
+    public void handleClickNotification(String trackableType) {
+        mPresenter.getNotification();
+        switch (trackableType) {
+            case NotificationViewModel.TrackableType.REQUEST_LEAVE:
+                goNextFragmentListRequestLeave();
+                break;
+            case NotificationViewModel.TrackableType.REQUEST_OFF:
+                goNextFragmentListRequestOff();
+                break;
+            case NotificationViewModel.TrackableType.REQUEST_OT:
+                goNextFragmentListRequestOverTime();
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

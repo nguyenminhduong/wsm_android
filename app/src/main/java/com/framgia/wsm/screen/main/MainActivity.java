@@ -114,11 +114,11 @@ public class MainActivity extends BaseActivity implements ProfileFragment.Update
 
     @Override
     public void onUpdateNotificationReadAll() {
-        // todo update notification unread
+        mViewModel.updateNotificationUnRead();
     }
 
     @Override
     public void onClickNotification(String trackableType) {
-        // todo open screen
+        mViewModel.handleClickNotification(trackableType);
     }
 }

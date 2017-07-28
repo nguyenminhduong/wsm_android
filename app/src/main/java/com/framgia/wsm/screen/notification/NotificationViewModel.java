@@ -9,6 +9,7 @@ import com.framgia.wsm.data.model.Notification;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.NotificationRequest;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
+import com.framgia.wsm.utils.navigator.Navigator;
 import java.util.List;
 
 /**
@@ -25,15 +26,17 @@ public class NotificationViewModel extends BaseObservable implements Notificatio
     private NotificationDialogFragment.UpdateNotificationListener mListener;
     private Notification mNotification;
     private boolean mIsSetReadAll;
+    private Navigator mNavigator;
 
     NotificationViewModel(NotificationContract.Presenter presenter,
-            NotificationAdapter notificationAdapter) {
+            NotificationAdapter notificationAdapter, Navigator navigator) {
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mNotificationAdapter = notificationAdapter;
         mNotificationAdapter.setItemClickListener(this);
         mPage = 1;
         mPresenter.getNotification(mPage);
+        mNavigator = navigator;
     }
 
     @Override
@@ -50,6 +53,7 @@ public class NotificationViewModel extends BaseObservable implements Notificatio
     public void onItemRecyclerViewClick(Notification item) {
         if (item.getRead()) {
             mListener.onClickNotification(item.getTrackableType());
+            mNavigator.dismissDialogFragment(NotificationDialogFragment.TAG);
             return;
         }
         mIsSetReadAll = false;
@@ -92,6 +96,7 @@ public class NotificationViewModel extends BaseObservable implements Notificatio
         }
         mNotificationAdapter.setReadOne(mNotification);
         mListener.onClickNotification(mNotification.getTrackableType());
+        mNavigator.dismissDialogFragment(NotificationDialogFragment.TAG);
     }
 
     @Override
@@ -128,7 +133,7 @@ public class NotificationViewModel extends BaseObservable implements Notificatio
             TrackableType.REQUEST_OFF, TrackableType.REQUEST_OT, TrackableType.USER,
             TrackableType.USER_SPECIAL_TYPE, TrackableType.WORKSPACE
     })
-    @interface TrackableType {
+    public @interface TrackableType {
         String GROUP = "Group";
         String LOCK_TIME_SHEET = "LockTimesheet";
         String REQUEST_LEAVE = "RequestLeave";

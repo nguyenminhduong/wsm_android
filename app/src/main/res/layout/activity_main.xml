@@ -12,6 +12,7 @@
             name="viewModel"
             type="com.framgia.wsm.screen.main.MainViewModel"
             />
+        <import type="android.view.View"/>
 
     </data>
 
@@ -62,7 +63,9 @@
                             android:layout_marginRight="@dimen/dp_5"
                             android:background="@{@drawable/circle_normal_holiday}"
                             android:gravity="center"
+                            android:text="@{viewModel.numberOfNotificationUnread}"
                             android:textColor="@color/color_white"
+                            android:visibility="@{viewModel.showNumberNotification ? View.VISIBLE : View.GONE}"
                             />
                     </FrameLayout>
 
