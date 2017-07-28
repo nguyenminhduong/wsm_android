@@ -170,6 +170,15 @@ public class Navigator {
         dialogFragment.show(transaction, tag);
     }
 
+    public void dismissDialogFragment(String tag) {
+        Fragment fragment =
+                ((FragmentActivity) mActivity).getSupportFragmentManager().findFragmentByTag(tag);
+        if (fragment != null) {
+            DialogFragment df = (DialogFragment) fragment;
+            df.dismiss();
+        }
+    }
+
     private void setFragmentTransactionAnimation(FragmentTransaction transaction,
             @NavigateAnim int animation) {
         switch (animation) {

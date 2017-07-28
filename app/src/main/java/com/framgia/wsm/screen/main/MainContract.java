@@ -2,6 +2,7 @@ package com.framgia.wsm.screen.main;
 
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.response.NotificationResponse;
 import com.framgia.wsm.screen.BasePresenter;
 import com.framgia.wsm.screen.BaseViewModel;
 
@@ -32,6 +33,14 @@ interface MainContract {
         void goNextFragmentPersonalInformation();
 
         void onReloadDataUser();
+
+        void onGetNotificationSuccess(NotificationResponse notificationResponse);
+
+        void onGetNotificationError(BaseException e);
+
+        void updateNotificationUnRead();
+
+        void handleClickNotification(String trackableType);
     }
 
     /**
@@ -43,5 +52,7 @@ interface MainContract {
         void clearUser();
 
         void getUser();
+
+        void getNotification();
     }
 }
