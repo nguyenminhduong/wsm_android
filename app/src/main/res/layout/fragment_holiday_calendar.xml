@@ -105,13 +105,13 @@
             android:layout_gravity="start|bottom"
             android:padding="@dimen/dp_10"
             android:tint="@color/colorPrimary"
-            app:menu_icon="@drawable/ic_help_blue_a400_36dp"
             app:menu_animationDelayPerItem="55"
             app:menu_backgroundColor="@color/color_black_transparent"
             app:menu_colorNormal="@android:color/white"
             app:menu_colorPressed="@color/color_dark_gray"
             app:menu_colorRipple="@color/color_gray"
             app:menu_fab_size="mini"
+            app:menu_icon="@drawable/ic_help_blue_a400_36dp"
             app:menu_labels_colorNormal="@color/color_gray_transparent"
             app:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
             app:menu_labels_padding="@dimen/dp_10"
@@ -121,6 +121,7 @@
             app:menu_labels_textColor="@android:color/white"
             app:menu_labels_textSize="@dimen/sp_14"
             app:menu_openDirection="up"
+            app:closedOnTouchOutside="@{true}"
             >
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
