@@ -196,23 +196,24 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         if (Constant.DRAWER_IS_OPEN.equals(mStatusDrawerLayout)) {
             setStatusDrawerLayout(Constant.DRAWER_IS_CLOSE);
             return true;
-        } else {
-            Fragment fragment = mViewPagerAdapter.getCurrentFragment();
-            if (fragment == mViewPagerAdapter.getFragment(Page.WORKING_CALENDAR)) {
-                MainContainerFragment containerFragment = (MainContainerFragment) fragment;
-                return containerFragment.onBackPressed();
-            } else {
-                if (fragment instanceof MainContainerFragment) {
-                    MainContainerFragment containerFragment = (MainContainerFragment) fragment;
-                    boolean isCanBack = containerFragment.onBackPressed();
-                    if (!isCanBack) {
-                        setCurrentPage(Page.WORKING_CALENDAR);
-                        setCurrentItem(R.id.item_working_calendar);
-                        setCurrentTitleToolbar(titleWorkingCalendar());
-                    }
-                    return true;
-                }
+        }
+        Fragment fragment = mViewPagerAdapter.getCurrentFragment();
+        if (fragment == null) {
+            return false;
+        }
+        if (fragment == mViewPagerAdapter.getFragment(Page.WORKING_CALENDAR)) {
+            MainContainerFragment containerFragment = (MainContainerFragment) fragment;
+            return containerFragment.onBackPressed();
+        }
+        if (fragment instanceof MainContainerFragment) {
+            MainContainerFragment containerFragment = (MainContainerFragment) fragment;
+            boolean isCanBack = containerFragment.onBackPressed();
+            if (!isCanBack) {
+                setCurrentPage(Page.WORKING_CALENDAR);
+                setCurrentItem(R.id.item_working_calendar);
+                setCurrentTitleToolbar(titleWorkingCalendar());
             }
+            return true;
         }
         return false;
     }

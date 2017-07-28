@@ -42,6 +42,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         MemberRequestDetailViewModel.ApproveOrRejectListener {
 
     private static final String TAG = "ListRequestViewModel";
+    private static final int CURRRENT_STATUS = 0;
 
     private Context mContext;
     private ManageListRequestsContract.Presenter mPresenter;
@@ -77,12 +78,15 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     private void initData() {
+        mCurrentStatus = mContext.getString(R.string.pending);
+        mCurrentPositionStatus = CURRRENT_STATUS;
         mActionRequest = new ActionRequest();
         mFromTime = DateTimeUtils.dayFirstMonthWorking();
         mToTime = DateTimeUtils.dayLasttMonthWorking();
         mQueryRequest = new QueryRequest();
         mQueryRequest.setFromTime(mFromTime);
         mQueryRequest.setToTime(mToTime);
+        mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
     }
 
     @Override
@@ -320,6 +324,7 @@ public class ManageListRequestsViewModel extends BaseObservable
                         mCurrentPositionStatus = positionType;
                         mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
                         setCurrentStatus(String.valueOf(charSequence));
+                        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
                         return true;
                     }
                 });
