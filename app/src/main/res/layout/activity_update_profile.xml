@@ -77,7 +77,7 @@
                             android:paddingEnd="@dimen/dp_10"
                             android:paddingRight="@dimen/dp_10"
                             android:paddingTop="@dimen/dp_10"
-                            android:src="@drawable/md_nav_back"
+                            app:srcCompat="@drawable/md_nav_back"
                             tools:ignore="ContentDescription"
                             />
                     </android.support.v7.widget.Toolbar>
