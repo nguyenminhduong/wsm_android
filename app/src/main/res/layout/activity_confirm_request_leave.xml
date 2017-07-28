@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{viewModel::onClickArrowBack}"
-                    android:src="@drawable/md_nav_back"
+                    app:srcCompat="@drawable/md_nav_back"
                     tools:ignore="ContentDescription"
                     />
                 <TextView
