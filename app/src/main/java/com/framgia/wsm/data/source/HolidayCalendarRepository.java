@@ -4,6 +4,7 @@ import com.framgia.wsm.data.model.HolidayCalendar;
 import com.framgia.wsm.data.source.remote.HolidayCalendarRemoteDataSource;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class HolidayCalendarRepository {
         mRemoteDataSource = remoteDataSource;
     }
 
-    public Observable<BaseResponse<List<HolidayCalendar>>> getHolidayCalendar(int year) {
+    public Single<BaseResponse<List<HolidayCalendar>>> getHolidayCalendar(int year) {
         return mRemoteDataSource.getHolidayCalendar(year);
     }
 }

@@ -32,6 +32,7 @@ public final class Constant {
     public static final String DATE_TIME_SPACE = " - ";
     public static final String EXTRA_REQUEST_TYPE_CODE = "EXTRA_REQUEST_TYPE_CODE";
     public static final String EXTRA_MEMBER_REQUEST = "EXTRA_MEMBER_REQUEST";
+    public static final String EXTRA_UNAUTHORIZED = "EXTRA_UNAUTHORIZED";
 
     private Constant() {
         // No-op

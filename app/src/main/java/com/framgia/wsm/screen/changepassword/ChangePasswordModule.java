@@ -10,6 +10,8 @@ import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
+import com.framgia.wsm.widget.dialog.DialogManager;
+import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
 import dagger.Provides;
 
@@ -59,5 +61,11 @@ public class ChangePasswordModule {
     @Provides
     public Navigator provideNavigator() {
         return new Navigator(mActivity);
+    }
+
+    @ActivityScope
+    @Provides
+    public DialogManager provideDialogManager() {
+        return new DialogManagerImpl(mActivity);
     }
 }

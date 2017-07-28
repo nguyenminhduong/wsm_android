@@ -63,7 +63,7 @@ public interface WSMApi {
             @Query("year") int year);
 
     @GET("/api/dashboard/holidays")
-    Observable<BaseResponse<List<HolidayCalendar>>> getHolidayCalendar(@Query("year") int year);
+    Single<BaseResponse<List<HolidayCalendar>>> getHolidayCalendar(@Query("year") int year);
 
     @POST("/api/dashboard/request_ots")
     Single<Object> createFormRequestOverTime(@Body RequestOverTime requestOverTime);

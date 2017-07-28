@@ -5,10 +5,14 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import com.framgia.wsm.MainApplication;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.event.UnauthorizedEvent;
 import com.framgia.wsm.databinding.ActivityConfirmRequestLeaveBinding;
 import com.framgia.wsm.screen.BaseActivity;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.widget.dialog.DialogManager;
 import javax.inject.Inject;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * ConfirmRequestLeave Screen.
@@ -17,6 +21,9 @@ public class ConfirmRequestLeaveActivity extends BaseActivity {
 
     @Inject
     ConfirmRequestLeaveContract.ViewModel mViewModel;
+
+    @Inject
+    DialogManager mDialogManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,5 +59,10 @@ public class ConfirmRequestLeaveActivity extends BaseActivity {
             setResult(RESULT_OK, data);
             finish();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UnauthorizedEvent event) {
+        mDialogManager.showDialogUnauthorized();
     }
 }

@@ -1,5 +1,6 @@
 package com.framgia.wsm.screen.login;
 
+import android.os.Bundle;
 import android.util.Log;
 import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffType;
@@ -9,6 +10,7 @@ import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
@@ -49,9 +51,11 @@ final class LoginPresenter implements LoginContract.Presenter {
     private BaseSchedulerProvider mSchedulerProvider;
     private User mUser;
     private boolean mIsManage;
+    private boolean mIsUnauthorized;
 
-    LoginPresenter(UserRepository userRepository, TokenRepository tokenRepository,
+    LoginPresenter(Bundle bundle, UserRepository userRepository, TokenRepository tokenRepository,
             Validator validator, BaseSchedulerProvider schedulerProvider) {
+        mIsUnauthorized = bundle != null && bundle.getBoolean(Constant.EXTRA_UNAUTHORIZED);
         mUserRepository = userRepository;
         mTokenRepository = tokenRepository;
         mValidator = validator;
@@ -183,7 +187,11 @@ final class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void checkUserLogin() {
-        if (!mTokenRepository.getToken().equals("")) {
+        if (mIsUnauthorized) {
+            mUserRepository.clearData();
+            return;
+        }
+        if (StringUtils.isNotBlank(mTokenRepository.getToken())) {
             mViewModel.onUserLoggedIn();
         }
     }

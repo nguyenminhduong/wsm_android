@@ -8,12 +8,16 @@ import android.os.Handler;
 import android.widget.Toast;
 import com.framgia.wsm.MainApplication;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.event.UnauthorizedEvent;
 import com.framgia.wsm.databinding.ActivityMainBinding;
 import com.framgia.wsm.screen.BaseActivity;
 import com.framgia.wsm.screen.notification.NotificationDialogFragment;
 import com.framgia.wsm.screen.profile.ProfileFragment;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.widget.dialog.DialogManager;
 import javax.inject.Inject;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Main Screen.
@@ -24,6 +28,9 @@ public class MainActivity extends BaseActivity implements ProfileFragment.Update
 
     @Inject
     MainContract.ViewModel mViewModel;
+    @Inject
+    DialogManager mDialogManager;
+
     private MainComponent mMainComponent;
     private Handler mHandler;
     private Runnable mRunnable;
@@ -120,5 +127,10 @@ public class MainActivity extends BaseActivity implements ProfileFragment.Update
     @Override
     public void onClickNotification(String trackableType) {
         mViewModel.handleClickNotification(trackableType);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UnauthorizedEvent event) {
+        mDialogManager.showDialogUnauthorized();
     }
 }

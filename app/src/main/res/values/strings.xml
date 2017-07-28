@@ -278,4 +278,5 @@
     <string name="create_form_success">Create form success!</string>
     <string name="edit_form_success">Edit form success!</string>
     <string name="delete_form_success">Delete form success!</string>
+    <string name="this_account_has_been_login_in_another_device">This account has been login in another device.</string>
 </resources>

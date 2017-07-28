@@ -11,6 +11,8 @@ import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import com.framgia.wsm.widget.dialog.DialogManager;
+import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
 import dagger.Provides;
 
@@ -66,5 +68,11 @@ class MainModule {
     NotificationRepository provideNotificationRepository(
             NotificationRemoteDataSource remoteDataSource) {
         return new NotificationRepository(remoteDataSource);
+    }
+
+    @ActivityScope
+    @Provides
+    DialogManager provideDialogManager() {
+        return new DialogManagerImpl(mActivity);
     }
 }

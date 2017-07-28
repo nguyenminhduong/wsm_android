@@ -6,6 +6,7 @@ import com.framgia.wsm.data.source.local.sharedprf.SharedPrefsApi;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import com.framgia.wsm.widget.dialog.DialogManager;
 import dagger.Component;
 
 /**
@@ -28,6 +29,8 @@ public interface MainComponent {
     Context applicationContext();
 
     BaseSchedulerProvider baseSchedulerProvider();
+
+    DialogManager dialogManager();
 
     void inject(MainActivity mainActivity);
 }

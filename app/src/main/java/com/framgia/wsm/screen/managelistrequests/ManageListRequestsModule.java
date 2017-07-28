@@ -48,12 +48,6 @@ public class ManageListRequestsModule {
 
     @FragmentScope
     @Provides
-    public DialogManager provideDialogManager() {
-        return new DialogManagerImpl(mFragment.getActivity());
-    }
-
-    @FragmentScope
-    @Provides
     public ManageListRequestsAdapter provideManageListRequestAdapter() {
         int mRequestType = mFragment.getArguments().getInt(Constant.EXTRA_REQUEST_TYPE);
         return new ManageListRequestsAdapter(mFragment.getActivity(), mRequestType);

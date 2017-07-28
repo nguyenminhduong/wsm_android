@@ -46,10 +46,4 @@ public class SettingProfileModule {
             UserRemoteDataSource remoteDataSource) {
         return new UserRepository(localDataSource, remoteDataSource);
     }
-
-    @FragmentScope
-    @Provides
-    DialogManager provideDialogManager() {
-        return new DialogManagerImpl(mFragment.getContext());
-    }
 }
