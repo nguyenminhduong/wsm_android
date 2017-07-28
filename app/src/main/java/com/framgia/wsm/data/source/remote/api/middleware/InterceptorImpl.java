@@ -2,12 +2,14 @@ package com.framgia.wsm.data.source.remote.api.middleware;
 
 import android.content.Context;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.event.UnauthorizedEvent;
 import com.framgia.wsm.data.source.TokenRepository;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Sun on 3/18/2017.
@@ -31,10 +33,7 @@ public class InterceptorImpl implements Interceptor {
         Request request = builder.build();
         Response response = chain.proceed(request);
         if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-            //todo refresh token in here
-            //            builder.addHeader(KEY_TOKEN, "Bearer " + mTokenRepository.getToken());
-            //            request = builder.build();
-            //            response = chain.proceed(request);
+            EventBus.getDefault().post(new UnauthorizedEvent());
         }
         return response;
     }

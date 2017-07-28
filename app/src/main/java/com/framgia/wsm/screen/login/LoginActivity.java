@@ -2,16 +2,16 @@ package com.framgia.wsm.screen.login;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import com.framgia.wsm.MainApplication;
 import com.framgia.wsm.R;
 import com.framgia.wsm.databinding.ActivityLoginBinding;
-import com.framgia.wsm.screen.BaseActivity;
 import javax.inject.Inject;
 
 /**
  * Login Screen.
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends AppCompatActivity {
 
     @Inject
     LoginContract.ViewModel mViewModel;

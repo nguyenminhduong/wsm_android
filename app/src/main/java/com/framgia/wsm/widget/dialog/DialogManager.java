@@ -129,4 +129,6 @@ public interface DialogManager {
     DialogManager dialogTimePicker(TimePickerDialog.OnTimeSetListener onTimeSetListener);
 
     void showTimePickerDialog();
+
+    void showDialogUnauthorized();
 }

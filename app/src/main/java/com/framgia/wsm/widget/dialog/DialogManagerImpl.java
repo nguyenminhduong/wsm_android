@@ -1,10 +1,12 @@
 package com.framgia.wsm.widget.dialog;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.ArrayRes;
@@ -17,6 +19,8 @@ import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.screen.login.LoginActivity;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.validator.Validator;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
@@ -41,6 +45,7 @@ public class DialogManagerImpl implements DialogManager {
     private TimePickerDialog mTimePickerDialog;
     private DatePicker mDatePicker;
     private Calendar mCalendar;
+    private boolean isDialogUnauthorizedShow;
 
     public DialogManagerImpl(Context context) {
         mContext = context;
@@ -294,6 +299,30 @@ public class DialogManagerImpl implements DialogManager {
             return;
         }
         mTimePickerDialog.show();
+    }
+
+    @Override
+    public void showDialogUnauthorized() {
+        if (!isDialogUnauthorizedShow) {
+            isDialogUnauthorizedShow = true;
+            new MaterialDialog.Builder(mContext).content(
+                    R.string.this_account_has_been_login_in_another_device)
+                    .positiveText(android.R.string.ok)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog materialDialog,
+                                @NonNull DialogAction dialogAction) {
+                            Intent intent = new Intent(mContext, LoginActivity.class);
+                            intent.setFlags(
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra(Constant.EXTRA_UNAUTHORIZED,true);
+                            mContext.startActivity(intent);
+                            ((Activity)mContext).finish();
+                        }
+                    })
+                    .cancelable(false)
+                    .show();
+        }
     }
 
     private final class FixedHoloDatePickerDialog extends DatePickerDialog {

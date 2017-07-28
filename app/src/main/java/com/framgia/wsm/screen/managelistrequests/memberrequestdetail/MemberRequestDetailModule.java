@@ -64,12 +64,6 @@ public class MemberRequestDetailModule {
 
     @FragmentScope
     @Provides
-    DialogManager provideDialogManager() {
-        return new DialogManagerImpl(mFragment.getActivity());
-    }
-
-    @FragmentScope
-    @Provides
     public RequestRepository provideRequestRepository(
             RequestRemoteDataSource requestRemoteDataSource) {
         return new RequestRepository(requestRemoteDataSource);

@@ -65,12 +65,6 @@ public class ListRequestModule {
 
     @FragmentScope
     @Provides
-    public DialogManager provideDialogManager() {
-        return new DialogManagerImpl(mFragment.getActivity());
-    }
-
-    @FragmentScope
-    @Provides
     public ListRequestAdapter provideListRequestAdapter() {
         int mRequestType = mFragment.getArguments().getInt(Constant.EXTRA_REQUEST_TYPE);
         return new ListRequestAdapter(mFragment.getActivity(), mRequestType);

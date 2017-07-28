@@ -53,10 +53,4 @@ public class TimeSheetModule {
     Navigator provideNavigator() {
         return new Navigator(mFragment);
     }
-
-    @FragmentScope
-    @Provides
-    public DialogManager provideDialogManager() {
-        return new DialogManagerImpl(mFragment.getActivity());
-    }
 }

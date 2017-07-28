@@ -264,5 +264,6 @@
     <string name="create_form_success">Tạo yêu cầu thành công!</string>
     <string name="edit_form_success">Sửa yêu cầu thành công!</string>
     <string name="delete_form_success">Xóa yêu cầu thành công!</string>
+    <string name="this_account_has_been_login_in_another_device">Tài khoản này đã được đăng nhập vào một thiết bị khác.</string>
 
 </resources>

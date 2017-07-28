@@ -2,6 +2,7 @@ package com.framgia.wsm.screen.login;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.framgia.wsm.data.source.TokenRepository;
 import com.framgia.wsm.data.source.UserRepository;
@@ -42,7 +43,8 @@ public class LoginModule {
     public LoginContract.Presenter providePresenter(UserRepository userRepository,
             TokenRepository tokenRepository, Validator validator,
             BaseSchedulerProvider baseSchedulerProvider) {
-        return new LoginPresenter(userRepository, tokenRepository, validator,
+        Bundle bundle = mActivity.getIntent().getExtras();
+        return new LoginPresenter(bundle, userRepository, tokenRepository, validator,
                 baseSchedulerProvider);
     }
 

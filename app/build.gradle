@@ -75,38 +75,15 @@ android {
   buildTypes {
     debug {
       versionNameSuffix = "debug"
-
-      applicationVariants.all { variant -> appendVersionNameVersionCode(variant)
-      }
+      ext.betaDistributionReleaseNotesFilePath = "release_notes.txt"
+      ext.betaDistributionGroupAliases="QAFR"
     }
     release {
       shrinkResources true
       minifyEnabled true
       signingConfig signingConfigs.release
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-      applicationVariants.all { variant -> appendVersionNameVersionCode(variant)
-      }
-    }
-  }
-}
-
-@SuppressWarnings("GroovyAssignabilityCheck")
-def appendVersionNameVersionCode(variant) {
-  variant.outputs.each { output ->
-    def applicationId = variant.mergedFlavor.applicationId + (variant.buildType.applicationIdSuffix ==
-        null ? "" : variant.buildType.applicationIdSuffix)
-    if (variant.buildType.name == android.buildTypes.debug.name ||
-        variant.buildType.name ==
-        android.buildTypes.release.name ||
-        variant.buildType.name ==
-        android.buildTypes.staging.name) {
-      if (output.zipAlign) {
-        def file = output.outputFile
-        output.outputFile = new File(file.parentFile,
-            "${variant.buildType.name}_${applicationId}_v${variant.versionName}-${variant.versionCode}.apk")
-      }
-    }
+     }
   }
 }
 
@@ -130,7 +107,8 @@ dependencies {
   compile dependencies.cardView
   compile dependencies.glide
   compile dependencies.fcm
-  compile 'com.github.GrenderG:Toasty:1.2.5'
+  compile dependencies.eventBus
+  compile dependencies.toastCustom
 
   annotationProcessor dependencies.dagger2Compile
   compile dependencies.dagger2
@@ -145,7 +123,7 @@ dependencies {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
   compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-    transitive = true;
+    transitive = true
   }
 }
 apply plugin: 'com.google.gms.google-services'
