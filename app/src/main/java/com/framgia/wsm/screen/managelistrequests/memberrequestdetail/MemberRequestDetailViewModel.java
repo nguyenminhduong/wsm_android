@@ -20,6 +20,7 @@ import com.framgia.wsm.screen.requestoff.RequestOffViewModel;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
+import com.framgia.wsm.utils.TypeToast;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
@@ -63,6 +64,7 @@ public class MemberRequestDetailViewModel extends BaseObservable
     private String mMiscarriageLeaveAmount;
     private String mMaternityLeaveAmount;
     private String mWifeLaborLeaveAmount;
+    private boolean mIsForward;
 
     MemberRequestDetailViewModel(Context context, Fragment fragment,
             MemberRequestDetailContract.Presenter presenter, Navigator navigator,
@@ -95,6 +97,9 @@ public class MemberRequestDetailViewModel extends BaseObservable
         setStatusPending(StatusCode.PENDING_CODE.equals(mOffRequest.getStatus())
                 || StatusCode.PENDING_CODE.equals(mLeaveRequest.getStatus())
                 || StatusCode.PENDING_CODE.equals(mOverTimeRequest.getStatus()));
+        setForward(StatusCode.FORWARD_CODE.equals(mOffRequest.getStatus())
+                || StatusCode.FORWARD_CODE.equals(mLeaveRequest.getStatus())
+                || StatusCode.FORWARD_CODE.equals(mOverTimeRequest.getStatus()));
         mPosition = position;
         mResultListener = resultListener;
     }
@@ -127,7 +132,7 @@ public class MemberRequestDetailViewModel extends BaseObservable
 
     @Override
     public void onError(BaseException e) {
-        mDialogManager.dialogError(e);
+        mNavigator.showToastCustom(TypeToast.ERROR, e.getMessage());
     }
 
     @Override
@@ -145,14 +150,17 @@ public class MemberRequestDetailViewModel extends BaseObservable
         mResultListener.onApproveOrRejectListener(mCurrentRequestType, mPosition,
                 actionRequestResponse);
         if (actionRequestResponse.getStatus().equals(StatusCode.ACCEPT_CODE)) {
-            mNavigator.showToast(R.string.approve_success);
+            mNavigator.showToastCustom(TypeToast.SUCCESS,
+                    mContext.getString(R.string.approve_success));
             setIsVisibleReject(false);
             setIsVisibleApprove(true);
             setStatusAccept(true);
             setStatusReject(false);
             setStatusPending(false);
-        } else {
-            mNavigator.showToast(R.string.reject_success);
+        }
+        if (actionRequestResponse.getStatus().equals(StatusCode.REJECT_CODE)) {
+            mNavigator.showToastCustom(TypeToast.SUCCESS,
+                    mContext.getString(R.string.reject_success));
             setIsVisibleReject(true);
             setIsVisibleApprove(false);
             setStatusReject(true);
@@ -758,6 +766,18 @@ public class MemberRequestDetailViewModel extends BaseObservable
 
     public void setWifeLaborLeaveAmount(String wifeLaborLeaveAmount) {
         mWifeLaborLeaveAmount = wifeLaborLeaveAmount;
+    }
+
+    public boolean isVisibleLayoutOffRequestTitle() {
+        return (isVisiableLayoutCompanyPay() || isVisiableLayoutInsurance());
+    }
+
+    public boolean isForward() {
+        return mIsForward;
+    }
+
+    public void setForward(boolean forward) {
+        mIsForward = forward;
     }
 
     private void getAmountOffDayCompany(User user) {
