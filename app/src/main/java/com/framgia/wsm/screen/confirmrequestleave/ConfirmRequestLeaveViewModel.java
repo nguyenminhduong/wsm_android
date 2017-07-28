@@ -130,7 +130,9 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
 
     @Override
     public void onCreateFormRequestLeaveSuccess() {
-        mNavigator.finishActivityWithResult(Activity.RESULT_OK);
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.EXTRA_REQUEST_TYPE_CODE, RequestType.REQUEST_LATE_EARLY);
+        mNavigator.finishActivityWithResult(bundle, Activity.RESULT_OK);
         mNavigator.showToastCustom(TypeToast.SUCCESS,
                 mContext.getString(R.string.create_form_success));
     }
