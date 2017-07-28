@@ -3,7 +3,10 @@ package com.framgia.wsm.screen.timesheet;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.data.model.TimeSheetDate;
@@ -41,6 +44,9 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     private UserTimeSheet mUserTimeSheet;
     private Navigator mNavigator;
     private boolean isVisibleFloatingActionMenu;
+    private boolean mIsLoading;
+    private int[] mSwipeColors = { Color.RED, Color.BLUE, Color.YELLOW };
+    private boolean mIsRefreshEnable;
 
     public TimeSheetViewModel(Context context, TimeSheetContract.Presenter presenter,
             Navigator navigator, DialogManager dialogManager) {
@@ -72,6 +78,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     public void onGetTimeSheetError(BaseException throwable) {
         //todo show error message
         mDialogManager.dismissProgressDialog();
+        setLoading(false);
     }
 
     @Override
@@ -79,6 +86,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         setTimeSheetDates(userTimeSheet.getTimeSheetDates());
         setUserTimeSheet(userTimeSheet);
         mDialogManager.dismissProgressDialog();
+        setLoading(false);
     }
 
     @Bindable
@@ -255,5 +263,49 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         notifyPropertyChanged(BR.month);
         notifyPropertyChanged(BR.year);
         mPresenter.getTimeSheet(mMonth + ONE_MONTH, mYear);
+    }
+
+    @Bindable
+    public boolean isLoading() {
+        return mIsLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        mIsLoading = loading;
+        notifyPropertyChanged(BR.loading);
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                setLoading(true);
+                mDialogManager.showIndeterminateProgressDialog();
+                mPresenter.getTimeSheet(mMonth + ONE_MONTH, mYear);
+            }
+        };
+    }
+
+    public int[] getColor() {
+        return mSwipeColors;
+    }
+
+    public AppBarLayout.OnOffsetChangedListener getOnOffsetChangedListener() {
+        return new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                setRefreshEnable(verticalOffset == 0);
+            }
+        };
+    }
+
+    @Bindable
+    public boolean isRefreshEnable() {
+        return mIsRefreshEnable;
+    }
+
+    public void setRefreshEnable(boolean refreshEnable) {
+        mIsRefreshEnable = refreshEnable;
+        notifyPropertyChanged(BR.refreshEnable);
     }
 }
