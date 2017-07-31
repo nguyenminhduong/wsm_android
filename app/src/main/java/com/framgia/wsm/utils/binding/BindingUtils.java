@@ -348,7 +348,7 @@ public final class BindingUtils {
 
     @BindingAdapter({ "colorRes", "enableSwipe" })
     public static void setColorRefreshLayout(final SwipeRefreshLayout swipeRefreshLayout,
-            int[] colorResIds, boolean enable) {
+            int colorResIds, boolean enable) {
         swipeRefreshLayout.setColorSchemeColors(colorResIds);
         swipeRefreshLayout.setEnabled(enable);
     }

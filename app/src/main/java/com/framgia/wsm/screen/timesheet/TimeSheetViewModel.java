@@ -3,7 +3,6 @@ package com.framgia.wsm.screen.timesheet;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -45,7 +44,6 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     private Navigator mNavigator;
     private boolean isVisibleFloatingActionMenu;
     private boolean mIsLoading;
-    private int[] mSwipeColors = { Color.RED, Color.BLUE, Color.YELLOW };
     private boolean mIsRefreshEnable;
 
     public TimeSheetViewModel(Context context, TimeSheetContract.Presenter presenter,
@@ -284,10 +282,6 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
                 mPresenter.getTimeSheet(mMonth + ONE_MONTH, mYear);
             }
         };
-    }
-
-    public int[] getColor() {
-        return mSwipeColors;
     }
 
     public AppBarLayout.OnOffsetChangedListener getOnOffsetChangedListener() {
