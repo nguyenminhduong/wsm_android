@@ -314,6 +314,7 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     public void setLoading(boolean loading) {
         mIsLoading = loading;
+        notifyPropertyChanged(BR.loading);
     }
 
     @Bindable

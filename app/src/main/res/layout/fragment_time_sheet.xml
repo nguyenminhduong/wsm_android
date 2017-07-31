@@ -581,6 +581,16 @@
                     app:fab_label="@string/l_lo_le_forgot_card_forgot_checkin_checkout"
                     app:fab_size="mini"
                     />
+                <com.github.clans.fab.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_current_date"
+                    app:fab_colorNormal="@color/color_white"
+                    app:fab_colorPressed="@color/color_gray_light"
+                    app:fab_colorRipple="@color/color_white"
+                    app:fab_label="@string/curen_day"
+                    app:fab_size="mini"
+                    />
             </com.github.clans.fab.FloatingActionMenu>
 
         </android.support.design.widget.CoordinatorLayout>
