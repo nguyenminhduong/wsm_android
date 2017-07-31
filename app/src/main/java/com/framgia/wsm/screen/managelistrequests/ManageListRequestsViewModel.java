@@ -263,6 +263,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void setFromTime(String fromTime) {
         mFromTime = fromTime;
         mQueryRequest.setFromTime(fromTime);
+        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
         notifyPropertyChanged(BR.fromTime);
     }
 
@@ -274,6 +275,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void setToTime(String toTime) {
         mToTime = toTime;
         mQueryRequest.setToTime(toTime);
+        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
         notifyPropertyChanged(BR.toTime);
     }
 

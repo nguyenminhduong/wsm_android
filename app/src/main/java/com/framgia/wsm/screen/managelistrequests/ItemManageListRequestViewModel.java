@@ -158,28 +158,38 @@ public class ItemManageListRequestViewModel extends BaseObservable {
 
     public boolean isVisibleButtonApprove() {
         if (mLeaveRequest != null) {
-            return StatusCode.REJECT_CODE.equals(mLeaveRequest.getStatus())
-                    || StatusCode.PENDING_CODE.equals(mLeaveRequest.getStatus());
+            return isCheckVisibleButtonApprove(mLeaveRequest.getStatus(),
+                    mLeaveRequest.isCanApproveReject());
         }
         if (mRequestOverTime != null) {
-            return StatusCode.REJECT_CODE.equals(mRequestOverTime.getStatus())
-                    || StatusCode.PENDING_CODE.equals(mRequestOverTime.getStatus());
+            return isCheckVisibleButtonApprove(mRequestOverTime.getStatus(),
+                    mRequestOverTime.isCanApproveReject());
         }
-        return StatusCode.REJECT_CODE.equals(mRequestOff.getStatus())
-                || StatusCode.PENDING_CODE.equals(mRequestOff.getStatus());
+        return isCheckVisibleButtonApprove(mRequestOff.getStatus(),
+                mRequestOff.isCanApproveReject());
     }
 
     public boolean isVisibleButtonReject() {
         if (mLeaveRequest != null) {
-            return StatusCode.ACCEPT_CODE.equals(mLeaveRequest.getStatus())
-                    || StatusCode.PENDING_CODE.equals(mLeaveRequest.getStatus());
+            return isCheckVisibleButtonReject(mLeaveRequest.getStatus(),
+                    mLeaveRequest.isCanApproveReject());
         }
         if (mRequestOverTime != null) {
-            return StatusCode.ACCEPT_CODE.equals(mRequestOverTime.getStatus())
-                    || StatusCode.PENDING_CODE.equals(mRequestOverTime.getStatus());
+            return isCheckVisibleButtonReject(mRequestOverTime.getStatus(),
+                    mRequestOverTime.isCanApproveReject());
         }
-        return StatusCode.ACCEPT_CODE.equals(mRequestOff.getStatus())
-                || StatusCode.PENDING_CODE.equals(mRequestOff.getStatus());
+        return isCheckVisibleButtonReject(mRequestOff.getStatus(),
+                mRequestOff.isCanApproveReject());
+    }
+
+    private boolean isCheckVisibleButtonApprove(String status, boolean isCanApproveReject) {
+        return isCanApproveReject && (StatusCode.REJECT_CODE.equals(status)
+                || StatusCode.PENDING_CODE.equals(status));
+    }
+
+    private boolean isCheckVisibleButtonReject(String status, boolean isCanApproveReject) {
+        return isCanApproveReject && (StatusCode.ACCEPT_CODE.equals(status)
+                || StatusCode.PENDING_CODE.equals(status));
     }
 
     @Bindable

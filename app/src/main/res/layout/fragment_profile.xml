@@ -41,7 +41,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_side_nav_bar"
                     app:contentScrim="?attr/colorPrimary"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap|"
                     >
                     <FrameLayout
                         android:layout_width="match_parent"
