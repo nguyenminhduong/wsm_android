@@ -17,7 +17,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -55,7 +54,8 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
     }
 
     @Override
-    public void getListAllRequestManage(int requestType, QueryRequest queryRequest) {
+    public void getListAllRequestManage(int requestType, QueryRequest queryRequest,
+            final boolean isLoadMore) {
         Disposable disposable;
         switch (requestType) {
             case RequestType.REQUEST_LATE_EARLY:
@@ -79,9 +79,8 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                             public void accept(
                                     @NonNull BaseResponse<List<LeaveRequest>> listBaseResponse)
                                     throws Exception {
-                                Collections.reverse(listBaseResponse.getData());
-                                mViewModel.onGetListRequestManageSuccess(
-                                        listBaseResponse.getData());
+                                mViewModel.onGetListRequestManageSuccess(listBaseResponse.getData(),
+                                        isLoadMore);
                             }
                         }, new RequestError() {
                             @Override
@@ -112,9 +111,8 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                             public void accept(
                                     @NonNull BaseResponse<List<OffRequest>> listBaseResponse)
                                     throws Exception {
-                                Collections.reverse(listBaseResponse.getData());
-                                mViewModel.onGetListRequestManageSuccess(
-                                        listBaseResponse.getData());
+                                mViewModel.onGetListRequestManageSuccess(listBaseResponse.getData(),
+                                        isLoadMore);
                             }
                         }, new RequestError() {
                             @Override
@@ -145,9 +143,78 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                             public void accept(
                                     @NonNull BaseResponse<List<RequestOverTime>> listBaseResponse)
                                     throws Exception {
-                                Collections.reverse(listBaseResponse.getData());
-                                mViewModel.onGetListRequestManageSuccess(
-                                        listBaseResponse.getData());
+                                mViewModel.onGetListRequestManageSuccess(listBaseResponse.getData(),
+                                        isLoadMore);
+                            }
+                        }, new RequestError() {
+                            @Override
+                            public void onRequestError(BaseException error) {
+                                mViewModel.onGetListRequestManageError(error);
+                            }
+                        });
+                mCompositeDisposable.add(disposable);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void getListAllRequestManageNoProgressDialog(int requestType, QueryRequest queryRequest,
+            final boolean isLoadMore) {
+        Disposable disposable;
+        switch (requestType) {
+            case RequestType.REQUEST_LATE_EARLY:
+                disposable = mRequestRepository.getListRequestLeaveManage(queryRequest)
+                        .subscribeOn(mBaseSchedulerProvider.io())
+                        .observeOn(mBaseSchedulerProvider.ui())
+                        .subscribe(new Consumer<BaseResponse<List<LeaveRequest>>>() {
+                            @Override
+                            public void accept(
+                                    @NonNull BaseResponse<List<LeaveRequest>> listBaseResponse)
+                                    throws Exception {
+                                mViewModel.onGetListRequestManageSuccess(listBaseResponse.getData(),
+                                        isLoadMore);
+                            }
+                        }, new RequestError() {
+                            @Override
+                            public void onRequestError(BaseException error) {
+                                mViewModel.onGetListRequestManageError(error);
+                            }
+                        });
+                mCompositeDisposable.add(disposable);
+                break;
+            case RequestType.REQUEST_OFF:
+                disposable = mRequestRepository.getListRequestOffManage(queryRequest)
+                        .subscribeOn(mBaseSchedulerProvider.io())
+                        .observeOn(mBaseSchedulerProvider.ui())
+                        .subscribe(new Consumer<BaseResponse<List<OffRequest>>>() {
+                            @Override
+                            public void accept(
+                                    @NonNull BaseResponse<List<OffRequest>> listBaseResponse)
+                                    throws Exception {
+                                mViewModel.onGetListRequestManageSuccess(listBaseResponse.getData(),
+                                        isLoadMore);
+                            }
+                        }, new RequestError() {
+                            @Override
+                            public void onRequestError(BaseException error) {
+                                mViewModel.onGetListRequestManageError(error);
+                            }
+                        });
+                mCompositeDisposable.add(disposable);
+                break;
+            case RequestType.REQUEST_OVERTIME:
+                disposable = mRequestRepository.getListRequestOvertimeManage(queryRequest)
+                        .subscribeOn(mBaseSchedulerProvider.io())
+                        .observeOn(mBaseSchedulerProvider.ui())
+                        .subscribe(new Consumer<BaseResponse<List<RequestOverTime>>>() {
+                            @Override
+                            public void accept(
+                                    @NonNull BaseResponse<List<RequestOverTime>> listBaseResponse)
+                                    throws Exception {
+                                mViewModel.onGetListRequestManageSuccess(listBaseResponse.getData(),
+                                        isLoadMore);
                             }
                         }, new RequestError() {
                             @Override

@@ -115,29 +115,35 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
         }
     }
 
-    void updateDataRequest(List<LeaveRequest> requests) {
+    void updateDataRequest(List<LeaveRequest> requests, boolean isLoadMore) {
         if (requests == null) {
             return;
         }
-        mRequestsLeaves.clear();
+        if (!isLoadMore) {
+            mRequestsLeaves.clear();
+        }
         mRequestsLeaves.addAll(requests);
         notifyDataSetChanged();
     }
 
-    void updateDataRequestOff(List<OffRequest> requestOffs) {
+    void updateDataRequestOff(List<OffRequest> requestOffs, boolean isLoadMore) {
         if (requestOffs == null) {
             return;
         }
-        mRequestsOffs.clear();
+        if (!isLoadMore) {
+            mRequestsOffs.clear();
+        }
         mRequestsOffs.addAll(requestOffs);
         notifyDataSetChanged();
     }
 
-    void updateDataRequestOverTime(List<RequestOverTime> requestOverTimes) {
+    void updateDataRequestOverTime(List<RequestOverTime> requestOverTimes, boolean isLoadMore) {
         if (requestOverTimes == null) {
             return;
         }
-        mRequestOverTimes.clear();
+        if (!isLoadMore) {
+            mRequestOverTimes.clear();
+        }
         mRequestOverTimes.addAll(requestOverTimes);
         notifyDataSetChanged();
     }

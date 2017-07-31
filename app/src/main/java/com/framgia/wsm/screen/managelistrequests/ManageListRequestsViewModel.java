@@ -45,6 +45,7 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     private static final String TAG = "ListRequestViewModel";
     private static final int CURRRENT_STATUS = 0;
+    private static final int PAGE_ONE = 1;
 
     private Context mContext;
     private ManageListRequestsContract.Presenter mPresenter;
@@ -65,6 +66,9 @@ public class ManageListRequestsViewModel extends BaseObservable
     private int mAction;
     private boolean mIsLoading;
     private boolean isRefreshEnable;
+    private int mPage;
+    private boolean mIsShowProgress;
+    private boolean mIsVisiableLayoutDataNotFound;
 
     ManageListRequestsViewModel(Context context, ManageListRequestsContract.Presenter presenter,
             DialogManager dialogManager, ManageListRequestsAdapter manageListRequestsAdapter,
@@ -83,6 +87,7 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     private void initData() {
         setLoading(false);
+        mPage = PAGE_ONE;
         mCurrentStatus = mContext.getString(R.string.pending);
         mCurrentPositionStatus = CURRRENT_STATUS;
         mActionRequest = new ActionRequest();
@@ -92,6 +97,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         mQueryRequest.setFromTime(mFromTime);
         mQueryRequest.setToTime(mToTime);
         mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+        mQueryRequest.setPage(String.valueOf(mPage));
     }
 
     @Override
@@ -106,27 +112,29 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     @Override
     public void onGetListRequestManageError(BaseException exception) {
-        mNavigator.showToastCustom(TypeToast.ERROR, exception.getMessage());
+        setShowProgress(false);
+        setVisiableLayoutDataNotFound(true);
     }
 
     @Override
-    public void onGetListRequestManageSuccess(Object object) {
+    public void onGetListRequestManageSuccess(Object object, boolean isLoadMore) {
         setLoading(false);
+        setShowProgress(false);
         switch (mRequestType) {
             case RequestType.REQUEST_OVERTIME:
                 List<RequestOverTime> listOverTime = (List<RequestOverTime>) object;
-                showToastError(listOverTime.size());
-                mManageListRequestsAdapter.updateDataRequestOverTime(listOverTime);
+                checkSizeListRequest(listOverTime.size(), isLoadMore);
+                mManageListRequestsAdapter.updateDataRequestOverTime(listOverTime, isLoadMore);
                 break;
             case RequestType.REQUEST_OFF:
                 List<OffRequest> listOff = (List<OffRequest>) object;
-                showToastError(listOff.size());
-                mManageListRequestsAdapter.updateDataRequestOff(listOff);
+                checkSizeListRequest(listOff.size(), isLoadMore);
+                mManageListRequestsAdapter.updateDataRequestOff(listOff, isLoadMore);
                 break;
             case RequestType.REQUEST_LATE_EARLY:
                 List<LeaveRequest> listLeave = (List<LeaveRequest>) object;
-                showToastError(listLeave.size());
-                mManageListRequestsAdapter.updateDataRequest(listLeave);
+                checkSizeListRequest(listLeave.size(), isLoadMore);
+                mManageListRequestsAdapter.updateDataRequest(listLeave, isLoadMore);
                 break;
             default:
                 break;
@@ -135,10 +143,12 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     @Override
     public void onReloadData() {
-        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
+        setPage(PAGE_ONE);
+        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
     }
 
     void setRequestType(@RequestType int requestType) {
+        setPage(PAGE_ONE);
         mRequestType = requestType;
         mQueryRequest.setRequestType(requestType);
         switch (requestType) {
@@ -184,6 +194,12 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     @Override
+    public void onLoadMoreListRequest() {
+        setShowProgress(true);
+        mPresenter.getListAllRequestManageNoProgressDialog(mRequestType, mQueryRequest, true);
+    }
+
+    @Override
     public void onApproveRequest(int itemPosition, int requestId) {
         mAction = TypeAction.APPROVE;
         approveOrRejectRequest(itemPosition, requestId, StatusCode.ACCEPT_CODE);
@@ -210,7 +226,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         if (mIsFromTimeSelected) {
             validateFromTime(dateTime);
         } else {
-            setToTime(dateTime);
+            validateToTime(dateTime);
         }
     }
 
@@ -245,11 +261,13 @@ public class ManageListRequestsViewModel extends BaseObservable
         mPresenter.approveOrRejectRequest(mActionRequest);
     }
 
-    private void showToastError(int size) {
-        if (size == 0) {
-            mNavigator.showToastCustom(TypeToast.INFOR,
-                    mContext.getString(R.string.can_not_find_data));
+    private void checkSizeListRequest(int size, boolean isLoadMore) {
+        if (size == 0 && !isLoadMore) {
+            setVisiableLayoutDataNotFound(true);
+            return;
         }
+        mPage++;
+        mQueryRequest.setPage(String.valueOf(mPage));
     }
 
     @Bindable
@@ -270,8 +288,9 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void setFromTime(String fromTime) {
         mFromTime = fromTime;
         mQueryRequest.setFromTime(fromTime);
-        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
         notifyPropertyChanged(BR.fromTime);
+        setPage(PAGE_ONE);
+        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
     }
 
     @Bindable
@@ -282,8 +301,9 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void setToTime(String toTime) {
         mToTime = toTime;
         mQueryRequest.setToTime(toTime);
-        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
         notifyPropertyChanged(BR.toTime);
+        setPage(PAGE_ONE);
+        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
     }
 
     @Bindable
@@ -312,7 +332,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         return mIsLoading;
     }
 
-    public void setLoading(boolean loading) {
+    private void setLoading(boolean loading) {
         mIsLoading = loading;
         notifyPropertyChanged(BR.loading);
     }
@@ -322,7 +342,33 @@ public class ManageListRequestsViewModel extends BaseObservable
         return isRefreshEnable;
     }
 
-    public void setRefreshEnable(boolean refreshEnable) {
+    public void setPage(int page) {
+        mPage = page;
+        mQueryRequest.setPage(String.valueOf(mPage));
+        setVisiableLayoutDataNotFound(false);
+    }
+
+    @Bindable
+    public boolean isShowProgress() {
+        return mIsShowProgress;
+    }
+
+    private void setShowProgress(boolean showProgress) {
+        mIsShowProgress = showProgress;
+        notifyPropertyChanged(BR.showProgress);
+    }
+
+    @Bindable
+    public boolean isVisiableLayoutDataNotFound() {
+        return mIsVisiableLayoutDataNotFound;
+    }
+
+    private void setVisiableLayoutDataNotFound(boolean visiableLayoutDataNotFound) {
+        mIsVisiableLayoutDataNotFound = visiableLayoutDataNotFound;
+        notifyPropertyChanged(BR.visiableLayoutDataNotFound);
+    }
+
+    private void setRefreshEnable(boolean refreshEnable) {
         isRefreshEnable = refreshEnable;
         notifyPropertyChanged(BR.refreshEnable);
     }
@@ -341,7 +387,9 @@ public class ManageListRequestsViewModel extends BaseObservable
             @Override
             public void onRefresh() {
                 setLoading(true);
-                onReloadData();
+                setPage(PAGE_ONE);
+                mPresenter.getListAllRequestManageNoProgressDialog(mRequestType, mQueryRequest,
+                        false);
             }
         };
     }
@@ -363,16 +411,34 @@ public class ManageListRequestsViewModel extends BaseObservable
         setFromTime(fromTime);
     }
 
+    private void validateToTime(String toTime) {
+        if (DateTimeUtils.convertStringToDate(toTime)
+                .before((DateTimeUtils.convertStringToDate(mFromTime)))) {
+            mDialogManager.dialogError(
+                    mContext.getString(R.string.end_time_can_not_greater_than_end_time),
+                    new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog materialDialog,
+                                @NonNull DialogAction dialogAction) {
+                            mDialogManager.showDatePickerDialog();
+                        }
+                    });
+            return;
+        }
+        setToTime(toTime);
+    }
+
     public void onPickTypeStatus(View view) {
         mDialogManager.dialogListSingleChoice(mContext.getString(R.string.status), R.array.status,
                 mCurrentPositionStatus, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog materialDialog, View view,
                             int positionType, CharSequence charSequence) {
+                        setPage(PAGE_ONE);
                         mCurrentPositionStatus = positionType;
                         mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
                         setCurrentStatus(String.valueOf(charSequence));
-                        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
+                        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
                         return true;
                     }
                 });
@@ -397,6 +463,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     public void onClickClearDataFilter(View view) {
+        setPage(PAGE_ONE);
         setUserName(null);
         setCurrentStatus(null);
         mFromTime = DateTimeUtils.dayFirstMonthWorking();
@@ -406,11 +473,12 @@ public class ManageListRequestsViewModel extends BaseObservable
         mQueryRequest.setStatus(null);
         mQueryRequest.setFromTime(mFromTime);
         mQueryRequest.setToTime(mToTime);
-        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
+        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
     }
 
     public void onClickSearch(View view) {
-        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest);
+        setPage(PAGE_ONE);
+        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
     }
 
     @Override

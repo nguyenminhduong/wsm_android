@@ -18,7 +18,7 @@ interface ManageListRequestsContract {
 
         void onGetListRequestManageError(BaseException exception);
 
-        void onGetListRequestManageSuccess(Object object);
+        void onGetListRequestManageSuccess(Object object, boolean isLoadMore);
 
         void onReloadData();
 
@@ -29,6 +29,8 @@ interface ManageListRequestsContract {
         void onDismissProgressDialog();
 
         void onShowIndeterminateProgressDialog();
+
+        void onLoadMoreListRequest();
     }
 
     /**
@@ -36,7 +38,11 @@ interface ManageListRequestsContract {
      */
     interface Presenter extends BasePresenter<ViewModel> {
 
-        void getListAllRequestManage(int requestType, QueryRequest queryRequest);
+        void getListAllRequestManage(int requestType, QueryRequest queryRequest,
+                boolean isLoadMore);
+
+        void getListAllRequestManageNoProgressDialog(int requestType, QueryRequest queryRequest,
+                boolean isLoadMore);
 
         void approveOrRejectRequest(ActionRequest actionRequest);
     }

@@ -271,5 +271,6 @@
     <string name="just_now">vừa xong</string>
     <string name="s"/>
     <string name="curen_day">Ngày hiện tại</string>
-
+    <string name="end_time_can_not_greater_than_end_time">Thời gian kết thúc không được nhỏ hơn thời gian bắt đầu</string>
+    
 </resources>

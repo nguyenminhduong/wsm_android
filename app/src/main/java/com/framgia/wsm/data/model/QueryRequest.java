@@ -16,6 +16,7 @@ public class QueryRequest extends BaseModel {
     private String mWorkspaceId;
     private int mRequestType;
     private String mMonthWorking;
+    private String mPage;
 
     public QueryRequest() {
     }
@@ -103,5 +104,13 @@ public class QueryRequest extends BaseModel {
 
     public void setMonthWorking(String monthWorking) {
         mMonthWorking = monthWorking;
+    }
+
+    public String getPage() {
+        return mPage;
+    }
+
+    public void setPage(String page) {
+        mPage = page;
     }
 }
