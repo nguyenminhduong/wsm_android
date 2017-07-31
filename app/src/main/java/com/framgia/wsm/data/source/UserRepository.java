@@ -2,6 +2,7 @@ package com.framgia.wsm.data.source;
 
 import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffType;
+import com.framgia.wsm.data.model.Setting;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
@@ -11,6 +12,7 @@ import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import java.util.List;
@@ -90,5 +92,9 @@ public class UserRepository {
 
     public Observable<Object> changePassword(ChangePasswordRequest changePasswordRequest) {
         return mRemoteDataSource.changePassword(changePasswordRequest);
+    }
+
+    public Single<BaseResponse<Setting>> getSetting() {
+        return mRemoteDataSource.getSetting();
     }
 }

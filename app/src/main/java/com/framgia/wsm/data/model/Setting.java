@@ -1,81 +1,93 @@
 package com.framgia.wsm.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by ths on 04/07/2017.
  */
 
-public class Setting {
+public class Setting extends BaseModel implements Parcelable {
 
-    private boolean mNotifiAll;
-    private boolean mEmailAll;
-    private boolean mNotifiList;
-    private boolean mEmailList;
-    private boolean mNotifiGroup;
-    private boolean mEmailGroup;
-    private boolean mNotifiWorkspace;
-    private boolean mEmailWorkspace;
+    @Expose
+    @SerializedName("workspace_default")
+    private int mWorkspaceDefault;
+    @Expose
+    @SerializedName("group_default")
+    private int mGroupDefault;
+    @Expose
+    @SerializedName("notification_setting")
+    private NotificationOrEmailSetting mNotificationSetting;
+    @Expose
+    @SerializedName("email_setting")
+    private NotificationOrEmailSetting mEmailSetting;
 
-    public boolean isNotifiAll() {
-        return mNotifiAll;
+    protected Setting(Parcel in) {
+        mWorkspaceDefault = in.readInt();
+        mGroupDefault = in.readInt();
+        mNotificationSetting = in.readParcelable(NotificationOrEmailSetting.class.getClassLoader());
+        mEmailSetting = in.readParcelable(NotificationOrEmailSetting.class.getClassLoader());
     }
 
-    public void setNotifiAll(boolean notifiAll) {
-        mNotifiAll = notifiAll;
+    public Setting() {
     }
 
-    public boolean isEmailAll() {
-        return mEmailAll;
+    public static final Creator<Setting> CREATOR = new Creator<Setting>() {
+        @Override
+        public Setting createFromParcel(Parcel in) {
+            return new Setting(in);
+        }
+
+        @Override
+        public Setting[] newArray(int size) {
+            return new Setting[size];
+        }
+    };
+
+    public int getWorkspaceDefault() {
+        return mWorkspaceDefault;
     }
 
-    public void setEmailAll(boolean emailAll) {
-        mEmailAll = emailAll;
+    public void setWorkspaceDefault(int workspaceDefault) {
+        mWorkspaceDefault = workspaceDefault;
     }
 
-    public boolean isNotifiList() {
-        return mNotifiList;
+    public int getGroupDefault() {
+        return mGroupDefault;
     }
 
-    public void setNotifiList(boolean notifiList) {
-        mNotifiList = notifiList;
+    public void setGroupDefault(int groupDefault) {
+        mGroupDefault = groupDefault;
     }
 
-    public boolean isEmailList() {
-        return mEmailList;
+    public NotificationOrEmailSetting getNotificationSetting() {
+        return mNotificationSetting;
     }
 
-    public void setEmailList(boolean emailList) {
-        mEmailList = emailList;
+    public void setNotificationSetting(NotificationOrEmailSetting notificationSetting) {
+        mNotificationSetting = notificationSetting;
     }
 
-    public boolean isNotifiGroup() {
-        return mNotifiGroup;
+    public NotificationOrEmailSetting getEmailSetting() {
+        return mEmailSetting;
     }
 
-    public void setNotifiGroup(boolean notifiGroup) {
-        mNotifiGroup = notifiGroup;
+    public void setEmailSetting(NotificationOrEmailSetting emailSetting) {
+        mEmailSetting = emailSetting;
     }
 
-    public boolean isEmailGroup() {
-        return mEmailGroup;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setEmailGroup(boolean emailGroup) {
-        mEmailGroup = emailGroup;
-    }
-
-    public boolean isNotifiWorkspace() {
-        return mNotifiWorkspace;
-    }
-
-    public void setNotifiWorkspace(boolean notifiWorkspace) {
-        mNotifiWorkspace = notifiWorkspace;
-    }
-
-    public boolean isEmailWorkspace() {
-        return mEmailWorkspace;
-    }
-
-    public void setEmailWorkspace(boolean emailWorkspace) {
-        mEmailWorkspace = emailWorkspace;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mWorkspaceDefault);
+        dest.writeInt(mGroupDefault);
+        dest.writeParcelable(mNotificationSetting, flags);
+        dest.writeParcelable(mEmailSetting, flags);
     }
 }

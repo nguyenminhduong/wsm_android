@@ -6,6 +6,7 @@ import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.OffTypeDay;
 import com.framgia.wsm.data.model.RequestOverTime;
+import com.framgia.wsm.data.model.Setting;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.model.UserTimeSheet;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
@@ -133,4 +134,7 @@ public interface WSMApi {
     @PUT("api/dashboard/manager/approvals")
     Single<BaseResponse<ActionRequestResponse>> approveOrRejectRequest(
             @Body ActionRequest actionRequest);
+
+    @GET("api/dashboard/user_settings")
+    Single<BaseResponse<Setting>> getSetting();
 }

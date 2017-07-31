@@ -2,12 +2,14 @@ package com.framgia.wsm.data.source;
 
 import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffType;
+import com.framgia.wsm.data.model.Setting;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
 import com.framgia.wsm.data.source.remote.api.request.UpdateProfileRequest;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import java.util.List;
 
 /**
@@ -44,5 +46,7 @@ public interface UserDataSource {
         Observable<BaseResponse<User>> updateProfile(UpdateProfileRequest updateProfileRequest);
 
         Observable<Object> changePassword(ChangePasswordRequest changePasswordRequest);
+
+        Single<BaseResponse<Setting>> getSetting();
     }
 }
