@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -343,5 +344,12 @@ public final class BindingUtils {
                 viewModel.validateNumberDayHaveSalary();
             }
         });
+    }
+
+    @BindingAdapter({ "colorRes", "enableSwipe" })
+    public static void setColorRefreshLayout(final SwipeRefreshLayout swipeRefreshLayout,
+            int[] colorResIds, boolean enable) {
+        swipeRefreshLayout.setColorSchemeColors(colorResIds);
+        swipeRefreshLayout.setEnabled(enable);
     }
 }
