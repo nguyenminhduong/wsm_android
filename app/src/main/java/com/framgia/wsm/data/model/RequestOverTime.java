@@ -79,6 +79,9 @@ public class RequestOverTime extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("user")
     private User mUser;
+    @Expose
+    @SerializedName("can_approve_reject_request")
+    private boolean mIsCanApproveReject;
 
     public RequestOverTime() {
     }
@@ -97,6 +100,7 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         this.mBeingHandledBy = in.readString();
         this.mGroupId = in.readInt();
         this.mBranchId = in.readInt();
+        this.mIsCanApproveReject = in.readByte() != 0;
     }
 
     public int getId() {
@@ -204,6 +208,14 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         mUser = user;
     }
 
+    public boolean isCanApproveReject() {
+        return mIsCanApproveReject;
+    }
+
+    public void setCanApproveReject(boolean canApproveReject) {
+        mIsCanApproveReject = canApproveReject;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -224,5 +236,6 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         dest.writeString(this.mBeingHandledBy);
         dest.writeInt(this.mGroupId);
         dest.writeInt(this.mBranchId);
+        dest.writeByte((byte) (mIsCanApproveReject ? 1 : 0));
     }
 }

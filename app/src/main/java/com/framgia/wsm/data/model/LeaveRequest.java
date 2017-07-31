@@ -74,6 +74,9 @@ public class LeaveRequest extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("user")
     private User mUser;
+    @Expose
+    @SerializedName("can_approve_reject_request")
+    private boolean mIsCanApproveReject;
 
     public LeaveRequest() {
     }
@@ -120,6 +123,7 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         mCreateAt = in.readString();
         mApprover = in.readParcelable(Approver.class.getClassLoader());
         mUser = in.readParcelable(User.class.getClassLoader());
+        mIsCanApproveReject = in.readByte() != 0;
     }
 
     public static final Creator<LeaveRequest> CREATOR = new Creator<LeaveRequest>() {
@@ -302,6 +306,14 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         mUser = user;
     }
 
+    public boolean isCanApproveReject() {
+        return mIsCanApproveReject;
+    }
+
+    public void setCanApproveReject(boolean canApproveReject) {
+        mIsCanApproveReject = canApproveReject;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -355,6 +367,7 @@ public class LeaveRequest extends BaseModel implements Parcelable {
         parcel.writeString(mCreateAt);
         parcel.writeParcelable(mApprover, i);
         parcel.writeParcelable(mUser, i);
+        parcel.writeByte((byte) (mIsCanApproveReject ? 1 : 0));
     }
 
     /**

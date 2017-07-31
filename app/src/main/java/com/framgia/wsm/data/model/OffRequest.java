@@ -115,6 +115,9 @@ public class OffRequest extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("user")
     private User mUser;
+    @Expose
+    @SerializedName("can_approve_reject_request")
+    private boolean mIsCanApproveReject;
 
     public OffRequest() {
         mInsuranceCoverage = new InsuranceCoverage();
@@ -161,6 +164,7 @@ public class OffRequest extends BaseModel implements Parcelable {
         mRequestDayOffTypesAttributes =
                 in.createTypedArrayList(RequestDayOffTypesAttribute.CREATOR);
         mUser = in.readParcelable(User.class.getClassLoader());
+        mIsCanApproveReject = in.readByte() != 0;
     }
 
     @Override
@@ -204,6 +208,7 @@ public class OffRequest extends BaseModel implements Parcelable {
         dest.writeTypedList(mRequestDayOffTypes);
         dest.writeTypedList(mRequestDayOffTypesAttributes);
         dest.writeParcelable(mUser, flags);
+        dest.writeByte((byte) (mIsCanApproveReject ? 1 : 0));
     }
 
     @Override
@@ -483,6 +488,14 @@ public class OffRequest extends BaseModel implements Parcelable {
 
     public void setUser(User user) {
         mUser = user;
+    }
+
+    public boolean isCanApproveReject() {
+        return mIsCanApproveReject;
+    }
+
+    public void setCanApproveReject(boolean canApproveReject) {
+        mIsCanApproveReject = canApproveReject;
     }
 
     // OffHaveSalaryFrom
