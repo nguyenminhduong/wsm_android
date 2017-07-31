@@ -20,7 +20,7 @@
         android:onClick="@{viewModel::onItemClicked}"
         android:orientation="horizontal"
         android:padding="@dimen/dp_5"
-        app:backgroundResource="@{viewModel.read? 0 : R.color.color_gray_transparent}"
+        app:backgroundResource="@{viewModel.read? 0 : R.color.color_green_transparent}"
         >
         <ImageView
             android:layout_width="@dimen/dp_50"

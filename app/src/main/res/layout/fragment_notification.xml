@@ -22,9 +22,8 @@
         >
         <RelativeLayout
             android:layout_width="@dimen/dp_300"
-            android:layout_height="@dimen/dp_300"
+            android:layout_height="@dimen/dp_360"
             android:minHeight="@dimen/dp_300"
-            android:minWidth="@dimen/dp_300"
             android:orientation="vertical"
             >
             <android.support.v7.widget.Toolbar
@@ -42,14 +41,14 @@
                     android:textSize="@dimen/sp_16"
                     />
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
                     android:layout_gravity="end"
                     android:layout_marginEnd="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
                     android:onClick="@{()-> viewModel.onClickReadAll()}"
                     android:tint="@color/color_white"
-                    app:srcCompat="@drawable/ic_clear_all"
+                    app:srcCompat="@drawable/ic_read_all"
                     tools:ignore="ContentDescription"
                     />
             </android.support.v7.widget.Toolbar>

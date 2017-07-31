@@ -16,10 +16,12 @@ import java.util.List;
 public class NotificationAdapter
         extends BaseRecyclerViewAdapter<NotificationAdapter.ItemViewHolder> {
     private final List<Notification> mNotifications;
+    private Context mContext;
     private OnRecyclerViewItemClickListener<Notification> mItemClickListener;
 
     public NotificationAdapter(@NonNull Context context) {
         super(context);
+        mContext = context.getApplicationContext();
         mNotifications = new ArrayList<>();
     }
 
@@ -28,7 +30,7 @@ public class NotificationAdapter
         ItemNotificationBinding binding =
                 DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                         R.layout.item_notification, parent, false);
-        return new NotificationAdapter.ItemViewHolder(binding, mItemClickListener);
+        return new NotificationAdapter.ItemViewHolder(mContext, binding, mItemClickListener);
     }
 
     @Override
@@ -68,16 +70,19 @@ public class NotificationAdapter
     static class ItemViewHolder extends RecyclerView.ViewHolder {
         private final OnRecyclerViewItemClickListener<Notification> mItemClickListener;
         private ItemNotificationBinding mBinding;
+        private Context mContext;
 
-        ItemViewHolder(ItemNotificationBinding binding,
+        ItemViewHolder(Context context, ItemNotificationBinding binding,
                 BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Notification> listener) {
             super(binding.getRoot());
+            mContext = context;
             mBinding = binding;
             mItemClickListener = listener;
         }
 
         void bind(Notification notification) {
-            mBinding.setViewModel(new ItemNotificationViewModel(notification, mItemClickListener));
+            mBinding.setViewModel(
+                    new ItemNotificationViewModel(mContext, notification, mItemClickListener));
             mBinding.executePendingBindings();
         }
     }
