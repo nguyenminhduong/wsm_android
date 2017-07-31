@@ -2,6 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
 
@@ -14,228 +15,236 @@
         <import type="android.view.View"/>
 
     </data>
-
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:colorRes="@{@color/colorPrimaryDark}"
+        app:enableSwipe="@{viewModel.refreshEnable}"
+        app:refreshing="@{viewModel.loading}"
+        bind:setOnRefreshListener="@{viewModel.onRefreshListener}"
         >
-
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbar"
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:layout_height="match_parent"
             >
 
-            <android.support.design.widget.CollapsingToolbarLayout
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                android:layout_height="wrap_content"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                bind:addOnOffsetChangedListener="@{viewModel.onOffsetChangedListener}"
                 >
 
-                <LinearLayout
+                <android.support.design.widget.CollapsingToolbarLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_10"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:orientation="vertical"
-                    android:visibility="@{viewModel.visibleLayoutSearch ? View.VISIBLE : View.GONE}"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    app:contentScrim="?attr/colorPrimary"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                     >
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_a"
-                        android:gravity="center_vertical"
-                        android:hint="@string/employee_name_italic"
-                        android:inputType="text"
-                        android:padding="@dimen/dp_7"
-                        android:text="@={viewModel.userName}"
-                        android:textColor="@color/cardview_dark_background"
-                        android:textColorHint="@color/cardview_shadow_start_color"
-                        android:textSize="@dimen/sp_17"
-                        />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dp_10"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_10"
                         android:layout_marginTop="@dimen/dp_10"
-                        android:baselineAligned="false"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
+                        android:visibility="@{viewModel.visibleLayoutSearch ? View.VISIBLE : View.GONE}"
                         >
-                        <FrameLayout
+                        <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/dp_5"
-                            android:layout_marginRight="@dimen/dp_5"
-                            android:layout_weight="1"
                             android:background="@drawable/border_button_a"
-                            android:onClick="@{viewModel::onCickFromTime}"
+                            android:gravity="center_vertical"
+                            android:hint="@string/employee_name_italic"
+                            android:inputType="text"
+                            android:padding="@dimen/dp_7"
+                            android:text="@={viewModel.userName}"
+                            android:textColor="@color/cardview_dark_background"
+                            android:textColorHint="@color/cardview_shadow_start_color"
+                            android:textSize="@dimen/sp_17"
+                            />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal"
                             >
-                            <ImageView
-                                app:srcCompat="@drawable/ic_calendar"
-                                tools:ignore="ContentDescription"
-                                style="@style/StyleImageDateTime"
-                                />
-                            <LinearLayout
+                            <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="@dimen/dp_7"
+                                android:layout_marginEnd="@dimen/dp_5"
+                                android:layout_marginRight="@dimen/dp_5"
+                                android:layout_weight="1"
+                                android:background="@drawable/border_button_a"
+                                android:onClick="@{viewModel::onCickFromTime}"
                                 >
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center_vertical"
-                                    android:text="@string/from_italic"
-                                    android:textColor="@color/color_gray"
-                                    android:textSize="@dimen/sp_17"
+                                <ImageView
+                                    app:srcCompat="@drawable/ic_calendar"
+                                    tools:ignore="ContentDescription"
+                                    style="@style/StyleImageDateTime"
                                     />
-                                <TextView
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/dp_5"
-                                    android:layout_marginStart="@dimen/dp_5"
-                                    android:gravity="center_vertical"
-                                    android:text="@{viewModel.fromTime}"
-                                    android:textColor="@color/cardview_dark_background"
-                                    android:textSize="@dimen/sp_17"
-                                    />
-                            </LinearLayout>
-                        </FrameLayout>
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_5"
-                            android:layout_marginStart="@dimen/dp_5"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_button_a"
-                            android:onClick="@{viewModel::onCickToTime}"
-                            >
-                            <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:padding="@dimen/dp_7"
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:gravity="center_vertical"
+                                        android:text="@string/from_italic"
+                                        android:textColor="@color/color_gray"
+                                        android:textSize="@dimen/sp_17"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/dp_5"
+                                        android:layout_marginStart="@dimen/dp_5"
+                                        android:gravity="center_vertical"
+                                        android:text="@{viewModel.fromTime}"
+                                        android:textColor="@color/cardview_dark_background"
+                                        android:textSize="@dimen/sp_17"
+                                        />
+                                </LinearLayout>
+                            </FrameLayout>
+                            <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
+                                android:layout_marginLeft="@dimen/dp_5"
+                                android:layout_marginStart="@dimen/dp_5"
+                                android:layout_weight="1"
+                                android:background="@drawable/border_button_a"
+                                android:onClick="@{viewModel::onCickToTime}"
+                                >
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:padding="@dimen/dp_7"
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:gravity="center_vertical"
+                                        android:text="@string/to_italic"
+                                        android:textColor="@color/color_gray"
+                                        android:textSize="@dimen/sp_17"
+                                        />
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/dp_5"
+                                        android:layout_marginStart="@dimen/dp_5"
+                                        android:gravity="center_vertical"
+                                        android:text="@{viewModel.toTime}"
+                                        android:textColor="@color/cardview_dark_background"
+                                        android:textSize="@dimen/sp_17"
+                                        />
+                                </LinearLayout>
+                                <ImageView
+                                    app:srcCompat="@drawable/ic_calendar"
+                                    tools:ignore="ContentDescription"
+                                    style="@style/StyleImageDateTime"
+                                    />
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal"
+                            >
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="@dimen/dp_5"
+                                android:layout_marginRight="@dimen/dp_5"
+                                android:layout_weight="1"
+                                android:background="@drawable/border_button_a"
+                                android:onClick="@{viewModel::onPickTypeStatus}"
                                 android:padding="@dimen/dp_7"
                                 >
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center_vertical"
-                                    android:text="@string/to_italic"
-                                    android:textColor="@color/color_gray"
-                                    android:textSize="@dimen/sp_17"
+                                <ImageView
+                                    app:srcCompat="@drawable/ic_arrow_drop_down"
+                                    tools:ignore="ContentDescription"
+                                    style="@style/StyleImageDropDown"
                                     />
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/dp_5"
-                                    android:layout_marginStart="@dimen/dp_5"
                                     android:gravity="center_vertical"
-                                    android:text="@{viewModel.toTime}"
+                                    android:hint="@string/choose_status"
+                                    android:text="@{viewModel.currentStatus}"
                                     android:textColor="@color/cardview_dark_background"
+                                    android:textColorHint="@color/cardview_shadow_start_color"
                                     android:textSize="@dimen/sp_17"
                                     />
-                            </LinearLayout>
-                            <ImageView
-                                app:srcCompat="@drawable/ic_calendar"
-                                tools:ignore="ContentDescription"
-                                style="@style/StyleImageDateTime"
-                                />
-                        </FrameLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:baselineAligned="false"
-                        android:orientation="horizontal"
-                        >
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="@dimen/dp_5"
-                            android:layout_marginRight="@dimen/dp_5"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_button_a"
-                            android:onClick="@{viewModel::onPickTypeStatus}"
-                            android:padding="@dimen/dp_7"
-                            >
-                            <ImageView
-                                app:srcCompat="@drawable/ic_arrow_drop_down"
-                                tools:ignore="ContentDescription"
-                                style="@style/StyleImageDropDown"
-                                />
-                            <TextView
+                            </FrameLayout>
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:hint="@string/choose_status"
-                                android:text="@{viewModel.currentStatus}"
-                                android:textColor="@color/cardview_dark_background"
-                                android:textColorHint="@color/cardview_shadow_start_color"
-                                android:textSize="@dimen/sp_17"
-                                />
-                        </FrameLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_7"
-                            android:layout_marginStart="@dimen/dp_7"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            >
-                            <ImageButton
-                                android:background="@drawable/border_textview_clear"
-                                android:onClick="@{viewModel::onClickClearDataFilter}"
-                                app:srcCompat="@drawable/ic_clear_white"
-                                tools:ignore="ContentDescription"
-                                style="@style/StyleButtonActionFilter"
-                                />
-                            <ImageButton
-                                android:background="@drawable/border_textview_search"
-                                android:onClick="@{viewModel::onClickSearch}"
-                                app:srcCompat="@drawable/ic_search_white"
-                                tools:ignore="ContentDescription"
-                                style="@style/StyleButtonActionFilter"
-                                />
+                                android:layout_marginLeft="@dimen/dp_7"
+                                android:layout_marginStart="@dimen/dp_7"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                >
+                                <ImageButton
+                                    android:background="@drawable/border_textview_clear"
+                                    android:onClick="@{viewModel::onClickClearDataFilter}"
+                                    app:srcCompat="@drawable/ic_clear_white"
+                                    tools:ignore="ContentDescription"
+                                    style="@style/StyleButtonActionFilter"
+                                    />
+                                <ImageButton
+                                    android:background="@drawable/border_textview_search"
+                                    android:onClick="@{viewModel::onClickSearch}"
+                                    app:srcCompat="@drawable/ic_search_white"
+                                    tools:ignore="ContentDescription"
+                                    style="@style/StyleButtonActionFilter"
+                                    />
+                            </LinearLayout>
                         </LinearLayout>
+
                     </LinearLayout>
 
-                </LinearLayout>
+                </android.support.design.widget.CollapsingToolbarLayout>
 
-            </android.support.design.widget.CollapsingToolbarLayout>
+            </android.support.design.widget.AppBarLayout>
 
-        </android.support.design.widget.AppBarLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/dp_10"
+                app:layoutManager="LinearLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:recyclerAdapter="@{viewModel.manageListRequestsAdapter}"
+                />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/dp_10"
-            app:layoutManager="LinearLayoutManager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:recyclerAdapter="@{viewModel.manageListRequestsAdapter}"
-            />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/floating_button_search"
+                android:layout_width="@dimen/dp_56"
+                android:layout_height="@dimen/dp_56"
+                android:layout_margin="@dimen/dp_16"
+                android:clickable="true"
+                android:onClick="@{viewModel::onClickFloatingButtonSearch}"
+                android:tint="@color/color_white"
+                app:layout_anchor="@+id/recycleview"
+                app:layout_anchorGravity="bottom|right|end"
+                app:srcCompat="@drawable/ic_search_white"
+                />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floating_button_search"
-            android:layout_width="@dimen/dp_56"
-            android:layout_height="@dimen/dp_56"
-            android:layout_margin="@dimen/dp_16"
-            android:clickable="true"
-            android:onClick="@{viewModel::onClickFloatingButtonSearch}"
-            android:tint="@color/color_white"
-            app:layout_anchor="@id/recycleview"
-            app:layout_anchorGravity="bottom|right|end"
-            app:srcCompat="@drawable/ic_search_white"
-            />
-    </android.support.design.widget.CoordinatorLayout>
-
+        </android.support.design.widget.CoordinatorLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </layout>

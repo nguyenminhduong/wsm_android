@@ -21,7 +21,7 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:colorRes="@{viewModel.color}"
+        app:colorRes="@{@color/colorPrimaryDark}"
         app:enableSwipe="@{viewModel.refreshEnable}"
         app:refreshing="@{viewModel.loading}"
         bind:setOnRefreshListener="@{viewModel.onRefreshListener}"

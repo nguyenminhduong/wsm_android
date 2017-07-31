@@ -7,6 +7,8 @@ import android.databinding.Bindable;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
@@ -61,6 +63,8 @@ public class ManageListRequestsViewModel extends BaseObservable
     private ActionRequest mActionRequest;
     private int mItemPosition;
     private int mAction;
+    private boolean mIsLoading;
+    private boolean isRefreshEnable;
 
     ManageListRequestsViewModel(Context context, ManageListRequestsContract.Presenter presenter,
             DialogManager dialogManager, ManageListRequestsAdapter manageListRequestsAdapter,
@@ -78,6 +82,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     private void initData() {
+        setLoading(false);
         mCurrentStatus = mContext.getString(R.string.pending);
         mCurrentPositionStatus = CURRRENT_STATUS;
         mActionRequest = new ActionRequest();
@@ -106,6 +111,7 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     @Override
     public void onGetListRequestManageSuccess(Object object) {
+        setLoading(false);
         switch (mRequestType) {
             case RequestType.REQUEST_OVERTIME:
                 List<RequestOverTime> listOverTime = (List<RequestOverTime>) object;
@@ -152,6 +158,7 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     @Override
     public void onApproveOrRejectRequestSuccess(ActionRequestResponse actionRequestResponse) {
+        setLoading(false);
         updateItemRequest(mRequestType, mItemPosition, actionRequestResponse);
         if (mAction == TypeAction.APPROVE) {
             mNavigator.showToastCustom(TypeToast.SUCCESS,
@@ -298,6 +305,44 @@ public class ManageListRequestsViewModel extends BaseObservable
         mUserName = userName;
         mQueryRequest.setUserName(userName);
         notifyPropertyChanged(BR.userName);
+    }
+
+    @Bindable
+    public boolean isLoading() {
+        return mIsLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        mIsLoading = loading;
+    }
+
+    @Bindable
+    public boolean isRefreshEnable() {
+        return isRefreshEnable;
+    }
+
+    public void setRefreshEnable(boolean refreshEnable) {
+        isRefreshEnable = refreshEnable;
+        notifyPropertyChanged(BR.refreshEnable);
+    }
+
+    public AppBarLayout.OnOffsetChangedListener getOnOffsetChangedListener() {
+        return new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                setRefreshEnable(verticalOffset == 0);
+            }
+        };
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                setLoading(true);
+                onReloadData();
+            }
+        };
     }
 
     private void validateFromTime(String fromTime) {
