@@ -6,9 +6,11 @@ import android.databinding.Bindable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.data.model.TimeSheetDate;
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.model.UserTimeSheet;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.requestleave.RequestLeaveActivity;
@@ -31,6 +33,7 @@ import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
  */
 
 public class TimeSheetViewModel extends BaseObservable implements TimeSheetContract.ViewModel {
+    private static final String TAG = "TimeSheetViewModel";
 
     private Context mContext;
     private TimeSheetContract.Presenter mPresenter;
@@ -45,6 +48,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     private boolean isVisibleFloatingActionMenu;
     private boolean mIsLoading;
     private boolean mIsRefreshEnable;
+    private boolean mIsEmployeeFullTime;
 
     public TimeSheetViewModel(Context context, TimeSheetContract.Presenter presenter,
             Navigator navigator, DialogManager dialogManager) {
@@ -54,6 +58,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         mTimeSheetDates = new ArrayList<>();
         mTimeSheetDate = new TimeSheetDate();
         mUserTimeSheet = new UserTimeSheet();
+        mPresenter.getUser();
         mDialogManager = dialogManager;
         mNavigator = navigator;
         mDialogManager.showIndeterminateProgressDialog();
@@ -85,6 +90,17 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         setUserTimeSheet(userTimeSheet);
         mDialogManager.dismissProgressDialog();
         setLoading(false);
+    }
+
+    @Override
+    public void onGetUserSuccess(User user) {
+        mIsEmployeeFullTime = user.isFullTime();
+        notifyPropertyChanged(BR.employeeFullTime);
+    }
+
+    @Override
+    public void onGetUserError(BaseException error) {
+        Log.e(TAG, "onGetUserError: ", error);
     }
 
     @Bindable
@@ -301,5 +317,10 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     public void setRefreshEnable(boolean refreshEnable) {
         mIsRefreshEnable = refreshEnable;
         notifyPropertyChanged(BR.refreshEnable);
+    }
+
+    @Bindable
+    public boolean isEmployeeFullTime() {
+        return mIsEmployeeFullTime;
     }
 }

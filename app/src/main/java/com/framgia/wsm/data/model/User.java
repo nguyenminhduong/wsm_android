@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.framgia.wsm.R;
 import com.framgia.wsm.utils.common.DateTimeUtils;
+import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.validator.Rule;
 import com.framgia.wsm.utils.validator.ValidType;
 import com.framgia.wsm.utils.validator.Validation;
@@ -15,6 +16,7 @@ import java.util.List;
  * Created by tri on 24/05/2017.
  */
 public class User extends BaseModel implements Parcelable {
+    private static final String STAFF_FULL_TIME = "Full-time";
 
     public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
@@ -306,5 +308,9 @@ public class User extends BaseModel implements Parcelable {
 
     public void setManage(boolean manage) {
         mIsManage = manage;
+    }
+
+    public boolean isFullTime() {
+        return StringUtils.isNotBlank(mNameStaffType) && mNameStaffType.equals(STAFF_FULL_TIME);
     }
 }

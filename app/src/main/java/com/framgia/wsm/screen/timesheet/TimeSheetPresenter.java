@@ -1,7 +1,9 @@
 package com.framgia.wsm.screen.timesheet;
 
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.model.UserTimeSheet;
 import com.framgia.wsm.data.source.TimeSheetRepository;
+import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
@@ -22,12 +24,14 @@ final class TimeSheetPresenter implements TimeSheetContract.Presenter {
     private TimeSheetRepository mTimeSheetRepository;
     private CompositeDisposable mCompositeDisposable;
     private BaseSchedulerProvider mSchedulerProvider;
+    private UserRepository mUserRepository;
 
     TimeSheetPresenter(TimeSheetRepository timeSheetRepository,
-            BaseSchedulerProvider baseSchedulerProvider) {
+            BaseSchedulerProvider baseSchedulerProvider, UserRepository userRepository) {
         mTimeSheetRepository = timeSheetRepository;
         mCompositeDisposable = new CompositeDisposable();
         mSchedulerProvider = baseSchedulerProvider;
+        mUserRepository = userRepository;
     }
 
     @Override
@@ -64,5 +68,24 @@ final class TimeSheetPresenter implements TimeSheetContract.Presenter {
                     }
                 });
         mCompositeDisposable.add(subscription);
+    }
+
+    @Override
+    public void getUser() {
+        Disposable disposable = mUserRepository.getUser()
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Consumer<User>() {
+                    @Override
+                    public void accept(@NonNull User user) throws Exception {
+                        mViewModel.onGetUserSuccess(user);
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onGetUserError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
     }
 }

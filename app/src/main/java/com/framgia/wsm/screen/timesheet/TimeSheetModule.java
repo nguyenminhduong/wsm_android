@@ -4,12 +4,14 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import com.framgia.wsm.data.source.TimeSheetRepository;
+import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.TimeSheetRemoteDataSource;
+import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.FragmentScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.widget.dialog.DialogManager;
-import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
 import dagger.Provides;
 
@@ -37,8 +39,8 @@ public class TimeSheetModule {
     @FragmentScope
     @Provides
     public TimeSheetContract.Presenter providePresenter(TimeSheetRepository timeSheetRepository,
-            BaseSchedulerProvider baseSchedulerProvider) {
-        return new TimeSheetPresenter(timeSheetRepository, baseSchedulerProvider);
+            BaseSchedulerProvider baseSchedulerProvider, UserRepository userRepository) {
+        return new TimeSheetPresenter(timeSheetRepository, baseSchedulerProvider, userRepository);
     }
 
     @FragmentScope
@@ -46,6 +48,13 @@ public class TimeSheetModule {
     public TimeSheetRepository provideTimeSheetRepository(
             TimeSheetRemoteDataSource remoteDataSource) {
         return new TimeSheetRepository(remoteDataSource);
+    }
+
+    @FragmentScope
+    @Provides
+    public UserRepository provideUserRepository(UserLocalDataSource userLocalDataSource,
+            UserRemoteDataSource userRemoteDataSource) {
+        return new UserRepository(userLocalDataSource, userRemoteDataSource);
     }
 
     @FragmentScope
