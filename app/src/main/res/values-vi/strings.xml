@@ -267,4 +267,8 @@
     <string name="this_account_has_been_login_in_another_device">Tài khoản này đã được đăng nhập vào một thiết bị khác.</string>
     <string name="view_detail">Xem chi tiết</string>
 
+    <string name="ago">trước</string>
+    <string name="just_now">vừa xong</string>
+    <string name="s"/>
+
 </resources>

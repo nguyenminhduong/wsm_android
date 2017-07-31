@@ -280,4 +280,8 @@
     <string name="delete_form_success">Delete form success!</string>
     <string name="this_account_has_been_login_in_another_device">This account has been login in another device.</string>
     <string name="view_detail">View Detail</string>
+
+    <string name="ago">ago</string>
+    <string name="just_now">just now</string>
+    <string name="s">s</string>
 </resources>

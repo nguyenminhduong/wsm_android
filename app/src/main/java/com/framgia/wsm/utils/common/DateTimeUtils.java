@@ -5,6 +5,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import com.framgia.wsm.screen.requestoff.RequestOffViewModel;
 import com.framgia.wsm.utils.Constant;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,10 +36,10 @@ public final class DateTimeUtils {
     public static final String DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY_2 = "HH:mm dd/MM/yyyy";
     public static final String DATE_FORMAT_YYYY_MM_DD_A = "yyyy/MM/dd a";
     public static final String INPUT_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    public static final String DATE_FORMAT_YYYY_MM = "MM/yyyy";
     private static final String TAG = DateTimeUtils.class.getName();
     private static final int DAY_OF_YEAR = 365;
     private static final String TIME_ZONE_GMT = "GMT";
-    public static final String DATE_FORMAT_YYYY_MM = "MM/yyyy";
 
     private DateTimeUtils() {
         // No-op
@@ -292,5 +293,11 @@ public final class DateTimeUtils {
             calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + ONE_MONTH);
         }
         return DateTimeUtils.convertToString(calendar.getTime(), DateTimeUtils.DATE_FORMAT_YYYY_MM);
+    }
+
+    public static long getTimeAgo(String date) {
+        Timestamp timestamp = new Timestamp(convertStringToDate(date, INPUT_TIME_FORMAT).getTime());
+        Timestamp timestampNow = new Timestamp(new Date().getTime());
+        return timestampNow.getTime() - timestamp.getTime();
     }
 }
