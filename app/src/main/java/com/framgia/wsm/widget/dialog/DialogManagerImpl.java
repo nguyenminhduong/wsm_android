@@ -42,6 +42,7 @@ public class DialogManagerImpl implements DialogManager {
     private Context mContext;
     private MaterialDialog mProgressDialog;
     private DatePickerDialog mDatePickerDialog;
+    private DatePickerDialog mDatePickerMonthYearDialog;
     private TimePickerDialog mTimePickerDialog;
     private DatePicker mDatePicker;
     private Calendar mCalendar;
@@ -227,7 +228,7 @@ public class DialogManagerImpl implements DialogManager {
             final Context contextThemeWrapper =
                     new ContextThemeWrapper(mContext, android.R.style.Theme_Holo_Light_Dialog);
             try {
-                mDatePickerDialog =
+                mDatePickerMonthYearDialog =
                         new FixedHoloDatePickerDialog(contextThemeWrapper, onDateSetListener, year,
                                 month, -1);
             } catch (ClassNotFoundException | IllegalAccessException | NoSuchMethodException |
@@ -235,16 +236,16 @@ public class DialogManagerImpl implements DialogManager {
                 e.printStackTrace();
             }
         } else {
-            mDatePickerDialog =
+            mDatePickerMonthYearDialog =
                     new DatePickerDialog(mContext, AlertDialog.THEME_HOLO_LIGHT, onDateSetListener,
                             year, month, -1);
         }
         try {
-            Field[] fields = mDatePickerDialog.getClass().getDeclaredFields();
+            Field[] fields = mDatePickerMonthYearDialog.getClass().getDeclaredFields();
             for (Field field : fields) {
                 if (field.getName().equals(DATE_PICKER)) {
                     field.setAccessible(true);
-                    mDatePicker = (DatePicker) field.get(mDatePickerDialog);
+                    mDatePicker = (DatePicker) field.get(mDatePickerMonthYearDialog);
                     customDatePicker(mDatePicker);
                 }
             }
@@ -255,10 +256,10 @@ public class DialogManagerImpl implements DialogManager {
     }
 
     public void showMonthYearPickerDialog() {
-        if (mDatePickerDialog == null) {
+        if (mDatePickerMonthYearDialog == null) {
             return;
         }
-        mDatePickerDialog.show();
+        mDatePickerMonthYearDialog.show();
     }
 
     @Override
@@ -313,11 +314,11 @@ public class DialogManagerImpl implements DialogManager {
                         public void onClick(@NonNull MaterialDialog materialDialog,
                                 @NonNull DialogAction dialogAction) {
                             Intent intent = new Intent(mContext, LoginActivity.class);
-                            intent.setFlags(
-                                    Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra(Constant.EXTRA_UNAUTHORIZED,true);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra(Constant.EXTRA_UNAUTHORIZED, true);
                             mContext.startActivity(intent);
-                            ((Activity)mContext).finish();
+                            ((Activity) mContext).finish();
                         }
                     })
                     .cancelable(false)
