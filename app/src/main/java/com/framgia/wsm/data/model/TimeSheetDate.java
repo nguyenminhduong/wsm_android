@@ -62,10 +62,10 @@ public class TimeSheetDate extends BaseModel {
     }
 
     public String getTimeIn() {
-        if (mTimeIn == null && mTextMorning == null) {
-            return N_A;
+        if (StringUtils.isBlank(mTimeIn) && StringUtils.isBlank(mTextMorning)) {
+            return "";
         }
-        if (mTextMorning != null && mTextMorning.equals(mTimeIn)) {
+        if (StringUtils.isNotBlank(mTextMorning) && mTextMorning.equals(mTimeIn)) {
             return DateTimeUtils.convertUiFormatToDataFormat(mTimeIn,
                     DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.TIME_FORMAT_HH_MM);
         }
@@ -77,10 +77,10 @@ public class TimeSheetDate extends BaseModel {
     }
 
     public String getTimeOut() {
-        if (mTimeOut == null && mTextAfternoon == null) {
-            return N_A;
+        if (StringUtils.isBlank(mTimeOut) && StringUtils.isBlank(mTextAfternoon)) {
+            return "";
         }
-        if (mTextAfternoon != null && mTextAfternoon.equals(mTimeOut)) {
+        if (StringUtils.isNotBlank(mTextAfternoon) && mTextAfternoon.equals(mTimeOut)) {
             return DateTimeUtils.convertUiFormatToDataFormat(mTimeOut,
                     DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.TIME_FORMAT_HH_MM);
         }

@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.text.format.Time;
@@ -31,9 +32,8 @@ public class TimeSheetView extends View {
     private static final int SELECTED_CIRCLE_ALPHA = 128;
     private static final int DEFAULT_HEIGHT = 32;
     private static final int CALENDAR_DECEMBER = 11;
-    private int mDaySelectedCircleSize;
+    private int mDayCircleSize;
     private int mCurrentDayCircleSize;
-    private int mDaySelectedCircleInSize;
     private int mDaySeparatorWidth = 1;
     private int mMiniDayNumberTextSize;
     private int mMonthDayLabelTextSize;
@@ -48,9 +48,10 @@ public class TimeSheetView extends View {
     private Paint mMonthNumPaint;
     private Paint mReservationInquiryStatusPaint;
     private Paint mMonthTitlePaint;
-    private Paint mSelectedCirclePaint;
-    private Paint mSelectedCircleInPaint;
+    private Paint mCircleMorningPaint;
+    private Paint mCircleAfternoonPaint;
     private Paint mCurrentDayCirclePaint;
+    private Paint mCircleStrokeOutPaint;
     private int mCurrentDayTextColor;
     private int mMonthTextColor;
     private int mDayTextColor;
@@ -136,12 +137,9 @@ public class TimeSheetView extends View {
         mMonthHeaderSize =
                 typedArray.getDimensionPixelOffset(R.styleable.DatePickerView_headerMonthHeight,
                         resources.getDimensionPixelOffset(R.dimen.dp_80));
-        mDaySelectedCircleSize =
+        mDayCircleSize =
                 typedArray.getDimensionPixelSize(R.styleable.DatePickerView_selectedDayRadius,
                         resources.getDimensionPixelOffset(R.dimen.dp_20));
-        mDaySelectedCircleInSize =
-                typedArray.getDimensionPixelSize(R.styleable.DatePickerView_selectedDayRadius,
-                        resources.getDimensionPixelOffset(R.dimen.dp_15));
         mCurrentDayCircleSize =
                 typedArray.getDimensionPixelSize(R.styleable.DatePickerView_selectedDayRadius,
                         resources.getDimensionPixelOffset(R.dimen.dp_3));
@@ -226,7 +224,6 @@ public class TimeSheetView extends View {
             } else {
                 dayCheck = day;
             }
-
             Date date = new Date(year - 1900, month - 1, dayCheck);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
@@ -243,7 +240,7 @@ public class TimeSheetView extends View {
                     mMonthNumPaint.setTypeface(
                             Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
                 } else {
-                    mSelectedCirclePaint.setColor(Color.TRANSPARENT);
+                    mCircleMorningPaint.setColor(Color.TRANSPARENT);
                     mMonthNumPaint.setColor(mDayNumColor);
                     mMonthNumPaint.setTypeface(
                             Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
@@ -253,11 +250,11 @@ public class TimeSheetView extends View {
             if (mTimeSheetDates != null && mTimeSheetDates.size() > 0) {
                 for (TimeSheetDate timeSheetDate : mTimeSheetDates) {
                     if (date.equals(timeSheetDate.getDate())) {
-                        mSelectedCirclePaint.setColor(
+                        mCircleMorningPaint.setColor(
                                 Color.parseColor(timeSheetDate.getColorMorning()));
-                        mSelectedCircleInPaint.setColor(
+                        mCircleAfternoonPaint.setColor(
                                 Color.parseColor(timeSheetDate.getColorAfternoon()));
-                        drawCircleAllDay(canvas, y, x);
+                        drawCircleDay(canvas, y, x);
                         drawCircleStrokeOut(canvas, y, x);
                         drawCircleCurrentDay(canvas, y, x);
                         if (timeSheetDate.isDayOffAllDay()
@@ -271,7 +268,7 @@ public class TimeSheetView extends View {
                             }
                             break;
                         }
-                        mSelectedCirclePaint.setColor(Color.TRANSPARENT);
+                        mCircleMorningPaint.setColor(Color.TRANSPARENT);
                         drawTextNormal(canvas, y, day, x);
                         break;
                     }
@@ -291,15 +288,7 @@ public class TimeSheetView extends View {
     }
 
     private void drawCircleStrokeOut(Canvas canvas, int y, int x) {
-        mSelectedCirclePaint.setColor(mDayOffStrokeColor);
-        mSelectedCirclePaint.setStyle(Paint.Style.STROKE);
-        mSelectedCirclePaint.setAntiAlias(true);
-        mSelectedCirclePaint.setStrokeWidth(2);
-        mSelectedCirclePaint.setStyle(Paint.Style.STROKE);
-        mSelectedCirclePaint.setStrokeJoin(Paint.Join.ROUND);
-        mSelectedCirclePaint.setStrokeCap(Paint.Cap.ROUND);
-        canvas.drawCircle(x, y - mMiniDayNumberTextSize / 3, mDaySelectedCircleSize,
-                mSelectedCirclePaint);
+        canvas.drawCircle(x, y - mMiniDayNumberTextSize / 3, mDayCircleSize, mCircleStrokeOutPaint);
     }
 
     private void drawTextNormal(Canvas canvas, int y, int day, int x) {
@@ -334,26 +323,19 @@ public class TimeSheetView extends View {
         canvas.drawText(label, x, y + mMiniDayNumberTextSize / 3, mMonthNumPaint);
     }
 
-    private void drawCircleNormal(Canvas canvas, int y, int x) {
-        mSelectedCirclePaint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(x, y - mMiniDayNumberTextSize / 3, mDaySelectedCircleSize,
-                mSelectedCirclePaint);
-        mMonthNumPaint.setTextSize(mMiniDayNumberTextSize);
-    }
-
     private void drawCircleCurrentDay(Canvas canvas, int y, int x) {
         mCurrentDayCirclePaint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(x, y - mMiniDayNumberTextSize * 4 / 3, mCurrentDayCircleSize,
                 mCurrentDayCirclePaint);
     }
 
-    private void drawCircleAllDay(Canvas canvas, int y, int x) {
-        mSelectedCirclePaint.setStyle(Paint.Style.FILL);
-        mSelectedCircleInPaint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(x, y - mMiniDayNumberTextSize / 3, mDaySelectedCircleSize,
-                mSelectedCirclePaint);
-        canvas.drawCircle(x, y - mMiniDayNumberTextSize / 3, mDaySelectedCircleInSize,
-                mSelectedCircleInPaint);
+    private void drawCircleDay(Canvas canvas, int y, int x) {
+        mCircleMorningPaint.setStyle(Paint.Style.FILL);
+        mCircleAfternoonPaint.setStyle(Paint.Style.FILL);
+        RectF rectf = new RectF(x - mDayCircleSize, y - mDayCircleSize - mMiniDayNumberTextSize / 3,
+                x + mDayCircleSize, y + mDayCircleSize / 2 + mMiniDayNumberTextSize / 3);
+        canvas.drawArc(rectf, 90, 180, true, mCircleMorningPaint);
+        canvas.drawArc(rectf, -90, 180, true, mCircleAfternoonPaint);
     }
 
     public Date getDayFromLocation(float x, float y) {
@@ -411,17 +393,27 @@ public class TimeSheetView extends View {
         mReservationInquiryStatusPaint.setStyle(Paint.Style.FILL);
         mReservationInquiryStatusPaint.setAlpha(SELECTED_CIRCLE_ALPHA);
 
-        mSelectedCirclePaint = new Paint();
-        mSelectedCirclePaint.setFakeBoldText(true);
-        mSelectedCirclePaint.setAntiAlias(true);
-        mSelectedCirclePaint.setTextAlign(Paint.Align.CENTER);
-        mSelectedCirclePaint.setStyle(Paint.Style.FILL);
+        mCircleMorningPaint = new Paint();
+        mCircleMorningPaint.setFakeBoldText(true);
+        mCircleMorningPaint.setAntiAlias(true);
+        mCircleMorningPaint.setTextAlign(Paint.Align.CENTER);
+        mCircleMorningPaint.setStyle(Paint.Style.FILL);
 
-        mSelectedCircleInPaint = new Paint();
-        mSelectedCircleInPaint.setFakeBoldText(true);
-        mSelectedCircleInPaint.setAntiAlias(true);
-        mSelectedCircleInPaint.setTextAlign(Paint.Align.CENTER);
-        mSelectedCircleInPaint.setStyle(Paint.Style.FILL);
+        mCircleAfternoonPaint = new Paint();
+        mCircleAfternoonPaint.setFakeBoldText(true);
+        mCircleAfternoonPaint.setAntiAlias(true);
+        mCircleAfternoonPaint.setTextAlign(Paint.Align.CENTER);
+        mCircleAfternoonPaint.setStyle(Paint.Style.FILL);
+
+        mCircleStrokeOutPaint = new Paint();
+        mCircleStrokeOutPaint.setFakeBoldText(true);
+        mCircleStrokeOutPaint.setAntiAlias(true);
+        mCircleStrokeOutPaint.setTextAlign(Paint.Align.CENTER);
+        mCircleStrokeOutPaint.setStyle(Paint.Style.STROKE);
+        mCircleStrokeOutPaint.setColor(mDayOffStrokeColor);
+        mCircleStrokeOutPaint.setStrokeWidth(2);
+        mCircleStrokeOutPaint.setStrokeJoin(Paint.Join.ROUND);
+        mCircleStrokeOutPaint.setStrokeCap(Paint.Cap.ROUND);
 
         mCurrentDayCirclePaint = new Paint();
         mCurrentDayCirclePaint.setFakeBoldText(true);
