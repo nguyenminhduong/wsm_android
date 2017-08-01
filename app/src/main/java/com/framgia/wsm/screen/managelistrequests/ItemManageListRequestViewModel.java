@@ -40,6 +40,7 @@ public class ItemManageListRequestViewModel extends BaseObservable {
             mRequestOverTime = (RequestOverTime) object;
         }
         initStatus();
+        checkStatusForward();
     }
 
     public void onApproveRequest() {
@@ -235,6 +236,7 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         return StatusCode.ACCEPT_CODE.equals(mRequestOff.getStatus());
     }
 
+    @Bindable
     public boolean isPendingStatus() {
         if (mLeaveRequest != null) {
             return StatusCode.PENDING_CODE.equals(mLeaveRequest.getStatus());
@@ -263,5 +265,28 @@ public class ItemManageListRequestViewModel extends BaseObservable {
             return StatusCode.FORWARD_CODE.equals(mRequestOverTime.getStatus());
         }
         return StatusCode.FORWARD_CODE.equals(mRequestOff.getStatus());
+    }
+
+    private void checkStatusForward() {
+        if (mLeaveRequest != null
+                && StatusCode.FORWARD_CODE.equals(mLeaveRequest.getStatus())
+                && mLeaveRequest.isCanApproveReject()) {
+            mLeaveRequest.setStatus(StatusCode.PENDING_CODE);
+            notifyPropertyChanged(BR.pendingStatus);
+            return;
+        }
+        if (mRequestOverTime != null
+                && StatusCode.FORWARD_CODE.equals(mRequestOverTime.getStatus())
+                && mRequestOverTime.isCanApproveReject()) {
+            mRequestOverTime.setStatus(StatusCode.PENDING_CODE);
+            notifyPropertyChanged(BR.pendingStatus);
+            return;
+        }
+        if (mRequestOff != null
+                && StatusCode.FORWARD_CODE.equals(mRequestOff.getStatus())
+                && mRequestOff.isCanApproveReject()) {
+            mRequestOff.setStatus(StatusCode.PENDING_CODE);
+            notifyPropertyChanged(BR.pendingStatus);
+        }
     }
 }

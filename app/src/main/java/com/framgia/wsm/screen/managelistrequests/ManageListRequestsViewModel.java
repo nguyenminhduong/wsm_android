@@ -239,15 +239,15 @@ public class ManageListRequestsViewModel extends BaseObservable
         switch (requestType) {
             case RequestType.REQUEST_LATE_EARLY:
                 mManageListRequestsAdapter.updateItem(requestType, itemPosition,
-                        actionRequestResponse.getStatus());
+                        actionRequestResponse);
                 break;
             case RequestType.REQUEST_OFF:
                 mManageListRequestsAdapter.updateItem(requestType, itemPosition,
-                        actionRequestResponse.getStatus());
+                        actionRequestResponse);
                 break;
             case RequestType.REQUEST_OVERTIME:
                 mManageListRequestsAdapter.updateItem(requestType, itemPosition,
-                        actionRequestResponse.getStatus());
+                        actionRequestResponse);
                 break;
             default:
                 break;
