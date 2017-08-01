@@ -3,6 +3,7 @@ package com.framgia.wsm.data.source.remote;
 import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffType;
 import com.framgia.wsm.data.model.OffTypeDay;
+import com.framgia.wsm.data.model.Setting;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.UserDataSource;
 import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
@@ -14,6 +15,7 @@ import com.framgia.wsm.data.source.remote.api.service.WSMApi;
 import com.framgia.wsm.utils.RetrofitUtils;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import java.util.HashMap;
@@ -124,5 +126,10 @@ public class UserRemoteDataSource extends BaseRemoteDataSource
     @Override
     public Observable<Object> changePassword(ChangePasswordRequest changePasswordRequest) {
         return mWSMApi.changePassword(changePasswordRequest);
+    }
+
+    @Override
+    public Single<BaseResponse<Setting>> getSetting() {
+        return mWSMApi.getSetting();
     }
 }

@@ -94,6 +94,8 @@ public class User extends BaseModel implements Parcelable {
     @SerializedName("is_manager")
     private boolean mIsManage;
 
+    private Setting mSetting;
+
     public User() {
     }
 
@@ -118,6 +120,7 @@ public class User extends BaseModel implements Parcelable {
         mTypesInsurance = in.createTypedArrayList(OffType.CREATOR);
         mId = in.readInt();
         mIsManage = in.readByte() != 0;
+        mSetting = in.readParcelable(Setting.class.getClassLoader());
     }
 
     @Override
@@ -142,6 +145,7 @@ public class User extends BaseModel implements Parcelable {
         dest.writeTypedList(mTypesInsurance);
         dest.writeInt(mId);
         dest.writeByte((byte) (mIsManage ? 1 : 0));
+        dest.writeParcelable(mSetting, flags);
     }
 
     @Override
@@ -312,5 +316,13 @@ public class User extends BaseModel implements Parcelable {
 
     public boolean isFullTime() {
         return StringUtils.isNotBlank(mNameStaffType) && mNameStaffType.equals(STAFF_FULL_TIME);
+    }
+
+    public Setting getSetting() {
+        return mSetting;
+    }
+
+    public void setSetting(Setting setting) {
+        mSetting = setting;
     }
 }

@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.util.Log;
 import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffType;
+import com.framgia.wsm.data.model.Setting;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.TokenRepository;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.common.DateTimeUtils;
@@ -17,6 +19,7 @@ import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -146,12 +149,23 @@ final class LoginPresenter implements LoginContract.Presenter {
                     }
                 })
                 .toList()
-                .toObservable()
-                .flatMap(new Function<List<OffType>, ObservableSource<List<LeaveType>>>() {
+                .flatMap(new Function<List<OffType>, Single<BaseResponse<Setting>>>() {
+
                     @Override
-                    public ObservableSource<List<LeaveType>> apply(List<OffType> offTypes)
+                    public Single<BaseResponse<Setting>> apply(@NonNull List<OffType> offTypes)
                             throws Exception {
                         mUser.setTypesInsurance(offTypes);
+                        return mUserRepository.getSetting();
+                    }
+                })
+                .toObservable()
+                .flatMap(new Function<BaseResponse<Setting>, ObservableSource<List<LeaveType>>>() {
+                    @Override
+                    public ObservableSource<List<LeaveType>> apply(
+                            @NonNull BaseResponse<Setting> settingBaseResponse) throws Exception {
+                        if (settingBaseResponse.getData() != null) {
+                            mUser.setSetting(settingBaseResponse.getData());
+                        }
                         return mUserRepository.getListLeaveType();
                     }
                 })

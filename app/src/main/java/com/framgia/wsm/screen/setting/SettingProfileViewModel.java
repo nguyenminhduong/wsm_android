@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.R;
-import com.framgia.wsm.data.model.Setting;
+import com.framgia.wsm.data.model.Branch;
+import com.framgia.wsm.data.model.Group;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.MaterialDialog;
+import java.util.List;
 
 /**
  * Created by ths on 03/07/2017.
@@ -30,16 +32,17 @@ public class SettingProfileViewModel extends BaseObservable
     private String mCurrentBranch;
     private int mCurrentGroupPosition;
     private int mCurrentBranchPosition;
-    private Setting mSetting;
+    private boolean mNotificationAll;
+    private boolean mEmailAll;
 
     SettingProfileViewModel(Context context, SettingProfileContract.Presenter presenter,
             DialogManager dialogManager) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
+        mUser = new User();
         mPresenter.getUser();
         mDialogManager = dialogManager;
-        mSetting = new Setting();
     }
 
     @Override
@@ -59,10 +62,54 @@ public class SettingProfileViewModel extends BaseObservable
 
     @Override
     public void onGetUserSuccess(User user) {
-        if (user == null) {
+        if (user.getSetting() == null) {
             return;
         }
+        setUser(user);
+        mCurrentBranchPosition = searchCurrentPositionWorkspace(mUser.getBranches(),
+                mUser.getSetting().getWorkspaceDefault());
+        mCurrentGroupPosition =
+                searchCurrentPositionGroup(mUser.getGroups(), mUser.getSetting().getGroupDefault());
+        setNotificationAll(
+                mUser.getSetting().getNotificationSetting().isWorkspace() && mUser.getSetting()
+                        .getNotificationSetting()
+                        .isUserSpecialType() && mUser.getSetting()
+                        .getNotificationSetting()
+                        .isGroup());
+        setEmailAll(mUser.getSetting().getEmailSetting().isWorkspace() && mUser.getSetting()
+                .getEmailSetting()
+                .isUserSpecialType() && mUser.getSetting().getEmailSetting().isGroup());
+    }
+
+    private int searchCurrentPositionGroup(List<Group> groupList, int currentPositionGroup) {
+        for (int i = 0; i < groupList.size(); i++) {
+            if (groupList.get(i).getGroupId() == currentPositionGroup) {
+                setCurrentGroup(groupList.get(i).getGroupName());
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    private int searchCurrentPositionWorkspace(List<Branch> branchList,
+            int currentPositionWorkspace) {
+        for (int i = 0; i < branchList.size(); i++) {
+            if (branchList.get(i).getBranchId() == currentPositionWorkspace) {
+                setCurrentBranch(branchList.get(i).getBranchName());
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    @Bindable
+    public User getUser() {
+        return mUser;
+    }
+
+    public void setUser(User user) {
         mUser = user;
+        notifyPropertyChanged(BR.user);
     }
 
     @Bindable
@@ -86,8 +133,23 @@ public class SettingProfileViewModel extends BaseObservable
     }
 
     @Bindable
-    public Setting getSetting() {
-        return mSetting;
+    public boolean isNotificationAll() {
+        return mNotificationAll;
+    }
+
+    private void setNotificationAll(boolean notificationAll) {
+        mNotificationAll = notificationAll;
+        notifyPropertyChanged(BR.notificationAll);
+    }
+
+    @Bindable
+    public boolean isEmailAll() {
+        return mEmailAll;
+    }
+
+    private void setEmailAll(boolean emailAll) {
+        mEmailAll = emailAll;
+        notifyPropertyChanged(BR.emailAll);
     }
 
     public void onClickGroup() {
@@ -131,56 +193,93 @@ public class SettingProfileViewModel extends BaseObservable
     }
 
     public void onNotifiAllClicked() {
-        mSetting.setNotifiGroup(mSetting.isNotifiAll());
-        mSetting.setNotifiList(mSetting.isNotifiAll());
-        mSetting.setNotifiWorkspace(mSetting.isNotifiAll());
-        notifyPropertyChanged(BR.setting);
+        mUser.getSetting().getNotificationSetting().setWorkspace(!isNotificationAll());
+        mUser.getSetting().getNotificationSetting().setUserSpecialType(!isNotificationAll());
+        mUser.getSetting().getNotificationSetting().setGroup(!isNotificationAll());
+        setNotificationAll(!isNotificationAll());
+        notifyPropertyChanged(BR.user);
     }
 
     public void onEmailAllClicked() {
-        mSetting.setEmailGroup(mSetting.isEmailAll());
-        mSetting.setEmailList(mSetting.isEmailAll());
-        mSetting.setEmailWorkspace(mSetting.isEmailAll());
-        notifyPropertyChanged(BR.setting);
+        mUser.getSetting().getEmailSetting().setGroup(!isEmailAll());
+        mUser.getSetting().getEmailSetting().setUserSpecialType(!isEmailAll());
+        mUser.getSetting().getEmailSetting().setWorkspace(!isEmailAll());
+        setEmailAll(!isEmailAll());
+        notifyPropertyChanged(BR.user);
     }
 
-    public void onNotifiListClicked() {
-        mSetting.setNotifiAll((mSetting.isNotifiWorkspace()
-                && mSetting.isNotifiGroup()
-                && mSetting.isNotifiList()));
-        notifyPropertyChanged(BR.setting);
+    public void onNotifiUserClicked() {
+        mUser.getSetting()
+                .getNotificationSetting()
+                .setUserSpecialType(
+                        mUser.getSetting().getNotificationSetting().isUserSpecialType());
+        setNotificationAll(
+                mUser.getSetting().getNotificationSetting().isWorkspace() && mUser.getSetting()
+                        .getNotificationSetting()
+                        .isUserSpecialType() && mUser.getSetting()
+                        .getNotificationSetting()
+                        .isGroup());
+        notifyPropertyChanged(BR.user);
     }
 
-    public void onEmailListClicked() {
-        mSetting.setEmailAll(
-                (mSetting.isEmailGroup() && mSetting.isEmailList() && mSetting.isEmailWorkspace()));
-        notifyPropertyChanged(BR.setting);
+    public void onEmailUserClicked() {
+        mUser.getSetting()
+                .getEmailSetting()
+                .setUserSpecialType(mUser.getSetting().getEmailSetting().isUserSpecialType());
+        setEmailAll(mUser.getSetting().getEmailSetting().isWorkspace() && mUser.getSetting()
+                .getEmailSetting()
+                .isUserSpecialType() && mUser.getSetting().getEmailSetting().isGroup());
+        notifyPropertyChanged(BR.user);
     }
 
     public void onNotifiGroupClicked() {
-        mSetting.setNotifiAll((mSetting.isNotifiWorkspace()
-                && mSetting.isNotifiGroup()
-                && mSetting.isNotifiList()));
-        notifyPropertyChanged(BR.setting);
+        mUser.getSetting()
+                .getNotificationSetting()
+                .setGroup(mUser.getSetting().getNotificationSetting().isGroup());
+        setNotificationAll(
+                mUser.getSetting().getNotificationSetting().isWorkspace() && mUser.getSetting()
+                        .getNotificationSetting()
+                        .isUserSpecialType() && mUser.getSetting()
+                        .getNotificationSetting()
+                        .isGroup());
+        notifyPropertyChanged(BR.user);
     }
 
     public void onEmailGroupClicked() {
-        mSetting.setEmailAll(
-                (mSetting.isEmailGroup() && mSetting.isEmailList() && mSetting.isEmailWorkspace()));
-        notifyPropertyChanged(BR.setting);
+        mUser.getSetting()
+                .getEmailSetting()
+                .setGroup(mUser.getSetting().getEmailSetting().isGroup());
+        setEmailAll(mUser.getSetting().getEmailSetting().isWorkspace() && mUser.getSetting()
+                .getEmailSetting()
+                .isUserSpecialType() && mUser.getSetting().getEmailSetting().isGroup());
+        notifyPropertyChanged(BR.user);
     }
 
     public void onNotifiWorkspaceClicked() {
-        mSetting.setNotifiAll((mSetting.isNotifiWorkspace()
-                && mSetting.isNotifiGroup()
-                && mSetting.isNotifiList()));
-        notifyPropertyChanged(BR.setting);
+        mUser.getSetting()
+                .getNotificationSetting()
+                .setWorkspace(mUser.getSetting().getNotificationSetting().isWorkspace());
+        setNotificationAll(
+                mUser.getSetting().getNotificationSetting().isWorkspace() && mUser.getSetting()
+                        .getNotificationSetting()
+                        .isUserSpecialType() && mUser.getSetting()
+                        .getNotificationSetting()
+                        .isGroup());
+        notifyPropertyChanged(BR.user);
     }
 
     public void onEmailWorkspaceClicked() {
-        mSetting.setEmailAll(
-                (mSetting.isEmailGroup() && mSetting.isEmailList() && mSetting.isEmailWorkspace()));
-        notifyPropertyChanged(BR.setting);
+        mUser.getSetting()
+                .getEmailSetting()
+                .setWorkspace(mUser.getSetting().getEmailSetting().isWorkspace());
+        setEmailAll(mUser.getSetting().getEmailSetting().isWorkspace() && mUser.getSetting()
+                .getEmailSetting()
+                .isUserSpecialType() && mUser.getSetting().getEmailSetting().isGroup());
+        notifyPropertyChanged(BR.user);
+    }
+
+    public void onUpdateClicked() {
+        //TODO edit later
     }
 
     private boolean isNoneGroup() {
