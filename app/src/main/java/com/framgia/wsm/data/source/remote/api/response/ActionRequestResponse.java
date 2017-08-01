@@ -12,6 +12,9 @@ public class ActionRequestResponse extends BaseModel {
     @Expose
     @SerializedName("status")
     private String mStatus;
+    @Expose
+    @SerializedName("can_approve_request")
+    private boolean mIsCanApproveReject;
 
     public String getStatus() {
         return mStatus;
@@ -19,5 +22,13 @@ public class ActionRequestResponse extends BaseModel {
 
     public void setStatus(String status) {
         mStatus = status;
+    }
+
+    public boolean isCanApproveReject() {
+        return mIsCanApproveReject;
+    }
+
+    public void setCanApproveReject(boolean canApproveReject) {
+        mIsCanApproveReject = canApproveReject;
     }
 }

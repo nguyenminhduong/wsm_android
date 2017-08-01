@@ -16,6 +16,7 @@ import com.framgia.wsm.widget.dialog.DialogManager;
 import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
 import dagger.Provides;
+import javax.inject.Named;
 
 /**
  * This is a Dagger module. We use this to pass in the View dependency to
@@ -33,7 +34,8 @@ public class ListRequestModule {
     @FragmentScope
     @Provides
     public ListRequestContract.ViewModel provideViewModel(Context context,
-            ListRequestContract.Presenter presenter, DialogManager dialogManager,
+            ListRequestContract.Presenter presenter,
+            @Named("ListRequest") DialogManager dialogManager,
             ListRequestAdapter listRequestAdapter, Navigator navigator) {
         ListRequestViewModel viewModel =
                 new ListRequestViewModel(context, presenter, dialogManager, listRequestAdapter,
@@ -47,6 +49,13 @@ public class ListRequestModule {
     public ListRequestContract.Presenter providePresenter(RequestRepository requestRepository,
             UserRepository userRepository, BaseSchedulerProvider baseSchedulerProvider) {
         return new ListRequestPresenter(requestRepository, userRepository, baseSchedulerProvider);
+    }
+
+    @FragmentScope
+    @Provides
+    @Named("ListRequest")
+    public DialogManager provideDialogManager() {
+        return new DialogManagerImpl(mFragment.getActivity());
     }
 
     @FragmentScope

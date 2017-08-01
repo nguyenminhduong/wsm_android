@@ -10,6 +10,7 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
+import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.databinding.ItemManageListRequestBinding;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.utils.RequestType;
@@ -96,18 +97,24 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
         }
     }
 
-    void updateItem(int requestType, int position, String status) {
+    void updateItem(int requestType, int position, ActionRequestResponse actionRequestResponse) {
         switch (requestType) {
             case RequestType.REQUEST_LATE_EARLY:
-                mRequestsLeaves.get(position).setStatus(status);
+                mRequestsLeaves.get(position).setStatus(actionRequestResponse.getStatus());
+                mRequestsLeaves.get(position)
+                        .setCanApproveReject(actionRequestResponse.isCanApproveReject());
                 notifyItemChanged(position, mRequestsLeaves);
                 break;
             case RequestType.REQUEST_OFF:
-                mRequestsOffs.get(position).setStatus(status);
+                mRequestsOffs.get(position).setStatus(actionRequestResponse.getStatus());
+                mRequestsOffs.get(position)
+                        .setCanApproveReject(actionRequestResponse.isCanApproveReject());
                 notifyItemChanged(position, mRequestsOffs);
                 break;
             case RequestType.REQUEST_OVERTIME:
-                mRequestOverTimes.get(position).setStatus(status);
+                mRequestOverTimes.get(position).setStatus(actionRequestResponse.getStatus());
+                mRequestOverTimes.get(position)
+                        .setCanApproveReject(actionRequestResponse.isCanApproveReject());
                 notifyItemChanged(position, mRequestOverTimes);
                 break;
             default:
