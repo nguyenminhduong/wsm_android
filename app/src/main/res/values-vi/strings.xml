@@ -235,11 +235,11 @@
     <string name="saturday_sunday">Thứ bảy/Chủ nhật</string>
     <string name="your_notification">Thông báo của bạn</string>
 
-    <string name="total_day_off">Tổng số ngày nghỉ</string>
-    <string name="number_day_off_have_salary">Số ngày nghỉ có lương</string>
-    <string name="number_day_off_no_salary">Số ngày nghỉ không lương</string>
-    <string name="number_over_time">Tổng thời gian làm thêm</string>
-    <string name="total_fining">Tổng số lần phạt</string>
+    <string name="total_of_days_off">Tổng số ngày nghỉ</string>
+    <string name="total_of_paid_leave_of_absence">Tổng ngày nghỉ có lương</string>
+    <string name="total_of_unpaid_leave_of_absence">Tổng ngày nghỉ không lương</string>
+    <string name="total_of_overtime">Tổng thời gian làm thêm</string>
+    <string name="total_of_times_for_fining">Tổng số lần phạt</string>
     <string name="summary">Tổng kết</string>
     <string name="handler">Người xử lý :</string>
     <string name="wo_il_le_lo_enough_compensation_time">WO/IL/LE/LO và làm bù đủ</string>

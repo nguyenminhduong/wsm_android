@@ -249,11 +249,11 @@
     <string name="saturday_sunday">Saturday/sunday</string>
     <string name="your_notification">Your notification</string>
 
-    <string name="total_day_off">Total Day Off</string>
-    <string name="number_day_off_have_salary">Number Day Off Have Salary</string>
-    <string name="number_day_off_no_salary">Number Day Off No Salary</string>
-    <string name="number_over_time">Number Over Time</string>
-    <string name="total_fining">Total Fining</string>
+    <string name="total_of_days_off">Total of days off</string>
+    <string name="total_of_paid_leave_of_absence">Total of paid leave of absence</string>
+    <string name="total_of_unpaid_leave_of_absence">Total of unpaid leave of absence</string>
+    <string name="total_of_overtime">Total of overtime</string>
+    <string name="total_of_times_for_fining">Total of times for fining</string>
     <string name="summary">Summary</string>
     <string name="handler">Handler :</string>
     <string name="wo_il_le_lo_enough_compensation_time">WO/IL/LE/LO and enough compensation time</string>

@@ -260,7 +260,6 @@
                                     android:layout_height="match_parent"
                                     android:orientation="vertical"
                                     >
-
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -269,8 +268,8 @@
                                         <com.framgia.wsm.widget.CircleView
                                             android:layout_width="@dimen/dp_20"
                                             android:layout_height="@dimen/dp_20"
+                                            android:layout_marginTop="@dimen/dp_2"
                                             app:circleColor="@{color.colorGreen1}"
-                                            bind:ignore="TooDeepLayout"
                                             />
                                         <LinearLayout
                                             android:layout_width="match_parent"
@@ -281,17 +280,18 @@
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:text="@string/total_day_off"
+                                                android:layout_marginTop="@dimen/dp_1"
+                                                android:text="@string/total_of_times_for_fining"
                                                 android:textColor="@color/color_gray_cod"
-                                                android:textSize="@dimen/sp_16"
+                                                android:textSize="@dimen/sp_15"
                                                 />
                                             <TextView
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:gravity="end"
-                                                android:text="@{viewModel.totalDayOff}"
+                                                android:text="@{viewModel.totalFining}"
                                                 android:textColor="@color/colorPrimary"
-                                                android:textSize="@dimen/sp_16"
+                                                android:textSize="@dimen/sp_15"
                                                 style="@style/StyleTextProfile"
                                                 />
                                         </LinearLayout>
@@ -300,7 +300,9 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/dp_15"
+                                        android:gravity="center_vertical"
                                         android:orientation="horizontal"
+                                        android:visibility="@{viewModel.employeeFullTime? View.VISIBLE : View.GONE}"
                                         >
                                         <com.framgia.wsm.widget.CircleView
                                             android:layout_width="@dimen/dp_20"
@@ -315,18 +317,19 @@
                                             >
                                             <TextView
                                                 android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:text="@string/total_fining"
+                                                android:layout_height="match_parent"
+                                                android:layout_marginTop="@dimen/dp_1"
+                                                android:text="@string/total_of_paid_leave_of_absence"
                                                 android:textColor="@color/color_gray_cod"
-                                                android:textSize="@dimen/sp_16"
+                                                android:textSize="@dimen/sp_15"
                                                 />
                                             <TextView
                                                 android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="match_parent"
                                                 android:gravity="end"
-                                                android:text="@{viewModel.totalFining}"
+                                                android:text="@{viewModel.numberDayOffHaveSalary}"
                                                 android:textColor="@color/colorPrimary"
-                                                android:textSize="@dimen/sp_16"
+                                                android:textSize="@dimen/sp_15"
                                                 style="@style/StyleTextProfile"
                                                 />
                                         </LinearLayout>
@@ -337,6 +340,7 @@
                                         android:layout_marginTop="@dimen/dp_15"
                                         android:gravity="center_vertical"
                                         android:orientation="horizontal"
+                                        android:visibility="@{viewModel.employeeFullTime? View.VISIBLE : View.GONE}"
                                         >
                                         <com.framgia.wsm.widget.CircleView
                                             android:layout_width="@dimen/dp_20"
@@ -351,18 +355,19 @@
                                             >
                                             <TextView
                                                 android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:text="@string/number_day_off_have_salary"
+                                                android:layout_height="match_parent"
+                                                android:layout_marginTop="@dimen/dp_1"
+                                                android:text="@string/total_of_unpaid_leave_of_absence"
                                                 android:textColor="@color/color_gray_cod"
-                                                android:textSize="@dimen/sp_16"
+                                                android:textSize="@dimen/sp_15"
                                                 />
                                             <TextView
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:gravity="end"
-                                                android:text="@{viewModel.numberDayOffHaveSalary}"
+                                                android:text="@{viewModel.numberDayOffNoSalary}"
                                                 android:textColor="@color/colorPrimary"
-                                                android:textSize="@dimen/sp_16"
+                                                android:textSize="@dimen/sp_15"
                                                 style="@style/StyleTextProfile"
                                                 />
                                         </LinearLayout>
@@ -371,13 +376,13 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/dp_15"
-                                        android:gravity="center_vertical"
                                         android:orientation="horizontal"
                                         >
                                         <com.framgia.wsm.widget.CircleView
                                             android:layout_width="@dimen/dp_20"
                                             android:layout_height="@dimen/dp_20"
                                             app:circleColor="@{color.colorGreen4}"
+                                            bind:ignore="TooDeepLayout"
                                             />
                                         <LinearLayout
                                             android:layout_width="match_parent"
@@ -387,18 +392,19 @@
                                             >
                                             <TextView
                                                 android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:text="@string/number_day_off_no_salary"
+                                                android:layout_height="match_parent"
+                                                android:layout_marginTop="@dimen/dp_1"
+                                                android:text="@string/total_of_days_off"
                                                 android:textColor="@color/color_gray_cod"
-                                                android:textSize="@dimen/sp_16"
+                                                android:textSize="@dimen/sp_15"
                                                 />
                                             <TextView
                                                 android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="match_parent"
                                                 android:gravity="end"
-                                                android:text="@{viewModel.numberDayOffNoSalary}"
+                                                android:text="@{viewModel.totalDayOff}"
                                                 android:textColor="@color/colorPrimary"
-                                                android:textSize="@dimen/sp_16"
+                                                android:textSize="@dimen/sp_15"
                                                 style="@style/StyleTextProfile"
                                                 />
                                         </LinearLayout>
@@ -423,10 +429,11 @@
                                             >
                                             <TextView
                                                 android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:text="@string/number_over_time"
+                                                android:layout_height="match_parent"
+                                                android:layout_marginTop="@dimen/dp_1"
+                                                android:text="@string/total_of_overtime"
                                                 android:textColor="@color/color_gray_cod"
-                                                android:textSize="@dimen/sp_16"
+                                                android:textSize="@dimen/sp_15"
                                                 />
                                             <TextView
                                                 android:layout_width="match_parent"
@@ -434,7 +441,7 @@
                                                 android:gravity="end"
                                                 android:text="@{viewModel.numberOverTime}"
                                                 android:textColor="@color/colorPrimary"
-                                                android:textSize="@dimen/sp_16"
+                                                android:textSize="@dimen/sp_15"
                                                 style="@style/StyleTextProfile"
                                                 />
                                         </LinearLayout>
@@ -494,6 +501,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{viewModel::onClickRequestOff}"
                     android:src="@drawable/fab_add"
+                    android:visibility="@{viewModel.employeeFullTime? View.INVISIBLE : View.GONE}"
                     app:fab_colorNormal="@color/color_red_fresh"
                     app:fab_colorPressed="@color/color_red_firebrick"
                     app:fab_colorRipple="@color/color_dark_gray"
@@ -538,6 +546,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_ro"
+                    android:visibility="@{viewModel.employeeFullTime? View.INVISIBLE : View.GONE}"
                     app:fab_colorNormal="@color/color_white"
                     app:fab_colorPressed="@color/color_dark_gray"
                     app:fab_colorRipple="@color/color_gray"
@@ -548,6 +557,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_ro"
+                    android:visibility="@{viewModel.employeeFullTime? View.INVISIBLE : View.GONE}"
                     app:fab_colorNormal="@color/color_white"
                     app:fab_colorPressed="@color/color_dark_gray"
                     app:fab_colorRipple="@color/color_gray"

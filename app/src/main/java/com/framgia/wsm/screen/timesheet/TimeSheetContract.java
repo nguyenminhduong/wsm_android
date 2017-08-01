@@ -1,5 +1,6 @@
 package com.framgia.wsm.screen.timesheet;
 
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.model.UserTimeSheet;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BasePresenter;
@@ -16,6 +17,10 @@ interface TimeSheetContract {
         void onGetTimeSheetError(BaseException throwable);
 
         void onGetTimeSheetSuccess(UserTimeSheet userTimeSheet);
+
+        void onGetUserSuccess(User user);
+
+        void onGetUserError(BaseException error);
     }
 
     /**
@@ -23,5 +28,7 @@ interface TimeSheetContract {
      */
     interface Presenter extends BasePresenter<ViewModel> {
         void getTimeSheet(int month, int year);
+
+        void getUser();
     }
 }
