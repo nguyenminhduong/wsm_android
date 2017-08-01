@@ -182,14 +182,20 @@
                                 </LinearLayout>
                             </TableRow>
 
-                            <TableRow
-                                android:gravity="center_vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                >
                                 <ImageView
+                                    android:layout_gravity="center"
                                     app:srcCompat="@drawable/ic_group"
                                     tools:ignore="ContentDescription"
                                     style="@style/StyleIconConfirm"
                                     />
                                 <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:layout_marginLeft="@dimen/dp_20"
                                     android:layout_marginStart="@dimen/dp_20"
                                     android:orientation="vertical"
@@ -199,16 +205,12 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:ellipsize="end"
-                                        android:maxLines="1"
                                         android:text="@{viewModel.request.companyName}"
                                         android:visibility="@{viewModel.visibleGroup ? View.GONE : View.VISIBLE}"
                                         style="@style/StyleTextConfirm"
                                         />
                                     <TextView
-                                        android:ellipsize="end"
-                                        android:maxLines="1"
-                                        android:text="@{viewModel.request.group.groupName}"
+                                        android:text="@{viewModel.request.group.fullName}"
                                         android:visibility="@{viewModel.visibleGroup ? View.VISIBLE : View.GONE}"
                                         style="@style/StyleTextConfirm"
                                         />
@@ -220,7 +222,7 @@
                                         android:background="@color/colorPrimary"
                                         />
                                 </LinearLayout>
-                            </TableRow>
+                            </LinearLayout>
 
                             <TableRow
                                 android:gravity="center_vertical">
@@ -412,16 +414,22 @@
                                         />
                                 </LinearLayout>
                             </TableRow>
-                            <TableRow
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
+                                android:orientation="horizontal"
                                 android:visibility="@{viewModel.detail ? View.VISIBLE : View.GONE}"
                                 >
                                 <ImageView
+                                    android:layout_gravity="center"
                                     app:srcCompat="@drawable/ic_reason"
                                     tools:ignore="ContentDescription"
                                     style="@style/StyleIconConfirm"
                                     />
                                 <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:layout_marginLeft="@dimen/dp_20"
                                     android:layout_marginStart="@dimen/dp_20"
                                     android:orientation="vertical"
@@ -431,8 +439,6 @@
                                         style="@style/StyleTitleConfirm"
                                         />
                                     <TextView
-                                        android:ellipsize="end"
-                                        android:maxLines="1"
                                         android:text="@{viewModel.request.beingHandledBy}"
                                         style="@style/StyleTextConfirm"
                                         />
@@ -444,7 +450,7 @@
                                         android:background="@color/colorPrimary"
                                         />
                                 </LinearLayout>
-                            </TableRow>
+                            </LinearLayout>
                         </TableLayout>
 
                         <TableLayout
@@ -568,7 +574,7 @@
                                         />
                                     <TextView
                                         android:ellipsize="end"
-                                        android:maxLines="1"
+                                        android:maxLines="4"
                                         android:text="@{viewModel.request.reason}"
                                         style="@style/StyleTextConfirm"
                                         />

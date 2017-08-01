@@ -284,7 +284,7 @@ public class RequestOvertimeViewModel extends BaseObservable
         }
         String[] groups = new String[mUser.getGroups().size()];
         for (int i = 0; i < groups.length; i++) {
-            groups[i] = mUser.getGroups().get(i).getGroupName();
+            groups[i] = mUser.getGroups().get(i).getFullName();
         }
         mDialogManager.dialogListSingleChoice(mContext.getString(R.string.group), groups,
                 mCurrentGroupPosition, new MaterialDialog.ListCallbackSingleChoice() {
@@ -352,8 +352,8 @@ public class RequestOvertimeViewModel extends BaseObservable
             return;
         }
         for (int i = 0; i < user.getGroups().size(); i++) {
-            String groupName = user.getGroups().get(i).getGroupName();
-            if (groupName.equals(mRequestOverTime.getGroup().getGroupName())) {
+            String groupName = user.getGroups().get(i).getFullName();
+            if (groupName.equals(mRequestOverTime.getGroup().getFullName())) {
                 mCurrentGroupPosition = i;
                 mRequestOverTime.setGroupId(user.getGroups().get(i).getGroupId());
             }

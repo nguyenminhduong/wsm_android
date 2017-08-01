@@ -241,7 +241,6 @@
                                 />
                         </LinearLayout>
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -249,6 +248,7 @@
                         android:orientation="horizontal"
                         >
                         <ImageView
+                            android:layout_gravity="center"
                             app:srcCompat="@drawable/ic_group"
                             tools:ignore="ContentDescription"
                             style="@style/StyleIconConfirm"
@@ -265,9 +265,7 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:text="@{viewModel.requestOff.group.groupName}"
+                                android:text="@{viewModel.requestOff.group.fullName}"
                                 style="@style/StyleTextConfirm"
                                 />
                             <View
@@ -366,8 +364,6 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
-                                android:ellipsize="end"
-                                android:maxLines="1"
                                 android:text="@{viewModel.requestOff.beingHandledBy}"
                                 style="@style/StyleTextConfirm"
                                 />

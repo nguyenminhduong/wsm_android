@@ -15,7 +15,7 @@ public class ItemGroupViewModel {
 
     public String getGroupName() {
         if (mGroup != null) {
-            return mGroup.getGroupName();
+            return mGroup.getFullName();
         }
         return "";
     }

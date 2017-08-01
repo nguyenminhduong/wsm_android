@@ -129,7 +129,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             mActionType = ActionType.ACTION_EDIT;
             mCurrentLeaveTypeName = mRequest.getLeaveType().getName();
             setLayoutLeaveType(mCurrentLeaveType);
-            mRequest.setCompanyName(mRequest.getGroup().getGroupName());
+            mRequest.setCompanyName(mRequest.getGroup().getFullName());
         }
     }
 
@@ -405,7 +405,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         }
         String[] groups = new String[mUser.getGroups().size()];
         for (int i = 0; i < groups.length; i++) {
-            groups[i] = mUser.getGroups().get(i).getGroupName();
+            groups[i] = mUser.getGroups().get(i).getFullName();
         }
         mDialogManager.dialogListSingleChoice(mContext.getString(R.string.group), groups,
                 mCurrentGroupPosition, new MaterialDialog.ListCallbackSingleChoice() {
@@ -1117,7 +1117,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     public void setCurrentGroup() {
-        mCurrentGroup = mUser.getGroups().get(mCurrentGroupPosition).getGroupName();
+        mCurrentGroup = mUser.getGroups().get(mCurrentGroupPosition).getFullName();
         mRequest.setGroupId(mUser.getGroups().get(mCurrentGroupPosition).getGroupId());
         mRequest.setCompanyName(mCurrentGroup);
         notifyPropertyChanged(BR.currentGroup);

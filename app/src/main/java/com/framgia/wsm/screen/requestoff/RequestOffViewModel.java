@@ -1212,8 +1212,8 @@ public class RequestOffViewModel extends BaseRequestOff
             return;
         }
         for (int i = 0; i < user.getGroups().size(); i++) {
-            String groupName = user.getGroups().get(i).getGroupName();
-            if (groupName.equals(mRequestOff.getGroup().getGroupName())) {
+            String groupName = user.getGroups().get(i).getFullName();
+            if (groupName.equals(mRequestOff.getGroup().getFullName())) {
                 mCurrentGroupPosition = i;
                 mRequestOff.setGroupId(user.getGroups().get(i).getGroupId());
             }
@@ -1246,7 +1246,7 @@ public class RequestOffViewModel extends BaseRequestOff
         }
         String[] groups = new String[mUser.getGroups().size()];
         for (int i = 0; i < groups.length; i++) {
-            groups[i] = mUser.getGroups().get(i).getGroupName();
+            groups[i] = mUser.getGroups().get(i).getFullName();
         }
         mDialogManager.dialogListSingleChoice(mContext.getString(R.string.group), groups,
                 mCurrentGroupPosition, new MaterialDialog.ListCallbackSingleChoice() {

@@ -158,7 +158,7 @@ public class SettingProfileViewModel extends BaseObservable
         }
         final String[] groupNames = new String[mUser.getGroups().size()];
         for (int i = 0; i < groupNames.length; i++) {
-            groupNames[i] = mUser.getGroups().get(i).getGroupName();
+            groupNames[i] = mUser.getGroups().get(i).getFullName();
         }
         mDialogManager.dialogListSingleChoice(mContext.getString(R.string.group), groupNames,
                 mCurrentGroupPosition, new MaterialDialog.ListCallbackSingleChoice() {
