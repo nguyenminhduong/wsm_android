@@ -8,34 +8,27 @@ import android.support.v7.widget.RecyclerView;
  */
 
 public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListener {
-    private int mPreviousTotal = 0;
-    private boolean mLoading = true;
-    private LinearLayoutManager mLinearLayoutManager;
+    private final LinearLayoutManager mLayoutManager;
 
-    protected EndlessRecyclerOnScrollListener(LinearLayoutManager linearLayoutManager) {
-        this.mLinearLayoutManager = linearLayoutManager;
+    protected EndlessRecyclerOnScrollListener(LinearLayoutManager layoutManager) {
+        this.mLayoutManager = layoutManager;
     }
+
+    protected abstract void onLoadMore();
 
     @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        super.onScrolled(recyclerView, dx, dy);
+    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        super.onScrollStateChanged(recyclerView, newState);
+        int threshold = 5;
+        int visibleItemCount = mLayoutManager.getChildCount();
+        int totalItemCount = mLayoutManager.getItemCount();
+        int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
 
-        int visibleItemCount = recyclerView.getChildCount();
-        int totalItemCount = mLinearLayoutManager.getItemCount();
-        int firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
-        if (mLoading && totalItemCount > mPreviousTotal) {
-            mLoading = false;
-            mPreviousTotal = totalItemCount;
-        }
-        int visibleThreshold = 5;
-        if (!mLoading && (totalItemCount - visibleItemCount) <= (firstVisibleItem
-                + visibleThreshold)) {
+        if (newState == RecyclerView.SCROLL_STATE_IDLE
+                && visibleItemCount < totalItemCount
+                && firstVisibleItemPosition + visibleItemCount + threshold >= totalItemCount) {
             onLoadMore();
-
-            mLoading = true;
         }
     }
-
-    public abstract void onLoadMore();
 }
 

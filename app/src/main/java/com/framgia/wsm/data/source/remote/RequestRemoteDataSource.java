@@ -40,6 +40,7 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     private static final String PARAM_TO_TIME_REQUEST_LEAVE =
             "q[checkin_time_or_checkout_time_lteq]";
     private static final String PARAM_MONTH = "month";
+    private static final String PARAM_PAGE = "page";
 
     @Inject
     public RequestRemoteDataSource(WSMApi api) {
@@ -139,6 +140,7 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
         params.put(PARAM_STATUS, queryRequest.getStatus());
         params.put(PARAM_GROUP_ID, queryRequest.getGroupId());
         params.put(PARAM_WORKSPACE_ID, queryRequest.getWorkspaceId());
+        params.put(PARAM_PAGE, queryRequest.getPage());
         switch (queryRequest.getRequestType()) {
             case RequestType.REQUEST_LATE_EARLY:
                 params.put(PARAM_FROM_TIME_REQUEST_LEAVE, queryRequest.getFromTime());

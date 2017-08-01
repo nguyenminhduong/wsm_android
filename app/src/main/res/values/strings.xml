@@ -285,4 +285,6 @@
     <string name="just_now">just now</string>
     <string name="s">s</string>
     <string name="curen_day">Current Day</string>
+    <string name="end_time_can_not_greater_than_end_time">End time can not less than start time</string>
+
 </resources>
