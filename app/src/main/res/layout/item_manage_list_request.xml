@@ -95,15 +95,20 @@
                             android:textSize="@dimen/sp_17"
                             />
                     </LinearLayout>
-
-                    <FrameLayout
+                    <LinearLayout
+                        android:gravity="center"
                         android:id="@+id/framme_layout_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginRight="@dimen/dp_5"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        >
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="@dimen/dp_3"
                         >
@@ -144,6 +149,13 @@
                             android:visibility="@{viewModel.forwardStatus ? View.VISIBLE : View.GONE}"
                             />
                     </FrameLayout>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{viewModel.visibleCheckbox ? View.VISIBLE : View.GONE}"
+                        />
+                    </LinearLayout>
                 </RelativeLayout>
 
                 <View

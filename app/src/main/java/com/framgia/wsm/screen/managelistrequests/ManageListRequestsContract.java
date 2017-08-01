@@ -31,6 +31,10 @@ interface ManageListRequestsContract {
         void onShowIndeterminateProgressDialog();
 
         void onLoadMoreListRequest();
+
+        void showLayoutFooter();
+
+        void hideLayoutFooter();
     }
 
     /**
