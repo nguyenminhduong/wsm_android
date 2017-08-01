@@ -211,6 +211,27 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     }
 
     @Override
+    public void goNextFragmentListManageRequestOff() {
+        setCurrentPage(Page.MANAGE_OFF);
+        setCurrentItem(R.id.item_manage_off);
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.manage_request_off));
+    }
+
+    @Override
+    public void goNextFragmentListManageRequestOverTime() {
+        setCurrentPage(Page.MANAGE_OVERTIME);
+        setCurrentItem(R.id.item_manage_overtime);
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.manage_request_overtime));
+    }
+
+    @Override
+    public void goNextFragmentListManageRequestLeave() {
+        setCurrentPage(Page.MANAGE_COME_LATE_LEAVE_EARLY);
+        setCurrentItem(R.id.item_manage_come_late_leave_early);
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.manage_request_leave));
+    }
+
+    @Override
     public void goNextFragmentPersonalInformation() {
         setCurrentPage(Page.PERSONAL);
         setCurrentItem(R.id.item_personal);
@@ -263,17 +284,33 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     }
 
     @Override
-    public void handleClickNotification(String trackableType) {
+    public void handleClickNotification(String trackableType, int permissionType) {
         mPresenter.getNotification();
+        if (permissionType == NotificationViewModel.PermissionType.USER) {
+            switch (trackableType) {
+                case NotificationViewModel.TrackableType.REQUEST_LEAVE:
+                    goNextFragmentListRequestLeave();
+                    break;
+                case NotificationViewModel.TrackableType.REQUEST_OFF:
+                    goNextFragmentListRequestOff();
+                    break;
+                case NotificationViewModel.TrackableType.REQUEST_OT:
+                    goNextFragmentListRequestOverTime();
+                    break;
+                default:
+                    break;
+            }
+            return;
+        }
         switch (trackableType) {
             case NotificationViewModel.TrackableType.REQUEST_LEAVE:
-                goNextFragmentListRequestLeave();
+                goNextFragmentListManageRequestLeave();
                 break;
             case NotificationViewModel.TrackableType.REQUEST_OFF:
-                goNextFragmentListRequestOff();
+                goNextFragmentListManageRequestOff();
                 break;
             case NotificationViewModel.TrackableType.REQUEST_OT:
-                goNextFragmentListRequestOverTime();
+                goNextFragmentListManageRequestOverTime();
                 break;
             default:
                 break;
