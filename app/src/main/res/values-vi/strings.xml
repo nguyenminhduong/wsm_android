@@ -270,5 +270,6 @@
     <string name="ago">trước</string>
     <string name="just_now">vừa xong</string>
     <string name="s"/>
+    <string name="curen_day">Ngày hiện tại</string>
 
 </resources>

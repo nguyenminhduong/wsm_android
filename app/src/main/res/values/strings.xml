@@ -284,4 +284,5 @@
     <string name="ago">ago</string>
     <string name="just_now">just now</string>
     <string name="s">s</string>
+    <string name="curen_day">Current Day</string>
 </resources>
