@@ -5,6 +5,7 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
@@ -56,6 +57,7 @@ public class ListRequestViewModel extends BaseObservable
     @RequestType
     private int mRequestType;
     private QueryRequest mQueryRequest;
+    private boolean mIsLoading;
 
     ListRequestViewModel(Context context, ListRequestContract.Presenter presenter,
             DialogManager dialogManager, ListRequestAdapter listRequestAdapter,
@@ -75,6 +77,7 @@ public class ListRequestViewModel extends BaseObservable
     }
 
     private void initData() {
+        setLoading(false);
         mMonthYear = DateTimeUtils.getMonthWorking();
         mQueryRequest = new QueryRequest();
         mQueryRequest.setMonthWorking(mMonthYear);
@@ -134,6 +137,7 @@ public class ListRequestViewModel extends BaseObservable
 
     @Override
     public void onGetListRequestSuccess(int requestType, Object object) {
+        setLoading(false);
         switch (requestType) {
             case RequestType.REQUEST_OVERTIME:
                 List<RequestOverTime> listOverTime = (List<RequestOverTime>) object;
@@ -190,6 +194,26 @@ public class ListRequestViewModel extends BaseObservable
         mMonthYear = monthYear;
         mQueryRequest.setMonthWorking(monthYear);
         notifyPropertyChanged(BR.monthYear);
+    }
+
+    @Bindable
+    public boolean isLoading() {
+        return mIsLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        mIsLoading = loading;
+        notifyPropertyChanged(BR.loading);
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                setLoading(true);
+                onReloadData(mRequestType);
+            }
+        };
     }
 
     public ListRequestAdapter getListRequestAdapter() {

@@ -346,10 +346,15 @@ public final class BindingUtils {
         });
     }
 
-    @BindingAdapter({ "colorRes", "enableSwipe" })
+    @BindingAdapter("colorRes")
     public static void setColorRefreshLayout(final SwipeRefreshLayout swipeRefreshLayout,
-            int colorResIds, boolean enable) {
+            int colorResIds) {
         swipeRefreshLayout.setColorSchemeColors(colorResIds);
+    }
+
+    @BindingAdapter("enableSwipe")
+    public static void setEnableSwipeLayout(final SwipeRefreshLayout swipeRefreshLayout,
+            boolean enable) {
         swipeRefreshLayout.setEnabled(enable);
     }
 }
