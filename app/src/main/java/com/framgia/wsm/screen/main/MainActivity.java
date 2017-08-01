@@ -14,10 +14,13 @@ import com.framgia.wsm.screen.BaseActivity;
 import com.framgia.wsm.screen.notification.NotificationDialogFragment;
 import com.framgia.wsm.screen.profile.ProfileFragment;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import static com.framgia.wsm.utils.Constant.EXTRA_NOTIFICATION_REQUEST_TYPE;
 
 /**
  * Main Screen.
@@ -48,7 +51,8 @@ public class MainActivity extends BaseActivity implements ProfileFragment.Update
 
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setViewModel((MainViewModel) mViewModel);
-
+        ((MainViewModel) mViewModel).setNotificationRequestType(
+                getIntent().getStringExtra(EXTRA_NOTIFICATION_REQUEST_TYPE));
         mHandler = new Handler();
         mRunnable = new Runnable() {
             @Override
@@ -56,6 +60,10 @@ public class MainActivity extends BaseActivity implements ProfileFragment.Update
                 mIsDoubleTapBack = false;
             }
         };
+    }
+
+    public boolean isOpenAppByClickNotification() {
+        return StringUtils.isNotBlank(getIntent().getStringExtra(EXTRA_NOTIFICATION_REQUEST_TYPE));
     }
 
     @Override

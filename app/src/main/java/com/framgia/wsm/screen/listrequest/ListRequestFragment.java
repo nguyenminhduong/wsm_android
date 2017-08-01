@@ -51,6 +51,13 @@ public class ListRequestFragment extends BaseFragment {
                 DataBindingUtil.inflate(inflater, R.layout.fragment_list_request, container, false);
         initView(binding);
         binding.setViewModel((ListRequestViewModel) mViewModel);
+        if (getActivity() instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) getActivity();
+            boolean isOpenAppByClickNotification = mainActivity.isOpenAppByClickNotification();
+            if (isOpenAppByClickNotification) {
+                mViewModel.onReloadData(getArguments().getInt(Constant.EXTRA_REQUEST_TYPE));
+            }
+        }
         return binding.getRoot();
     }
 

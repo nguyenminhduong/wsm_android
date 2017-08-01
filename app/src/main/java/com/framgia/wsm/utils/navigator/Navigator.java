@@ -152,7 +152,7 @@ public class Navigator {
      * @return true if fragment stack has pop
      */
     public boolean goBackChildFragment() {
-        boolean isShowPrevious = mFragment.getChildFragmentManager().getBackStackEntryCount() > 1;
+        boolean isShowPrevious = mFragment.getChildFragmentManager().getBackStackEntryCount() > 0;
         if (isShowPrevious) {
             mFragment.getChildFragmentManager().popBackStackImmediate();
         }
