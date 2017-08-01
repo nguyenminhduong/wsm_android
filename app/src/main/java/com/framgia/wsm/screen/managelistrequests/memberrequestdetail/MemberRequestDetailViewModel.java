@@ -50,6 +50,7 @@ public class MemberRequestDetailViewModel extends BaseObservable
     private boolean mIsStatusAccept;
     private boolean mIsStatusReject;
     private boolean mIsStatusPending;
+    private boolean mIsStatusForward;
     private int mPosition;
     private ApproveOrRejectListener mResultListener;
     private int mCurrentRequestType;
@@ -97,9 +98,6 @@ public class MemberRequestDetailViewModel extends BaseObservable
         setStatusPending(StatusCode.PENDING_CODE.equals(mOffRequest.getStatus())
                 || StatusCode.PENDING_CODE.equals(mLeaveRequest.getStatus())
                 || StatusCode.PENDING_CODE.equals(mOverTimeRequest.getStatus()));
-        setForward(StatusCode.FORWARD_CODE.equals(mOffRequest.getStatus())
-                || StatusCode.FORWARD_CODE.equals(mLeaveRequest.getStatus())
-                || StatusCode.FORWARD_CODE.equals(mOverTimeRequest.getStatus()));
         mPosition = position;
         mResultListener = resultListener;
     }
@@ -109,14 +107,29 @@ public class MemberRequestDetailViewModel extends BaseObservable
             mLeaveRequest = (LeaveRequest) item;
             mActionRequest.setTypeRequest(TypeRequest.LEAVE);
             mCurrentRequestType = RequestType.REQUEST_LATE_EARLY;
+            setForward(!mLeaveRequest.isCanApproveReject());
+            if (!mLeaveRequest.isCanApproveReject() && StatusCode.FORWARD_CODE.equals(
+                    mLeaveRequest.getStatus())) {
+                setStatusForward(true);
+            }
         } else if (item instanceof RequestOverTime) {
             mOverTimeRequest = (RequestOverTime) item;
             mActionRequest.setTypeRequest(TypeRequest.OT);
             mCurrentRequestType = RequestType.REQUEST_OVERTIME;
+            setForward(!mOverTimeRequest.isCanApproveReject());
+            if (!mOverTimeRequest.isCanApproveReject() && StatusCode.FORWARD_CODE.equals(
+                    mOverTimeRequest.getStatus())) {
+                setStatusForward(true);
+            }
         } else {
             mOffRequest = (OffRequest) item;
             mActionRequest.setTypeRequest(TypeRequest.OFF);
             mCurrentRequestType = RequestType.REQUEST_OFF;
+            setForward(!mOffRequest.isCanApproveReject());
+            if (!mOverTimeRequest.isCanApproveReject() && StatusCode.FORWARD_CODE.equals(
+                    mOverTimeRequest.getStatus())) {
+                setStatusForward(true);
+            }
         }
     }
 
@@ -149,23 +162,33 @@ public class MemberRequestDetailViewModel extends BaseObservable
     public void onApproveOrRejectRequestSuccess(ActionRequestResponse actionRequestResponse) {
         mResultListener.onApproveOrRejectListener(mCurrentRequestType, mPosition,
                 actionRequestResponse);
-        if (actionRequestResponse.getStatus().equals(StatusCode.ACCEPT_CODE)) {
-            mNavigator.showToastCustom(TypeToast.SUCCESS,
-                    mContext.getString(R.string.approve_success));
-            setIsVisibleReject(false);
-            setIsVisibleApprove(true);
-            setStatusAccept(true);
+        if (actionRequestResponse.isCanApproveReject()) {
+            if (actionRequestResponse.getStatus().equals(StatusCode.ACCEPT_CODE)) {
+                mNavigator.showToastCustom(TypeToast.SUCCESS,
+                        mContext.getString(R.string.approve_success));
+                setIsVisibleApprove(true);
+                setIsVisibleReject(false);
+                setStatusAccept(true);
+                setStatusReject(false);
+                setStatusPending(false);
+                setStatusForward(false);
+            }
+            if (actionRequestResponse.getStatus().equals(StatusCode.REJECT_CODE)) {
+                mNavigator.showToastCustom(TypeToast.SUCCESS,
+                        mContext.getString(R.string.reject_success));
+                setIsVisibleApprove(false);
+                setIsVisibleReject(true);
+                setStatusAccept(false);
+                setStatusReject(true);
+                setStatusPending(false);
+                setStatusForward(false);
+            }
+        } else {
+            setStatusAccept(false);
             setStatusReject(false);
             setStatusPending(false);
-        }
-        if (actionRequestResponse.getStatus().equals(StatusCode.REJECT_CODE)) {
-            mNavigator.showToastCustom(TypeToast.SUCCESS,
-                    mContext.getString(R.string.reject_success));
-            setIsVisibleReject(true);
-            setIsVisibleApprove(false);
-            setStatusReject(true);
-            setStatusAccept(false);
-            setStatusPending(false);
+            setStatusForward(true);
+            setForward(true);
         }
     }
 
@@ -772,12 +795,24 @@ public class MemberRequestDetailViewModel extends BaseObservable
         return (isVisiableLayoutCompanyPay() || isVisiableLayoutInsurance());
     }
 
+    @Bindable
     public boolean isForward() {
         return mIsForward;
     }
 
-    public void setForward(boolean forward) {
+    private void setForward(boolean forward) {
         mIsForward = forward;
+        notifyPropertyChanged(BR.forward);
+    }
+
+    @Bindable
+    public boolean isStatusForward() {
+        return mIsStatusForward;
+    }
+
+    public void setStatusForward(boolean statusForward) {
+        mIsStatusForward = statusForward;
+        notifyPropertyChanged(BR.statusForward);
     }
 
     private void getAmountOffDayCompany(User user) {
