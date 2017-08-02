@@ -11,8 +11,6 @@ import java.util.Date;
  */
 
 public class TimeSheetDate extends BaseModel {
-    private static final int COLOR_CODE_THREE_DIGIT = 4;
-    private static final String N_A = "N/A";
     @Expose
     @SerializedName("date")
     private String mDate;
@@ -84,7 +82,7 @@ public class TimeSheetDate extends BaseModel {
             return DateTimeUtils.convertUiFormatToDataFormat(mTimeOut,
                     DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.TIME_FORMAT_HH_MM);
         }
-        return mTextMorning;
+        return mTextAfternoon;
     }
 
     public void setTimeOut(String timeOut) {
@@ -108,68 +106,28 @@ public class TimeSheetDate extends BaseModel {
     }
 
     public String getColorMorning() {
-        // todo edit later
-        return convertColor(mColorMorning);
+        return mColorMorning;
     }
 
     public String getColorAfternoon() {
-        // todo edit later
-        return convertColor(mColorAfternoon);
+        return mColorAfternoon;
     }
 
     public boolean isDayOffMorning() {
         return StringUtils.isNotBlank(mTextMorning)
-                && StringUtils.isNotBlank(mTextAfternoon)
-                && !mTextMorning.equals(mTimeIn)
-                && mTextAfternoon.equals(mTimeOut);
+                && !mTextMorning.equals(mTimeIn);
     }
 
     public boolean isDayOffAfternoon() {
-        return StringUtils.isNotBlank(mTextMorning)
-                && StringUtils.isNotBlank(mTextAfternoon)
-                && mTextMorning.equals(mTimeIn)
+        return StringUtils.isNotBlank(mTextAfternoon)
                 && !mTextAfternoon.equals(mTimeOut);
-    }
-
-    public boolean isDayOffAllDay() {
-        return StringUtils.isNotBlank(mTextMorning)
-                && StringUtils.isNotBlank(mTextAfternoon)
-                && !mTextMorning.equals(mTimeIn)
-                && !mTextAfternoon.equals(mTimeOut);
-    }
-
-    public boolean isColorMorning() {
-        return StringUtils.isNotBlank(mColorMorning) && StringUtils.isBlank(mColorAfternoon);
     }
 
     public void setColorMorning(String colorMorning) {
         mColorMorning = colorMorning;
     }
 
-    public boolean isColorAfternoon() {
-        return StringUtils.isNotBlank(mColorAfternoon) && StringUtils.isBlank(mColorMorning);
-    }
-
     public void setColorAfternoon(String colorAfternoon) {
         mColorAfternoon = colorAfternoon;
-    }
-
-    public boolean isColorAllDay() {
-        return StringUtils.isNotBlank(mColorAfternoon) && StringUtils.isNotBlank(mColorMorning);
-    }
-
-    private String convertColor(String color) {
-        if (StringUtils.isBlank(color)) {
-            return null;
-        }
-        if (color.length() == COLOR_CODE_THREE_DIGIT) {
-            String result = "#";
-            for (int i = 1; i < color.length(); i++) {
-                char c = color.charAt(i);
-                result = result + c + c;
-            }
-            return result;
-        }
-        return color;
     }
 }
