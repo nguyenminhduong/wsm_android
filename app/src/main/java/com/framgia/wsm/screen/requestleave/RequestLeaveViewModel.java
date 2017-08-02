@@ -1053,6 +1053,14 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         } else {
             mActionType = ActionType.ACTION_CONFIRM_EDIT;
         }
+        if (StringUtils.isBlank(mRequest.getWorkspaceName())) {
+            mDialogManager.dialogError(mContext.getString(R.string.branch_is_emty));
+            return;
+        }
+        if (StringUtils.isBlank(mRequest.getCompanyName())) {
+            mDialogManager.dialogError(mContext.getString(R.string.group_is_emty));
+            return;
+        }
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_REQUEST_LEAVE, mRequest);
         bundle.putInt(Constant.EXTRA_ACTION_TYPE, mActionType);

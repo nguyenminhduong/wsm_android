@@ -1385,8 +1385,17 @@ public class RequestOffViewModel extends BaseRequestOff
         if (!validateAllNumberDayHaveSalary()) {
             return;
         }
-
         setRequestOff();
+        if (mRequestOff.getBranch() == null || StringUtils.isBlank(
+                mRequestOff.getBranch().getBranchName())) {
+            mDialogManager.dialogError(mContext.getString(R.string.branch_is_emty));
+            return;
+        }
+        if ((mRequestOff.getGroup() == null) || StringUtils.isBlank(
+                mRequestOff.getGroup().getFullName())) {
+            mDialogManager.dialogError(mContext.getString(R.string.group_is_emty));
+            return;
+        }
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.EXTRA_ACTION_TYPE, mActionType);
         bundle.putParcelable(Constant.EXTRA_REQUEST_OFF, mRequestOff);
