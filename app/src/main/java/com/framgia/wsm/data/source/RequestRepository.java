@@ -95,4 +95,9 @@ public class RequestRepository {
             ActionRequest actionRequest) {
         return mRemoteDataSource.approveOrRejectRequest(actionRequest);
     }
+
+    public Single<BaseResponse<List<ActionRequestResponse>>> approveAllRequest(
+            ActionRequest actionRequest) {
+        return mRemoteDataSource.approveAllRequest(actionRequest);
+    }
 }

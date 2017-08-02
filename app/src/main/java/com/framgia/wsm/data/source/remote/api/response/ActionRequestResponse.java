@@ -15,6 +15,9 @@ public class ActionRequestResponse extends BaseModel {
     @Expose
     @SerializedName("can_approve_request")
     private boolean mIsCanApproveReject;
+    @Expose
+    @SerializedName("request_id")
+    private int mRequestId;
 
     public String getStatus() {
         return mStatus;
@@ -30,5 +33,13 @@ public class ActionRequestResponse extends BaseModel {
 
     public void setCanApproveReject(boolean canApproveReject) {
         mIsCanApproveReject = canApproveReject;
+    }
+
+    public int getRequestId() {
+        return mRequestId;
+    }
+
+    public void setRequestId(int requestId) {
+        mRequestId = requestId;
     }
 }

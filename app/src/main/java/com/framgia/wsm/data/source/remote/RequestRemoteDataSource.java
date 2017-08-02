@@ -29,7 +29,7 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     private static final String PARAM_USER_NAME = "q[user_name_cont]";
     private static final String PARAM_FROM_TIME_REQUEST_OVERTIME = "q[from_time_or_end_time_gteq]";
     private static final String PARAM_TO_TIME_REQUEST_OVERTIME = "q[from_time_or_end_time_lteq]";
-    private static final String PARAM_STATUS = "q[status_eq]";
+    private static final String PARAM_STATUS = "status";
     private static final String PARAM_GROUP_ID = "q[group_id_eq]";
     private static final String PARAM_WORKSPACE_ID = "q[workspace_id_eq]";
     private static final String PARAM_FROM_TIME_REQUEST_OFF =
@@ -132,6 +132,12 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     public Single<BaseResponse<ActionRequestResponse>> approveOrRejectRequest(
             ActionRequest actionRequest) {
         return mWSMApi.approveOrRejectRequest(actionRequest);
+    }
+
+    @Override
+    public Single<BaseResponse<List<ActionRequestResponse>>> approveAllRequest(
+            ActionRequest actionRequest) {
+        return mWSMApi.approveAll(actionRequest);
     }
 
     private Map<String, String> inputParamsRequestsManage(QueryRequest queryRequest) {

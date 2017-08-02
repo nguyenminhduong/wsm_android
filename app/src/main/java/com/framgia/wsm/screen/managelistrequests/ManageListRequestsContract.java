@@ -6,6 +6,7 @@ import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.screen.BasePresenter;
 import com.framgia.wsm.screen.BaseViewModel;
+import java.util.List;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -35,6 +36,10 @@ interface ManageListRequestsContract {
         void showLayoutFooter();
 
         void hideLayoutFooter();
+
+        void onApproveAllRequestSuccess(List<ActionRequestResponse> actionRequestResponseList);
+
+        void onApproveAllRequestError(BaseException exception);
     }
 
     /**
@@ -49,5 +54,7 @@ interface ManageListRequestsContract {
                 boolean isLoadMore);
 
         void approveOrRejectRequest(ActionRequest actionRequest);
+
+        void approveAllRequest(ActionRequest actionRequest);
     }
 }

@@ -55,5 +55,8 @@ public interface RequestDataSource {
 
         Single<BaseResponse<ActionRequestResponse>> approveOrRejectRequest(
                 ActionRequest actionRequest);
+
+        Single<BaseResponse<List<ActionRequestResponse>>> approveAllRequest(
+                ActionRequest actionRequest);
     }
 }

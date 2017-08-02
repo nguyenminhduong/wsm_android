@@ -140,4 +140,7 @@ public interface WSMApi {
 
     @PUT("api/dashboard/user_settings")
     Single<Object> changeSetting(@Body Setting setting);
+
+    @PUT("api/dashboard/manager/approvals")
+    Single<BaseResponse<List<ActionRequestResponse>>> approveAll(@Body ActionRequest actionRequest);
 }
