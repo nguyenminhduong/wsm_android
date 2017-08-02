@@ -289,4 +289,19 @@ public class ItemManageListRequestViewModel extends BaseObservable {
             notifyPropertyChanged(BR.pendingStatus);
         }
     }
+
+    public boolean isVisibleCheckbox() {
+        if (mLeaveRequest != null) {
+            return mLeaveRequest.isCanApproveReject() && StatusCode.REJECT_CODE.equals(
+                    mLeaveRequest.getStatus()) || StatusCode.PENDING_CODE.equals(
+                    mLeaveRequest.getStatus());
+        }
+        if (mRequestOverTime != null) {
+            return mRequestOverTime.isCanApproveReject() && StatusCode.REJECT_CODE.equals(
+                    mRequestOverTime.getStatus()) || StatusCode.PENDING_CODE.equals(
+                    mRequestOverTime.getStatus());
+        }
+        return mRequestOff.isCanApproveReject() && StatusCode.REJECT_CODE.equals(
+                mRequestOff.getStatus()) || StatusCode.PENDING_CODE.equals(mRequestOff.getStatus());
+    }
 }

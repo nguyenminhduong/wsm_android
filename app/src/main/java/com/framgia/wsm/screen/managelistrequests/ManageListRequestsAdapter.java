@@ -97,24 +97,43 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
         }
     }
 
-    void updateItem(int requestType, int position, ActionRequestResponse actionRequestResponse) {
+    void updateItem(int requestType, int position, ActionRequestResponse actionRequestResponse,
+            String currentStatus) {
         switch (requestType) {
             case RequestType.REQUEST_LATE_EARLY:
-                mRequestsLeaves.get(position).setStatus(actionRequestResponse.getStatus());
-                mRequestsLeaves.get(position)
-                        .setCanApproveReject(actionRequestResponse.isCanApproveReject());
+                if (currentStatus == null) {
+                    mRequestsLeaves.get(position).setStatus(actionRequestResponse.getStatus());
+                    mRequestsLeaves.get(position)
+                            .setCanApproveReject(actionRequestResponse.isCanApproveReject());
+                    notifyItemChanged(position, mRequestsLeaves);
+                    return;
+                }
+                mRequestsLeaves.remove(position);
+                notifyItemRemoved(position);
                 notifyItemChanged(position, mRequestsLeaves);
                 break;
             case RequestType.REQUEST_OFF:
-                mRequestsOffs.get(position).setStatus(actionRequestResponse.getStatus());
-                mRequestsOffs.get(position)
-                        .setCanApproveReject(actionRequestResponse.isCanApproveReject());
+                if (currentStatus == null) {
+                    mRequestsOffs.get(position).setStatus(actionRequestResponse.getStatus());
+                    mRequestsOffs.get(position)
+                            .setCanApproveReject(actionRequestResponse.isCanApproveReject());
+                    notifyItemChanged(position, mRequestsOffs);
+                    return;
+                }
+                mRequestsOffs.remove(position);
+                notifyItemRemoved(position);
                 notifyItemChanged(position, mRequestsOffs);
                 break;
             case RequestType.REQUEST_OVERTIME:
-                mRequestOverTimes.get(position).setStatus(actionRequestResponse.getStatus());
-                mRequestOverTimes.get(position)
-                        .setCanApproveReject(actionRequestResponse.isCanApproveReject());
+                if (currentStatus == null) {
+                    mRequestOverTimes.get(position).setStatus(actionRequestResponse.getStatus());
+                    mRequestOverTimes.get(position)
+                            .setCanApproveReject(actionRequestResponse.isCanApproveReject());
+                    notifyItemChanged(position, mRequestOverTimes);
+                    return;
+                }
+                mRequestOverTimes.remove(position);
+                notifyItemRemoved(position);
                 notifyItemChanged(position, mRequestOverTimes);
                 break;
             default:

@@ -69,6 +69,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     private int mPage;
     private boolean mIsShowProgress;
     private boolean mIsVisiableLayoutDataNotFound;
+    private boolean mIsVisiableLayoutFooter;
 
     ManageListRequestsViewModel(Context context, ManageListRequestsContract.Presenter presenter,
             DialogManager dialogManager, ManageListRequestsAdapter manageListRequestsAdapter,
@@ -98,6 +99,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         mQueryRequest.setToTime(mToTime);
         mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
         mQueryRequest.setPage(String.valueOf(mPage));
+        setVisiableLayoutFooter(true);
     }
 
     @Override
@@ -200,6 +202,16 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     @Override
+    public void showLayoutFooter() {
+        setVisiableLayoutFooter(true);
+    }
+
+    @Override
+    public void hideLayoutFooter() {
+        setVisiableLayoutFooter(false);
+    }
+
+    @Override
     public void onApproveRequest(int itemPosition, int requestId) {
         mAction = TypeAction.APPROVE;
         approveOrRejectRequest(itemPosition, requestId, StatusCode.ACCEPT_CODE);
@@ -239,15 +251,15 @@ public class ManageListRequestsViewModel extends BaseObservable
         switch (requestType) {
             case RequestType.REQUEST_LATE_EARLY:
                 mManageListRequestsAdapter.updateItem(requestType, itemPosition,
-                        actionRequestResponse);
+                        actionRequestResponse, mCurrentStatus);
                 break;
             case RequestType.REQUEST_OFF:
                 mManageListRequestsAdapter.updateItem(requestType, itemPosition,
-                        actionRequestResponse);
+                        actionRequestResponse, mCurrentStatus);
                 break;
             case RequestType.REQUEST_OVERTIME:
                 mManageListRequestsAdapter.updateItem(requestType, itemPosition,
-                        actionRequestResponse);
+                        actionRequestResponse, mCurrentStatus);
                 break;
             default:
                 break;
@@ -356,6 +368,16 @@ public class ManageListRequestsViewModel extends BaseObservable
     private void setShowProgress(boolean showProgress) {
         mIsShowProgress = showProgress;
         notifyPropertyChanged(BR.showProgress);
+    }
+
+    @Bindable
+    public boolean isVisiableLayoutFooter() {
+        return mIsVisiableLayoutFooter;
+    }
+
+    public void setVisiableLayoutFooter(boolean visiableLayoutFooter) {
+        mIsVisiableLayoutFooter = visiableLayoutFooter;
+        notifyPropertyChanged(BR.visiableLayoutFooter);
     }
 
     @Bindable

@@ -3,7 +3,6 @@ package com.framgia.wsm.screen.managelistrequests;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -80,16 +79,15 @@ public class ManageListRequestsFragment extends BaseFragment {
         RecyclerView recyclerView = binding.recycleview;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
-        final FloatingActionButton actionButton = binding.floatingButtonSearch;
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy > 0) {
-                    actionButton.hide();
+                    mViewModel.hideLayoutFooter();
                     return;
                 }
-                actionButton.show();
+                mViewModel.showLayoutFooter();
             }
         });
 

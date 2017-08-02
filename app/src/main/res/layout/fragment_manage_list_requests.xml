@@ -38,7 +38,7 @@
 
                 <android.support.design.widget.CollapsingToolbarLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@android:color/white"
                     app:contentScrim="?attr/colorPrimary"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
@@ -54,6 +54,7 @@
                         android:orientation="vertical"
                         android:visibility="@{viewModel.visibleLayoutSearch ? View.VISIBLE : View.GONE}"
                         >
+
                         <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -67,6 +68,7 @@
                             android:textColorHint="@color/cardview_shadow_start_color"
                             android:textSize="@dimen/sp_17"
                             />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -260,6 +262,7 @@
                         android:clipToPadding="false"
                         android:paddingBottom="@dimen/dp_10"
                         app:layoutManager="LinearLayoutManager"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
                         app:recyclerAdapter="@{viewModel.manageListRequestsAdapter}"
                         />
                     <ProgressBar
@@ -270,21 +273,69 @@
                         android:layout_centerHorizontal="true"
                         android:visibility="@{viewModel.showProgress ? View.VISIBLE : View.GONE}"
                         />
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/floating_button_search"
-                        android:layout_width="@dimen/dp_56"
-                        android:layout_height="@dimen/dp_56"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="@dimen/dp_16"
-                        android:clickable="true"
-                        android:onClick="@{viewModel::onClickFloatingButtonSearch}"
-                        android:tint="@color/color_white"
-                        app:srcCompat="@drawable/ic_search_white"
-                        />
                 </RelativeLayout>
             </FrameLayout>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="@dimen/dp_1"
+                android:layout_marginLeft="@dimen/dp_1"
+                android:layout_marginRight="@dimen/dp_1"
+                android:layout_marginStart="@dimen/dp_1"
+                android:visibility="@{viewModel.visiableLayoutFooter ? View.VISIBLE : View.GONE}"
+                app:cardCornerRadius="@dimen/dp_5"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_gray_light"
+                    android:orientation="horizontal"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:layout_weight="0.25"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/select_all"
+                            android:textColor="@color/cardview_dark_background"
+                            />
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dp_40"
+                            android:layout_marginLeft="@dimen/dp_15"
+                            android:layout_marginStart="@dimen/dp_15"
+                            android:background="@drawable/border_button_accept_all"
+                            android:text="@string/accept_all"
+                            android:textAllCaps="false"
+                            android:textColor="@color/color_white"
+                            />
+                    </LinearLayout>
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.75"
+                        android:background="@color/color_green_dark"
+                        android:onClick="@{viewModel::onClickFloatingButtonSearch}"
+                        android:padding="@dimen/dp_10"
+                        app:srcCompat="@drawable/ic_search_white"
+                        tools:ignore="ContentDescription"
+                        />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
 
         </android.support.design.widget.CoordinatorLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
