@@ -9,4 +9,6 @@ public interface ActionRequestListener {
     void onApproveRequest(int positionItem, int requestID);
 
     void onRejectRequest(int positionItem, int requestID);
+
+    void onCheckedItem(int positionItem, boolean isChecked);
 }

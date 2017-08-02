@@ -118,6 +118,7 @@ public class OffRequest extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("can_approve_reject_request")
     private boolean mIsCanApproveReject;
+    private boolean mIsChecked;
 
     public OffRequest() {
         mInsuranceCoverage = new InsuranceCoverage();
@@ -165,6 +166,7 @@ public class OffRequest extends BaseModel implements Parcelable {
                 in.createTypedArrayList(RequestDayOffTypesAttribute.CREATOR);
         mUser = in.readParcelable(User.class.getClassLoader());
         mIsCanApproveReject = in.readByte() != 0;
+        mIsChecked = in.readByte() != 0;
     }
 
     @Override
@@ -209,6 +211,7 @@ public class OffRequest extends BaseModel implements Parcelable {
         dest.writeTypedList(mRequestDayOffTypesAttributes);
         dest.writeParcelable(mUser, flags);
         dest.writeByte((byte) (mIsCanApproveReject ? 1 : 0));
+        dest.writeByte((byte) (mIsChecked ? 1 : 0));
     }
 
     @Override
@@ -496,6 +499,14 @@ public class OffRequest extends BaseModel implements Parcelable {
 
     public void setCanApproveReject(boolean canApproveReject) {
         mIsCanApproveReject = canApproveReject;
+    }
+
+    public boolean isChecked() {
+        return mIsChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        mIsChecked = checked;
     }
 
     // OffHaveSalaryFrom

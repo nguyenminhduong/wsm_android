@@ -82,6 +82,7 @@ public class RequestOverTime extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("can_approve_reject_request")
     private boolean mIsCanApproveReject;
+    private boolean mIsChecked;
 
     public RequestOverTime() {
     }
@@ -101,6 +102,7 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         this.mGroupId = in.readInt();
         this.mBranchId = in.readInt();
         this.mIsCanApproveReject = in.readByte() != 0;
+        this.mIsChecked = in.readByte() != 0;
     }
 
     public int getId() {
@@ -216,6 +218,14 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         mIsCanApproveReject = canApproveReject;
     }
 
+    public boolean isChecked() {
+        return mIsChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        mIsChecked = checked;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -237,5 +247,6 @@ public class RequestOverTime extends BaseModel implements Parcelable {
         dest.writeInt(this.mGroupId);
         dest.writeInt(this.mBranchId);
         dest.writeByte((byte) (mIsCanApproveReject ? 1 : 0));
+        dest.writeByte((byte) (mIsChecked ? 1 : 0));
     }
 }

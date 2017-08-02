@@ -25,6 +25,7 @@ public class ItemManageListRequestViewModel extends BaseObservable {
     private final int mItemPosition;
     private int mStatusColor;
     private int mColorImage;
+    private boolean mIsChecked;
 
     ItemManageListRequestViewModel(Object object, ItemRecyclerViewClickListener itemClickListener,
             ActionRequestListener actionRequestListener, int itemPosition) {
@@ -34,10 +35,13 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         mItemPosition = itemPosition;
         if (object instanceof LeaveRequest) {
             mLeaveRequest = (LeaveRequest) object;
+            setChecked(mLeaveRequest.isChecked());
         } else if (object instanceof OffRequest) {
             mRequestOff = (OffRequest) object;
+            setChecked(mRequestOff.isChecked());
         } else {
             mRequestOverTime = (RequestOverTime) object;
+            setChecked(mRequestOverTime.isChecked());
         }
         initStatus();
         checkStatusForward();
@@ -303,5 +307,22 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         }
         return mRequestOff.isCanApproveReject() && StatusCode.REJECT_CODE.equals(
                 mRequestOff.getStatus()) || StatusCode.PENDING_CODE.equals(mRequestOff.getStatus());
+    }
+
+    @Bindable
+    public boolean isChecked() {
+        return mIsChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        mIsChecked = checked;
+        notifyPropertyChanged(BR.checked);
+    }
+
+    public void onCheckedItem() {
+        if (mActionRequestListener == null) {
+            return;
+        }
+        mActionRequestListener.onCheckedItem(mItemPosition, mIsChecked);
     }
 }
