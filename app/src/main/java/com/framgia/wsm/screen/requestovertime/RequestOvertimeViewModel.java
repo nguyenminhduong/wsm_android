@@ -236,6 +236,10 @@ public class RequestOvertimeViewModel extends BaseObservable
         mActionType = actionType;
     }
 
+    public boolean isEditGroupEnable() {
+        return mActionType == ActionType.ACTION_CREATE;
+    }
+
     public void onCickFromTime(View view) {
         mIsFromTimeSelected = true;
         mDialogManager.showDatePickerDialog();

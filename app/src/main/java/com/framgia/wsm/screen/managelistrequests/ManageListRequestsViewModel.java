@@ -242,6 +242,16 @@ public class ManageListRequestsViewModel extends BaseObservable
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String dateTime = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
+        if (year == 0) {
+            if (mIsFromTimeSelected) {
+                setFromTime(DateTimeUtils.dayFirstMonthWorking());
+            } else {
+                setToTime(DateTimeUtils.dayLasttMonthWorking());
+            }
+        }
+        if (!view.isShown()) {
+            return;
+        }
         if (mIsFromTimeSelected) {
             validateFromTime(dateTime);
         } else {
