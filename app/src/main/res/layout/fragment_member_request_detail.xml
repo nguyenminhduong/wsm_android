@@ -445,7 +445,7 @@
                                         android:background="@drawable/border_button"
                                         android:text="@string/forwarded"
                                         android:textColor="@color/color_blue"
-                                        android:visibility="@{viewModel.forward ? View.VISIBLE : View.GONE}"
+                                        android:visibility="@{viewModel.statusForward ? View.VISIBLE : View.GONE}"
                                         />
                                 </FrameLayout>
                                 <View
