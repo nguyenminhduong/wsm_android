@@ -32,6 +32,12 @@ interface MainContract {
 
         void goNextFragmentPersonalInformation();
 
+        void goNextFragmentManageListRequestOff();
+
+        void goNextFragmentManageListRequestOverTime();
+
+        void goNextFragmentManageListRequestLeave();
+
         void onReloadDataUser();
 
         void onGetNotificationSuccess(NotificationResponse notificationResponse);

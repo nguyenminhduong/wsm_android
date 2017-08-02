@@ -17,6 +17,7 @@ import com.framgia.wsm.data.source.remote.api.response.NotificationResponse;
 import com.framgia.wsm.screen.login.LoginActivity;
 import com.framgia.wsm.screen.notification.NotificationDialogFragment;
 import com.framgia.wsm.screen.notification.NotificationViewModel;
+import com.framgia.wsm.screen.timesheet.TimeSheetFragment;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.navigator.NavigateAnim;
@@ -43,6 +44,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     private boolean mIsShowNumberNotification;
     private int mNumberOfNotificationUnread;
     private Context mContext;
+    private String mNotificationRequestType;
 
     MainViewModel(Context context, MainContract.Presenter presenter,
             MainViewPagerAdapter viewPagerAdapter, Navigator navigator) {
@@ -215,6 +217,27 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     }
 
     @Override
+    public void goNextFragmentManageListRequestOff() {
+        setCurrentPage(Page.MANAGE_OFF);
+        setCurrentItem(R.id.item_manage_off);
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.request_off));
+    }
+
+    @Override
+    public void goNextFragmentManageListRequestOverTime() {
+        setCurrentPage(Page.MANAGE_OVERTIME);
+        setCurrentItem(R.id.item_manage_overtime);
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.request_overtime));
+    }
+
+    @Override
+    public void goNextFragmentManageListRequestLeave() {
+        setCurrentPage(Page.MANAGE_COME_LATE_LEAVE_EARLY);
+        setCurrentItem(R.id.item_manage_come_late_leave_early);
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.request_leave));
+    }
+
+    @Override
     public void onReloadDataUser() {
         mPresenter.getUser();
     }
@@ -267,9 +290,12 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         if (fragment == null) {
             return false;
         }
-        if (fragment == mViewPagerAdapter.getFragment(Page.WORKING_CALENDAR)) {
-            MainContainerFragment containerFragment = (MainContainerFragment) fragment;
-            return containerFragment.onBackPressed();
+        if (fragment instanceof MainContainerFragment) {
+            Fragment childFragment =
+                    fragment.getChildFragmentManager().findFragmentById(R.id.layout_container);
+            if (childFragment instanceof TimeSheetFragment) {
+                return ((MainContainerFragment) fragment).onBackPressed();
+            }
         }
         if (fragment instanceof MainContainerFragment) {
             MainContainerFragment containerFragment = (MainContainerFragment) fragment;
@@ -282,6 +308,17 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
             return true;
         }
         return false;
+    }
+
+    @Bindable
+    public String getNotificationRequestType() {
+        return mNotificationRequestType;
+    }
+
+    public void setNotificationRequestType(String notificationRequestType) {
+        mNotificationRequestType = notificationRequestType;
+        notifyPropertyChanged(BR.notificationRequestType);
+        getPageNotification(mNotificationRequestType);
     }
 
     public MainViewPagerAdapter getViewPagerAdapter() {
@@ -351,6 +388,34 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         setCurrentTitleToolbar(String.valueOf(item.getTitle()));
         setStatusDrawerLayout(Constant.DRAWER_IS_CLOSE);
         return true;
+    }
+
+    private void getPageNotification(String notificationRequestType) {
+        if (StringUtils.isBlank(notificationRequestType)) {
+            return;
+        }
+        switch (notificationRequestType) {
+            case Constant.REQUEST_OTS:
+                goNextFragmentListRequestOverTime();
+                break;
+            case Constant.REQUEST_OFFS:
+                goNextFragmentListRequestOff();
+                break;
+            case Constant.REQUEST_LEAVES:
+                goNextFragmentListRequestLeave();
+                break;
+            case Constant.MANAGE_REQUEST_OTS:
+                goNextFragmentManageListRequestOverTime();
+                break;
+            case Constant.MANAGE_REQUEST_OFFS:
+                goNextFragmentManageListRequestOff();
+                break;
+            case Constant.MANAGE_REQUEST_LEAVES:
+                goNextFragmentManageListRequestLeave();
+                break;
+            default:
+                break;
+        }
     }
 
     @NonNull

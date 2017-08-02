@@ -14,6 +14,7 @@ public final class Constant {
     public static final String DRAWER_IS_OPEN = "OPEN";
     public static final String DRAWER_IS_CLOSE = "CLOSE";
     public static final String EXTRA_REQUEST_TYPE = "EXTRA_REQUEST_TYPE";
+    public static final String EXTRA_NOTIFICATION_REQUEST_TYPE = "EXTRA_NOTIFICATION_REQUEST_TYPE";
     public static final String EXTRA_REQUEST_LEAVE = "REQUEST_LEAVE";
     public static final String EXTRA_REQUEST_OVERTIME = "REQUEST_OVERTIME";
     public static final String BLANK_DASH_BLANK = " - ";
@@ -33,6 +34,12 @@ public final class Constant {
     public static final String EXTRA_REQUEST_TYPE_CODE = "EXTRA_REQUEST_TYPE_CODE";
     public static final String EXTRA_MEMBER_REQUEST = "EXTRA_MEMBER_REQUEST";
     public static final String EXTRA_UNAUTHORIZED = "EXTRA_UNAUTHORIZED";
+    public static final String REQUEST_OTS = "request_ots";
+    public static final String REQUEST_OFFS = "request_offs";
+    public static final String REQUEST_LEAVES = "request_leaves";
+    public static final String MANAGE_REQUEST_OTS = "manage_request_ots";
+    public static final String MANAGE_REQUEST_OFFS = "manage_request_offs";
+    public static final String MANAGE_REQUEST_LEAVES = "manage_request_leaves";
 
     private Constant() {
         // No-op
