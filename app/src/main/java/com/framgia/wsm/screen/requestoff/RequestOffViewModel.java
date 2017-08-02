@@ -795,54 +795,48 @@ public class RequestOffViewModel extends BaseRequestOff
         notifyPropertyChanged(BR.wifeLaborLeaveAmount);
     }
 
+    public boolean isEditGroupEnable() {
+        return mActionType == ActionType.ACTION_CREATE;
+    }
+
     private void getAmountOffDayCompany(User user) {
-        List<OffType> offTypesCompanyPay = user.getTypesCompany();
-        for (int i = 0; i < offTypesCompanyPay.size(); i++) {
-            if (offTypesCompanyPay.get(i).getName().equals(ANNUAL)) {
-                setAnnualLeaveAmount(String.valueOf(offTypesCompanyPay.get(i).getAmount()));
+        for (OffType offType : user.getTypesCompany()) {
+            int offTypeId = offType.getId();
+            if (ANNUAL.equals(offType.getName())) {
+                setAnnualLeaveAmount(String.valueOf(offType.getAmount()));
             }
-            if (offTypesCompanyPay.get(i).getId() == Integer.parseInt(
-                    TypeOfDays.LEAVE_FOR_MARRIAGE)) {
-                setLeaveForMarriageAmount(String.valueOf(offTypesCompanyPay.get(i).getAmount()));
+            if (offTypeId == Integer.parseInt(TypeOfDays.LEAVE_FOR_MARRIAGE)) {
+                setLeaveForMarriageAmount(String.valueOf(offType.getAmount()));
             }
-            if (offTypesCompanyPay.get(i).getId() == Integer.parseInt(
-                    TypeOfDays.LEAVE_FOR_CHILD_MARRIAGE)) {
-                setLeaveForChildMarriageAmount(
-                        String.valueOf(offTypesCompanyPay.get(i).getAmount()));
+            if (offTypeId == Integer.parseInt(TypeOfDays.LEAVE_FOR_CHILD_MARRIAGE)) {
+                setLeaveForChildMarriageAmount(String.valueOf(offType.getAmount()));
             }
-            if (offTypesCompanyPay.get(i).getId() == Integer.parseInt(TypeOfDays.FUNERAL_LEAVE)) {
-                setFuneralLeaveAmount(String.valueOf(offTypesCompanyPay.get(i).getAmount()));
+            if (offTypeId == Integer.parseInt(TypeOfDays.FUNERAL_LEAVE)) {
+                setFuneralLeaveAmount(String.valueOf(offType.getAmount()));
             }
         }
     }
 
     private void getAmountOffDayInsurance(User user) {
-        List<OffType> offTypesInsurancePay = user.getTypesInsurance();
-        for (int i = 0; i < offTypesInsurancePay.size(); i++) {
-            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
-                    TypeOfDays.LEAVE_FOR_CARE_OF_SICK_CHILD)) {
-                setLeaveForCareOfSickChildAmount(
-                        String.valueOf(offTypesInsurancePay.get(i).getAmount()));
+        for (OffType offType : user.getTypesInsurance()) {
+            int offTypeId = offType.getId();
+            if (offTypeId == Integer.parseInt(TypeOfDays.LEAVE_FOR_CARE_OF_SICK_CHILD)) {
+                setLeaveForCareOfSickChildAmount(String.valueOf(offType.getAmount()));
             }
-            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
-                    TypeOfDays.PREGNANCY_EXAMINATON)) {
-                setPregnancyExaminationLeaveAmount(
-                        String.valueOf(offTypesInsurancePay.get(i).getAmount()));
+            if (offTypeId == Integer.parseInt(TypeOfDays.PREGNANCY_EXAMINATON)) {
+                setPregnancyExaminationLeaveAmount(String.valueOf(offType.getAmount()));
             }
-            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(TypeOfDays.SICK_LEAVE)) {
-                setSickLeaveAmount(String.valueOf(offTypesInsurancePay.get(i).getAmount()));
+            if (offTypeId == Integer.parseInt(TypeOfDays.SICK_LEAVE)) {
+                setSickLeaveAmount(String.valueOf(offType.getAmount()));
             }
-            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
-                    TypeOfDays.MISCARRIAGE_LEAVE)) {
-                setMiscarriageLeaveAmount(String.valueOf(offTypesInsurancePay.get(i).getAmount()));
+            if (offTypeId == Integer.parseInt(TypeOfDays.MISCARRIAGE_LEAVE)) {
+                setMiscarriageLeaveAmount(String.valueOf(offType.getAmount()));
             }
-            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
-                    TypeOfDays.MATERNTY_LEAVE)) {
-                setMaternityLeaveAmount(String.valueOf(offTypesInsurancePay.get(i).getAmount()));
+            if (offTypeId == Integer.parseInt(TypeOfDays.MATERNTY_LEAVE)) {
+                setMaternityLeaveAmount(String.valueOf(offType.getAmount()));
             }
-            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
-                    TypeOfDays.WIFE_LABOR_LEAVE)) {
-                setWifeLaborLeaveAmount(String.valueOf(offTypesInsurancePay.get(i).getAmount()));
+            if (offTypeId == Integer.parseInt(TypeOfDays.WIFE_LABOR_LEAVE)) {
+                setWifeLaborLeaveAmount(String.valueOf(offType.getAmount()));
             }
         }
     }
