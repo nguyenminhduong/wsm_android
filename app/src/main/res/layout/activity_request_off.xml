@@ -127,68 +127,59 @@
                             />
                     </android.support.design.widget.TextInputLayout>
 
-                    <LinearLayout
+
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:baselineAligned="false"
-                        android:orientation="horizontal"
                         >
 
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/StyleTextHint"
                             >
-
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/StyleTextHint"
-                                >
-                                <EditText
-                                    android:hint="@string/branch"
-                                    android:onClick="@{viewModel::onPickBranch}"
-                                    android:text="@={viewModel.requestOff.branch.branchName}"
-                                    style="@style/StyleText"
-                                    />
-                            </android.support.design.widget.TextInputLayout>
-
-                            <ImageView
-                                app:srcCompat="@drawable/ic_arrow_drop_down"
-                                tools:ignore="ContentDescription"
-                                style="@style/StyleImageDropDown"
+                            <EditText
+                                android:hint="@string/branch"
+                                android:onClick="@{viewModel::onPickBranch}"
+                                android:text="@={viewModel.requestOff.branch.branchName}"
+                                style="@style/StyleText"
                                 />
-                        </FrameLayout>
+                        </android.support.design.widget.TextInputLayout>
 
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                        <ImageView
+                            app:srcCompat="@drawable/ic_arrow_drop_down"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleImageDropDown"
+                            />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/StyleTextHint"
                             >
-
-                            <android.support.design.widget.TextInputLayout
-                                style="@style/StyleTextHint"
-                                >
-                                <EditText
-                                    android:ellipsize="end"
-                                    android:hint="@string/group"
-                                    android:inputType="text"
-                                    android:maxLines="1"
-                                    android:onClick="@{viewModel::onPickGroup}"
-                                    android:paddingEnd="@dimen/dp_24"
-                                    android:paddingLeft="@dimen/dp_0"
-                                    android:paddingRight="@dimen/dp_24"
-                                    android:paddingStart="@dimen/dp_0"
-                                    android:text="@={viewModel.requestOff.group.groupName}"
-                                    style="@style/StyleText"
-                                    />
-                            </android.support.design.widget.TextInputLayout>
-
-                            <ImageView
-                                app:srcCompat="@drawable/ic_arrow_drop_down"
-                                tools:ignore="ContentDescription"
-                                style="@style/StyleImageDropDown"
+                            <EditText
+                                android:ellipsize="end"
+                                android:hint="@string/group"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:onClick="@{viewModel::onPickGroup}"
+                                android:paddingEnd="@dimen/dp_24"
+                                android:paddingLeft="@dimen/dp_0"
+                                android:paddingRight="@dimen/dp_24"
+                                android:paddingStart="@dimen/dp_0"
+                                android:text="@={viewModel.requestOff.group.fullName}"
+                                style="@style/StyleText"
                                 />
-                        </FrameLayout>
-                    </LinearLayout>
+                        </android.support.design.widget.TextInputLayout>
+
+                        <ImageView
+                            app:srcCompat="@drawable/ic_arrow_drop_down"
+                            tools:ignore="ContentDescription"
+                            style="@style/StyleImageDropDown"
+                            />
+                    </FrameLayout>
 
                     <FrameLayout
                         android:layout_width="match_parent"

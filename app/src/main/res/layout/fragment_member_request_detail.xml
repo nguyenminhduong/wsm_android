@@ -328,19 +328,20 @@
                                 <TextView
                                     android:ellipsize="end"
                                     android:maxLines="1"
-                                    android:text="@{viewModel.overTimeRequest.branch.branchName}"
-                                    android:visibility="@{viewModel.visibleOverTimeRequest ? View.VISIBLE : View.GONE}"
-                                    style="@style/StyleTextConfirm"
-                                    />
-                                <TextView
-                                    android:ellipsize="end"
-                                    android:maxLines="1"
                                     android:text="@{viewModel.leaveRequest.branch.branchName}"
                                     android:visibility="@{viewModel.visibleLeaveRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <View
                                     style="@style/StyleViewConfirm"
+                                    />
+                                <TextView
+                                    android:id="@+id/textView2"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="@{viewModel.overTimeRequest.branch.branchName}"
+                                    android:visibility="@{viewModel.visibleOverTimeRequest ? View.VISIBLE : View.GONE}"
+                                    style="@style/StyleTextConfirm"
                                     />
                             </LinearLayout>
                         </LinearLayout>
@@ -368,23 +369,17 @@
                                     style="@style/StyleTitleConfirm"
                                     />
                                 <TextView
-                                    android:ellipsize="end"
-                                    android:maxLines="1"
-                                    android:text="@{viewModel.offRequest.group.groupName}"
+                                    android:text="@{viewModel.offRequest.group.fullName}"
                                     android:visibility="@{viewModel.visibleOffRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <TextView
-                                    android:ellipsize="end"
-                                    android:maxLines="1"
-                                    android:text="@{viewModel.overTimeRequest.group.groupName}"
+                                    android:text="@{viewModel.overTimeRequest.group.fullName}"
                                     android:visibility="@{viewModel.visibleOverTimeRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
                                     />
                                 <TextView
-                                    android:ellipsize="end"
-                                    android:maxLines="1"
-                                    android:text="@{viewModel.leaveRequest.group.groupName}"
+                                    android:text="@{viewModel.leaveRequest.group.fullName}"
                                     android:visibility="@{viewModel.visibleLeaveRequest ? View.VISIBLE : View.GONE}"
                                     style="@style/StyleTextConfirm"
                                     />

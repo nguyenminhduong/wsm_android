@@ -162,15 +162,20 @@
                                 />
                         </LinearLayout>
                     </TableRow>
-                    <TableRow
-                        android:gravity="center_vertical"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         >
                         <ImageView
+                            android:layout_gravity="center"
                             app:srcCompat="@drawable/ic_group"
                             tools:ignore="ContentDescription"
                             style="@style/StyleIconConfirm"
                             />
                         <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/dp_20"
                             android:layout_marginStart="@dimen/dp_20"
                             android:orientation="vertical"
@@ -180,9 +185,7 @@
                                 style="@style/StyleTitleConfirm"
                                 />
                             <TextView
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:text="@{viewModel.requestOverTime.group.groupName}"
+                                android:text="@{viewModel.requestOverTime.group.fullName}"
                                 style="@style/StyleTextConfirm"
                                 />
                             <View
@@ -193,7 +196,7 @@
                                 android:background="@color/colorPrimary"
                                 />
                         </LinearLayout>
-                    </TableRow>
+                    </LinearLayout>
                     <TableRow
                         android:gravity="center_vertical"
                         >
@@ -390,17 +393,23 @@
                                 />
                         </LinearLayout>
                     </TableRow>
-                    <TableRow
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/dp_30"
-                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
                         android:visibility="@{viewModel.detail ? View.VISIBLE : View.GONE}"
                         >
                         <ImageView
+                            android:layout_gravity="center"
                             app:srcCompat="@drawable/ic_reason"
                             tools:ignore="ContentDescription"
                             style="@style/StyleIconConfirm"
                             />
                         <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/dp_20"
                             android:layout_marginStart="@dimen/dp_20"
                             android:orientation="vertical"
@@ -411,8 +420,6 @@
                                 />
 
                             <TextView
-                                android:ellipsize="end"
-                                android:maxLines="1"
                                 android:text="@{viewModel.requestOverTime.beingHandledBy}"
                                 style="@style/StyleTextConfirm"
                                 />
@@ -424,7 +431,7 @@
                                 android:background="@color/colorPrimary"
                                 />
                         </LinearLayout>
-                    </TableRow>
+                    </LinearLayout>
                 </TableLayout>
             </ScrollView>
             <FrameLayout

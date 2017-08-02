@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <data>
@@ -16,12 +17,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables"
         >
+        <ImageView
+            android:layout_width="@dimen/dp_5"
+            android:layout_height="@dimen/dp_5"
+            android:layout_gravity="center"
+            android:background="@color/color_blue_green"
+            tools:ignore="ContentDescription"
+            />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_marginStart="@dimen/dp_5"
             android:text="@{viewModel.groupName}"
+            style="@style/StyleTextProfile"
             />
     </LinearLayout>
 </layout>
