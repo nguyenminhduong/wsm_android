@@ -2,6 +2,7 @@ package com.framgia.wsm.screen.notification;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.annotation.IntDef;
 import android.support.annotation.StringDef;
 import android.util.Log;
 import com.framgia.wsm.BR;
@@ -52,7 +53,7 @@ public class NotificationViewModel extends BaseObservable implements Notificatio
     @Override
     public void onItemRecyclerViewClick(Notification item) {
         if (item.getRead()) {
-            mListener.onClickNotification(item.getTrackableType());
+            mListener.onClickNotification(item.getTrackableType(), item.getPermission());
             mNavigator.dismissDialogFragment(NotificationDialogFragment.TAG);
             return;
         }
@@ -95,7 +96,8 @@ public class NotificationViewModel extends BaseObservable implements Notificatio
             return;
         }
         mNotificationAdapter.setReadOne(mNotification);
-        mListener.onClickNotification(mNotification.getTrackableType());
+        mListener.onClickNotification(mNotification.getTrackableType(),
+                mNotification.getPermission());
         mNavigator.dismissDialogFragment(NotificationDialogFragment.TAG);
     }
 
@@ -142,5 +144,16 @@ public class NotificationViewModel extends BaseObservable implements Notificatio
         String USER = "User";
         String USER_SPECIAL_TYPE = "UserSpecialType";
         String WORKSPACE = "Workspace";
+    }
+
+    /**
+     * Permission type.
+     */
+    @IntDef({
+            PermissionType.USER, PermissionType.MANAGER
+    })
+    public @interface PermissionType {
+        int USER = 0;
+        int MANAGER = 1;
     }
 }

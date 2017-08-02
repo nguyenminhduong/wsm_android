@@ -30,6 +30,12 @@ interface MainContract {
 
         void goNextFragmentListRequestLeave();
 
+        void goNextFragmentListManageRequestOff();
+
+        void goNextFragmentListManageRequestOverTime();
+
+        void goNextFragmentListManageRequestLeave();
+
         void goNextFragmentPersonalInformation();
 
         void goNextFragmentManageListRequestOff();
@@ -46,7 +52,7 @@ interface MainContract {
 
         void updateNotificationUnRead();
 
-        void handleClickNotification(String trackableType);
+        void handleClickNotification(String trackableType, int permissionType);
     }
 
     /**

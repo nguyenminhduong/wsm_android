@@ -20,6 +20,9 @@ public class Notification extends BaseModel {
     @SerializedName("message")
     @Expose
     private String mMessage;
+    @SerializedName("permission")
+    @Expose
+    private int mPermission;
     @SerializedName("created_at")
     @Expose
     private String mCreatedAt;
@@ -55,6 +58,14 @@ public class Notification extends BaseModel {
 
     public void setMessage(String message) {
         mMessage = message;
+    }
+
+    public int getPermission() {
+        return mPermission;
+    }
+
+    public void setPermission(int permission) {
+        mPermission = permission;
     }
 
     public String getCreatedAt() {

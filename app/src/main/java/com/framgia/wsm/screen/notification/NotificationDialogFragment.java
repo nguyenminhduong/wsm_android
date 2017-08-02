@@ -98,6 +98,6 @@ public class NotificationDialogFragment extends DialogFragment {
     public interface UpdateNotificationListener {
         void onUpdateNotificationReadAll();
 
-        void onClickNotification(String trackableType);
+        void onClickNotification(String trackableType, int permissionType);
     }
 }
