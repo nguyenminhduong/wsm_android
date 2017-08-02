@@ -97,4 +97,8 @@ public class UserRepository {
     public Single<BaseResponse<Setting>> getSetting() {
         return mRemoteDataSource.getSetting();
     }
+
+    public Single<Object> changeSetting(Setting setting) {
+        return mRemoteDataSource.changeSetting(setting);
+    }
 }

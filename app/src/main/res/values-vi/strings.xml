@@ -272,6 +272,9 @@
     <string name="s"/>
     <string name="curen_day">Ngày hiện tại</string>
     <string name="end_time_can_not_greater_than_end_time">Thời gian kết thúc không được nhỏ hơn thời gian bắt đầu</string>
+
+    <string name="update_success">Cập nhật thành công !</string>
+    <string name="refresh_setting_error">Tải lại cài đặt không thành công !</string>
     <string name="accept_all">Chấp nhận tất cả</string>
     <string name="select_all">Chọn tất cả</string>
     <string name="you_have_selected">Bạn đã chọn</string>

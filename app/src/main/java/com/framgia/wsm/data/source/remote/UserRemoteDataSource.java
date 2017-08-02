@@ -132,4 +132,9 @@ public class UserRemoteDataSource extends BaseRemoteDataSource
     public Single<BaseResponse<Setting>> getSetting() {
         return mWSMApi.getSetting();
     }
+
+    @Override
+    public Single<Object> changeSetting(Setting setting) {
+        return mWSMApi.changeSetting(setting);
+    }
 }

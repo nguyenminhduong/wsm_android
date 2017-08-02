@@ -48,5 +48,7 @@ public interface UserDataSource {
         Observable<Object> changePassword(ChangePasswordRequest changePasswordRequest);
 
         Single<BaseResponse<Setting>> getSetting();
+
+        Single<Object> changeSetting(Setting setting);
     }
 }
