@@ -3,14 +3,16 @@ package com.framgia.wsm.screen.setting;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.util.Log;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.Branch;
 import com.framgia.wsm.data.model.Group;
+import com.framgia.wsm.data.model.Setting;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.utils.TypeToast;
+import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.MaterialDialog;
 import java.util.List;
@@ -28,21 +30,24 @@ public class SettingProfileViewModel extends BaseObservable
     private SettingProfileContract.Presenter mPresenter;
     private User mUser;
     private DialogManager mDialogManager;
+    private Navigator mNavigator;
     private String mCurrentGroup;
     private String mCurrentBranch;
     private int mCurrentGroupPosition;
     private int mCurrentBranchPosition;
     private boolean mNotificationAll;
     private boolean mEmailAll;
+    private boolean mRefreshing;
 
     SettingProfileViewModel(Context context, SettingProfileContract.Presenter presenter,
-            DialogManager dialogManager) {
+            DialogManager dialogManager, Navigator navigator) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mUser = new User();
         mPresenter.getUser();
         mDialogManager = dialogManager;
+        mNavigator = navigator;
     }
 
     @Override
@@ -56,8 +61,8 @@ public class SettingProfileViewModel extends BaseObservable
     }
 
     @Override
-    public void onGetUserError(BaseException exception) {
-        Log.e(TAG, "onGetUserError: ", exception);
+    public void onError(BaseException exception) {
+        mDialogManager.dialogError(exception);
     }
 
     @Override
@@ -66,28 +71,48 @@ public class SettingProfileViewModel extends BaseObservable
             return;
         }
         setUser(user);
-        mCurrentBranchPosition = searchCurrentPositionWorkspace(mUser.getBranches(),
-                mUser.getSetting().getWorkspaceDefault());
-        mCurrentGroupPosition =
-                searchCurrentPositionGroup(mUser.getGroups(), mUser.getSetting().getGroupDefault());
-        setNotificationAll(
-                mUser.getSetting().getNotificationSetting().isWorkspace() && mUser.getSetting()
-                        .getNotificationSetting()
-                        .isUserSpecialType() && mUser.getSetting()
-                        .getNotificationSetting()
-                        .isGroup());
-        setEmailAll(mUser.getSetting().getEmailSetting().isWorkspace() && mUser.getSetting()
-                .getEmailSetting()
-                .isUserSpecialType() && mUser.getSetting().getEmailSetting().isGroup());
+        setNotificationAndEmailAll();
+    }
+
+    @Override
+    public void onShowDialog() {
+        mDialogManager.showIndeterminateProgressDialog();
+    }
+
+    @Override
+    public void onDismissDialog() {
+        mDialogManager.dismissProgressDialog();
+    }
+
+    @Override
+    public void onChangeSettingSuccess() {
+        mNavigator.showToastCustom(TypeToast.SUCCESS, mContext.getString(R.string.update_success));
+    }
+
+    @Override
+    public void onGetSettingError(BaseException exception) {
+        setRefreshing(false);
+        mNavigator.showToastCustom(TypeToast.ERROR,
+                mContext.getString(R.string.refresh_setting_error));
+    }
+
+    @Override
+    public void onGetSettingSuccess(Setting setting) {
+        setRefreshing(false);
+        mUser.setSetting(setting);
+        mPresenter.saveUser(mUser);
+        setNotificationAndEmailAll();
+        notifyPropertyChanged(BR.user);
     }
 
     private int searchCurrentPositionGroup(List<Group> groupList, int currentPositionGroup) {
         for (int i = 0; i < groupList.size(); i++) {
             if (groupList.get(i).getGroupId() == currentPositionGroup) {
-                setCurrentGroup(groupList.get(i).getGroupName());
+                setCurrentGroup(groupList.get(i).getFullName());
                 return i;
             }
         }
+        setCurrentGroup("");
         return 0;
     }
 
@@ -99,6 +124,7 @@ public class SettingProfileViewModel extends BaseObservable
                 return i;
             }
         }
+        setCurrentBranch("");
         return 0;
     }
 
@@ -152,14 +178,26 @@ public class SettingProfileViewModel extends BaseObservable
         notifyPropertyChanged(BR.emailAll);
     }
 
+    @Bindable
+    public boolean isRefreshing() {
+        return mRefreshing;
+    }
+
+    public void setRefreshing(boolean refreshing) {
+        mRefreshing = refreshing;
+        notifyPropertyChanged(BR.refreshing);
+    }
+
     public void onClickGroup() {
         if (isNoneGroup()) {
             return;
         }
-        final String[] groupNames = new String[mUser.getGroups().size()];
-        for (int i = 0; i < groupNames.length; i++) {
+        final String[] groupNames = new String[mUser.getGroups().size() + 1];
+        for (int i = 0; i < groupNames.length - 1; i++) {
             groupNames[i] = mUser.getGroups().get(i).getFullName();
         }
+        //set group none
+        groupNames[groupNames.length - 1] = "";
         mDialogManager.dialogListSingleChoice(mContext.getString(R.string.group), groupNames,
                 mCurrentGroupPosition, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
@@ -167,6 +205,14 @@ public class SettingProfileViewModel extends BaseObservable
                             int positionType, CharSequence charSequence) {
                         mCurrentGroupPosition = positionType;
                         setCurrentGroup(groupNames[mCurrentGroupPosition]);
+                        if (positionType == (groupNames.length - 1)) {
+                            mUser.getSetting().setGroupDefault(0);
+                        } else {
+                            mUser.getSetting()
+                                    .setGroupDefault(mUser.getGroups()
+                                            .get(mCurrentGroupPosition)
+                                            .getGroupId());
+                        }
                         return true;
                     }
                 });
@@ -176,10 +222,12 @@ public class SettingProfileViewModel extends BaseObservable
         if (isNoneBranch()) {
             return;
         }
-        final String[] branchNames = new String[mUser.getBranches().size()];
-        for (int i = 0; i < branchNames.length; i++) {
+        final String[] branchNames = new String[mUser.getBranches().size() + 1];
+        for (int i = 0; i < branchNames.length - 1; i++) {
             branchNames[i] = mUser.getBranches().get(i).getBranchName();
         }
+        //set branch none
+        branchNames[branchNames.length - 1] = "";
         mDialogManager.dialogListSingleChoice(mContext.getString(R.string.branch), branchNames,
                 mCurrentBranchPosition, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
@@ -187,9 +235,37 @@ public class SettingProfileViewModel extends BaseObservable
                             int positionType, CharSequence charSequence) {
                         mCurrentBranchPosition = positionType;
                         setCurrentBranch(branchNames[mCurrentBranchPosition]);
+                        if (positionType == (branchNames.length - 1)) {
+                            mUser.getSetting().setWorkspaceDefault(0);
+                        } else {
+                            mUser.getSetting()
+                                    .setWorkspaceDefault(mUser.getBranches()
+                                            .get(mCurrentBranchPosition)
+                                            .getBranchId());
+                        }
                         return true;
                     }
                 });
+    }
+
+    public void onRefresh() {
+        mPresenter.getSetting();
+    }
+
+    private void setNotificationAndEmailAll() {
+        mCurrentBranchPosition = searchCurrentPositionWorkspace(mUser.getBranches(),
+                mUser.getSetting().getWorkspaceDefault());
+        mCurrentGroupPosition =
+                searchCurrentPositionGroup(mUser.getGroups(), mUser.getSetting().getGroupDefault());
+        setNotificationAll(
+                mUser.getSetting().getNotificationSetting().isWorkspace() && mUser.getSetting()
+                        .getNotificationSetting()
+                        .isUserSpecialType() && mUser.getSetting()
+                        .getNotificationSetting()
+                        .isGroup());
+        setEmailAll(mUser.getSetting().getEmailSetting().isWorkspace() && mUser.getSetting()
+                .getEmailSetting()
+                .isUserSpecialType() && mUser.getSetting().getEmailSetting().isGroup());
     }
 
     public void onNotifiAllClicked() {
@@ -279,7 +355,7 @@ public class SettingProfileViewModel extends BaseObservable
     }
 
     public void onUpdateClicked() {
-        //TODO edit later
+        mPresenter.changeSetting(mUser);
     }
 
     private boolean isNoneGroup() {

@@ -137,4 +137,7 @@ public interface WSMApi {
 
     @GET("api/dashboard/user_settings")
     Single<BaseResponse<Setting>> getSetting();
+
+    @PUT("api/dashboard/user_settings")
+    Single<Object> changeSetting(@Body Setting setting);
 }

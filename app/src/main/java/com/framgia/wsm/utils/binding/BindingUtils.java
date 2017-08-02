@@ -357,4 +357,10 @@ public final class BindingUtils {
             boolean enable) {
         swipeRefreshLayout.setEnabled(enable);
     }
+
+    @BindingAdapter("onRefresh")
+    public static void setRefreshLayout(final SwipeRefreshLayout swipeRefreshLayout,
+            SwipeRefreshLayout.OnRefreshListener refreshListener) {
+        swipeRefreshLayout.setOnRefreshListener(refreshListener);
+    }
 }

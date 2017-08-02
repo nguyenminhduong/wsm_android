@@ -7,9 +7,9 @@ import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.FragmentScope;
+import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.widget.dialog.DialogManager;
-import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
 import dagger.Provides;
 
@@ -29,8 +29,9 @@ public class SettingProfileModule {
     @FragmentScope
     @Provides
     public SettingProfileContract.ViewModel provideViewModel(Context context,
-            SettingProfileContract.Presenter presenter, DialogManager dialogManager) {
-        return new SettingProfileViewModel(context, presenter, dialogManager);
+            SettingProfileContract.Presenter presenter, DialogManager dialogManager,
+            Navigator navigator) {
+        return new SettingProfileViewModel(context, presenter, dialogManager, navigator);
     }
 
     @FragmentScope
@@ -45,5 +46,11 @@ public class SettingProfileModule {
     UserRepository provideUserRepository(UserLocalDataSource localDataSource,
             UserRemoteDataSource remoteDataSource) {
         return new UserRepository(localDataSource, remoteDataSource);
+    }
+
+    @FragmentScope
+    @Provides
+    Navigator provideNavigator() {
+        return new Navigator(mFragment);
     }
 }

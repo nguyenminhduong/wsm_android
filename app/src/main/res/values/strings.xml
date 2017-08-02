@@ -291,4 +291,7 @@
     <string name="you_have_selected">You have selected</string>
     <string name="requests">requests</string>
 
+    <string name="update_success">Update Success !</string>
+    <string name="refresh_setting_error">Refresh Setting Error !</string>
+
 </resources>
