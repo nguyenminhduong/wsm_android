@@ -97,6 +97,18 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
         }
     }
 
+    List<LeaveRequest> getListLeaveRequest() {
+        return mRequestsLeaves;
+    }
+
+    List<OffRequest> getListOffRequest() {
+        return mRequestsOffs;
+    }
+
+    List<RequestOverTime> getListOverTimeRequest() {
+        return mRequestOverTimes;
+    }
+
     void updateItem(int requestType, int position, ActionRequestResponse actionRequestResponse,
             String currentStatus) {
         switch (requestType) {
@@ -134,6 +146,25 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
                 }
                 mRequestOverTimes.remove(position);
                 notifyItemRemoved(position);
+                notifyItemChanged(position, mRequestOverTimes);
+                break;
+            default:
+                break;
+        }
+    }
+
+    void updateCheckedItem(int requestType, int position, boolean isChecked) {
+        switch (requestType) {
+            case RequestType.REQUEST_LATE_EARLY:
+                mRequestsLeaves.get(position).setChecked(isChecked);
+                notifyItemChanged(position, mRequestsLeaves);
+                break;
+            case RequestType.REQUEST_OFF:
+                mRequestsOffs.get(position).setChecked(isChecked);
+                notifyItemChanged(position, mRequestsOffs);
+                break;
+            case RequestType.REQUEST_OVERTIME:
+                mRequestOverTimes.get(position).setChecked(isChecked);
                 notifyItemChanged(position, mRequestOverTimes);
                 break;
             default:

@@ -32,6 +32,7 @@ import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,6 +71,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     private boolean mIsShowProgress;
     private boolean mIsVisiableLayoutDataNotFound;
     private boolean mIsVisiableLayoutFooter;
+    private boolean mIsSelectAll;
 
     ManageListRequestsViewModel(Context context, ManageListRequestsContract.Presenter presenter,
             DialogManager dialogManager, ManageListRequestsAdapter manageListRequestsAdapter,
@@ -224,6 +226,11 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     @Override
+    public void onCheckedItem(int positionItem, boolean isChecked) {
+        mManageListRequestsAdapter.updateCheckedItem(mRequestType, positionItem, !isChecked);
+    }
+
+    @Override
     public void onItemRecyclerViewClick(Object object, int position) {
         MemberRequestDetailDialogFragment dialogFragment =
                 MemberRequestDetailDialogFragment.newInstance(object, position);
@@ -267,6 +274,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     private void approveOrRejectRequest(int itemPosition, int requestId, String statusCode) {
+        mActionRequest.setApproveAll(false);
         mItemPosition = itemPosition;
         mActionRequest.setStatus(statusCode);
         mActionRequest.setRequestId(requestId);
@@ -375,7 +383,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         return mIsVisiableLayoutFooter;
     }
 
-    public void setVisiableLayoutFooter(boolean visiableLayoutFooter) {
+    private void setVisiableLayoutFooter(boolean visiableLayoutFooter) {
         mIsVisiableLayoutFooter = visiableLayoutFooter;
         notifyPropertyChanged(BR.visiableLayoutFooter);
     }
@@ -388,6 +396,16 @@ public class ManageListRequestsViewModel extends BaseObservable
     private void setVisiableLayoutDataNotFound(boolean visiableLayoutDataNotFound) {
         mIsVisiableLayoutDataNotFound = visiableLayoutDataNotFound;
         notifyPropertyChanged(BR.visiableLayoutDataNotFound);
+    }
+
+    @Bindable
+    public boolean isSelectAll() {
+        return mIsSelectAll;
+    }
+
+    private void setSelectAll(boolean selectAll) {
+        mIsSelectAll = selectAll;
+        notifyPropertyChanged(BR.selectAll);
     }
 
     private void setRefreshEnable(boolean refreshEnable) {
@@ -507,6 +525,94 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void onApproveOrRejectListener(@RequestType int requestType, int itemPosition,
             ActionRequestResponse actionRequestResponse) {
         updateItemRequest(requestType, itemPosition, actionRequestResponse);
+    }
+
+    private void setStatusSelectAll(int size) {
+        if (size > 0) {
+            setSelectAll(!mIsSelectAll);
+            return;
+        }
+        setSelectAll(false);
+    }
+
+    public void onSelectAll(View view) {
+        switch (mRequestType) {
+            case RequestType.REQUEST_LATE_EARLY:
+                List<LeaveRequest> leaveRequests = mManageListRequestsAdapter.getListLeaveRequest();
+                setStatusSelectAll(leaveRequests.size());
+                for (int i = 0; i < leaveRequests.size(); i++) {
+                    LeaveRequest leaveRequest = leaveRequests.get(i);
+                    if (StatusCode.PENDING_CODE.equals(leaveRequest.getStatus())
+                            || StatusCode.REJECT_CODE.equals(leaveRequest.getStatus())) {
+                        mManageListRequestsAdapter.updateCheckedItem(mRequestType, i, mIsSelectAll);
+                    }
+                }
+                break;
+            case RequestType.REQUEST_OFF:
+                List<OffRequest> offRequests = mManageListRequestsAdapter.getListOffRequest();
+                setStatusSelectAll(offRequests.size());
+                for (int i = 0; i < offRequests.size(); i++) {
+                    OffRequest offRequest = offRequests.get(i);
+                    if (StatusCode.PENDING_CODE.equals(offRequest.getStatus())
+                            || StatusCode.REJECT_CODE.equals(offRequest.getStatus())) {
+                        mManageListRequestsAdapter.updateCheckedItem(mRequestType, i, mIsSelectAll);
+                    }
+                }
+                break;
+            case RequestType.REQUEST_OVERTIME:
+                List<RequestOverTime> overTimeRequests =
+                        mManageListRequestsAdapter.getListOverTimeRequest();
+                setStatusSelectAll(overTimeRequests.size());
+                for (int i = 0; i < overTimeRequests.size(); i++) {
+                    RequestOverTime requestOverTime = overTimeRequests.get(i);
+                    if (StatusCode.PENDING_CODE.equals(requestOverTime.getStatus())
+                            || StatusCode.REJECT_CODE.equals(requestOverTime.getStatus())) {
+                        mManageListRequestsAdapter.updateCheckedItem(mRequestType, i, mIsSelectAll);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void onAcceptAll(View view) {
+        mActionRequest.setApproveAll(true);
+        switch (mRequestType) {
+            case RequestType.REQUEST_LATE_EARLY:
+                List<Integer> listLeaveRequestId = new ArrayList<>();
+                for (LeaveRequest leaveRequest : mManageListRequestsAdapter.getListLeaveRequest()) {
+                    if (leaveRequest.isChecked()) {
+                        listLeaveRequestId.add(leaveRequest.getId());
+                    }
+                }
+                mActionRequest.setListRequestId(listLeaveRequestId);
+                //TODO edit later
+                break;
+            case RequestType.REQUEST_OFF:
+                List<Integer> listOffRequestId = new ArrayList<>();
+                for (OffRequest offRequest : mManageListRequestsAdapter.getListOffRequest()) {
+                    if (offRequest.isChecked()) {
+                        listOffRequestId.add(offRequest.getId());
+                    }
+                }
+                mActionRequest.setListRequestId(listOffRequestId);
+                //TODO edit later
+                break;
+            case RequestType.REQUEST_OVERTIME:
+                List<Integer> listOvertimeRequestId = new ArrayList<>();
+                for (RequestOverTime requestOverTime : mManageListRequestsAdapter
+                        .getListOverTimeRequest()) {
+                    if (requestOverTime.isChecked()) {
+                        listOvertimeRequestId.add(requestOverTime.getId());
+                    }
+                }
+                mActionRequest.setListRequestId(listOvertimeRequestId);
+                //TODO edit later
+                break;
+            default:
+                break;
+        }
     }
 
     @StringDef({ TypeRequest.LEAVE, TypeRequest.OFF, TypeRequest.OT })

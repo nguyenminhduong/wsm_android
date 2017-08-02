@@ -305,6 +305,8 @@
                         <CheckBox
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:checked="@{viewModel.selectAll}"
+                            android:onClick="@{viewModel::onSelectAll}"
                             />
                         <TextView
                             android:layout_width="wrap_content"
@@ -318,6 +320,7 @@
                             android:layout_marginLeft="@dimen/dp_15"
                             android:layout_marginStart="@dimen/dp_15"
                             android:background="@drawable/border_button_accept_all"
+                            android:onClick="@{viewModel::onAcceptAll}"
                             android:text="@string/accept_all"
                             android:textAllCaps="false"
                             android:textColor="@color/color_white"

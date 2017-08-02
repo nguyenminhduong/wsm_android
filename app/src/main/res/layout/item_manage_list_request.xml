@@ -96,65 +96,67 @@
                             />
                     </LinearLayout>
                     <LinearLayout
-                        android:gravity="center"
                         android:id="@+id/framme_layout_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginRight="@dimen/dp_5"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="@dimen/dp_3"
+                        android:orientation="horizontal"
                         >
-                        <TextView
+                        <FrameLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/accepted"
-                            android:textColor="@color/color_green_status"
-                            android:textSize="@dimen/sp_15"
-                            android:textStyle="bold"
-                            android:visibility="@{viewModel.acceptStatus ? View.VISIBLE : View.GONE}"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/pending"
-                            android:textColor="@color/md_material_blue_600"
-                            android:textSize="@dimen/sp_15"
-                            android:textStyle="bold"
-                            android:visibility="@{viewModel.pendingStatus ? View.VISIBLE : View.GONE}"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/rejected"
-                            android:textColor="@color/color_red_fresh"
-                            android:textSize="@dimen/sp_15"
-                            android:textStyle="bold"
-                            android:visibility="@{viewModel.rejectStatus ? View.VISIBLE : View.GONE}"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/forwarded"
-                            android:textColor="@color/md_material_blue_800"
-                            android:textSize="@dimen/sp_15"
-                            android:textStyle="bold"
-                            android:visibility="@{viewModel.forwardStatus ? View.VISIBLE : View.GONE}"
-                            />
-                    </FrameLayout>
+                            android:gravity="center"
+                            android:padding="@dimen/dp_3"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/accepted"
+                                android:textColor="@color/color_green_status"
+                                android:textSize="@dimen/sp_15"
+                                android:textStyle="bold"
+                                android:visibility="@{viewModel.acceptStatus ? View.VISIBLE : View.GONE}"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pending"
+                                android:textColor="@color/md_material_blue_600"
+                                android:textSize="@dimen/sp_15"
+                                android:textStyle="bold"
+                                android:visibility="@{viewModel.pendingStatus ? View.VISIBLE : View.GONE}"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rejected"
+                                android:textColor="@color/color_red_fresh"
+                                android:textSize="@dimen/sp_15"
+                                android:textStyle="bold"
+                                android:visibility="@{viewModel.rejectStatus ? View.VISIBLE : View.GONE}"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/forwarded"
+                                android:textColor="@color/md_material_blue_800"
+                                android:textSize="@dimen/sp_15"
+                                android:textStyle="bold"
+                                android:visibility="@{viewModel.forwardStatus ? View.VISIBLE : View.GONE}"
+                                />
+                        </FrameLayout>
 
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="@{viewModel.visibleCheckbox ? View.VISIBLE : View.GONE}"
-                        />
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@{viewModel.checked}"
+                            android:onClick="@{() -> viewModel.onCheckedItem()}"
+                            android:visibility="@{viewModel.visibleCheckbox ? View.VISIBLE : View.GONE}"
+                            />
                     </LinearLayout>
                 </RelativeLayout>
 
