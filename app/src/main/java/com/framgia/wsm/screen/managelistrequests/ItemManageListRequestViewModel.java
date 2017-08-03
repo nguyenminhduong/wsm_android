@@ -275,6 +275,7 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         if (mLeaveRequest != null
                 && StatusCode.FORWARD_CODE.equals(mLeaveRequest.getStatus())
                 && mLeaveRequest.isCanApproveReject()) {
+            setStatus(StatusCode.PENDING_CODE);
             mLeaveRequest.setStatus(StatusCode.PENDING_CODE);
             notifyPropertyChanged(BR.pendingStatus);
             return;
@@ -282,6 +283,7 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         if (mRequestOverTime != null
                 && StatusCode.FORWARD_CODE.equals(mRequestOverTime.getStatus())
                 && mRequestOverTime.isCanApproveReject()) {
+            setStatus(StatusCode.PENDING_CODE);
             mRequestOverTime.setStatus(StatusCode.PENDING_CODE);
             notifyPropertyChanged(BR.pendingStatus);
             return;
@@ -289,6 +291,7 @@ public class ItemManageListRequestViewModel extends BaseObservable {
         if (mRequestOff != null
                 && StatusCode.FORWARD_CODE.equals(mRequestOff.getStatus())
                 && mRequestOff.isCanApproveReject()) {
+            setStatus(StatusCode.PENDING_CODE);
             mRequestOff.setStatus(StatusCode.PENDING_CODE);
             notifyPropertyChanged(BR.pendingStatus);
         }

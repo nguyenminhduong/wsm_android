@@ -182,6 +182,21 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void onApproveOrRejectRequestSuccess(ActionRequestResponse actionRequestResponse) {
         setLoading(false);
         updateItemRequest(mRequestType, mItemPosition, actionRequestResponse);
+        switch (mRequestType) {
+            case RequestType.REQUEST_LATE_EARLY:
+                checkCurrentSizeListRequest(
+                        mManageListRequestsAdapter.getListLeaveRequest().size());
+                break;
+            case RequestType.REQUEST_OFF:
+                checkCurrentSizeListRequest(mManageListRequestsAdapter.getListOffRequest().size());
+                break;
+            case RequestType.REQUEST_OVERTIME:
+                checkCurrentSizeListRequest(
+                        mManageListRequestsAdapter.getListOverTimeRequest().size());
+                break;
+            default:
+                break;
+        }
         if (mAction == TypeAction.APPROVE) {
             mNavigator.showToastCustom(TypeToast.SUCCESS,
                     mContext.getString(R.string.approve_success));
@@ -237,6 +252,8 @@ public class ManageListRequestsViewModel extends BaseObservable
                         }
                     }
                 }
+                checkCurrentSizeListRequest(
+                        mManageListRequestsAdapter.getListLeaveRequest().size());
                 break;
             case RequestType.REQUEST_OFF:
                 List<OffRequest> offRequests = mManageListRequestsAdapter.getListOffRequest();
@@ -249,6 +266,7 @@ public class ManageListRequestsViewModel extends BaseObservable
                         }
                     }
                 }
+                checkCurrentSizeListRequest(mManageListRequestsAdapter.getListOffRequest().size());
                 break;
             case RequestType.REQUEST_OVERTIME:
                 List<RequestOverTime> requestOverTimes =
@@ -262,6 +280,8 @@ public class ManageListRequestsViewModel extends BaseObservable
                         }
                     }
                 }
+                checkCurrentSizeListRequest(
+                        mManageListRequestsAdapter.getListOverTimeRequest().size());
                 break;
             default:
                 break;
@@ -352,9 +372,15 @@ public class ManageListRequestsViewModel extends BaseObservable
         mPresenter.approveOrRejectRequest(mActionRequest);
     }
 
+    private void checkCurrentSizeListRequest(int size) {
+        if (size == 0) {
+            setVisiableLayoutDataNotFound(true);
+        }
+    }
+
     private void checkSizeApproveAllListRequest(int size) {
         if (size == 0) {
-            mNavigator.showToastCustom(TypeToast.WARNING,
+            mNavigator.showToastCustom(TypeToast.ERROR,
                     mContext.getString(R.string.accept_all_unsuccess));
             return;
         }
@@ -447,6 +473,18 @@ public class ManageListRequestsViewModel extends BaseObservable
         return isRefreshEnable;
     }
 
+    private void setFromTimeNotGetData(String fromTime) {
+        mFromTime = fromTime;
+        mQueryRequest.setFromTime(fromTime);
+        notifyPropertyChanged(BR.fromTime);
+    }
+
+    private void setToTimeNotGetData(String toTime) {
+        mToTime = toTime;
+        mQueryRequest.setToTime(toTime);
+        notifyPropertyChanged(BR.toTime);
+    }
+
     public void setPage(int page) {
         mPage = page;
         mQueryRequest.setPage(String.valueOf(mPage));
@@ -494,7 +532,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         notifyPropertyChanged(BR.selectAll);
     }
 
-    public void setLoadDataFirstTime(boolean loadDataFirstTime) {
+    private void setLoadDataFirstTime(boolean loadDataFirstTime) {
         mIsLoadDataFirstTime = loadDataFirstTime;
     }
 
@@ -598,8 +636,8 @@ public class ManageListRequestsViewModel extends BaseObservable
         setCurrentStatus(null);
         mFromTime = DateTimeUtils.dayFirstMonthWorking();
         mToTime = DateTimeUtils.dayLasttMonthWorking();
-        setFromTime(mFromTime);
-        setToTime(mToTime);
+        setFromTimeNotGetData(mFromTime);
+        setToTimeNotGetData(mToTime);
         mQueryRequest.setStatus(null);
         mQueryRequest.setFromTime(mFromTime);
         mQueryRequest.setToTime(mToTime);
@@ -617,53 +655,75 @@ public class ManageListRequestsViewModel extends BaseObservable
         updateItemRequest(requestType, itemPosition, actionRequestResponse);
     }
 
-    private void setStatusSelectAll(int size) {
-        if (size > 0) {
+    private void setStatusSelectAll(int totalRequestSelected) {
+        if (totalRequestSelected > 0) {
             setSelectAll(!mIsSelectAll);
             return;
         }
         setSelectAll(false);
+        mNavigator.showToastCustom(TypeToast.WARNING,
+                mContext.getString(R.string.there_is_no_request_to_choose));
+    }
+
+    private boolean requestCanSelected(String status, boolean isCanApprove) {
+        return StatusCode.PENDING_CODE.equals(status)
+                || StatusCode.REJECT_CODE.equals(status) && isCanApprove;
     }
 
     public void onSelectAll(View view) {
+        int totalRequestSelected = 0;
         switch (mRequestType) {
             case RequestType.REQUEST_LATE_EARLY:
                 List<LeaveRequest> leaveRequests = mManageListRequestsAdapter.getListLeaveRequest();
-                setStatusSelectAll(leaveRequests.size());
                 for (int i = 0; i < leaveRequests.size(); i++) {
                     LeaveRequest leaveRequest = leaveRequests.get(i);
-                    if (StatusCode.PENDING_CODE.equals(leaveRequest.getStatus())
-                            || StatusCode.REJECT_CODE.equals(leaveRequest.getStatus())) {
-                        mManageListRequestsAdapter.updateCheckedItem(mRequestType, i, mIsSelectAll);
+                    if (requestCanSelected(leaveRequest.getStatus(),
+                            leaveRequest.isCanApproveReject())) {
+                        mManageListRequestsAdapter.updateCheckedItem(mRequestType, i,
+                                !mIsSelectAll);
+                        totalRequestSelected++;
                     }
                 }
                 break;
             case RequestType.REQUEST_OFF:
                 List<OffRequest> offRequests = mManageListRequestsAdapter.getListOffRequest();
-                setStatusSelectAll(offRequests.size());
                 for (int i = 0; i < offRequests.size(); i++) {
                     OffRequest offRequest = offRequests.get(i);
-                    if (StatusCode.PENDING_CODE.equals(offRequest.getStatus())
-                            || StatusCode.REJECT_CODE.equals(offRequest.getStatus())) {
-                        mManageListRequestsAdapter.updateCheckedItem(mRequestType, i, mIsSelectAll);
+                    if (requestCanSelected(offRequest.getStatus(),
+                            offRequest.isCanApproveReject())) {
+                        mManageListRequestsAdapter.updateCheckedItem(mRequestType, i,
+                                !mIsSelectAll);
+                        totalRequestSelected++;
                     }
                 }
                 break;
             case RequestType.REQUEST_OVERTIME:
                 List<RequestOverTime> overTimeRequests =
                         mManageListRequestsAdapter.getListOverTimeRequest();
-                setStatusSelectAll(overTimeRequests.size());
                 for (int i = 0; i < overTimeRequests.size(); i++) {
                     RequestOverTime requestOverTime = overTimeRequests.get(i);
-                    if (StatusCode.PENDING_CODE.equals(requestOverTime.getStatus())
-                            || StatusCode.REJECT_CODE.equals(requestOverTime.getStatus())) {
-                        mManageListRequestsAdapter.updateCheckedItem(mRequestType, i, mIsSelectAll);
+                    if (requestCanSelected(requestOverTime.getStatus(),
+                            requestOverTime.isCanApproveReject())) {
+                        mManageListRequestsAdapter.updateCheckedItem(mRequestType, i,
+                                !mIsSelectAll);
+                        totalRequestSelected++;
                     }
                 }
                 break;
             default:
                 break;
         }
+        setStatusSelectAll(totalRequestSelected);
+    }
+
+    private void checkAcceptAll(List<Integer> listRequestId) {
+        if (listRequestId.size() > 0) {
+            mActionRequest.setListRequestId(listRequestId);
+            mPresenter.approveAllRequest(mActionRequest);
+            return;
+        }
+        mNavigator.showToastCustom(TypeToast.WARNING,
+                mContext.getString(R.string.there_is_no_request_to_choose));
     }
 
     public void onAcceptAll(View view) {
@@ -676,8 +736,7 @@ public class ManageListRequestsViewModel extends BaseObservable
                         listLeaveRequestId.add(leaveRequest.getId());
                     }
                 }
-                mActionRequest.setListRequestId(listLeaveRequestId);
-                mPresenter.approveAllRequest(mActionRequest);
+                checkAcceptAll(listLeaveRequestId);
                 break;
             case RequestType.REQUEST_OFF:
                 List<Integer> listOffRequestId = new ArrayList<>();
@@ -686,8 +745,7 @@ public class ManageListRequestsViewModel extends BaseObservable
                         listOffRequestId.add(offRequest.getId());
                     }
                 }
-                mActionRequest.setListRequestId(listOffRequestId);
-                mPresenter.approveAllRequest(mActionRequest);
+                checkAcceptAll(listOffRequestId);
                 break;
             case RequestType.REQUEST_OVERTIME:
                 List<Integer> listOvertimeRequestId = new ArrayList<>();
@@ -697,8 +755,7 @@ public class ManageListRequestsViewModel extends BaseObservable
                         listOvertimeRequestId.add(requestOverTime.getId());
                     }
                 }
-                mActionRequest.setListRequestId(listOvertimeRequestId);
-                mPresenter.approveAllRequest(mActionRequest);
+                checkAcceptAll(listOvertimeRequestId);
                 break;
             default:
                 break;
