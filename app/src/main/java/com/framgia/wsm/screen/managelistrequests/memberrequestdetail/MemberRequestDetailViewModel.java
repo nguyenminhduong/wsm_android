@@ -126,8 +126,8 @@ public class MemberRequestDetailViewModel extends BaseObservable
             mActionRequest.setTypeRequest(TypeRequest.OFF);
             mCurrentRequestType = RequestType.REQUEST_OFF;
             setForward(!mOffRequest.isCanApproveReject());
-            if (!mOverTimeRequest.isCanApproveReject() && StatusCode.FORWARD_CODE.equals(
-                    mOverTimeRequest.getStatus())) {
+            if (!mOffRequest.isCanApproveReject() && StatusCode.FORWARD_CODE.equals(
+                    mOffRequest.getStatus())) {
                 setStatusForward(true);
             }
         }
