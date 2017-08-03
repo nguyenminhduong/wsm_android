@@ -120,6 +120,9 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
                     notifyItemChanged(position, mRequestsLeaves);
                     return;
                 }
+                if (mRequestsLeaves.size() == 0) {
+                    return;
+                }
                 mRequestsLeaves.remove(position);
                 notifyItemRemoved(position);
                 notifyItemChanged(position, mRequestsLeaves);
@@ -132,6 +135,9 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
                     notifyItemChanged(position, mRequestsOffs);
                     return;
                 }
+                if (mRequestsOffs.size() == 0) {
+                    return;
+                }
                 mRequestsOffs.remove(position);
                 notifyItemRemoved(position);
                 notifyItemChanged(position, mRequestsOffs);
@@ -142,6 +148,9 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
                     mRequestOverTimes.get(position)
                             .setCanApproveReject(actionRequestResponse.isCanApproveReject());
                     notifyItemChanged(position, mRequestOverTimes);
+                    return;
+                }
+                if (mRequestOverTimes.size() == 0) {
                     return;
                 }
                 mRequestOverTimes.remove(position);
