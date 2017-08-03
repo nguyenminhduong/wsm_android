@@ -26,7 +26,6 @@ import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
-import java.util.Calendar;
 
 import static com.framgia.wsm.utils.Constant.EXTRA_REQUEST_OVERTIME;
 
@@ -155,10 +154,10 @@ public class RequestOvertimeViewModel extends BaseObservable
                 DateTimeUtils.convertDateTimeToString(mCurrentDate, hourOfDay, minute);
         if (mIsFromTimeSelected) {
             setToTime(null);
-            validateFromTime(currentDateTime);
-        } else {
-            validateToTime(currentDateTime);
+            setFromTime(currentDateTime);
+            return;
         }
+        validateToTime(currentDateTime);
     }
 
     public String getTitleToolbar() {
@@ -317,28 +316,13 @@ public class RequestOvertimeViewModel extends BaseObservable
         });
     }
 
-    private void validateFromTime(String fromTime) {
-        if (DateTimeUtils.getDayOfWeek(fromTime) != Calendar.SATURDAY
-                && DateTimeUtils.getDayOfWeek(fromTime) != Calendar.SUNDAY) {
-            if (DateTimeUtils.getHourOfDay(fromTime) >= EIGHT_HOUR) {
-                setFromTime(fromTime);
-            } else {
-                validateErrorDialog(mContext.getString(R.string.time_request_overtime_invalid));
-            }
-        } else {
-            setFromTime(fromTime);
-        }
-    }
-
     private void validateToTime(String toTime) {
-        if (DateTimeUtils.getDayOfMonth(toTime) == DateTimeUtils.getDayOfMonth(
-                mRequestOverTime.getFromTime()) && DateTimeUtils.convertStringToDateTime(
-                mRequestOverTime.getFromTime())
+        if (DateTimeUtils.convertStringToDateTime(mRequestOverTime.getFromTime())
                 .before(DateTimeUtils.convertStringToDateTime(toTime))) {
             setToTime(toTime);
-        } else {
-            validateErrorDialog(mContext.getString(R.string.end_time_is_less_than_start_time));
+            return;
         }
+        validateErrorDialog(mContext.getString(R.string.end_time_is_less_than_start_time));
     }
 
     private void setBranchAndGroupWhenEdit(User user) {
