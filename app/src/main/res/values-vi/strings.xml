@@ -279,6 +279,8 @@
     <string name="select_all">Chọn tất cả</string>
     <string name="you_have_selected">Bạn đã chọn</string>
     <string name="requests">yêu cầu</string>
+    <string name="accept_all_success">Chấp nhận thành công</string>
+    <string name="accept_all_unsuccess">Chấp nhận không thành công</string>
 
     <string name="branch_is_emty">Vui lòng chọn chi nhánh để tạo yêu cầu!</string>
     <string name="group_is_emty">Vui lòng chọn phòng ban để tạo yêu cầu!</string>

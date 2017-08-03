@@ -23,6 +23,7 @@ import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.screen.managelistrequests.memberrequestdetail
         .MemberRequestDetailDialogFragment;
 import com.framgia.wsm.screen.managelistrequests.memberrequestdetail.MemberRequestDetailViewModel;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.TypeToast;
@@ -72,6 +73,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     private boolean mIsVisiableLayoutDataNotFound;
     private boolean mIsVisiableLayoutFooter;
     private boolean mIsSelectAll;
+    private boolean mIsLoadDataFirstTime;
 
     ManageListRequestsViewModel(Context context, ManageListRequestsContract.Presenter presenter,
             DialogManager dialogManager, ManageListRequestsAdapter manageListRequestsAdapter,
@@ -102,6 +104,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
         mQueryRequest.setPage(String.valueOf(mPage));
         setVisiableLayoutFooter(true);
+        setLoadDataFirstTime(true);
     }
 
     @Override
@@ -143,12 +146,17 @@ public class ManageListRequestsViewModel extends BaseObservable
             default:
                 break;
         }
+        setLoadDataFirstTime(false);
     }
 
     @Override
     public void onReloadData() {
         setPage(PAGE_ONE);
-        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
+        if (mIsLoadDataFirstTime) {
+            mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
+            return;
+        }
+        mPresenter.getListAllRequestManageNoProgressDialog(mRequestType, mQueryRequest, false);
     }
 
     void setRequestType(@RequestType int requestType) {
@@ -211,6 +219,59 @@ public class ManageListRequestsViewModel extends BaseObservable
     @Override
     public void hideLayoutFooter() {
         setVisiableLayoutFooter(false);
+    }
+
+    @Override
+    public void onApproveAllRequestSuccess(List<ActionRequestResponse> actionRequestResponseList) {
+        setLoading(false);
+        setSelectAll(false);
+        switch (mRequestType) {
+            case RequestType.REQUEST_LATE_EARLY:
+                List<LeaveRequest> leaveRequests = mManageListRequestsAdapter.getListLeaveRequest();
+                for (int i = 0; i < leaveRequests.size(); i++) {
+                    LeaveRequest leaveRequest = leaveRequests.get(i);
+                    for (ActionRequestResponse actionRequestResponse : actionRequestResponseList) {
+                        if (leaveRequest.getId() == actionRequestResponse.getRequestId()) {
+                            updateItemRequest(mRequestType, i, actionRequestResponse);
+                            i--;
+                        }
+                    }
+                }
+                break;
+            case RequestType.REQUEST_OFF:
+                List<OffRequest> offRequests = mManageListRequestsAdapter.getListOffRequest();
+                for (int i = 0; i < offRequests.size(); i++) {
+                    OffRequest offRequest = offRequests.get(i);
+                    for (ActionRequestResponse actionRequestResponse : actionRequestResponseList) {
+                        if (offRequest.getId() == actionRequestResponse.getRequestId()) {
+                            updateItemRequest(mRequestType, i, actionRequestResponse);
+                            i--;
+                        }
+                    }
+                }
+                break;
+            case RequestType.REQUEST_OVERTIME:
+                List<RequestOverTime> requestOverTimes =
+                        mManageListRequestsAdapter.getListOverTimeRequest();
+                for (int i = 0; i < requestOverTimes.size(); i++) {
+                    RequestOverTime requestOverTime = requestOverTimes.get(i);
+                    for (ActionRequestResponse actionRequestResponse : actionRequestResponseList) {
+                        if (requestOverTime.getId() == actionRequestResponse.getRequestId()) {
+                            updateItemRequest(mRequestType, i, actionRequestResponse);
+                            i--;
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        checkSizeApproveAllListRequest(actionRequestResponseList.size());
+    }
+
+    @Override
+    public void onApproveAllRequestError(BaseException exception) {
+        mDialogManager.dialogError(exception);
     }
 
     @Override
@@ -289,6 +350,20 @@ public class ManageListRequestsViewModel extends BaseObservable
         mActionRequest.setStatus(statusCode);
         mActionRequest.setRequestId(requestId);
         mPresenter.approveOrRejectRequest(mActionRequest);
+    }
+
+    private void checkSizeApproveAllListRequest(int size) {
+        if (size == 0) {
+            mNavigator.showToastCustom(TypeToast.WARNING,
+                    mContext.getString(R.string.accept_all_unsuccess));
+            return;
+        }
+        String message = mContext.getString(R.string.accept_all_success)
+                + Constant.BLANK
+                + size
+                + Constant.BLANK
+                + mContext.getString(R.string.requests);
+        mNavigator.showToastCustom(TypeToast.SUCCESS, message);
     }
 
     private void checkSizeListRequest(int size, boolean isLoadMore) {
@@ -376,6 +451,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         mPage = page;
         mQueryRequest.setPage(String.valueOf(mPage));
         setVisiableLayoutDataNotFound(false);
+        setSelectAll(false);
     }
 
     @Bindable
@@ -416,6 +492,10 @@ public class ManageListRequestsViewModel extends BaseObservable
     private void setSelectAll(boolean selectAll) {
         mIsSelectAll = selectAll;
         notifyPropertyChanged(BR.selectAll);
+    }
+
+    public void setLoadDataFirstTime(boolean loadDataFirstTime) {
+        mIsLoadDataFirstTime = loadDataFirstTime;
     }
 
     private void setRefreshEnable(boolean refreshEnable) {
@@ -597,7 +677,7 @@ public class ManageListRequestsViewModel extends BaseObservable
                     }
                 }
                 mActionRequest.setListRequestId(listLeaveRequestId);
-                //TODO edit later
+                mPresenter.approveAllRequest(mActionRequest);
                 break;
             case RequestType.REQUEST_OFF:
                 List<Integer> listOffRequestId = new ArrayList<>();
@@ -607,7 +687,7 @@ public class ManageListRequestsViewModel extends BaseObservable
                     }
                 }
                 mActionRequest.setListRequestId(listOffRequestId);
-                //TODO edit later
+                mPresenter.approveAllRequest(mActionRequest);
                 break;
             case RequestType.REQUEST_OVERTIME:
                 List<Integer> listOvertimeRequestId = new ArrayList<>();
@@ -618,7 +698,7 @@ public class ManageListRequestsViewModel extends BaseObservable
                     }
                 }
                 mActionRequest.setListRequestId(listOvertimeRequestId);
-                //TODO edit later
+                mPresenter.approveAllRequest(mActionRequest);
                 break;
             default:
                 break;

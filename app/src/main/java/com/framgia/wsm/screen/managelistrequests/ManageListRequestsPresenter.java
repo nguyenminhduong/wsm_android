@@ -262,4 +262,37 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
                 });
         mCompositeDisposable.add(disposable);
     }
+
+    @Override
+    public void approveAllRequest(ActionRequest actionRequest) {
+        Disposable disposable = mRequestRepository.approveAllRequest(actionRequest)
+                .subscribeOn(mBaseSchedulerProvider.io())
+                .observeOn(mBaseSchedulerProvider.ui())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(@NonNull Disposable disposable) throws Exception {
+                        mViewModel.onShowIndeterminateProgressDialog();
+                    }
+                })
+                .doAfterTerminate(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mViewModel.onDismissProgressDialog();
+                    }
+                })
+                .subscribe(new Consumer<BaseResponse<List<ActionRequestResponse>>>() {
+                    @Override
+                    public void accept(
+                            @NonNull BaseResponse<List<ActionRequestResponse>> listBaseResponse)
+                            throws Exception {
+                        mViewModel.onApproveAllRequestSuccess(listBaseResponse.getData());
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onApproveAllRequestError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
+    }
 }
