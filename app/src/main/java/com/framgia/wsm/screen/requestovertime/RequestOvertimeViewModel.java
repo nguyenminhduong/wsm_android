@@ -368,6 +368,14 @@ public class RequestOvertimeViewModel extends BaseObservable
         if (!mPresenter.validateDataInput(mRequestOverTime)) {
             return;
         }
+        if (mRequestOverTime.getBranch() == null) {
+            mDialogManager.dialogError(mContext.getString(R.string.branch_is_emty));
+            return;
+        }
+        if (mRequestOverTime.getGroup() == null) {
+            mDialogManager.dialogError(mContext.getString(R.string.group_is_emty));
+            return;
+        }
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.EXTRA_ACTION_TYPE, mActionType);
         bundle.putParcelable(EXTRA_REQUEST_OVERTIME, mRequestOverTime);

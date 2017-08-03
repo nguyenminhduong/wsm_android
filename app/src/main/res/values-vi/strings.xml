@@ -280,4 +280,7 @@
     <string name="you_have_selected">Bạn đã chọn</string>
     <string name="requests">yêu cầu</string>
 
+    <string name="branch_is_emty">Vui lòng chọn chi nhánh để tạo yêu cầu!</string>
+    <string name="group_is_emty">Vui lòng chọn phòng ban để tạo yêu cầu!</string>
+
 </resources>
