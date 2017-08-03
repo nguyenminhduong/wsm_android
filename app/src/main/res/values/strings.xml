@@ -297,5 +297,6 @@
     <string name="refresh_setting_error">Refresh Setting Error !</string>
     <string name="accept_all_success">Accept All Success</string>
     <string name="accept_all_unsuccess">Accept All Unsuccessful</string>
+    <string name="overtime">Overtime</string>
 
 </resources>

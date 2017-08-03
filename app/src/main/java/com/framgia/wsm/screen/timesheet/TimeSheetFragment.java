@@ -43,6 +43,15 @@ public class TimeSheetFragment extends BaseFragment {
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isVisibleToUser) {
+            return;
+        }
+        mViewModel.onReloadData();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         mViewModel.onStart();
@@ -52,5 +61,11 @@ public class TimeSheetFragment extends BaseFragment {
     public void onStop() {
         mViewModel.onStop();
         super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mViewModel.onReloadData();
     }
 }

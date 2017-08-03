@@ -54,6 +54,7 @@ public class TimeSheetView extends View {
     private Paint mCircleAfternoonPaint;
     private Paint mCurrentDayCirclePaint;
     private Paint mCircleStrokeOutPaint;
+    private Paint mCircleOvertimePaint;
     private int mCurrentDayTextColor;
     private int mMonthTextColor;
     private int mDayTextColor;
@@ -63,6 +64,7 @@ public class TimeSheetView extends View {
     private int mDayOffStrokeColor;
     private int mDayOffRoColor;
     private int mDayOffPColor;
+    private int mOvertimeColor;
 
     private StringBuilder mStringBuilder;
 
@@ -127,6 +129,8 @@ public class TimeSheetView extends View {
                 resources.getColor(R.color.color_green_teal));
         mDayOffRoColor = typedArray.getColor(R.styleable.DatePickerView_colorMonthName,
                 resources.getColor(R.color.color_orange));
+        mOvertimeColor = typedArray.getColor(R.styleable.DatePickerView_colorMonthName,
+                resources.getColor(R.color.color_blue));
 
         mStringBuilder = new StringBuilder(50);
 
@@ -299,6 +303,9 @@ public class TimeSheetView extends View {
                         }
                         drawCircleDay(canvas, y, x);
                         drawCircleStrokeOut(canvas, y, x);
+                        if (timeSheetDate.getNumberOfOvertime() > 0) {
+                            drawCircleOvertime(canvas, y, x);
+                        }
                         drawCircleCurrentDay(canvas, y, x);
                         mCircleMorningPaint.setColor(Color.TRANSPARENT);
                         mCircleAfternoonPaint.setColor(Color.TRANSPARENT);
@@ -343,6 +350,10 @@ public class TimeSheetView extends View {
         mCurrentDayCirclePaint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(x, y - mMiniDayNumberTextSize * 4 / 3, mCurrentDayCircleSize,
                 mCurrentDayCirclePaint);
+    }
+
+    private void drawCircleOvertime(Canvas canvas, int y, int x) {
+        canvas.drawCircle(x, y - mMiniDayNumberTextSize / 3, mDayCircleSize, mCircleOvertimePaint);
     }
 
     private void drawCircleDay(Canvas canvas, int y, int x) {
@@ -430,6 +441,16 @@ public class TimeSheetView extends View {
         mCircleStrokeOutPaint.setStrokeWidth(2);
         mCircleStrokeOutPaint.setStrokeJoin(Paint.Join.ROUND);
         mCircleStrokeOutPaint.setStrokeCap(Paint.Cap.ROUND);
+
+        mCircleOvertimePaint = new Paint();
+        mCircleOvertimePaint.setFakeBoldText(true);
+        mCircleOvertimePaint.setAntiAlias(true);
+        mCircleOvertimePaint.setTextAlign(Paint.Align.CENTER);
+        mCircleOvertimePaint.setStyle(Paint.Style.STROKE);
+        mCircleOvertimePaint.setColor(mOvertimeColor);
+        mCircleOvertimePaint.setStrokeWidth(5);
+        mCircleOvertimePaint.setStrokeJoin(Paint.Join.ROUND);
+        mCircleOvertimePaint.setStrokeCap(Paint.Cap.ROUND);
 
         mCurrentDayCirclePaint = new Paint();
         mCurrentDayCirclePaint.setFakeBoldText(true);
