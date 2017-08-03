@@ -284,6 +284,9 @@
 
     <string name="branch_is_emty">Vui lòng chọn chi nhánh để tạo yêu cầu!</string>
     <string name="group_is_emty">Vui lòng chọn phòng ban để tạo yêu cầu!</string>
+    <string name="please_enter_email">Nhập địa chỉ email của bạn, và chúng tôi sẽ gửi cho bạn một liên kết để bạn có thể đặt lại mật khẩu !</string>
+    <string name="send_email">Gửi Email</string>
+    <string name="message_send_email_success">You will receive an email with instructions on how to reset your password in a few minutes.</string>
     <string name="overtime">Làm ngoài giờ</string>
     <string name="jan">Th1</string>
     <string name="feb">Th2</string>

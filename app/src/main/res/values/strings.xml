@@ -295,6 +295,9 @@
 
     <string name="update_success">Update Success !</string>
     <string name="refresh_setting_error">Refresh Setting Error !</string>
+    <string name="please_enter_email">Enter your email address, and we will send you a link so you can reset your password !</string>
+    <string name="send_email">Send Email</string>
+    <string name="message_send_email_success">You will receive an email with instructions on how to reset your password in a few minutes.</string>
     <string name="accept_all_success">Accept All Success</string>
     <string name="accept_all_unsuccess">Accept All Unsuccessful</string>
     <string name="overtime">Overtime</string>
