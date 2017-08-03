@@ -18,7 +18,6 @@ import com.framgia.wsm.screen.requestoff.RequestOffActivity;
 import com.framgia.wsm.screen.requestovertime.RequestOvertimeActivity;
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
-import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import java.util.ArrayList;
@@ -49,6 +48,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     private boolean mIsLoading;
     private boolean mIsRefreshEnable;
     private boolean mIsEmployeeFullTime;
+    private boolean mIsShowOvertime;
 
     public TimeSheetViewModel(Context context, TimeSheetContract.Presenter presenter,
             Navigator navigator, DialogManager dialogManager) {
@@ -64,7 +64,6 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         mDialogManager.showIndeterminateProgressDialog();
         setMonth();
         setYear();
-        mPresenter.getTimeSheet(mMonth + ONE_MONTH, mYear);
     }
 
     @Override
@@ -103,32 +102,24 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         Log.e(TAG, "onGetUserError: ", error);
     }
 
-    @Bindable
-    public String getDate() {
-        return (mTimeSheetDate.getDateString() == null) ? "" : DateTimeUtils.convertToString(
-                DateTimeUtils.convertStringToDate(mTimeSheetDate.getDateString(),
-                        DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2),
-                DateTimeUtils.DATE_FORMAT_EEE_D_MMM__YYYY);
+    @Override
+    public void onReloadData() {
+        mPresenter.getTimeSheet(mMonth + ONE_MONTH, mYear);
     }
 
     @Bindable
-    public String getTimeIn() {
-        return mTimeSheetDate.getTimeIn();
+    public TimeSheetDate getTimeSheetDate() {
+        return mTimeSheetDate;
     }
 
-    @Bindable
-    public String getTimeOut() {
-        return mTimeSheetDate.getTimeOut();
-    }
-
-    @Bindable
-    public String getColorMorning() {
-        return mTimeSheetDate.getColorMorning();
-    }
-
-    @Bindable
-    public String getColorAfternoon() {
-        return mTimeSheetDate.getColorAfternoon();
+    private void setTimeSheetDate(TimeSheetDate timeSheetDate) {
+        mTimeSheetDate = timeSheetDate;
+        notifyPropertyChanged(BR.timeSheetDate);
+        if (timeSheetDate.getNumberOfOvertime() > 0) {
+            setShowOvertime(true);
+        } else {
+            setShowOvertime(false);
+        }
     }
 
     @Bindable
@@ -208,6 +199,11 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         return isShowInformation;
     }
 
+    public void setShowInformation(boolean showInformation) {
+        isShowInformation = showInformation;
+        notifyPropertyChanged(BR.showInformation);
+    }
+
     @Bindable
     public boolean isVisibleFloatingActionMenu() {
         return isVisibleFloatingActionMenu;
@@ -218,15 +214,19 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         notifyPropertyChanged(BR.visibleFloatingActionMenu);
     }
 
+    @Bindable
+    public boolean isShowOvertime() {
+        return mIsShowOvertime;
+    }
+
+    public void setShowOvertime(boolean showOvertime) {
+        mIsShowOvertime = showOvertime;
+        notifyPropertyChanged(BR.showOvertime);
+    }
+
     public void onDayClicked(TimeSheetDate timeSheetDate) {
-        mTimeSheetDate = timeSheetDate;
-        isShowInformation = true;
-        notifyPropertyChanged(BR.showInformation);
-        notifyPropertyChanged(BR.date);
-        notifyPropertyChanged(BR.timeIn);
-        notifyPropertyChanged(BR.timeOut);
-        notifyPropertyChanged(BR.colorMorning);
-        notifyPropertyChanged(BR.colorAfternoon);
+        setShowInformation(true);
+        setTimeSheetDate(timeSheetDate);
     }
 
     public void onClickRequestLeave(View view) {

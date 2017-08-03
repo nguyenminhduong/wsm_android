@@ -21,6 +21,8 @@ interface TimeSheetContract {
         void onGetUserSuccess(User user);
 
         void onGetUserError(BaseException error);
+
+        void onReloadData();
     }
 
     /**

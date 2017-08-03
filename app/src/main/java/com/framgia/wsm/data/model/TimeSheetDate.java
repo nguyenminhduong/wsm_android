@@ -11,6 +11,7 @@ import java.util.Date;
  */
 
 public class TimeSheetDate extends BaseModel {
+    private static final String PREFIX_OT = "OT: ";
     @Expose
     @SerializedName("date")
     private String mDate;
@@ -32,6 +33,9 @@ public class TimeSheetDate extends BaseModel {
     @Expose
     @SerializedName("color_afternoon")
     private String mColorAfternoon;
+    @Expose
+    @SerializedName("hour_over_time")
+    private float mNumberOfOvertime;
 
     public TimeSheetDate() {
     }
@@ -48,7 +52,9 @@ public class TimeSheetDate extends BaseModel {
     }
 
     public String getDateString() {
-        return mDate;
+        return mDate == null ? "" : DateTimeUtils.convertToString(
+                DateTimeUtils.convertStringToDate(mDate, DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2),
+                DateTimeUtils.DATE_FORMAT_EEE_D_MMM__YYYY);
     }
 
     public Date getDate() {
@@ -109,25 +115,35 @@ public class TimeSheetDate extends BaseModel {
         return mColorMorning;
     }
 
-    public String getColorAfternoon() {
-        return mColorAfternoon;
-    }
-
-    public boolean isDayOffMorning() {
-        return StringUtils.isNotBlank(mTextMorning)
-                && !mTextMorning.equals(mTimeIn);
-    }
-
-    public boolean isDayOffAfternoon() {
-        return StringUtils.isNotBlank(mTextAfternoon)
-                && !mTextAfternoon.equals(mTimeOut);
-    }
-
     public void setColorMorning(String colorMorning) {
         mColorMorning = colorMorning;
     }
 
+    public String getColorAfternoon() {
+        return mColorAfternoon;
+    }
+
     public void setColorAfternoon(String colorAfternoon) {
         mColorAfternoon = colorAfternoon;
+    }
+
+    public boolean isDayOffMorning() {
+        return StringUtils.isNotBlank(mTextMorning) && !mTextMorning.equals(mTimeIn);
+    }
+
+    public boolean isDayOffAfternoon() {
+        return StringUtils.isNotBlank(mTextAfternoon) && !mTextAfternoon.equals(mTimeOut);
+    }
+
+    public float getNumberOfOvertime() {
+        return mNumberOfOvertime;
+    }
+
+    public void setNumberOfOvertime(float numberOfOvertime) {
+        mNumberOfOvertime = numberOfOvertime;
+    }
+
+    public String getNumberOfOvertimeString() {
+        return PREFIX_OT + mNumberOfOvertime;
     }
 }

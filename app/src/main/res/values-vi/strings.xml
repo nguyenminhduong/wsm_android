@@ -284,5 +284,6 @@
 
     <string name="branch_is_emty">Vui lòng chọn chi nhánh để tạo yêu cầu!</string>
     <string name="group_is_emty">Vui lòng chọn phòng ban để tạo yêu cầu!</string>
+    <string name="overtime">Làm ngoài giờ</string>
 
 </resources>
