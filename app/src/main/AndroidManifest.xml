@@ -62,6 +62,10 @@
             android:name=".screen.changepassword.ChangePasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeRequest"/>
+        <activity
+            android:name=".screen.forgotpassword.ForgotPasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeRequest"/>
 
         <service
             android:name=".data.source.remote.api.service.FireBaseMessageService"
