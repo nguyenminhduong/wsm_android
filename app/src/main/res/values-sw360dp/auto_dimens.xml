@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<dimen name="sp_4">4sp</dimen>
 	<dimen name="dp_0">0.00dp</dimen>
 	<dimen name="dp_0.5">0.50dp</dimen>
 	<dimen name="dp_1">1.00dp</dimen>

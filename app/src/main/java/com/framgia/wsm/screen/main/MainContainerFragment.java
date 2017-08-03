@@ -13,6 +13,7 @@ import com.framgia.wsm.screen.listrequest.ListRequestFragment;
 import com.framgia.wsm.screen.managelistrequests.ManageListRequestsFragment;
 import com.framgia.wsm.screen.profile.ProfileFragment;
 import com.framgia.wsm.screen.setting.SettingProfileFragment;
+import com.framgia.wsm.screen.statistics.StatisticsFragment;
 import com.framgia.wsm.screen.timesheet.TimeSheetFragment;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.navigator.NavigateAnim;
@@ -75,6 +76,8 @@ public class MainContainerFragment extends BaseFragment {
                         HolidayCalendarFragment.TAG);
                 break;
             case STATISTIC_OF_PERSONAL:
+                mNavigator.goNextChildFragment(containerViewId, StatisticsFragment.newInstance(),
+                        false, NavigateAnim.NONE, StatisticsFragment.TAG);
                 break;
             case OVERTIME:
                 mNavigator.goNextChildFragment(containerViewId,

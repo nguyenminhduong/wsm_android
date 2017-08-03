@@ -285,5 +285,20 @@
     <string name="branch_is_emty">Vui lòng chọn chi nhánh để tạo yêu cầu!</string>
     <string name="group_is_emty">Vui lòng chọn phòng ban để tạo yêu cầu!</string>
     <string name="overtime">Làm ngoài giờ</string>
+    <string name="jan">Th1</string>
+    <string name="feb">Th2</string>
+    <string name="mar">Th3</string>
+    <string name="apr">Th4</string>
+    <string name="may">Th5</string>
+    <string name="jun">Th6</string>
+    <string name="jul">Th7</string>
+    <string name="aug">Th8</string>
+    <string name="sep">Th9</string>
+    <string name="oct">Th10</string>
+    <string name="nov">Th11</string>
+    <string name="dec">Th12</string>
+    <string name="request_off_approved">Số lần nghỉ</string>
+    <string name="request_leave_legend">Đi trễ/ Về sớm/ Rời khỏi</string>
+    <string name="request_ot_approved">Làm thêm giờ</string>
 
 </resources>
