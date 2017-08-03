@@ -34,6 +34,8 @@ public class TimeSheetView extends View {
     private static final int CALENDAR_DECEMBER = 11;
     private static final String FORMAT_COLOR_HEX = "#%06X";
     private static final Character PREFIX_DAY_OFF_P = 'P';
+    private static final Character PREFIX_DAY_OFF_RO = 'R';
+
     private int mDayCircleSize;
     private int mCurrentDayCircleSize;
     private int mDaySeparatorWidth = 1;
@@ -284,18 +286,20 @@ public class TimeSheetView extends View {
                                 mCircleMorningPaint.setColor(mDayOffPColor);
                                 timeSheetDate.setColorMorning(String.format(FORMAT_COLOR_HEX,
                                         (0xFFFFFF & mDayOffPColor)));
-                            } else {
+                            }
+                            if (timeSheetDate.getTextMorning().charAt(0) == PREFIX_DAY_OFF_RO) {
                                 mCircleMorningPaint.setColor(mDayOffRoColor);
                                 timeSheetDate.setColorMorning(String.format(FORMAT_COLOR_HEX,
                                         (0xFFFFFF & mDayOffRoColor)));
                             }
                         }
                         if (timeSheetDate.isDayOffAfternoon()) {
-                            if (timeSheetDate.getTextAfternoon().charAt(0) == PREFIX_DAY_OFF_P) {
+                            if (timeSheetDate.getTextAfternoon().charAt(0) == PREFIX_DAY_OFF_RO) {
                                 mCircleAfternoonPaint.setColor(mDayOffPColor);
                                 timeSheetDate.setColorAfternoon(String.format(FORMAT_COLOR_HEX,
                                         (0xFFFFFF & mDayOffPColor)));
-                            } else {
+                            }
+                            if (timeSheetDate.getTextMorning().charAt(0) == 'R') {
                                 mCircleAfternoonPaint.setColor(mDayOffRoColor);
                                 timeSheetDate.setColorAfternoon(String.format(FORMAT_COLOR_HEX,
                                         (0xFFFFFF & mDayOffRoColor)));
@@ -309,7 +313,11 @@ public class TimeSheetView extends View {
                         drawCircleCurrentDay(canvas, y, x);
                         mCircleMorningPaint.setColor(Color.TRANSPARENT);
                         mCircleAfternoonPaint.setColor(Color.TRANSPARENT);
-                        drawTextNormal(canvas, y, day, x);
+                        if (timeSheetDate.isSpecialCase()) {
+                            drawTextSpecialCase(canvas, y, day, x, timeSheetDate.getTextMorning());
+                        } else {
+                            drawTextNormal(canvas, y, day, x);
+                        }
                         break;
                     }
                 }
@@ -344,6 +352,23 @@ public class TimeSheetView extends View {
                             - DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) : day), x, y,
                     mMonthNumPaint);
         }
+    }
+
+    private void drawTextSpecialCase(Canvas canvas, int y, int day, int x, String label) {
+        mMonthNumPaint.setTextSize(mDayLabelTextSizeSmall);
+        if (mMonth == 0) {
+            canvas.drawText(String.format(Locale.US, "%d",
+                    day > DateTimeUtils.getDaysInMonth(CALENDAR_DECEMBER, mYear - 1) ? day
+                            - DateTimeUtils.getDaysInMonth(CALENDAR_DECEMBER, mYear - 1) : day), x,
+                    y - (float) (mMiniDayNumberTextSize / 2), mMonthNumPaint);
+        } else {
+            canvas.drawText(String.format(Locale.US, "%d",
+                    day > DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) ? day
+                            - DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) : day), x,
+                    y - (float) (mMiniDayNumberTextSize / 2), mMonthNumPaint);
+        }
+        mMonthNumPaint.setTextSize(mMonthDayLabelTextSize);
+        canvas.drawText(label, x, y + mMiniDayNumberTextSize / 3, mMonthNumPaint);
     }
 
     private void drawCircleCurrentDay(Canvas canvas, int y, int x) {

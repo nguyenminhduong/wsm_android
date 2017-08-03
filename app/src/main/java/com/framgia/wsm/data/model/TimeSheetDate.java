@@ -12,6 +12,10 @@ import java.util.Date;
 
 public class TimeSheetDate extends BaseModel {
     private static final String PREFIX_OT = "OT: ";
+    private static final String SPECIAL_CASE_NA = "N/A";
+    private static final String SPECIAL_CASE_TS = "TS";
+    private static final String SPECIAL_CASE_OS = "OS";
+    private static final String SPECIAL_CASE_CT = "CT";
     @Expose
     @SerializedName("date")
     private String mDate;
@@ -145,5 +149,12 @@ public class TimeSheetDate extends BaseModel {
 
     public String getNumberOfOvertimeString() {
         return PREFIX_OT + mNumberOfOvertime;
+    }
+
+    public boolean isSpecialCase() {
+        return SPECIAL_CASE_NA.equals(mTextMorning) && SPECIAL_CASE_NA.equals(mTextAfternoon)
+                || SPECIAL_CASE_TS.equals(mTextMorning) && SPECIAL_CASE_TS.equals(mTextAfternoon)
+                || SPECIAL_CASE_OS.equals(mTextMorning) && SPECIAL_CASE_OS.equals(mTextAfternoon)
+                || SPECIAL_CASE_CT.equals(mTextMorning) && SPECIAL_CASE_CT.equals(mTextAfternoon);
     }
 }
