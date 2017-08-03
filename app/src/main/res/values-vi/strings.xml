@@ -300,5 +300,6 @@
     <string name="request_off_approved">Số lần nghỉ</string>
     <string name="request_leave_legend">Đi trễ/ Về sớm/ Rời khỏi</string>
     <string name="request_ot_approved">Làm thêm giờ</string>
+    <string name="there_is_no_request_to_choose">Không có yêu cầu nào để chọn</string>
 
 </resources>

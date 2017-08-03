@@ -14,6 +14,7 @@ import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.databinding.ItemManageListRequestBinding;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.utils.RequestType;
+import com.framgia.wsm.utils.StatusCode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,11 +110,18 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
         return mRequestOverTimes;
     }
 
+    private boolean isCanUpdateItem(String currentStatus, String statusRequuest,
+            boolean isCanApprove) {
+        return StatusCode.FORWARD_CODE.equals(statusRequuest) && isCanApprove
+                || currentStatus == null;
+    }
+
     void updateItem(int requestType, int position, ActionRequestResponse actionRequestResponse,
             String currentStatus) {
         switch (requestType) {
             case RequestType.REQUEST_LATE_EARLY:
-                if (currentStatus == null) {
+                if (isCanUpdateItem(currentStatus, actionRequestResponse.getStatus(),
+                        actionRequestResponse.isCanApproveReject())) {
                     mRequestsLeaves.get(position).setStatus(actionRequestResponse.getStatus());
                     mRequestsLeaves.get(position)
                             .setCanApproveReject(actionRequestResponse.isCanApproveReject());
@@ -128,7 +136,8 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
                 notifyItemChanged(position, mRequestsLeaves);
                 break;
             case RequestType.REQUEST_OFF:
-                if (currentStatus == null) {
+                if (isCanUpdateItem(currentStatus, actionRequestResponse.getStatus(),
+                        actionRequestResponse.isCanApproveReject())) {
                     mRequestsOffs.get(position).setStatus(actionRequestResponse.getStatus());
                     mRequestsOffs.get(position)
                             .setCanApproveReject(actionRequestResponse.isCanApproveReject());
@@ -143,7 +152,8 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
                 notifyItemChanged(position, mRequestsOffs);
                 break;
             case RequestType.REQUEST_OVERTIME:
-                if (currentStatus == null) {
+                if (isCanUpdateItem(currentStatus, actionRequestResponse.getStatus(),
+                        actionRequestResponse.isCanApproveReject())) {
                     mRequestOverTimes.get(position).setStatus(actionRequestResponse.getStatus());
                     mRequestOverTimes.get(position)
                             .setCanApproveReject(actionRequestResponse.isCanApproveReject());

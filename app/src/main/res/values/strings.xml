@@ -313,5 +313,6 @@
     <string name="request_off_approved">Request Offs approved</string>
     <string name="request_leave_legend">IL/LE/LO</string>
     <string name="request_ot_approved">Request Ots approved</string>
+    <string name="there_is_no_request_to_choose">There is no request to choose</string>
 
 </resources>

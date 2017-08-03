@@ -302,18 +302,26 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         >
-                        <CheckBox
+                        <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="@{viewModel.selectAll}"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
                             android:onClick="@{viewModel::onSelectAll}"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/select_all"
-                            android:textColor="@color/cardview_dark_background"
-                            />
+                            android:orientation="horizontal"
+                            >
+                            <CheckBox
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{viewModel.selectAll}"
+                                android:onClick="@{viewModel::onSelectAll}"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/select_all"
+                                android:textColor="@color/cardview_dark_background"
+                                />
+                        </LinearLayout>
                         <Button
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dp_40"
