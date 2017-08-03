@@ -298,5 +298,20 @@
     <string name="accept_all_success">Accept All Success</string>
     <string name="accept_all_unsuccess">Accept All Unsuccessful</string>
     <string name="overtime">Overtime</string>
+    <string name="jan">Jan</string>
+    <string name="feb">Feb</string>
+    <string name="mar">Mar</string>
+    <string name="apr">Apr</string>
+    <string name="may">May</string>
+    <string name="jun">Jun</string>
+    <string name="jul">Jul</string>
+    <string name="aug">Aug</string>
+    <string name="sep">Sep</string>
+    <string name="oct">Oct</string>
+    <string name="nov">Nov</string>
+    <string name="dec">Dec</string>
+    <string name="request_off_approved">Request Offs approved</string>
+    <string name="request_leave_legend">IL/LE/LO</string>
+    <string name="request_ot_approved">Request Ots approved</string>
 
 </resources>

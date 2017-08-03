@@ -1,3 +1,15 @@
 <resources>
     <string name="locate">ja</string>
+    <string name="jan">1月</string>
+    <string name="feb">2月</string>
+    <string name="mar">3月</string>
+    <string name="apr">4月</string>
+    <string name="may">5月</string>
+    <string name="jun">6月</string>
+    <string name="jul">7月</string>
+    <string name="aug">8月</string>
+    <string name="sep">9月</string>
+    <string name="oct">10月</string>
+    <string name="nov">11月</string>
+    <string name="dec">12月</string>
 </resources>

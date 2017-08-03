@@ -36,6 +36,13 @@ import com.framgia.wsm.widget.holidaycalendar.HolidayDateClickListener;
 import com.framgia.wsm.widget.timesheet.OnDayClickListener;
 import com.framgia.wsm.widget.timesheet.TimeSheetView;
 import com.github.clans.fab.FloatingActionMenu;
+import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import java.util.List;
 
 /**
@@ -362,5 +369,45 @@ public final class BindingUtils {
     public static void setRefreshLayout(final SwipeRefreshLayout swipeRefreshLayout,
             SwipeRefreshLayout.OnRefreshListener refreshListener) {
         swipeRefreshLayout.setOnRefreshListener(refreshListener);
+    }
+
+    @BindingAdapter({ "setCombinedChar", "setMonths" })
+    public static void combinedChar(final CombinedChart combinedChart, LineData lineDatas,
+            final List<String> months) {
+        combinedChart.getDescription().setEnabled(false);
+        combinedChart.setBackgroundColor(Color.WHITE);
+        combinedChart.setDrawGridBackground(false);
+        combinedChart.setDrawBarShadow(false);
+        combinedChart.setHighlightFullBarEnabled(false);
+
+        YAxis rightAxis = combinedChart.getAxisRight();
+        rightAxis.setDrawGridLines(false);
+        rightAxis.setAxisMinimum(0);
+        rightAxis.setTextSize(combinedChart.getContext().getResources().getDimension(R.dimen.sp_4));
+        rightAxis.setGranularity(1);
+
+        YAxis leftAxis = combinedChart.getAxisLeft();
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setAxisMinimum(0);
+        leftAxis.setTextSize(combinedChart.getContext().getResources().getDimension(R.dimen.sp_4));
+        leftAxis.setGranularity(1);
+
+        XAxis xAxis = combinedChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setAxisMinimum(-0.5f);
+        xAxis.setGranularity(1f);
+        xAxis.setTextSize(combinedChart.getContext().getResources().getDimension(R.dimen.sp_4));
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return months.get((int) value % months.size());
+            }
+        });
+
+        CombinedData data = new CombinedData();
+        data.setData(lineDatas);
+        xAxis.setAxisMaximum(data.getXMax());
+        combinedChart.setData(data);
+        combinedChart.invalidate();
     }
 }

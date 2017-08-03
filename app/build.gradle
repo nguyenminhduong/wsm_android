@@ -109,6 +109,7 @@ dependencies {
   compile dependencies.fcm
   compile dependencies.eventBus
   compile dependencies.toastCustom
+  compile dependencies.MPAndroidChart
 
   annotationProcessor dependencies.dagger2Compile
   compile dependencies.dagger2
