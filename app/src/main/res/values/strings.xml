@@ -318,5 +318,19 @@
     <string name="request_ot_approved">Request Ots approved</string>
     <string name="there_is_no_request_to_choose">There is no request to choose</string>
     <string name="year">year</string>
+    <string name="number_of_il_lo_le_forgot_to_swipe_forget_card">Number of IL/LO/LE/Forgot to swipe/Forget card</string>
+    <string name="approved">Approved</string>
+    <string name="number_of_penalties">Number of penalties</string>
+    <string name="number_of_days_off">Number of days off</string>
+    <string name="rejected_not_yet_request">Rejected/not yet request</string>
+    <string name="number_of_days_off_have_salary">Number of days off have salary</string>
+    <string name="pay_by_company">Pay by company</string>
+    <string name="pay_by_insurance">Pay by insurance</string>
+    <string name="number_of_days_off_have_not_salary">Number of days off have not salary</string>
+    <string name="number_of_overtime">Number of overtime</string>
+    <string name="the_number_of_rest_days_previous_year">The number of rest days(previous year)</string>
+    <string name="the_number_of_rest_days_in_year">The number of rest days(in year)</string>
+    <string name="number_of_days_off_added_in_this_year">Number of days off added in this year</string>
+    <string name="total_of_days_off_remaining_in_year">Total of days off remaining in year</string>
 
 </resources>

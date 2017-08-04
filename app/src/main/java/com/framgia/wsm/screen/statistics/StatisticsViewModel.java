@@ -60,7 +60,7 @@ public class StatisticsViewModel implements StatisticsContract.ViewModel {
         dataSet.setColor(color);
         dataSet.setLineWidth(2.5f);
         dataSet.setCircleColor(color);
-        dataSet.setCircleRadius(6f);
+        dataSet.setCircleRadius(4f);
         dataSet.setValueFormatter(new LargeValueFormatter());
         dataSet.setFillColor(Color.BLUE);
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
