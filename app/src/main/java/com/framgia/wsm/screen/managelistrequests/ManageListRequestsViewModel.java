@@ -74,6 +74,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     private boolean mIsVisiableLayoutFooter;
     private boolean mIsSelectAll;
     private boolean mIsLoadDataFirstTime;
+    private String mTotalRequestSelected;
 
     ManageListRequestsViewModel(Context context, ManageListRequestsContract.Presenter presenter,
             DialogManager dialogManager, ManageListRequestsAdapter manageListRequestsAdapter,
@@ -182,6 +183,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void onApproveOrRejectRequestSuccess(ActionRequestResponse actionRequestResponse) {
         setLoading(false);
         updateItemRequest(mRequestType, mItemPosition, actionRequestResponse);
+        checkTotalRequestSelected();
         switch (mRequestType) {
             case RequestType.REQUEST_LATE_EARLY:
                 checkCurrentSizeListRequest(
@@ -239,7 +241,6 @@ public class ManageListRequestsViewModel extends BaseObservable
     @Override
     public void onApproveAllRequestSuccess(List<ActionRequestResponse> actionRequestResponseList) {
         setLoading(false);
-        setSelectAll(false);
         switch (mRequestType) {
             case RequestType.REQUEST_LATE_EARLY:
                 List<LeaveRequest> leaveRequests = mManageListRequestsAdapter.getListLeaveRequest();
@@ -309,6 +310,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     @Override
     public void onCheckedItem(int positionItem, boolean isChecked) {
         mManageListRequestsAdapter.updateCheckedItem(mRequestType, positionItem, !isChecked);
+        checkTotalRequestSelected();
     }
 
     @Override
@@ -379,6 +381,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     private void checkSizeApproveAllListRequest(int size) {
+        checkTotalRequestSelected();
         if (size == 0) {
             mNavigator.showToastCustom(TypeToast.ERROR,
                     mContext.getString(R.string.accept_all_unsuccess));
@@ -393,12 +396,72 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     private void checkSizeListRequest(int size, boolean isLoadMore) {
-        if (size == 0 && !isLoadMore) {
-            setVisiableLayoutDataNotFound(true);
-            return;
+        if (isLoadMore) {
+            mPage++;
+            mQueryRequest.setPage(String.valueOf(mPage));
+            checkTotalRequestSelected();
+        } else {
+            if (size == 0) {
+                setVisiableLayoutDataNotFound(true);
+            }
         }
-        mPage++;
-        mQueryRequest.setPage(String.valueOf(mPage));
+    }
+
+    private void checkSelectAll(int totalRequestSelected, int totalRequestCanSelect) {
+        setTotalRequestSelected(String.valueOf(totalRequestSelected));
+        if (totalRequestSelected == totalRequestCanSelect && totalRequestSelected > 0) {
+            setSelectAll(true);
+        } else {
+            setSelectAll(false);
+        }
+    }
+
+    private void checkTotalRequestSelected() {
+        int totalRequestSelected = 0;
+        int totalRequestCanSelect = 0;
+        switch (mRequestType) {
+            case RequestType.REQUEST_LATE_EARLY:
+                List<LeaveRequest> listLeaveRequest =
+                        mManageListRequestsAdapter.getListLeaveRequest();
+                for (LeaveRequest leaveRequest : listLeaveRequest) {
+                    if (leaveRequest.isChecked() && leaveRequest.isCanApproveReject()) {
+                        totalRequestSelected++;
+                    }
+                    if (requestCanSelected(leaveRequest.getStatus(),
+                            leaveRequest.isCanApproveReject())) {
+                        totalRequestCanSelect++;
+                    }
+                }
+                break;
+            case RequestType.REQUEST_OFF:
+                List<OffRequest> listOffRequest = mManageListRequestsAdapter.getListOffRequest();
+                for (OffRequest offRequest : listOffRequest) {
+                    if (offRequest.isChecked()) {
+                        totalRequestSelected++;
+                    }
+                    if (requestCanSelected(offRequest.getStatus(),
+                            offRequest.isCanApproveReject())) {
+                        totalRequestCanSelect++;
+                    }
+                }
+                break;
+            case RequestType.REQUEST_OVERTIME:
+                List<RequestOverTime> listOverTime =
+                        mManageListRequestsAdapter.getListOverTimeRequest();
+                for (RequestOverTime requestOverTime : listOverTime) {
+                    if (requestOverTime.isChecked()) {
+                        totalRequestSelected++;
+                    }
+                    if (requestCanSelected(requestOverTime.getStatus(),
+                            requestOverTime.isCanApproveReject())) {
+                        totalRequestCanSelect++;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        checkSelectAll(totalRequestSelected, totalRequestCanSelect);
     }
 
     @Bindable
@@ -459,6 +522,20 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     @Bindable
+    public String getTotalRequestSelected() {
+        return mContext.getString(R.string.you_have_selected)
+                + Constant.BLANK
+                + mTotalRequestSelected
+                + Constant.BLANK
+                + mContext.getString(R.string.requests);
+    }
+
+    private void setTotalRequestSelected(String totalRequestSelected) {
+        mTotalRequestSelected = totalRequestSelected;
+        notifyPropertyChanged(BR.totalRequestSelected);
+    }
+
+    @Bindable
     public boolean isLoading() {
         return mIsLoading;
     }
@@ -490,6 +567,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         mQueryRequest.setPage(String.valueOf(mPage));
         setVisiableLayoutDataNotFound(false);
         setSelectAll(false);
+        setTotalRequestSelected(String.valueOf(0));
     }
 
     @Bindable
@@ -656,6 +734,11 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     private void setStatusSelectAll(int totalRequestSelected) {
+        if (mIsSelectAll) {
+            setTotalRequestSelected(String.valueOf(0));
+        } else {
+            setTotalRequestSelected(String.valueOf(totalRequestSelected));
+        }
         if (totalRequestSelected > 0) {
             setSelectAll(!mIsSelectAll);
             return;

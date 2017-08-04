@@ -82,6 +82,10 @@ public class UserRepository {
         return mLocalDataSource.getUser();
     }
 
+    public User getUserCheckLogin() {
+        return mLocalDataSource.getUserCheckLogin();
+    }
+
     public void clearData() {
         mLocalDataSource.clearData();
     }
