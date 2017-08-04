@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.framgia.wsm.R;
 import com.framgia.wsm.screen.holidaycalendar.HolidayCalendarFragment;
+import com.framgia.wsm.screen.statisticsbymonth.StatisticsByMonthFragment;
+import com.framgia.wsm.screen.statisticsbyyear.StatisticsByYearFragment;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +33,11 @@ public class StatisticContainerAdapter extends FragmentPagerAdapter {
         Fragment fragment;
         switch (position) {
             case SearchResultsTab.TAB_MONTH:
-                //Todo edit later
-                fragment = HolidayCalendarFragment.newInstance();
+                fragment = StatisticsByMonthFragment.newInstance();
                 mFragments.add(SearchResultsTab.TAB_MONTH, fragment);
                 return fragment;
             case SearchResultsTab.TAB_YEAR:
-                //Todo edit later
-                fragment = HolidayCalendarFragment.newInstance();
+                fragment = StatisticsByYearFragment.newInstance();
                 mFragments.add(SearchResultsTab.TAB_YEAR, fragment);
                 return fragment;
             default:
