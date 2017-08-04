@@ -73,6 +73,13 @@ public class MainActivity extends BaseActivity implements ProfileFragment.Update
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ((MainViewModel) mViewModel).setNotificationRequestType(
+                intent.getStringExtra(EXTRA_NOTIFICATION_REQUEST_TYPE));
+    }
+
+    @Override
     protected void onStop() {
         mViewModel.onStop();
         mHandler.removeCallbacks(mRunnable);

@@ -1,4 +1,4 @@
-package com.framgia.wsm.data.source.remote.api.service;
+package com.framgia.wsm.firebase;
 
 import android.util.Log;
 import com.google.firebase.iid.FirebaseInstanceId;

@@ -2,6 +2,7 @@ package com.framgia.wsm.data.source;
 
 import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffType;
+import com.framgia.wsm.data.model.OffTypeDay;
 import com.framgia.wsm.data.model.Setting;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.local.UserLocalDataSource;
@@ -72,6 +73,10 @@ public class UserRepository {
 
     public Observable<List<OffType>> getListOffType() {
         return mRemoteDataSource.getListOffType();
+    }
+
+    public Observable<BaseResponse<OffTypeDay>> getRemainingDayOff() {
+        return mRemoteDataSource.getRemainingDayOff();
     }
 
     public void saveUser(User user) {

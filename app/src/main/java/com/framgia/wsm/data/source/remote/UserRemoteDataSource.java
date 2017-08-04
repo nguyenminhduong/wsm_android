@@ -113,6 +113,25 @@ public class UserRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
+    public Observable<BaseResponse<OffTypeDay>> getRemainingDayOff() {
+        return mWSMApi.getListOffType()
+                .flatMap(
+                        new Function<BaseResponse<OffTypeDay>,
+                                ObservableSource<BaseResponse<OffTypeDay>>>() {
+                            @Override
+                            public ObservableSource<BaseResponse<OffTypeDay>> apply(
+                                    @NonNull BaseResponse<OffTypeDay> offTypeDayBaseResponse)
+                                    throws Exception {
+                                if (offTypeDayBaseResponse != null
+                                        && offTypeDayBaseResponse.getData() != null) {
+                                    return Observable.just(offTypeDayBaseResponse);
+                                }
+                                return Observable.error(new NullPointerException());
+                            }
+                        });
+    }
+
+    @Override
     public Observable<BaseResponse<User>> updateProfile(UpdateProfileRequest updateProfileRequest) {
 
         Map<String, RequestBody> params = new HashMap<>();
