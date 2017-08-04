@@ -296,8 +296,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/dp_20"
-                        android:layout_marginStart="@dimen/dp_20"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:layout_marginStart="@dimen/dp_15"
                         android:layout_weight="0.2"
                         android:gravity="center_vertical"
                         android:onClick="@{viewModel::onSelectAll}"
@@ -305,7 +305,7 @@
                         >
                         <CheckBox
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:checked="@{viewModel.selectAll}"
                             android:onClick="@{viewModel::onSelectAll}"
                             />
@@ -330,8 +330,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="0.45"
+                        android:background="@color/color_green_dark"
                         android:onClick="@{viewModel::onClickFloatingButtonSearch}"
-                        app:srcCompat="@drawable/ic_search_manage"
+                        app:srcCompat="@drawable/ic_search_white"
                         tools:ignore="ContentDescription"
                         />
                 </LinearLayout>

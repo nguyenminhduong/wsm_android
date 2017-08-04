@@ -115,13 +115,6 @@
                             tools:ignore="ContentDescription"
                             style="@style/StyleImageDropDown"
                             />
-                        <ImageView
-                            android:layout_width="@dimen/dp_24"
-                            android:layout_height="@dimen/dp_24"
-                            android:layout_gravity="end"
-                            android:src="@drawable/ic_required"
-                            bind:ignore="ContentDescription"
-                            />
                     </FrameLayout>
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -137,10 +130,6 @@
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:onClick="@{viewModel::onPickGroup}"
-                                android:paddingEnd="@dimen/dp_24"
-                                android:paddingLeft="@dimen/dp_0"
-                                android:paddingRight="@dimen/dp_24"
-                                android:paddingStart="@dimen/dp_0"
                                 android:text="@{viewModel.currentGroup}"
                                 style="@style/StyleText"
                                 />
@@ -149,13 +138,6 @@
                             app:srcCompat="@drawable/ic_arrow_drop_down"
                             tools:ignore="ContentDescription"
                             style="@style/StyleImageDropDown"
-                            />
-                        <ImageView
-                            android:layout_width="@dimen/dp_24"
-                            android:layout_height="@dimen/dp_24"
-                            android:layout_gravity="end"
-                            android:src="@drawable/ic_required"
-                            bind:ignore="ContentDescription"
                             />
                     </FrameLayout>
 
@@ -192,13 +174,6 @@
                             app:srcCompat="@drawable/ic_arrow_drop_down"
                             tools:ignore="ContentDescription"
                             style="@style/StyleImageDropDown"
-                            />
-                        <ImageView
-                            android:layout_width="@dimen/dp_24"
-                            android:layout_height="@dimen/dp_24"
-                            android:layout_gravity="end"
-                            android:src="@drawable/ic_required"
-                            bind:ignore="ContentDescription"
                             />
                     </FrameLayout>
 

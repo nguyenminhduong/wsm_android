@@ -59,10 +59,12 @@
 
                     </android.support.design.widget.TextInputLayout>
                     <ImageView
-                        android:layout_width="@dimen/dp_24"
-                        android:layout_height="@dimen/dp_24"
+                        android:layout_width="@dimen/dp_10"
+                        android:layout_height="@dimen/dp_10"
                         android:layout_gravity="end"
-                        android:src="@drawable/ic_required"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:layout_marginRight="@dimen/dp_5"
+                        bind:srcCompat="@drawable/ic_star"
                         tools:ignore="ContentDescription"
                         />
                 </FrameLayout>
@@ -99,10 +101,12 @@
                             />
                     </android.support.design.widget.TextInputLayout>
                     <ImageView
-                        android:layout_width="@dimen/dp_24"
-                        android:layout_height="@dimen/dp_24"
+                        android:layout_width="@dimen/dp_10"
+                        android:layout_height="@dimen/dp_10"
                         android:layout_gravity="end"
-                        android:src="@drawable/ic_required"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:layout_marginRight="@dimen/dp_5"
+                        bind:srcCompat="@drawable/ic_star"
                         tools:ignore="ContentDescription"
                         />
                 </FrameLayout>
@@ -164,10 +168,12 @@
 
                         </android.support.design.widget.TextInputLayout>
                         <ImageView
-                            android:layout_width="@dimen/dp_24"
-                            android:layout_height="@dimen/dp_24"
+                            android:layout_width="@dimen/dp_10"
+                            android:layout_height="@dimen/dp_10"
                             android:layout_gravity="end"
-                            android:src="@drawable/ic_required"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:layout_marginRight="@dimen/dp_5"
+                            bind:srcCompat="@drawable/ic_star"
                             tools:ignore="ContentDescription"
                             />
                     </FrameLayout>
@@ -203,10 +209,12 @@
                                 />
                         </android.support.design.widget.TextInputLayout>
                         <ImageView
-                            android:layout_width="@dimen/dp_24"
-                            android:layout_height="@dimen/dp_24"
+                            android:layout_width="@dimen/dp_10"
+                            android:layout_height="@dimen/dp_10"
                             android:layout_gravity="end"
-                            android:src="@drawable/ic_required"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:layout_marginRight="@dimen/dp_5"
+                            bind:srcCompat="@drawable/ic_star"
                             tools:ignore="ContentDescription"
                             />
                     </FrameLayout>
@@ -227,10 +235,12 @@
                         />
                 </android.support.design.widget.TextInputLayout>
                 <ImageView
-                    android:layout_width="@dimen/dp_24"
-                    android:layout_height="@dimen/dp_24"
-                    android:layout_gravity="end"
-                    android:src="@drawable/ic_required"
+                    android:layout_width="@dimen/dp_10"
+                    android:layout_height="@dimen/dp_10"
+                    android:layout_gravity="end|center"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    bind:srcCompat="@drawable/ic_star"
                     tools:ignore="ContentDescription"
                     />
             </FrameLayout>
