@@ -305,5 +305,19 @@
     <string name="request_ot_approved">Làm thêm giờ</string>
     <string name="there_is_no_request_to_choose">Không có yêu cầu nào để chọn</string>
     <string name="year">Năm</string>
+    <string name="number_of_il_lo_le_forgot_to_swipe_forget_card">Số lần IL/LO/LE/quên quẹt/quên thẻ</string>
+    <string name="approved">Chấp nhận</string>
+    <string name="number_of_penalties">Số lần phạt</string>
+    <string name="number_of_days_off">Số ngày đã nghỉ</string>
+    <string name="rejected_not_yet_request">Từ chối/chưa làm đơn</string>
+    <string name="number_of_days_off_have_salary">Số ngày nghỉ có lương</string>
+    <string name="pay_by_company">Công ty trả</string>
+    <string name="pay_by_insurance">Bảo hiểm trả</string>
+    <string name="number_of_days_off_have_not_salary">Số ngày nghỉ không lương</string>
+    <string name="number_of_overtime">Số giờ OT</string>
+    <string name="the_number_of_rest_days_previous_year">Số ngày nghỉ còn lại của năm trước</string>
+    <string name="the_number_of_rest_days_in_year">Số ngày nghỉ còn lại trong năm</string>
+    <string name="number_of_days_off_added_in_this_year">Số ngày nghỉ được thêm trong năm hiện tại</string>
+    <string name="total_of_days_off_remaining_in_year">Tổng số ngày nghỉ còn lại trong năm</string>
 
 </resources>
