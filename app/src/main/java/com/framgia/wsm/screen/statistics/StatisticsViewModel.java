@@ -23,11 +23,14 @@ public class StatisticsViewModel implements StatisticsContract.ViewModel {
 
     private Context mContext;
     private StatisticsContract.Presenter mPresenter;
+    private final StatisticContainerAdapter mAdapter;
 
-    StatisticsViewModel(Context context, StatisticsContract.Presenter presenter) {
+    StatisticsViewModel(Context context, StatisticsContract.Presenter presenter,
+            StatisticContainerAdapter adapter) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
+        mAdapter = adapter;
     }
 
     @Override
@@ -46,6 +49,10 @@ public class StatisticsViewModel implements StatisticsContract.ViewModel {
 
     public List<String> getMonths() {
         return StringUtils.getListMonths(mContext);
+    }
+
+    public StatisticContainerAdapter getAdapter() {
+        return mAdapter;
     }
 
     private LineDataSet setLineDataSet(ArrayList<Entry> entries, String legendName, int color) {
