@@ -294,12 +294,12 @@ public class TimeSheetView extends View {
                             }
                         }
                         if (timeSheetDate.isDayOffAfternoon()) {
-                            if (timeSheetDate.getTextAfternoon().charAt(0) == PREFIX_DAY_OFF_RO) {
+                            if (timeSheetDate.getTextAfternoon().charAt(0) == PREFIX_DAY_OFF_P) {
                                 mCircleAfternoonPaint.setColor(mDayOffPColor);
                                 timeSheetDate.setColorAfternoon(String.format(FORMAT_COLOR_HEX,
                                         (0xFFFFFF & mDayOffPColor)));
                             }
-                            if (timeSheetDate.getTextMorning().charAt(0) == 'R') {
+                            if (timeSheetDate.getTextAfternoon().charAt(0) == PREFIX_DAY_OFF_RO) {
                                 mCircleAfternoonPaint.setColor(mDayOffRoColor);
                                 timeSheetDate.setColorAfternoon(String.format(FORMAT_COLOR_HEX,
                                         (0xFFFFFF & mDayOffRoColor)));
