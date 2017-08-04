@@ -28,6 +28,7 @@ import com.framgia.wsm.data.model.HolidayCalendarDate;
 import com.framgia.wsm.data.model.TimeSheetDate;
 import com.framgia.wsm.databinding.NavHeaderMainBinding;
 import com.framgia.wsm.screen.changepassword.ChangePasswordViewModel;
+import com.framgia.wsm.screen.forgotpassword.ForgotPasswordViewModel;
 import com.framgia.wsm.screen.login.LoginViewModel;
 import com.framgia.wsm.screen.main.MainViewModel;
 import com.framgia.wsm.screen.requestoff.RequestOffViewModel;
@@ -329,6 +330,32 @@ public final class BindingUtils {
             @Override
             public void afterTextChanged(Editable s) {
                 changePasswordViewModel.validateConfirmPassword(s.toString());
+            }
+        });
+    }
+
+    @BindingAdapter({ "errorTextInputLayoutSendEmail", "viewModel" })
+    public static void setErrorTextInputLayoutSendEmail(final TextInputLayout textInputLayout,
+            final String text, final ForgotPasswordViewModel forgotPasswordViewModel) {
+        textInputLayout.setError(text);
+        EditText editText = textInputLayout.getEditText();
+        if (editText == null) {
+            return;
+        }
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //No-Op
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //No-Op
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                forgotPasswordViewModel.validateEmail(s.toString());
             }
         });
     }

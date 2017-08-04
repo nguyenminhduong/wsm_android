@@ -143,4 +143,7 @@ public interface WSMApi {
 
     @PUT("api/dashboard/manager/approvals")
     Single<BaseResponse<List<ActionRequestResponse>>> approveAll(@Body ActionRequest actionRequest);
+
+    @GET("api/dashboard/forgot_passwords/new")
+    Single<BaseResponse> sendEmail(@Query("email") String email);
 }

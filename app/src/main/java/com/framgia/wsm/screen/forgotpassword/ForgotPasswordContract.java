@@ -25,7 +25,7 @@ interface ForgotPasswordContract {
     interface Presenter extends BasePresenter<ViewModel> {
         void sendEmail(String email);
 
-        void validateDataInput(String email);
+        boolean validateDataInput(String email);
 
         void validateEmailInput(String emailInput);
     }

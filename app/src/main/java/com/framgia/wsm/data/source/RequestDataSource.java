@@ -58,5 +58,7 @@ public interface RequestDataSource {
 
         Single<BaseResponse<List<ActionRequestResponse>>> approveAllRequest(
                 ActionRequest actionRequest);
+
+        Single<BaseResponse> sendEmail(String email);
     }
 }
