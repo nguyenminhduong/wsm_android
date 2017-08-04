@@ -243,6 +243,14 @@ public class RequestOffViewModel extends BaseRequestOff
                 mRequestOff.setAnnualLeave("");
             }
         }
+        if (mUser != null) {
+            setVisibleLayoutCompanyPay(!(mUser.getContractDate() == null));
+            setVisibleLayoutInsuranceCoverage(!(mUser.getContractDate() == null));
+            if (mUser.getContractDate().isEmpty()) {
+                mCurrentPositionOffType = PositionOffType.OFF_NO_SALARY;
+                setCurrentOffType(mContext.getString(R.string.off_no_salary));
+            }
+        }
     }
 
     @Override
@@ -267,6 +275,12 @@ public class RequestOffViewModel extends BaseRequestOff
         if (mActionType == ActionType.ACTION_CREATE) {
             setCurrentBranch();
             setCurrentGroup();
+            setVisibleLayoutCompanyPay(!(mUser.getContractDate().isEmpty()));
+            setVisibleLayoutNoSalary(mUser.getContractDate().isEmpty());
+            if (mUser.getContractDate().isEmpty()) {
+                mCurrentPositionOffType = PositionOffType.OFF_NO_SALARY;
+                setCurrentOffType(mContext.getString(R.string.off_no_salary));
+            }
             return;
         }
         setBranchAndGroupWhenEdit(mUser);
@@ -300,11 +314,8 @@ public class RequestOffViewModel extends BaseRequestOff
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         if (year == 0) {
-            if (mFlagDate == FLAG_START_DATE) {
-                setStartDate(null);
-            } else {
-                setEndDate(null);
-            }
+            setStartDate(null);
+            setEndDate(null);
         }
         if (view.isShown()) {
             String date = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
@@ -1246,6 +1257,9 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     public void onPickTypeRequestOff(View view) {
+        if (mUser.getContractDate().isEmpty()) {
+            return;
+        }
         mDialogManager.dialogListSingleChoice(mContext.getString(R.string.off_type),
                 R.array.off_type, mCurrentPositionOffType,
                 new MaterialDialog.ListCallbackSingleChoice() {
