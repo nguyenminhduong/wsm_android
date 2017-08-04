@@ -18,7 +18,7 @@ import org.greenrobot.eventbus.EventBus;
 public class InterceptorImpl implements Interceptor {
 
     private static final String KEY_TOKEN = "WSM-AUTH-TOKEN";
-    private static final String KEY_LOCATE = "WSM-LOCATE";
+    private static final String KEY_LOCATE = "WSM-LOCALE";
     private Context mContext;
     private TokenRepository mTokenRepository;
 
