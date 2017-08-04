@@ -115,6 +115,13 @@
                             tools:ignore="ContentDescription"
                             style="@style/StyleImageDropDown"
                             />
+                        <ImageView
+                            android:layout_width="@dimen/dp_24"
+                            android:layout_height="@dimen/dp_24"
+                            android:layout_gravity="end"
+                            android:src="@drawable/ic_required"
+                            bind:ignore="ContentDescription"
+                            />
                     </FrameLayout>
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -142,6 +149,13 @@
                             app:srcCompat="@drawable/ic_arrow_drop_down"
                             tools:ignore="ContentDescription"
                             style="@style/StyleImageDropDown"
+                            />
+                        <ImageView
+                            android:layout_width="@dimen/dp_24"
+                            android:layout_height="@dimen/dp_24"
+                            android:layout_gravity="end"
+                            android:src="@drawable/ic_required"
+                            bind:ignore="ContentDescription"
                             />
                     </FrameLayout>
 
@@ -178,6 +192,13 @@
                             app:srcCompat="@drawable/ic_arrow_drop_down"
                             tools:ignore="ContentDescription"
                             style="@style/StyleImageDropDown"
+                            />
+                        <ImageView
+                            android:layout_width="@dimen/dp_24"
+                            android:layout_height="@dimen/dp_24"
+                            android:layout_gravity="end"
+                            android:src="@drawable/ic_required"
+                            bind:ignore="ContentDescription"
                             />
                     </FrameLayout>
 

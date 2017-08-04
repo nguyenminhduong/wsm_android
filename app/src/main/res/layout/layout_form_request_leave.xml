@@ -2,6 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <data>
@@ -40,19 +41,31 @@
                     android:text="@{viewModel.exampleLeaveInType}"
                     style="@style/StyleTitleExample"
                     />
-                <android.support.design.widget.TextInputLayout
-                    bind:errorTextInputLayout="@{viewModel.checkinTimeError}"
-                    bind:hintEnabled="false"
-                    style="@style/StyleTextHint"
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     >
-                    <EditText
-                        android:hint="@string/select_time"
-                        android:onClick="@{viewModel::onClickCheckinTime}"
-                        android:text="@={viewModel.checkinTime}"
-                        style="@style/StyleText"
-                        />
-                </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        bind:errorTextInputLayout="@{viewModel.checkinTimeError}"
+                        bind:hintEnabled="false"
+                        style="@style/StyleTextHint"
+                        >
+                        <EditText
+                            android:hint="@string/select_time"
+                            android:onClick="@{viewModel::onClickCheckinTime}"
+                            android:text="@={viewModel.checkinTime}"
+                            style="@style/StyleText"
+                            />
 
+                    </android.support.design.widget.TextInputLayout>
+                    <ImageView
+                        android:layout_width="@dimen/dp_24"
+                        android:layout_height="@dimen/dp_24"
+                        android:layout_gravity="end"
+                        android:src="@drawable/ic_required"
+                        tools:ignore="ContentDescription"
+                        />
+                </FrameLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,18 +82,30 @@
                     android:text="@{viewModel.exampleLeaveOutType}"
                     style="@style/StyleTitleExample"
                     />
-                <android.support.design.widget.TextInputLayout
-                    bind:errorTextInputLayout="@{viewModel.checkoutTimeError}"
-                    bind:hintEnabled="false"
-                    style="@style/StyleTextHint"
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     >
-                    <EditText
-                        android:hint="@string/select_time"
-                        android:onClick="@{viewModel::onClickCheckoutTime}"
-                        android:text="@={viewModel.checkoutTime}"
-                        style="@style/StyleText"
+                    <android.support.design.widget.TextInputLayout
+                        bind:errorTextInputLayout="@{viewModel.checkoutTimeError}"
+                        bind:hintEnabled="false"
+                        style="@style/StyleTextHint"
+                        >
+                        <EditText
+                            android:hint="@string/select_time"
+                            android:onClick="@{viewModel::onClickCheckoutTime}"
+                            android:text="@={viewModel.checkoutTime}"
+                            style="@style/StyleText"
+                            />
+                    </android.support.design.widget.TextInputLayout>
+                    <ImageView
+                        android:layout_width="@dimen/dp_24"
+                        android:layout_height="@dimen/dp_24"
+                        android:layout_gravity="end"
+                        android:src="@drawable/ic_required"
+                        tools:ignore="ContentDescription"
                         />
-                </android.support.design.widget.TextInputLayout>
+                </FrameLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -121,18 +146,31 @@
                         android:text="@string/example_time_from"
                         style="@style/StyleTitleExample"
                         />
-                    <android.support.design.widget.TextInputLayout
-                        bind:errorTextInputLayout="@{viewModel.compensationFromTimeError}"
-                        bind:hintEnabled="false"
-                        style="@style/StyleTextHint"
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         >
-                        <EditText
-                            android:hint="@string/select_time"
-                            android:onClick="@{viewModel::onClickCompensationFrom}"
-                            android:text="@={viewModel.compensationFromTime}"
-                            style="@style/StyleText"
+                        <android.support.design.widget.TextInputLayout
+                            bind:errorTextInputLayout="@{viewModel.compensationFromTimeError}"
+                            bind:hintEnabled="false"
+                            style="@style/StyleTextHint"
+                            >
+                            <EditText
+                                android:hint="@string/select_time"
+                                android:onClick="@{viewModel::onClickCompensationFrom}"
+                                android:text="@={viewModel.compensationFromTime}"
+                                style="@style/StyleText"
+                                />
+
+                        </android.support.design.widget.TextInputLayout>
+                        <ImageView
+                            android:layout_width="@dimen/dp_24"
+                            android:layout_height="@dimen/dp_24"
+                            android:layout_gravity="end"
+                            android:src="@drawable/ic_required"
+                            tools:ignore="ContentDescription"
                             />
-                    </android.support.design.widget.TextInputLayout>
+                    </FrameLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -148,30 +186,54 @@
                         android:text="@string/example_time_to"
                         style="@style/StyleTitleExample"
                         />
-                    <android.support.design.widget.TextInputLayout
-                        bind:errorTextInputLayout="@{viewModel.compensationToTimeError}"
-                        bind:hintEnabled="false"
-                        style="@style/StyleTextHint"
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         >
-                        <EditText
-                            android:hint="@string/select_time"
-                            android:onClick="@{viewModel::onClickCompensationTo}"
-                            android:text="@={viewModel.compensationToTime}"
-                            style="@style/StyleText"
+                        <android.support.design.widget.TextInputLayout
+                            bind:errorTextInputLayout="@{viewModel.compensationToTimeError}"
+                            bind:hintEnabled="false"
+                            style="@style/StyleTextHint"
+                            >
+                            <EditText
+                                android:hint="@string/select_time"
+                                android:onClick="@{viewModel::onClickCompensationTo}"
+                                android:text="@={viewModel.compensationToTime}"
+                                style="@style/StyleText"
+                                />
+                        </android.support.design.widget.TextInputLayout>
+                        <ImageView
+                            android:layout_width="@dimen/dp_24"
+                            android:layout_height="@dimen/dp_24"
+                            android:layout_gravity="end"
+                            android:src="@drawable/ic_required"
+                            tools:ignore="ContentDescription"
                             />
-                    </android.support.design.widget.TextInputLayout>
+                    </FrameLayout>
                 </LinearLayout>
             </LinearLayout>
-            <android.support.design.widget.TextInputLayout
-                bind:errorTextInputLayout="@{viewModel.reasonError}"
-                style="@style/StyleTextHint"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 >
-                <EditText
-                    android:hint="@string/reason"
-                    android:text="@={viewModel.reason}"
-                    style="@style/StyleEditableText"
+                <android.support.design.widget.TextInputLayout
+                    bind:errorTextInputLayout="@{viewModel.reasonError}"
+                    style="@style/StyleTextHint"
+                    >
+                    <EditText
+                        android:hint="@string/reason"
+                        android:text="@={viewModel.reason}"
+                        style="@style/StyleEditableText"
+                        />
+                </android.support.design.widget.TextInputLayout>
+                <ImageView
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:layout_gravity="end"
+                    android:src="@drawable/ic_required"
+                    tools:ignore="ContentDescription"
                     />
-            </android.support.design.widget.TextInputLayout>
+            </FrameLayout>
         </LinearLayout>
     </LinearLayout>
 </layout>

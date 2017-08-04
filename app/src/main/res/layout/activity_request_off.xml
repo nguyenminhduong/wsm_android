@@ -149,6 +149,13 @@
                             tools:ignore="ContentDescription"
                             style="@style/StyleImageDropDown"
                             />
+                        <ImageView
+                            android:layout_width="@dimen/dp_24"
+                            android:layout_height="@dimen/dp_24"
+                            android:layout_gravity="end"
+                            android:src="@drawable/ic_required"
+                            bind:ignore="ContentDescription"
+                            />
                     </FrameLayout>
 
                     <FrameLayout
@@ -160,6 +167,7 @@
                             style="@style/StyleTextHint"
                             >
                             <EditText
+                                android:id="@+id/editText"
                                 android:ellipsize="end"
                                 android:enabled="@{viewModel.editGroupEnable}"
                                 android:hint="@string/group"
@@ -179,6 +187,14 @@
                             app:srcCompat="@drawable/ic_arrow_drop_down"
                             tools:ignore="ContentDescription"
                             style="@style/StyleImageDropDown"
+                            />
+
+                        <ImageView
+                            android:layout_width="@dimen/dp_24"
+                            android:layout_height="@dimen/dp_24"
+                            android:layout_gravity="end"
+                            android:src="@drawable/ic_required"
+                            bind:ignore="ContentDescription"
                             />
                     </FrameLayout>
 
@@ -205,6 +221,13 @@
                             app:srcCompat="@drawable/ic_arrow_drop_down"
                             tools:ignore="ContentDescription"
                             style="@style/StyleImageDropDown"
+                            />
+                        <ImageView
+                            android:layout_width="@dimen/dp_24"
+                            android:layout_height="@dimen/dp_24"
+                            android:layout_gravity="end"
+                            android:src="@drawable/ic_required"
+                            bind:ignore="ContentDescription"
                             />
                     </FrameLayout>
 
@@ -249,6 +272,13 @@
                                 tools:ignore="ContentDescription"
                                 style="@style/StyleImageDropDown"
                                 />
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:layout_gravity="end"
+                                android:src="@drawable/ic_required"
+                                bind:ignore="ContentDescription"
+                                />
                         </FrameLayout>
 
                         <FrameLayout
@@ -274,6 +304,13 @@
                                 app:srcCompat="@drawable/ic_arrow_drop_down"
                                 tools:ignore="ContentDescription"
                                 style="@style/StyleImageDropDown"
+                                />
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:layout_gravity="end"
+                                android:src="@drawable/ic_required"
+                                bind:ignore="ContentDescription"
                                 />
                         </FrameLayout>
                     </LinearLayout>
@@ -308,6 +345,13 @@
                                 tools:ignore="ContentDescription"
                                 style="@style/StyleImageDropDown"
                                 />
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:layout_gravity="end"
+                                android:src="@drawable/ic_required"
+                                bind:ignore="ContentDescription"
+                                />
                         </FrameLayout>
 
                         <FrameLayout
@@ -333,6 +377,13 @@
                                 app:srcCompat="@drawable/ic_arrow_drop_down"
                                 tools:ignore="ContentDescription"
                                 style="@style/StyleImageDropDown"
+                                />
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:layout_gravity="end"
+                                android:src="@drawable/ic_required"
+                                bind:ignore="ContentDescription"
                                 />
                         </FrameLayout>
                     </LinearLayout>
@@ -362,12 +413,23 @@
                         bind:errorTextInputLayout="@{viewModel.reasonError}"
                         style="@style/StyleTextHint"
                         >
-
-                        <EditText
-                            android:hint="@string/reason"
-                            android:text="@={viewModel.requestOff.reason}"
-                            style="@style/StyleEditableText"
-                            />
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+                            <EditText
+                                android:hint="@string/reason"
+                                android:text="@={viewModel.requestOff.reason}"
+                                style="@style/StyleEditableText"
+                                />
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:layout_gravity="end"
+                                android:src="@drawable/ic_required"
+                                bind:ignore="ContentDescription"
+                                />
+                        </FrameLayout>
                     </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>

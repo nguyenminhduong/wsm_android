@@ -118,6 +118,13 @@
                             tools:ignore="ContentDescription"
                             style="@style/StyleImageDropDown"
                             />
+                        <ImageView
+                            android:layout_width="@dimen/dp_24"
+                            android:layout_height="@dimen/dp_24"
+                            android:layout_gravity="end"
+                            android:src="@drawable/ic_required"
+                            bind:ignore="ContentDescription"
+                            />
                     </FrameLayout>
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -145,62 +152,117 @@
                             tools:ignore="ContentDescription"
                             style="@style/StyleImageDropDown"
                             />
-                    </FrameLayout>
-                    <android.support.design.widget.TextInputLayout
-                        bind:errorTextInputLayout="@{viewModel.projectNameError}"
-                        style="@style/StyleTextHint"
-                        >
-                        <EditText
-                            android:hint="@string/project_name"
-                            android:maxLength="200"
-                            android:maxLines="1"
-                            android:text="@={viewModel.requestOverTime.project}"
-                            style="@style/StyleEditableText"
+                        <ImageView
+                            android:layout_width="@dimen/dp_24"
+                            android:layout_height="@dimen/dp_24"
+                            android:layout_gravity="end"
+                            android:src="@drawable/ic_required"
+                            bind:ignore="ContentDescription"
                             />
-                    </android.support.design.widget.TextInputLayout>
+                    </FrameLayout>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                        <android.support.design.widget.TextInputLayout
+                            bind:errorTextInputLayout="@{viewModel.projectNameError}"
+                            style="@style/StyleTextHint"
+                            >
+                            <EditText
+                                android:hint="@string/project_name"
+                                android:maxLength="200"
+                                android:maxLines="1"
+                                android:text="@={viewModel.requestOverTime.project}"
+                                style="@style/StyleEditableText"
+                                />
+                        </android.support.design.widget.TextInputLayout>
+                        <ImageView
+                            android:layout_width="@dimen/dp_24"
+                            android:layout_height="@dimen/dp_24"
+                            android:layout_gravity="end"
+                            android:src="@drawable/ic_required"
+                            bind:ignore="ContentDescription"
+                            />
+                    </FrameLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:baselineAligned="false"
                         android:orientation="horizontal"
                         >
-                        <android.support.design.widget.TextInputLayout
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            bind:errorTextInputLayout="@{viewModel.fromTimeError}"
-                            style="@style/StyleTextHint"
                             >
-                            <EditText
-                                android:hint="@string/from"
-                                android:onClick="@{viewModel::onCickFromTime}"
-                                android:text="@={viewModel.requestOverTime.fromTime}"
-                                style="@style/StyleText"
+                            <android.support.design.widget.TextInputLayout
+                                bind:errorTextInputLayout="@{viewModel.fromTimeError}"
+                                style="@style/StyleTextHint"
+                                >
+                                <EditText
+                                    android:hint="@string/from"
+                                    android:onClick="@{viewModel::onCickFromTime}"
+                                    android:text="@={viewModel.requestOverTime.fromTime}"
+                                    style="@style/StyleText"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:layout_gravity="end"
+                                android:src="@drawable/ic_required"
+                                bind:ignore="ContentDescription"
                                 />
-                        </android.support.design.widget.TextInputLayout>
-                        <android.support.design.widget.TextInputLayout
+                        </FrameLayout>
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            bind:errorTextInputLayout="@{viewModel.toTimeError}"
-                            style="@style/StyleTextHint"
                             >
-                            <EditText
-                                android:hint="@string/to"
-                                android:onClick="@{viewModel::onCickToTime}"
-                                android:text="@={viewModel.requestOverTime.toTime}"
-                                style="@style/StyleText"
+                            <android.support.design.widget.TextInputLayout
+                                bind:errorTextInputLayout="@{viewModel.toTimeError}"
+                                style="@style/StyleTextHint"
+                                >
+                                <EditText
+                                    android:hint="@string/to"
+                                    android:onClick="@{viewModel::onCickToTime}"
+                                    android:text="@={viewModel.requestOverTime.toTime}"
+                                    style="@style/StyleText"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:layout_gravity="end"
+                                android:src="@drawable/ic_required"
+                                bind:ignore="ContentDescription"
                                 />
-                        </android.support.design.widget.TextInputLayout>
+                        </FrameLayout>
                     </LinearLayout>
 
-                    <android.support.design.widget.TextInputLayout
-                        bind:errorTextInputLayout="@{viewModel.reasonError}"
-                        style="@style/StyleTextHint"
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         >
-                        <EditText
-                            android:hint="@string/reason"
-                            android:maxLines="1"
-                            android:text="@={viewModel.requestOverTime.reason}"
-                            style="@style/StyleEditableText"
+                        <android.support.design.widget.TextInputLayout
+                            bind:errorTextInputLayout="@{viewModel.reasonError}"
+                            style="@style/StyleTextHint"
+                            >
+                            <EditText
+                                android:hint="@string/reason"
+                                android:maxLines="1"
+                                android:text="@={viewModel.requestOverTime.reason}"
+                                style="@style/StyleEditableText"
+                                />
+                        </android.support.design.widget.TextInputLayout>
+                        <ImageView
+                            android:layout_width="@dimen/dp_24"
+                            android:layout_height="@dimen/dp_24"
+                            android:layout_gravity="end"
+                            android:src="@drawable/ic_required"
+                            bind:ignore="ContentDescription"
                             />
-                    </android.support.design.widget.TextInputLayout>
+                    </FrameLayout>
                 </LinearLayout>
             </ScrollView>
             <Button
