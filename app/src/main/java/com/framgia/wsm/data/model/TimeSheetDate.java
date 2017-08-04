@@ -38,7 +38,7 @@ public class TimeSheetDate extends BaseModel {
     @SerializedName("color_afternoon")
     private String mColorAfternoon;
     @Expose
-    @SerializedName("hour_over_time")
+    @SerializedName("hours_over_time")
     private float mNumberOfOvertime;
 
     public TimeSheetDate() {
