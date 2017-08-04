@@ -31,7 +31,7 @@ public class StatisticsFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
         DaggerStatisticsComponent.builder()
                 .mainComponent(((MainActivity) getActivity()).getMainComponent())
-                .statisticsModule(new StatisticsModule())
+                .statisticsModule(new StatisticsModule(this))
                 .build()
                 .inject(this);
 

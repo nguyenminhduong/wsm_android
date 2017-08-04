@@ -4,6 +4,7 @@ import android.databinding.BindingAdapter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
@@ -131,6 +132,11 @@ public final class BindingUtils {
     public static void setViewPagerAdapter(final ViewPager viewPager,
             final FragmentPagerAdapter adapter) {
         viewPager.setAdapter(adapter);
+    }
+
+    @BindingAdapter("pager")
+    public static void setViewPagerTabs(final TabLayout tabLayout, final ViewPager viewPager) {
+        tabLayout.setupWithViewPager(viewPager, true);
     }
 
     @BindingAdapter("errorText")
