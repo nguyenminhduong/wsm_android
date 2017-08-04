@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
 import static com.framgia.wsm.utils.common.DateTimeUtils.DATE_FORMAT_YYYY_MM_DD;
 import static com.framgia.wsm.utils.common.DateTimeUtils.FORMAT_DATE;
 
@@ -311,20 +310,13 @@ public class RequestOffViewModel extends BaseRequestOff
             String date = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
             int dayOfWeek = DateTimeUtils.getDayOfWeek(year, month, dayOfMonth);
             if (mFlagDate == FLAG_START_DATE) {
-                if (DateTimeUtils.convertStringToDate(date)
-                        .after(DateTimeUtils.currentMonthWorking())) {
-                    if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
-                        setEndDate(null);
-                        setStartDate(date);
-                        return;
-                    }
-                    showErrorDialogWithButtonRetry(
-                            mContext.getString(R.string.time_must_be_a_working_date));
-                } else {
-                    setStartDate(null);
-                    showErrorDialogWithButtonRetry(mContext.getString(R.string.you_can_not_access));
+                if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
+                    setEndDate(null);
+                    setStartDate(date);
+                    return;
                 }
-                mCalendar.set(Calendar.MONTH, mCalendar.get(Calendar.MONTH) + ONE_MONTH);
+                showErrorDialogWithButtonRetry(
+                        mContext.getString(R.string.time_must_be_a_working_date));
                 return;
             }
             validateEndDate(date);
