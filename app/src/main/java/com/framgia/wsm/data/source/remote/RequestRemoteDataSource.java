@@ -140,6 +140,11 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
         return mWSMApi.approveAll(actionRequest);
     }
 
+    @Override
+    public Single<BaseResponse> sendEmail(String email) {
+        return mWSMApi.sendEmail(email);
+    }
+
     private Map<String, String> inputParamsRequestsManage(QueryRequest queryRequest) {
         Map<String, String> params = new HashMap<>();
         params.put(PARAM_USER_NAME, queryRequest.getUserName());

@@ -100,4 +100,8 @@ public class RequestRepository {
             ActionRequest actionRequest) {
         return mRemoteDataSource.approveAllRequest(actionRequest);
     }
+
+    public Single<BaseResponse> sendEmail(String email) {
+        return mRemoteDataSource.sendEmail(email);
+    }
 }

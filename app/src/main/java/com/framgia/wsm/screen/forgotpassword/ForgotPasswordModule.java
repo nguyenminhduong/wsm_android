@@ -3,8 +3,11 @@ package com.framgia.wsm.screen.forgotpassword;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import com.framgia.wsm.data.source.RequestRepository;
+import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.framgia.wsm.widget.dialog.DialogManagerImpl;
@@ -34,14 +37,15 @@ public class ForgotPasswordModule {
 
     @ActivityScope
     @Provides
-    public ForgotPasswordContract.Presenter providePresenter() {
-        return new ForgotPasswordPresenter();
+    public ForgotPasswordContract.Presenter providePresenter(RequestRepository requestRepository,
+            BaseSchedulerProvider baseSchedulerProvider, Validator validator) {
+        return new ForgotPasswordPresenter(requestRepository, baseSchedulerProvider, validator);
     }
 
     @ActivityScope
     @Provides
     public Validator provideValidator() {
-        return new Validator(mActivity.getApplicationContext(), ForgotPasswordActivity.class);
+        return new Validator(mActivity.getApplicationContext(), ForgotPasswordViewModel.class);
     }
 
     @ActivityScope
@@ -54,5 +58,12 @@ public class ForgotPasswordModule {
     @Provides
     public DialogManager provideDialogManager() {
         return new DialogManagerImpl(mActivity);
+    }
+
+    @ActivityScope
+    @Provides
+    public RequestRepository provideRequestRepository(
+            RequestRemoteDataSource requestRemoteDataSource) {
+        return new RequestRepository(requestRemoteDataSource);
     }
 }
