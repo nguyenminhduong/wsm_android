@@ -19,6 +19,7 @@ import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.NotificationResponse;
 import com.framgia.wsm.data.source.remote.api.response.SignInDataResponse;
+import com.framgia.wsm.data.source.remote.api.response.StatisticsResponse;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import java.util.List;
@@ -146,4 +147,7 @@ public interface WSMApi {
 
     @GET("api/dashboard/forgot_passwords/new")
     Single<BaseResponse> sendEmail(@Query("email") String email);
+
+    @GET("api/dashboard/statistics/users")
+    Single<BaseResponse<StatisticsResponse>> getStatistics();
 }
