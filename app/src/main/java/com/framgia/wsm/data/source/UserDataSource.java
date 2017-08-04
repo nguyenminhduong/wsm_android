@@ -26,6 +26,8 @@ public interface UserDataSource {
         Observable<User> getUser();
 
         void clearData();
+
+        User getUserCheckLogin();
     }
 
     /**

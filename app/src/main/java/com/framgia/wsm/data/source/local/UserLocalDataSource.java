@@ -53,6 +53,12 @@ public class UserLocalDataSource implements UserDataSource.LocalDataSource {
     }
 
     @Override
+    public User getUserCheckLogin() {
+        String data = mSharedPrefsApi.get(SharedPrefsKey.KEY_USER, String.class);
+        return new Gson().fromJson(data, User.class);
+    }
+
+    @Override
     public void clearData() {
         mSharedPrefsApi.clear();
     }

@@ -205,7 +205,8 @@ final class LoginPresenter implements LoginContract.Presenter {
             mUserRepository.clearData();
             return;
         }
-        if (mUser != null && mUser.getLeaveTypes() != null) {
+        User user = mUserRepository.getUserCheckLogin();
+        if (user != null && user.getLeaveTypes() != null) {
             mViewModel.onUserLoggedIn();
             return;
         }
