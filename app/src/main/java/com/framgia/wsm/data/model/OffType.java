@@ -23,7 +23,7 @@ public class OffType extends BaseModel implements Parcelable {
     @SerializedName("amount")
     private float mAmount;
 
-    public OffType(int id, String name, String payType, int amount) {
+    public OffType(int id, String name, String payType, float amount) {
         mId = id;
         mName = name;
         mPayType = payType;
@@ -34,7 +34,7 @@ public class OffType extends BaseModel implements Parcelable {
         mId = in.readInt();
         mName = in.readString();
         mPayType = in.readString();
-        mAmount = in.readInt();
+        mAmount = in.readFloat();
     }
 
     public static final Creator<OffType> CREATOR = new Creator<OffType>() {

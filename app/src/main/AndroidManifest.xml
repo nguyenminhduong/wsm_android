@@ -68,14 +68,14 @@
             android:theme="@style/AppThemeRequest"/>
 
         <service
-            android:name=".data.source.remote.api.service.FireBaseMessageService"
+            android:name=".firebase.FireBaseMessageService"
             tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
         <service
-            android:name=".data.source.remote.api.service.FireBaseInstanceIDService"
+            android:name=".firebase.FireBaseInstanceIDService"
             tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
