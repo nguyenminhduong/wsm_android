@@ -42,6 +42,8 @@ public class ListRequestViewModel extends BaseObservable
         BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> {
     private static final String TAG = "ListRequestViewModel";
     private static final int FORMAT_MONTH = 10;
+    private static final int PAGE_ONE = 1;
+    private static final int CURRRENT_STATUS = 0;
 
     private Context mContext;
     private ListRequestContract.Presenter mPresenter;
@@ -58,6 +60,10 @@ public class ListRequestViewModel extends BaseObservable
     private int mRequestType;
     private QueryRequest mQueryRequest;
     private boolean mIsLoading;
+    private boolean mIsShowProgress;
+    private boolean mIsVisiableLayoutDataNotFound;
+    private boolean mIsLoadDataFirstTime;
+    private int mPage;
 
     ListRequestViewModel(Context context, ListRequestContract.Presenter presenter,
             DialogManager dialogManager, ListRequestAdapter listRequestAdapter,
@@ -77,10 +83,16 @@ public class ListRequestViewModel extends BaseObservable
     }
 
     private void initData() {
+        mPage = PAGE_ONE;
         setLoading(false);
         mMonthYear = DateTimeUtils.getMonthWorking();
         mQueryRequest = new QueryRequest();
         mQueryRequest.setMonthWorking(mMonthYear);
+        mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+        mQueryRequest.setPage(String.valueOf(mPage));
+        mCurrentStatus = mContext.getString(R.string.pending);
+        mCurrentPositionStatus = CURRRENT_STATUS;
+        setLoadDataFirstTime(true);
     }
 
     @Override
@@ -101,6 +113,12 @@ public class ListRequestViewModel extends BaseObservable
     @Override
     public void onShowIndeterminateProgressDialog() {
         mDialogManager.showIndeterminateProgressDialog();
+    }
+
+    @Override
+    public void onLoadMoreListRequest() {
+        setShowProgress(true);
+        mPresenter.getListAllRequestNoProgressDialog(mRequestType, mQueryRequest, true);
     }
 
     @Override
@@ -132,36 +150,45 @@ public class ListRequestViewModel extends BaseObservable
 
     @Override
     public void onGetListRequestError(BaseException e) {
+        setShowProgress(false);
+        setVisiableLayoutDataNotFound(true);
         mNavigator.showToastCustom(TypeToast.ERROR, e.getMessage());
     }
 
     @Override
-    public void onGetListRequestSuccess(int requestType, Object object) {
+    public void onGetListRequestSuccess(int requestType, Object object, boolean isLoadMore) {
         setLoading(false);
+        setShowProgress(false);
         switch (requestType) {
             case RequestType.REQUEST_OVERTIME:
                 List<RequestOverTime> listOverTime = (List<RequestOverTime>) object;
-                showToastError(listOverTime.size());
-                mListRequestAdapter.updateDataRequestOverTime(listOverTime);
+                checkSizeListRequest(listOverTime.size(), isLoadMore);
+                mListRequestAdapter.updateDataRequestOverTime(listOverTime, isLoadMore);
                 break;
             case RequestType.REQUEST_OFF:
                 List<OffRequest> listOff = (List<OffRequest>) object;
-                showToastError(listOff.size());
-                mListRequestAdapter.updateDataRequestOff(listOff);
+                checkSizeListRequest(listOff.size(), isLoadMore);
+                mListRequestAdapter.updateDataRequestOff(listOff, isLoadMore);
                 break;
             case RequestType.REQUEST_LATE_EARLY:
                 List<LeaveRequest> listLeave = (List<LeaveRequest>) object;
-                showToastError(listLeave.size());
-                mListRequestAdapter.updateDataRequest(listLeave);
+                checkSizeListRequest(listLeave.size(), isLoadMore);
+                mListRequestAdapter.updateDataRequest(listLeave, isLoadMore);
                 break;
             default:
                 break;
         }
+        setLoadDataFirstTime(false);
     }
 
     @Override
     public void onReloadData(int requestType) {
-        mPresenter.getListAllRequest(requestType, mQueryRequest);
+        setPage(PAGE_ONE);
+        if (mIsLoadDataFirstTime) {
+            mPresenter.getListAllRequest(requestType, mQueryRequest, false);
+            return;
+        }
+        mPresenter.getListAllRequestNoProgressDialog(requestType, mQueryRequest, false);
     }
 
     @Override
@@ -194,6 +221,8 @@ public class ListRequestViewModel extends BaseObservable
         mMonthYear = monthYear;
         mQueryRequest.setMonthWorking(monthYear);
         notifyPropertyChanged(BR.monthYear);
+        setPage(PAGE_ONE);
+        mPresenter.getListAllRequest(mRequestType, mQueryRequest, false);
     }
 
     @Bindable
@@ -204,6 +233,42 @@ public class ListRequestViewModel extends BaseObservable
     public void setLoading(boolean loading) {
         mIsLoading = loading;
         notifyPropertyChanged(BR.loading);
+    }
+
+    @Bindable
+    public boolean isShowProgress() {
+        return mIsShowProgress;
+    }
+
+    private void setShowProgress(boolean showProgress) {
+        mIsShowProgress = showProgress;
+        notifyPropertyChanged(BR.showProgress);
+    }
+
+    public void setPage(int page) {
+        mPage = page;
+        mQueryRequest.setPage(String.valueOf(mPage));
+        setVisiableLayoutDataNotFound(false);
+    }
+
+    @Bindable
+    public boolean isVisiableLayoutDataNotFound() {
+        return mIsVisiableLayoutDataNotFound;
+    }
+
+    private void setVisiableLayoutDataNotFound(boolean visiableLayoutDataNotFound) {
+        mIsVisiableLayoutDataNotFound = visiableLayoutDataNotFound;
+        notifyPropertyChanged(BR.visiableLayoutDataNotFound);
+    }
+
+    private void setLoadDataFirstTime(boolean loadDataFirstTime) {
+        mIsLoadDataFirstTime = loadDataFirstTime;
+    }
+
+    private void setMonthYearNotGetData(String monthYear) {
+        mMonthYear = monthYear;
+        mQueryRequest.setMonthWorking(monthYear);
+        notifyPropertyChanged(BR.monthYear);
     }
 
     public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
@@ -220,14 +285,16 @@ public class ListRequestViewModel extends BaseObservable
         return mListRequestAdapter;
     }
 
-    private void showToastError(int size) {
-        if (size == 0) {
-            mNavigator.showToastCustom(TypeToast.INFOR,
-                    mContext.getString(R.string.can_not_find_data));
+    private void checkSizeListRequest(int size, boolean isLoadMore) {
+        mPage++;
+        mQueryRequest.setPage(String.valueOf(mPage));
+        if (size == 0 && !isLoadMore) {
+            setVisiableLayoutDataNotFound(true);
         }
     }
 
     public void setRequestType(int requestType) {
+        setPage(PAGE_ONE);
         mRequestType = requestType;
     }
 
@@ -251,16 +318,19 @@ public class ListRequestViewModel extends BaseObservable
                     @Override
                     public boolean onSelection(MaterialDialog materialDialog, View view,
                             int positionType, CharSequence charSequence) {
+                        setPage(PAGE_ONE);
                         setCurrentPositionStatus(positionType);
                         mQueryRequest.setStatus(String.valueOf(positionType));
                         setCurrentStatus(String.valueOf(charSequence));
+                        mPresenter.getListAllRequest(mRequestType, mQueryRequest, false);
                         return true;
                     }
                 });
     }
 
     public void onSearchRequest(View view) {
-        mPresenter.getListAllRequest(mRequestType, mQueryRequest);
+        setPage(PAGE_ONE);
+        mPresenter.getListAllRequest(mRequestType, mQueryRequest, false);
     }
 
     public void onCreateRequest(View view) {
@@ -285,10 +355,11 @@ public class ListRequestViewModel extends BaseObservable
     }
 
     public void onClearData(View view) {
+        setPage(PAGE_ONE);
         setCurrentStatus(null);
-        setMonthYear(null);
+        setMonthYearNotGetData(null);
         mQueryRequest.setStatus(null);
         mQueryRequest.setMonthWorking(null);
-        mPresenter.getListAllRequest(mRequestType, mQueryRequest);
+        mPresenter.getListAllRequest(mRequestType, mQueryRequest, false);
     }
 }

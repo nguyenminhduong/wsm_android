@@ -17,13 +17,16 @@ interface ListRequestContract {
 
         void onGetListRequestError(BaseException exception);
 
-        void onGetListRequestSuccess(@RequestType int requestType, Object object);
+        void onGetListRequestSuccess(@RequestType int requestType, Object object,
+                boolean isLoadMore);
 
         void onReloadData(int requestType);
 
         void onDismissProgressDialog();
 
         void onShowIndeterminateProgressDialog();
+
+        void onLoadMoreListRequest();
     }
 
     /**
@@ -31,6 +34,10 @@ interface ListRequestContract {
      */
     interface Presenter extends BasePresenter<ViewModel> {
 
-        void getListAllRequest(@RequestType int requestType, QueryRequest queryRequest);
+        void getListAllRequest(@RequestType int requestType, QueryRequest queryRequest,
+                boolean isLoadMore);
+
+        void getListAllRequestNoProgressDialog(@RequestType int requestType,
+                QueryRequest queryRequest, boolean isLoadMore);
     }
 }

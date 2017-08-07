@@ -41,6 +41,7 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
             "q[checkin_time_or_checkout_time_lteq]";
     private static final String PARAM_MONTH = "month";
     private static final String PARAM_PAGE = "page";
+    private static final String PARAM_STATUS_PERSONAL = "q[status_eq]";
 
     @Inject
     public RequestRemoteDataSource(WSMApi api) {
@@ -173,8 +174,9 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
 
     private Map<String, String> inputParamsRequestsPersonal(QueryRequest queryRequest) {
         Map<String, String> params = new HashMap<>();
-        params.put(PARAM_STATUS, queryRequest.getStatus());
+        params.put(PARAM_STATUS_PERSONAL, queryRequest.getStatus());
         params.put(PARAM_MONTH, queryRequest.getMonthWorking());
+        params.put(PARAM_PAGE, queryRequest.getPage());
         return params;
     }
 }

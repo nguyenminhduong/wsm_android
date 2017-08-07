@@ -11,6 +11,7 @@
             name="viewModel"
             type="com.framgia.wsm.screen.listrequest.ListRequestViewModel"
             />
+        <import type="android.view.View"/>
 
     </data>
     <android.support.v4.widget.SwipeRefreshLayout
@@ -126,13 +127,55 @@
                     android:layout_margin="@dimen/dp_3"
                     android:background="@color/color_blue_green"
                     />
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerview"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:layoutManager="LinearLayoutManager"
-                    app:recyclerAdapter="@{viewModel.listRequestAdapter}"
-                    />
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="@dimen/dp_70"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="@{viewModel.visiableLayoutDataNotFound ? View.VISIBLE : View.GONE}"
+                        >
+                        <ImageView
+                            android:layout_width="@dimen/dp_70"
+                            android:layout_height="@dimen/dp_70"
+                            app:srcCompat="@drawable/ic_not_found_data"
+                            tools:ignore="ContentDescription"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:text="@string/can_not_find_data"
+                            android:textSize="@dimen/sp_17"
+                            />
+                    </LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        >
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_above="@+id/progressBar"
+                            app:layoutManager="LinearLayoutManager"
+                            app:recyclerAdapter="@{viewModel.listRequestAdapter}"
+                            />
+                        <ProgressBar
+                            android:id="@+id/progressBar"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="@dimen/dp_40"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:visibility="@{viewModel.showProgress ? View.VISIBLE : View.GONE}"
+                            />
+                    </RelativeLayout>
+                </FrameLayout>
             </LinearLayout>
 
             <android.support.design.widget.FloatingActionButton

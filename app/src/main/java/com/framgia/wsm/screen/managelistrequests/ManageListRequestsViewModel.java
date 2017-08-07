@@ -122,6 +122,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void onGetListRequestManageError(BaseException exception) {
         setShowProgress(false);
         setVisiableLayoutDataNotFound(true);
+        mNavigator.showToastCustom(TypeToast.ERROR, exception.getMessage());
     }
 
     @Override
@@ -182,7 +183,8 @@ public class ManageListRequestsViewModel extends BaseObservable
     @Override
     public void onApproveOrRejectRequestSuccess(ActionRequestResponse actionRequestResponse) {
         setLoading(false);
-        updateItemRequest(mRequestType, mItemPosition, actionRequestResponse);
+        mManageListRequestsAdapter.updateItem(mRequestType, mItemPosition, actionRequestResponse,
+                mCurrentStatus);
         checkTotalRequestSelected();
         switch (mRequestType) {
             case RequestType.REQUEST_LATE_EARLY:
@@ -248,7 +250,8 @@ public class ManageListRequestsViewModel extends BaseObservable
                     LeaveRequest leaveRequest = leaveRequests.get(i);
                     for (ActionRequestResponse actionRequestResponse : actionRequestResponseList) {
                         if (leaveRequest.getId() == actionRequestResponse.getRequestId()) {
-                            updateItemRequest(mRequestType, i, actionRequestResponse);
+                            mManageListRequestsAdapter.updateItem(mRequestType, i,
+                                    actionRequestResponse, mCurrentStatus);
                             i--;
                         }
                     }
@@ -262,7 +265,8 @@ public class ManageListRequestsViewModel extends BaseObservable
                     OffRequest offRequest = offRequests.get(i);
                     for (ActionRequestResponse actionRequestResponse : actionRequestResponseList) {
                         if (offRequest.getId() == actionRequestResponse.getRequestId()) {
-                            updateItemRequest(mRequestType, i, actionRequestResponse);
+                            mManageListRequestsAdapter.updateItem(mRequestType, i,
+                                    actionRequestResponse, mCurrentStatus);
                             i--;
                         }
                     }
@@ -276,7 +280,8 @@ public class ManageListRequestsViewModel extends BaseObservable
                     RequestOverTime requestOverTime = requestOverTimes.get(i);
                     for (ActionRequestResponse actionRequestResponse : actionRequestResponseList) {
                         if (requestOverTime.getId() == actionRequestResponse.getRequestId()) {
-                            updateItemRequest(mRequestType, i, actionRequestResponse);
+                            mManageListRequestsAdapter.updateItem(mRequestType, i,
+                                    actionRequestResponse, mCurrentStatus);
                             i--;
                         }
                     }
@@ -346,26 +351,6 @@ public class ManageListRequestsViewModel extends BaseObservable
         return mManageListRequestsAdapter;
     }
 
-    private void updateItemRequest(@RequestType int requestType, int itemPosition,
-            ActionRequestResponse actionRequestResponse) {
-        switch (requestType) {
-            case RequestType.REQUEST_LATE_EARLY:
-                mManageListRequestsAdapter.updateItem(requestType, itemPosition,
-                        actionRequestResponse, mCurrentStatus);
-                break;
-            case RequestType.REQUEST_OFF:
-                mManageListRequestsAdapter.updateItem(requestType, itemPosition,
-                        actionRequestResponse, mCurrentStatus);
-                break;
-            case RequestType.REQUEST_OVERTIME:
-                mManageListRequestsAdapter.updateItem(requestType, itemPosition,
-                        actionRequestResponse, mCurrentStatus);
-                break;
-            default:
-                break;
-        }
-    }
-
     private void approveOrRejectRequest(int itemPosition, int requestId, String statusCode) {
         mActionRequest.setApproveAll(false);
         mItemPosition = itemPosition;
@@ -396,9 +381,9 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     private void checkSizeListRequest(int size, boolean isLoadMore) {
+        mPage++;
+        mQueryRequest.setPage(String.valueOf(mPage));
         if (isLoadMore) {
-            mPage++;
-            mQueryRequest.setPage(String.valueOf(mPage));
             checkTotalRequestSelected();
         } else {
             if (size == 0) {
@@ -730,7 +715,8 @@ public class ManageListRequestsViewModel extends BaseObservable
     @Override
     public void onApproveOrRejectListener(@RequestType int requestType, int itemPosition,
             ActionRequestResponse actionRequestResponse) {
-        updateItemRequest(requestType, itemPosition, actionRequestResponse);
+        mManageListRequestsAdapter.updateItem(requestType, itemPosition, actionRequestResponse,
+                mCurrentStatus);
     }
 
     private void setStatusSelectAll(int totalRequestSelected) {
