@@ -184,6 +184,15 @@ public class ListRequestViewModel extends BaseObservable
     @Override
     public void onReloadData(int requestType) {
         setPage(PAGE_ONE);
+        mMonthYear = DateTimeUtils.getMonthWorking();
+        mQueryRequest = new QueryRequest();
+        mQueryRequest.setMonthWorking(mMonthYear);
+        mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+        mQueryRequest.setPage(String.valueOf(mPage));
+        mCurrentStatus = mContext.getString(R.string.pending);
+        mCurrentPositionStatus = CURRRENT_STATUS;
+        setMonthYear(mMonthYear);
+        setCurrentStatus(mCurrentStatus);
         if (mIsLoadDataFirstTime) {
             mPresenter.getListAllRequest(requestType, mQueryRequest, false);
             return;

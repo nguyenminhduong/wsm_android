@@ -354,31 +354,33 @@
                             />
                     </LinearLayout>
 
-                    <android.support.design.widget.TextInputLayout
-                        bind:errorTextInputLayout="@{viewModel.reasonError}"
-                        style="@style/StyleTextHint"
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         >
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+
+                        <android.support.design.widget.TextInputLayout
+                            bind:errorTextInputLayout="@{viewModel.reasonError}"
+                            style="@style/StyleTextHint"
                             >
+
                             <EditText
                                 android:hint="@string/reason"
                                 android:text="@={viewModel.requestOff.reason}"
                                 style="@style/StyleEditableText"
                                 />
-                            <ImageView
-                                android:layout_marginEnd="@dimen/dp_5"
-                                android:layout_marginRight="@dimen/dp_5"
-                                android:layout_width="@dimen/dp_10"
-                                android:layout_height="@dimen/dp_10"
-                                android:layout_gravity="end|center"
-                                app:srcCompat="@drawable/ic_star"
-                                bind:ignore="ContentDescription"
-                                />
-                        </FrameLayout>
-                    </android.support.design.widget.TextInputLayout>
+                        </android.support.design.widget.TextInputLayout>
 
+                        <ImageView
+                            android:layout_width="@dimen/dp_10"
+                            android:layout_height="@dimen/dp_10"
+                            android:layout_gravity="end|center"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:layout_marginRight="@dimen/dp_5"
+                            app:srcCompat="@drawable/ic_star"
+                            bind:ignore="ContentDescription"
+                            />
+                    </FrameLayout>
                 </LinearLayout>
             </ScrollView>
 
