@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.model.StatisticOfPersonal;
 import com.framgia.wsm.databinding.FragmentStatisticsByMonthBinding;
 import com.framgia.wsm.screen.main.MainActivity;
 import javax.inject.Inject;
@@ -51,5 +52,9 @@ public class StatisticsByMonthFragment extends Fragment {
     public void onStop() {
         mViewModel.onStop();
         super.onStop();
+    }
+
+    public void setStatistic(StatisticOfPersonal statistic) {
+        //Todo dev later
     }
 }

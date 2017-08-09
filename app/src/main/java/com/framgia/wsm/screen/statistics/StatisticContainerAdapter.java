@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.framgia.wsm.R;
-import com.framgia.wsm.screen.holidaycalendar.HolidayCalendarFragment;
 import com.framgia.wsm.screen.statisticsbymonth.StatisticsByMonthFragment;
 import com.framgia.wsm.screen.statisticsbyyear.StatisticsByYearFragment;
 import java.util.ArrayList;
@@ -32,13 +31,13 @@ public class StatisticContainerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Fragment fragment;
         switch (position) {
-            case SearchResultsTab.TAB_MONTH:
+            case StatisticResultTab.TAB_MONTH:
                 fragment = StatisticsByMonthFragment.newInstance();
-                mFragments.add(SearchResultsTab.TAB_MONTH, fragment);
+                mFragments.add(StatisticResultTab.TAB_MONTH, fragment);
                 return fragment;
-            case SearchResultsTab.TAB_YEAR:
+            case StatisticResultTab.TAB_YEAR:
                 fragment = StatisticsByYearFragment.newInstance();
-                mFragments.add(SearchResultsTab.TAB_YEAR, fragment);
+                mFragments.add(StatisticResultTab.TAB_YEAR, fragment);
                 return fragment;
             default:
                 return null;
@@ -53,21 +52,21 @@ public class StatisticContainerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
-            case SearchResultsTab.TAB_MONTH:
+            case StatisticResultTab.TAB_MONTH:
                 return mContext.getString(R.string.month);
-            case SearchResultsTab.TAB_YEAR:
+            case StatisticResultTab.TAB_YEAR:
                 return mContext.getString(R.string.year);
             default:
                 return null;
         }
     }
 
-    public Fragment getFragment(@SearchResultsTab int position) {
+    public Fragment getFragment(@StatisticResultTab int position) {
         return mFragments.get(position);
     }
 
-    @IntDef({ SearchResultsTab.TAB_MONTH, SearchResultsTab.TAB_YEAR })
-    public @interface SearchResultsTab {
+    @IntDef({ StatisticResultTab.TAB_MONTH, StatisticResultTab.TAB_YEAR })
+    public @interface StatisticResultTab {
         int TAB_MONTH = 0;
         int TAB_YEAR = 1;
     }

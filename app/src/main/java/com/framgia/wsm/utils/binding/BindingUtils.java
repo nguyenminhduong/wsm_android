@@ -412,6 +412,7 @@ public final class BindingUtils {
         combinedChart.setDrawGridBackground(false);
         combinedChart.setDrawBarShadow(false);
         combinedChart.setHighlightFullBarEnabled(false);
+        combinedChart.animateXY(3000, 3000);
 
         YAxis rightAxis = combinedChart.getAxisRight();
         rightAxis.setDrawGridLines(false);
