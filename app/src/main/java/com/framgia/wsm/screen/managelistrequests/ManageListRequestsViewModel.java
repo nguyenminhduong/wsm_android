@@ -28,6 +28,7 @@ import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.TypeToast;
 import com.framgia.wsm.utils.common.DateTimeUtils;
+import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.navigator.NavigateAnim;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
@@ -252,7 +253,9 @@ public class ManageListRequestsViewModel extends BaseObservable
                         if (leaveRequest.getId() == actionRequestResponse.getRequestId()) {
                             mManageListRequestsAdapter.updateItem(mRequestType, i,
                                     actionRequestResponse, mCurrentStatus);
-                            i--;
+                            if (StringUtils.isNotBlank(mCurrentStatus)) {
+                                i--;
+                            }
                         }
                     }
                 }
@@ -267,7 +270,9 @@ public class ManageListRequestsViewModel extends BaseObservable
                         if (offRequest.getId() == actionRequestResponse.getRequestId()) {
                             mManageListRequestsAdapter.updateItem(mRequestType, i,
                                     actionRequestResponse, mCurrentStatus);
-                            i--;
+                            if (StringUtils.isNotBlank(mCurrentStatus)) {
+                                i--;
+                            }
                         }
                     }
                 }
@@ -282,7 +287,9 @@ public class ManageListRequestsViewModel extends BaseObservable
                         if (requestOverTime.getId() == actionRequestResponse.getRequestId()) {
                             mManageListRequestsAdapter.updateItem(mRequestType, i,
                                     actionRequestResponse, mCurrentStatus);
-                            i--;
+                            if (StringUtils.isNotBlank(mCurrentStatus)) {
+                                i--;
+                            }
                         }
                     }
                 }

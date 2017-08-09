@@ -125,6 +125,7 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
                     mRequestsLeaves.get(position).setStatus(actionRequestResponse.getStatus());
                     mRequestsLeaves.get(position)
                             .setCanApproveReject(actionRequestResponse.isCanApproveReject());
+                    mRequestsLeaves.get(position).setChecked(false);
                     notifyItemChanged(position, mRequestsLeaves);
                     return;
                 }
@@ -138,6 +139,7 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
                     mRequestsOffs.get(position).setStatus(actionRequestResponse.getStatus());
                     mRequestsOffs.get(position)
                             .setCanApproveReject(actionRequestResponse.isCanApproveReject());
+                    mRequestsOffs.get(position).setChecked(false);
                     notifyItemChanged(position, mRequestsOffs);
                     return;
                 }
@@ -151,6 +153,7 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
                     mRequestOverTimes.get(position).setStatus(actionRequestResponse.getStatus());
                     mRequestOverTimes.get(position)
                             .setCanApproveReject(actionRequestResponse.isCanApproveReject());
+                    mRequestOverTimes.get(position).setChecked(false);
                     notifyItemChanged(position, mRequestOverTimes);
                     return;
                 }
