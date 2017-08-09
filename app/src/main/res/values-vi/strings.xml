@@ -289,7 +289,7 @@
     <string name="group_is_emty">Vui lòng chọn phòng ban để tạo yêu cầu!</string>
     <string name="please_enter_email">Nhập địa chỉ email của bạn, và chúng tôi sẽ gửi cho bạn một liên kết để bạn có thể đặt lại mật khẩu !</string>
     <string name="send_email">Gửi Email</string>
-    <string name="message_send_email_success">You will receive an email with instructions on how to reset your password in a few minutes.</string>
+    <string name="message_send_email_success">Bạn sẽ nhận được email với hướng dẫn về cách đặt lại mật khẩu trong vài phút. Vui lòng kiểm tra email của bạn !</string>
     <string name="overtime">Làm ngoài giờ</string>
     <string name="jan">Th1</string>
     <string name="feb">Th2</string>
@@ -322,5 +322,8 @@
     <string name="the_number_of_rest_days_in_year">Số ngày nghỉ còn lại trong năm</string>
     <string name="number_of_days_off_added_in_this_year">Số ngày nghỉ được thêm trong năm hiện tại</string>
     <string name="total_of_days_off_remaining_in_year">Tổng số ngày nghỉ còn lại trong năm</string>
+    <string name="reset_password">Đặt lại mật khẩu</string>
+    <string name="please_enter_your_new_password">Vui lòng nhập mật khẩu mới của bạn !</string>
+    <string name="reset_password_success">Đặt lại mật khẩu thành công!</string>
 
 </resources>

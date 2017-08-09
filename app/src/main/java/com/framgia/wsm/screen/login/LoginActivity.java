@@ -8,17 +8,23 @@ import android.support.v7.app.AppCompatActivity;
 import com.framgia.wsm.MainApplication;
 import com.framgia.wsm.R;
 import com.framgia.wsm.databinding.ActivityLoginBinding;
+import com.framgia.wsm.screen.createnewpassword.CreateNewPasswordActivity;
+import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.navigator.Navigator;
 import javax.inject.Inject;
 
 /**
  * Login Screen.
  */
 public class LoginActivity extends AppCompatActivity {
-    private static final String URI_RESET_PASSWORD =
-            "http://wsm.framgia.vn//users/password/edit?reset_password_token=";
+
+    private static final String TOKEN_RESET_PASSWORD = "reset_password_token";
+    private static final String EMAIL_RESET_PASSWORD = "email";
 
     @Inject
     LoginContract.ViewModel mViewModel;
+    @Inject
+    Navigator mNavigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +40,7 @@ public class LoginActivity extends AppCompatActivity {
                 DataBindingUtil.setContentView(this, R.layout.activity_login);
 
         binding.setViewModel((LoginViewModel) mViewModel);
-
-        Intent intent = getIntent();
-        Uri urlResetPassword = intent.getData();
-        String tokenResetPassword;
-        if (urlResetPassword != null) {
-            tokenResetPassword = String.valueOf(urlResetPassword).replace(URI_RESET_PASSWORD, "");
-        }
+        getTokenResetPassword(getIntent());
     }
 
     @Override
@@ -50,8 +50,29 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        getTokenResetPassword(intent);
+    }
+
+    @Override
     protected void onStop() {
         mViewModel.onStop();
         super.onStop();
+    }
+
+    private void getTokenResetPassword(Intent intent) {
+        Uri urlResetPassword = intent.getData();
+        String tokenResetPassword;
+        String emailResetPassword;
+        if (urlResetPassword != null) {
+            tokenResetPassword = urlResetPassword.getQueryParameter(EMAIL_RESET_PASSWORD);
+            emailResetPassword = urlResetPassword.getQueryParameter(TOKEN_RESET_PASSWORD);
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.EXTRA_TOKEN_RESET_PASSWORD, tokenResetPassword);
+            bundle.putString(Constant.EXTRA_EMAIL_RESET_PASSWORD, emailResetPassword);
+            mNavigator.startActivity(CreateNewPasswordActivity.class, bundle);
+            mNavigator.finishActivity();
+        }
     }
 }
