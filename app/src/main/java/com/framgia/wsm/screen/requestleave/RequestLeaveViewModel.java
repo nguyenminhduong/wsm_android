@@ -46,6 +46,8 @@ import static com.framgia.wsm.utils.Constant.TimeConst.SIXTEEN_HOUR;
 import static com.framgia.wsm.utils.Constant.TimeConst.TEN_HOUR;
 import static com.framgia.wsm.utils.Constant.TimeConst.THIRTEEN_HOUR;
 import static com.framgia.wsm.utils.Constant.TimeConst.TWELVE_HOUR;
+import static com.framgia.wsm.utils.Constant.TimeConst.TWO_HOUR;
+import static com.framgia.wsm.utils.Constant.TimeConst.ZERO_MINUTES;
 import static com.framgia.wsm.utils.common.DateTimeUtils.convertDateTimeToString;
 
 /**
@@ -581,6 +583,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         }
         if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, ELEVEN_HOUR, FORTY_FIVE_MINUTES)) {
             setCheckinTime(checkinTime);
+            setCheckoutTime("");
+            setCompensationFromTime("");
+            setCompensationToTime("");
             return;
         }
         if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, TWELVE_HOUR,
@@ -591,6 +596,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         }
         if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, SIXTEEN_HOUR, FORTY_FIVE_MINUTES)) {
             setCheckinTime(checkinTime);
+            setCheckoutTime("");
+            setCompensationFromTime("");
+            setCompensationToTime("");
             return;
         }
         validateErrorDialog(
@@ -669,7 +677,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateInLateM(String checkinTime) {
-        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, SEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, SEVEN_HOUR,
+                FORTY_FIVE_MINUTES)) {
             validateErrorDialog(
                     mContext.getString(R.string.this_is_form_request_late_time_in_is_incorrect));
             return;
@@ -773,7 +782,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     private void validateCheckoutLeaveOut(String checkoutTime) {
         if (DateTimeUtils.convertStringToDateTime(checkoutTime)
-                .before(DateTimeUtils.convertStringToDateTime(mCheckinTime))) {
+                .before(DateTimeUtils.convertStringToDateTime(mCheckinTime))
+                || DateTimeUtils.convertStringToDateTime(checkoutTime)
+                .equals(DateTimeUtils.convertStringToDateTime(mCheckinTime))) {
             validateErrorDialog(mContext.getString(
                     R.string.request_time_to_can_not_greater_than_request_time_from));
             return;
@@ -783,7 +794,17 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             validateErrorDialog(mContext.getString(R.string.time_must_be_is_in_a_day));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, SIXTEEN_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.getHourOfDay(checkoutTime) - DateTimeUtils.getHourOfDay(mCheckinTime)
+                > TWO_HOUR
+                || DateTimeUtils.getHourOfDay(checkoutTime) - DateTimeUtils.getHourOfDay(
+                mCheckinTime) == TWO_HOUR
+                && DateTimeUtils.getMinute(checkoutTime) - DateTimeUtils.getMinute(mCheckinTime)
+                > ZERO_MINUTES) {
+            validateErrorDialog(mContext.getString(
+                    R.string.your_amount_tim_can_not_greater_than_max_allow_time));
+        }
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, SIXTEEN_HOUR,
+                FORTY_FIVE_MINUTES)) {
             setCheckoutTime(checkoutTime);
             setCompensationTime(DateTimeUtils.changeTimeOfDateString(checkoutTime, SIXTEEN_HOUR,
                     FORTY_FIVE_MINUTES));
@@ -848,7 +869,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                     R.string.your_time_can_not_be_sooner_than_time_in_of_company));
             return true;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, NIGHT_HOUR, FIFTEEN_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, NIGHT_HOUR, FORTY_FIVE_MINUTES)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_amount_tim_can_not_greater_than_max_allow_time));
             return true;
@@ -860,14 +881,13 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (validateLeaveEarlyABase(checkoutTime)) {
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, FOURTEEN_HOUR,
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, FOURTEEN_HOUR,
                 FORTY_FIVE_MINUTES)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_amount_tim_can_not_greater_than_max_allow_time));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, SIXTEEN_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, SIXTEEN_HOUR, FORTY_FIVE_MINUTES)) {
             setCheckoutTime(checkoutTime);
             setCompensationTime(DateTimeUtils.changeTimeOfDateString(checkoutTime, SIXTEEN_HOUR,
                     FORTY_FIVE_MINUTES));
