@@ -99,29 +99,35 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
         }
     }
 
-    void updateDataRequest(List<LeaveRequest> requests) {
+    void updateDataRequest(List<LeaveRequest> requests, boolean isLoadMore) {
         if (requests == null) {
             return;
         }
-        mRequests.clear();
+        if (!isLoadMore) {
+            mRequests.clear();
+        }
         mRequests.addAll(requests);
         notifyDataSetChanged();
     }
 
-    void updateDataRequestOff(List<OffRequest> requestOffs) {
+    void updateDataRequestOff(List<OffRequest> requestOffs, boolean isLoadMore) {
         if (requestOffs == null) {
             return;
         }
-        mRequestOffs.clear();
+        if (!isLoadMore) {
+            mRequestOffs.clear();
+        }
         mRequestOffs.addAll(requestOffs);
         notifyDataSetChanged();
     }
 
-    void updateDataRequestOverTime(List<RequestOverTime> requestOverTimes) {
+    void updateDataRequestOverTime(List<RequestOverTime> requestOverTimes, boolean isLoadMore) {
         if (requestOverTimes == null) {
             return;
         }
-        mRequestOverTimes.clear();
+        if (!isLoadMore) {
+            mRequestOverTimes.clear();
+        }
         mRequestOverTimes.addAll(requestOverTimes);
         notifyDataSetChanged();
     }

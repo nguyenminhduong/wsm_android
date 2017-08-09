@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import com.framgia.wsm.R;
 import com.framgia.wsm.databinding.FragmentListRequestBinding;
 import com.framgia.wsm.screen.BaseFragment;
+import com.framgia.wsm.screen.EndlessRecyclerOnScrollListener;
 import com.framgia.wsm.screen.main.MainActivity;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
@@ -103,6 +105,15 @@ public class ListRequestFragment extends BaseFragment {
                     return;
                 }
                 actionButton.show();
+            }
+        });
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore() {
+                mViewModel.onLoadMoreListRequest();
             }
         });
     }
