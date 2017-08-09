@@ -25,6 +25,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="wsm.framgia.vn"
+                    android:scheme="http"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".screen.main.MainActivity"
@@ -81,6 +91,11 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".screen.createnewpassword.CreateNewPasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
