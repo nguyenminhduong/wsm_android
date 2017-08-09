@@ -4,7 +4,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import com.framgia.wsm.data.source.StatisticsRepository;
+import com.framgia.wsm.data.source.remote.StatisticsRemoteDataSource;
 import com.framgia.wsm.utils.dagger.FragmentScope;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import com.framgia.wsm.widget.dialog.DialogManager;
 import dagger.Module;
 import dagger.Provides;
 
@@ -24,14 +28,23 @@ public class StatisticsModule {
     @FragmentScope
     @Provides
     public StatisticsContract.ViewModel provideViewModel(Context context,
-            StatisticsContract.Presenter presenter, StatisticContainerAdapter adapter) {
-        return new StatisticsViewModel(context, presenter, adapter);
+            StatisticsContract.Presenter presenter, StatisticContainerAdapter adapter,
+            DialogManager dialogManager) {
+        return new StatisticsViewModel(context, presenter, adapter, dialogManager);
     }
 
     @FragmentScope
     @Provides
-    public StatisticsContract.Presenter providePresenter() {
-        return new StatisticsPresenter();
+    public StatisticsContract.Presenter providePresenter(StatisticsRepository statisticsRepository,
+            BaseSchedulerProvider baseSchedulerProvider) {
+        return new StatisticsPresenter(statisticsRepository, baseSchedulerProvider);
+    }
+
+    @FragmentScope
+    @Provides
+    StatisticsRepository provideStatisticsRepository(
+            StatisticsRemoteDataSource statisticsRemoteDataSource) {
+        return new StatisticsRepository(statisticsRemoteDataSource);
     }
 
     @FragmentScope
