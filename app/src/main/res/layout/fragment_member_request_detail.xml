@@ -388,7 +388,48 @@
                                     />
                             </LinearLayout>
                         </LinearLayout>
-
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            >
+                            <ImageView
+                                app:srcCompat="@drawable/ic_group"
+                                tools:ignore="ContentDescription"
+                                style="@style/StyleIconConfirm"
+                                />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:layout_marginStart="@dimen/dp_20"
+                                android:orientation="vertical"
+                                >
+                                <TextView
+                                    android:text="@string/being_handled_by"
+                                    style="@style/StyleTitleConfirm"
+                                    />
+                                <TextView
+                                    android:text="@{viewModel.offRequest.beingHandledBy}"
+                                    android:visibility="@{viewModel.visibleOffRequest ? View.VISIBLE : View.GONE}"
+                                    style="@style/StyleTextConfirm"
+                                    />
+                                <TextView
+                                    android:text="@{viewModel.overTimeRequest.beingHandledBy}"
+                                    android:visibility="@{viewModel.visibleOverTimeRequest ? View.VISIBLE : View.GONE}"
+                                    style="@style/StyleTextConfirm"
+                                    />
+                                <TextView
+                                    android:text="@{viewModel.leaveRequest.beingHandledBy}"
+                                    android:visibility="@{viewModel.visibleLeaveRequest ? View.VISIBLE : View.GONE}"
+                                    style="@style/StyleTextConfirm"
+                                    />
+                                <View
+                                    style="@style/StyleViewConfirm"
+                                    />
+                            </LinearLayout>
+                        </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

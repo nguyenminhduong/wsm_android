@@ -162,34 +162,16 @@ public class MemberRequestDetailViewModel extends BaseObservable
     public void onApproveOrRejectRequestSuccess(ActionRequestResponse actionRequestResponse) {
         mResultListener.onApproveOrRejectListener(mCurrentRequestType, mPosition,
                 actionRequestResponse);
-        if (actionRequestResponse.isCanApproveReject()) {
-            if (actionRequestResponse.getStatus().equals(StatusCode.ACCEPT_CODE)) {
-                mNavigator.showToastCustom(TypeToast.SUCCESS,
-                        mContext.getString(R.string.approve_success));
-                setIsVisibleApprove(true);
-                setIsVisibleReject(false);
-                setStatusAccept(true);
-                setStatusReject(false);
-                setStatusPending(false);
-                setStatusForward(false);
-            }
-            if (actionRequestResponse.getStatus().equals(StatusCode.REJECT_CODE)) {
-                mNavigator.showToastCustom(TypeToast.SUCCESS,
-                        mContext.getString(R.string.reject_success));
-                setIsVisibleApprove(false);
-                setIsVisibleReject(true);
-                setStatusAccept(false);
-                setStatusReject(true);
-                setStatusPending(false);
-                setStatusForward(false);
-            }
-        } else {
-            setStatusAccept(false);
-            setStatusReject(false);
-            setStatusPending(false);
-            setStatusForward(true);
-            setForward(true);
+        if ((actionRequestResponse.getStatus().equals(StatusCode.ACCEPT_CODE))
+                || actionRequestResponse.getStatus().equals(StatusCode.FORWARD_CODE)) {
+            mNavigator.showToastCustom(TypeToast.SUCCESS,
+                    mContext.getString(R.string.approve_success));
         }
+        if (actionRequestResponse.getStatus().equals(StatusCode.REJECT_CODE)) {
+            mNavigator.showToastCustom(TypeToast.SUCCESS,
+                    mContext.getString(R.string.reject_success));
+        }
+        mDismissDialogListener.onDismissDialog();
     }
 
     @Override
@@ -331,14 +313,14 @@ public class MemberRequestDetailViewModel extends BaseObservable
 
     public boolean isVisiableLayoutHaveSalary() {
         if (mOffRequest.getId() != 0) {
-            return mOffRequest.getStartDayHaveSalary().getOffPaidFrom().isEmpty();
+            return mOffRequest.getStartDayHaveSalary().getOffPaidFrom() == null;
         }
         return false;
     }
 
     public boolean isVisiableLayoutOffNoSalary() {
         if (mOffRequest.getId() != 0) {
-            return mOffRequest.getStartDayNoSalary().getOffFrom().isEmpty();
+            return mOffRequest.getStartDayNoSalary().getOffFrom() == null;
         }
         return false;
     }
