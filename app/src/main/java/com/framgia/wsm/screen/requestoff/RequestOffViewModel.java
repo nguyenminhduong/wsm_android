@@ -275,13 +275,12 @@ public class RequestOffViewModel extends BaseRequestOff
         if (mActionType == ActionType.ACTION_CREATE) {
             setCurrentBranch();
             setCurrentGroup();
-            setVisibleLayoutCompanyPay(!(mUser.getContractDate().isEmpty()));
-            setVisibleLayoutNoSalary(mUser.getContractDate().isEmpty());
-            if (mUser.getContractDate().isEmpty()) {
-                mCurrentPositionOffType = PositionOffType.OFF_NO_SALARY;
-                setCurrentOffType(mContext.getString(R.string.off_no_salary));
-            }
-            return;
+        }
+        if (StringUtils.isBlank(mUser.getContractDate())) {
+            setVisibleLayoutNoSalary(StringUtils.isBlank(mUser.getContractDate()));
+            setCurrentPositionOffType(PositionOffType.OFF_NO_SALARY);
+            setCurrentOffType(mContext.getString(R.string.off_no_salary));
+            setLayoutOffType(PositionOffType.OFF_NO_SALARY);
         }
         setBranchAndGroupWhenEdit(mUser);
     }
@@ -482,6 +481,9 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     private void setCurrentGroup() {
+        if (mUser.getGroups() == null || mUser.getGroups().size() == 0) {
+            return;
+        }
         Group group = mUser.getGroups().get(mCurrentGroupPosition);
         mRequestOff.setGroupId(group.getGroupId());
         mRequestOff.setGroup(mUser.getGroups().get(mCurrentGroupPosition));
@@ -1379,7 +1381,7 @@ public class RequestOffViewModel extends BaseRequestOff
 
     public void onClickNext(View view) {
         if (!mPresenter.validateData(mRequestOff)) {
-            showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
+            showErrorDialog(mContext.getString(R.string.reason_can_not_empty));
             return;
         }
         if (!validateAllNumberDayHaveSalary()) {
@@ -1402,36 +1404,38 @@ public class RequestOffViewModel extends BaseRequestOff
 
         if (getSumDateOffHaveSalary() > 0) {
             if (StringUtils.isBlank(mEndDateHaveSalary)) {
-                showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
+                showErrorDialog(mContext.getString(R.string.datetime_have_salary_can_not_empty));
                 return;
             }
-            if (mStartDateNoSalary != null && mEndDateNoSalary == null) {
-                showErrorDialog(mContext.getString(R.string.the_field_required_can_not_be_blank));
+            if (StringUtils.isNotBlank(mStartDateNoSalary) && StringUtils.isBlank(
+                    mEndDateNoSalary)) {
+                showErrorDialog(mContext.getString(R.string.datetime_no_salary_can_not_empty));
                 return;
             }
             mNavigator.startActivityForResult(ConfirmRequestOffActivity.class, bundle,
                     Constant.RequestCode.REQUEST_OFF);
         } else {
-            if (StringUtils.isBlank(mEndDateHaveSalary) && StringUtils.isBlank(
-                    mStartDateHaveSalary)) {
-                if (StringUtils.isBlank(mEndDateNoSalary) || StringUtils.isBlank(
-                        mStartDateNoSalary)) {
+            if (StringUtils.isNotBlank(mStartDateHaveSalary)) {
+                if (StringUtils.isBlank(mEndDateHaveSalary)) {
+                    showErrorDialog(
+                            mContext.getString(R.string.datetime_have_salary_can_not_empty));
+                    return;
+                }
+                showErrorDialog(mContext.getString(R.string.the_number_of_days_allowed));
+            } else if (StringUtils.isBlank(mEndDateHaveSalary)) {
+                if (StringUtils.isBlank(mEndDateNoSalary)) {
+                    if (StringUtils.isNotBlank(mStartDateNoSalary)) {
+                        showErrorDialog(
+                                mContext.getString(R.string.datetime_no_salary_can_not_empty));
+                        return;
+                    }
                     showErrorDialog(
                             mContext.getString(R.string.the_field_required_can_not_be_blank));
                     return;
-                } else {
-                    if (StringUtils.isNotBlank(mEndDateHaveSalary) || StringUtils.isNotBlank(
-                            mEndDateHaveSalary)) {
-                        showErrorDialog(
-                                mContext.getString(R.string.the_field_required_can_not_be_blank));
-                        return;
-                    }
-                    mNavigator.startActivityForResult(ConfirmRequestOffActivity.class, bundle,
-                            Constant.RequestCode.REQUEST_OFF);
-                    return;
                 }
+                mNavigator.startActivityForResult(ConfirmRequestOffActivity.class, bundle,
+                        Constant.RequestCode.REQUEST_OFF);
             }
-            showErrorDialog(mContext.getString(R.string.the_number_of_days_allowed));
         }
     }
 
