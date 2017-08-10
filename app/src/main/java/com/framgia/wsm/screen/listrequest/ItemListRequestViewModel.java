@@ -12,6 +12,7 @@ import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.common.DateTimeUtils;
+import com.framgia.wsm.utils.common.StringUtils;
 
 /**
  * Created by ASUS on 13/06/2017.
@@ -27,7 +28,7 @@ public class ItemListRequestViewModel extends BaseObservable {
     private final BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object>
             mItemClickListener;
 
-    public ItemListRequestViewModel(Object object,
+    ItemListRequestViewModel(Object object,
             BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> itemClickListener) {
         mObject = object;
         mItemClickListener = itemClickListener;
@@ -97,20 +98,6 @@ public class ItemListRequestViewModel extends BaseObservable {
         return "";
     }
 
-    //TODO Edit later
-    public String getBeingHandledBy() {
-        //        if (mRequest != null) {
-        //            return mRequest.getBeingHandledBy();
-        //        }
-        if (mRequestOverTime != null) {
-            return mRequestOverTime.getBeingHandledBy();
-        }
-        if (mRequestOff != null) {
-            return mRequestOff.getBeingHandledBy();
-        }
-        return "";
-    }
-
     public String getCreateAt() {
         if (mRequest != null) {
             return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCreateAt(),
@@ -143,11 +130,9 @@ public class ItemListRequestViewModel extends BaseObservable {
         return "";
     }
 
-    public String getLeaveTypeCode() {
-        if (mRequest != null && mRequest.getLeaveType() != null) {
-            return mRequest.getLeaveType().getCode();
-        }
-        return "";
+    private boolean timeHaveSalaryLessThanTimeNoSalary(String timeHaveSalary, String timeNoSalary) {
+        return DateTimeUtils.convertStringToDate(timeHaveSalary, DateTimeUtils.FORMAT_DATE)
+                .before(DateTimeUtils.convertStringToDate(timeNoSalary, DateTimeUtils.FORMAT_DATE));
     }
 
     public String getFromTime() {
@@ -160,19 +145,29 @@ public class ItemListRequestViewModel extends BaseObservable {
                     DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
         }
         if (mRequestOff != null) {
-            if (mRequestOff.getStartDayHaveSalary() != null) {
-                if (!"".equals(mRequestOff.getStartDayHaveSalary().getOffPaidFrom())) {
-                    return mRequestOff.getStartDayHaveSalary().getOffPaidFrom()
-                            + Constant.BLANK
-                            + mRequestOff.getStartDayHaveSalary().getPaidFromPeriod();
+
+            String timeStartDateHaveSalary = mRequestOff.getStartDayHaveSalary().getOffPaidFrom();
+            String sessionStartDateHaveSalary =
+                    Constant.BLANK + mRequestOff.getStartDayHaveSalary().getPaidFromPeriod();
+
+            String timeStartDateNoSalary = mRequestOff.getStartDayNoSalary().getOffFrom();
+            String sessionStartDateNoSalary =
+                    Constant.BLANK + mRequestOff.getStartDayNoSalary().getOffFromPeriod();
+
+            if (StringUtils.isNotBlank(timeStartDateHaveSalary) && StringUtils.isNotBlank(
+                    timeStartDateNoSalary)) {
+                if (timeHaveSalaryLessThanTimeNoSalary(timeStartDateHaveSalary,
+                        timeStartDateNoSalary)) {
+                    return timeStartDateHaveSalary + sessionStartDateHaveSalary;
                 }
+                return timeStartDateNoSalary + sessionStartDateNoSalary;
             }
-            if (mRequestOff.getStartDayNoSalary() != null) {
-                if (!"".equals(mRequestOff.getStartDayNoSalary().getOffFrom())) {
-                    return mRequestOff.getStartDayNoSalary().getOffFrom()
-                            + Constant.BLANK
-                            + mRequestOff.getStartDayNoSalary().getOffFromPeriod();
-                }
+
+            if (StringUtils.isNotBlank(timeStartDateHaveSalary)) {
+                return timeStartDateHaveSalary + sessionStartDateHaveSalary;
+            }
+            if (StringUtils.isNotBlank(timeStartDateNoSalary)) {
+                return timeStartDateNoSalary + sessionStartDateNoSalary;
             }
         }
         return "";
@@ -182,46 +177,37 @@ public class ItemListRequestViewModel extends BaseObservable {
         if (mRequest != null) {
             mRequest.getCompensation().getToTime();
         }
-        if (mRequestOff != null) {
-            if (mRequestOff.getEndDayHaveSalary() != null) {
-                if (!"".equals(mRequestOff.getEndDayHaveSalary().getOffPaidTo())) {
-                    return mRequestOff.getEndDayHaveSalary().getOffPaidTo()
-                            + Constant.BLANK
-                            + mRequestOff.getEndDayHaveSalary().getPaidToPeriod();
-                }
-            }
-            if (mRequestOff.getEndDayNoSalary() != null) {
-                if (!"".equals(mRequestOff.getEndDayNoSalary().getOffTo())) {
-                    return mRequestOff.getEndDayNoSalary().getOffTo() + Constant.BLANK + mRequestOff
-                            .getEndDayNoSalary()
-                            .getOffToPeriod();
-                }
-            }
-        }
         if (mRequestOverTime != null) {
             return DateTimeUtils.convertUiFormatToDataFormat(mRequestOverTime.getToTime(),
                     DateTimeUtils.INPUT_TIME_FORMAT,
                     DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
         }
-        return "";
-    }
+        if (mRequestOff != null) {
 
-    public String getCheckinTime() {
-        if (mRequest != null) {
-            return mRequest.getCheckInTime();
+            String timeEndDateHaveSalary = mRequestOff.getEndDayHaveSalary().getOffPaidTo();
+            String sessionEndDateHaveSalary =
+                    Constant.BLANK + mRequestOff.getEndDayHaveSalary().getPaidToPeriod();
+            String timeEndDateNoSalary = mRequestOff.getEndDayNoSalary().getOffTo();
+
+            String sessionEndDateNoSalary =
+                    Constant.BLANK + mRequestOff.getEndDayNoSalary().getOffToPeriod();
+
+            if (StringUtils.isNotBlank(timeEndDateHaveSalary) && StringUtils.isNotBlank(
+                    timeEndDateNoSalary)) {
+                if (timeHaveSalaryLessThanTimeNoSalary(timeEndDateHaveSalary,
+                        timeEndDateNoSalary)) {
+                    return timeEndDateNoSalary + sessionEndDateHaveSalary;
+                }
+                return timeEndDateHaveSalary + sessionEndDateNoSalary;
+            }
+
+            if (StringUtils.isNotBlank(timeEndDateHaveSalary)) {
+                return timeEndDateHaveSalary + sessionEndDateHaveSalary;
+            }
+            if (StringUtils.isNotBlank(timeEndDateNoSalary)) {
+                return timeEndDateNoSalary + sessionEndDateNoSalary;
+            }
         }
-        return "";
-    }
-
-    public String getCheckoutTime() {
-        if (mRequest != null) {
-            return mRequest.getCheckOutTime();
-        }
-        return "";
-    }
-
-    public String getHandler() {
-        //TODO Edit Later
         return "";
     }
 
