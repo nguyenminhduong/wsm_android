@@ -55,6 +55,6 @@ public class StatisticsByYearFragment extends Fragment {
     }
 
     public void setStatistic(StatisticOfPersonal statistic) {
-        //Todo dev later
+        mViewModel.fillData(statistic);
     }
 }
