@@ -992,7 +992,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     private void validateCompensationTime(String compensationFromTime) {
         if (StringUtils.isNotBlank(mCheckinTime)) {
             if (DateTimeUtils.convertStringToDate(compensationFromTime)
-                    .before(DateTimeUtils.convertStringToDate(mCheckinTime))) {
+                    .before(DateTimeUtils.convertStringToDate(getCheckinTime()))) {
                 validateErrorDialog(
                         mContext.getString(R.string.compensation_time_is_not_in_the_past));
                 return;
@@ -1031,32 +1031,33 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         String workingTime;
         switch (mCurrentLeaveType) {
             case LeaveTypeId.IN_LATE_M:
-                workingTime = DateTimeUtils.changeTimeOfDateString(mCheckinTime, SEVEN_HOUR,
+                workingTime = DateTimeUtils.changeTimeOfDateString(getCheckinTime(), SEVEN_HOUR,
                         FORTY_FIVE_MINUTES);
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
-                        DateTimeUtils.getMinutesBetweenTwoDate(mCheckinTime, workingTime)));
+                        DateTimeUtils.getMinutesBetweenTwoDate(getCheckinTime(), workingTime)));
                 break;
             case LeaveTypeId.IN_LATE_A:
-                workingTime = DateTimeUtils.changeTimeOfDateString(mCheckinTime, TWELVE_HOUR,
+                workingTime = DateTimeUtils.changeTimeOfDateString(getCheckinTime(), TWELVE_HOUR,
                         FORTY_FIVE_MINUTES);
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
-                        DateTimeUtils.getMinutesBetweenTwoDate(mCheckinTime, workingTime)));
+                        DateTimeUtils.getMinutesBetweenTwoDate(getCheckinTime(), workingTime)));
                 break;
             case LeaveTypeId.LEAVE_EARLY_M:
-                workingTime = DateTimeUtils.changeTimeOfDateString(mCheckoutTime, ELEVEN_HOUR,
+                workingTime = DateTimeUtils.changeTimeOfDateString(getCheckoutTime(), ELEVEN_HOUR,
                         FORTY_FIVE_MINUTES);
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
-                        DateTimeUtils.getMinutesBetweenTwoDate(workingTime, mCheckoutTime)));
+                        DateTimeUtils.getMinutesBetweenTwoDate(workingTime, getCheckoutTime())));
                 break;
             case LeaveTypeId.LEAVE_EARLY_A:
-                workingTime = DateTimeUtils.changeTimeOfDateString(mCheckoutTime, SIXTEEN_HOUR,
+                workingTime = DateTimeUtils.changeTimeOfDateString(getCheckoutTime(), SIXTEEN_HOUR,
                         FORTY_FIVE_MINUTES);
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
-                        DateTimeUtils.getMinutesBetweenTwoDate(workingTime, mCheckoutTime)));
+                        DateTimeUtils.getMinutesBetweenTwoDate(workingTime, getCheckoutTime())));
                 break;
             case LeaveTypeId.LEAVE_OUT:
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
-                        DateTimeUtils.getMinutesBetweenTwoDate(mCheckoutTime, mCheckinTime)));
+                        DateTimeUtils.getMinutesBetweenTwoDate(getCheckoutTime(),
+                                getCheckinTime())));
                 break;
             default:
                 break;
@@ -1288,7 +1289,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             mActionType = ActionType.ACTION_CONFIRM_EDIT;
             return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckInTime(),
                     DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         }
         return mRequest.getCheckInTime();
     }
@@ -1303,11 +1304,11 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     @Bindable
     public String getCheckoutTime() {
         if (DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY)
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM)
                 != null) {
             return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
                     DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         }
 
         return mRequest.getCheckOutTime();
@@ -1323,9 +1324,13 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     @Bindable
     public String getCompensationFromTime() {
         if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
-            return DateTimeUtils.convertUiFormatToDataFormat(
-                    mRequest.getCompensation().getFromTime(), DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+            if (mRequest.getCompensationRequest().getFromTime() != null) {
+                return mRequest.getCompensationRequest().getFromTime();
+            } else {
+                return DateTimeUtils.convertUiFormatToDataFormat(
+                        mRequest.getCompensation().getFromTime(), DateTimeUtils.INPUT_TIME_FORMAT,
+                        DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+            }
         }
         if (mActionType == ActionType.ACTION_DETAIL) {
             return mRequest.getCompensationRequest().getFromTime();
@@ -1342,9 +1347,15 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     @Bindable
     public String getCompensationToTime() {
         if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
-            return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getToTime(),
+            if (DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getToTime(),
                     DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM) != null) {
+                return DateTimeUtils.convertUiFormatToDataFormat(
+                        mRequest.getCompensation().getToTime(), DateTimeUtils.INPUT_TIME_FORMAT,
+                        DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+            } else {
+                return mRequest.getCompensation().getToTime();
+            }
         }
         if (mActionType == ActionType.ACTION_DETAIL) {
             return mRequest.getCompensationRequest().getToTime();
@@ -1355,6 +1366,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     public void setCompensationToTime(String compensationToTime) {
         mCompensationToTime = compensationToTime;
         mRequest.getCompensationRequest().setToTime(compensationToTime);
+        if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
+            mRequest.getCompensation().setToTime(compensationToTime);
+        }
         notifyPropertyChanged(BR.compensationToTime);
     }
 
