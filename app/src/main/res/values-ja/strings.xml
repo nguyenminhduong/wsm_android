@@ -12,4 +12,5 @@
     <string name="oct">10月</string>
     <string name="nov">11月</string>
     <string name="dec">12月</string>
+    <string name="month">月</string>
 </resources>

@@ -41,5 +41,6 @@
 	<dimen name="sp_18">30.00sp</dimen>
 	<dimen name="sp_20">33.33sp</dimen>
 	<dimen name="sp_25">41.67sp</dimen>
+	<dimen name="sp_4">6.67sp</dimen>
 	<dimen name="sp_9">15.00sp</dimen>
 </resources>
