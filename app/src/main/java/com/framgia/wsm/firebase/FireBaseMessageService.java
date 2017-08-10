@@ -52,6 +52,7 @@ public class FireBaseMessageService extends FirebaseMessagingService {
     private static final String PERMISSION = "permission";
     private static final int ID_1 = 1;
     private static final String COMPANY = "company";
+    private static final String INSURANCE = "insurance";
     private static final String ANNUAL = "Annual";
 
     @Inject
@@ -114,11 +115,34 @@ public class FireBaseMessageService extends FirebaseMessagingService {
                 })
                 .toList()
                 .toObservable()
+                .flatMap(new Function<List<OffType>, ObservableSource<List<OffType>>>() {
+                    @Override
+                    public ObservableSource<List<OffType>> apply(@NonNull List<OffType> offTypes)
+                            throws Exception {
+                        offTypesCompany = offTypes;
+                        return mUserRepository.getListOffType();
+                    }
+                })
+                .flatMap(new Function<List<OffType>, ObservableSource<OffType>>() {
+                    @Override
+                    public ObservableSource<OffType> apply(List<OffType> offTypes)
+                            throws Exception {
+                        return Observable.fromIterable(offTypes);
+                    }
+                })
+                .filter(new Predicate<OffType>() {
+                    @Override
+                    public boolean test(OffType offType) throws Exception {
+                        return offType.getPayType().equals(INSURANCE);
+                    }
+                })
+                .toList()
+                .toObservable()
                 .flatMap(new Function<List<OffType>, ObservableSource<BaseResponse<OffTypeDay>>>() {
                     @Override
                     public ObservableSource<BaseResponse<OffTypeDay>> apply(
                             @NonNull List<OffType> offTypes) throws Exception {
-                        offTypesCompany = offTypes;
+                        mUser.setTypesInsurance(offTypes);
                         return mUserRepository.getRemainingDayOff();
                     }
                 })

@@ -227,7 +227,13 @@ public class ConfirmRequestOffViewModel extends BaseObservable
 
     @Override
     public void onCreateFormFormRequestOffError(BaseException exception) {
-        mDialogManager.dialogError(exception);
+        mDialogManager.dialogError(exception, new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog materialDialog,
+                    @NonNull DialogAction dialogAction) {
+                mNavigator.finishActivity();
+            }
+        });
     }
 
     @Override
