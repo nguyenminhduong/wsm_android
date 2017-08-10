@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
 
@@ -10,7 +11,11 @@
             name="viewModel"
             type="com.framgia.wsm.screen.statisticsbyyear.StatisticsByYearViewModel"
             />
-
+        <import type="android.view.View"/>
+        <variable
+            name="color"
+            type="com.framgia.wsm.utils.binding.ColorManagers"
+            />
     </data>
 
     <LinearLayout
@@ -67,6 +72,7 @@
                                     android:layout_marginLeft="@dimen/dp_10"
                                     android:layout_marginStart="@dimen/dp_10"
                                     android:layout_marginTop="@dimen/dp_2"
+                                    app:circleColor="@{color.colorGreen1}"
                                     />
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -107,6 +113,7 @@
                                     android:gravity="end"
                                     android:paddingEnd="@dimen/dp_20"
                                     android:paddingRight="@dimen/dp_20"
+                                    android:text="@{viewModel.leaveTimeApprovedInYear}"
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="@dimen/sp_14"
                                     tools:ignore="RtlSymmetry"
@@ -135,6 +142,7 @@
                                     android:gravity="end"
                                     android:paddingEnd="@dimen/dp_20"
                                     android:paddingRight="@dimen/dp_20"
+                                    android:text="@{viewModel.leaveTimeRejectedInYear}"
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="@dimen/sp_14"
                                     tools:ignore="RtlSymmetry"
@@ -146,6 +154,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
+                            android:visibility="@{viewModel.employeeFullTime ? View.VISIBLE : View.GONE}"
                             >
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -159,6 +168,7 @@
                                     android:layout_height="@dimen/dp_16"
                                     android:layout_marginLeft="@dimen/dp_10"
                                     android:layout_marginStart="@dimen/dp_10"
+                                    app:circleColor="@{color.colorGreen2}"
                                     />
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -198,6 +208,7 @@
                                     android:gravity="end"
                                     android:paddingEnd="@dimen/dp_20"
                                     android:paddingRight="@dimen/dp_20"
+                                    android:text="@{viewModel.dayOffHaveSalaryPayByCompany}"
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="@dimen/sp_14"
                                     tools:ignore="RtlSymmetry"
@@ -226,6 +237,7 @@
                                     android:gravity="end"
                                     android:paddingEnd="@dimen/dp_20"
                                     android:paddingRight="@dimen/dp_20"
+                                    android:text="@{viewModel.dayOffHaveSalaryPayByInsurance}"
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="@dimen/sp_14"
                                     tools:ignore="RtlSymmetry"
@@ -239,12 +251,14 @@
                             android:layout_marginTop="@dimen/dp_15"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
+                            android:visibility="@{viewModel.employeeFullTime ? View.VISIBLE : View.GONE}"
                             >
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_16"
                                 android:layout_height="@dimen/dp_16"
                                 android:layout_marginLeft="@dimen/dp_10"
                                 android:layout_marginStart="@dimen/dp_10"
+                                app:circleColor="@{color.colorGreen3}"
                                 />
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -266,6 +280,7 @@
                                     android:gravity="end"
                                     android:paddingEnd="@dimen/dp_20"
                                     android:paddingRight="@dimen/dp_20"
+                                    android:text="@{viewModel.dayOffNoSalary}"
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="@dimen/sp_14"
                                     tools:ignore="RtlSymmetry"
@@ -285,6 +300,7 @@
                                 android:layout_height="@dimen/dp_16"
                                 android:layout_marginLeft="@dimen/dp_10"
                                 android:layout_marginStart="@dimen/dp_10"
+                                app:circleColor="@{color.colorGreen4}"
                                 />
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -306,6 +322,7 @@
                                     android:gravity="end"
                                     android:paddingEnd="@dimen/dp_20"
                                     android:paddingRight="@dimen/dp_20"
+                                    android:text="@{viewModel.numberOfOverTime}"
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="@dimen/sp_14"
                                     tools:ignore="RtlSymmetry"
@@ -319,12 +336,14 @@
                             android:layout_marginTop="@dimen/dp_15"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
+                            android:visibility="@{viewModel.employeeFullTime ? View.VISIBLE : View.GONE}"
                             >
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_16"
                                 android:layout_height="@dimen/dp_16"
                                 android:layout_marginLeft="@dimen/dp_10"
                                 android:layout_marginStart="@dimen/dp_10"
+                                app:circleColor="@{color.colorGreen5}"
                                 />
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -346,6 +365,7 @@
                                     android:gravity="end"
                                     android:paddingEnd="@dimen/dp_20"
                                     android:paddingRight="@dimen/dp_20"
+                                    android:text="@{viewModel.numberRemainDayPreviousYear}"
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="@dimen/sp_14"
                                     tools:ignore="RtlSymmetry"
@@ -359,12 +379,14 @@
                             android:layout_marginTop="@dimen/dp_15"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
+                            android:visibility="@{viewModel.employeeFullTime ? View.VISIBLE : View.GONE}"
                             >
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_16"
                                 android:layout_height="@dimen/dp_16"
                                 android:layout_marginLeft="@dimen/dp_10"
                                 android:layout_marginStart="@dimen/dp_10"
+                                app:circleColor="@{color.colorGreen6}"
                                 />
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -386,6 +408,7 @@
                                     android:gravity="end"
                                     android:paddingEnd="@dimen/dp_20"
                                     android:paddingRight="@dimen/dp_20"
+                                    android:text="@{viewModel.numberRemainDayInYear}"
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="@dimen/sp_14"
                                     tools:ignore="RtlSymmetry"
@@ -399,12 +422,14 @@
                             android:layout_marginTop="@dimen/dp_15"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
+                            android:visibility="@{viewModel.employeeFullTime ? View.VISIBLE : View.GONE}"
                             >
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_16"
                                 android:layout_height="@dimen/dp_16"
                                 android:layout_marginLeft="@dimen/dp_10"
                                 android:layout_marginStart="@dimen/dp_10"
+                                app:circleColor="@{color.colorGreen7}"
                                 />
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -426,6 +451,7 @@
                                     android:gravity="end"
                                     android:paddingEnd="@dimen/dp_20"
                                     android:paddingRight="@dimen/dp_20"
+                                    android:text="@{viewModel.numberDayOffAddInYear}"
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="@dimen/sp_14"
                                     tools:ignore="RtlSymmetry"
@@ -439,12 +465,14 @@
                             android:layout_marginTop="@dimen/dp_15"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
+                            android:visibility="@{viewModel.employeeFullTime ? View.VISIBLE : View.GONE}"
                             >
                             <com.framgia.wsm.widget.CircleView
                                 android:layout_width="@dimen/dp_16"
                                 android:layout_height="@dimen/dp_16"
                                 android:layout_marginLeft="@dimen/dp_10"
                                 android:layout_marginStart="@dimen/dp_10"
+                                app:circleColor="@{color.colorGreen6}"
                                 />
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -466,6 +494,7 @@
                                     android:gravity="end"
                                     android:paddingEnd="@dimen/dp_20"
                                     android:paddingRight="@dimen/dp_20"
+                                    android:text="@{viewModel.totalDayOffRemainInYear}"
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="@dimen/sp_14"
                                     tools:ignore="RtlSymmetry"
