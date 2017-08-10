@@ -8,6 +8,7 @@ import com.framgia.wsm.data.source.RequestDataSource;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
+import com.framgia.wsm.data.source.remote.api.request.ResetPasswordRequest;
 import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.service.WSMApi;
@@ -144,6 +145,11 @@ public class RequestRemoteDataSource extends BaseRemoteDataSource
     @Override
     public Single<BaseResponse> sendEmail(String email) {
         return mWSMApi.sendEmail(email);
+    }
+
+    @Override
+    public Single<Object> resetPassword(ResetPasswordRequest resetPasswordRequest) {
+        return mWSMApi.resetPassword(resetPasswordRequest);
     }
 
     private Map<String, String> inputParamsRequestsManage(QueryRequest queryRequest) {
