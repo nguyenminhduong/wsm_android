@@ -139,7 +139,13 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
 
     @Override
     public void onCreateFormFormRequestLeaveError(BaseException exception) {
-        mDialogManager.dialogError(exception);
+        mDialogManager.dialogError(exception, new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog materialDialog,
+                    @NonNull DialogAction dialogAction) {
+                mNavigator.finishActivity();
+            }
+        });
     }
 
     @Override
@@ -153,7 +159,13 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
 
     @Override
     public void onEditFormFormRequestLeaveError(BaseException exception) {
-        mDialogManager.dialogError(exception);
+        mDialogManager.dialogError(exception, new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog materialDialog,
+                    @NonNull DialogAction dialogAction) {
+                mNavigator.finishActivity();
+            }
+        });
     }
 
     @Override
