@@ -338,5 +338,6 @@
     <string name="reset_password">Reset Password</string>
     <string name="please_enter_your_new_password">Please enter your new password!</string>
     <string name="reset_password_success">Reset Password Success!</string>
+    <string name="can_not_edit_request_type">Can not edit request type</string>
 
 </resources>

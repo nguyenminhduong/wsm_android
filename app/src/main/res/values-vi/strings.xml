@@ -325,5 +325,6 @@
     <string name="reset_password">Đặt lại mật khẩu</string>
     <string name="please_enter_your_new_password">Vui lòng nhập mật khẩu mới của bạn !</string>
     <string name="reset_password_success">Đặt lại mật khẩu thành công!</string>
+    <string name="can_not_edit_request_type">Không thể thay đổi hình thức xin phép</string>
 
 </resources>
