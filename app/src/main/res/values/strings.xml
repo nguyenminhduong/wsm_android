@@ -300,7 +300,7 @@
     <string name="refresh_setting_error">Refresh Setting Error !</string>
     <string name="please_enter_email">Enter your email address, and we will send you a link so you can reset your password !</string>
     <string name="send_email">Send Email</string>
-    <string name="message_send_email_success">You will receive an email with instructions on how to reset your password in a few minutes.</string>
+    <string name="message_send_email_success">You will receive an email with instructions on how to reset your password in a few minutes. Please check your email !</string>
     <string name="accept_all_success">Accept All Success</string>
     <string name="accept_all_unsuccess">Accept All Unsuccessful</string>
     <string name="overtime">Overtime</string>
@@ -335,5 +335,8 @@
     <string name="the_number_of_rest_days_in_year">The number of rest days(in year)</string>
     <string name="number_of_days_off_added_in_this_year">Number of days off added in this year</string>
     <string name="total_of_days_off_remaining_in_year">Total of days off remaining in year</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="please_enter_your_new_password">Please enter your new password!</string>
+    <string name="reset_password_success">Reset Password Success!</string>
 
 </resources>

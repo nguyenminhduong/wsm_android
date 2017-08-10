@@ -1,8 +1,15 @@
 package com.framgia.wsm.screen.createnewpassword;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.dagger.ActivityScope;
+import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import com.framgia.wsm.utils.validator.Validator;
+import com.framgia.wsm.widget.dialog.DialogManager;
+import com.framgia.wsm.widget.dialog.DialogManagerImpl;
 import dagger.Module;
 import dagger.Provides;
 
@@ -22,13 +29,38 @@ public class CreateNewPasswordModule {
     @ActivityScope
     @Provides
     public CreateNewPasswordContract.ViewModel provideViewModel(
-            CreateNewPasswordContract.Presenter presenter) {
-        return new CreateNewPasswordViewModel(presenter);
+            CreateNewPasswordContract.Presenter presenter, Navigator navigator,
+            DialogManager dialogManager) {
+        String tokenResetPassword =
+                mActivity.getIntent().getExtras().getString(Constant.EXTRA_TOKEN_RESET_PASSWORD);
+        String emailResetPassword =
+                mActivity.getIntent().getExtras().getString(Constant.EXTRA_EMAIL_RESET_PASSWORD);
+        return new CreateNewPasswordViewModel(presenter, navigator, dialogManager,
+                tokenResetPassword, emailResetPassword);
     }
 
     @ActivityScope
     @Provides
-    public CreateNewPasswordContract.Presenter providePresenter() {
-        return new CreateNewPasswordPresenter();
+    public CreateNewPasswordContract.Presenter providePresenter(Context context,
+            Validator validator, BaseSchedulerProvider baseSchedulerProvider) {
+        return new CreateNewPasswordPresenter(context, validator, baseSchedulerProvider);
+    }
+
+    @ActivityScope
+    @Provides
+    public Validator provideValidator() {
+        return new Validator(mActivity.getApplicationContext(), CreateNewPasswordViewModel.class);
+    }
+
+    @ActivityScope
+    @Provides
+    public Navigator provideNavigator() {
+        return new Navigator(mActivity);
+    }
+
+    @ActivityScope
+    @Provides
+    public DialogManager provideDialogManager() {
+        return new DialogManagerImpl(mActivity);
     }
 }
