@@ -1,8 +1,10 @@
 package com.framgia.wsm.screen.statisticsbymonth;
 
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.local.UserLocalDataSource;
+import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.dagger.FragmentScope;
+import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
 
@@ -11,12 +13,7 @@ import dagger.Provides;
  */
 
 @Module
-public class StatisticsByMonthModule {
-    private Fragment mFragment;
-
-    public StatisticsByMonthModule(@NonNull Fragment fragment) {
-        mFragment = fragment;
-    }
+class StatisticsByMonthModule {
 
     @FragmentScope
     @Provides
@@ -27,7 +24,15 @@ public class StatisticsByMonthModule {
 
     @FragmentScope
     @Provides
-    public StatisticsByMonthContract.Presenter providePresenter() {
-        return new StatisticsByMonthPresenter();
+    public StatisticsByMonthContract.Presenter providePresenter(UserRepository userRepository,
+            BaseSchedulerProvider baseSchedulerProvider) {
+        return new StatisticsByMonthPresenter(userRepository, baseSchedulerProvider);
+    }
+
+    @FragmentScope
+    @Provides
+    public UserRepository provideUserRepository(UserLocalDataSource userLocalDataSource,
+            UserRemoteDataSource userRemoteDataSource) {
+        return new UserRepository(userLocalDataSource, userRemoteDataSource);
     }
 }

@@ -31,7 +31,7 @@ public class StatisticsByMonthFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
         DaggerStatisticsByMonthComponent.builder()
                 .mainComponent(((MainActivity) getActivity()).getMainComponent())
-                .statisticsByMonthModule(new StatisticsByMonthModule(this))
+                .statisticsByMonthModule(new StatisticsByMonthModule())
                 .build()
                 .inject(this);
 
@@ -55,6 +55,6 @@ public class StatisticsByMonthFragment extends Fragment {
     }
 
     public void setStatistic(StatisticOfPersonal statistic) {
-        //Todo dev later
+        mViewModel.fillData(statistic);
     }
 }
