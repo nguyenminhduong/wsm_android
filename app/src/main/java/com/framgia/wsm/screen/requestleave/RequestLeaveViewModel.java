@@ -422,6 +422,10 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     public void onPickTypeRequest(View view) {
+        if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
+            showDialogError(mContext.getString(R.string.can_not_edit_request_type));
+            return;
+        }
         if (mUser.getLeaveTypes() == null || mUser.getLeaveTypes().size() == 0) {
             return;
         }
