@@ -18,6 +18,9 @@ public class ActionRequestResponse extends BaseModel {
     @Expose
     @SerializedName("request_id")
     private int mRequestId;
+    @Expose
+    @SerializedName("current_handle")
+    private String mCurrentHandle;
 
     public String getStatus() {
         return mStatus;
@@ -41,5 +44,13 @@ public class ActionRequestResponse extends BaseModel {
 
     public void setRequestId(int requestId) {
         mRequestId = requestId;
+    }
+
+    public String getCurrentHandle() {
+        return mCurrentHandle;
+    }
+
+    public void setCurrentHandle(String currentHandle) {
+        mCurrentHandle = currentHandle;
     }
 }

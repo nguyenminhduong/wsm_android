@@ -120,6 +120,8 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
             String currentStatus) {
         switch (requestType) {
             case RequestType.REQUEST_LATE_EARLY:
+                mRequestsLeaves.get(position)
+                        .setBeingHandledBy(actionRequestResponse.getCurrentHandle());
                 if (isCanUpdateItem(currentStatus, actionRequestResponse.getStatus(),
                         actionRequestResponse.isCanApproveReject())) {
                     mRequestsLeaves.get(position).setStatus(actionRequestResponse.getStatus());
@@ -134,6 +136,8 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
                 notifyItemRangeChanged(position, getItemCount());
                 break;
             case RequestType.REQUEST_OFF:
+                mRequestsOffs.get(position)
+                        .setBeingHandledBy(actionRequestResponse.getCurrentHandle());
                 if (isCanUpdateItem(currentStatus, actionRequestResponse.getStatus(),
                         actionRequestResponse.isCanApproveReject())) {
                     mRequestsOffs.get(position).setStatus(actionRequestResponse.getStatus());
@@ -148,6 +152,8 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
                 notifyItemRangeChanged(position, getItemCount());
                 break;
             case RequestType.REQUEST_OVERTIME:
+                mRequestOverTimes.get(position)
+                        .setBeingHandledBy(actionRequestResponse.getCurrentHandle());
                 if (isCanUpdateItem(currentStatus, actionRequestResponse.getStatus(),
                         actionRequestResponse.isCanApproveReject())) {
                     mRequestOverTimes.get(position).setStatus(actionRequestResponse.getStatus());
