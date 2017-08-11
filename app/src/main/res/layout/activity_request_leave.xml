@@ -100,12 +100,16 @@
                         >
                         <android.support.design.widget.TextInputLayout
                             style="@style/StyleTextHint"
+
                             >
                             <EditText
-                                android:ellipsize="end"
                                 android:hint="@string/branch"
                                 android:maxLines="1"
                                 android:onClick="@{viewModel::onPickBranch}"
+                                android:paddingEnd="@dimen/dp_24"
+                                android:paddingLeft="@dimen/dp_3"
+                                android:paddingRight="@dimen/dp_24"
+                                android:paddingStart="@dimen/dp_3"
                                 android:text="@{viewModel.currentBranch}"
                                 style="@style/StyleText"
                                 />
@@ -124,12 +128,15 @@
                             style="@style/StyleTextHint"
                             >
                             <EditText
-                                android:ellipsize="end"
                                 android:enabled="@{viewModel.visibleGroup}"
                                 android:hint="@string/group"
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:onClick="@{viewModel::onPickGroup}"
+                                android:paddingEnd="@dimen/dp_24"
+                                android:paddingLeft="@dimen/dp_3"
+                                android:paddingRight="@dimen/dp_24"
+                                android:paddingStart="@dimen/dp_3"
                                 android:text="@{viewModel.currentGroup}"
                                 style="@style/StyleText"
                                 />

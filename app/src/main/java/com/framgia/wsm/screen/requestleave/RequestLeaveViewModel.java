@@ -625,7 +625,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             setCheckinTime(checkinTime);
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, SEVEN_HOUR,
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, SIXTEEN_HOUR,
                 FORTY_FIVE_MINUTES)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_amount_tim_can_not_greater_than_max_allow_time));

@@ -139,6 +139,10 @@
                             <EditText
                                 android:hint="@string/branch"
                                 android:onClick="@{viewModel::onPickBranch}"
+                                android:paddingEnd="@dimen/dp_24"
+                                android:paddingLeft="@dimen/dp_3"
+                                android:paddingRight="@dimen/dp_24"
+                                android:paddingStart="@dimen/dp_3"
                                 android:text="@={viewModel.requestOff.branch.branchName}"
                                 style="@style/StyleText"
                                 />
@@ -160,12 +164,15 @@
                             style="@style/StyleTextHint"
                             >
                             <EditText
-                                android:ellipsize="end"
                                 android:enabled="@{viewModel.editGroupEnable}"
                                 android:hint="@string/group"
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:onClick="@{viewModel::onPickGroup}"
+                                android:paddingEnd="@dimen/dp_24"
+                                android:paddingLeft="@dimen/dp_3"
+                                android:paddingRight="@dimen/dp_24"
+                                android:paddingStart="@dimen/dp_3"
                                 android:text="@={viewModel.requestOff.group.fullName}"
                                 style="@style/StyleText"
                                 />
