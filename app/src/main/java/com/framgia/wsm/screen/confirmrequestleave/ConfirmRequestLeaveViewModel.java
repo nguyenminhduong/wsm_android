@@ -221,18 +221,18 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
         if (mActionType == ActionType.ACTION_DETAIL) {
             return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckInTime(),
                     DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         }
         return mRequest.getCheckInTime();
     }
 
     public String getCheckOutTime() {
         if (DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY)
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM)
                 != null) {
             return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
                     DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         }
         return mRequest.getCheckOutTime();
     }
@@ -241,22 +241,22 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
         if (isDetail()) {
             return DateTimeUtils.convertUiFormatToDataFormat(
                     mRequest.getCompensation().getFromTime(), DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         }
         return DateTimeUtils.convertUiFormatToDataFormat(
                 mRequest.getCompensationRequest().getFromTime(), DateTimeUtils.INPUT_TIME_FORMAT,
-                DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+                DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
     }
 
     public String getCompensationToTime() {
         if (isDetail()) {
             return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getToTime(),
                     DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         }
         return DateTimeUtils.convertUiFormatToDataFormat(
                 mRequest.getCompensationRequest().getToTime(), DateTimeUtils.INPUT_TIME_FORMAT,
-                DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+                DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
     }
 
     @Bindable
