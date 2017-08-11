@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 /**
  * Created by tri on 31/05/2017.
@@ -28,6 +29,9 @@ public class Branch extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("name")
     private String mBranchName;
+    @Expose
+    @SerializedName("shifts")
+    private List<Shifts> mShifts;
 
     public Branch() {
     }
@@ -40,6 +44,7 @@ public class Branch extends BaseModel implements Parcelable {
     protected Branch(Parcel in) {
         mBranchId = in.readInt();
         mBranchName = in.readString();
+        mShifts = in.createTypedArrayList(Shifts.CREATOR);
     }
 
     @Override
@@ -51,6 +56,7 @@ public class Branch extends BaseModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mBranchId);
         dest.writeString(mBranchName);
+        dest.writeTypedList(mShifts);
     }
 
     public int getBranchId() {
@@ -67,5 +73,13 @@ public class Branch extends BaseModel implements Parcelable {
 
     public void setBranchName(String branchName) {
         mBranchName = branchName;
+    }
+
+    public List<Shifts> getShifts() {
+        return mShifts;
+    }
+
+    public void setShifts(List<Shifts> shifts) {
+        mShifts = shifts;
     }
 }
