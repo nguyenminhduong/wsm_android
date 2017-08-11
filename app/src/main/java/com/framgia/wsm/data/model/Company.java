@@ -11,18 +11,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class Company extends BaseModel implements Parcelable {
 
-    @Expose
-    @SerializedName("id")
-    private int mId;
-    @Expose
-    @SerializedName("name")
-    private String mCompanyName;
-
-    protected Company(Parcel in) {
-        mId = in.readInt();
-        mCompanyName = in.readString();
-    }
-
     public static final Creator<Company> CREATOR = new Creator<Company>() {
         @Override
         public Company createFromParcel(Parcel in) {
@@ -34,6 +22,21 @@ public class Company extends BaseModel implements Parcelable {
             return new Company[size];
         }
     };
+    @Expose
+    @SerializedName("id")
+    private int mId;
+    @Expose
+    @SerializedName("name")
+    private String mCompanyName;
+    @Expose
+    @SerializedName("cutoff_date")
+    private int mCutOffDate;
+
+    protected Company(Parcel in) {
+        mId = in.readInt();
+        mCompanyName = in.readString();
+        mCutOffDate = in.readInt();
+    }
 
     public int getId() {
         return mId;
@@ -51,6 +54,14 @@ public class Company extends BaseModel implements Parcelable {
         mCompanyName = companyName;
     }
 
+    public int getCutOffDate() {
+        return mCutOffDate;
+    }
+
+    public void setCutOffDate(int cutOffDate) {
+        mCutOffDate = cutOffDate;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -60,5 +71,6 @@ public class Company extends BaseModel implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(mId);
         parcel.writeString(mCompanyName);
+        parcel.writeInt(mCutOffDate);
     }
 }

@@ -16,8 +16,6 @@ import java.util.List;
  * Created by tri on 24/05/2017.
  */
 public class User extends BaseModel implements Parcelable {
-    private static final String STAFF_FULL_TIME = "Full-time";
-
     public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
         public User createFromParcel(Parcel in) {
@@ -29,7 +27,7 @@ public class User extends BaseModel implements Parcelable {
             return new User[size];
         }
     };
-
+    private static final String STAFF_FULL_TIME = "Full-time";
     @Expose
     @SerializedName("name")
     @Validation({
@@ -93,7 +91,9 @@ public class User extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("is_manager")
     private boolean mIsManage;
-
+    @Expose
+    @SerializedName("special")
+    private int mSpecial;
     private Setting mSetting;
 
     public User() {
@@ -120,6 +120,7 @@ public class User extends BaseModel implements Parcelable {
         mTypesInsurance = in.createTypedArrayList(OffType.CREATOR);
         mId = in.readInt();
         mIsManage = in.readByte() != 0;
+        mSpecial = in.readInt();
         mSetting = in.readParcelable(Setting.class.getClassLoader());
     }
 
@@ -145,6 +146,7 @@ public class User extends BaseModel implements Parcelable {
         dest.writeTypedList(mTypesInsurance);
         dest.writeInt(mId);
         dest.writeByte((byte) (mIsManage ? 1 : 0));
+        dest.writeInt(mSpecial);
         dest.writeParcelable(mSetting, flags);
     }
 
@@ -312,6 +314,14 @@ public class User extends BaseModel implements Parcelable {
 
     public void setManage(boolean manage) {
         mIsManage = manage;
+    }
+
+    public int getSpecial() {
+        return mSpecial;
+    }
+
+    public void setSpecial(int special) {
+        mSpecial = special;
     }
 
     public boolean isFullTime() {
