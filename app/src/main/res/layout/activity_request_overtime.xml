@@ -109,6 +109,10 @@
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:onClick="@{viewModel::onPickBranch}"
+                                android:paddingEnd="@dimen/dp_24"
+                                android:paddingLeft="@dimen/dp_3"
+                                android:paddingRight="@dimen/dp_24"
+                                android:paddingStart="@dimen/dp_3"
                                 android:text="@={viewModel.requestOverTime.branch.branchName}"
                                 style="@style/StyleText"
                                 />
@@ -132,6 +136,10 @@
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:onClick="@{viewModel::onPickGroup}"
+                                android:paddingEnd="@dimen/dp_24"
+                                android:paddingLeft="@dimen/dp_3"
+                                android:paddingRight="@dimen/dp_24"
+                                android:paddingStart="@dimen/dp_3"
                                 android:text="@={viewModel.requestOverTime.group.fullName}"
                                 style="@style/StyleText"
                                 />
