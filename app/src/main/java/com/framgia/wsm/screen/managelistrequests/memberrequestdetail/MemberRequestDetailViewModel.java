@@ -22,6 +22,7 @@ import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.TypeToast;
 import com.framgia.wsm.utils.common.DateTimeUtils;
+import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import java.util.List;
@@ -313,14 +314,14 @@ public class MemberRequestDetailViewModel extends BaseObservable
 
     public boolean isVisiableLayoutHaveSalary() {
         if (mOffRequest.getId() != 0) {
-            return mOffRequest.getStartDayHaveSalary().getOffPaidFrom() == null;
+            return StringUtils.isBlank(mOffRequest.getStartDayHaveSalary().getOffPaidFrom());
         }
         return false;
     }
 
     public boolean isVisiableLayoutOffNoSalary() {
         if (mOffRequest.getId() != 0) {
-            return mOffRequest.getStartDayNoSalary().getOffFrom() == null;
+            return StringUtils.isBlank(mOffRequest.getStartDayNoSalary().getOffFrom());
         }
         return false;
     }
