@@ -31,6 +31,9 @@ public class LeaveType extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("code")
     private String mCode;
+    @Expose
+    @SerializedName("block_minutes")
+    private int mBlockMinutes;
 
     public LeaveType() {
     }
@@ -39,6 +42,7 @@ public class LeaveType extends BaseModel implements Parcelable {
         mId = in.readInt();
         mName = in.readString();
         mCode = in.readString();
+        mBlockMinutes = in.readInt();
     }
 
     public int getId() {
@@ -65,6 +69,14 @@ public class LeaveType extends BaseModel implements Parcelable {
         mCode = code;
     }
 
+    public int getBlockMinutes() {
+        return mBlockMinutes;
+    }
+
+    public void setBlockMinutes(int blockMinutes) {
+        mBlockMinutes = blockMinutes;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -75,5 +87,6 @@ public class LeaveType extends BaseModel implements Parcelable {
         dest.writeInt(mId);
         dest.writeString(mName);
         dest.writeString(mCode);
+        dest.writeInt(mBlockMinutes);
     }
 }
