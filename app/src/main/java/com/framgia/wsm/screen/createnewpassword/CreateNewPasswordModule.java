@@ -3,6 +3,8 @@ package com.framgia.wsm.screen.createnewpassword;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import com.framgia.wsm.data.source.RequestRepository;
+import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.dagger.ActivityScope;
 import com.framgia.wsm.utils.navigator.Navigator;
@@ -42,8 +44,16 @@ public class CreateNewPasswordModule {
     @ActivityScope
     @Provides
     public CreateNewPasswordContract.Presenter providePresenter(Context context,
-            Validator validator, BaseSchedulerProvider baseSchedulerProvider) {
-        return new CreateNewPasswordPresenter(context, validator, baseSchedulerProvider);
+            RequestRepository requestRepository, Validator validator,
+            BaseSchedulerProvider baseSchedulerProvider) {
+        return new CreateNewPasswordPresenter(context, requestRepository, validator,
+                baseSchedulerProvider);
+    }
+
+    @ActivityScope
+    @Provides
+    RequestRepository provideRequestRepository(RequestRemoteDataSource remoteDataSource) {
+        return new RequestRepository(remoteDataSource);
     }
 
     @ActivityScope

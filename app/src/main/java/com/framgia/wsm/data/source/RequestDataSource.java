@@ -7,6 +7,7 @@ import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
+import com.framgia.wsm.data.source.remote.api.request.ResetPasswordRequest;
 import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import io.reactivex.Single;
@@ -60,5 +61,7 @@ public interface RequestDataSource {
                 ActionRequest actionRequest);
 
         Single<BaseResponse> sendEmail(String email);
+
+        Single<Object> resetPassword(ResetPasswordRequest resetPasswordRequest);
     }
 }

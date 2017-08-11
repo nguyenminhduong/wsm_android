@@ -63,6 +63,7 @@ public class CreateNewPasswordViewModel extends BaseObservable
         mDialogManager.dismissProgressDialog();
         mNavigator.showToast(R.string.reset_password_success);
         mNavigator.startActivity(LoginActivity.class);
+        mNavigator.finishActivity();
     }
 
     @Override
@@ -141,5 +142,8 @@ public class CreateNewPasswordViewModel extends BaseObservable
         if (!mPresenter.validateDataInput(mNewPassword, mConfirmPassword)) {
             return;
         }
+        mDialogManager.showIndeterminateProgressDialog();
+        mPresenter.resetPassword(mTokenResetPassword, mEmailResetPassword, mNewPassword,
+                mConfirmPassword);
     }
 }

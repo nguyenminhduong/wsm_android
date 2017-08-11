@@ -3,9 +3,17 @@ package com.framgia.wsm.screen.createnewpassword;
 import android.content.Context;
 import android.util.Log;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.source.RequestRepository;
+import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.data.source.remote.api.error.RequestError;
+import com.framgia.wsm.data.source.remote.api.request.ResetPasswordRequest;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Listens to user actions from the UI ({@link CreateNewPasswordActivity}), retrieves the data and
@@ -19,12 +27,16 @@ final class CreateNewPasswordPresenter implements CreateNewPasswordContract.Pres
     private CreateNewPasswordContract.ViewModel mViewModel;
     private final Validator mValidator;
     private final BaseSchedulerProvider mBaseSchedulerProvider;
+    private final CompositeDisposable mCompositeDisposable;
+    private final RequestRepository mRequestRepository;
 
-    CreateNewPasswordPresenter(Context context, Validator validator,
-            BaseSchedulerProvider baseSchedulerProvider) {
+    CreateNewPasswordPresenter(Context context, RequestRepository requestRepository,
+            Validator validator, BaseSchedulerProvider baseSchedulerProvider) {
         mContext = context;
+        mRequestRepository = requestRepository;
         mValidator = validator;
         mBaseSchedulerProvider = baseSchedulerProvider;
+        mCompositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -41,8 +53,25 @@ final class CreateNewPasswordPresenter implements CreateNewPasswordContract.Pres
     }
 
     @Override
-    public void resetPassword(String newPassword, String confirmPassword) {
-        //Todo edit later
+    public void resetPassword(String tokenResetPassword, String email, String newPassword,
+            String confirmPassword) {
+        ResetPasswordRequest resetPasswordRequest =
+                new ResetPasswordRequest(tokenResetPassword, email, newPassword, confirmPassword);
+        Disposable disposable = mRequestRepository.resetPassword(resetPasswordRequest)
+                .subscribeOn(mBaseSchedulerProvider.io())
+                .observeOn(mBaseSchedulerProvider.ui())
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        mViewModel.onResetPasswordSuccess();
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onResetPasswordError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
     }
 
     @Override

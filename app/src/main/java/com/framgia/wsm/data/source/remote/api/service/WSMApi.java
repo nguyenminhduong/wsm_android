@@ -14,6 +14,7 @@ import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
 import com.framgia.wsm.data.source.remote.api.request.NotificationRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestLeaveRequest;
 import com.framgia.wsm.data.source.remote.api.request.RequestOffRequest;
+import com.framgia.wsm.data.source.remote.api.request.ResetPasswordRequest;
 import com.framgia.wsm.data.source.remote.api.request.SignInRequest;
 import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
@@ -150,4 +151,7 @@ public interface WSMApi {
 
     @GET("api/dashboard/statistics/users")
     Single<BaseResponse<StatisticsResponse>> getStatistics();
+
+    @PUT("api/dashboard/passwords")
+    Single<Object> resetPassword(@Body ResetPasswordRequest resetPasswordRequest);
 }
