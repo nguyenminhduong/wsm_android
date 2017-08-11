@@ -470,6 +470,7 @@ public final class BindingUtils {
         YAxis rightAxis = combinedChart.getAxisRight();
         rightAxis.setDrawGridLines(false);
         rightAxis.setAxisMinimum(0);
+        rightAxis.setDrawLabels(false);
         rightAxis.setTextSize(combinedChart.getContext().getResources().getDimension(R.dimen.sp_4));
         rightAxis.setGranularity(1);
 

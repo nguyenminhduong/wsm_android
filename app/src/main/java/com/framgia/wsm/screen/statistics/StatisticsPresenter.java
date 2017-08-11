@@ -46,8 +46,8 @@ final class StatisticsPresenter implements StatisticsContract.Presenter {
     }
 
     @Override
-    public void getStatistics() {
-        Disposable disposable = mStatisticsRepository.getStatistic()
+    public void getStatistics(int year) {
+        Disposable disposable = mStatisticsRepository.getStatistic(year)
                 .subscribeOn(mBaseSchedulerProvider.io())
                 .observeOn(mBaseSchedulerProvider.ui())
                 .doOnSubscribe(new Consumer<Disposable>() {

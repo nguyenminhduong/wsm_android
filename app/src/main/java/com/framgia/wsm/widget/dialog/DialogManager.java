@@ -120,7 +120,12 @@ public interface DialogManager {
     DialogManager dialogMonthYearPicker(DatePickerDialog.OnDateSetListener onDateSetListener,
             int year, int month);
 
+    DialogManager dialogYearPicker(DatePickerDialog.OnDateSetListener onDateSetListener,
+            int year, int month);
+
     void showMonthYearPickerDialog();
+
+    void showYearPickerDialog();
 
     DialogManager dialogDatePicker(DatePickerDialog.OnDateSetListener onDateSetListener);
 

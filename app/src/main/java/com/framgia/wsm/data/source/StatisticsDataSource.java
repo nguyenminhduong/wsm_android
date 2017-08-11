@@ -14,6 +14,6 @@ public class StatisticsDataSource {
      * RemoteDataSource
      */
     public interface RemoteDataSource {
-        Single<BaseResponse<StatisticsResponse>> getStatistics();
+        Single<BaseResponse<StatisticsResponse>> getStatistics(int year);
     }
 }

@@ -150,7 +150,7 @@ public interface WSMApi {
     Single<BaseResponse> sendEmail(@Query("email") String email);
 
     @GET("api/dashboard/statistics/users")
-    Single<BaseResponse<StatisticsResponse>> getStatistics();
+    Single<BaseResponse<StatisticsResponse>> getStatistics(@Query("year") int year);
 
     @PUT("api/dashboard/passwords")
     Single<Object> resetPassword(@Body ResetPasswordRequest resetPasswordRequest);

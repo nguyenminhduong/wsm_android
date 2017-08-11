@@ -1,11 +1,14 @@
 package com.framgia.wsm.screen.statistics;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
+import android.widget.DatePicker;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.Chart;
@@ -25,6 +28,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -32,7 +36,8 @@ import java.util.List;
  */
 
 public class StatisticsViewModel extends BaseObservable
-        implements StatisticsContract.ViewModel, OnChartValueSelectedListener {
+        implements StatisticsContract.ViewModel, OnChartValueSelectedListener,
+        DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = "StatisticsViewModel";
     private static final int NUMBER_DAY_OFF = 0;
@@ -40,20 +45,24 @@ public class StatisticsViewModel extends BaseObservable
     private static final int NUMBER_OVERTIME = 2;
     private static final int MONTH_IN_YEAR = 12;
 
-    private Context mContext;
-    private StatisticsContract.Presenter mPresenter;
+    private final Context mContext;
+    private final StatisticsContract.Presenter mPresenter;
     private final StatisticContainerAdapter mAdapter;
     private float[] mDayOffData;
     private float[] mLeaveTimeData;
     private float[] mOverTimeData;
     private boolean mIsLoading;
-    private DialogManager mDialogManager;
+    private final DialogManager mDialogManager;
     private boolean mIsClickChart;
     private String mDataChartDayOff;
     private String mDataChartLeaveTime;
     private String mDataChartOverTime;
     private String mMonthSelected;
     private boolean mIsFirstTimeLoad;
+    private String mYearSelected;
+    private int mYear;
+    private int mMonth;
+    private Calendar mCalendar;
 
     StatisticsViewModel(Context context, StatisticsContract.Presenter presenter,
             StatisticContainerAdapter adapter, DialogManager dialogManager) {
@@ -62,6 +71,11 @@ public class StatisticsViewModel extends BaseObservable
         mPresenter.setViewModel(this);
         mAdapter = adapter;
         mDialogManager = dialogManager;
+        mCalendar = Calendar.getInstance();
+        mYear = mCalendar.get(Calendar.YEAR);
+        setYear(String.valueOf(mYear));
+        mMonth = mCalendar.get(Calendar.MONTH) + 1;
+        mDialogManager.dialogYearPicker(this, mYear, mMonth);
         mIsFirstTimeLoad = true;
     }
 
@@ -150,6 +164,20 @@ public class StatisticsViewModel extends BaseObservable
         notifyPropertyChanged(BR.combinedChar);
     }
 
+    public void onPickYear(View view) {
+        mDialogManager.showYearPickerDialog();
+    }
+
+    @Bindable
+    public String getYear() {
+        return mYearSelected;
+    }
+
+    private void setYear(String year) {
+        mYearSelected = year;
+        notifyPropertyChanged(BR.year);
+    }
+
     @Override
     public void onGetStatisticsError(BaseException error) {
         Log.e(TAG, "", error);
@@ -182,7 +210,7 @@ public class StatisticsViewModel extends BaseObservable
     @Override
     public void onReloadData() {
         if (mIsFirstTimeLoad) {
-            mPresenter.getStatistics();
+            mPresenter.getStatistics(Integer.parseInt(mYearSelected));
             mIsFirstTimeLoad = false;
         }
     }
@@ -196,7 +224,7 @@ public class StatisticsViewModel extends BaseObservable
         setDataChartDayOff(String.valueOf(mDayOffData[(int) e.getX()]));
         setDataChartLeaveTime(String.valueOf(mLeaveTimeData[(int) e.getX()]));
         setDataChartOverTime(String.valueOf(mOverTimeData[(int) e.getX()]));
-        setMonthSelected(String.valueOf((int) (e.getX() + 1)));
+        showMonthSelected((int) e.getX());
         setClickChart(true);
     }
 
@@ -210,7 +238,7 @@ public class StatisticsViewModel extends BaseObservable
         return mIsClickChart;
     }
 
-    public void setClickChart(boolean clickChart) {
+    private void setClickChart(boolean clickChart) {
         mIsClickChart = clickChart;
         notifyPropertyChanged(BR.clickChart);
     }
@@ -220,7 +248,7 @@ public class StatisticsViewModel extends BaseObservable
         return mDataChartDayOff;
     }
 
-    public void setDataChartDayOff(String dataChartDayOff) {
+    private void setDataChartDayOff(String dataChartDayOff) {
         mDataChartDayOff = dataChartDayOff;
         notifyPropertyChanged(BR.dataChartDayOff);
     }
@@ -230,7 +258,7 @@ public class StatisticsViewModel extends BaseObservable
         return mDataChartLeaveTime;
     }
 
-    public void setDataChartLeaveTime(String dataChartLeaveTime) {
+    private void setDataChartLeaveTime(String dataChartLeaveTime) {
         mDataChartLeaveTime = dataChartLeaveTime;
         notifyPropertyChanged(BR.dataChartLeaveTime);
     }
@@ -240,7 +268,7 @@ public class StatisticsViewModel extends BaseObservable
         return mDataChartOverTime;
     }
 
-    public void setDataChartOverTime(String dataChartOverTime) {
+    private void setDataChartOverTime(String dataChartOverTime) {
         mDataChartOverTime = dataChartOverTime;
         notifyPropertyChanged(BR.dataChartOverTime);
     }
@@ -250,8 +278,66 @@ public class StatisticsViewModel extends BaseObservable
         return mMonthSelected;
     }
 
-    public void setMonthSelected(String monthSelected) {
+    private void setMonthSelected(String monthSelected) {
         mMonthSelected = monthSelected;
         notifyPropertyChanged(BR.monthSelected);
+    }
+
+    private void showMonthSelected(int month) {
+        switch (month) {
+            case Calendar.JANUARY:
+                setMonthSelected(mContext.getString(R.string.january));
+                break;
+            case Calendar.FEBRUARY:
+                setMonthSelected(mContext.getString(R.string.february));
+                break;
+            case Calendar.MARCH:
+                setMonthSelected(mContext.getString(R.string.march));
+                break;
+            case Calendar.APRIL:
+                setMonthSelected(mContext.getString(R.string.april));
+                break;
+            case Calendar.MAY:
+                setMonthSelected(mContext.getString(R.string.may_month));
+                break;
+            case Calendar.JUNE:
+                setMonthSelected(mContext.getString(R.string.june));
+                break;
+            case Calendar.JULY:
+                setMonthSelected(mContext.getString(R.string.july));
+                break;
+            case Calendar.AUGUST:
+                setMonthSelected(mContext.getString(R.string.august));
+                break;
+            case Calendar.SEPTEMBER:
+                setMonthSelected(mContext.getString(R.string.september));
+                break;
+            case Calendar.OCTOBER:
+                setMonthSelected(mContext.getString(R.string.october));
+                break;
+            case Calendar.NOVEMBER:
+                setMonthSelected(mContext.getString(R.string.november));
+                break;
+            case Calendar.DECEMBER:
+                setMonthSelected(mContext.getString(R.string.december));
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        mYear = year;
+        updateYear(mYear);
+    }
+
+    private void updateYear(int year) {
+        setYear(String.valueOf(year));
+    }
+
+    public void onSearchRequest(View view) {
+        setClickChart(false);
+        mPresenter.getStatistics(Integer.parseInt(mYearSelected));
     }
 }

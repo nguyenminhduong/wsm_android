@@ -34,6 +34,6 @@ public interface StatisticsContract {
      * Presenter.
      */
     interface Presenter extends BasePresenter<ViewModel> {
-        void getStatistics();
+        void getStatistics(int year);
     }
 }
