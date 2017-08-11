@@ -46,6 +46,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.util.List;
 
 /**
@@ -73,7 +74,6 @@ public final class BindingUtils {
             MainViewModel viewModel, String staffType, boolean isManage) {
 
         //TODO edit version later
-        navigationView.getMenu().findItem(R.id.item_statistic_of_personal).setVisible(false);
         navigationView.getMenu().findItem(R.id.item_workspace_data).setVisible(false);
 
         MenuItem menuDayOff = navigationView.getMenu().findItem(R.id.item_off);
@@ -457,9 +457,9 @@ public final class BindingUtils {
         swipeRefreshLayout.setOnRefreshListener(refreshListener);
     }
 
-    @BindingAdapter({ "setCombinedChar", "setMonths" })
+    @BindingAdapter({ "setCombinedChar", "setMonths", "setOnChartValueSelectedListener" })
     public static void combinedChar(final CombinedChart combinedChart, LineData lineDatas,
-            final List<String> months) {
+            final List<String> months, OnChartValueSelectedListener onChartValueSelectedListener) {
         combinedChart.getDescription().setEnabled(false);
         combinedChart.setBackgroundColor(Color.WHITE);
         combinedChart.setDrawGridBackground(false);
@@ -495,6 +495,7 @@ public final class BindingUtils {
         data.setData(lineDatas);
         xAxis.setAxisMaximum(data.getXMax());
         combinedChart.setData(data);
+        combinedChart.setOnChartValueSelectedListener(onChartValueSelectedListener);
         combinedChart.invalidate();
     }
 }

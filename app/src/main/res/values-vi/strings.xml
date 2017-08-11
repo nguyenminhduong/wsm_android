@@ -320,7 +320,7 @@
     <string name="number_of_overtime">Số giờ OT</string>
     <string name="the_number_of_rest_days_previous_year">Số ngày nghỉ còn lại của năm trước</string>
     <string name="the_number_of_rest_days_in_year">Số ngày nghỉ còn lại trong năm</string>
-    <string name="number_of_days_off_added_in_this_year">Số ngày nghỉ được thêm trong năm hiện tại</string>
+    <string name="number_of_days_off_added_in_this_year">Số ngày nghỉ được thêm trong năm</string>
     <string name="total_of_days_off_remaining_in_year">Tổng số ngày nghỉ còn lại trong năm</string>
     <string name="reset_password">Đặt lại mật khẩu</string>
     <string name="please_enter_your_new_password">Vui lòng nhập mật khẩu mới của bạn !</string>

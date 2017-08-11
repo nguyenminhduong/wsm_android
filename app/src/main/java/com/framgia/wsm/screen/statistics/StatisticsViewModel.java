@@ -21,7 +21,9 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,8 @@ import java.util.List;
  * Exposes the data to be used in the Statistics screen.
  */
 
-public class StatisticsViewModel extends BaseObservable implements StatisticsContract.ViewModel {
+public class StatisticsViewModel extends BaseObservable
+        implements StatisticsContract.ViewModel, OnChartValueSelectedListener {
 
     private static final String TAG = "StatisticsViewModel";
     private static final int NUMBER_DAY_OFF = 0;
@@ -43,8 +46,14 @@ public class StatisticsViewModel extends BaseObservable implements StatisticsCon
     private float[] mDayOffData;
     private float[] mLeaveTimeData;
     private float[] mOverTimeData;
-    private boolean isLoading;
+    private boolean mIsLoading;
     private DialogManager mDialogManager;
+    private boolean mIsClickChart;
+    private String mDataChartDayOff;
+    private String mDataChartLeaveTime;
+    private String mDataChartOverTime;
+    private String mMonthSelected;
+    private boolean mIsFirstTimeLoad;
 
     StatisticsViewModel(Context context, StatisticsContract.Presenter presenter,
             StatisticContainerAdapter adapter, DialogManager dialogManager) {
@@ -53,7 +62,7 @@ public class StatisticsViewModel extends BaseObservable implements StatisticsCon
         mPresenter.setViewModel(this);
         mAdapter = adapter;
         mDialogManager = dialogManager;
-        isLoading = false;
+        mIsFirstTimeLoad = true;
     }
 
     @Override
@@ -124,7 +133,7 @@ public class StatisticsViewModel extends BaseObservable implements StatisticsCon
 
     private LineData getLineDatas() {
         LineData lineDatas = new LineData();
-        if (isLoading) {
+        if (mIsLoading) {
             lineDatas.addDataSet((ILineDataSet) requestOff());
             lineDatas.addDataSet((ILineDataSet) requestLeave());
             lineDatas.addDataSet((ILineDataSet) requestOT());
@@ -134,7 +143,7 @@ public class StatisticsViewModel extends BaseObservable implements StatisticsCon
 
     @Override
     public void onGetStatisticsSuccess(List<Chart> statisticOfCharts) {
-        isLoading = true;
+        mIsLoading = true;
         mDayOffData = statisticOfCharts.get(NUMBER_DAY_OFF).getDataChart();
         mLeaveTimeData = statisticOfCharts.get(NUMBER_LEAVE_TIME).getDataChart();
         mOverTimeData = statisticOfCharts.get(NUMBER_OVERTIME).getDataChart();
@@ -172,6 +181,77 @@ public class StatisticsViewModel extends BaseObservable implements StatisticsCon
 
     @Override
     public void onReloadData() {
-        mPresenter.getStatistics();
+        if (mIsFirstTimeLoad) {
+            mPresenter.getStatistics();
+            mIsFirstTimeLoad = false;
+        }
+    }
+
+    public OnChartValueSelectedListener getOnChartValueSelected() {
+        return this;
+    }
+
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+        setDataChartDayOff(String.valueOf(mDayOffData[(int) e.getX()]));
+        setDataChartLeaveTime(String.valueOf(mLeaveTimeData[(int) e.getX()]));
+        setDataChartOverTime(String.valueOf(mOverTimeData[(int) e.getX()]));
+        setMonthSelected(String.valueOf((int) (e.getX() + 1)));
+        setClickChart(true);
+    }
+
+    @Override
+    public void onNothingSelected() {
+        setClickChart(false);
+    }
+
+    @Bindable
+    public boolean isClickChart() {
+        return mIsClickChart;
+    }
+
+    public void setClickChart(boolean clickChart) {
+        mIsClickChart = clickChart;
+        notifyPropertyChanged(BR.clickChart);
+    }
+
+    @Bindable
+    public String getDataChartDayOff() {
+        return mDataChartDayOff;
+    }
+
+    public void setDataChartDayOff(String dataChartDayOff) {
+        mDataChartDayOff = dataChartDayOff;
+        notifyPropertyChanged(BR.dataChartDayOff);
+    }
+
+    @Bindable
+    public String getDataChartLeaveTime() {
+        return mDataChartLeaveTime;
+    }
+
+    public void setDataChartLeaveTime(String dataChartLeaveTime) {
+        mDataChartLeaveTime = dataChartLeaveTime;
+        notifyPropertyChanged(BR.dataChartLeaveTime);
+    }
+
+    @Bindable
+    public String getDataChartOverTime() {
+        return mDataChartOverTime;
+    }
+
+    public void setDataChartOverTime(String dataChartOverTime) {
+        mDataChartOverTime = dataChartOverTime;
+        notifyPropertyChanged(BR.dataChartOverTime);
+    }
+
+    @Bindable
+    public String getMonthSelected() {
+        return mMonthSelected;
+    }
+
+    public void setMonthSelected(String monthSelected) {
+        mMonthSelected = monthSelected;
+        notifyPropertyChanged(BR.monthSelected);
     }
 }
