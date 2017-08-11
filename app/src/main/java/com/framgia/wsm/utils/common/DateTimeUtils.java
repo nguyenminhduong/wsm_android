@@ -3,6 +3,7 @@ package com.framgia.wsm.utils.common;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
+import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.screen.requestoff.RequestOffViewModel;
 import com.framgia.wsm.utils.Constant;
 import java.sql.Timestamp;
@@ -11,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
@@ -124,10 +126,31 @@ public final class DateTimeUtils {
                 + convertToString(calendar.getTime(), TIME_FORMAT_HH_MM);
     }
 
-    public static int getMinutesBetweenTwoDate(String dateFrom, String dateTo) {
-        return (int) TimeUnit.MILLISECONDS.toMinutes(
+    public static int getMinutesBetweenTwoDate(String dateFrom, String dateTo,
+            int currentLeaveTypeId, List<LeaveType> typeList) {
+        int totalCompensationMinutes = 0;
+        int compensationMinutes = (int) TimeUnit.MILLISECONDS.toMinutes(
                 convertStringToDateTime(dateFrom).getTime() - convertStringToDateTime(
                         dateTo).getTime());
+        for (int i = 0; i < typeList.size(); i++) {
+            if (currentLeaveTypeId == typeList.get(i).getId()) {
+                int blockMinutes = typeList.get(i).getBlockMinutes();
+                if (blockMinutes > 0) {
+                    int surplus = compensationMinutes % blockMinutes;
+                    if (surplus != 0) {
+                        totalCompensationMinutes =
+                                blockMinutes * (compensationMinutes / blockMinutes) + blockMinutes;
+                    }
+                    if (surplus == 0) {
+                        totalCompensationMinutes =
+                                blockMinutes * (compensationMinutes / blockMinutes);
+                    }
+                } else {
+                    totalCompensationMinutes = compensationMinutes;
+                }
+            }
+        }
+        return totalCompensationMinutes;
     }
 
     public static String addMinutesToStringDate(String dateTime, int minutes) {

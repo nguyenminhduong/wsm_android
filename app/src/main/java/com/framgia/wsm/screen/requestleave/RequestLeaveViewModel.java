@@ -88,6 +88,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     private int mActionType;
     private String mProjectName;
     private boolean mIsVisibleGroup;
+    private List<LeaveType> mLeaveTypes;
+    private int mCurrentLeaveTypeId;
     @Validation({
             @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
     })
@@ -204,6 +206,13 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mRequest.setCompanyId(mUser.getCompany().getId());
         mCurrentLeaveTypePosition =
                 (searchLeaveTypePosition(mUser.getLeaveTypes(), mCurrentLeaveType));
+        if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
+            mCurrentLeaveTypeId = mRequest.getLeaveTypeId();
+        }
+        if (mUser.getLeaveTypes() == null || mUser.getLeaveTypes().size() == 0) {
+            return;
+        }
+        mLeaveTypes = mUser.getLeaveTypes();
     }
 
     @Override
@@ -1034,30 +1043,34 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 workingTime = DateTimeUtils.changeTimeOfDateString(getCheckinTime(), SEVEN_HOUR,
                         FORTY_FIVE_MINUTES);
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
-                        DateTimeUtils.getMinutesBetweenTwoDate(getCheckinTime(), workingTime)));
+                        DateTimeUtils.getMinutesBetweenTwoDate(getCheckinTime(), workingTime,
+                                mCurrentLeaveTypeId, mLeaveTypes)));
                 break;
             case LeaveTypeId.IN_LATE_A:
                 workingTime = DateTimeUtils.changeTimeOfDateString(getCheckinTime(), TWELVE_HOUR,
                         FORTY_FIVE_MINUTES);
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
-                        DateTimeUtils.getMinutesBetweenTwoDate(getCheckinTime(), workingTime)));
+                        DateTimeUtils.getMinutesBetweenTwoDate(getCheckinTime(), workingTime,
+                                mCurrentLeaveTypeId, mLeaveTypes)));
                 break;
             case LeaveTypeId.LEAVE_EARLY_M:
                 workingTime = DateTimeUtils.changeTimeOfDateString(getCheckoutTime(), ELEVEN_HOUR,
                         FORTY_FIVE_MINUTES);
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
-                        DateTimeUtils.getMinutesBetweenTwoDate(workingTime, getCheckoutTime())));
+                        DateTimeUtils.getMinutesBetweenTwoDate(workingTime, getCheckoutTime(),
+                                mCurrentLeaveTypeId, mLeaveTypes)));
                 break;
             case LeaveTypeId.LEAVE_EARLY_A:
                 workingTime = DateTimeUtils.changeTimeOfDateString(getCheckoutTime(), SIXTEEN_HOUR,
                         FORTY_FIVE_MINUTES);
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
-                        DateTimeUtils.getMinutesBetweenTwoDate(workingTime, getCheckoutTime())));
+                        DateTimeUtils.getMinutesBetweenTwoDate(workingTime, getCheckoutTime(),
+                                mCurrentLeaveTypeId, mLeaveTypes)));
                 break;
             case LeaveTypeId.LEAVE_OUT:
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
-                        DateTimeUtils.getMinutesBetweenTwoDate(getCheckoutTime(),
-                                getCheckinTime())));
+                        DateTimeUtils.getMinutesBetweenTwoDate(getCheckoutTime(), getCheckinTime(),
+                                mCurrentLeaveTypeId, mLeaveTypes)));
                 break;
             default:
                 break;
@@ -1128,6 +1141,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void setCurrentLeaveType() {
+        mCurrentLeaveTypeId = mUser.getLeaveTypes().get(mCurrentLeaveTypePosition).getId();
         mCurrentLeaveType = mUser.getLeaveTypes().get(mCurrentLeaveTypePosition).getId();
         mRequest.setLeaveTypeId(mUser.getLeaveTypes().get(mCurrentLeaveTypePosition).getId());
         mRequest.setLeaveType(mUser.getLeaveTypes().get(mCurrentLeaveTypePosition));
