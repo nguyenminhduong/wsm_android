@@ -47,20 +47,14 @@ public final class Constant {
     }
 
     public static class TimeConst {
-        public static final int TWO_HOUR = 2;
+        public static final int ONE_HOUR = 1;
         public static final int SEVEN_HOUR = 7;
-        public static final int EIGHT_HOUR = 8;
-        public static final int NIGHT_HOUR = 9;
-        public static final int TEN_HOUR = 10;
         public static final int ELEVEN_HOUR = 11;
         public static final int TWELVE_HOUR = 12;
-        public static final int THIRTEEN_HOUR = 13;
-        public static final int FOURTEEN_HOUR = 14;
-        public static final int FIFTEEN_HOUR = 15;
         public static final int SIXTEEN_HOUR = 16;
         public static final int FIFTEEN_MINUTES = 15;
+        public static final int THIRDTY_MINUTES = 30;
         public static final int FORTY_FIVE_MINUTES = 45;
-        public static final int ZERO_MINUTES = 0;
         public static final int ONE_MONTH = 1;
         public static final int DAY_25_OF_MONTH = 25;
         public static final int DAY_26_OF_MONTH = 26;

@@ -42,6 +42,7 @@ public final class DateTimeUtils {
     private static final String TAG = DateTimeUtils.class.getName();
     private static final int DAY_OF_YEAR = 365;
     private static final String TIME_ZONE_GMT = "GMT";
+    private static final int MINUTES_OF_HOUR = 60;
 
     private DateTimeUtils() {
         // No-op
@@ -177,6 +178,25 @@ public final class DateTimeUtils {
         return false;
     }
 
+    /**
+     * kiểm tra khoảng thời gian của 2 datetime có <= hour
+     */
+    public static boolean checkHourOfDateLessThanOrEqualWithDuration(String firstTime,
+            String secondTime, float hour) {
+        Date firstDate = convertStringToDate(
+                convertUiFormatToDataFormat(firstTime, DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM,
+                        TIME_FORMAT_HH_MM), TIME_FORMAT_HH_MM);
+        String secondTimeAfterAddDuration =
+                addMinutesToStringDate(secondTime, (int) (hour * MINUTES_OF_HOUR));
+        Date secondDate = convertStringToDate(
+                convertUiFormatToDataFormat(secondTimeAfterAddDuration,
+                        DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM, TIME_FORMAT_HH_MM), TIME_FORMAT_HH_MM);
+        return firstDate.before(secondDate) || firstDate.equals(secondDate);
+    }
+
+    /**
+     * kiểm tra giờ của datetime có <= hour, minute
+     */
     public static boolean checkHourOfDateLessThanOrEqual(String dateTime, int hour, int minute) {
         if (DateTimeUtils.getHourOfDay(dateTime) < hour
                 || DateTimeUtils.getHourOfDay(dateTime) == hour

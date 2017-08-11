@@ -3,6 +3,8 @@ package com.framgia.wsm.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.framgia.wsm.R;
+import com.framgia.wsm.screen.requestleave.RequestLeaveViewModel;
+import com.framgia.wsm.utils.UserType;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.validator.Rule;
@@ -11,6 +13,8 @@ import com.framgia.wsm.utils.validator.Validation;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
+
+import static com.framgia.wsm.utils.Constant.TimeConst.ONE_HOUR;
 
 /**
  * Created by tri on 24/05/2017.
@@ -334,5 +338,31 @@ public class User extends BaseModel implements Parcelable {
 
     public void setSetting(Setting setting) {
         mSetting = setting;
+    }
+
+    public float getMaxDurationComeLate(int currentLeaveTypePosition, int currentBranchPosition) {
+        if (mSpecial == UserType.BABY
+                && mLeaveTypes.get(currentLeaveTypePosition).getId()
+                != RequestLeaveViewModel.LeaveTypeId.LEAVE_OUT) {
+            return mLeaveTypes.get(currentLeaveTypePosition).isFollowTimeCompany() ? mBranches.get(
+                    currentBranchPosition).getShifts().get(0).getMaxComeLate() + ONE_HOUR
+                    : mLeaveTypes.get(currentLeaveTypePosition).getMaxLeaveDuration() + ONE_HOUR;
+        }
+        return mLeaveTypes.get(currentLeaveTypePosition).isFollowTimeCompany() ? mBranches.get(
+                currentBranchPosition).getShifts().get(0).getMaxComeLate()
+                : mLeaveTypes.get(currentLeaveTypePosition).getMaxLeaveDuration();
+    }
+
+    public float getMaxDurationLeave(int currentLeaveTypePosition, int currentBranchPosition) {
+        if (mSpecial == UserType.BABY
+                && mLeaveTypes.get(currentLeaveTypePosition).getId()
+                != RequestLeaveViewModel.LeaveTypeId.LEAVE_OUT) {
+            return mLeaveTypes.get(currentLeaveTypePosition).isFollowTimeCompany() ? mBranches.get(
+                    currentBranchPosition).getShifts().get(0).getMaxLevesEarly() + ONE_HOUR
+                    : mLeaveTypes.get(currentLeaveTypePosition).getMaxLeaveDuration() + ONE_HOUR;
+        }
+        return mLeaveTypes.get(currentLeaveTypePosition).isFollowTimeCompany() ? mBranches.get(
+                currentBranchPosition).getShifts().get(0).getMaxLevesEarly()
+                : mLeaveTypes.get(currentLeaveTypePosition).getMaxLeaveDuration();
     }
 }

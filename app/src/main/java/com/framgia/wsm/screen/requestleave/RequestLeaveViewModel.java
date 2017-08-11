@@ -16,12 +16,14 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.Branch;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.LeaveType;
+import com.framgia.wsm.data.model.Shifts;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRequestLeave;
 import com.framgia.wsm.screen.confirmrequestleave.ConfirmRequestLeaveActivity;
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
+import com.framgia.wsm.utils.UserType;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
@@ -34,21 +36,10 @@ import com.fstyle.library.MaterialDialog;
 import java.util.Date;
 import java.util.List;
 
-import static com.framgia.wsm.utils.Constant.TimeConst.EIGHT_HOUR;
-import static com.framgia.wsm.utils.Constant.TimeConst.ELEVEN_HOUR;
-import static com.framgia.wsm.utils.Constant.TimeConst.FIFTEEN_HOUR;
 import static com.framgia.wsm.utils.Constant.TimeConst.FIFTEEN_MINUTES;
-import static com.framgia.wsm.utils.Constant.TimeConst.FORTY_FIVE_MINUTES;
-import static com.framgia.wsm.utils.Constant.TimeConst.FOURTEEN_HOUR;
-import static com.framgia.wsm.utils.Constant.TimeConst.NIGHT_HOUR;
-import static com.framgia.wsm.utils.Constant.TimeConst.SEVEN_HOUR;
-import static com.framgia.wsm.utils.Constant.TimeConst.SIXTEEN_HOUR;
-import static com.framgia.wsm.utils.Constant.TimeConst.TEN_HOUR;
-import static com.framgia.wsm.utils.Constant.TimeConst.THIRTEEN_HOUR;
-import static com.framgia.wsm.utils.Constant.TimeConst.TWELVE_HOUR;
-import static com.framgia.wsm.utils.Constant.TimeConst.TWO_HOUR;
-import static com.framgia.wsm.utils.Constant.TimeConst.ZERO_MINUTES;
-import static com.framgia.wsm.utils.common.DateTimeUtils.convertDateTimeToString;
+import static com.framgia.wsm.utils.Constant.TimeConst.THIRDTY_MINUTES;
+import static com.framgia.wsm.utils.common.DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM;
+import static com.framgia.wsm.utils.common.DateTimeUtils.INPUT_TIME_FORMAT;
 
 /**
  * Exposes the data to be used in the LeaveRequest screen.
@@ -90,6 +81,15 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     private boolean mIsVisibleGroup;
     private List<LeaveType> mLeaveTypes;
     private int mCurrentLeaveTypeId;
+    private Shifts mCurrentShifts;
+    private int mHourOfTimeIn;
+    private int mMinuteOfTimeIn;
+    private int mHourOfTimeOut;
+    private int mMinuteOfTimeOut;
+    private int mHourOfTimeAfternoon;
+    private int mMinuteOfTimeAfternoon;
+    private int mHourOfTimeLunch;
+    private int mMinuteOfTimeLunch;
     @Validation({
             @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
     })
@@ -213,6 +213,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             return;
         }
         mLeaveTypes = mUser.getLeaveTypes();
+        initShifts();
+        setCurrentShifts(mUser.getBranches().get(mCurrentBranchPosition).getShifts().get(0));
     }
 
     @Override
@@ -272,7 +274,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (!view.isShown()) {
             return;
         }
-        String currentDateTime = convertDateTimeToString(mCurrentDate, hourOfDay, minute);
+        String currentDateTime =
+                DateTimeUtils.convertDateTimeToString(mCurrentDate, hourOfDay, minute);
         switch (mCurrentLeaveType) {
             case LeaveTypeId.FORGOT_CARD_IN:
             case LeaveTypeId.FORGOT_TO_CHECK_IN:
@@ -393,6 +396,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                     public boolean onSelection(MaterialDialog materialDialog, View view,
                             int position, CharSequence charSequence) {
                         mCurrentBranchPosition = position;
+                        setCurrentShifts(
+                                mUser.getBranches().get(mCurrentBranchPosition).getShifts().get(0));
+
                         if (mActionType == ActionType.ACTION_CREATE
                                 || mActionType == ActionType.ACTION_CONFIRM_CREATE) {
                             setCurrentBranch();
@@ -553,8 +559,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateCheckinTime(String checkinTime) {
-        String currentTime = DateTimeUtils.convertToString(new Date(),
-                DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+        String currentTime =
+                DateTimeUtils.convertToString(new Date(), DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         switch (mCurrentLeaveType) {
             case LeaveTypeId.FORGOT_CARD_ALL_DAY:
                 validateCheckinForgotCardAllDay(checkinTime, currentTime);
@@ -589,25 +595,26 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateCheckinLeaveOut(String checkinTime) {
-        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, SEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, mHourOfTimeIn, mMinuteOfTimeIn)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_time_can_not_be_sooner_than_time_in_of_company));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, ELEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, mHourOfTimeLunch,
+                mMinuteOfTimeLunch)) {
             setCheckinTime(checkinTime);
             setCheckoutTime("");
             setCompensationFromTime("");
             setCompensationToTime("");
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, TWELVE_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, mHourOfTimeAfternoon,
+                mMinuteOfTimeAfternoon)) {
             validateErrorDialog(
                     mContext.getString(R.string.your_time_can_not_in_lunch_break_time_of_company));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, SIXTEEN_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, mHourOfTimeOut, mMinuteOfTimeOut)) {
             setCheckinTime(checkinTime);
             setCheckoutTime("");
             setCompensationFromTime("");
@@ -619,46 +626,62 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateInLateWomanA(String checkinTime) {
-        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, TWELVE_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, mHourOfTimeAfternoon,
+                mMinuteOfTimeAfternoon)) {
             validateErrorDialog(
                     mContext.getString(R.string.check_in_time_must_be_in_afternoon_shift));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, THIRTEEN_HOUR, FIFTEEN_MINUTES)) {
+        String dateAfternoonAfterAddMinutes =
+                DateTimeUtils.addMinutesToStringDate(mCurrentShifts.getTimeAfternoon(),
+                        THIRDTY_MINUTES);
+        int hour = DateTimeUtils.getHourOfDay(dateAfternoonAfterAddMinutes);
+        int minute = DateTimeUtils.getMinute(dateAfternoonAfterAddMinutes);
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, hour, minute)) {
             validateErrorDialog(mContext.getString(
                     R.string.can_not_be_greater_than_0_5_hours_from_the_work_shift));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, FIFTEEN_HOUR,
-                FIFTEEN_MINUTES)) {
+        float maxDuration =
+                mUser.getMaxDurationComeLate(mCurrentLeaveTypePosition, mCurrentBranchPosition);
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqualWithDuration(checkinTime,
+                mCurrentShifts.getTimeAfternoon(), maxDuration)) {
             setCheckinTime(checkinTime);
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, SIXTEEN_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, mHourOfTimeOut,
+                mMinuteOfTimeOut)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_amount_tim_can_not_greater_than_max_allow_time));
             return;
         }
-        validateErrorDialog(mContext.getString(R.string.time_into_company_illegal));
+        validateErrorDialog(
+                mContext.getString(R.string.your_time_can_not_be_later_than_time_out_company));
     }
 
     private void validateInLateWomanM(String checkinTime) {
-        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, SEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, mHourOfTimeIn, mMinuteOfTimeIn)) {
             validateErrorDialog(mContext.getString(R.string.time_into_company_illegal));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, EIGHT_HOUR, FIFTEEN_MINUTES)) {
+        String timeInAfterAddMinutes =
+                DateTimeUtils.addMinutesToStringDate(mCurrentShifts.getTimeIn(), THIRDTY_MINUTES);
+        int hour = DateTimeUtils.getHourOfDay(timeInAfterAddMinutes);
+        int minute = DateTimeUtils.getMinute(timeInAfterAddMinutes);
+        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, hour, minute)) {
             validateErrorDialog(mContext.getString(
                     R.string.can_not_be_greater_than_0_5_hours_from_the_work_shift));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, TEN_HOUR, FIFTEEN_MINUTES)) {
+        float maxDuration =
+                mUser.getMaxDurationComeLate(mCurrentLeaveTypePosition, mCurrentBranchPosition);
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqualWithDuration(checkinTime,
+                mCurrentShifts.getTimeIn(), maxDuration)) {
             setCheckinTime(checkinTime);
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, ELEVEN_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, mHourOfTimeLunch,
+                mMinuteOfTimeLunch)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_amount_tim_can_not_greater_than_max_allow_time));
             return;
@@ -667,21 +690,23 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateInLateA(String checkinTime) {
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, TWELVE_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, mHourOfTimeAfternoon,
+                mMinuteOfTimeAfternoon)) {
             validateErrorDialog(
                     mContext.getString(R.string.check_in_time_must_be_in_afternoon_shift));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, FOURTEEN_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        float maxDuration =
+                mUser.getMaxDurationComeLate(mCurrentLeaveTypePosition, mCurrentBranchPosition);
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqualWithDuration(checkinTime,
+                mCurrentShifts.getTimeAfternoon(), maxDuration)) {
             setCheckinTime(checkinTime);
-            setCompensationTime(DateTimeUtils.changeTimeOfDateString(checkinTime, SIXTEEN_HOUR,
-                    FORTY_FIVE_MINUTES));
+            setCompensationTime(DateTimeUtils.changeTimeOfDateString(checkinTime, mHourOfTimeOut,
+                    mMinuteOfTimeOut));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, SIXTEEN_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, mHourOfTimeOut,
+                mMinuteOfTimeOut)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_amount_tim_can_not_greater_than_max_allow_time));
             return;
@@ -690,21 +715,23 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateInLateM(String checkinTime) {
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, SEVEN_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, mHourOfTimeIn,
+                mMinuteOfTimeIn)) {
             validateErrorDialog(
                     mContext.getString(R.string.this_is_form_request_late_time_in_is_incorrect));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, NIGHT_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        float maxDuration =
+                mUser.getMaxDurationComeLate(mCurrentLeaveTypePosition, mCurrentBranchPosition);
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqualWithDuration(checkinTime,
+                mCurrentShifts.getTimeIn(), maxDuration)) {
             setCheckinTime(checkinTime);
-            setCompensationTime(DateTimeUtils.changeTimeOfDateString(checkinTime, SIXTEEN_HOUR,
-                    FORTY_FIVE_MINUTES));
+            setCompensationTime(DateTimeUtils.changeTimeOfDateString(checkinTime, mHourOfTimeOut,
+                    mMinuteOfTimeOut));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, ELEVEN_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, mHourOfTimeLunch,
+                mMinuteOfTimeLunch)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_amount_tim_can_not_greater_than_max_allow_time));
             return;
@@ -713,10 +740,10 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateCheckinForgotCheckAllDay(String checkinTime, String currentTime) {
-        if (!DateTimeUtils.convertStringToDate(checkinTime)
-                .after(DateTimeUtils.convertStringToDate(currentTime))
-                && DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, ELEVEN_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        Date checkinTimeDate = DateTimeUtils.convertStringToDate(checkinTime);
+        Date currentTimeDate = DateTimeUtils.convertStringToDate(currentTime);
+        if (!checkinTimeDate.after(currentTimeDate) && DateTimeUtils.checkHourOfDateLessThanOrEqual(
+                checkinTime, mHourOfTimeLunch, mMinuteOfTimeLunch)) {
             setCheckinTime(checkinTime);
             return;
         }
@@ -725,8 +752,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateForgotCheckin(String checkinTime, String currentTime) {
-        if (!DateTimeUtils.convertStringToDate(checkinTime)
-                .after(DateTimeUtils.convertStringToDate(currentTime))) {
+        Date checkinTimeDate = DateTimeUtils.convertStringToDate(checkinTime);
+        Date currentTimeDate = DateTimeUtils.convertStringToDate(currentTime);
+        if (!checkinTimeDate.after(currentTimeDate)) {
             setCheckinTime(checkinTime);
             return;
         }
@@ -734,8 +762,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateForgotCardIn(String checkinTime, String currentTime) {
-        if (DateTimeUtils.convertDateTimeToDate(checkinTime)
-                .equals(DateTimeUtils.convertDateTimeToDate(currentTime))) {
+        String checkinTimeString = DateTimeUtils.convertDateTimeToDate(checkinTime);
+        String currentTimeString = DateTimeUtils.convertDateTimeToDate(currentTime);
+        if (checkinTimeString.equals(currentTimeString)) {
             setCheckinTime(checkinTime);
             return;
         }
@@ -743,13 +772,14 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateCheckinForgotCardAllDay(String checkinTime, String currentTime) {
-        if (!DateTimeUtils.convertDateTimeToDate(checkinTime)
-                .equals(DateTimeUtils.convertDateTimeToDate(currentTime))) {
+        String checkinTimeString = DateTimeUtils.convertDateTimeToDate(checkinTime);
+        String currentTimeString = DateTimeUtils.convertDateTimeToDate(currentTime);
+        if (!checkinTimeString.equals(currentTimeString)) {
             validateErrorDialog(mContext.getString(R.string.form_overdue));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, ELEVEN_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, mHourOfTimeLunch,
+                mMinuteOfTimeLunch)) {
             setCheckinTime(checkinTime);
             return;
         }
@@ -758,8 +788,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateCheckoutTime(String checkoutTime) {
-        String currentTime = DateTimeUtils.convertToString(new Date(),
-                DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+        String currentTime =
+                DateTimeUtils.convertToString(new Date(), DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         switch (mCurrentLeaveType) {
             case LeaveTypeId.FORGOT_CARD_ALL_DAY:
                 validateCheckoutForgotCardAllDay(checkoutTime, currentTime);
@@ -794,33 +824,32 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateCheckoutLeaveOut(String checkoutTime) {
-        if (DateTimeUtils.convertStringToDateTime(checkoutTime)
-                .before(DateTimeUtils.convertStringToDateTime(mCheckinTime))
-                || DateTimeUtils.convertStringToDateTime(checkoutTime)
-                .equals(DateTimeUtils.convertStringToDateTime(mCheckinTime))) {
+        Date checkinTimeDate = DateTimeUtils.convertStringToDateTime(mCheckinTime);
+        Date checkoutTimeDate = DateTimeUtils.convertStringToDateTime(checkoutTime);
+        String checkinTimeString = DateTimeUtils.convertDateTimeToDate(mCheckinTime);
+        String checkoutTimeString = DateTimeUtils.convertDateTimeToDate(checkoutTime);
+        if (checkoutTimeDate.before(checkinTimeDate) || checkoutTimeDate.equals(checkinTimeDate)) {
             validateErrorDialog(mContext.getString(
                     R.string.request_time_to_can_not_greater_than_request_time_from));
             return;
         }
-        if (!DateTimeUtils.convertDateTimeToDate(checkoutTime)
-                .equals(DateTimeUtils.convertDateTimeToDate(mCheckinTime))) {
+        if (!checkoutTimeString.equals(checkinTimeString)) {
             validateErrorDialog(mContext.getString(R.string.time_must_be_is_in_a_day));
             return;
         }
-        if (DateTimeUtils.getHourOfDay(checkoutTime) - DateTimeUtils.getHourOfDay(mCheckinTime)
-                > TWO_HOUR
-                || DateTimeUtils.getHourOfDay(checkoutTime) - DateTimeUtils.getHourOfDay(
-                mCheckinTime) == TWO_HOUR
-                && DateTimeUtils.getMinute(checkoutTime) - DateTimeUtils.getMinute(mCheckinTime)
-                > ZERO_MINUTES) {
+        float maxDuration =
+                mUser.getMaxDurationLeave(mCurrentLeaveTypePosition, mCurrentBranchPosition);
+        if (!DateTimeUtils.checkHourOfDateLessThanOrEqualWithDuration(checkoutTime, mCheckinTime,
+                maxDuration)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_amount_tim_can_not_greater_than_max_allow_time));
+            return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, SIXTEEN_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, mHourOfTimeOut,
+                mMinuteOfTimeOut)) {
             setCheckoutTime(checkoutTime);
-            setCompensationTime(DateTimeUtils.changeTimeOfDateString(checkoutTime, SIXTEEN_HOUR,
-                    FORTY_FIVE_MINUTES));
+            setCompensationTime(DateTimeUtils.changeTimeOfDateString(checkoutTime, mHourOfTimeOut,
+                    mMinuteOfTimeOut));
             return;
         }
         validateErrorDialog(
@@ -831,33 +860,36 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (validateLeaveEarlyABase(checkoutTime)) {
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, FOURTEEN_HOUR,
-                FIFTEEN_MINUTES)) {
+        float maxDuration =
+                mUser.getMaxDurationLeave(mCurrentLeaveTypePosition, mCurrentBranchPosition);
+        if (!DateTimeUtils.checkHourOfDateLessThanOrEqualWithDuration(mCurrentShifts.getTimeOut(),
+                checkoutTime, maxDuration)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_amount_tim_can_not_greater_than_max_allow_time));
             return;
         }
-
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, SIXTEEN_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeOut, mMinuteOfTimeOut)) {
             setCheckoutTime(checkoutTime);
-        } else {
-            validateErrorDialog(
-                    mContext.getString(R.string.your_time_can_not_be_later_than_time_out_company));
+            return;
         }
+        validateErrorDialog(
+                mContext.getString(R.string.your_time_can_not_be_later_than_time_out_company));
     }
 
     private boolean validateLeaveEarlyABase(String checkoutTime) {
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, SEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeIn, mMinuteOfTimeIn)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_time_can_not_be_sooner_than_time_in_of_company));
             return true;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, ELEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeLunch,
+                mMinuteOfTimeLunch)) {
             validateErrorDialog(
                     mContext.getString(R.string.check_out_time_must_be_in_afternoon_shift));
             return true;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, TWELVE_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeAfternoon,
+                mMinuteOfTimeAfternoon)) {
             validateErrorDialog(
                     mContext.getString(R.string.your_time_can_not_in_lunch_break_time_of_company));
             return true;
@@ -869,7 +901,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (validateLeaveEarlyMBaseOne(checkoutTime)) {
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, ELEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeLunch,
+                mMinuteOfTimeLunch)) {
             setCheckoutTime(checkoutTime);
             return;
         }
@@ -877,12 +910,15 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private boolean validateLeaveEarlyMBaseOne(String checkoutTime) {
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, SEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeIn, mMinuteOfTimeIn)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_time_can_not_be_sooner_than_time_in_of_company));
             return true;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, NIGHT_HOUR, FORTY_FIVE_MINUTES)) {
+        float maxDuration =
+                mUser.getMaxDurationLeave(mCurrentLeaveTypePosition, mCurrentBranchPosition);
+        if (!DateTimeUtils.checkHourOfDateLessThanOrEqualWithDuration(mCurrentShifts.getTimeLunch(),
+                checkoutTime, maxDuration)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_amount_tim_can_not_greater_than_max_allow_time));
             return true;
@@ -894,16 +930,18 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (validateLeaveEarlyABase(checkoutTime)) {
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, FOURTEEN_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        float maxDuration =
+                mUser.getMaxDurationLeave(mCurrentLeaveTypePosition, mCurrentBranchPosition);
+        if (!DateTimeUtils.checkHourOfDateLessThanOrEqualWithDuration(mCurrentShifts.getTimeOut(),
+                checkoutTime, maxDuration)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_amount_tim_can_not_greater_than_max_allow_time));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, SIXTEEN_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeOut, mMinuteOfTimeOut)) {
             setCheckoutTime(checkoutTime);
-            setCompensationTime(DateTimeUtils.changeTimeOfDateString(checkoutTime, SIXTEEN_HOUR,
-                    FORTY_FIVE_MINUTES));
+            setCompensationTime(DateTimeUtils.changeTimeOfDateString(checkoutTime, mHourOfTimeOut,
+                    mMinuteOfTimeOut));
             return;
         }
         validateErrorDialog(
@@ -914,24 +952,25 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (validateLeaveEarlyMBaseOne(checkoutTime)) {
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, ELEVEN_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeLunch,
+                mMinuteOfTimeLunch)) {
             setCheckoutTime(checkoutTime);
-            setCompensationTime(DateTimeUtils.changeTimeOfDateString(checkoutTime, SIXTEEN_HOUR,
-                    FORTY_FIVE_MINUTES));
+            setCompensationTime(DateTimeUtils.changeTimeOfDateString(checkoutTime, mHourOfTimeOut,
+                    mMinuteOfTimeOut));
             return;
         }
         validateLeaveEarlyMBaseTwo(checkoutTime);
     }
 
     private void validateLeaveEarlyMBaseTwo(String checkoutTime) {
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, TWELVE_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, mHourOfTimeAfternoon,
+                mMinuteOfTimeAfternoon)) {
             validateErrorDialog(
                     mContext.getString(R.string.your_time_can_not_in_lunch_break_time_of_company));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, SIXTEEN_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, mHourOfTimeOut,
+                mMinuteOfTimeOut)) {
             validateErrorDialog(
                     mContext.getString(R.string.check_out_time_must_be_in_morning_shift));
             return;
@@ -941,10 +980,10 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateCheckoutForgotCheckAllDay(String checkoutTime, String currentTime) {
-        if (!DateTimeUtils.convertStringToDate(checkoutTime)
-                .after(DateTimeUtils.convertStringToDate(currentTime))
-                && !DateTimeUtils.checkHourOfDateLessThan(checkoutTime, TWELVE_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        Date currentTimeDate = DateTimeUtils.convertStringToDate(currentTime);
+        Date checkoutTimeDate = DateTimeUtils.convertStringToDate(checkoutTime);
+        if (!checkoutTimeDate.after(currentTimeDate) && !DateTimeUtils.checkHourOfDateLessThan(
+                checkoutTime, mHourOfTimeAfternoon, mMinuteOfTimeAfternoon)) {
             setCheckoutTime(checkoutTime);
             return;
         }
@@ -953,8 +992,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateForgotCheckout(String checkoutTime, String currentTime) {
-        if (!DateTimeUtils.convertStringToDate(checkoutTime)
-                .after(DateTimeUtils.convertStringToDate(currentTime))) {
+        Date currentTimeDate = DateTimeUtils.convertStringToDate(currentTime);
+        Date checkoutTimeDate = DateTimeUtils.convertStringToDate(checkoutTime);
+        if (!checkoutTimeDate.after(currentTimeDate)) {
             setCheckoutTime(checkoutTime);
             return;
         }
@@ -962,8 +1002,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateForgotCardOut(String checkoutTime, String currentTime) {
-        if (DateTimeUtils.convertDateTimeToDate(checkoutTime)
-                .equals(DateTimeUtils.convertDateTimeToDate(currentTime))) {
+        String currentTimeString = DateTimeUtils.convertDateTimeToDate(currentTime);
+        String checkoutTimeString = DateTimeUtils.convertDateTimeToDate(checkoutTime);
+        if (checkoutTimeString.equals(currentTimeString)) {
             setCheckoutTime(checkoutTime);
             return;
         }
@@ -971,12 +1012,14 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateCheckoutForgotCardAllDay(String checkoutTime, String currentTime) {
-        if (!DateTimeUtils.convertDateTimeToDate(mCheckinTime)
-                .equals(DateTimeUtils.convertDateTimeToDate(checkoutTime))) {
+        String checkoutTimeString = DateTimeUtils.convertDateTimeToDate(checkoutTime);
+        String checkinTimeString = DateTimeUtils.convertDateTimeToDate(mCheckinTime);
+        if (!checkinTimeString.equals(checkoutTimeString)) {
             validateErrorDialog(mContext.getString(R.string.time_must_be_is_in_a_day));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, TWELVE_HOUR, FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeAfternoon,
+                mMinuteOfTimeAfternoon)) {
             validateErrorDialog(
                     mContext.getString(R.string.the_working_time_dose_not_fit_to_the_request));
             return;
@@ -999,35 +1042,36 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateCompensationTime(String compensationFromTime) {
+        Date compensationFromTimeDate = DateTimeUtils.convertStringToDate(compensationFromTime);
+        Date checkinTimeDate = DateTimeUtils.convertStringToDate(mCheckinTime);
+        Date checkoutTimeDate = DateTimeUtils.convertStringToDate(mCheckoutTime);
         if (StringUtils.isNotBlank(mCheckinTime)) {
-            if (DateTimeUtils.convertStringToDate(compensationFromTime)
-                    .before(DateTimeUtils.convertStringToDate(getCheckinTime()))) {
+            if (compensationFromTimeDate.before(checkinTimeDate)) {
                 validateErrorDialog(
                         mContext.getString(R.string.compensation_time_is_not_in_the_past));
                 return;
             }
         } else {
-            if (DateTimeUtils.convertStringToDate(compensationFromTime)
-                    .before(DateTimeUtils.convertStringToDate(getCheckoutTime()))) {
+            if (compensationFromTimeDate.before(checkoutTimeDate)) {
                 validateErrorDialog(
                         mContext.getString(R.string.compensation_time_is_not_in_the_past));
                 return;
             }
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(compensationFromTime, ELEVEN_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(compensationFromTime, mHourOfTimeLunch,
+                mMinuteOfTimeLunch)) {
             validateErrorDialog(
                     mContext.getString(R.string.your_compensation_time_can_not_in_working_time));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(compensationFromTime, TWELVE_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(compensationFromTime, mHourOfTimeAfternoon,
+                mMinuteOfTimeAfternoon)) {
             validateErrorDialog(
                     mContext.getString(R.string.your_time_can_not_in_lunch_break_time_of_company));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(compensationFromTime, SIXTEEN_HOUR,
-                FORTY_FIVE_MINUTES)) {
+        if (DateTimeUtils.checkHourOfDateLessThan(compensationFromTime, mHourOfTimeOut,
+                mMinuteOfTimeOut)) {
             validateErrorDialog(
                     mContext.getString(R.string.your_compensation_time_can_not_in_working_time));
             return;
@@ -1038,39 +1082,55 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     private void setCompensationTime(String compensationFromTime) {
         setCompensationFromTime(compensationFromTime);
         String workingTime;
+        int minutesBetweenTwoDate;
         switch (mCurrentLeaveType) {
             case LeaveTypeId.IN_LATE_M:
-                workingTime = DateTimeUtils.changeTimeOfDateString(getCheckinTime(), SEVEN_HOUR,
-                        FORTY_FIVE_MINUTES);
-                setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                workingTime = DateTimeUtils.changeTimeOfDateString(getCheckinTime(), mHourOfTimeIn,
+                        mMinuteOfTimeIn);
+                minutesBetweenTwoDate =
                         DateTimeUtils.getMinutesBetweenTwoDate(getCheckinTime(), workingTime,
-                                mCurrentLeaveTypeId, mLeaveTypes)));
+                                mCurrentLeaveTypeId, mLeaveTypes);
+                setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                        minutesBetweenTwoDate));
                 break;
             case LeaveTypeId.IN_LATE_A:
-                workingTime = DateTimeUtils.changeTimeOfDateString(getCheckinTime(), TWELVE_HOUR,
-                        FORTY_FIVE_MINUTES);
-                setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                workingTime =
+                        DateTimeUtils.changeTimeOfDateString(getCheckinTime(), mHourOfTimeAfternoon,
+                                mMinuteOfTimeAfternoon);
+                minutesBetweenTwoDate =
                         DateTimeUtils.getMinutesBetweenTwoDate(getCheckinTime(), workingTime,
-                                mCurrentLeaveTypeId, mLeaveTypes)));
+                                mCurrentLeaveTypeId, mLeaveTypes);
+                DateTimeUtils.getMinutesBetweenTwoDate(getCheckinTime(), workingTime,
+                        mCurrentLeaveTypeId, mLeaveTypes);
+                setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                        minutesBetweenTwoDate));
                 break;
             case LeaveTypeId.LEAVE_EARLY_M:
-                workingTime = DateTimeUtils.changeTimeOfDateString(getCheckoutTime(), ELEVEN_HOUR,
-                        FORTY_FIVE_MINUTES);
-                setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                workingTime =
+                        DateTimeUtils.changeTimeOfDateString(getCheckoutTime(), mHourOfTimeLunch,
+                                mMinuteOfTimeLunch);
+                minutesBetweenTwoDate =
                         DateTimeUtils.getMinutesBetweenTwoDate(workingTime, getCheckoutTime(),
-                                mCurrentLeaveTypeId, mLeaveTypes)));
+                                mCurrentLeaveTypeId, mLeaveTypes);
+                setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                        minutesBetweenTwoDate));
                 break;
             case LeaveTypeId.LEAVE_EARLY_A:
-                workingTime = DateTimeUtils.changeTimeOfDateString(getCheckoutTime(), SIXTEEN_HOUR,
-                        FORTY_FIVE_MINUTES);
-                setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                workingTime =
+                        DateTimeUtils.changeTimeOfDateString(getCheckoutTime(), mHourOfTimeOut,
+                                mMinuteOfTimeOut);
+                minutesBetweenTwoDate =
                         DateTimeUtils.getMinutesBetweenTwoDate(workingTime, getCheckoutTime(),
-                                mCurrentLeaveTypeId, mLeaveTypes)));
+                                mCurrentLeaveTypeId, mLeaveTypes);
+                setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                        minutesBetweenTwoDate));
                 break;
             case LeaveTypeId.LEAVE_OUT:
-                setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                minutesBetweenTwoDate =
                         DateTimeUtils.getMinutesBetweenTwoDate(getCheckoutTime(), getCheckinTime(),
-                                mCurrentLeaveTypeId, mLeaveTypes)));
+                                mCurrentLeaveTypeId, mLeaveTypes);
+                setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
+                        minutesBetweenTwoDate));
                 break;
             default:
                 break;
@@ -1106,7 +1166,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 Constant.RequestCode.REQUEST_LEAVE);
     }
 
-    public void clearTime() {
+    private void clearTime() {
         setCheckinTime(null);
         setCheckoutTime(null);
         setCompensationFromTime(null);
@@ -1148,7 +1208,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         notifyPropertyChanged(BR.currentLeaveType);
     }
 
-    public void setCurrentBranch() {
+    private void setCurrentBranch() {
         if (mActionType == ActionType.ACTION_CREATE
                 || mActionType == ActionType.ACTION_CONFIRM_CREATE) {
             mCurrentBranch = mUser.getBranches().get(mCurrentBranchPosition).getBranchName();
@@ -1163,7 +1223,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         notifyPropertyChanged(BR.currentBranch);
     }
 
-    public void setCurrentGroup() {
+    private void setCurrentGroup() {
         mCurrentGroup = mUser.getGroups().get(mCurrentGroupPosition).getFullName();
         mRequest.setGroupId(mUser.getGroups().get(mCurrentGroupPosition).getGroupId());
         mRequest.setCompanyName(mCurrentGroup);
@@ -1175,7 +1235,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         return mIsVisibleGroup;
     }
 
-    public void setVisibleGroup(boolean visibleGroup) {
+    private void setVisibleGroup(boolean visibleGroup) {
         mIsVisibleGroup = visibleGroup;
         notifyPropertyChanged(BR.visibleGroup);
     }
@@ -1302,8 +1362,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (mActionType == ActionType.ACTION_EDIT) {
             mActionType = ActionType.ACTION_CONFIRM_EDIT;
             return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckInTime(),
-                    DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+                    INPUT_TIME_FORMAT, DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         }
         return mRequest.getCheckInTime();
     }
@@ -1317,12 +1376,10 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     @Bindable
     public String getCheckoutTime() {
-        if (DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM)
-                != null) {
+        if (DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(), INPUT_TIME_FORMAT,
+                DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM) != null) {
             return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
-                    DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+                    INPUT_TIME_FORMAT, DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         }
 
         return mRequest.getCheckOutTime();
@@ -1342,8 +1399,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 return mRequest.getCompensationRequest().getFromTime();
             } else {
                 return DateTimeUtils.convertUiFormatToDataFormat(
-                        mRequest.getCompensation().getFromTime(), DateTimeUtils.INPUT_TIME_FORMAT,
-                        DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+                        mRequest.getCompensation().getFromTime(), INPUT_TIME_FORMAT,
+                        DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
             }
         }
         if (mActionType == ActionType.ACTION_DETAIL) {
@@ -1362,11 +1419,10 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     public String getCompensationToTime() {
         if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
             if (DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCompensation().getToTime(),
-                    DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM) != null) {
+                    INPUT_TIME_FORMAT, DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM) != null) {
                 return DateTimeUtils.convertUiFormatToDataFormat(
-                        mRequest.getCompensation().getToTime(), DateTimeUtils.INPUT_TIME_FORMAT,
-                        DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+                        mRequest.getCompensation().getToTime(), INPUT_TIME_FORMAT,
+                        DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
             } else {
                 return mRequest.getCompensation().getToTime();
             }
@@ -1384,6 +1440,43 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             mRequest.getCompensation().setToTime(compensationToTime);
         }
         notifyPropertyChanged(BR.compensationToTime);
+    }
+
+    private void initShifts() {
+        if (mUser.getBranches() == null) {
+            return;
+        }
+        for (Branch branch : mUser.getBranches()) {
+            Shifts shifts = branch.getShifts().get(0);
+            shifts.setTimeIn(
+                    DateTimeUtils.convertUiFormatToDataFormat(shifts.getTimeIn(), INPUT_TIME_FORMAT,
+                            DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
+            shifts.setTimeOut(DateTimeUtils.convertUiFormatToDataFormat(shifts.getTimeOut(),
+                    INPUT_TIME_FORMAT, DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
+            shifts.setTimeLunch(DateTimeUtils.convertUiFormatToDataFormat(shifts.getTimeLunch(),
+                    INPUT_TIME_FORMAT, DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
+            shifts.setTimeAfternoon(
+                    DateTimeUtils.convertUiFormatToDataFormat(shifts.getTimeAfternoon(),
+                            INPUT_TIME_FORMAT, DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
+            if (mUser.getSpecial() == UserType.CHILDREN) {
+                shifts.setTimeIn(
+                        DateTimeUtils.addMinutesToStringDate(shifts.getTimeIn(), FIFTEEN_MINUTES));
+                shifts.setTimeOut(
+                        DateTimeUtils.addMinutesToStringDate(shifts.getTimeOut(), FIFTEEN_MINUTES));
+            }
+        }
+    }
+
+    private void setCurrentShifts(Shifts shifts) {
+        mCurrentShifts = shifts;
+        mHourOfTimeIn = DateTimeUtils.getHourOfDay(mCurrentShifts.getTimeIn());
+        mMinuteOfTimeIn = DateTimeUtils.getMinute(mCurrentShifts.getTimeIn());
+        mHourOfTimeOut = DateTimeUtils.getHourOfDay(mCurrentShifts.getTimeOut());
+        mMinuteOfTimeOut = DateTimeUtils.getMinute(mCurrentShifts.getTimeOut());
+        mHourOfTimeAfternoon = DateTimeUtils.getHourOfDay(mCurrentShifts.getTimeAfternoon());
+        mMinuteOfTimeAfternoon = DateTimeUtils.getMinute(mCurrentShifts.getTimeAfternoon());
+        mHourOfTimeLunch = DateTimeUtils.getHourOfDay(mCurrentShifts.getTimeLunch());
+        mMinuteOfTimeLunch = DateTimeUtils.getMinute(mCurrentShifts.getTimeLunch());
     }
 
     @Bindable
