@@ -28,6 +28,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by le.quang.dao on 14/03/2017.
@@ -278,6 +279,7 @@ public class DialogManagerImpl implements DialogManager {
                     new DatePickerDialog(mContext, AlertDialog.THEME_HOLO_LIGHT, onDateSetListener,
                             year, month, -1);
         }
+        mDatePickerYearDialog.getDatePicker().setMaxDate(new Date().getTime());
         try {
             Field[] fields = mDatePickerYearDialog.getClass().getDeclaredFields();
             for (Field field : fields) {
