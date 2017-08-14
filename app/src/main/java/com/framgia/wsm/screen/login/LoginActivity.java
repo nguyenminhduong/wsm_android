@@ -19,7 +19,6 @@ import javax.inject.Inject;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TOKEN_RESET_PASSWORD = "reset_password_token";
-    private static final String EMAIL_RESET_PASSWORD = "email";
 
     @Inject
     LoginContract.ViewModel mViewModel;
@@ -64,13 +63,10 @@ public class LoginActivity extends AppCompatActivity {
     private void getTokenResetPassword(Intent intent) {
         Uri urlResetPassword = intent.getData();
         String tokenResetPassword;
-        String emailResetPassword;
         if (urlResetPassword != null) {
-            tokenResetPassword = urlResetPassword.getQueryParameter(EMAIL_RESET_PASSWORD);
-            emailResetPassword = urlResetPassword.getQueryParameter(TOKEN_RESET_PASSWORD);
+            tokenResetPassword = urlResetPassword.getQueryParameter(TOKEN_RESET_PASSWORD);
             Bundle bundle = new Bundle();
             bundle.putString(Constant.EXTRA_TOKEN_RESET_PASSWORD, tokenResetPassword);
-            bundle.putString(Constant.EXTRA_EMAIL_RESET_PASSWORD, emailResetPassword);
             mNavigator.startActivity(CreateNewPasswordActivity.class, bundle);
             mNavigator.finishActivity();
         }

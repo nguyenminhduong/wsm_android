@@ -53,10 +53,10 @@ final class CreateNewPasswordPresenter implements CreateNewPasswordContract.Pres
     }
 
     @Override
-    public void resetPassword(String tokenResetPassword, String email, String newPassword,
+    public void resetPassword(String tokenResetPassword, String newPassword,
             String confirmPassword) {
         ResetPasswordRequest resetPasswordRequest =
-                new ResetPasswordRequest(tokenResetPassword, email, newPassword, confirmPassword);
+                new ResetPasswordRequest(tokenResetPassword, newPassword, confirmPassword);
         Disposable disposable = mRequestRepository.resetPassword(resetPasswordRequest)
                 .subscribeOn(mBaseSchedulerProvider.io())
                 .observeOn(mBaseSchedulerProvider.ui())

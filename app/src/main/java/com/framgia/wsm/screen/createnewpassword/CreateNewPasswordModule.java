@@ -35,10 +35,8 @@ public class CreateNewPasswordModule {
             DialogManager dialogManager) {
         String tokenResetPassword =
                 mActivity.getIntent().getExtras().getString(Constant.EXTRA_TOKEN_RESET_PASSWORD);
-        String emailResetPassword =
-                mActivity.getIntent().getExtras().getString(Constant.EXTRA_EMAIL_RESET_PASSWORD);
         return new CreateNewPasswordViewModel(presenter, navigator, dialogManager,
-                tokenResetPassword, emailResetPassword);
+                tokenResetPassword);
     }
 
     @ActivityScope

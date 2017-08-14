@@ -23,7 +23,6 @@ public class CreateNewPasswordViewModel extends BaseObservable
     private final Navigator mNavigator;
     private final DialogManager mDialogManager;
     private final String mTokenResetPassword;
-    private final String mEmailResetPassword;
     private String mNewPasswordError;
     private String mConfirmPasswordError;
 
@@ -38,13 +37,11 @@ public class CreateNewPasswordViewModel extends BaseObservable
     private String mConfirmPassword;
 
     public CreateNewPasswordViewModel(CreateNewPasswordContract.Presenter presenter,
-            Navigator navigator, DialogManager dialogManager, String tokenResetPassword,
-            String emailResetPassword) {
+            Navigator navigator, DialogManager dialogManager, String tokenResetPassword) {
         mPresenter = presenter;
         mNavigator = navigator;
         mDialogManager = dialogManager;
         mTokenResetPassword = tokenResetPassword;
-        mEmailResetPassword = emailResetPassword;
         mPresenter.setViewModel(this);
     }
 
@@ -143,7 +140,6 @@ public class CreateNewPasswordViewModel extends BaseObservable
             return;
         }
         mDialogManager.showIndeterminateProgressDialog();
-        mPresenter.resetPassword(mTokenResetPassword, mEmailResetPassword, mNewPassword,
-                mConfirmPassword);
+        mPresenter.resetPassword(mTokenResetPassword, mNewPassword, mConfirmPassword);
     }
 }

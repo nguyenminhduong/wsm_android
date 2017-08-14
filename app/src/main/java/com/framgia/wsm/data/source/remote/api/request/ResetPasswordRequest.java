@@ -12,9 +12,9 @@ public class ResetPasswordRequest extends BaseRequest {
     @SerializedName("user")
     private ResetPassword mResetPassword;
 
-    public ResetPasswordRequest(String resetPasswordToken, String email, String password,
+    public ResetPasswordRequest(String resetPasswordToken, String password,
             String confirmPassowrd) {
-        mResetPassword = new ResetPassword(resetPasswordToken, email, password, confirmPassowrd);
+        mResetPassword = new ResetPassword(resetPasswordToken, password, confirmPassowrd);
     }
 
     public ResetPassword getResetPassword() {
@@ -33,19 +33,14 @@ public class ResetPasswordRequest extends BaseRequest {
         @SerializedName("reset_password_token")
         private String mResetPasswordToken;
         @Expose
-        @SerializedName("email")
-        private String mEmail;
-        @Expose
         @SerializedName("password")
         private String mPassword;
         @Expose
         @SerializedName("password_confirmation")
         private String mComfirmPassword;
 
-        ResetPassword(String resetPasswordToken, String email, String password,
-                String comfirmPassword) {
+        ResetPassword(String resetPasswordToken, String password, String comfirmPassword) {
             mResetPasswordToken = resetPasswordToken;
-            mEmail = email;
             mPassword = password;
             mComfirmPassword = comfirmPassword;
         }
@@ -56,14 +51,6 @@ public class ResetPasswordRequest extends BaseRequest {
 
         public void setResetPasswordToken(String resetPasswordToken) {
             mResetPasswordToken = resetPasswordToken;
-        }
-
-        public String getEmail() {
-            return mEmail;
-        }
-
-        public void setEmail(String email) {
-            mEmail = email;
         }
 
         public String getPassword() {
