@@ -330,14 +330,11 @@ public class StatisticsViewModel extends BaseObservable
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         mYear = year;
         updateYear(mYear);
+        setClickChart(false);
+        mPresenter.getStatistics(mYear);
     }
 
     private void updateYear(int year) {
         setYear(String.valueOf(year));
-    }
-
-    public void onSearchRequest(View view) {
-        setClickChart(false);
-        mPresenter.getStatistics(Integer.parseInt(mYearSelected));
     }
 }
