@@ -37,12 +37,16 @@ public class DialogManagerImpl implements DialogManager {
     private static final String DATE_PICKER = "mDatePicker";
     private static final String DELEGATE = "mDelegate";
     private static final String DAY_FIELD = "day";
+    private static final String MONTH_FIELD = "month";
     private static final String ID = "id";
     private static final String ANDROID = "android";
+    private static final int MONTH_YEAR = 1;
+    private static final int YEAR = 0;
     private Context mContext;
     private MaterialDialog mProgressDialog;
     private DatePickerDialog mDatePickerDialog;
     private DatePickerDialog mDatePickerMonthYearDialog;
+    private DatePickerDialog mDatePickerYearDialog;
     private TimePickerDialog mTimePickerDialog;
     private DatePicker mDatePicker;
     private Calendar mCalendar;
@@ -230,7 +234,7 @@ public class DialogManagerImpl implements DialogManager {
             try {
                 mDatePickerMonthYearDialog =
                         new FixedHoloDatePickerDialog(contextThemeWrapper, onDateSetListener, year,
-                                month, -1);
+                                month, -1, MONTH_YEAR);
             } catch (ClassNotFoundException | IllegalAccessException | NoSuchMethodException |
                     InvocationTargetException | InstantiationException e) {
                 e.printStackTrace();
@@ -246,7 +250,41 @@ public class DialogManagerImpl implements DialogManager {
                 if (field.getName().equals(DATE_PICKER)) {
                     field.setAccessible(true);
                     mDatePicker = (DatePicker) field.get(mDatePickerMonthYearDialog);
-                    customDatePicker(mDatePicker);
+                    customDatePicker(mDatePicker, 1);
+                }
+            }
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, "IllegalAccessException: ", e);
+        }
+        return this;
+    }
+
+    @Override
+    public DialogManager dialogYearPicker(DatePickerDialog.OnDateSetListener onDateSetListener,
+            int year, int month) {
+        if (Build.VERSION.SDK_INT == 24) {
+            final Context contextThemeWrapper =
+                    new ContextThemeWrapper(mContext, android.R.style.Theme_Holo_Light_Dialog);
+            try {
+                mDatePickerYearDialog =
+                        new FixedHoloDatePickerDialog(contextThemeWrapper, onDateSetListener, year,
+                                month, -1, YEAR);
+            } catch (ClassNotFoundException | IllegalAccessException | NoSuchMethodException |
+                    InvocationTargetException | InstantiationException e) {
+                Log.e(TAG, "", e);
+            }
+        } else {
+            mDatePickerYearDialog =
+                    new DatePickerDialog(mContext, AlertDialog.THEME_HOLO_LIGHT, onDateSetListener,
+                            year, month, -1);
+        }
+        try {
+            Field[] fields = mDatePickerYearDialog.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                if (field.getName().equals(DATE_PICKER)) {
+                    field.setAccessible(true);
+                    mDatePicker = (DatePicker) field.get(mDatePickerYearDialog);
+                    customDatePicker(mDatePicker, 0);
                 }
             }
         } catch (IllegalAccessException e) {
@@ -260,6 +298,14 @@ public class DialogManagerImpl implements DialogManager {
             return;
         }
         mDatePickerMonthYearDialog.show();
+    }
+
+    @Override
+    public void showYearPickerDialog() {
+        if (mDatePickerYearDialog == null) {
+            return;
+        }
+        mDatePickerYearDialog.show();
     }
 
     @Override
@@ -328,7 +374,7 @@ public class DialogManagerImpl implements DialogManager {
 
     private final class FixedHoloDatePickerDialog extends DatePickerDialog {
         private FixedHoloDatePickerDialog(Context context, OnDateSetListener callBack, int year,
-                int monthOfYear, int dayOfMonth)
+                int monthOfYear, int dayOfMonth, int type)
                 throws ClassNotFoundException, IllegalAccessException, NoSuchMethodException,
                 InvocationTargetException, InstantiationException {
             super(context, callBack, year, monthOfYear, dayOfMonth);
@@ -360,7 +406,7 @@ public class DialogManagerImpl implements DialogManager {
                                 android.R.attr.datePickerStyle, 0);
                 delegateField.set(mDatePicker, spinnerDelegate);
                 mDatePicker.init(year, monthOfYear, dayOfMonth, this);
-                customDatePicker(mDatePicker);
+                customDatePicker(mDatePicker, type);
                 mDatePicker.setCalendarViewShown(false);
                 mDatePicker.setSpinnersShown(true);
             }
@@ -383,12 +429,24 @@ public class DialogManagerImpl implements DialogManager {
         }
     }
 
-    private void customDatePicker(DatePicker datePicker) {
+    private void customDatePicker(DatePicker datePicker, int year) {
         int daySpinnerId = Resources.getSystem().getIdentifier(DAY_FIELD, ID, ANDROID);
-        if (daySpinnerId != 0) {
-            View daySpinner = datePicker.findViewById(daySpinnerId);
-            if (daySpinner != null) {
-                daySpinner.setVisibility(View.GONE);
+        int monthSpinnerId = Resources.getSystem().getIdentifier(MONTH_FIELD, ID, ANDROID);
+        if (year == MONTH_YEAR) {
+            if (daySpinnerId != 0) {
+                View daySpinner = datePicker.findViewById(daySpinnerId);
+                if (daySpinner != null) {
+                    daySpinner.setVisibility(View.GONE);
+                }
+            }
+        } else {
+            if (daySpinnerId != 0 && monthSpinnerId != 0) {
+                View daySpinner = datePicker.findViewById(daySpinnerId);
+                View monthSpinner = datePicker.findViewById(monthSpinnerId);
+                if (daySpinner != null && monthSpinner != null) {
+                    daySpinner.setVisibility(View.GONE);
+                    monthSpinner.setVisibility(View.GONE);
+                }
             }
         }
     }

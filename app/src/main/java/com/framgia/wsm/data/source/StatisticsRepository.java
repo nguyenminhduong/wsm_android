@@ -16,7 +16,7 @@ public class StatisticsRepository {
         mRemoteDataSource = remoteDataSource;
     }
 
-    public Single<BaseResponse<StatisticsResponse>> getStatistic() {
-        return mRemoteDataSource.getStatistics();
+    public Single<BaseResponse<StatisticsResponse>> getStatistic(int year) {
+        return mRemoteDataSource.getStatistics(year);
     }
 }

@@ -326,5 +326,18 @@
     <string name="please_enter_your_new_password">Vui lòng nhập mật khẩu mới của bạn !</string>
     <string name="reset_password_success">Đặt lại mật khẩu thành công!</string>
     <string name="can_not_edit_request_type">Không thể thay đổi hình thức xin phép</string>
+    <string name="january">Tháng 1</string>
+    <string name="february">Tháng 2</string>
+    <string name="march">Tháng 3</string>
+    <string name="april">Tháng 4</string>
+    <string name="may_month">Tháng 5</string>
+    <string name="june">Tháng 6</string>
+    <string name="july">Tháng 7</string>
+    <string name="august">Tháng 8</string>
+    <string name="september">Tháng 9</string>
+    <string name="october">Tháng 10</string>
+    <string name="november">Tháng 11</string>
+    <string name="december">Tháng 12</string>
+    <string name="current_month">Tháng hiện tại</string>
 
 </resources>

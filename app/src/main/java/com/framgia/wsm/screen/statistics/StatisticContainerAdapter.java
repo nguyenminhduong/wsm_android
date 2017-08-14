@@ -53,7 +53,7 @@ public class StatisticContainerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case StatisticResultTab.TAB_MONTH:
-                return mContext.getString(R.string.month);
+                return mContext.getString(R.string.current_month);
             case StatisticResultTab.TAB_YEAR:
                 return mContext.getString(R.string.year);
             default:

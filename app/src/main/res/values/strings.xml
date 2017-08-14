@@ -339,5 +339,18 @@
     <string name="please_enter_your_new_password">Please enter your new password!</string>
     <string name="reset_password_success">Reset Password Success!</string>
     <string name="can_not_edit_request_type">Can not edit request type</string>
+    <string name="january">January</string>
+    <string name="february">February</string>
+    <string name="march">March</string>
+    <string name="april">April</string>
+    <string name="may_month">May</string>
+    <string name="june">June</string>
+    <string name="july">July</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="october">October</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
+    <string name="current_month">Current Month</string>
 
 </resources>

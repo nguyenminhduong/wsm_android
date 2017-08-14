@@ -20,7 +20,7 @@ public class StatisticsRemoteDataSource extends BaseRemoteDataSource
     }
 
     @Override
-    public Single<BaseResponse<StatisticsResponse>> getStatistics() {
-        return mWSMApi.getStatistics();
+    public Single<BaseResponse<StatisticsResponse>> getStatistics(int year) {
+        return mWSMApi.getStatistics(year);
     }
 }
