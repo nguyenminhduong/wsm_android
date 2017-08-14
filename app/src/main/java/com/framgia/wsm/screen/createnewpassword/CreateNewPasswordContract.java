@@ -25,8 +25,7 @@ interface CreateNewPasswordContract {
      * Presenter.
      */
     interface Presenter extends BasePresenter<ViewModel> {
-        void resetPassword(String tokenResetPassword, String email, String newPassword,
-                String confirmPassword);
+        void resetPassword(String tokenResetPassword, String newPassword, String confirmPassword);
 
         boolean validateDataInput(String newPassword, String confirmPassword);
 
