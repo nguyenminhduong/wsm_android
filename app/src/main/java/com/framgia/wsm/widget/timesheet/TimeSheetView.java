@@ -22,8 +22,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static com.framgia.wsm.utils.Constant.TimeConst.DAY_25_OF_MONTH;
-
 /**
  * TimeSheetView
  */
@@ -45,8 +43,8 @@ public class TimeSheetView extends View {
     private int mMonthLabelTextSize;
     private int mDayLabelTextSizeSmall;
     private int mNumRows;
-
-    private int mPadding = 0;
+    private int mCutOffDate;
+    private int mFirstDateOfMonth;
 
     private Paint mMonthDayLabelPaint;
     private Paint mMonthNumPaint;
@@ -71,7 +69,6 @@ public class TimeSheetView extends View {
     private StringBuilder mStringBuilder;
 
     private boolean mHasToday = false;
-    private boolean mIsPrev = false;
     private int mToday = -1;
     private int mWeekStart = 1;
     private int mNumDays = 7;
@@ -167,11 +164,11 @@ public class TimeSheetView extends View {
 
     private void drawMonthDayLabels(Canvas canvas) {
         int y = mMonthHeaderSize - (mMonthDayLabelTextSize / 2);
-        int dayWidthHalf = (mWidth - mPadding * 2) / (mNumDays * 2);
+        int dayWidthHalf = (mWidth) / (mNumDays * 2);
 
         for (int i = 0; i < mNumDays; i++) {
             int calendarDay = (i + mWeekStart) % mNumDays;
-            int x = (2 * i + 1) * dayWidthHalf + mPadding;
+            int x = (2 * i + 1) * dayWidthHalf;
             mDayLabelCalendar.set(Calendar.DAY_OF_WEEK, calendarDay);
             mMonthDayLabelPaint.setColor(mDayTextColor);
 
@@ -183,7 +180,7 @@ public class TimeSheetView extends View {
     }
 
     private void drawMonthTitle(Canvas canvas) {
-        int x = (mWidth + 2 * mPadding) / 2;
+        int x = (mWidth + 2) / 2;
         int y = (mMonthHeaderSize - mMonthDayLabelTextSize) / 2 + (mMonthLabelTextSize / 3);
         canvas.drawText(getMonthAndYearString(), x, y, mMonthTitlePaint);
     }
@@ -196,11 +193,19 @@ public class TimeSheetView extends View {
     private String getMonthAndYearString() {
         mStringBuilder.setLength(0);
         Date date = mCalendar.getTime();
+        if (mFirstDateOfMonth == 1) {
+            date.setMonth(date.getMonth() - 1);
+        }
         return DateTimeUtils.convertToString(date, DateTimeUtils.DATE_FORMAT_YYYY_MM_JAPANESE);
     }
 
     private boolean sameDay(int monthDay, Time time) {
-        return (mYear == time.year) && (mMonth == (time.monthDay > DAY_25_OF_MONTH ? time.month + 1
+        if (mFirstDateOfMonth == 1) {
+            return (mYear == time.year) && (mMonth
+                    == (time.monthDay > mCutOffDate ? time.month + 1 : time.month) + 1) && (monthDay
+                    == time.monthDay);
+        }
+        return (mYear == time.year) && (mMonth == (time.monthDay > mCutOffDate ? time.month + 1
                 : time.month)) && (monthDay == time.monthDay);
     }
 
@@ -211,9 +216,9 @@ public class TimeSheetView extends View {
 
     protected void drawMonthNums(Canvas canvas) {
         int y = (mRowHeight + mMiniDayNumberTextSize) / 2 - mDaySeparatorWidth + mMonthHeaderSize;
-        int paddingDay = (mWidth - 2 * mPadding) / (2 * mNumDays);
+        int paddingDay = (mWidth - 2) / (2 * mNumDays);
         int dayOffset = findDayOffset();
-        int day = 26;
+        int day = mFirstDateOfMonth;
 
         int dayCheck;
         int month = mMonth;
@@ -221,7 +226,7 @@ public class TimeSheetView extends View {
         boolean isWeekend = false;
 
         while (day <= mNumCells) {
-            int x = paddingDay * (1 + dayOffset * 2) + mPadding;
+            int x = paddingDay * (1 + dayOffset * 2);
 
             int range;
             if (mMonth == 0) {
@@ -391,26 +396,30 @@ public class TimeSheetView extends View {
     }
 
     public Date getDayFromLocation(float x, float y) {
-        int padding = mPadding;
-        if ((x < padding) || (x > mWidth - mPadding)) {
+        if ((x < 0) || (x > mWidth)) {
             return null;
         }
 
         int yDay = (int) (y - mMonthHeaderSize) / mRowHeight;
-        int day = 1 + ((int) ((x - padding) * mNumDays / (mWidth - padding - mPadding))
-                - findDayOffset()) + yDay * mNumDays;
+        int day = 1 + ((int) ((x) * mNumDays / (mWidth)) - findDayOffset()) + yDay * mNumDays;
         int month = mMonth;
+        if (mFirstDateOfMonth == 1) {
+            month = month - 1;
+        }
         int year = mYear;
 
         int range;
-        if (mMonth == 0) {
+        if (month == 0) {
             range = DateTimeUtils.getDaysInMonth(CALENDAR_DECEMBER, mYear - 1);
         } else {
-            range = DateTimeUtils.getDaysInMonth(mMonth - 1, mYear);
+            range = DateTimeUtils.getDaysInMonth(month - 1, mYear);
         }
-        int delta = range - 25;
+        int delta = range - mCutOffDate;
+        if (delta < 0) {
+            delta = 0;
+        }
         if (day <= delta) {
-            day = day + 25;
+            day = day + mCutOffDate;
         } else {
             day = day - delta;
             month = month + 1;
@@ -420,6 +429,9 @@ public class TimeSheetView extends View {
             }
         }
 
+        if (mFirstDateOfMonth == 1 && day > DateTimeUtils.getDaysInMonth(month - 1, year)) {
+            return null;
+        }
         return new Date(year - 1900, month - 1, day);
     }
 
@@ -538,8 +550,12 @@ public class TimeSheetView extends View {
 
     private int calculateNumRows() {
         int offset = findDayOffset();
-        int dividend = (offset + mNumCells - 25) / mNumDays;
-        int remainder = (offset + mNumCells - 25) % mNumDays;
+        int dividend = (offset + mNumCells - mCutOffDate) / mNumDays;
+        int remainder = (offset + mNumCells - mCutOffDate) % mNumDays;
+        if (mFirstDateOfMonth == 1) {
+            dividend = (offset + mNumCells) / mNumDays;
+            remainder = (offset + mNumCells) % mNumDays;
+        }
         return (dividend + (remainder > 0 ? 1 : 0));
     }
 
@@ -548,9 +564,48 @@ public class TimeSheetView extends View {
         requestLayout();
     }
 
-    public void setTime(int month, int year) {
+    public void setCutOffDate(int month, int year, int cutOffDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.YEAR, year);
+
+        int totalDateOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        if (totalDateOfMonth > cutOffDate) {
+            mCutOffDate = cutOffDate;
+            return;
+        }
+        mCutOffDate = totalDateOfMonth;
+    }
+
+    public void setFirstDateOfMonth(int month, int year) {
+        Calendar calendar = Calendar.getInstance();
+        if (month == Calendar.JANUARY) {
+            calendar.set(Calendar.MONTH, Calendar.DECEMBER);
+            calendar.set(Calendar.YEAR, year - 1);
+        } else {
+            calendar.set(Calendar.MONTH, month - 1);
+            calendar.set(Calendar.YEAR, year);
+        }
+
+        int totalDateOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        if (totalDateOfMonth <= mCutOffDate) {
+            mFirstDateOfMonth = 1;
+            return;
+        }
+        mFirstDateOfMonth = mCutOffDate + 1;
+    }
+
+    public void setTime(int month, int year, int cutOffDate) {
+
+        setCutOffDate(month, year, cutOffDate);
+        setFirstDateOfMonth(month, year);
 
         mMonth = month;
+        if (mFirstDateOfMonth == 1) {
+            mMonth = mMonth + 1;
+        }
         mYear = year;
 
         mHasToday = false;
@@ -560,19 +615,32 @@ public class TimeSheetView extends View {
         mCalendar.set(Calendar.YEAR, mYear);
         mCalendar.set(Calendar.DAY_OF_MONTH, 1);
 
-        Calendar calendar2 = Calendar.getInstance();
-        if (mMonth == 0) {
-            calendar2.set(Calendar.MONTH, CALENDAR_DECEMBER);
-            calendar2.set(Calendar.YEAR, mYear - 1);
-            mNumCells = DateTimeUtils.getDaysInMonth(CALENDAR_DECEMBER, mYear - 1) + 25;
+        Calendar calendarFirstDateOfMonth = Calendar.getInstance();
+        int addDay = mFirstDateOfMonth == 1 ? 0 : mCutOffDate;
+        int monthCheck = mFirstDateOfMonth == 1 ? mMonth - 1 : mMonth;
+
+        if (monthCheck == 0) {
+            calendarFirstDateOfMonth.set(Calendar.MONTH, CALENDAR_DECEMBER);
+            calendarFirstDateOfMonth.set(Calendar.YEAR, mYear - 1);
+            mNumCells = DateTimeUtils.getDaysInMonth(CALENDAR_DECEMBER, mYear - 1) + addDay;
+            if (mFirstDateOfMonth == 1) {
+                calendarFirstDateOfMonth.set(Calendar.MONTH, 0);
+                calendarFirstDateOfMonth.set(Calendar.YEAR, mYear);
+                mNumCells = DateTimeUtils.getDaysInMonth(0, mYear) + addDay;
+            }
         } else {
-            calendar2.set(Calendar.MONTH, mMonth - 1);
-            calendar2.set(Calendar.YEAR, mYear);
-            mNumCells = DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) + 25;
+            calendarFirstDateOfMonth.set(Calendar.MONTH, mMonth - 1);
+            calendarFirstDateOfMonth.set(Calendar.YEAR, mYear);
+            mNumCells = DateTimeUtils.getDaysInMonth(mMonth - 1, mYear) + addDay;
         }
 
-        calendar2.set(Calendar.DAY_OF_MONTH, 26);
-        mDayOfWeekStart = calendar2.get(Calendar.DAY_OF_WEEK);
+        int totalDateOfMonth = DateTimeUtils.getDaysInMonth(monthCheck, mYear);
+        if (mFirstDateOfMonth == 1 && totalDateOfMonth > mCutOffDate) {
+            mNumCells = mCutOffDate;
+        }
+
+        calendarFirstDateOfMonth.set(Calendar.DAY_OF_MONTH, mFirstDateOfMonth);
+        mDayOfWeekStart = calendarFirstDateOfMonth.get(Calendar.DAY_OF_WEEK);
 
         mWeekStart = mCalendar.getFirstDayOfWeek();
 
@@ -582,8 +650,6 @@ public class TimeSheetView extends View {
                 mHasToday = true;
                 mToday = day;
             }
-
-            mIsPrev = prevDay(day, today);
         }
     }
 
