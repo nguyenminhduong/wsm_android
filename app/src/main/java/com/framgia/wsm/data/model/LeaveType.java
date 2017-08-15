@@ -34,6 +34,12 @@ public class LeaveType extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("block_minutes")
     private int mBlockMinutes;
+    @Expose
+    @SerializedName("max_leave_duration")
+    private float mMaxLeaveDuration;
+    @Expose
+    @SerializedName("is_follow_time_company")
+    private boolean mIsFollowTimeCompany;
 
     public LeaveType() {
     }
@@ -43,6 +49,8 @@ public class LeaveType extends BaseModel implements Parcelable {
         mName = in.readString();
         mCode = in.readString();
         mBlockMinutes = in.readInt();
+        mMaxLeaveDuration = in.readFloat();
+        mIsFollowTimeCompany = in.readByte() != 0;
     }
 
     public int getId() {
@@ -77,6 +85,22 @@ public class LeaveType extends BaseModel implements Parcelable {
         mBlockMinutes = blockMinutes;
     }
 
+    public float getMaxLeaveDuration() {
+        return mMaxLeaveDuration;
+    }
+
+    public void setMaxLeaveDuration(float maxLeaveDuration) {
+        mMaxLeaveDuration = maxLeaveDuration;
+    }
+
+    public boolean isFollowTimeCompany() {
+        return mIsFollowTimeCompany;
+    }
+
+    public void setFollowTimeCompany(boolean followTimeCompany) {
+        mIsFollowTimeCompany = followTimeCompany;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -88,5 +112,7 @@ public class LeaveType extends BaseModel implements Parcelable {
         dest.writeString(mName);
         dest.writeString(mCode);
         dest.writeInt(mBlockMinutes);
+        dest.writeFloat(mMaxLeaveDuration);
+        dest.writeByte((byte) (mIsFollowTimeCompany ? 1 : 0));
     }
 }
