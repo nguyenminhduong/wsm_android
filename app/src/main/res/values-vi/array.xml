@@ -11,6 +11,7 @@
         <item>Chấp nhận</item>
         <item>Từ chối</item>
         <item>Chuyển tiếp</item>
+        <item>Hủy bỏ</item>
     </string-array>
 
     <string-array name="time_string">

@@ -339,5 +339,7 @@
     <string name="november">Tháng 11</string>
     <string name="december">Tháng 12</string>
     <string name="current_month">Tháng hiện tại</string>
+    <string name="canceld">Hủy bỏ</string>
+
 
 </resources>

@@ -288,6 +288,9 @@ public class ItemListRequestViewModel extends BaseObservable {
             case StatusCode.FORWARD_CODE:
                 setStatusImage(R.drawable.ic_status_forward);
                 break;
+            case StatusCode.CANCELED_CODE:
+                setStatusImage(R.drawable.ic_status_cancel);
+                break;
             default:
                 break;
         }

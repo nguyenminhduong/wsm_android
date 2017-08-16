@@ -144,6 +144,10 @@ public class ItemManageListRequestViewModel extends BaseObservable {
                 setColorImage(ColorManagers.getColorStatusReject());
                 setStatusColor(ColorManagers.getColorStatusReject());
                 break;
+            case StatusCode.CANCELED_CODE:
+                setColorImage(ColorManagers.getColorCancel());
+                setStatusColor(ColorManagers.getColorCancel());
+                break;
             default:
                 break;
         }
@@ -269,6 +273,16 @@ public class ItemManageListRequestViewModel extends BaseObservable {
             return StatusCode.FORWARD_CODE.equals(mRequestOverTime.getStatus());
         }
         return StatusCode.FORWARD_CODE.equals(mRequestOff.getStatus());
+    }
+
+    public boolean isCancelStatus() {
+        if (mLeaveRequest != null) {
+            return StatusCode.CANCELED_CODE.equals(mLeaveRequest.getStatus());
+        }
+        if (mRequestOverTime != null) {
+            return StatusCode.CANCELED_CODE.equals(mRequestOverTime.getStatus());
+        }
+        return StatusCode.CANCELED_CODE.equals(mRequestOff.getStatus());
     }
 
     private void checkStatusForward() {
