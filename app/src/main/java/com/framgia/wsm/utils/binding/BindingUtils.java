@@ -30,7 +30,6 @@ import com.framgia.wsm.databinding.NavHeaderMainBinding;
 import com.framgia.wsm.screen.changepassword.ChangePasswordViewModel;
 import com.framgia.wsm.screen.createnewpassword.CreateNewPasswordViewModel;
 import com.framgia.wsm.screen.forgotpassword.ForgotPasswordViewModel;
-import com.framgia.wsm.screen.login.LoginViewModel;
 import com.framgia.wsm.screen.main.MainViewModel;
 import com.framgia.wsm.screen.requestoff.RequestOffViewModel;
 import com.framgia.wsm.utils.Constant;
@@ -257,9 +256,9 @@ public final class BindingUtils {
         });
     }
 
-    @BindingAdapter({ "errorTextInputLayoutEmail", "viewModel" })
+    @BindingAdapter({ "errorTextInputLayoutEmail" })
     public static void setErrorTextInputLayoutEmail(final TextInputLayout textInputLayout,
-            final String text, final LoginViewModel loginViewModel) {
+            final String text) {
         textInputLayout.setError(text);
         EditText editText = textInputLayout.getEditText();
         if (editText == null) {
@@ -278,7 +277,7 @@ public final class BindingUtils {
 
             @Override
             public void afterTextChanged(Editable s) {
-                loginViewModel.validateEmail(s.toString());
+                textInputLayout.setError("");
             }
         });
     }

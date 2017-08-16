@@ -420,6 +420,10 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (mUser.getGroups() == null || mUser.getGroups().size() == 0) {
             return;
         }
+        if (!isVisibleGroup()) {
+            mDialogManager.dialogError(mContext.getString(R.string.can_not_edit_group));
+            return;
+        }
         String[] groups = new String[mUser.getGroups().size()];
         for (int i = 0; i < groups.length; i++) {
             groups[i] = mUser.getGroups().get(i).getFullName();
