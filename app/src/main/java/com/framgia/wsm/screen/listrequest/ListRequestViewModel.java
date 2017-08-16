@@ -6,6 +6,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
@@ -14,6 +15,7 @@ import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.screen.confirmrequestleave.ConfirmRequestLeaveActivity;
@@ -64,6 +66,7 @@ public class ListRequestViewModel extends BaseObservable
     private boolean mIsVisiableLayoutDataNotFound;
     private boolean mIsLoadDataFirstTime;
     private int mPage;
+    private int mCutOffDate;
 
     ListRequestViewModel(Context context, ListRequestContract.Presenter presenter,
             DialogManager dialogManager, ListRequestAdapter listRequestAdapter,
@@ -83,9 +86,10 @@ public class ListRequestViewModel extends BaseObservable
     }
 
     private void initData() {
+        mPresenter.getUser();
         mPage = PAGE_ONE;
         setLoading(false);
-        mMonthYear = DateTimeUtils.getMonthWorking();
+        mMonthYear = DateTimeUtils.getMonthWorking(mCutOffDate);
         mQueryRequest = new QueryRequest();
         mQueryRequest.setMonthWorking(mMonthYear);
         mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
@@ -119,6 +123,19 @@ public class ListRequestViewModel extends BaseObservable
     public void onLoadMoreListRequest() {
         setShowProgress(true);
         mPresenter.getListAllRequestNoProgressDialog(mRequestType, mQueryRequest, true);
+    }
+
+    @Override
+    public void onGetUserSuccess(User user) {
+        if (user == null || user.getCompany() == null) {
+            return;
+        }
+        mCutOffDate = user.getCompany().getCutOffDate();
+    }
+
+    @Override
+    public void onGetUserError(BaseException exception) {
+        Log.e(TAG, "onGetUserError", exception);
     }
 
     @Override
@@ -184,7 +201,7 @@ public class ListRequestViewModel extends BaseObservable
     @Override
     public void onReloadData(int requestType) {
         setPage(PAGE_ONE);
-        mMonthYear = DateTimeUtils.getMonthWorking();
+        mMonthYear = DateTimeUtils.getMonthWorking(mCutOffDate);
         mQueryRequest = new QueryRequest();
         mQueryRequest.setMonthWorking(mMonthYear);
         mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));

@@ -18,7 +18,6 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import static com.framgia.wsm.utils.Constant.TimeConst.DAY_25_OF_MONTH;
-import static com.framgia.wsm.utils.Constant.TimeConst.DAY_26_OF_MONTH;
 import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
 
 /**
@@ -310,32 +309,80 @@ public final class DateTimeUtils {
         }
     }
 
-    public static String dayFirstMonthWorking() {
+    public static String dayFirstMonthWorking(int cutOffDate) {
+        return getFirstOrLastDateMonthWorking(cutOffDate, getFirstDateOfMonth(cutOffDate));
+    }
+
+    public static String dayLastMonthWorking(int cutOffDate) {
+        return getFirstOrLastDateMonthWorking(cutOffDate, getLastDateOfMonth(cutOffDate));
+    }
+
+    private static String getFirstOrLastDateMonthWorking(int cutOffDate, Date inputDate) {
         Calendar calendar = Calendar.getInstance();
-        if (calendar.get(Calendar.DAY_OF_MONTH) < DAY_26_OF_MONTH) {
-            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - ONE_MONTH);
+        Date currentDate = calendar.getTime();
+        calendar.setTime(inputDate);
+        if (currentDate.after(getLastDateOfMonth(cutOffDate))) {
+            int currentMonth = calendar.get(Calendar.MONTH);
+            calendar.set(Calendar.MONTH, currentMonth + ONE_MONTH);
         }
-        calendar.set(Calendar.DAY_OF_MONTH, DAY_26_OF_MONTH);
         return DateTimeUtils.convertToString(calendar.getTime(),
                 DateTimeUtils.DATE_FORMAT_YYYY_MM_DD);
     }
 
-    public static String dayLasttMonthWorking() {
+    public static String getMonthWorking(int cutOffDate) {
         Calendar calendar = Calendar.getInstance();
-        if (calendar.get(Calendar.DAY_OF_MONTH) >= DAY_26_OF_MONTH) {
-            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + ONE_MONTH);
+        Date currentDate = calendar.getTime();
+        int currentMonth = calendar.get(Calendar.MONTH);
+        if (currentDate.before(getLastDateOfMonth(cutOffDate)) && currentDate.after(
+                getFirstDateOfMonth(cutOffDate))) {
+            calendar.set(Calendar.MONTH, currentMonth);
         }
-        calendar.set(Calendar.DAY_OF_MONTH, DAY_25_OF_MONTH);
-        return DateTimeUtils.convertToString(calendar.getTime(),
-                DateTimeUtils.DATE_FORMAT_YYYY_MM_DD);
-    }
-
-    public static String getMonthWorking() {
-        Calendar calendar = Calendar.getInstance();
-        if (calendar.get(Calendar.DAY_OF_MONTH) >= DAY_26_OF_MONTH) {
-            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + ONE_MONTH);
+        if (currentDate.after(getLastDateOfMonth(cutOffDate))) {
+            calendar.set(Calendar.MONTH, currentMonth + ONE_MONTH);
         }
         return DateTimeUtils.convertToString(calendar.getTime(), DateTimeUtils.DATE_FORMAT_YYYY_MM);
+    }
+
+    private static Date getLastDateOfMonth(int cutOffDate) {
+        Calendar calendar = Calendar.getInstance();
+        int totalDateOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        if (totalDateOfMonth > cutOffDate) {
+            calendar.set(Calendar.DAY_OF_MONTH, cutOffDate);
+            return calendar.getTime();
+        }
+        calendar.set(Calendar.DAY_OF_MONTH, totalDateOfMonth);
+        return calendar.getTime();
+    }
+
+    private static Date getFirstDateOfMonth(int cutOffDate) {
+        Calendar calendar = Calendar.getInstance();
+        int currentMonth = calendar.get(Calendar.MONTH);
+        if (currentMonth == Calendar.JANUARY) {
+            calendar.set(Calendar.MONTH, Calendar.DECEMBER);
+            calendar.set(Calendar.YEAR, Calendar.YEAR - 1);
+        } else {
+            calendar.set(Calendar.MONTH, currentMonth - 1);
+        }
+
+        int totalDateOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        if (totalDateOfMonth <= getCutOffDate(cutOffDate)) {
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            calendar.set(Calendar.MONTH, currentMonth);
+            return calendar.getTime();
+        }
+        calendar.set(Calendar.DAY_OF_MONTH, cutOffDate + 1);
+        calendar.set(Calendar.MONTH, currentMonth - 1);
+        return calendar.getTime();
+    }
+
+    private static int getCutOffDate(int cutOffDate) {
+        Calendar calendar = Calendar.getInstance();
+        int totalDateOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        if (totalDateOfMonth > cutOffDate) {
+            return cutOffDate;
+        }
+        return totalDateOfMonth;
     }
 
     public static long getTimeAgo(String date) {

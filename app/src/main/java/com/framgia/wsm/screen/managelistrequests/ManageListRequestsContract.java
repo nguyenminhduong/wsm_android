@@ -1,6 +1,7 @@
 package com.framgia.wsm.screen.managelistrequests;
 
 import com.framgia.wsm.data.model.QueryRequest;
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
@@ -40,12 +41,18 @@ interface ManageListRequestsContract {
         void onApproveAllRequestSuccess(List<ActionRequestResponse> actionRequestResponseList);
 
         void onApproveAllRequestError(BaseException exception);
+
+        void onGetUserSuccess(User user);
+
+        void onGetUserError(BaseException exception);
     }
 
     /**
      * Presenter.
      */
     interface Presenter extends BasePresenter<ViewModel> {
+
+        void getUser();
 
         void getListAllRequestManage(int requestType, QueryRequest queryRequest,
                 boolean isLoadMore);
