@@ -38,6 +38,7 @@ public class SettingProfileViewModel extends BaseObservable
     private boolean mNotificationAll;
     private boolean mEmailAll;
     private boolean mRefreshing;
+    private boolean mIsLoadDataFirstTime;
 
     SettingProfileViewModel(Context context, SettingProfileContract.Presenter presenter,
             DialogManager dialogManager, Navigator navigator) {
@@ -45,9 +46,9 @@ public class SettingProfileViewModel extends BaseObservable
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mUser = new User();
-        mPresenter.getUser();
         mDialogManager = dialogManager;
         mNavigator = navigator;
+        mIsLoadDataFirstTime = true;
     }
 
     @Override
@@ -72,6 +73,7 @@ public class SettingProfileViewModel extends BaseObservable
         }
         setUser(user);
         setNotificationAndEmailAll();
+        mIsLoadDataFirstTime = false;
     }
 
     @Override
@@ -103,6 +105,13 @@ public class SettingProfileViewModel extends BaseObservable
         mPresenter.saveUser(mUser);
         setNotificationAndEmailAll();
         notifyPropertyChanged(BR.user);
+    }
+
+    @Override
+    public void onReloadData() {
+        if (mIsLoadDataFirstTime) {
+            mPresenter.getUser();
+        }
     }
 
     private int searchCurrentPositionGroup(List<Group> groupList, int currentPositionGroup) {

@@ -28,6 +28,7 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
     private BranchAdapter mBranchAdapter;
     private GroupAdapter mGroupAdapter;
     private User mUser;
+    private boolean mIsLoadDataFirstTime;
 
     public ProfileViewModel(ProfileContract.Presenter presenter, Navigator navigator,
             BranchAdapter branchAdapter, GroupAdapter groupAdapter) {
@@ -36,7 +37,7 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
         mNavigator = navigator;
         mBranchAdapter = branchAdapter;
         mGroupAdapter = groupAdapter;
-        mPresenter.getUser();
+        mIsLoadDataFirstTime = true;
     }
 
     @Override
@@ -60,6 +61,7 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
         notifyPropertyChanged(BR.birthday);
         mBranchAdapter.updateDataBranch(mUser.getBranches());
         mGroupAdapter.updateDataGroup(mUser.getGroups());
+        mIsLoadDataFirstTime = false;
     }
 
     @Override
@@ -69,7 +71,9 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
 
     @Override
     public void reloadData() {
-        mPresenter.getUser();
+        if (mIsLoadDataFirstTime) {
+            mPresenter.getUser();
+        }
     }
 
     @Bindable

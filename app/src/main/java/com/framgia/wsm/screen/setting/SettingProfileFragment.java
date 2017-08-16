@@ -56,4 +56,13 @@ public class SettingProfileFragment extends BaseFragment {
         mViewModel.onStart();
         super.onStop();
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isVisibleToUser) {
+            return;
+        }
+        mViewModel.onReloadData();
+    }
 }
