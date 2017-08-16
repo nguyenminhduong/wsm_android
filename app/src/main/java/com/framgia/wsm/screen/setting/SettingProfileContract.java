@@ -28,6 +28,8 @@ public interface SettingProfileContract {
         void onGetSettingError(BaseException exception);
 
         void onGetSettingSuccess(Setting setting);
+
+        void onReloadData();
     }
 
     /**

@@ -26,6 +26,7 @@ public class HolidayCalendarViewModel extends BaseObservable
     private Context mContext;
     private HolidayCalendarAdapter mHolidayCalendarAdapter;
     private int mYear;
+    private boolean mIsLoadDataFirstTime;
 
     HolidayCalendarViewModel(Context context, HolidayCalendarContract.Presenter presenter,
             HolidayCalendarAdapter holidayCalendarAdapter) {
@@ -36,7 +37,7 @@ public class HolidayCalendarViewModel extends BaseObservable
         mHolidayCalendarAdapter.setHolidayDateClickListener(this);
         Calendar calendar = Calendar.getInstance();
         mYear = calendar.get(Calendar.YEAR);
-        mPresenter.getHolidayCalendar(mYear);
+        mIsLoadDataFirstTime = true;
     }
 
     @Override
@@ -70,11 +71,19 @@ public class HolidayCalendarViewModel extends BaseObservable
             return;
         }
         mHolidayCalendarAdapter.updateData(list);
+        mIsLoadDataFirstTime = false;
     }
 
     @Override
     public void onGetHolidayCalendarError(BaseException e) {
         Log.e(TAG, "HolidayCalendarViewModel", e);
+    }
+
+    @Override
+    public void onReloadData() {
+        if (mIsLoadDataFirstTime) {
+            mPresenter.getHolidayCalendar(mYear);
+        }
     }
 
     public HolidayCalendarAdapter getHolidayCalendarAdapter() {

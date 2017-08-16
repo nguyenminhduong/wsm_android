@@ -54,4 +54,13 @@ public class HolidayCalendarFragment extends BaseFragment {
         mViewModel.onStop();
         super.onStop();
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isVisibleToUser) {
+            return;
+        }
+        mViewModel.onReloadData();
+    }
 }

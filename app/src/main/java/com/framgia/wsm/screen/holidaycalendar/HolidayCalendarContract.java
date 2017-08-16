@@ -17,6 +17,8 @@ interface HolidayCalendarContract {
         void onGetHolidayCalendarSuccess(List<HolidayCalendar> list);
 
         void onGetHolidayCalendarError(BaseException e);
+
+        void onReloadData();
     }
 
     /**
