@@ -103,17 +103,17 @@ public class RequestOffViewModel extends BaseRequestOff
     private String mMaternityLeave;
     private String mWifeLaborLeave;
 
-    private String mAnnualLeaveAmount;
-    private String mLeaveForMarriageAmount;
-    private String mLeaveForChildMarriageAmount;
-    private String mFuneralLeaveAmount;
+    private String mAnnualLeaveRemaining;
+    private String mLeaveForMarriageRemaining;
+    private String mLeaveForChildMarriageRemaining;
+    private String mFuneralLeaveRemaining;
 
-    private String mLeaveForCareOfSickChildAmount;
-    private String mPregnancyExaminationLeaveAmount;
-    private String mSickLeaveAmount;
-    private String mMiscarriageLeaveAmount;
-    private String mMaternityLeaveAmount;
-    private String mWifeLaborLeaveAmount;
+    private String mLeaveForCareOfSickChildRemaining;
+    private String mPregnancyExaminationLeaveRemaining;
+    private String mSickLeaveRemaining;
+    private String mMiscarriageLeaveRemaining;
+    private String mMaternityLeaveRemaining;
+    private String mWifeLaborLeaveRemaining;
 
     RequestOffViewModel(Context context, RequestOffContract.Presenter presenter,
             DialogManager dialogManager, Navigator navigator, OffRequest requestOff,
@@ -492,97 +492,99 @@ public class RequestOffViewModel extends BaseRequestOff
 
     @Bindable
     public String getAnnualError() {
-        if (mAnnualLeaveAmount == null) {
+        if (mAnnualLeaveRemaining == null) {
             return "";
         }
         return mRequestOff.getAnnualLeave() != null ? String.format(
-                mContext.getString(R.string.annual_leave_error), mAnnualLeaveAmount) : null;
+                mContext.getString(R.string.annual_leave_error), mAnnualLeaveRemaining) : null;
     }
 
     @Bindable
     public String getLeaveForMarriageError() {
-        if (mLeaveForMarriageAmount == null) {
+        if (mLeaveForMarriageRemaining == null) {
             return "";
         }
         return mRequestOff.getLeaveForMarriage() != null ? String.format(
-                mContext.getString(R.string.leave_for_marriage_error), mLeaveForMarriageAmount)
+                mContext.getString(R.string.leave_for_marriage_error), mLeaveForMarriageRemaining)
                 : null;
     }
 
     @Bindable
     public String getLeaveForChildMarriageError() {
-        if (mLeaveForChildMarriageAmount == null) {
+        if (mLeaveForChildMarriageRemaining == null) {
             return "";
         }
         return mRequestOff.getLeaveForChildMarriage() != null ? String.format(
                 mContext.getString(R.string.leave_for_child_marriage_error),
-                mLeaveForChildMarriageAmount) : null;
+                mLeaveForChildMarriageRemaining) : null;
     }
 
     @Bindable
     public String getFuneralLeaveError() {
-        if (mFuneralLeaveAmount == null) {
+        if (mFuneralLeaveRemaining == null) {
             return "";
         }
         return mRequestOff.getFuneralLeave() != null ? String.format(
-                mContext.getString(R.string.funeral_leave_error), mFuneralLeaveAmount) : null;
+                mContext.getString(R.string.funeral_leave_error), mFuneralLeaveRemaining) : null;
     }
 
     @Bindable
     public String getLeaveForCareOfSickChildError() {
-        if (mLeaveForCareOfSickChildAmount == null) {
+        if (mLeaveForCareOfSickChildRemaining == null) {
             return "";
         }
         return mRequestOff.getLeaveForCareOfSickChild() != null ? String.format(
                 mContext.getString(R.string.leave_for_care_of_sick_error),
-                mLeaveForCareOfSickChildAmount) : null;
+                mLeaveForCareOfSickChildRemaining) : null;
     }
 
     @Bindable
     public String getPregnancyExaminationLeaveError() {
-        if (mPregnancyExaminationLeaveAmount == null) {
+        if (mPregnancyExaminationLeaveRemaining == null) {
             return "";
         }
         return mRequestOff.getPregnancyExaminationLeave() != null ? String.format(
                 mContext.getString(R.string.pregnacy_examination_leave_error),
-                mPregnancyExaminationLeaveAmount) : null;
+                mPregnancyExaminationLeaveRemaining) : null;
     }
 
     @Bindable
     public String getSickLeaveError() {
-        if (mSickLeaveAmount == null) {
+        if (mSickLeaveRemaining == null) {
             return "";
         }
         return mRequestOff.getSickLeave() != null ? String.format(
-                mContext.getString(R.string.sick_leave_error), mSickLeaveAmount) : null;
+                mContext.getString(R.string.sick_leave_error), mSickLeaveRemaining) : null;
     }
 
     @Bindable
     public String getMiscarriageLeaveError() {
-        if (mMiscarriageLeaveAmount == null) {
+        if (mMiscarriageLeaveRemaining == null) {
             return "";
         }
         return mRequestOff.getMiscarriageLeave() != null ? String.format(
-                mContext.getString(R.string.miscarriage_leave_error), mMiscarriageLeaveAmount)
+                mContext.getString(R.string.miscarriage_leave_error), mMiscarriageLeaveRemaining)
                 : null;
     }
 
     @Bindable
     public String getMaternityLeavedError() {
-        if (mMaternityLeaveAmount == null) {
+        if (mMaternityLeaveRemaining == null) {
             return "";
         }
         return mRequestOff.getMaternityLeave() != null ? String.format(
-                mContext.getString(R.string.maternity_leave_error), mMaternityLeaveAmount) : null;
+                mContext.getString(R.string.maternity_leave_error), mMaternityLeaveRemaining)
+                : null;
     }
 
     @Bindable
     public String getWifeLaborLeaveError() {
-        if (mWifeLaborLeaveAmount == null) {
+        if (mWifeLaborLeaveRemaining == null) {
             return "";
         }
         return mRequestOff.getWifeLaborLeave() != null ? String.format(
-                mContext.getString(R.string.wife_labor_leave_error), mWifeLaborLeaveAmount) : null;
+                mContext.getString(R.string.wife_labor_leave_error), mWifeLaborLeaveRemaining)
+                : null;
     }
 
     @Bindable
@@ -696,108 +698,110 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     @Bindable
-    public String getAnnualLeaveAmount() {
-        return String.format(mContext.getString(R.string.annual_leave), mAnnualLeaveAmount);
+    public String getAnnualLeaveRemaining() {
+        return String.format(mContext.getString(R.string.annual_leave), mAnnualLeaveRemaining);
     }
 
-    private void setAnnualLeaveAmount(String annualLeaveAmount) {
-        mAnnualLeaveAmount = annualLeaveAmount;
-        notifyPropertyChanged(BR.annualLeaveAmount);
+    private void setAnnualLeaveRemaining(String annualLeaveRemaining) {
+        mAnnualLeaveRemaining = annualLeaveRemaining;
+        notifyPropertyChanged(BR.annualLeaveRemaining);
     }
 
     @Bindable
-    public String getLeaveForMarriageAmount() {
+    public String getLeaveForMarriageRemaining() {
         return String.format(mContext.getString(R.string.leave_for_marriage),
-                mLeaveForMarriageAmount);
+                mLeaveForMarriageRemaining);
     }
 
-    private void setLeaveForMarriageAmount(String leaveForMarriageAmount) {
-        mLeaveForMarriageAmount = leaveForMarriageAmount;
-        notifyPropertyChanged(BR.leaveForMarriageAmount);
+    private void setLeaveForMarriageRemaining(String leaveForMarriageRemaining) {
+        mLeaveForMarriageRemaining = leaveForMarriageRemaining;
+        notifyPropertyChanged(BR.leaveForMarriageRemaining);
     }
 
     @Bindable
-    public String getLeaveForChildMarriageAmount() {
+    public String getLeaveForChildMarriageRemaining() {
         return String.format(mContext.getString(R.string.leave_for_child_marriage),
-                mLeaveForChildMarriageAmount);
+                mLeaveForChildMarriageRemaining);
     }
 
-    private void setLeaveForChildMarriageAmount(String leaveForChildMarriageAmount) {
-        mLeaveForChildMarriageAmount = leaveForChildMarriageAmount;
-        notifyPropertyChanged(BR.leaveForChildMarriageAmount);
-    }
-
-    @Bindable
-    public String getFuneralLeaveAmount() {
-        return String.format(mContext.getString(R.string.funeral_leave), mFuneralLeaveAmount);
-    }
-
-    private void setFuneralLeaveAmount(String funeralLeaveAmount) {
-        mFuneralLeaveAmount = funeralLeaveAmount;
-        notifyPropertyChanged(BR.funeralLeaveAmount);
+    private void setLeaveForChildMarriageRemaining(String leaveForChildMarriageRemaining) {
+        mLeaveForChildMarriageRemaining = leaveForChildMarriageRemaining;
+        notifyPropertyChanged(BR.leaveForChildMarriageRemaining);
     }
 
     @Bindable
-    public String getLeaveForCareOfSickChildAmount() {
+    public String getFuneralLeaveRemaining() {
+        return String.format(mContext.getString(R.string.funeral_leave), mFuneralLeaveRemaining);
+    }
+
+    private void setFuneralLeaveRemaining(String funeralLeaveRemaining) {
+        mFuneralLeaveRemaining = funeralLeaveRemaining;
+        notifyPropertyChanged(BR.funeralLeaveRemaining);
+    }
+
+    @Bindable
+    public String getLeaveForCareOfSickChildRemaining() {
         return String.format(mContext.getString(R.string.leave_for_care_of_sick_child),
-                mLeaveForCareOfSickChildAmount);
+                mLeaveForCareOfSickChildRemaining);
     }
 
-    private void setLeaveForCareOfSickChildAmount(String leaveForCareOfSickChildAmount) {
-        mLeaveForCareOfSickChildAmount = leaveForCareOfSickChildAmount;
-        notifyPropertyChanged(BR.leaveForCareOfSickChildAmount);
+    private void setLeaveForCareOfSickChildRemaining(String leaveForCareOfSickChildRemaining) {
+        mLeaveForCareOfSickChildRemaining = leaveForCareOfSickChildRemaining;
+        notifyPropertyChanged(BR.leaveForCareOfSickChildRemaining);
     }
 
     @Bindable
-    public String getPregnancyExaminationLeaveAmount() {
+    public String getPregnancyExaminationLeaveRemaining() {
         return String.format(mContext.getString(R.string.pregnancy_examination_leave),
-                mPregnancyExaminationLeaveAmount);
+                mPregnancyExaminationLeaveRemaining);
     }
 
-    private void setPregnancyExaminationLeaveAmount(String pregnancyExaminationLeaveAmount) {
-        mPregnancyExaminationLeaveAmount = pregnancyExaminationLeaveAmount;
-        notifyPropertyChanged(BR.pregnancyExaminationLeaveAmount);
-    }
-
-    @Bindable
-    public String getSickLeaveAmount() {
-        return String.format(mContext.getString(R.string.sick_leave), mSickLeaveAmount);
-    }
-
-    private void setSickLeaveAmount(String sickLeaveAmount) {
-        mSickLeaveAmount = sickLeaveAmount;
-        notifyPropertyChanged(BR.sickLeaveAmount);
+    private void setPregnancyExaminationLeaveRemaining(String pregnancyExaminationLeaveRemaining) {
+        mPregnancyExaminationLeaveRemaining = pregnancyExaminationLeaveRemaining;
+        notifyPropertyChanged(BR.pregnancyExaminationLeaveRemaining);
     }
 
     @Bindable
-    public String getMiscarriageLeaveAmount() {
+    public String getSickLeaveRemaining() {
+        return String.format(mContext.getString(R.string.sick_leave), mSickLeaveRemaining);
+    }
+
+    private void setSickLeaveRemaining(String sickLeaveRemaining) {
+        mSickLeaveRemaining = sickLeaveRemaining;
+        notifyPropertyChanged(BR.sickLeaveRemaining);
+    }
+
+    @Bindable
+    public String getMiscarriageLeaveRemaining() {
         return String.format(mContext.getString(R.string.miscarriage_leave),
-                mMiscarriageLeaveAmount);
+                mMiscarriageLeaveRemaining);
     }
 
-    private void setMiscarriageLeaveAmount(String miscarriageLeaveAmount) {
-        mMiscarriageLeaveAmount = miscarriageLeaveAmount;
-        notifyPropertyChanged(BR.miscarriageLeaveAmount);
-    }
-
-    @Bindable
-    public String getMaternityLeaveAmount() {
-        return String.format(mContext.getString(R.string.maternity_leave), mMaternityLeaveAmount);
-    }
-
-    private void setMaternityLeaveAmount(String maternityLeaveAmount) {
-        mMaternityLeaveAmount = maternityLeaveAmount;
-        notifyPropertyChanged(BR.maternityLeaveAmount);
+    private void setMiscarriageLeaveRemaining(String miscarriageLeaveRemaining) {
+        mMiscarriageLeaveRemaining = miscarriageLeaveRemaining;
+        notifyPropertyChanged(BR.miscarriageLeaveRemaining);
     }
 
     @Bindable
-    public String getWifeLaborLeaveAmount() {
-        return String.format(mContext.getString(R.string.wife_labor_leave), mWifeLaborLeaveAmount);
+    public String getMaternityLeaveRemaining() {
+        return String.format(mContext.getString(R.string.maternity_leave),
+                mMaternityLeaveRemaining);
     }
 
-    private void setWifeLaborLeaveAmount(String wifeLaborLeaveAmount) {
-        mWifeLaborLeaveAmount = wifeLaborLeaveAmount;
-        notifyPropertyChanged(BR.wifeLaborLeaveAmount);
+    private void setMaternityLeaveRemaining(String maternityLeaveRemaining) {
+        mMaternityLeaveRemaining = maternityLeaveRemaining;
+        notifyPropertyChanged(BR.maternityLeaveRemaining);
+    }
+
+    @Bindable
+    public String getWifeLaborLeaveRemaining() {
+        return String.format(mContext.getString(R.string.wife_labor_leave),
+                mWifeLaborLeaveRemaining);
+    }
+
+    private void setWifeLaborLeaveRemaining(String wifeLaborLeaveRemaining) {
+        mWifeLaborLeaveRemaining = wifeLaborLeaveRemaining;
+        notifyPropertyChanged(BR.wifeLaborLeaveRemaining);
     }
 
     public boolean isEditGroupEnable() {
@@ -808,16 +812,16 @@ public class RequestOffViewModel extends BaseRequestOff
         for (OffType offType : user.getTypesCompany()) {
             int offTypeId = offType.getId();
             if (ANNUAL.equals(offType.getName())) {
-                setAnnualLeaveAmount(String.valueOf(offType.getAmount()));
+                setAnnualLeaveRemaining(String.valueOf(offType.getRemaining()));
             }
             if (offTypeId == Integer.parseInt(TypeOfDays.LEAVE_FOR_MARRIAGE)) {
-                setLeaveForMarriageAmount(String.valueOf(offType.getAmount()));
+                setLeaveForMarriageRemaining(String.valueOf(offType.getRemaining()));
             }
             if (offTypeId == Integer.parseInt(TypeOfDays.LEAVE_FOR_CHILD_MARRIAGE)) {
-                setLeaveForChildMarriageAmount(String.valueOf(offType.getAmount()));
+                setLeaveForChildMarriageRemaining(String.valueOf(offType.getRemaining()));
             }
             if (offTypeId == Integer.parseInt(TypeOfDays.FUNERAL_LEAVE)) {
-                setFuneralLeaveAmount(String.valueOf(offType.getAmount()));
+                setFuneralLeaveRemaining(String.valueOf(offType.getRemaining()));
             }
         }
     }
@@ -826,22 +830,22 @@ public class RequestOffViewModel extends BaseRequestOff
         for (OffType offType : user.getTypesInsurance()) {
             int offTypeId = offType.getId();
             if (offTypeId == Integer.parseInt(TypeOfDays.LEAVE_FOR_CARE_OF_SICK_CHILD)) {
-                setLeaveForCareOfSickChildAmount(String.valueOf(offType.getAmount()));
+                setLeaveForCareOfSickChildRemaining(String.valueOf(offType.getRemaining()));
             }
             if (offTypeId == Integer.parseInt(TypeOfDays.PREGNANCY_EXAMINATON)) {
-                setPregnancyExaminationLeaveAmount(String.valueOf(offType.getAmount()));
+                setPregnancyExaminationLeaveRemaining(String.valueOf(offType.getRemaining()));
             }
             if (offTypeId == Integer.parseInt(TypeOfDays.SICK_LEAVE)) {
-                setSickLeaveAmount(String.valueOf(offType.getAmount()));
+                setSickLeaveRemaining(String.valueOf(offType.getRemaining()));
             }
             if (offTypeId == Integer.parseInt(TypeOfDays.MISCARRIAGE_LEAVE)) {
-                setMiscarriageLeaveAmount(String.valueOf(offType.getAmount()));
+                setMiscarriageLeaveRemaining(String.valueOf(offType.getRemaining()));
             }
             if (offTypeId == Integer.parseInt(TypeOfDays.MATERNTY_LEAVE)) {
-                setMaternityLeaveAmount(String.valueOf(offType.getAmount()));
+                setMaternityLeaveRemaining(String.valueOf(offType.getRemaining()));
             }
             if (offTypeId == Integer.parseInt(TypeOfDays.WIFE_LABOR_LEAVE)) {
-                setWifeLaborLeaveAmount(String.valueOf(offType.getAmount()));
+                setWifeLaborLeaveRemaining(String.valueOf(offType.getRemaining()));
             }
         }
     }
@@ -939,52 +943,52 @@ public class RequestOffViewModel extends BaseRequestOff
 
     private boolean validateAnnualLeave(String input) {
         return StringUtils.convertStringToDouble(input) <= StringUtils.convertStringToDouble(
-                mAnnualLeaveAmount);
+                mAnnualLeaveRemaining);
     }
 
     private boolean validateLeaveForMarriage(String input) {
         return StringUtils.convertStringToDouble(input) <= StringUtils.convertStringToDouble(
-                mLeaveForMarriageAmount);
+                mLeaveForMarriageRemaining);
     }
 
     private boolean validateLeaveForChildMarriage(String input) {
         return StringUtils.convertStringToDouble(input) <= StringUtils.convertStringToDouble(
-                mLeaveForChildMarriageAmount);
+                mLeaveForChildMarriageRemaining);
     }
 
     private boolean validateFuneralLeave(String input) {
         return StringUtils.convertStringToDouble(input) <= StringUtils.convertStringToDouble(
-                mFuneralLeaveAmount);
+                mFuneralLeaveRemaining);
     }
 
     private boolean validateLeaveForCareOfSickChild(String input) {
         return StringUtils.convertStringToDouble(input) <= StringUtils.convertStringToDouble(
-                mLeaveForCareOfSickChildAmount);
+                mLeaveForCareOfSickChildRemaining);
     }
 
     private boolean validatePregnancyExaminationLeave(String input) {
         return StringUtils.convertStringToDouble(input) <= StringUtils.convertStringToDouble(
-                mPregnancyExaminationLeaveAmount);
+                mPregnancyExaminationLeaveRemaining);
     }
 
     private boolean validateSickLeave(String input) {
         return StringUtils.convertStringToDouble(input) <= StringUtils.convertStringToDouble(
-                mSickLeaveAmount);
+                mSickLeaveRemaining);
     }
 
     private boolean validateMiscarriageLeave(String input) {
         return StringUtils.convertStringToDouble(input) <= StringUtils.convertStringToDouble(
-                mMiscarriageLeaveAmount);
+                mMiscarriageLeaveRemaining);
     }
 
     private boolean validateMaternityLeave(String input) {
         return StringUtils.convertStringToDouble(input) <= StringUtils.convertStringToDouble(
-                mMaternityLeaveAmount);
+                mMaternityLeaveRemaining);
     }
 
     private boolean validateWifeLaborLeave(String input) {
         return StringUtils.convertStringToDouble(input) <= StringUtils.convertStringToDouble(
-                mWifeLaborLeaveAmount);
+                mWifeLaborLeaveRemaining);
     }
 
     public String getTitleToolbar() {

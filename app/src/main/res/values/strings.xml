@@ -94,6 +94,16 @@
     <string name="miscarriage_leave">Miscarriage leave (%s days)</string>
     <string name="maternity_leave">Maternity leave (%s days)</string>
     <string name="wife_labor_leave">Wife’s labor leave (%s days)</string>
+    <string name="annual_leave_detail">Annual leave</string>
+    <string name="leave_for_marriage_detail">Leave for marriage</string>
+    <string name="leave_for_child_marriage_detail">Leave for child\'s marriage</string>
+    <string name="funeral_leave_detail">Funeral leave</string>
+    <string name="leave_for_care_of_sick_child_detail">Leave for care of sick child</string>
+    <string name="pregnancy_examination_leave_detail">Pregnancy examination leave</string>
+    <string name="sick_leave_detail">Sick leave</string>
+    <string name="miscarriage_leave_detail">Miscarriage leave</string>
+    <string name="maternity_leave_detail">Maternity leave</string>
+    <string name="wife_labor_leave_detail">Wife’s labor leave</string>
     <string name="company_pay">Company Pay</string>
     <string name="insurance_coverage">Insurance Coverage</string>
     <string name="select_date">Select date</string>
