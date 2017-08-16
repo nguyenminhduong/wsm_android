@@ -128,7 +128,6 @@
                             style="@style/StyleTextHint"
                             >
                             <EditText
-                                android:enabled="@{viewModel.visibleGroup}"
                                 android:hint="@string/group"
                                 android:inputType="text"
                                 android:maxLines="1"

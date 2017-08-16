@@ -49,7 +49,6 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/color_white"
                 bind:errorTextInputLayoutEmail="@{viewModel.usernameError}"
-                bind:viewModel="@{viewModel}"
                 >
 
                 <EditText

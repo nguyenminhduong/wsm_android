@@ -48,11 +48,12 @@
     <string name="confirm_password">Xác nhận mật khẩu</string>
     <string name="forgot_password">Quên mật khẩu?</string>
     <string name="log_in">Đăng nhập</string>
-    <string name="is_empty">Vui lòng nhập trường này !</string>
-    <string name="invalid_email_format">Email không đúng định dạng !</string>
-    <string name="least_6_characters">Vui lòng nhập ít nhất 6 ký tự !</string>
-    <string name="confirm_password_does_not_match">Xác nhận mật khẩu không khớp !</string>
+    <string name="is_empty">Vui lòng nhập trường này!</string>
+    <string name="invalid_email_format">Email không đúng định dạng!</string>
+    <string name="least_6_characters">Vui lòng nhập ít nhất 6 ký tự!</string>
+    <string name="confirm_password_does_not_match">Xác nhận mật khẩu không khớp!</string>
     <string name="request_leave">Yêu cầu đi trễ, về sớm</string>
+    <string name="can_not_edit_group">Không thể thay đổi phòng ban!</string>
 
     <string name="employee_name">Tên nhân viên</string>
     <string name="employee_code">Mã nhân viên</string>
