@@ -11,6 +11,7 @@
         <item>Aprroved</item>
         <item>Rejected</item>
         <item>Forwarded</item>
+        <item>Canceled</item>
     </string-array>
 
     <string-array name="day_session" translatable="false">

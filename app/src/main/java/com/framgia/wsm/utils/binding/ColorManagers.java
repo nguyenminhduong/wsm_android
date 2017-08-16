@@ -21,6 +21,7 @@ public class ColorManagers {
     private static final String COLOR_STATUS_BLUE = "#2196F3";
     private static final String COLOR_STATUS_BLUE_DARK = "#1565C0";
     private static final String COLOR_STATUS_RED = "#B22222";
+    private static final String COLOR_STATUS_FORWARDED = "#b9161616";
 
     public ColorManagers() {
     }
@@ -70,10 +71,14 @@ public class ColorManagers {
     }
 
     public static int getColorStatusForward() {
-        return Color.parseColor(COLOR_STATUS_BLUE_DARK);
+        return Color.parseColor(COLOR_STATUS_FORWARDED);
     }
 
     public static int getColorStatusReject() {
         return Color.parseColor(COLOR_STATUS_RED);
+    }
+
+    public static int getColorCancel() {
+        return Color.parseColor(COLOR_STATUS_BLUE_DARK);
     }
 }
