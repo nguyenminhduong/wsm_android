@@ -58,6 +58,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/dp_320"
                                 android:background="@color/color_white"
+                                app:cutOffDate="@{viewModel.cutOffDate}"
                                 app:month="@{viewModel.month}"
                                 app:onDayClick="@{viewModel::onDayClicked}"
                                 app:timeSheetDates="@{viewModel.timeSheetDates}"

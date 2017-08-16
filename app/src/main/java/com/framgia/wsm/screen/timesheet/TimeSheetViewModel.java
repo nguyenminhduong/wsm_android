@@ -49,6 +49,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     private boolean mIsRefreshEnable;
     private boolean mIsEmployeeFullTime;
     private boolean mIsShowOvertime;
+    private int mCutOffDate;
 
     public TimeSheetViewModel(Context context, TimeSheetContract.Presenter presenter,
             Navigator navigator, DialogManager dialogManager) {
@@ -93,6 +94,10 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
 
     @Override
     public void onGetUserSuccess(User user) {
+        if (user == null || user.getCompany() == null) {
+            return;
+        }
+        setCutOffDate(user.getCompany().getCutOffDate());
         mIsEmployeeFullTime = user.isFullTime();
         notifyPropertyChanged(BR.employeeFullTime);
     }
@@ -314,7 +319,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         return mIsRefreshEnable;
     }
 
-    public void setRefreshEnable(boolean refreshEnable) {
+    private void setRefreshEnable(boolean refreshEnable) {
         mIsRefreshEnable = refreshEnable;
         notifyPropertyChanged(BR.refreshEnable);
     }
@@ -322,5 +327,15 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     @Bindable
     public boolean isEmployeeFullTime() {
         return mIsEmployeeFullTime;
+    }
+
+    @Bindable
+    public int getCutOffDate() {
+        return mCutOffDate;
+    }
+
+    private void setCutOffDate(int cutOffDate) {
+        mCutOffDate = cutOffDate;
+        notifyPropertyChanged(BR.cutOffDate);
     }
 }
