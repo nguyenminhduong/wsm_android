@@ -16,6 +16,7 @@ import android.view.View;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.TimeSheetDate;
 import com.framgia.wsm.utils.common.DateTimeUtils;
+import com.framgia.wsm.utils.common.StringUtils;
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
@@ -256,11 +257,6 @@ public class TimeSheetView extends View {
                 mCurrentDayCirclePaint.setColor(Color.TRANSPARENT);
                 if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
                         || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                    mMonthNumPaint.setColor(Color.WHITE);
-                    mMonthNumPaint.setTypeface(
-                            Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
-                    mCircleMorningPaint.setColor(mDayWeekendColor);
-                    mCircleAfternoonPaint.setColor(mDayWeekendColor);
                     isWeekend = true;
                 } else {
                     mCircleMorningPaint.setColor(Color.TRANSPARENT);
@@ -275,7 +271,13 @@ public class TimeSheetView extends View {
             if (mTimeSheetDates != null && mTimeSheetDates.size() > 0) {
                 for (TimeSheetDate timeSheetDate : mTimeSheetDates) {
                     if (date.equals(timeSheetDate.getDate())) {
-                        if (isWeekend) {
+                        if (isWeekend && StringUtils.isBlank(
+                                timeSheetDate.getCompensationHoliday())) {
+                            mMonthNumPaint.setColor(Color.WHITE);
+                            mMonthNumPaint.setTypeface(
+                                    Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
+                            mCircleMorningPaint.setColor(mDayWeekendColor);
+                            mCircleAfternoonPaint.setColor(mDayWeekendColor);
                             timeSheetDate.setColorMorning(
                                     String.format(FORMAT_COLOR_HEX, (0xFFFFFF & mDayWeekendColor)));
                             timeSheetDate.setColorAfternoon(
