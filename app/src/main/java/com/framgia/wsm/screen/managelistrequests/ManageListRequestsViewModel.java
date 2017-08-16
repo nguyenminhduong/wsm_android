@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import com.framgia.wsm.BR;
@@ -17,6 +18,7 @@ import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
@@ -78,6 +80,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     private boolean mIsSelectAll;
     private boolean mIsLoadDataFirstTime;
     private String mTotalRequestSelected;
+    private int mCutOffDate;
 
     ManageListRequestsViewModel(Context context, ManageListRequestsContract.Presenter presenter,
             DialogManager dialogManager, ManageListRequestsAdapter manageListRequestsAdapter,
@@ -95,13 +98,14 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     private void initData() {
+        mPresenter.getUser();
         setLoading(false);
         mPage = PAGE_ONE;
         mCurrentStatus = mContext.getString(R.string.pending);
         mCurrentPositionStatus = CURRRENT_STATUS;
         mActionRequest = new ActionRequest();
-        mFromTime = DateTimeUtils.dayFirstMonthWorking();
-        mToTime = DateTimeUtils.dayLasttMonthWorking();
+        mFromTime = DateTimeUtils.dayFirstMonthWorking(mCutOffDate);
+        mToTime = DateTimeUtils.dayLastMonthWorking(mCutOffDate);
         mQueryRequest = new QueryRequest();
         mQueryRequest.setFromTime(mFromTime);
         mQueryRequest.setToTime(mToTime);
@@ -159,8 +163,8 @@ public class ManageListRequestsViewModel extends BaseObservable
     @Override
     public void onReloadData() {
         setPage(PAGE_ONE);
-        mFromTime = DateTimeUtils.dayFirstMonthWorking();
-        mToTime = DateTimeUtils.dayLasttMonthWorking();
+        mFromTime = DateTimeUtils.dayFirstMonthWorking(mCutOffDate);
+        mToTime = DateTimeUtils.dayLastMonthWorking(mCutOffDate);
         setFromTimeNotGetData(mFromTime);
         setToTimeNotGetData(mToTime);
         mQueryRequest.setFromTime(mFromTime);
@@ -318,6 +322,19 @@ public class ManageListRequestsViewModel extends BaseObservable
     @Override
     public void onApproveAllRequestError(BaseException exception) {
         mDialogManager.dialogError(exception);
+    }
+
+    @Override
+    public void onGetUserSuccess(User user) {
+        if (user == null || user.getCompany() == null) {
+            return;
+        }
+        mCutOffDate = user.getCompany().getCutOffDate();
+    }
+
+    @Override
+    public void onGetUserError(BaseException exception) {
+        Log.e(TAG, "onGetUserError", exception);
     }
 
     @Override

@@ -4,7 +4,9 @@ import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.QueryRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.RequestRepository;
+import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
@@ -31,12 +33,14 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
     private RequestRepository mRequestRepository;
     private CompositeDisposable mCompositeDisposable;
     private BaseSchedulerProvider mBaseSchedulerProvider;
+    private UserRepository mUserRepository;
 
     ManageListRequestsPresenter(RequestRepository requestRepository,
-            BaseSchedulerProvider baseSchedulerProvider) {
+            BaseSchedulerProvider baseSchedulerProvider, UserRepository userRepository) {
         mRequestRepository = requestRepository;
         mCompositeDisposable = new CompositeDisposable();
         mBaseSchedulerProvider = baseSchedulerProvider;
+        mUserRepository = userRepository;
     }
 
     @Override
@@ -51,6 +55,25 @@ final class ManageListRequestsPresenter implements ManageListRequestsContract.Pr
     @Override
     public void setViewModel(ManageListRequestsContract.ViewModel viewModel) {
         mViewModel = viewModel;
+    }
+
+    @Override
+    public void getUser() {
+        Disposable disposable = mUserRepository.getUser()
+                .subscribeOn(mBaseSchedulerProvider.io())
+                .observeOn(mBaseSchedulerProvider.ui())
+                .subscribe(new Consumer<User>() {
+                    @Override
+                    public void accept(@NonNull User user) throws Exception {
+                        mViewModel.onGetUserSuccess(user);
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        mViewModel.onGetUserError(error);
+                    }
+                });
+        mCompositeDisposable.add(disposable);
     }
 
     @Override

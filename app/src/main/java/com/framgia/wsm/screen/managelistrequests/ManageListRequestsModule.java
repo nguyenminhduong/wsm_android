@@ -4,7 +4,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import com.framgia.wsm.data.source.RequestRepository;
+import com.framgia.wsm.data.source.UserRepository;
+import com.framgia.wsm.data.source.local.UserLocalDataSource;
 import com.framgia.wsm.data.source.remote.RequestRemoteDataSource;
+import com.framgia.wsm.data.source.remote.UserRemoteDataSource;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.dagger.FragmentScope;
 import com.framgia.wsm.utils.navigator.Navigator;
@@ -51,8 +54,10 @@ public class ManageListRequestsModule {
     @FragmentScope
     @Provides
     public ManageListRequestsContract.Presenter providePresenter(
-            RequestRepository requestRepository, BaseSchedulerProvider baseSchedulerProvider) {
-        return new ManageListRequestsPresenter(requestRepository, baseSchedulerProvider);
+            RequestRepository requestRepository, BaseSchedulerProvider baseSchedulerProvider,
+            UserRepository userRepository) {
+        return new ManageListRequestsPresenter(requestRepository, baseSchedulerProvider,
+                userRepository);
     }
 
     @FragmentScope
@@ -73,5 +78,12 @@ public class ManageListRequestsModule {
     public RequestRepository provideRequestRepository(
             RequestRemoteDataSource requestRemoteDataSource) {
         return new RequestRepository(requestRemoteDataSource);
+    }
+
+    @FragmentScope
+    @Provides
+    public UserRepository provideUserRepository(UserLocalDataSource userLocalDataSource,
+            UserRemoteDataSource remoteDataSource) {
+        return new UserRepository(userLocalDataSource, remoteDataSource);
     }
 }
