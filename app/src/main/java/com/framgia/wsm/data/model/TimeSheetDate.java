@@ -40,6 +40,9 @@ public class TimeSheetDate extends BaseModel {
     @Expose
     @SerializedName("hours_over_time")
     private float mNumberOfOvertime;
+    @Expose
+    @SerializedName("compensation_holiday")
+    private String mCompensationHoliday;
 
     public TimeSheetDate() {
     }
@@ -149,6 +152,14 @@ public class TimeSheetDate extends BaseModel {
 
     public String getNumberOfOvertimeString() {
         return PREFIX_OT + mNumberOfOvertime;
+    }
+
+    public String getCompensationHoliday() {
+        return mCompensationHoliday;
+    }
+
+    public void setCompensationHoliday(String compensationHoliday) {
+        mCompensationHoliday = compensationHoliday;
     }
 
     public boolean isSpecialCase() {
