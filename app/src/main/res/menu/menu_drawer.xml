@@ -16,7 +16,9 @@
         </menu>
     </item>
 
-    <item android:title="@string/manage_requests">
+    <item
+        android:title="@string/manage_requests"
+        android:visible="false">
         <menu>
             <group android:checkableBehavior="single">
                 <item

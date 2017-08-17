@@ -300,21 +300,21 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
                 default:
                     break;
             }
-            return;
         }
-        switch (trackableType) {
-            case NotificationViewModel.TrackableType.REQUEST_LEAVE:
-                goNextFragmentListManageRequestLeave();
-                break;
-            case NotificationViewModel.TrackableType.REQUEST_OFF:
-                goNextFragmentListManageRequestOff();
-                break;
-            case NotificationViewModel.TrackableType.REQUEST_OT:
-                goNextFragmentListManageRequestOverTime();
-                break;
-            default:
-                break;
-        }
+        // todo open later
+        //        switch (trackableType) {
+        //            case NotificationViewModel.TrackableType.REQUEST_LEAVE:
+        //                goNextFragmentListManageRequestLeave();
+        //                break;
+        //            case NotificationViewModel.TrackableType.REQUEST_OFF:
+        //                goNextFragmentListManageRequestOff();
+        //                break;
+        //            case NotificationViewModel.TrackableType.REQUEST_OT:
+        //                goNextFragmentListManageRequestOverTime();
+        //                break;
+        //            default:
+        //                break;
+        //        }
     }
 
     @Override
