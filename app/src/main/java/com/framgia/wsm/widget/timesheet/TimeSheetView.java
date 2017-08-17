@@ -238,12 +238,17 @@ public class TimeSheetView extends View {
             if (day > range) {
                 dayCheck = day - range;
                 month = mMonth + 1;
-                if (month > CALENDAR_DECEMBER) {
+                if (month > 12) {
                     month = 0;
                     year = mYear + 1;
                 }
             } else {
                 dayCheck = day;
+            }
+            if (day > range
+                    && month == Calendar.JANUARY
+                    && cutOffDateIsLessThanHalfTotalDateOfMonth(month, mYear)) {
+                month = 1;
             }
             Date date = new Date(year - 1900, month - 1, dayCheck);
             Calendar calendar = Calendar.getInstance();
@@ -623,7 +628,11 @@ public class TimeSheetView extends View {
 
         if (monthCheck == 0) {
             calendarFirstDateOfMonth.set(Calendar.MONTH, CALENDAR_DECEMBER);
-            calendarFirstDateOfMonth.set(Calendar.YEAR, mYear - 1);
+            if (cutOffDateIsLessThanHalfTotalDateOfMonth(monthCheck, mYear)) {
+                calendarFirstDateOfMonth.set(Calendar.YEAR, mYear);
+            } else {
+                calendarFirstDateOfMonth.set(Calendar.YEAR, mYear - 1);
+            }
             mNumCells = DateTimeUtils.getDaysInMonth(CALENDAR_DECEMBER, mYear - 1) + addDay;
             if (mFirstDateOfMonth == 1) {
                 calendarFirstDateOfMonth.set(Calendar.MONTH, 0);
@@ -642,9 +651,15 @@ public class TimeSheetView extends View {
         }
 
         calendarFirstDateOfMonth.set(Calendar.DAY_OF_MONTH, mFirstDateOfMonth);
-        mDayOfWeekStart = calendarFirstDateOfMonth.get(Calendar.DAY_OF_WEEK);
 
         mWeekStart = mCalendar.getFirstDayOfWeek();
+
+        if (cutOffDateIsLessThanHalfTotalDateOfMonth(monthCheck, mYear)) {
+            calendarFirstDateOfMonth.set(Calendar.MONTH, mMonth);
+            mNumCells = DateTimeUtils.getDaysInMonth(mMonth, mYear) + addDay;
+            mMonth++;
+        }
+        mDayOfWeekStart = calendarFirstDateOfMonth.get(Calendar.DAY_OF_WEEK);
 
         for (int i = 0; i < mNumCells; i++) {
             final int day = i + 1;
@@ -653,6 +668,11 @@ public class TimeSheetView extends View {
                 mToday = day;
             }
         }
+    }
+
+    private boolean cutOffDateIsLessThanHalfTotalDateOfMonth(int month, int year) {
+        int totalDateOfMonth = DateTimeUtils.getDaysInMonth(month, year);
+        return mCutOffDate <= totalDateOfMonth / 2f;
     }
 
     public void setOnDayClickListener(OnDayClickListener onDayClickListener) {
