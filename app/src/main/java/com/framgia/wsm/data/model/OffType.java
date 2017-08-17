@@ -22,19 +22,22 @@ public class OffType extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("amount")
     private float mAmount;
+    @Expose
+    @SerializedName("remaining")
+    private float mRemaining;
 
-    public OffType(int id, String name, String payType, float amount) {
+    public OffType(int id, String name, String payType, float remaining) {
         mId = id;
         mName = name;
         mPayType = payType;
-        mAmount = amount;
+        mRemaining = remaining;
     }
 
     protected OffType(Parcel in) {
         mId = in.readInt();
         mName = in.readString();
         mPayType = in.readString();
-        mAmount = in.readFloat();
+        mRemaining = in.readFloat();
     }
 
     public static final Creator<OffType> CREATOR = new Creator<OffType>() {
@@ -73,6 +76,14 @@ public class OffType extends BaseModel implements Parcelable {
         mAmount = amount;
     }
 
+    public float getRemaining() {
+        return mRemaining;
+    }
+
+    public void setRemaining(float remaining) {
+        mRemaining = remaining;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -83,7 +94,7 @@ public class OffType extends BaseModel implements Parcelable {
         parcel.writeInt(mId);
         parcel.writeString(mName);
         parcel.writeString(mPayType);
-        parcel.writeFloat(mAmount);
+        parcel.writeFloat(mRemaining);
     }
 
     public int getId() {

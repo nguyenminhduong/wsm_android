@@ -22,7 +22,7 @@
         >
 
         <android.support.design.widget.TextInputLayout
-            android:hint="@{viewModel.leaveForCareOfSickChildAmount}"
+            android:hint="@{viewModel.leaveForCareOfSickChildRemaining}"
             bind:errorText="@{viewModel.leaveForCareOfSickChildError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
@@ -36,7 +36,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:hint="@{viewModel.pregnancyExaminationLeaveAmount}"
+            android:hint="@{viewModel.pregnancyExaminationLeaveRemaining}"
             bind:errorText="@{viewModel.pregnancyExaminationLeaveError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
@@ -50,7 +50,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:hint="@{viewModel.sickLeaveAmount}"
+            android:hint="@{viewModel.sickLeaveRemaining}"
             bind:errorText="@{viewModel.sickLeaveError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
@@ -64,7 +64,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:hint="@{viewModel.miscarriageLeaveAmount}"
+            android:hint="@{viewModel.miscarriageLeaveRemaining}"
             bind:errorText="@{viewModel.miscarriageLeaveError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
@@ -78,7 +78,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:hint="@{viewModel.maternityLeaveAmount}"
+            android:hint="@{viewModel.maternityLeaveRemaining}"
             bind:errorText="@{viewModel.maternityLeavedError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"
@@ -92,7 +92,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:hint="@{viewModel.wifeLaborLeaveAmount}"
+            android:hint="@{viewModel.wifeLaborLeaveRemaining}"
             bind:errorText="@{viewModel.wifeLaborLeaveError}"
             bind:viewModel="@{viewModel}"
             style="@style/StyleTextHint"

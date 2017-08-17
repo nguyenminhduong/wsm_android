@@ -10,13 +10,11 @@ import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
-import com.framgia.wsm.data.model.OffType;
 import com.framgia.wsm.data.model.RequestOverTime;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
 import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
-import com.framgia.wsm.screen.requestoff.RequestOffViewModel;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
@@ -25,7 +23,6 @@ import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
-import java.util.List;
 
 /**
  * Created by ths on 11/07/2017.
@@ -57,16 +54,6 @@ public class MemberRequestDetailViewModel extends BaseObservable
     private ApproveOrRejectListener mResultListener;
     private int mCurrentRequestType;
     private User mUser;
-    private String mAnnualLeaveAmount;
-    private String mLeaveForMarriageAmount;
-    private String mLeaveForChildMarriageAmount;
-    private String mFuneralLeaveAmount;
-    private String mLeaveForCareOfSickChildAmount;
-    private String mPregnancyExaminationLeaveAmount;
-    private String mSickLeaveAmount;
-    private String mMiscarriageLeaveAmount;
-    private String mMaternityLeaveAmount;
-    private String mWifeLaborLeaveAmount;
     private boolean mIsForward;
 
     MemberRequestDetailViewModel(Context context, Fragment fragment,
@@ -189,8 +176,6 @@ public class MemberRequestDetailViewModel extends BaseObservable
             return;
         }
         mUser = user;
-        getAmountOffDayCompany(mUser);
-        getAmountOffDayInsurance(mUser);
     }
 
     public boolean isVisibleOffRequest() {
@@ -707,89 +692,44 @@ public class MemberRequestDetailViewModel extends BaseObservable
         return mIsStatusReject;
     }
 
-    public String getAnnualLeaveAmount() {
-        return String.format(mContext.getString(R.string.annual_leave), mAnnualLeaveAmount);
+    public String getAnnualLeaveRemaining() {
+        return mContext.getString(R.string.annual_leave_detail);
     }
 
-    public void setAnnualLeaveAmount(String annualLeaveAmount) {
-        mAnnualLeaveAmount = annualLeaveAmount;
+    public String getLeaveForMarriageRemaining() {
+        return mContext.getString(R.string.leave_for_marriage_detail);
     }
 
-    public String getLeaveForMarriageAmount() {
-        return String.format(mContext.getString(R.string.leave_for_marriage),
-                mLeaveForMarriageAmount);
+    public String getLeaveForChildMarriageRemaining() {
+        return mContext.getString(R.string.leave_for_child_marriage_detail);
     }
 
-    public void setLeaveForMarriageAmount(String leaveForMarriageAmount) {
-        mLeaveForMarriageAmount = leaveForMarriageAmount;
+    public String getFuneralLeaveRemaining() {
+        return mContext.getString(R.string.funeral_leave_detail);
     }
 
-    public String getLeaveForChildMarriageAmount() {
-        return String.format(mContext.getString(R.string.leave_for_child_marriage),
-                mLeaveForChildMarriageAmount);
+    public String getLeaveForCareOfSickChildRemaining() {
+        return mContext.getString(R.string.leave_for_care_of_sick_child_detail);
     }
 
-    public void setLeaveForChildMarriageAmount(String leaveForChildMarriageAmount) {
-        mLeaveForChildMarriageAmount = leaveForChildMarriageAmount;
+    public String getPregnancyExaminationLeaveRemaining() {
+        return mContext.getString(R.string.pregnancy_examination_leave_detail);
     }
 
-    public String getFuneralLeaveAmount() {
-        return String.format(mContext.getString(R.string.funeral_leave), mFuneralLeaveAmount);
+    public String getSickLeaveRemaining() {
+        return mContext.getString(R.string.sick_leave_detail);
     }
 
-    public void setFuneralLeaveAmount(String funeralLeaveAmount) {
-        mFuneralLeaveAmount = funeralLeaveAmount;
+    public String getMiscarriageLeaveRemaining() {
+        return mContext.getString(R.string.miscarriage_leave_detail);
     }
 
-    public String getLeaveForCareOfSickChildAmount() {
-        return String.format(mContext.getString(R.string.leave_for_care_of_sick_child),
-                mLeaveForCareOfSickChildAmount);
+    public String getMaternityLeaveRemaining() {
+        return mContext.getString(R.string.maternity_leave_detail);
     }
 
-    public void setLeaveForCareOfSickChildAmount(String leaveForCareOfSickChildAmount) {
-        mLeaveForCareOfSickChildAmount = leaveForCareOfSickChildAmount;
-    }
-
-    public String getPregnancyExaminationLeaveAmount() {
-        return String.format(mContext.getString(R.string.pregnancy_examination_leave),
-                mPregnancyExaminationLeaveAmount);
-    }
-
-    public void setPregnancyExaminationLeaveAmount(String pregnancyExaminationLeaveAmount) {
-        mPregnancyExaminationLeaveAmount = pregnancyExaminationLeaveAmount;
-    }
-
-    public String getSickLeaveAmount() {
-        return String.format(mContext.getString(R.string.sick_leave), mSickLeaveAmount);
-    }
-
-    public void setSickLeaveAmount(String sickLeaveAmount) {
-        mSickLeaveAmount = sickLeaveAmount;
-    }
-
-    public String getMiscarriageLeaveAmount() {
-        return String.format(mContext.getString(R.string.miscarriage_leave),
-                mMiscarriageLeaveAmount);
-    }
-
-    public void setMiscarriageLeaveAmount(String miscarriageLeaveAmount) {
-        mMiscarriageLeaveAmount = miscarriageLeaveAmount;
-    }
-
-    public String getMaternityLeaveAmount() {
-        return String.format(mContext.getString(R.string.maternity_leave), mMaternityLeaveAmount);
-    }
-
-    public void setMaternityLeaveAmount(String maternityLeaveAmount) {
-        mMaternityLeaveAmount = maternityLeaveAmount;
-    }
-
-    public String getWifeLaborLeaveAmount() {
-        return String.format(mContext.getString(R.string.wife_labor_leave), mWifeLaborLeaveAmount);
-    }
-
-    public void setWifeLaborLeaveAmount(String wifeLaborLeaveAmount) {
-        mWifeLaborLeaveAmount = wifeLaborLeaveAmount;
+    public String getWifeLaborLeaveRemaining() {
+        return mContext.getString(R.string.wife_labor_leave_detail);
     }
 
     public boolean isVisibleLayoutOffRequestTitle() {
@@ -814,66 +754,6 @@ public class MemberRequestDetailViewModel extends BaseObservable
     public void setStatusForward(boolean statusForward) {
         mIsStatusForward = statusForward;
         notifyPropertyChanged(BR.statusForward);
-    }
-
-    private void getAmountOffDayCompany(User user) {
-        if (!(mOffRequest.getId() != 0 && isVisiableLayoutCompanyPay())) {
-            return;
-        }
-        List<OffType> offTypesCompanyPay = user.getTypesCompany();
-        for (int i = 0; i < offTypesCompanyPay.size(); i++) {
-            if (offTypesCompanyPay.get(i).getName().equals(ANNUAL)) {
-                setAnnualLeaveAmount(String.valueOf(offTypesCompanyPay.get(i).getAmount()));
-            }
-            if (offTypesCompanyPay.get(i).getId() == Integer.parseInt(
-                    RequestOffViewModel.TypeOfDays.LEAVE_FOR_MARRIAGE)) {
-                setLeaveForMarriageAmount(String.valueOf(offTypesCompanyPay.get(i).getAmount()));
-            }
-            if (offTypesCompanyPay.get(i).getId() == Integer.parseInt(
-                    RequestOffViewModel.TypeOfDays.LEAVE_FOR_CHILD_MARRIAGE)) {
-                setLeaveForChildMarriageAmount(
-                        String.valueOf(offTypesCompanyPay.get(i).getAmount()));
-            }
-            if (offTypesCompanyPay.get(i).getId() == Integer.parseInt(
-                    RequestOffViewModel.TypeOfDays.FUNERAL_LEAVE)) {
-                setFuneralLeaveAmount(String.valueOf(offTypesCompanyPay.get(i).getAmount()));
-            }
-        }
-    }
-
-    private void getAmountOffDayInsurance(User user) {
-        if (!(mOffRequest.getId() != 0 && isVisiableLayoutInsurance())) {
-            return;
-        }
-        List<OffType> offTypesInsurancePay = user.getTypesInsurance();
-        for (int i = 0; i < offTypesInsurancePay.size(); i++) {
-            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
-                    RequestOffViewModel.TypeOfDays.LEAVE_FOR_CARE_OF_SICK_CHILD)) {
-                setLeaveForCareOfSickChildAmount(
-                        String.valueOf(offTypesInsurancePay.get(i).getAmount()));
-            }
-            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
-                    RequestOffViewModel.TypeOfDays.PREGNANCY_EXAMINATON)) {
-                setPregnancyExaminationLeaveAmount(
-                        String.valueOf(offTypesInsurancePay.get(i).getAmount()));
-            }
-            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
-                    RequestOffViewModel.TypeOfDays.SICK_LEAVE)) {
-                setSickLeaveAmount(String.valueOf(offTypesInsurancePay.get(i).getAmount()));
-            }
-            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
-                    RequestOffViewModel.TypeOfDays.MISCARRIAGE_LEAVE)) {
-                setMiscarriageLeaveAmount(String.valueOf(offTypesInsurancePay.get(i).getAmount()));
-            }
-            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
-                    RequestOffViewModel.TypeOfDays.MATERNTY_LEAVE)) {
-                setMaternityLeaveAmount(String.valueOf(offTypesInsurancePay.get(i).getAmount()));
-            }
-            if (offTypesInsurancePay.get(i).getId() == Integer.parseInt(
-                    RequestOffViewModel.TypeOfDays.WIFE_LABOR_LEAVE)) {
-                setWifeLaborLeaveAmount(String.valueOf(offTypesInsurancePay.get(i).getAmount()));
-            }
-        }
     }
 
     public void onClickArrowBack() {

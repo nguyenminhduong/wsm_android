@@ -62,7 +62,7 @@
                 style="@style/StyleLinearLayoutConfirmRequestOff"
                 >
                 <TextView
-                    android:text="@{viewModel.annualLeaveAmount}"
+                    android:text="@{viewModel.annualLeaveRemaining}"
                     android:textStyle="bold"
                     style="@style/StyleTextConfirmRequestOff"
                     />
@@ -77,7 +77,7 @@
                 style="@style/StyleLinearLayoutConfirmRequestOff"
                 >
                 <TextView
-                    android:text="@{viewModel.leaveForChildMarriageAmount}"
+                    android:text="@{viewModel.leaveForChildMarriageRemaining}"
                     android:textStyle="bold"
                     style="@style/StyleTextConfirmRequestOff"
                     />
@@ -92,7 +92,7 @@
                 style="@style/StyleLinearLayoutConfirmRequestOff"
                 >
                 <TextView
-                    android:text="@{viewModel.leaveForMarriageAmount}"
+                    android:text="@{viewModel.leaveForMarriageRemaining}"
                     android:textStyle="bold"
                     style="@style/StyleTextConfirmRequestOff"
                     />
@@ -107,7 +107,7 @@
                 style="@style/StyleLinearLayoutConfirmRequestOff"
                 >
                 <TextView
-                    android:text="@{viewModel.funeralLeaveAmount}"
+                    android:text="@{viewModel.funeralLeaveRemaining}"
                     android:textStyle="bold"
                     style="@style/StyleTextConfirmRequestOff"
                     />
@@ -132,7 +132,7 @@
                 style="@style/StyleLinearLayoutConfirmRequestOff"
                 >
                 <TextView
-                    android:text="@{viewModel.leaveForCareOfSickChildAmount}"
+                    android:text="@{viewModel.leaveForCareOfSickChildRemaining}"
                     android:textStyle="bold"
                     style="@style/StyleTextConfirmRequestOff"
                     />
@@ -147,7 +147,7 @@
                 style="@style/StyleLinearLayoutConfirmRequestOff"
                 >
                 <TextView
-                    android:text="@{viewModel.sickLeaveAmount}"
+                    android:text="@{viewModel.sickLeaveRemaining}"
                     android:textStyle="bold"
                     style="@style/StyleTextConfirmRequestOff"
                     />
@@ -162,7 +162,7 @@
                 style="@style/StyleLinearLayoutConfirmRequestOff"
                 >
                 <TextView
-                    android:text="@{viewModel.maternityLeaveAmount}"
+                    android:text="@{viewModel.maternityLeaveRemaining}"
                     android:textStyle="bold"
                     style="@style/StyleTextConfirmRequestOff"
                     />
@@ -177,7 +177,7 @@
                 style="@style/StyleLinearLayoutConfirmRequestOff"
                 >
                 <TextView
-                    android:text="@{viewModel.pregnancyExaminationLeaveAmount}"
+                    android:text="@{viewModel.pregnancyExaminationLeaveRemaining}"
                     android:textStyle="bold"
                     style="@style/StyleTextConfirmRequestOff"
                     />
@@ -192,7 +192,7 @@
                 style="@style/StyleLinearLayoutConfirmRequestOff"
                 >
                 <TextView
-                    android:text="@{viewModel.miscarriageLeaveAmount}"
+                    android:text="@{viewModel.miscarriageLeaveRemaining}"
                     android:textStyle="bold"
                     style="@style/StyleTextConfirmRequestOff"
                     />
@@ -207,7 +207,7 @@
                 style="@style/StyleLinearLayoutConfirmRequestOff"
                 >
                 <TextView
-                    android:text="@{viewModel.wifeLaborLeaveAmount}"
+                    android:text="@{viewModel.wifeLaborLeaveRemaining}"
                     android:textStyle="bold"
                     style="@style/StyleTextConfirmRequestOff"
                     />
