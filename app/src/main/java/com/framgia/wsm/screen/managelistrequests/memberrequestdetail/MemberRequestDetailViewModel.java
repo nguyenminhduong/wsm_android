@@ -52,6 +52,7 @@ public class MemberRequestDetailViewModel extends BaseObservable
     private boolean mIsStatusReject;
     private boolean mIsStatusPending;
     private boolean mIsStatusForward;
+    private boolean mIsStatusCancel;
     private int mPosition;
     private ApproveOrRejectListener mResultListener;
     private int mCurrentRequestType;
@@ -99,6 +100,10 @@ public class MemberRequestDetailViewModel extends BaseObservable
         setStatusPending(StatusCode.PENDING_CODE.equals(mOffRequest.getStatus())
                 || StatusCode.PENDING_CODE.equals(mLeaveRequest.getStatus())
                 || StatusCode.PENDING_CODE.equals(mOverTimeRequest.getStatus()));
+        setStatusCancel(
+                StatusCode.CANCELED_CODE.equals(mOffRequest.getStatus()) || StatusCode.CANCELED_CODE
+                        .equals(mLeaveRequest.getStatus()) || StatusCode.CANCELED_CODE.equals(
+                        mOverTimeRequest.getStatus()));
         mPosition = position;
         mResultListener = resultListener;
     }
@@ -108,7 +113,8 @@ public class MemberRequestDetailViewModel extends BaseObservable
             mLeaveRequest = (LeaveRequest) item;
             mActionRequest.setTypeRequest(TypeRequest.LEAVE);
             mCurrentRequestType = RequestType.REQUEST_LATE_EARLY;
-            setForward(!mLeaveRequest.isCanApproveReject());
+            setForward((!mLeaveRequest.isCanApproveReject() || StatusCode.CANCELED_CODE.equals(
+                    mLeaveRequest.getStatus())));
             if (!mLeaveRequest.isCanApproveReject() && StatusCode.FORWARD_CODE.equals(
                     mLeaveRequest.getStatus())) {
                 setStatusForward(true);
@@ -117,7 +123,8 @@ public class MemberRequestDetailViewModel extends BaseObservable
             mOverTimeRequest = (RequestOverTime) item;
             mActionRequest.setTypeRequest(TypeRequest.OT);
             mCurrentRequestType = RequestType.REQUEST_OVERTIME;
-            setForward(!mOverTimeRequest.isCanApproveReject());
+            setForward((!mOverTimeRequest.isCanApproveReject() || StatusCode.CANCELED_CODE.equals(
+                    mOverTimeRequest.getStatus())));
             if (!mOverTimeRequest.isCanApproveReject() && StatusCode.FORWARD_CODE.equals(
                     mOverTimeRequest.getStatus())) {
                 setStatusForward(true);
@@ -126,7 +133,8 @@ public class MemberRequestDetailViewModel extends BaseObservable
             mOffRequest = (OffRequest) item;
             mActionRequest.setTypeRequest(TypeRequest.OFF);
             mCurrentRequestType = RequestType.REQUEST_OFF;
-            setForward(!mOffRequest.isCanApproveReject());
+            setForward((!mOffRequest.isCanApproveReject() || StatusCode.CANCELED_CODE.equals(
+                    mOffRequest.getStatus())));
             if (!mOffRequest.isCanApproveReject() && StatusCode.FORWARD_CODE.equals(
                     mOffRequest.getStatus())) {
                 setStatusForward(true);
@@ -657,6 +665,16 @@ public class MemberRequestDetailViewModel extends BaseObservable
             }
         }
         return "";
+    }
+
+    @Bindable
+    public boolean isStatusCancel() {
+        return mIsStatusCancel;
+    }
+
+    public void setStatusCancel(boolean statusCancel) {
+        mIsStatusCancel = statusCancel;
+        notifyPropertyChanged(BR.statusCancel);
     }
 
     @Bindable

@@ -540,6 +540,10 @@ public class ConfirmRequestOffViewModel extends BaseObservable
         return StatusCode.FORWARD_CODE.equals(mOffRequest.getStatus());
     }
 
+    public boolean isCancelStatus() {
+        return StatusCode.CANCELED_CODE.endsWith(mOffRequest.getStatus());
+    }
+
     public String getTitleToolbar() {
         if (mActionType == ActionType.ACTION_CREATE) {
             return mContext.getString(R.string.confirm_request_off);
