@@ -119,7 +119,7 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     }
 
     public boolean isCancelStatus() {
-        return StatusCode.CANCELED_CODE.endsWith(mRequest.getStatus());
+        return StatusCode.CANCELED_CODE.equals(mRequest.getStatus());
     }
 
     public boolean isForwardStatus() {
