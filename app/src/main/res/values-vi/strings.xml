@@ -351,6 +351,6 @@
     <string name="december">Tháng 12</string>
     <string name="current_month">Tháng hiện tại</string>
     <string name="canceld">Hủy bỏ</string>
-
+    <string name="format_date_mm_dd_yyyy">dd/MM/yyyy</string>
 
 </resources>

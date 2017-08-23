@@ -208,8 +208,7 @@ public class User extends BaseModel implements Parcelable {
     }
 
     public String getContractDate() {
-        return DateTimeUtils.convertUiFormatToDataFormat(mContractDate,
-                DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2, DateTimeUtils.FORMAT_DATE);
+        return mContractDate;
     }
 
     public void setContractDate(String contractDate) {

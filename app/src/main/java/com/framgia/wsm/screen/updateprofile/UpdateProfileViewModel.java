@@ -61,12 +61,10 @@ public class UpdateProfileViewModel extends BaseObservable
     }
 
     private void initData(User user) {
-        mUpdateProfileRequest = new UpdateProfileRequest();
-        mUpdateProfileRequest.setBirthday(mUser.getBirthday());
-        mAvatar = Constant.END_POINT_URL + mUser.getAvatar();
         mUserLocal = new User();
-        mBirthday = DateTimeUtils.convertUiFormatToDataFormat(user.getBirthday(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.FORMAT_DATE);
+        mUpdateProfileRequest = new UpdateProfileRequest();
+        mAvatar = user.getAvatar();
+        setBirthday(user.getBirthday());
         mPresenter.getUserLocal();
     }
 
@@ -136,7 +134,7 @@ public class UpdateProfileViewModel extends BaseObservable
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
+        String date = formatDate(DateTimeUtils.convertDateToString(year, month, dayOfMonth));
         setBirthday(date);
     }
 
@@ -162,7 +160,6 @@ public class UpdateProfileViewModel extends BaseObservable
 
     public void setBirthday(String birthday) {
         mBirthday = birthday;
-        mUpdateProfileRequest.setBirthday(birthday);
         notifyPropertyChanged(BR.birthday);
     }
 
@@ -179,6 +176,12 @@ public class UpdateProfileViewModel extends BaseObservable
     @Bindable
     public String getAvatar() {
         return mAvatar;
+    }
+
+    private String formatDate(String dataInput) {
+        return DateTimeUtils.convertUiFormatToDataFormat(dataInput,
+                DateTimeUtils.DATE_FORMAT_YYYY_MM_DD,
+                mContext.getString(R.string.format_date_mm_dd_yyyy));
     }
 
     public void onClickArrowBack(View view) {
@@ -199,13 +202,11 @@ public class UpdateProfileViewModel extends BaseObservable
         if (mUser == null) {
             return;
         }
-        if (!mPresenter.validateData(mUser)) {
-            mDialogManager.dialogError(
-                    mContext.getString(R.string.the_field_required_can_not_be_blank));
-            return;
-        }
         mUpdateProfileRequest.setUserId(mUser.getId());
         mUpdateProfileRequest.setName(mUser.getName());
+        mUpdateProfileRequest.setBirthday(DateTimeUtils.convertUiFormatToDataFormat(mBirthday,
+                mContext.getString(R.string.format_date_mm_dd_yyyy),
+                DateTimeUtils.DATE_FORMAT_YYYY_MM_DD));
         mPresenter.updateProfile(mUpdateProfileRequest);
     }
 }
