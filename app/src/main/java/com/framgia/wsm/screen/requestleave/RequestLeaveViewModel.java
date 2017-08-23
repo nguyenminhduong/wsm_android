@@ -1389,6 +1389,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckInTime(),
                     INPUT_TIME_FORMAT, DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         }
+        if (StringUtils.isBlank(mRequest.getCheckInTime())) {
+            return "";
+        }
         return mRequest.getCheckInTime();
     }
 
