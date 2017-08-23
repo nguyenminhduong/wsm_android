@@ -524,7 +524,7 @@
                     app:fab_colorNormal="@color/color_red_fresh"
                     app:fab_colorPressed="@color/color_red_firebrick"
                     app:fab_colorRipple="@color/color_dark_gray"
-                    app:fab_label="@string/create_request_off"
+                    app:fab_label="@string/create_others_request"
                     />
             </com.github.clans.fab.FloatingActionMenu>
             <com.github.clans.fab.FloatingActionMenu

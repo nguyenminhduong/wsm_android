@@ -37,7 +37,7 @@
 
     <string name="create_request_ot">Tạo yêu cầu làm ngoài giờ</string>
     <string name="create_request_leave">Tạo yêu cầu đi trễ, về sớm</string>
-    <string name="create_request_off">Tạo yêu cầu xin nghỉ</string>
+    <string name="create_others_request">Tạo yêu cầu Khác</string>
     <string name="navigation_drawer_open">Mở ngăn điều hướng</string>
     <string name="navigation_drawer_close">Đóng ngăn điều hướng</string>
     <string name="please_click_back_again_to_exit">Nhấn nút BACK lần nữa để thoát!</string>
