@@ -39,6 +39,7 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
     private String mUsername;
 
     @Validation({
+            @Rule(types = ValidType.VALUE_RANGE_MIN_6, message = R.string.least_6_characters),
             @Rule(types = ValidType.NON_EMPTY, message = R.string.is_empty)
     })
     private String mPassword;
@@ -150,9 +151,5 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
         }
         mDialogManager.showIndeterminateProgressDialog();
         mPresenter.login(mUsername, mPassword, mDeviceId);
-    }
-
-    public void validateEmail(String userName) {
-        mPresenter.validateUserNameInput(userName);
     }
 }

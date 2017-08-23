@@ -256,8 +256,8 @@ public final class BindingUtils {
         });
     }
 
-    @BindingAdapter({ "errorTextInputLayoutEmail" })
-    public static void setErrorTextInputLayoutEmail(final TextInputLayout textInputLayout,
+    @BindingAdapter({ "errorTextInputLayoutLogin" })
+    public static void setErrorTextInputLayoutLogin(final TextInputLayout textInputLayout,
             final String text) {
         textInputLayout.setError(text);
         EditText editText = textInputLayout.getEditText();

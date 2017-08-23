@@ -79,6 +79,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     private int mActionType;
     private String mProjectName;
     private boolean mIsVisibleGroup;
+    private boolean mIsCheckInTimeSelected;
+    private boolean mIsCheckOutTimeSelected;
+    private boolean mIsCompensationFromTimeSelected;
     private List<LeaveType> mLeaveTypes;
     private int mCurrentLeaveTypeId;
     private Shifts mCurrentShifts;
@@ -261,7 +264,16 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         if (year == 0) {
-            setCheckinTime(null);
+            if (mIsCheckInTimeSelected) {
+                setCheckinTime(null);
+            }
+            if (mIsCheckOutTimeSelected) {
+                setCheckoutTime(null);
+            }
+            if (mIsCompensationFromTimeSelected) {
+                setCompensationFromTime("");
+                setCompensationToTime("");
+            }
         }
         if (view.isShown()) {
             mCurrentDate = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
@@ -469,6 +481,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     public void onClickCheckinTime(View view) {
+        mIsCheckInTimeSelected = true;
+        mIsCheckOutTimeSelected = false;
+        mIsCompensationFromTimeSelected = false;
         mCurrentTimeSelected = CurrentTimeSelected.CHECK_IN;
         mDialogManager.showDatePickerDialog();
         if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
@@ -477,6 +492,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     public void onClickCheckoutTime(View view) {
+        mIsCheckInTimeSelected = false;
+        mIsCheckOutTimeSelected = true;
+        mIsCompensationFromTimeSelected = false;
         if (checkIfOnlyHaveCheckoutTime()) {
             mCurrentTimeSelected = CurrentTimeSelected.CHECK_OUT;
             mDialogManager.showDatePickerDialog();
@@ -494,6 +512,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     public void onClickCompensationFrom(View view) {
+        mIsCheckInTimeSelected = false;
+        mIsCheckOutTimeSelected = false;
+        mIsCompensationFromTimeSelected = true;
         switch (mCurrentLeaveType) {
             case LeaveTypeId.IN_LATE_A:
             case LeaveTypeId.IN_LATE_M:
@@ -1047,8 +1068,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
 
     private void validateCompensationTime(String compensationFromTime) {
         Date compensationFromTimeDate = DateTimeUtils.convertStringToDate(compensationFromTime);
-        Date checkinTimeDate = DateTimeUtils.convertStringToDate(mCheckinTime);
-        Date checkoutTimeDate = DateTimeUtils.convertStringToDate(mCheckoutTime);
+        Date checkinTimeDate = DateTimeUtils.convertStringToDate(getCheckinTime());
+        Date checkoutTimeDate = DateTimeUtils.convertStringToDate(getCheckoutTime());
         if (StringUtils.isNotBlank(mCheckinTime)) {
             if (compensationFromTimeDate.before(checkinTimeDate)) {
                 validateErrorDialog(

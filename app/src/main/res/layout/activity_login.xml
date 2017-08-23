@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/color_white"
-                bind:errorTextInputLayoutEmail="@{viewModel.usernameError}"
+                bind:errorTextInputLayoutLogin="@{viewModel.usernameError}"
                 >
 
                 <EditText
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
                 android:textColorHint="@color/color_white"
-                bind:errorTextInputLayout="@{viewModel.passwordError}"
+                bind:errorTextInputLayoutLogin="@{viewModel.passwordError}"
                 >
 
                 <EditText
