@@ -353,5 +353,6 @@
     <string name="canceld">Hủy bỏ</string>
     <string name="format_date_mm_dd_yyyy">dd/MM/yyyy</string>
     <string name="your_age_is_under_employment">Bạn chưa đủ tuổi lao động</string>
+    <string name="change_password_success">Mật khẩu của bạn đã được thay đổi thành công!</string>
 
 </resources>

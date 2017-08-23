@@ -70,6 +70,7 @@ public class ChangePasswordViewModel extends BaseObservable
 
     @Override
     public void onChangePasswordSuccess() {
+        mNavigator.showToast(R.string.change_password_success);
         mNavigator.finishActivityWithResult(Activity.RESULT_OK);
     }
 

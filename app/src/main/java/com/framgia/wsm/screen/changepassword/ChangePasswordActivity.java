@@ -2,25 +2,19 @@ package com.framgia.wsm.screen.changepassword;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import com.framgia.wsm.MainApplication;
 import com.framgia.wsm.R;
-import com.framgia.wsm.data.event.UnauthorizedEvent;
 import com.framgia.wsm.databinding.ActivityChangePasswordBinding;
-import com.framgia.wsm.screen.BaseActivity;
-import com.framgia.wsm.widget.dialog.DialogManager;
 import javax.inject.Inject;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * changepassword Screen.
  */
-public class ChangePasswordActivity extends BaseActivity {
+public class ChangePasswordActivity extends AppCompatActivity {
 
     @Inject
     ChangePasswordContract.ViewModel mViewModel;
-    @Inject
-    DialogManager mDialogManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +41,5 @@ public class ChangePasswordActivity extends BaseActivity {
     protected void onStop() {
         mViewModel.onStop();
         super.onStop();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(UnauthorizedEvent event) {
-        mDialogManager.showDialogUnauthorized();
     }
 }
