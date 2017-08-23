@@ -205,6 +205,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (mActionType == ActionType.ACTION_EDIT) {
             mCurrentBranchPosition = (searchBranchPosition(mUser.getBranches(),
                     mRequest.getBranch().getBranchName()));
+            mCurrentLeaveTypeId = mRequest.getLeaveTypeId();
         }
         mRequest.setCompanyId(mUser.getCompany().getId());
         mCurrentLeaveTypePosition =
