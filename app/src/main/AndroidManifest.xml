@@ -37,6 +37,9 @@
                 <data
                     android:host="wsm.framgia.vn"
                     android:scheme="http"/>
+                <data
+                    android:host="edev.framgia.vn"
+                    android:scheme="http"/>
             </intent-filter>
         </activity>
         <activity
