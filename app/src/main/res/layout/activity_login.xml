@@ -107,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_50"
-                android:background="@color/color_green"
+                android:background="@drawable/button_animation"
                 android:onClick="@{viewModel::onLoginClick}"
                 android:padding="@dimen/dp_15"
                 android:shadowRadius="5"
