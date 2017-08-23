@@ -585,20 +585,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     private void validateCheckinTime(String checkinTime) {
-        String currentTime =
-                DateTimeUtils.convertToString(new Date(), DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         switch (mCurrentLeaveType) {
             case LeaveTypeId.FORGOT_CARD_ALL_DAY:
-                validateCheckinForgotCardAllDay(checkinTime, currentTime);
-                break;
             case LeaveTypeId.FORGOT_CARD_IN:
-                validateForgotCardIn(checkinTime, currentTime);
-                break;
             case LeaveTypeId.FORGOT_TO_CHECK_IN:
-                validateForgotCheckin(checkinTime, currentTime);
-                break;
             case LeaveTypeId.FORGOT_CHECK_ALL_DAY:
-                validateCheckinForgotCheckAllDay(checkinTime, currentTime);
+                setCheckinTime(checkinTime);
                 break;
             case LeaveTypeId.IN_LATE_M:
                 validateInLateM(checkinTime);
@@ -765,69 +757,17 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         validateErrorDialog(mContext.getString(R.string.check_in_time_must_be_in_morning_shift));
     }
 
-    private void validateCheckinForgotCheckAllDay(String checkinTime, String currentTime) {
-        Date checkinTimeDate = DateTimeUtils.convertStringToDate(checkinTime);
-        Date currentTimeDate = DateTimeUtils.convertStringToDate(currentTime);
-        if (!checkinTimeDate.after(currentTimeDate) && DateTimeUtils.checkHourOfDateLessThanOrEqual(
-                checkinTime, mHourOfTimeLunch, mMinuteOfTimeLunch)) {
-            setCheckinTime(checkinTime);
-            return;
-        }
-        validateErrorDialog(
-                mContext.getString(R.string.the_working_time_dose_not_fit_to_the_request));
-    }
-
-    private void validateForgotCheckin(String checkinTime, String currentTime) {
-        Date checkinTimeDate = DateTimeUtils.convertStringToDate(checkinTime);
-        Date currentTimeDate = DateTimeUtils.convertStringToDate(currentTime);
-        if (!checkinTimeDate.after(currentTimeDate)) {
-            setCheckinTime(checkinTime);
-            return;
-        }
-        validateErrorDialog(mContext.getString(R.string.time_request_overtime_invalid));
-    }
-
-    private void validateForgotCardIn(String checkinTime, String currentTime) {
-        String checkinTimeString = DateTimeUtils.convertDateTimeToDate(checkinTime);
-        String currentTimeString = DateTimeUtils.convertDateTimeToDate(currentTime);
-        if (checkinTimeString.equals(currentTimeString)) {
-            setCheckinTime(checkinTime);
-            return;
-        }
-        validateErrorDialog(mContext.getString(R.string.form_overdue));
-    }
-
-    private void validateCheckinForgotCardAllDay(String checkinTime, String currentTime) {
-        String checkinTimeString = DateTimeUtils.convertDateTimeToDate(checkinTime);
-        String currentTimeString = DateTimeUtils.convertDateTimeToDate(currentTime);
-        if (!checkinTimeString.equals(currentTimeString)) {
-            validateErrorDialog(mContext.getString(R.string.form_overdue));
-            return;
-        }
-        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkinTime, mHourOfTimeLunch,
-                mMinuteOfTimeLunch)) {
-            setCheckinTime(checkinTime);
-            return;
-        }
-        validateErrorDialog(
-                mContext.getString(R.string.the_working_time_dose_not_fit_to_the_request));
-    }
-
     private void validateCheckoutTime(String checkoutTime) {
-        String currentTime =
-                DateTimeUtils.convertToString(new Date(), DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
         switch (mCurrentLeaveType) {
             case LeaveTypeId.FORGOT_CARD_ALL_DAY:
-                validateCheckoutForgotCardAllDay(checkoutTime, currentTime);
+                validateCheckoutForgotCheckAllDayAndForgotCardAllDay(checkoutTime);
                 break;
             case LeaveTypeId.FORGOT_CARD_OUT:
-                validateForgotCardOut(checkoutTime, currentTime);
-                break;
             case LeaveTypeId.FORGOT_TO_CHECK_OUT:
-                validateForgotCheckout(checkoutTime, currentTime);
+                setCheckoutTime(checkoutTime);
                 break;
             case LeaveTypeId.FORGOT_CHECK_ALL_DAY:
-                validateCheckoutForgotCheckAllDay(checkoutTime, currentTime);
+                validateCheckoutForgotCheckAllDayAndForgotCardAllDay(checkoutTime);
                 break;
             case LeaveTypeId.LEAVE_EARLY_M:
                 validateLeaveEarlyM(checkoutTime);
@@ -1005,49 +945,18 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 mContext.getString(R.string.your_time_can_not_be_later_than_time_out_company));
     }
 
-    private void validateCheckoutForgotCheckAllDay(String checkoutTime, String currentTime) {
-        Date currentTimeDate = DateTimeUtils.convertStringToDate(currentTime);
+    private void validateCheckoutForgotCheckAllDayAndForgotCardAllDay(String checkoutTime) {
         Date checkoutTimeDate = DateTimeUtils.convertStringToDate(checkoutTime);
-        if (!checkoutTimeDate.after(currentTimeDate) && !DateTimeUtils.checkHourOfDateLessThan(
-                checkoutTime, mHourOfTimeAfternoon, mMinuteOfTimeAfternoon)) {
-            setCheckoutTime(checkoutTime);
-            return;
-        }
-        validateErrorDialog(
-                mContext.getString(R.string.the_working_time_dose_not_fit_to_the_request));
-    }
-
-    private void validateForgotCheckout(String checkoutTime, String currentTime) {
-        Date currentTimeDate = DateTimeUtils.convertStringToDate(currentTime);
-        Date checkoutTimeDate = DateTimeUtils.convertStringToDate(checkoutTime);
-        if (!checkoutTimeDate.after(currentTimeDate)) {
-            setCheckoutTime(checkoutTime);
-            return;
-        }
-        validateErrorDialog(mContext.getString(R.string.form_overdue));
-    }
-
-    private void validateForgotCardOut(String checkoutTime, String currentTime) {
-        String currentTimeString = DateTimeUtils.convertDateTimeToDate(currentTime);
-        String checkoutTimeString = DateTimeUtils.convertDateTimeToDate(checkoutTime);
-        if (checkoutTimeString.equals(currentTimeString)) {
-            setCheckoutTime(checkoutTime);
-            return;
-        }
-        validateErrorDialog(mContext.getString(R.string.form_overdue));
-    }
-
-    private void validateCheckoutForgotCardAllDay(String checkoutTime, String currentTime) {
-        String checkoutTimeString = DateTimeUtils.convertDateTimeToDate(checkoutTime);
-        String checkinTimeString = DateTimeUtils.convertDateTimeToDate(mCheckinTime);
-        if (!checkinTimeString.equals(checkoutTimeString)) {
+        Date checkinTimeDate = DateTimeUtils.convertStringToDate(getCheckinTime());
+        Date checkoutTimeDateTime = DateTimeUtils.convertStringToDateTime(checkoutTime);
+        Date checkinTimeDateTime = DateTimeUtils.convertStringToDateTime(getCheckinTime());
+        if (checkinTimeDate.before(checkoutTimeDate)) {
             validateErrorDialog(mContext.getString(R.string.time_must_be_is_in_a_day));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeAfternoon,
-                mMinuteOfTimeAfternoon)) {
-            validateErrorDialog(
-                    mContext.getString(R.string.the_working_time_dose_not_fit_to_the_request));
+        if (!checkinTimeDateTime.before(checkoutTimeDateTime)) {
+            validateErrorDialog(mContext.getString(
+                    R.string.request_time_to_can_not_greater_than_request_time_from));
             return;
         }
         setCheckoutTime(checkoutTime);
