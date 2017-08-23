@@ -543,7 +543,7 @@ public class ConfirmRequestOffViewModel extends BaseObservable
     }
 
     public boolean isCancelStatus() {
-        return StatusCode.CANCELED_CODE.endsWith(mOffRequest.getStatus());
+        return StatusCode.CANCELED_CODE.equals(mOffRequest.getStatus());
     }
 
     public String getTitleToolbar() {

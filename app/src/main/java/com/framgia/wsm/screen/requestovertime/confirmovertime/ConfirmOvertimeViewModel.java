@@ -192,7 +192,7 @@ public class ConfirmOvertimeViewModel extends BaseObservable
     }
 
     public boolean isCancelStatus() {
-        return StatusCode.CANCELED_CODE.endsWith(mRequestOverTime.getStatus());
+        return StatusCode.CANCELED_CODE.equals(mRequestOverTime.getStatus());
     }
 
     public void setActionType(int actionType) {
