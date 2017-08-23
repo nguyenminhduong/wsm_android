@@ -55,7 +55,7 @@ public class StatisticContainerAdapter extends FragmentPagerAdapter {
             case StatisticResultTab.TAB_MONTH:
                 return mContext.getString(R.string.current_month);
             case StatisticResultTab.TAB_YEAR:
-                return mContext.getString(R.string.year);
+                return mContext.getString(R.string.current_year);
             default:
                 return null;
         }

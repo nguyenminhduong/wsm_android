@@ -332,7 +332,7 @@
     <string name="request_leave_legend">IL/LE/LO</string>
     <string name="request_ot_approved">Request Ots approved</string>
     <string name="there_is_no_request_to_choose">There is no request to choose</string>
-    <string name="year">year</string>
+    <string name="current_year">Current Year</string>
     <string name="number_of_il_lo_le_forgot_to_swipe_forget_card">Number of IL/LO/LE/Forgot to swipe/Forget card</string>
     <string name="approved">Approved</string>
     <string name="number_of_penalties">Number of penalties</string>

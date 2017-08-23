@@ -318,7 +318,7 @@
     <string name="request_leave_legend">Đi trễ/ Về sớm/ Rời khỏi</string>
     <string name="request_ot_approved">Làm thêm giờ</string>
     <string name="there_is_no_request_to_choose">Không có yêu cầu nào để chọn</string>
-    <string name="year">Năm</string>
+    <string name="current_year">Năm hiện tại</string>
     <string name="number_of_il_lo_le_forgot_to_swipe_forget_card">Số lần IL/LO/LE/quên quẹt/quên thẻ</string>
     <string name="approved">Chấp nhận</string>
     <string name="number_of_penalties">Số lần phạt</string>
