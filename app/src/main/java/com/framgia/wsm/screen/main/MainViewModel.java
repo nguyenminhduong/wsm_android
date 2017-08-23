@@ -22,6 +22,7 @@ import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.navigator.NavigateAnim;
 import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.widget.dialog.DialogManager;
 
 /**
  * Exposes the data to be used in the Main screen.
@@ -39,6 +40,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     private int mCurrentItem;
     private int mCurrentPage;
     private Navigator mNavigator;
+    private DialogManager mDialogManager;
     private MainViewPagerAdapter mViewPagerAdapter;
     private String mCurrentTitleToolbar;
     private boolean mIsShowNumberNotification;
@@ -47,12 +49,14 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     private String mNotificationRequestType;
 
     MainViewModel(Context context, MainContract.Presenter presenter,
-            MainViewPagerAdapter viewPagerAdapter, Navigator navigator) {
+            MainViewPagerAdapter viewPagerAdapter, Navigator navigator,
+            DialogManager dialogManager) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mViewPagerAdapter = viewPagerAdapter;
         mNavigator = navigator;
+        mDialogManager = dialogManager;
         mCurrentItem = R.id.item_working_calendar;
         mCurrentTitleToolbar = titleWorkingCalendar();
         mPresenter.getUser();
@@ -432,6 +436,15 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
             return;
         }
         switch (notificationRequestType) {
+            case Constant.SILENT_NOTIFICATION:
+                if (mUser.isManage()) {
+                    mDialogManager.dialogError(mContext.getString(
+                            R.string.organization_charts_feature_is_currently_only_available_on_the_web));
+                    return;
+                }
+                mDialogManager.dialogError(
+                        mContext.getString(R.string.you_are_unauthorized_to_access));
+                break;
             case Constant.REQUEST_OTS:
                 goNextFragmentListRequestOverTime();
                 break;

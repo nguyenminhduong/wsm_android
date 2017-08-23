@@ -32,8 +32,9 @@ class MainModule {
     @ActivityScope
     @Provides
     MainContract.ViewModel provideViewModel(Context context, MainContract.Presenter presenter,
-            MainViewPagerAdapter viewPagerAdapter, Navigator navigator) {
-        return new MainViewModel(context, presenter, viewPagerAdapter, navigator);
+            MainViewPagerAdapter viewPagerAdapter, Navigator navigator,
+            DialogManager dialogManager) {
+        return new MainViewModel(context, presenter, viewPagerAdapter, navigator, dialogManager);
     }
 
     @ActivityScope

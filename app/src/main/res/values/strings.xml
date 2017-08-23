@@ -82,6 +82,8 @@
     <string name="unpaid_day_off">Unpaid day off</string>
     <string name="number_day_off">Number of day off</string>
     <string name="off_no_salary">Off no salary</string>
+    <string name="organization_charts_feature_is_currently_only_available_on_the_web">Organization charts feature is currently only available on the website!</string>
+    <string name="you_are_unauthorized_to_access">You are unauthorized to access!</string>
 
     <string name="off_type">Off type</string>
     <string name="annual_leave">Annual leave (%s days)</string>
