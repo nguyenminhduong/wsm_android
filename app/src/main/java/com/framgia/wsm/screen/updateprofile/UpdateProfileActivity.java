@@ -60,7 +60,7 @@ public class UpdateProfileActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constant.RequestCode.REQUEST_SELECT_AVATAR
                 && resultCode == Activity.RESULT_OK) {
-            if (data == null) {
+            if (data == null || data.getData() == null) {
                 return;
             }
             Uri uriAvatar = data.getData();
