@@ -365,4 +365,6 @@
     <string name="december">December</string>
     <string name="current_month">Current Month</string>
     <string name="format_date_mm_dd_yyyy">MM/dd/yyyy</string>
+    <string name="your_age_is_under_employment">Your age is under employment</string>
+
 </resources>

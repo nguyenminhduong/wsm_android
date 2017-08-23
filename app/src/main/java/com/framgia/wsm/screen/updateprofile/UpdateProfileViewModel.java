@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -21,7 +22,10 @@ import com.framgia.wsm.utils.RequestPermissionManager;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
+import com.fstyle.library.DialogAction;
+import com.fstyle.library.MaterialDialog;
 import java.io.File;
+import java.util.Calendar;
 
 /**
  * Exposes the data to be used in the Updateprofile screen.
@@ -31,6 +35,7 @@ public class UpdateProfileViewModel extends BaseObservable
         implements UpdateProfileContract.ViewModel, DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = "UpdateProfileViewModel";
+    private static final int AGE_EIGHTEEN = 18;
 
     private UpdateProfileContract.Presenter mPresenter;
 
@@ -134,8 +139,25 @@ public class UpdateProfileViewModel extends BaseObservable
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = formatDate(DateTimeUtils.convertDateToString(year, month, dayOfMonth));
-        setBirthday(date);
+        if (year == 0) {
+            setBirthday(null);
+            return;
+        }
+        Calendar calendar = Calendar.getInstance();
+        int currentAgeEmployee = calendar.get(Calendar.YEAR) - year;
+        if (currentAgeEmployee > AGE_EIGHTEEN) {
+            String date = formatDate(DateTimeUtils.convertDateToString(year, month, dayOfMonth));
+            setBirthday(date);
+            return;
+        }
+        mDialogManager.dialogError(mContext.getString(R.string.your_age_is_under_employment),
+                new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog materialDialog,
+                            @NonNull DialogAction dialogAction) {
+                        mDialogManager.showDatePickerDialog();
+                    }
+                });
     }
 
     @Override
