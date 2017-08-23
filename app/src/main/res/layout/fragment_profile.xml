@@ -17,7 +17,7 @@
             name="color"
             type="com.framgia.wsm.utils.binding.ColorManagers"
             />
-
+        <import type="android.view.View"/>
     </data>
 
     <android.support.v7.widget.CardView
@@ -220,6 +220,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp_15"
                             android:orientation="horizontal"
+                            android:visibility="@{viewModel.visibleContractDate ? View.GONE : View.VISIBLE}"
                             >
                             <com.framgia.wsm.widget.CircleView
                                 app:circleColor="@{color.colorGreen5}"
@@ -250,6 +251,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp_15"
                             android:orientation="horizontal"
+                            android:visibility="@{viewModel.visibleStartProbation ? View.GONE : View.VISIBLE}"
                             >
                             <com.framgia.wsm.widget.CircleView
                                 app:circleColor="@{color.colorGreen6}"
@@ -277,6 +279,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp_15"
                             android:orientation="horizontal"
+                            android:visibility="@{viewModel.visibleEndProbation ? View.GONE : View.VISIBLE}"
                             >
                             <com.framgia.wsm.widget.CircleView
                                 app:circleColor="@{color.colorGreen7}"
