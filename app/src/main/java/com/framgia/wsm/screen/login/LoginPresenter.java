@@ -235,7 +235,14 @@ final class LoginPresenter implements LoginContract.Presenter {
 
     private void validatePasswordInput(String password) {
         String messagePassword = mValidator.validateValueNonEmpty(password);
-        if (!StringUtils.isBlank(messagePassword)) {
+        if (StringUtils.isBlank(messagePassword)) {
+            messagePassword = mValidator.validateValueRangeMin6(password);
+            if (!StringUtils.isBlank(messagePassword)) {
+                mViewModel.onInputPasswordError(messagePassword);
+            } else {
+                mViewModel.onInputPasswordError("");
+            }
+        } else {
             mViewModel.onInputPasswordError(messagePassword);
         }
     }
