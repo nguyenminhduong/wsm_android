@@ -48,6 +48,7 @@ public class FireBaseMessageService extends FirebaseMessagingService {
     private static final String NOTIFICATION_NUMBER = "NOTIFICATION_NUMBER";
     private static final String MESSAGE = "message";
     private static final String SHOW = "show";
+    private static final String SILENT = "silent";
     private static final String TYPE = "type";
     private static final String PERMISSION = "permission";
     private static final int ID_1 = 1;
@@ -81,9 +82,36 @@ public class FireBaseMessageService extends FirebaseMessagingService {
             String requestType =
                     SHOW.equals(notificationType) ? remoteMessage.getData().get(PERMISSION)
                             : Constant.BLANK;
+            if (SILENT.equals(remoteMessage.getData().get(TYPE))) {
+                updateUserProfile();
+                requestType = Constant.SILENT_NOTIFICATION;
+            }
             sendNotification(messageResponse, requestType);
             updateRemainingDayOff(requestType);
         }
+    }
+
+    private void updateUserProfile() {
+        mUserRepository.getUser()
+                .subscribeOn(mBaseSchedulerProvider.io())
+                .flatMap(new Function<User, ObservableSource<User>>() {
+                    @Override
+                    public ObservableSource<User> apply(@NonNull User user) throws Exception {
+                        return mUserRepository.getUserProfile(user.getId());
+                    }
+                })
+                .observeOn(mBaseSchedulerProvider.ui())
+                .subscribe(new Consumer<User>() {
+                    @Override
+                    public void accept(@NonNull User user) throws Exception {
+                        mUserRepository.saveUser(user);
+                    }
+                }, new RequestError() {
+                    @Override
+                    public void onRequestError(BaseException error) {
+                        Log.e(TAG, "onRequestError: ", error);
+                    }
+                });
     }
 
     private void updateRemainingDayOff(String requestType) {

@@ -54,6 +54,8 @@
     <string name="confirm_password_does_not_match">Xác nhận mật khẩu không khớp!</string>
     <string name="request_leave">Yêu cầu đi trễ, về sớm</string>
     <string name="can_not_edit_group">Không thể thay đổi phòng ban!</string>
+    <string name="organization_charts_feature_is_currently_only_available_on_the_web">Tính năng xem sở đồ tổ chức hiện chỉ khả dụng ở phiên bản web!</string>
+    <string name="you_are_unauthorized_to_access">Bạn không có quyền truy cập!</string>
 
     <string name="employee_name">Tên nhân viên</string>
     <string name="employee_code">Mã nhân viên</string>
