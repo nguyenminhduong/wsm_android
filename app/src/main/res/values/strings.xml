@@ -364,5 +364,5 @@
     <string name="november">November</string>
     <string name="december">December</string>
     <string name="current_month">Current Month</string>
-
+    <string name="format_date_mm_dd_yyyy">MM/dd/yyyy</string>
 </resources>

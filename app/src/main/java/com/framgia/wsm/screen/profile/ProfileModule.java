@@ -1,5 +1,6 @@
 package com.framgia.wsm.screen.profile;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import com.framgia.wsm.data.source.UserRepository;
@@ -28,9 +29,10 @@ public class ProfileModule {
 
     @FragmentScope
     @Provides
-    public ProfileContract.ViewModel provideViewModel(ProfileContract.Presenter presenter,
-            Navigator navigator, BranchAdapter branchAdapter, GroupAdapter groupAdapter) {
-        return new ProfileViewModel(presenter, navigator, branchAdapter, groupAdapter);
+    public ProfileContract.ViewModel provideViewModel(Context context,
+            ProfileContract.Presenter presenter, Navigator navigator, BranchAdapter branchAdapter,
+            GroupAdapter groupAdapter) {
+        return new ProfileViewModel(context, presenter, navigator, branchAdapter, groupAdapter);
     }
 
     @FragmentScope

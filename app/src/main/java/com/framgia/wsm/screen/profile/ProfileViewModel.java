@@ -1,11 +1,13 @@
 package com.framgia.wsm.screen.profile;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import com.framgia.wsm.BR;
+import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.changepassword.ChangePasswordActivity;
@@ -24,6 +26,7 @@ import com.framgia.wsm.utils.string.StringUtils;
 public class ProfileViewModel extends BaseObservable implements ProfileContract.ViewModel {
     private static final String TAG = "ProfileViewModel";
 
+    private Context mContext;
     private ProfileContract.Presenter mPresenter;
     private Navigator mNavigator;
     private BranchAdapter mBranchAdapter;
@@ -33,9 +36,15 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
     private boolean mIsVisibleStartProbation;
     private boolean mIsVisibleEndProbation;
     private boolean mIsVisibleContractDate;
+    private String mAvatar;
+    private String mBirthday;
+    private String mContractDate;
+    private String mStartProbationDate;
+    private String mEndProbationDate;
 
-    public ProfileViewModel(ProfileContract.Presenter presenter, Navigator navigator,
-            BranchAdapter branchAdapter, GroupAdapter groupAdapter) {
+    public ProfileViewModel(Context context, ProfileContract.Presenter presenter,
+            Navigator navigator, BranchAdapter branchAdapter, GroupAdapter groupAdapter) {
+        mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mNavigator = navigator;
@@ -61,14 +70,17 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
         }
         mUser = user;
         notifyPropertyChanged(BR.user);
-        notifyPropertyChanged(BR.avatar);
-        notifyPropertyChanged(BR.birthday);
         mBranchAdapter.updateDataBranch(mUser.getBranches());
         mGroupAdapter.updateDataGroup(mUser.getGroups());
         mIsLoadDataFirstTime = false;
         setVisibleStartProbation(StringUtils.isBlank(mUser.getStartProbationDate()));
         setVisibleEndProbation(StringUtils.isBlank(mUser.getEndProbationDate()));
         setVisibleContractDate(StringUtils.isBlank(mUser.getContractDate()));
+        setAvatar(mUser.getAvatar());
+        setBirthday(mUser.getBirthday());
+        setContractDate(mUser.getContractDate());
+        setEndProbationDate(mUser.getEndProbationDate());
+        setStartProbationDate(mUser.getStartProbationDate());
     }
 
     @Override
@@ -90,21 +102,73 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
 
     @Bindable
     public String getAvatar() {
-        return mUser != null ? Constant.END_POINT_URL + mUser.getAvatar() : "";
+        return mAvatar;
+    }
+
+    public void setAvatar(String avatar) {
+        mAvatar = Constant.END_POINT_URL + avatar;
+        mUser.setAvatar(mAvatar);
+        notifyPropertyChanged(BR.avatar);
     }
 
     @Bindable
     public String getBirthday() {
-        return mUser != null ? DateTimeUtils.convertUiFormatToDataFormat(mUser.getBirthday(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.FORMAT_DATE) : "";
+        return mBirthday;
     }
 
-    public void setVisibleStartProbation(boolean visibleStartProbation) {
+    public void setBirthday(String birthday) {
+        mBirthday =
+                DateTimeUtils.convertUiFormatToDataFormat(birthday, DateTimeUtils.INPUT_TIME_FORMAT,
+                        mContext.getString(R.string.format_date_mm_dd_yyyy));
+        mUser.setBirthday(mBirthday);
+        notifyPropertyChanged(BR.birthday);
+    }
+
+    @Bindable
+    public String getContractDate() {
+        return mContractDate;
+    }
+
+    private void setContractDate(String contractDate) {
+        mContractDate = formatDate(contractDate);
+        mUser.setContractDate(mContractDate);
+        notifyPropertyChanged(BR.contractDate);
+    }
+
+    @Bindable
+    public String getStartProbationDate() {
+        return mStartProbationDate;
+    }
+
+    private void setStartProbationDate(String startProbationDate) {
+        mStartProbationDate = formatDate(startProbationDate);
+        mUser.setStartProbationDate(mStartProbationDate);
+        notifyPropertyChanged(BR.startProbationDate);
+    }
+
+    @Bindable
+    public String getEndProbationDate() {
+        return mEndProbationDate;
+    }
+
+    private void setEndProbationDate(String endProbationDate) {
+        mEndProbationDate = formatDate(endProbationDate);
+        mUser.setEndProbationDate(mEndProbationDate);
+        notifyPropertyChanged(BR.endProbationDate);
+    }
+
+    private String formatDate(String dataInput) {
+        return DateTimeUtils.convertUiFormatToDataFormat(dataInput,
+                DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2,
+                mContext.getString(R.string.format_date_mm_dd_yyyy));
+    }
+
+    private void setVisibleStartProbation(boolean visibleStartProbation) {
         mIsVisibleStartProbation = visibleStartProbation;
         notifyPropertyChanged(BR.visibleStartProbation);
     }
 
-    public void setVisibleEndProbation(boolean visibleEndProbation) {
+    private void setVisibleEndProbation(boolean visibleEndProbation) {
         mIsVisibleEndProbation = visibleEndProbation;
         notifyPropertyChanged(BR.visibleEndProbation);
     }
@@ -124,7 +188,7 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
         return mIsVisibleContractDate;
     }
 
-    public void setVisibleContractDate(boolean visibleContractDate) {
+    private void setVisibleContractDate(boolean visibleContractDate) {
         mIsVisibleContractDate = visibleContractDate;
         notifyPropertyChanged(BR.visibleContractDate);
     }
@@ -138,6 +202,7 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
     }
 
     public void onClickEditProfile(View view) {
+        mIsLoadDataFirstTime = true;
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constant.EXTRA_USER, mUser);
         mNavigator.startActivityForResultFromFragment(UpdateProfileActivity.class, bundle,

@@ -237,7 +237,7 @@
                                     android:layout_marginBottom="@dimen/dp_2"
                                     android:ellipsize="end"
                                     android:maxLines="1"
-                                    android:text="@{viewModel.user.contractDate}"
+                                    android:text="@{viewModel.contractDate}"
                                     style="@style/StyleTextProfile"
                                     />
                                 <View
@@ -265,7 +265,7 @@
                                     style="@style/StyleTitleProfile"
                                     />
                                 <TextView
-                                    android:text="@{viewModel.user.startProbationDate}"
+                                    android:text="@{viewModel.startProbationDate}"
                                     style="@style/StyleTextProfile"
                                     />
                                 <View
@@ -295,7 +295,7 @@
                                 <TextView
                                     android:ellipsize="end"
                                     android:maxLines="1"
-                                    android:text="@{viewModel.user.endProbationDate}"
+                                    android:text="@{viewModel.endProbationDate}"
                                     style="@style/StyleTextProfile"
                                     />
                                 <View
