@@ -210,8 +210,9 @@
     <string name="time_must_be_is_in_a_day">Thời gian phải nằm trong một ngày</string>
     <string name="request_time_to_can_not_greater_than_request_time_from">Yêu cầu thời gian về phải lớn hơn thời gian đến</string>
     <string name="you_have_to_choose_the_check_in_time_first">Bạn phải chọn thời gian đến trước</string>
+    <string name="you_have_to_choose_the_compensation_form_time_first">Bạn phải chọn thời gian bắt đầu làm bù trước</string>
     <string name="you_have_to_choose_the_check_out_time_first">Bạn phải chọn thời gian về trước</string>
-    <string name="you_just_need_choose_the_compensation_from_time">Bạn chỉ cần chọn thời gian bắt đầu làm bù, thời gian kết thúc sẽ tự xử lý sau đó</string>
+    <string name="you_just_need_choose_the_compensation_from_time">Bạn chỉ cần chọn thời gian bắt đầu làm bù, thời gian kết thúc sẽ tự động điền</string>
     <string name="compensation_time_is_not_in_the_past">Thời gian làm bù không được trong quá khú</string>
     <string name="your_compensation_time_can_not_in_working_time">Thời gian làm bù của bạn không thể nằm trong thời gian làm việc của công ty</string>
     <string name="check_in_time">Thời gian đến</string>

@@ -37,6 +37,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.framgia.wsm.utils.Constant.TimeConst.FIFTEEN_MINUTES;
+import static com.framgia.wsm.utils.Constant.TimeConst.SIXTY_MINUTES;
 import static com.framgia.wsm.utils.Constant.TimeConst.THIRDTY_MINUTES;
 import static com.framgia.wsm.utils.common.DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM;
 import static com.framgia.wsm.utils.common.DateTimeUtils.INPUT_TIME_FORMAT;
@@ -310,6 +311,10 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 }
                 if (mCurrentTimeSelected == CurrentTimeSelected.COMPENSATION_FROM) {
                     validateCompensationFromTime(currentDateTime);
+                    break;
+                }
+                if (mCurrentTimeSelected == CurrentTimeSelected.COMPENSATION_TO) {
+                    validateCompensationToTime(currentDateTime);
                 }
                 break;
             case LeaveTypeId.LEAVE_EARLY_A:
@@ -320,6 +325,10 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 }
                 if (mCurrentTimeSelected == CurrentTimeSelected.COMPENSATION_FROM) {
                     validateCompensationFromTime(currentDateTime);
+                    break;
+                }
+                if (mCurrentTimeSelected == CurrentTimeSelected.COMPENSATION_TO) {
+                    validateCompensationToTime(currentDateTime);
                 }
                 break;
             case LeaveTypeId.FORGOT_CARD_ALL_DAY:
@@ -557,8 +566,64 @@ public class RequestLeaveViewModel extends BaseRequestLeave
     }
 
     public void onClickCompensationTo(View view) {
-        showDialogError(
-                mContext.getString(R.string.you_just_need_choose_the_compensation_from_time));
+        if (mUser.getSpecial() != UserType.BABY) {
+            showDialogError(
+                    mContext.getString(R.string.you_just_need_choose_the_compensation_from_time));
+            return;
+        }
+        switch (mCurrentLeaveType) {
+            case LeaveTypeId.IN_LATE_A:
+            case LeaveTypeId.IN_LATE_M:
+                if (StringUtils.isBlank(getCheckinTime())) {
+                    showDialogError(mContext.getString(
+                            R.string.you_have_to_choose_the_check_in_time_first));
+                    break;
+                }
+                if (StringUtils.isBlank(getCompensationFromTime())) {
+                    showDialogError(mContext.getString(
+                            R.string.you_have_to_choose_the_compensation_form_time_first));
+                    break;
+                }
+                mCurrentTimeSelected = CurrentTimeSelected.COMPENSATION_TO;
+                mDialogManager.showDatePickerDialog();
+                break;
+            case LeaveTypeId.LEAVE_EARLY_A:
+            case LeaveTypeId.LEAVE_EARLY_M:
+                if (StringUtils.isBlank(getCheckoutTime())) {
+                    showDialogError(mContext.getString(
+                            R.string.you_have_to_choose_the_check_out_time_first));
+                    break;
+                }
+                if (StringUtils.isBlank(getCompensationFromTime())) {
+                    showDialogError(mContext.getString(
+                            R.string.you_have_to_choose_the_compensation_form_time_first));
+                    break;
+                }
+                mCurrentTimeSelected = CurrentTimeSelected.COMPENSATION_TO;
+                mDialogManager.showDatePickerDialog();
+                break;
+            case LeaveTypeId.LEAVE_OUT:
+                if (StringUtils.isBlank(getCheckinTime())) {
+                    showDialogError(mContext.getString(
+                            R.string.you_have_to_choose_the_check_in_time_first));
+                    break;
+                }
+                if (StringUtils.isBlank(getCheckoutTime())) {
+                    showDialogError(mContext.getString(
+                            R.string.you_have_to_choose_the_check_out_time_first));
+                    break;
+                }
+                if (StringUtils.isBlank(getCompensationFromTime())) {
+                    showDialogError(mContext.getString(
+                            R.string.you_have_to_choose_the_compensation_form_time_first));
+                    break;
+                }
+                mCurrentTimeSelected = CurrentTimeSelected.COMPENSATION_TO;
+                mDialogManager.showDatePickerDialog();
+                break;
+            default:
+                break;
+        }
     }
 
     private void showDialogError(String message) {
@@ -976,6 +1041,25 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         }
     }
 
+    private void validateCompensationToTime(String compensationToTime) {
+        Date compensationFromTimeDate =
+                DateTimeUtils.convertStringToDate(getCompensationFromTime());
+        Date compensationToTimeDate = DateTimeUtils.convertStringToDate(compensationToTime);
+        Date compensationFromTimeDateTime =
+                DateTimeUtils.convertStringToDateTime(getCompensationFromTime());
+        Date compensationToTimeDateTime = DateTimeUtils.convertStringToDateTime(compensationToTime);
+        if (compensationToTimeDate.after(compensationFromTimeDate)) {
+            validateErrorDialog(mContext.getString(R.string.time_must_be_is_in_a_day));
+            return;
+        }
+        if (compensationFromTimeDateTime.after(compensationToTimeDateTime)) {
+            validateErrorDialog(
+                    mContext.getString(R.string.start_time_can_not_greater_than_end_time));
+            return;
+        }
+        setCompensationToTime(compensationToTime);
+    }
+
     private void validateCompensationTime(String compensationFromTime) {
         Date compensationFromTimeDate = DateTimeUtils.convertStringToDate(compensationFromTime);
         Date checkinTimeDate = DateTimeUtils.convertStringToDate(getCheckinTime());
@@ -1025,6 +1109,11 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 minutesBetweenTwoDate =
                         DateTimeUtils.getMinutesBetweenTwoDate(getCheckinTime(), workingTime,
                                 mCurrentLeaveTypeId, mLeaveTypes);
+                if (mUser.getSpecial() == UserType.BABY
+                        && DateTimeUtils.getMinutesBetweenTwoDate(getCheckinTime(), workingTime)
+                        > SIXTY_MINUTES) {
+                    minutesBetweenTwoDate -= SIXTY_MINUTES;
+                }
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
                         minutesBetweenTwoDate));
                 break;
@@ -1035,6 +1124,11 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 minutesBetweenTwoDate =
                         DateTimeUtils.getMinutesBetweenTwoDate(getCheckinTime(), workingTime,
                                 mCurrentLeaveTypeId, mLeaveTypes);
+                if (mUser.getSpecial() == UserType.BABY
+                        && DateTimeUtils.getMinutesBetweenTwoDate(getCheckinTime(), workingTime)
+                        > SIXTY_MINUTES) {
+                    minutesBetweenTwoDate -= SIXTY_MINUTES;
+                }
                 DateTimeUtils.getMinutesBetweenTwoDate(getCheckinTime(), workingTime,
                         mCurrentLeaveTypeId, mLeaveTypes);
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
@@ -1047,6 +1141,11 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 minutesBetweenTwoDate =
                         DateTimeUtils.getMinutesBetweenTwoDate(workingTime, getCheckoutTime(),
                                 mCurrentLeaveTypeId, mLeaveTypes);
+                if (mUser.getSpecial() == UserType.BABY
+                        && DateTimeUtils.getMinutesBetweenTwoDate(workingTime, getCheckoutTime())
+                        > SIXTY_MINUTES) {
+                    minutesBetweenTwoDate -= SIXTY_MINUTES;
+                }
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
                         minutesBetweenTwoDate));
                 break;
@@ -1057,6 +1156,11 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 minutesBetweenTwoDate =
                         DateTimeUtils.getMinutesBetweenTwoDate(workingTime, getCheckoutTime(),
                                 mCurrentLeaveTypeId, mLeaveTypes);
+                if (mUser.getSpecial() == UserType.BABY
+                        && DateTimeUtils.getMinutesBetweenTwoDate(workingTime, getCheckoutTime())
+                        > SIXTY_MINUTES) {
+                    minutesBetweenTwoDate -= SIXTY_MINUTES;
+                }
                 setCompensationToTime(DateTimeUtils.addMinutesToStringDate(mCompensationFromTime,
                         minutesBetweenTwoDate));
                 break;

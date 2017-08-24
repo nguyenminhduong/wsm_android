@@ -153,6 +153,12 @@ public final class DateTimeUtils {
         return totalCompensationMinutes;
     }
 
+    public static int getMinutesBetweenTwoDate(String dateFrom, String dateTo) {
+        return (int) TimeUnit.MILLISECONDS.toMinutes(
+                convertStringToDateTime(dateFrom).getTime() - convertStringToDateTime(
+                        dateTo).getTime());
+    }
+
     public static String addMinutesToStringDate(String dateTime, int minutes) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(convertStringToDateTime(dateTime));

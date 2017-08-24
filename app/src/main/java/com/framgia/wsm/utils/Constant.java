@@ -49,16 +49,12 @@ public final class Constant {
 
     public static class TimeConst {
         public static final int ONE_HOUR = 1;
-        public static final int SEVEN_HOUR = 7;
-        public static final int ELEVEN_HOUR = 11;
-        public static final int TWELVE_HOUR = 12;
-        public static final int SIXTEEN_HOUR = 16;
         public static final int FIFTEEN_MINUTES = 15;
         public static final int THIRDTY_MINUTES = 30;
-        public static final int FORTY_FIVE_MINUTES = 45;
         public static final int ONE_MONTH = 1;
         public static final int DAY_25_OF_MONTH = 25;
         public static final int DAY_26_OF_MONTH = 26;
+        public static final int SIXTY_MINUTES = 60;
     }
 
     public static class NumberConst {
