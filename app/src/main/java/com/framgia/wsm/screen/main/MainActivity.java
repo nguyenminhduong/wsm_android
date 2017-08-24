@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.framgia.wsm.MainApplication;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.event.UnauthorizedEvent;
+import com.framgia.wsm.data.event.UpdateNumberNotificationEvent;
 import com.framgia.wsm.databinding.ActivityMainBinding;
 import com.framgia.wsm.screen.BaseActivity;
 import com.framgia.wsm.screen.notification.NotificationDialogFragment;
@@ -147,5 +148,10 @@ public class MainActivity extends BaseActivity implements ProfileFragment.Update
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(UnauthorizedEvent event) {
         mDialogManager.showDialogUnauthorized();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateNumberNotificationEvent(UpdateNumberNotificationEvent event) {
+        mViewModel.updateNotificationUnRead();
     }
 }
