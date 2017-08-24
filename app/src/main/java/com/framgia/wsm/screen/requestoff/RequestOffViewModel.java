@@ -318,15 +318,9 @@ public class RequestOffViewModel extends BaseRequestOff
         }
         if (view.isShown()) {
             String date = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
-            int dayOfWeek = DateTimeUtils.getDayOfWeek(year, month, dayOfMonth);
             if (mFlagDate == FLAG_START_DATE) {
-                if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
-                    setEndDate(null);
-                    setStartDate(date);
-                    return;
-                }
-                showErrorDialogWithButtonRetry(
-                        mContext.getString(R.string.time_must_be_a_working_date));
+                setEndDate(null);
+                setStartDate(date);
                 return;
             }
             validateEndDate(date);
