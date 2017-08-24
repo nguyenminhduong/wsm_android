@@ -12,7 +12,7 @@
             name="viewModel"
             type="com.framgia.wsm.screen.updateprofile.UpdateProfileViewModel"
             />
-
+        <import type="android.view.View"/>
     </data>
 
     <RelativeLayout
@@ -177,6 +177,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
+                        android:visibility="@{viewModel.visibleContractDate ? View.GONE : View.VISIBLE}"
                         >
                         <ImageView
                             app:srcCompat="@drawable/ic_contract"
@@ -201,6 +202,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
+                        android:visibility="@{viewModel.visibleStartProbation ? View.GONE : View.VISIBLE}"
                         >
                         <ImageView
                             app:srcCompat="@drawable/ic_holiday_calendar"
@@ -225,6 +227,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
+                        android:visibility="@{viewModel.visibleEndProbation ? View.GONE : View.VISIBLE}"
                         >
                         <ImageView
                             app:srcCompat="@drawable/ic_holiday_calendar"

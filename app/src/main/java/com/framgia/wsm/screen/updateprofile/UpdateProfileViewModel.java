@@ -21,6 +21,7 @@ import com.framgia.wsm.utils.FileUtils;
 import com.framgia.wsm.utils.RequestPermissionManager;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.utils.string.StringUtils;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
@@ -198,6 +199,18 @@ public class UpdateProfileViewModel extends BaseObservable
     @Bindable
     public String getAvatar() {
         return mAvatar;
+    }
+
+    public boolean isVisibleStartProbation() {
+        return StringUtils.isBlank(mUser.getStartProbationDate());
+    }
+
+    public boolean isVisibleEndProbation() {
+        return StringUtils.isBlank(mUser.getEndProbationDate());
+    }
+
+    public boolean isVisibleContractDate() {
+        return StringUtils.isBlank(mUser.getContractDate());
     }
 
     private String formatDate(String dataInput) {
