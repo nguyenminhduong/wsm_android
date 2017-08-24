@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.framgia.wsm.MainApplication;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.event.UnauthorizedEvent;
+import com.framgia.wsm.data.event.UpdateRemainingDayOff;
 import com.framgia.wsm.databinding.ActivityRequestOffBinding;
 import com.framgia.wsm.screen.BaseActivity;
 import com.framgia.wsm.utils.Constant;
@@ -64,5 +65,10 @@ public class RequestOffActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(UnauthorizedEvent event) {
         mDialogManager.showDialogUnauthorized();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateRemainingDayOffEvent(UpdateRemainingDayOff event) {
+        ((RequestOffViewModel) mViewModel).upDateRemainingDayOff(event.getUser());
     }
 }

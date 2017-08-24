@@ -13,6 +13,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import com.framgia.wsm.MainApplication;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.event.UpdateNumberNotificationEvent;
+import com.framgia.wsm.data.event.UpdateRemainingDayOff;
 import com.framgia.wsm.data.model.OffType;
 import com.framgia.wsm.data.model.OffTypeDay;
 import com.framgia.wsm.data.model.User;
@@ -35,6 +37,7 @@ import io.reactivex.functions.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+import org.greenrobot.eventbus.EventBus;
 
 import static com.framgia.wsm.utils.Constant.EXTRA_NOTIFICATION_REQUEST_TYPE;
 import static com.framgia.wsm.utils.Constant.REQUEST_OFFS;
@@ -89,6 +92,7 @@ public class FireBaseMessageService extends FirebaseMessagingService {
             }
             sendNotification(messageResponse, requestType);
             updateRemainingDayOff(requestType);
+            EventBus.getDefault().post(new UpdateNumberNotificationEvent());
         }
     }
 
@@ -98,7 +102,7 @@ public class FireBaseMessageService extends FirebaseMessagingService {
                 .flatMap(new Function<User, ObservableSource<User>>() {
                     @Override
                     public ObservableSource<User> apply(@NonNull User user) throws Exception {
-                        mIsManager = user.isManage();
+                        mUser = user;
                         return mUserRepository.getUserProfile(user.getId());
                     }
                 })
@@ -106,8 +110,22 @@ public class FireBaseMessageService extends FirebaseMessagingService {
                 .subscribe(new Consumer<User>() {
                     @Override
                     public void accept(@NonNull User user) throws Exception {
-                        user.setManage(mIsManager);
-                        mUserRepository.saveUser(user);
+                        mUser.setEmail(user.getEmail());
+                        mUser.setGender(user.getGender());
+                        mUser.setBirthday(user.getBirthday());
+                        mUser.setCompany(user.getCompany());
+                        mUser.setBranches(user.getBranches());
+                        mUser.setGroups(user.getGroups());
+                        mUser.setStartProbationDate(user.getStartProbationDate());
+                        mUser.setEndProbationDate(user.getEndProbationDate());
+                        mUser.setIndividualCode(user.getIndividualCode());
+                        mUser.setNamePosition(user.getNamePosition());
+                        mUser.setNameStaffType(user.getNameStaffType());
+                        mUser.setSpecial(user.getSpecial());
+                        mUser.setId(user.getId());
+                        mUser.setCode(user.getCode());
+                        mUser.setName(user.getName());
+                        mUserRepository.saveUser(mUser);
                     }
                 }, new RequestError() {
                     @Override
@@ -193,6 +211,7 @@ public class FireBaseMessageService extends FirebaseMessagingService {
                         mUser.setTypesCompany(offTypesCompany);
                         mUser.setManage(mIsManager);
                         mUserRepository.saveUser(mUser);
+                        EventBus.getDefault().post(new UpdateRemainingDayOff(mUser));
                     }
                 }, new RequestError() {
                     @Override

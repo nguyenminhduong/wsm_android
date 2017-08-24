@@ -270,8 +270,7 @@ public class RequestOffViewModel extends BaseRequestOff
         }
         mUser = user;
         notifyPropertyChanged(BR.user);
-        getAmountOffDayCompany(mUser);
-        getAmountOffDayInsurance(mUser);
+        upDateRemainingDayOff(mUser);
         if (mActionType == ActionType.ACTION_CREATE) {
             setCurrentBranch();
             setCurrentGroup();
@@ -802,7 +801,12 @@ public class RequestOffViewModel extends BaseRequestOff
         return mActionType == ActionType.ACTION_CREATE;
     }
 
-    private void getAmountOffDayCompany(User user) {
+    void upDateRemainingDayOff(User user) {
+        getRemainingOffDayCompany(user);
+        getRemainingOffDayInsurance(user);
+    }
+
+    private void getRemainingOffDayCompany(User user) {
         for (OffType offType : user.getTypesCompany()) {
             int offTypeId = offType.getId();
             if (ANNUAL.equals(offType.getName())) {
@@ -820,7 +824,7 @@ public class RequestOffViewModel extends BaseRequestOff
         }
     }
 
-    private void getAmountOffDayInsurance(User user) {
+    private void getRemainingOffDayInsurance(User user) {
         for (OffType offType : user.getTypesInsurance()) {
             int offTypeId = offType.getId();
             if (offTypeId == Integer.parseInt(TypeOfDays.LEAVE_FOR_CARE_OF_SICK_CHILD)) {
@@ -1261,7 +1265,7 @@ public class RequestOffViewModel extends BaseRequestOff
     }
 
     public void onPickTypeRequestOff(View view) {
-        if (mUser.getContractDate().isEmpty()) {
+        if (StringUtils.isBlank(mUser.getContractDate())) {
             return;
         }
         mDialogManager.dialogListSingleChoice(mContext.getString(R.string.off_type),
