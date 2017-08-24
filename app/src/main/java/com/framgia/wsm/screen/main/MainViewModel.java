@@ -174,6 +174,9 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         notifyPropertyChanged(BR.avatar);
         notifyPropertyChanged(BR.staffType);
         notifyPropertyChanged(BR.manage);
+        if (StringUtils.isNotBlank(mNotificationRequestType)) {
+            getPageNotification(getNotificationRequestType());
+        }
     }
 
     @Override
@@ -352,14 +355,13 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     }
 
     @Bindable
-    public String getNotificationRequestType() {
+    private String getNotificationRequestType() {
         return mNotificationRequestType;
     }
 
     public void setNotificationRequestType(String notificationRequestType) {
         mNotificationRequestType = notificationRequestType;
         notifyPropertyChanged(BR.notificationRequestType);
-        getPageNotification(mNotificationRequestType);
     }
 
     public MainViewPagerAdapter getViewPagerAdapter() {
@@ -431,7 +433,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         return true;
     }
 
-    private void getPageNotification(String notificationRequestType) {
+    void getPageNotification(String notificationRequestType) {
         if (StringUtils.isBlank(notificationRequestType)) {
             return;
         }

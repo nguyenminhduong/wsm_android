@@ -62,6 +62,7 @@ public class FireBaseMessageService extends FirebaseMessagingService {
     BaseSchedulerProvider mBaseSchedulerProvider;
     private User mUser = new User();
     private List<OffType> offTypesCompany = new ArrayList<>();
+    private boolean mIsManager;
 
     @Override
     public void onCreate() {
@@ -97,6 +98,7 @@ public class FireBaseMessageService extends FirebaseMessagingService {
                 .flatMap(new Function<User, ObservableSource<User>>() {
                     @Override
                     public ObservableSource<User> apply(@NonNull User user) throws Exception {
+                        mIsManager = user.isManage();
                         return mUserRepository.getUserProfile(user.getId());
                     }
                 })
@@ -104,6 +106,7 @@ public class FireBaseMessageService extends FirebaseMessagingService {
                 .subscribe(new Consumer<User>() {
                     @Override
                     public void accept(@NonNull User user) throws Exception {
+                        user.setManage(mIsManager);
                         mUserRepository.saveUser(user);
                     }
                 }, new RequestError() {
@@ -125,6 +128,7 @@ public class FireBaseMessageService extends FirebaseMessagingService {
                     public ObservableSource<List<OffType>> apply(@NonNull User user)
                             throws Exception {
                         mUser = user;
+                        mIsManager = user.isManage();
                         return mUserRepository.getListOffType();
                     }
                 })
@@ -187,6 +191,7 @@ public class FireBaseMessageService extends FirebaseMessagingService {
                                     Float.parseFloat(Constant.DEFAULT_DOUBLE_VALUE)));
                         }
                         mUser.setTypesCompany(offTypesCompany);
+                        mUser.setManage(mIsManager);
                         mUserRepository.saveUser(mUser);
                     }
                 }, new RequestError() {
