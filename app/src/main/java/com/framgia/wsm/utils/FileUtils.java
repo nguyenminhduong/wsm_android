@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Random;
 
 /**
  * Created by tri on 03/07/2017.
@@ -15,6 +16,8 @@ import java.io.OutputStream;
 
 public class FileUtils {
     private static final String TAG = "FileUtils";
+    private static final int MIN = 0;
+    private static final int MAX = 99999;
 
     private FileUtils() {
         // No-op
@@ -26,8 +29,7 @@ public class FileUtils {
 
         if (contentURI.getAuthority() != null) {
             try {
-                inputStream =
-                        context.getContentResolver().openInputStream(contentURI); // context needed
+                inputStream = context.getContentResolver().openInputStream(contentURI);
                 File photoFile = createTemporalFileFrom(inputStream, context);
 
                 filePath = photoFile.getPath();
@@ -71,6 +73,13 @@ public class FileUtils {
     }
 
     private static File createTemporalFile(Context context) {
-        return new File(context.getExternalCacheDir(), "tempFile.jpg"); // context needed
+        return new File(context.getExternalCacheDir(),
+                randomNumber(MIN, MAX) + randomNumber(MIN, MAX) + randomNumber(MIN, MAX) + ".jpg");
+    }
+
+    private static int randomNumber(int min, int max) {
+        Random random = new Random();
+        int range = max - min + 1;
+        return min + random.nextInt(range);
     }
 }
