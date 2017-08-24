@@ -99,7 +99,10 @@ public class UserRepository {
         return mRemoteDataSource.updateProfile(updateProfile);
     }
 
-    public Observable<Object> changePassword(ChangePasswordRequest changePasswordRequest) {
+    public Observable<Object> changePassword(String currentPassword, String newPassword,
+            String confirmPassword) {
+        ChangePasswordRequest changePasswordRequest =
+                new ChangePasswordRequest(currentPassword, newPassword, confirmPassword);
         return mRemoteDataSource.changePassword(changePasswordRequest);
     }
 

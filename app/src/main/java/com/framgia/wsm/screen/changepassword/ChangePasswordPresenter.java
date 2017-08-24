@@ -7,7 +7,6 @@ import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.UserRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
-import com.framgia.wsm.data.source.remote.api.request.ChangePasswordRequest;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
@@ -74,22 +73,21 @@ final class ChangePasswordPresenter implements ChangePasswordContract.Presenter 
 
     @Override
     public void changePassword(String currentPassword, String newPassword, String confirmPassword) {
-        ChangePasswordRequest changePasswordRequest =
-                new ChangePasswordRequest(currentPassword, newPassword, confirmPassword);
-        Disposable disposable = mUserRepository.changePassword(changePasswordRequest)
-                .subscribeOn(mBaseSchedulerProvider.io())
-                .observeOn(mBaseSchedulerProvider.ui())
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(@NonNull Object o) throws Exception {
-                        mViewModel.onChangePasswordSuccess();
-                    }
-                }, new RequestError() {
-                    @Override
-                    public void onRequestError(BaseException error) {
-                        mViewModel.onChangePasswordError(error);
-                    }
-                });
+        Disposable disposable =
+                mUserRepository.changePassword(currentPassword, newPassword, confirmPassword)
+                        .subscribeOn(mBaseSchedulerProvider.io())
+                        .observeOn(mBaseSchedulerProvider.ui())
+                        .subscribe(new Consumer<Object>() {
+                            @Override
+                            public void accept(@NonNull Object o) throws Exception {
+                                mViewModel.onChangePasswordSuccess();
+                            }
+                        }, new RequestError() {
+                            @Override
+                            public void onRequestError(BaseException error) {
+                                mViewModel.onChangePasswordError(error);
+                            }
+                        });
         mCompositeDisposable.add(disposable);
     }
 
@@ -153,5 +151,9 @@ final class ChangePasswordPresenter implements ChangePasswordContract.Presenter 
             isValid = true;
         }
         return isValid;
+    }
+
+    public void setBaseSchedulerProvider(BaseSchedulerProvider baseSchedulerProvider) {
+        mBaseSchedulerProvider = baseSchedulerProvider;
     }
 }
