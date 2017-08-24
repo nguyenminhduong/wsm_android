@@ -225,8 +225,9 @@
     <string name="time_must_be_is_in_a_day">Time must be is in a day</string>
     <string name="request_time_to_can_not_greater_than_request_time_from">Request time to can not greater than request time from</string>
     <string name="you_have_to_choose_the_check_in_time_first">  You have to choose the check in time first</string>
+    <string name="you_have_to_choose_the_compensation_form_time_first">  You have to choose the compensation from time first</string>
     <string name="you_have_to_choose_the_check_out_time_first">  You have to choose the check out time first</string>
-    <string name="you_just_need_choose_the_compensation_from_time">You just need choose the compensation from time, the to time will auto </string>
+    <string name="you_just_need_choose_the_compensation_from_time">You just need choose the compensation from time, the to time will auto fill</string>
     <string name="compensation_time_is_not_in_the_past">Compensation time is not in the past</string>
     <string name="your_compensation_time_can_not_in_working_time">Your compensation time can not in working time of company</string>
     <string name="check_in_time">Checkin time</string>
