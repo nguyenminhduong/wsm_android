@@ -25,19 +25,19 @@
     <string name="holiday_calendar">Lịch ngày nghỉ</string>
     <string name="personal_request">YÊU CẦU CÁ NHÂN</string>
     <string name="request_overtime">Yêu cầu làm ngoài giờ</string>
-    <string name="request_day_off">Yêu cầu xin nghỉ</string>
-    <string name="request_come_late_leave_early">Yêu cầu đi trễ, về sớm</string>
+    <string name="leave">Xin nghỉ</string>
+    <string name="other">Khác</string>
     <string name="workspaces_data">DỮ LIỆU WORKSPACES</string>
     <string name="workspaces">Dữ liệu Workspaces</string>
     <string name="statistics_of_personal">Thống kê cá nhân</string>
     <string name="manage_requests">QUẢN LÝ YÊU CẦU</string>
     <string name="manage_request_overtime">Quản lý yêu cầu làm ngoài giờ</string>
-    <string name="manage_request_off">Quản lý yêu cầu xin nghỉ</string>
-    <string name="manage_request_leave">Quản lý yêu cầu đi trễ, về sớm</string>
+    <string name="manage_request_others">Quản lý yêu cầu khác</string>
+    <string name="manage_request_leave">Quản lý yêu cầu xin nghỉ</string>
 
     <string name="create_request_ot">Tạo yêu cầu làm ngoài giờ</string>
-    <string name="create_request_leave">Tạo yêu cầu đi trễ, về sớm</string>
-    <string name="create_others_request">Tạo yêu cầu Khác</string>
+    <string name="create_request_leave">Tạo yêu cầu xin nghỉ</string>
+    <string name="create_others_request">Tạo yêu cầu khác</string>
     <string name="navigation_drawer_open">Mở ngăn điều hướng</string>
     <string name="navigation_drawer_close">Đóng ngăn điều hướng</string>
     <string name="please_click_back_again_to_exit">Nhấn nút BACK lần nữa để thoát!</string>
@@ -52,7 +52,7 @@
     <string name="invalid_email_format">Email không đúng định dạng!</string>
     <string name="least_6_characters">Vui lòng nhập ít nhất 6 ký tự!</string>
     <string name="confirm_password_does_not_match">Xác nhận mật khẩu không khớp!</string>
-    <string name="request_leave">Yêu cầu đi trễ, về sớm</string>
+    <string name="other_requests">Yêu cầu khác</string>
     <string name="can_not_edit_group">Không thể thay đổi phòng ban!</string>
     <string name="organization_charts_feature_is_currently_only_available_on_the_web">Tính năng xem sở đồ tổ chức hiện chỉ khả dụng ở phiên bản web!</string>
     <string name="you_are_unauthorized_to_access">Bạn không có quyền truy cập!</string>
@@ -110,11 +110,11 @@
     <string name="accepted">Chấp nhận</string>
     <string name="rejected">Từ chối</string>
     <string name="forwarded">Chuyển tiếp</string>
-    <string name="leave_type">Hình thức xin phép</string>
+    <string name="leave_type">Hình thức xin nghỉ</string>
     <string name="compensation_time">Đăng ký thời gian làm bù</string>
     <string name="example_time_from">Ví dụ: 2017/05/20 17:30</string>
     <string name="example_time_to">Ví dụ: 2017/05/20 18:30</string>
-    <string name="confirm_request_leave">Xác nhận tạo yêu cầu đi trễ, về sớm</string>
+    <string name="confirm_others_request">Xác nhận yêu cầu</string>
     <string name="submit">Gửi đi</string>
     <string name="next">Tiếp theo</string>
     <string name="status">Trạng thái</string>
@@ -127,7 +127,7 @@
     <string name="request_ot">Yêu cầu làm ngoài giờ</string>
     <string name="confirm_request_overtime">Xác nhận yêu cầu làm ngoài giờ</string>
     <string name="request_off">Yêu cầu xin nghỉ</string>
-    <string name="confirm_request_off">Xác nhận xin nghỉ</string>
+    <string name="confirm_request_leave">Xác nhận yêu cầu xin nghỉ</string>
     <string name="note">Lưu ý: \u0020</string>
     <string name="am_pm">Buổi sáng: am - am;  Buổi chiều: pm - pm;  Cả ngày: am - pm</string>
     <string name="off_have_salary_from">Nghỉ có lương từ</string>
@@ -138,9 +138,8 @@
     <string name="edit">Sửa</string>
     <string name="delete">Xóa</string>
     <string name="being_handled_by">Nhóm đang xử lý</string>
-    <string name="confirm_edit_request_off">Xác nhận sửa yêu cầu xin nghỉ</string>
     <string name="confirm_edit_request_overtime">Xác nhận sửa yêu cầu làm ngoài giờ</string>
-    <string name="edit_request_off">Sửa yêu cầu xin nghỉ</string>
+    <string name="confirm_edit_request_leave">Sửa yêu cầu xin nghỉ</string>
     <string name="edit_profile">Chỉnh sửa thông tin cá nhân</string>
     <string name="change_password">Đổi mật khẩu</string>
     <string name="default_group_and_workspace">Nhóm và workspace mặc định</string>
@@ -154,7 +153,7 @@
     <string name="update">Cập nhật</string>
     <string name="receive_notification_or_email">Nhận thông báo hoặc email</string>
     <string name="edit_request_overtime">Sửa yêu cầu làm ngoài giờ</string>
-    <string name="type_leave">Hình thức xin phép:</string>
+    <string name="type_leave">Hình thức xin nghỉ:</string>
     <string name="statu">Trạng thái:</string>
 
     <!-- In late (M) -->
@@ -238,7 +237,7 @@
     <string name="miscarriage_leave_error">Nghỉ sảy thai không được quá %s ngày!</string>
     <string name="maternity_leave_error">Nghỉ thai sản không được quá %s ngày!</string>
     <string name="wife_labor_leave_error">Nghỉ vợ sinh không được quá %s ngày!</string>
-    <string name="detail_request_off">Chi tiết yêu cầu xin nghỉ</string>
+    <string name="detail_request_leave">Chi tiết yêu cầu xin nghỉ</string>
     <string name="detail_request_overtime">Chi tiết yêu cầu làm ngoài giờ</string>
     <string name="confirm_delete">Xác nhận xóa</string>
     <string name="do_you_want_delete_this_request">Bạn có chắc chắn muốn xóa yêu cầu này?</string>
@@ -339,7 +338,7 @@
     <string name="reset_password">Đặt lại mật khẩu</string>
     <string name="please_enter_your_new_password">Vui lòng nhập mật khẩu mới của bạn !</string>
     <string name="reset_password_success">Đặt lại mật khẩu thành công!</string>
-    <string name="can_not_edit_request_type">Không thể thay đổi hình thức xin phép</string>
+    <string name="can_not_edit_request_type">Không thể thay đổi hình thức xin nghỉ</string>
     <string name="january">Tháng 1</string>
     <string name="february">Tháng 2</string>
     <string name="march">Tháng 3</string>
@@ -359,5 +358,8 @@
     <string name="change_password_success">Mật khẩu của bạn đã được thay đổi thành công!</string>
     <string name="format_date_yyyy_mm_dd">dd/MM/yyyy</string>
     <string name="invalid_current_password">Mật khẩu hiện tại không hợp lệ!</string>
-
+    <string name="detail_others_request">Chi tiết yêu cầu</string>
+    <string name="confirm_edit_others_request">Xác nhận sửa yêu cầu</string>
+    <string name="edit_request">Sửa yêu cầu</string>
+    <string name="request_information">Chi tiết yêu cầu</string>
 </resources>
