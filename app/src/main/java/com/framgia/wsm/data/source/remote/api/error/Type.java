@@ -7,7 +7,7 @@ import java.io.IOException;
  * Error type
  */
 @StringDef({Type.NETWORK, Type.HTTP, Type.UNEXPECTED, Type.SERVER})
-@interface Type {
+public @interface Type {
 
     /**
      * An {@link IOException} occurred while communicating to the server.
