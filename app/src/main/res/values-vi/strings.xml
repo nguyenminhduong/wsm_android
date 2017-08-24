@@ -358,5 +358,6 @@
     <string name="your_age_is_under_employment">Bạn chưa đủ tuổi lao động</string>
     <string name="change_password_success">Mật khẩu của bạn đã được thay đổi thành công!</string>
     <string name="format_date_yyyy_mm_dd">dd/MM/yyyy</string>
+    <string name="invalid_current_password">Mật khẩu hiện tại không hợp lệ!</string>
 
 </resources>

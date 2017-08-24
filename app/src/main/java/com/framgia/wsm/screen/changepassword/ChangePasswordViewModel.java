@@ -76,7 +76,7 @@ public class ChangePasswordViewModel extends BaseObservable
 
     @Override
     public void onChangePasswordError(BaseException e) {
-        mNavigator.showToast(e.getMessage());
+        mNavigator.showToast(R.string.invalid_current_password);
     }
 
     @Override
@@ -176,7 +176,6 @@ public class ChangePasswordViewModel extends BaseObservable
         mPresenter.validateNewPasswordInput(newPassWord);
         mNewPassword = newPassWord;
         notifyPropertyChanged(BR.newPassword);
-        mPresenter.validateConfirmPasswordInput(mNewPassword, mConfirmPassword);
     }
 
     public void validateConfirmPassword(String confirmPassWord) {

@@ -371,5 +371,6 @@
     <string name="your_age_is_under_employment">Your age is under employment</string>
     <string name="format_date_yyyy_mm_dd">yyyy/MM/dd</string>
     <string name="change_password_success">Your password has change to success!</string>
+    <string name="invalid_current_password">Invalid current password!</string>
 
 </resources>
