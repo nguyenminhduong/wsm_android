@@ -101,4 +101,8 @@ final class MemberRequestDetailPresenter implements MemberRequestDetailContract.
                 });
         mCompositeDisposable.add(disposable);
     }
+
+    public void setSchedulerProvider(BaseSchedulerProvider schedulerProvider) {
+        mSchedulerProvider = schedulerProvider;
+    }
 }

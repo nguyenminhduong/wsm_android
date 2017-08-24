@@ -22,6 +22,9 @@ public class BaseResponse<T> {
         this.data = data;
     }
 
+    public BaseResponse() {
+    }
+
     public int getCode() {
         return mCode;
     }
