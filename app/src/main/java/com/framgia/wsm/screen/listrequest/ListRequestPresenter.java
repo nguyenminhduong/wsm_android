@@ -249,4 +249,8 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
                 break;
         }
     }
+
+    public void setBaseSchedulerProvider(BaseSchedulerProvider baseSchedulerProvider) {
+        mBaseSchedulerProvider = baseSchedulerProvider;
+    }
 }
