@@ -987,9 +987,9 @@ public class RequestOffViewModel extends BaseRequestOff
 
     public String getTitleToolbar() {
         if (mActionType == ActionType.ACTION_CREATE) {
-            return mContext.getString(R.string.request_off);
+            return mContext.getString(R.string.create_request_leave);
         }
-        return mContext.getString(R.string.edit_request_off);
+        return mContext.getString(R.string.confirm_edit_request_leave);
     }
 
     public void validateNumberDayHaveSalary() {

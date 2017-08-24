@@ -513,7 +513,7 @@
                     app:fab_colorNormal="@color/color_green_lime"
                     app:fab_colorPressed="@color/color_green_dark_sea"
                     app:fab_colorRipple="@color/color_dark_gray"
-                    app:fab_label="@string/create_request_leave"
+                    app:fab_label="@string/create_others_request"
                     />
                 <com.github.clans.fab.FloatingActionButton
                     android:layout_width="wrap_content"
@@ -524,7 +524,7 @@
                     app:fab_colorNormal="@color/color_red_fresh"
                     app:fab_colorPressed="@color/color_red_firebrick"
                     app:fab_colorRipple="@color/color_dark_gray"
-                    app:fab_label="@string/create_others_request"
+                    app:fab_label="@string/create_request_leave"
                     />
             </com.github.clans.fab.FloatingActionMenu>
             <com.github.clans.fab.FloatingActionMenu

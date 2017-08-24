@@ -25,19 +25,19 @@
     <string name="holiday_calendar">Holiday calendar</string>
     <string name="personal_request">PERSONAL REQUESTS</string>
     <string name="request_overtime">Overtime</string>
-    <string name="request_day_off">Day off</string>
-    <string name="request_come_late_leave_early">Come late, leave early</string>
+    <string name="leave">Leave</string>
+    <string name="other">Others</string>
     <string name="workspaces_data">WORKSPACES DATA</string>
     <string name="workspaces">Workspaces data</string>
     <string name="statistics_of_personal">Statistics of personal</string>
     <string name="manage_requests">MANAGE REQUESTS</string>
     <string name="manage_request_overtime">Manage request overtime</string>
-    <string name="manage_request_off">Manage request off</string>
+    <string name="manage_request_others">Manage request others</string>
     <string name="manage_request_leave">Manage request leave</string>
 
     <string name="create_request_ot">Create request OT</string>
-    <string name="create_request_leave">Create request Leave</string>
-    <string name="create_others_request">Create Others Request</string>
+    <string name="create_request_leave">Create request leave</string>
+    <string name="create_others_request">Create Other Request</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="please_click_back_again_to_exit">Please click BACK again to exit!</string>
@@ -54,7 +54,7 @@
     <string name="confirm_password_does_not_match">Confirm password does not match!</string>
     <string name="can_not_edit_group">Can not change Group!</string>
     <string name="none" translatable="false"/>
-    <string name="request_leave">Request Leave</string>
+    <string name="other_requests">Other Requests</string>
 
     <string name="day_off_ro">Ro</string>
     <string name="day_off_half_ro">Ro/2</string>
@@ -125,7 +125,7 @@
     <string name="compensation_time">Compensation time</string>
     <string name="example_time_from">Ex: 2017/05/20 17:30</string>
     <string name="example_time_to">Ex: 2017/05/20 18:30</string>
-    <string name="confirm_request_leave">Confirm request leave</string>
+    <string name="confirm_others_request">Confirm request</string>
     <string name="submit">Submit</string>
     <string name="next">Next</string>
     <string name="status">Status</string>
@@ -140,7 +140,7 @@
     <string name="request_ot">Request OverTime</string>
     <string name="confirm_request_overtime">Confirm Request OverTime</string>
     <string name="request_off">Request Off</string>
-    <string name="confirm_request_off">Confirm Request Off</string>
+    <string name="confirm_request_leave">Confirm request leave</string>
     <string name="note">Note: \u0020</string>
     <string name="am_pm">Morning: AM - AM;  Afternoon: PM - PM;  All day: AM - PM</string>
     <string name="off_have_salary_from">Off have salary from</string>
@@ -151,9 +151,8 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="being_handled_by">Being handled by</string>
-    <string name="confirm_edit_request_off">Confirm edit request off</string>
     <string name="confirm_edit_request_overtime">Confirm edit request overtime</string>
-    <string name="edit_request_off">Edit request off</string>
+    <string name="confirm_edit_request_leave">Confirm edit request leave</string>
     <string name="edit_profile">Edit profile</string>
     <string name="change_password">Change password</string>
     <string name="default_group_and_workspace">Default group and workspace</string>
@@ -253,7 +252,7 @@
     <string name="miscarriage_leave_error">Miscarriage leave is not greater than %s days!</string>
     <string name="maternity_leave_error">Maternity leave is not greater than %s days!</string>
     <string name="wife_labor_leave_error">Wife\'s labor leave is not greater than %s days!</string>
-    <string name="detail_request_off">Detail request off</string>
+    <string name="detail_request_leave">Detail request leave</string>
     <string name="detail_request_overtime">Detail request overtime</string>
     <string name="confirm_delete">Confirm delete</string>
     <string name="do_you_want_delete_this_request">Do you want delete this request?</string>
@@ -372,5 +371,8 @@
     <string name="format_date_yyyy_mm_dd">yyyy/MM/dd</string>
     <string name="change_password_success">Your password has change to success!</string>
     <string name="invalid_current_password">Invalid current password!</string>
+    <string name="detail_others_request">Detail request others</string>
+    <string name="confirm_edit_others_request">Confirm edit others request</string>
+    <string name="edit_request">Edit request</string>
 
 </resources>

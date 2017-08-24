@@ -205,10 +205,16 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     }
 
     public String getTitleToolbar() {
-        if (mActionType == ActionType.ACTION_DETAIL) {
-            return mContext.getString(R.string.request_leave);
+        if (mActionType == ActionType.ACTION_CREATE) {
+            return mContext.getString(R.string.other_requests);
         }
-        return mContext.getString(R.string.confirm_request_leave);
+        if (mActionType == ActionType.ACTION_DETAIL) {
+            return mContext.getString(R.string.detail_others_request);
+        }
+        if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
+            return mContext.getString(R.string.confirm_edit_others_request);
+        }
+        return mContext.getString(R.string.confirm_others_request);
     }
 
     public LeaveRequest getRequest() {

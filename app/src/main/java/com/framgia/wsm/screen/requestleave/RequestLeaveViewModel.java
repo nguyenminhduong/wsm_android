@@ -1484,6 +1484,13 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         notifyPropertyChanged(BR.compensationToTime);
     }
 
+    public String getTitleToolbar() {
+        if (mActionType == ActionType.ACTION_CREATE) {
+            return mContext.getString(R.string.create_others_request);
+        }
+        return mContext.getString(R.string.edit_request);
+    }
+
     private void initShifts() {
         if (mUser.getBranches() == null) {
             return;
