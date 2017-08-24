@@ -24,6 +24,7 @@ import java.util.List;
 
 public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerView.ViewHolder> {
 
+    private Context mContext;
     private ItemRecyclerViewClickListener mItemClickListener;
     private List<LeaveRequest> mRequestsLeaves;
     private List<OffRequest> mRequestsOffs;
@@ -34,6 +35,7 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
 
     ManageListRequestsAdapter(@NonNull Context context, @RequestType int requestType) {
         super(context);
+        mContext = context.getApplicationContext();
         mRequestType = requestType;
         mRequestsLeaves = new ArrayList<>();
         mRequestsOffs = new ArrayList<>();
@@ -244,9 +246,8 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
         }
 
         void bind(RequestOverTime requestOverTime, int itemPosition) {
-            mBinding.setViewModel(
-                    new ItemManageListRequestViewModel(requestOverTime, mItemClickListener,
-                            mActionRequestListener, itemPosition));
+            mBinding.setViewModel(new ItemManageListRequestViewModel(mContext, requestOverTime,
+                    mItemClickListener, mActionRequestListener, itemPosition));
             mBinding.executePendingBindings();
         }
     }
@@ -263,8 +264,9 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
         }
 
         void bind(OffRequest offRequest, int itemPosition) {
-            mBinding.setViewModel(new ItemManageListRequestViewModel(offRequest, mItemClickListener,
-                    mActionRequestListener, itemPosition));
+            mBinding.setViewModel(
+                    new ItemManageListRequestViewModel(mContext, offRequest, mItemClickListener,
+                            mActionRequestListener, itemPosition));
             mBinding.executePendingBindings();
         }
     }
@@ -282,7 +284,7 @@ public class ManageListRequestsAdapter extends BaseRecyclerViewAdapter<RecyclerV
 
         void bind(LeaveRequest leaveRequest, int itemPosition) {
             mBinding.setViewModel(
-                    new ItemManageListRequestViewModel(leaveRequest, mItemClickListener,
+                    new ItemManageListRequestViewModel(mContext, leaveRequest, mItemClickListener,
                             mActionRequestListener, itemPosition));
             mBinding.executePendingBindings();
         }

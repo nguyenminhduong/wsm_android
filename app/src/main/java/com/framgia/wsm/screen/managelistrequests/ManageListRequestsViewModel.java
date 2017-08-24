@@ -75,8 +75,6 @@ public class ManageListRequestsViewModel extends BaseObservable
     private boolean mIsShowProgress;
     private boolean mIsVisiableLayoutDataNotFound;
     private boolean mIsVisiableLayoutFooter;
-    private boolean mIsVisibleFromTimeIcon;
-    private boolean mIsVisibleToTimeIcon;
     private boolean mIsSelectAll;
     private boolean mIsLoadDataFirstTime;
     private String mTotalRequestSelected;
@@ -104,8 +102,8 @@ public class ManageListRequestsViewModel extends BaseObservable
         mCurrentStatus = mContext.getString(R.string.pending);
         mCurrentPositionStatus = CURRRENT_STATUS;
         mActionRequest = new ActionRequest();
-        mFromTime = DateTimeUtils.dayFirstMonthWorking(mCutOffDate);
-        mToTime = DateTimeUtils.dayLastMonthWorking(mCutOffDate);
+        mFromTime = formatDate(DateTimeUtils.dayFirstMonthWorking(mCutOffDate));
+        mToTime = formatDate(DateTimeUtils.dayLastMonthWorking(mCutOffDate));
         mQueryRequest = new QueryRequest();
         mQueryRequest.setFromTime(mFromTime);
         mQueryRequest.setToTime(mToTime);
@@ -113,8 +111,6 @@ public class ManageListRequestsViewModel extends BaseObservable
         mQueryRequest.setPage(String.valueOf(mPage));
         setVisiableLayoutFooter(true);
         setLoadDataFirstTime(true);
-        mIsVisibleFromTimeIcon = StringUtils.isBlank(mFromTime);
-        mIsVisibleToTimeIcon = StringUtils.isBlank(mToTime);
     }
 
     @Override
@@ -163,8 +159,8 @@ public class ManageListRequestsViewModel extends BaseObservable
     @Override
     public void onReloadData() {
         setPage(PAGE_ONE);
-        mFromTime = DateTimeUtils.dayFirstMonthWorking(mCutOffDate);
-        mToTime = DateTimeUtils.dayLastMonthWorking(mCutOffDate);
+        mFromTime = formatDate(DateTimeUtils.dayFirstMonthWorking(mCutOffDate));
+        mToTime = formatDate(DateTimeUtils.dayLastMonthWorking(mCutOffDate));
         setFromTimeNotGetData(mFromTime);
         setToTimeNotGetData(mToTime);
         mQueryRequest.setFromTime(mFromTime);
@@ -370,10 +366,8 @@ public class ManageListRequestsViewModel extends BaseObservable
         if (year == 0) {
             if (mIsFromTimeSelected) {
                 setFromTimeNotGetData(null);
-                setVisibleFromTimeIcon(true);
             } else {
                 setToTimeNotGetData(null);
-                setVisibleToTimeIcon(true);
             }
         }
         if (!view.isShown()) {
@@ -381,10 +375,8 @@ public class ManageListRequestsViewModel extends BaseObservable
         }
         if (mIsFromTimeSelected) {
             validateFromTime(dateTime);
-            setVisibleFromTimeIcon(false);
         } else {
             validateToTime(dateTime);
-            setVisibleToTimeIcon(false);
         }
     }
 
@@ -526,6 +518,12 @@ public class ManageListRequestsViewModel extends BaseObservable
         mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
     }
 
+    private String formatDate(String dataInput) {
+        return DateTimeUtils.convertUiFormatToDataFormat(dataInput,
+                DateTimeUtils.DATE_FORMAT_YYYY_MM_DD,
+                mContext.getString(R.string.format_date_yyyy_mm_dd));
+    }
+
     @Bindable
     public String getCurrentStatus() {
         return mCurrentStatus;
@@ -578,14 +576,12 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     private void setFromTimeNotGetData(String fromTime) {
         mFromTime = fromTime;
-        setVisibleFromTimeIcon(false);
         mQueryRequest.setFromTime(fromTime);
         notifyPropertyChanged(BR.fromTime);
     }
 
     private void setToTimeNotGetData(String toTime) {
         mToTime = toTime;
-        setVisibleToTimeIcon(false);
         mQueryRequest.setToTime(toTime);
         notifyPropertyChanged(BR.toTime);
     }
@@ -638,26 +634,6 @@ public class ManageListRequestsViewModel extends BaseObservable
         notifyPropertyChanged(BR.selectAll);
     }
 
-    @Bindable
-    public boolean isVisibleFromTimeIcon() {
-        return mIsVisibleFromTimeIcon;
-    }
-
-    private void setVisibleFromTimeIcon(boolean visibleFromTimeIcon) {
-        mIsVisibleFromTimeIcon = visibleFromTimeIcon;
-        notifyPropertyChanged(BR.visibleFromTimeIcon);
-    }
-
-    @Bindable
-    public boolean isVisibleToTimeIcon() {
-        return mIsVisibleToTimeIcon;
-    }
-
-    private void setVisibleToTimeIcon(boolean visibleToTimeIcon) {
-        mIsVisibleToTimeIcon = visibleToTimeIcon;
-        notifyPropertyChanged(BR.visibleToTimeIcon);
-    }
-
     private void setLoadDataFirstTime(boolean loadDataFirstTime) {
         mIsLoadDataFirstTime = loadDataFirstTime;
     }
@@ -681,9 +657,7 @@ public class ManageListRequestsViewModel extends BaseObservable
             @Override
             public void onRefresh() {
                 setLoading(true);
-                setPage(PAGE_ONE);
-                mPresenter.getListAllRequestManageNoProgressDialog(mRequestType, mQueryRequest,
-                        false);
+                onReloadData();
             }
         };
     }
@@ -766,8 +740,6 @@ public class ManageListRequestsViewModel extends BaseObservable
         mQueryRequest.setFromTime(null);
         mQueryRequest.setToTime(null);
         mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
-        setVisibleFromTimeIcon(true);
-        setVisibleToTimeIcon(true);
     }
 
     public void onClickSearch(View view) {

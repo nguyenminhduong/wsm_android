@@ -25,4 +25,6 @@
     <string name="october">10月</string>
     <string name="november">11月</string>
     <string name="december">12月</string>
+    <string name="format_date_mm_dd_yyyy">yyyy/MM/dd</string>
+    <string name="format_date_yyyy_mm_dd">yyyy/MM/dd</string>
 </resources>

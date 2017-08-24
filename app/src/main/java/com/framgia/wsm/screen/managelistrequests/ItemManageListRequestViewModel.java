@@ -1,8 +1,10 @@
 package com.framgia.wsm.screen.managelistrequests;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import com.framgia.wsm.BR;
+import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
@@ -16,6 +18,7 @@ import com.framgia.wsm.utils.common.DateTimeUtils;
 
 public class ItemManageListRequestViewModel extends BaseObservable {
 
+    private Context mContext;
     private final Object mObject;
     private LeaveRequest mLeaveRequest;
     private OffRequest mRequestOff;
@@ -27,8 +30,10 @@ public class ItemManageListRequestViewModel extends BaseObservable {
     private int mColorImage;
     private boolean mIsChecked;
 
-    ItemManageListRequestViewModel(Object object, ItemRecyclerViewClickListener itemClickListener,
+    ItemManageListRequestViewModel(Context context, Object object,
+            ItemRecyclerViewClickListener itemClickListener,
             ActionRequestListener actionRequestListener, int itemPosition) {
+        mContext = context.getApplicationContext();
         mObject = object;
         mItemClickListener = itemClickListener;
         mActionRequestListener = actionRequestListener;
@@ -86,7 +91,7 @@ public class ItemManageListRequestViewModel extends BaseObservable {
 
     private String getFormatTime(String input) {
         return DateTimeUtils.convertUiFormatToDataFormat(input, DateTimeUtils.INPUT_TIME_FORMAT,
-                DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+                mContext.getString(R.string.format_date_mm_dd_yyyy));
     }
 
     public String getDateOfCreation() {
