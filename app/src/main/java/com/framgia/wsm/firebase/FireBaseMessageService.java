@@ -65,7 +65,6 @@ public class FireBaseMessageService extends FirebaseMessagingService {
     BaseSchedulerProvider mBaseSchedulerProvider;
     private User mUser = new User();
     private List<OffType> offTypesCompany = new ArrayList<>();
-    private boolean mIsManager;
 
     @Override
     public void onCreate() {
@@ -146,7 +145,6 @@ public class FireBaseMessageService extends FirebaseMessagingService {
                     public ObservableSource<List<OffType>> apply(@NonNull User user)
                             throws Exception {
                         mUser = user;
-                        mIsManager = user.isManage();
                         return mUserRepository.getListOffType();
                     }
                 })
@@ -209,7 +207,6 @@ public class FireBaseMessageService extends FirebaseMessagingService {
                                     Float.parseFloat(Constant.DEFAULT_DOUBLE_VALUE)));
                         }
                         mUser.setTypesCompany(offTypesCompany);
-                        mUser.setManage(mIsManager);
                         mUserRepository.saveUser(mUser);
                         EventBus.getDefault().post(new UpdateRemainingDayOff(mUser));
                     }

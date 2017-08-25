@@ -439,11 +439,6 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         }
         switch (notificationRequestType) {
             case Constant.SILENT_NOTIFICATION:
-                if (mUser.isManage()) {
-                    mDialogManager.dialogError(mContext.getString(
-                            R.string.organization_charts_feature_is_currently_only_available_on_the_web));
-                    return;
-                }
                 mDialogManager.dialogError(
                         mContext.getString(R.string.you_are_unauthorized_to_access));
                 break;
