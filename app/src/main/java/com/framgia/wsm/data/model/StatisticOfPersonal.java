@@ -106,7 +106,7 @@ public class StatisticOfPersonal {
     /**
      * DaysOff
      */
-    public class DaysOff {
+    public static class DaysOff {
         @Expose
         @SerializedName("approved_in_month")
         private double mApprovedInMonth;

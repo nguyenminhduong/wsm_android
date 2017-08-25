@@ -6,6 +6,7 @@ import com.framgia.wsm.data.source.remote.api.error.RequestError;
 import com.framgia.wsm.data.source.remote.api.response.BaseResponse;
 import com.framgia.wsm.data.source.remote.api.response.StatisticsResponse;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import com.framgia.wsm.utils.rx.ImmediateSchedulerProvider;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -82,5 +83,9 @@ final class StatisticsPresenter implements StatisticsContract.Presenter {
                     }
                 });
         mCompositeDisposable.add(disposable);
+    }
+
+    public void setBaseSchedulerProvider(ImmediateSchedulerProvider baseSchedulerProvider) {
+        mBaseSchedulerProvider = baseSchedulerProvider;
     }
 }
