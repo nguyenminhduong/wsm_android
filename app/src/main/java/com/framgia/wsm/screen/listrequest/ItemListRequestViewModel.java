@@ -5,14 +5,19 @@ import android.databinding.Bindable;
 import android.support.annotation.IntDef;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.model.Branch;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
+import com.framgia.wsm.data.model.Shifts;
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.StatusCode;
+import com.framgia.wsm.utils.UserType;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.common.StringUtils;
+import java.util.List;
 
 /**
  * Created by ASUS on 13/06/2017.
@@ -27,13 +32,22 @@ public class ItemListRequestViewModel extends BaseObservable {
     private int mStatusImage;
     private final BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object>
             mItemClickListener;
+    private int mExtraTime;
+    private User mUser;
+    private int positionBranchLeaveRequest;
 
     ItemListRequestViewModel(Object object,
-            BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> itemClickListener) {
+            BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> itemClickListener,
+            User user) {
         mObject = object;
         mItemClickListener = itemClickListener;
         if (object instanceof LeaveRequest) {
             mRequest = (LeaveRequest) object;
+            mExtraTime =
+                    user.getSpecial() == UserType.CHILDREN ? Constant.TimeConst.FIFTEEN_MINUTES : 0;
+            mUser = user;
+            positionBranchLeaveRequest =
+                    searchPositionBranch(user.getBranches(), mRequest.getBranch().getBranchId());
         } else if (object instanceof OffRequest) {
             mRequestOff = (OffRequest) object;
         } else {
@@ -42,8 +56,35 @@ public class ItemListRequestViewModel extends BaseObservable {
         initValueStatus();
     }
 
+    private int searchPositionBranch(List<Branch> branchList, int branchId) {
+        for (int i = 0; i < branchList.size(); i++) {
+            if (branchList.get(i).getBranchId() == branchId) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    private Shifts getCurrentShift() {
+        //TODO edit later
+        return mUser.getBranches().get(positionBranchLeaveRequest).getShifts().get(0);
+    }
+
     public String getTimeRequestLeave() {
         if (mRequest != null) {
+            final String beginMorningTime =
+                    DateTimeUtils.convertUiFormatToDataFormatAndPlusExtraTime(
+                            getCurrentShift().getTimeIn(), DateTimeUtils.INPUT_TIME_FORMAT,
+                            DateTimeUtils.TIME_FORMAT_HH_MM, mExtraTime);
+            final String beginAfterTime = DateTimeUtils.convertUiFormatToDataFormatAndPlusExtraTime(
+                    getCurrentShift().getTimeAfternoon(), DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.TIME_FORMAT_HH_MM, mExtraTime);
+            final String timeLunch = DateTimeUtils.convertUiFormatToDataFormatAndPlusExtraTime(
+                    getCurrentShift().getTimeLunch(), DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.TIME_FORMAT_HH_MM, mExtraTime);
+            final String timeOut = DateTimeUtils.convertUiFormatToDataFormatAndPlusExtraTime(
+                    getCurrentShift().getTimeOut(), DateTimeUtils.INPUT_TIME_FORMAT,
+                    DateTimeUtils.TIME_FORMAT_HH_MM, mExtraTime);
             final String requestCheckInByTimeAndDate = DateTimeUtils.convertUiFormatToDataFormat(
                     mRequest.getCheckInTime() + Constant.DATE_TIME_SPACE,
                     DateTimeUtils.INPUT_TIME_FORMAT,
@@ -62,39 +103,45 @@ public class ItemListRequestViewModel extends BaseObservable {
                     DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
                             DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.FORMAT_DATE);
             switch (mRequest.getLeaveType().getId()) {
-                case LeaveType.IN_LATE_M:
                 case LeaveType.IN_LATE_A:
-                    return Constant.BEGIN_MORNING_TIME
+                case LeaveType.IN_LATE_WOMAN_A:
+                    return beginAfterTime + Constant.BLANK_DASH_BLANK + requestCheckInByTimeAndDate;
+                case LeaveType.IN_LATE_M:
+                case LeaveType.IN_LATE_WOMAN_M:
+                case LeaveType.LEAVE_EARLY_WOMAN_M:
+                    return beginMorningTime
                             + Constant.BLANK_DASH_BLANK
                             + requestCheckInByTimeAndDate;
                 case LeaveType.LEAVE_EARLY_M:
                     return requestCheckOutByTime
-                            + Constant.DATE_TIME_SPACE
-                            + Constant.END_MORNING_TIME
+                            + Constant.BLANK_DASH_BLANK
+                            + timeLunch
                             + Constant.BLANK
                             + requestCheckOutByDate;
                 case LeaveType.LEAVE_OUT:
                 case LeaveType.FORGOT_CARD_ALL_DAY:
                 case LeaveType.FORGOT_CHECK_ALL_DAY:
                     return requestCheckInByTime
-                            + Constant.DATE_TIME_SPACE
-                            + Constant.BLANK
+                            + Constant.BLANK_DASH_BLANK
                             + requestCheckOutByTimeAndDate;
                 case LeaveType.FORGOT_CARD_IN:
-                case LeaveType.IN_LATE_WOMAN_M:
-                case LeaveType.IN_LATE_WOMAN_A:
                 case LeaveType.FORGOT_TO_CHECK_IN:
                     return requestCheckInByTimeAndDate;
                 case LeaveType.FORGOT_CARD_OUT:
-                case LeaveType.LEAVE_EARLY_A:
-                case LeaveType.LEAVE_EARLY_WOMAN_M:
-                case LeaveType.LEAVE_EARLY_WOMAN_A:
                 case LeaveType.FORGOT_TO_CHECK_OUT:
                     return requestCheckOutByTimeAndDate;
+                case LeaveType.LEAVE_EARLY_WOMAN_A:
+                case LeaveType.LEAVE_EARLY_A:
+                    return requestCheckOutByTime
+                            + Constant.BLANK_DASH_BLANK
+                            + timeOut
+                            + Constant.BLANK
+                            + requestCheckOutByDate;
                 default:
                     return "";
             }
         }
+
         return "";
     }
 

@@ -10,6 +10,7 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
+import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.databinding.ItemListRequestLeaveBinding;
 import com.framgia.wsm.databinding.ItemListRequestOffBinding;
 import com.framgia.wsm.databinding.ItemListRequestOvertimeBinding;
@@ -30,6 +31,7 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
     private List<RequestOverTime> mRequestOverTimes;
     @RequestType
     private int mRequestType;
+    private User mUser;
 
     ListRequestAdapter(@NonNull Context context, @RequestType int requestType) {
         super(context);
@@ -70,15 +72,15 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
             case RequestType.REQUEST_OVERTIME:
                 RequestOverTimeViewHolder requestOverTimeViewHolder =
                         (RequestOverTimeViewHolder) holder;
-                requestOverTimeViewHolder.bind(mRequestOverTimes.get(position));
+                requestOverTimeViewHolder.bind(mRequestOverTimes.get(position), mUser);
                 break;
             case RequestType.REQUEST_OFF:
                 RequestOffViewHolder requestOffViewHolder = (RequestOffViewHolder) holder;
-                requestOffViewHolder.bind(mRequestOffs.get(position));
+                requestOffViewHolder.bind(mRequestOffs.get(position), mUser);
                 break;
             case RequestType.REQUEST_LATE_EARLY:
                 RequestLeaveViewHolder requestLeaveViewHolder = (RequestLeaveViewHolder) holder;
-                requestLeaveViewHolder.bind(mRequests.get(position));
+                requestLeaveViewHolder.bind(mRequests.get(position), mUser);
                 break;
         }
     }
@@ -132,6 +134,10 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
         notifyDataSetChanged();
     }
 
+    void updateUser(User user) {
+        mUser = user;
+    }
+
     void setItemClickListener(OnRecyclerViewItemClickListener<Object> itemClickListener) {
         mItemClickListener = itemClickListener;
     }
@@ -147,9 +153,9 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
             mItemClickListener = listener;
         }
 
-        void bind(RequestOverTime requestOverTime) {
+        void bind(RequestOverTime requestOverTime, User user) {
             mBinding.setViewModel(
-                    new ItemListRequestViewModel(requestOverTime, mItemClickListener));
+                    new ItemListRequestViewModel(requestOverTime, mItemClickListener, user));
             mBinding.executePendingBindings();
         }
     }
@@ -165,8 +171,9 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
             mItemClickListener = listener;
         }
 
-        void bind(OffRequest requestOff) {
-            mBinding.setViewModel(new ItemListRequestViewModel(requestOff, mItemClickListener));
+        void bind(OffRequest requestOff, User user) {
+            mBinding.setViewModel(
+                    new ItemListRequestViewModel(requestOff, mItemClickListener, user));
             mBinding.executePendingBindings();
         }
     }
@@ -182,8 +189,8 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
             mItemClickListener = listener;
         }
 
-        void bind(LeaveRequest request) {
-            mBinding.setViewModel(new ItemListRequestViewModel(request, mItemClickListener));
+        void bind(LeaveRequest request, User user) {
+            mBinding.setViewModel(new ItemListRequestViewModel(request, mItemClickListener, user));
             mBinding.executePendingBindings();
         }
     }

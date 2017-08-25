@@ -198,11 +198,12 @@ public final class DateTimeUtils {
                         DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM, TIME_FORMAT_HH_MM), TIME_FORMAT_HH_MM);
         return firstDate.before(secondDate) || firstDate.equals(secondDate);
     }
+
     /**
      * kiểm tra khoảng thời gian của 2 datetime có <= hour
      */
-    public static boolean checkHourOfDateLessThanWithDuration(String firstTime,
-            String secondTime, float hour) {
+    public static boolean checkHourOfDateLessThanWithDuration(String firstTime, String secondTime,
+            float hour) {
         Date firstDate = convertStringToDate(
                 convertUiFormatToDataFormat(firstTime, DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM,
                         TIME_FORMAT_HH_MM), TIME_FORMAT_HH_MM);
@@ -213,6 +214,7 @@ public final class DateTimeUtils {
                         DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM, TIME_FORMAT_HH_MM), TIME_FORMAT_HH_MM);
         return firstDate.before(secondDate);
     }
+
     /**
      * kiểm tra giờ của datetime có <= hour, minute
      */
@@ -327,6 +329,26 @@ public final class DateTimeUtils {
         } catch (ParseException e) {
             return null;
         }
+    }
+
+    public static String convertUiFormatToDataFormatAndPlusExtraTime(String time,
+            String inputFormat, String outputFormat, int extraTime) {
+        if (TextUtils.isEmpty(time)) {
+            return "";
+        }
+        TimeZone gmtTime = TimeZone.getTimeZone(TIME_ZONE_GMT);
+        SimpleDateFormat sdf = new SimpleDateFormat(inputFormat, Locale.getDefault());
+        sdf.setTimeZone(gmtTime);
+        Calendar calendar = Calendar.getInstance();
+        try {
+            calendar.setTime(sdf.parse(time));
+        } catch (ParseException e) {
+            return null;
+        }
+        calendar.add(Calendar.MINUTE, extraTime);
+        SimpleDateFormat newSdf = new SimpleDateFormat(outputFormat, Locale.getDefault());
+        newSdf.setTimeZone(gmtTime);
+        return newSdf.format(calendar.getTime());
     }
 
     public static String dayFirstMonthWorking(int cutOffDate) {

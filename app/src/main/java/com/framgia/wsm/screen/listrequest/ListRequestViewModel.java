@@ -132,6 +132,7 @@ public class ListRequestViewModel extends BaseObservable
             return;
         }
         mCutOffDate = user.getCompany().getCutOffDate();
+        mListRequestAdapter.updateUser(user);
     }
 
     @Override
