@@ -1,6 +1,6 @@
 machine:
   ruby:
-      version: 2.0.0-p648
+      version: 2.3.1
   java:
       version: oraclejdk8
   timezone: Asia/Saigon
@@ -38,5 +38,6 @@ dependencies:
     - ./gradlew app:dependencies
 test:
   override:
-      - sh scripts/saddler.sh
+      - sh scripts/saddler.sh:
+          timeout: 1200
       - sh scripts/pushNotification.sh
