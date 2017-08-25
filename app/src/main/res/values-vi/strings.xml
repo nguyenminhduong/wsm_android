@@ -202,7 +202,7 @@
     <string name="check_out_time_must_be_in_morning_shift">Thời gian về phải vào ca làm việc buổi sáng</string>
     <string name="check_out_time_must_be_in_afternoon_shift">Thời gian về phải vào ca làm việc buổi chiều</string>
     <string name="time_into_company_illegal">Thời gian vào công ty không hợp lệ</string>
-    <string name="can_not_be_greater_than_0_5_hours_from_the_work_shift">Yêu cầu IL (chỉ dành cho phụ nữ) không được quá 0,5 giờ kể từ ca làm việc</string>
+    <string formatted="false" name="can_not_be_greater_than_hours_from_the_work_shift">Thời gian tối thiểu để tạo yêu cầu %s là %.1f giờ</string>
     <string name="your_time_can_not_be_sooner_than_time_in_of_company">Thời gian của bạn không thể sớm hơn thời gian vào công ty</string>
     <string name="your_time_can_not_in_lunch_break_time_of_company">Thời gian của bạn không thể nằm trong thời gian nghỉ trưa của công ty</string>
     <string name="your_time_can_not_be_later_than_time_out_company">Thời gian của bạn không thể muộn hơn thời gian ra công ty</string>

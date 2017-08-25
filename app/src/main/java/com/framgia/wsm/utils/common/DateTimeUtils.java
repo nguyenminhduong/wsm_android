@@ -198,7 +198,21 @@ public final class DateTimeUtils {
                         DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM, TIME_FORMAT_HH_MM), TIME_FORMAT_HH_MM);
         return firstDate.before(secondDate) || firstDate.equals(secondDate);
     }
-
+    /**
+     * kiểm tra khoảng thời gian của 2 datetime có <= hour
+     */
+    public static boolean checkHourOfDateLessThanWithDuration(String firstTime,
+            String secondTime, float hour) {
+        Date firstDate = convertStringToDate(
+                convertUiFormatToDataFormat(firstTime, DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM,
+                        TIME_FORMAT_HH_MM), TIME_FORMAT_HH_MM);
+        String secondTimeAfterAddDuration =
+                addMinutesToStringDate(secondTime, (int) (hour * MINUTES_OF_HOUR));
+        Date secondDate = convertStringToDate(
+                convertUiFormatToDataFormat(secondTimeAfterAddDuration,
+                        DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM, TIME_FORMAT_HH_MM), TIME_FORMAT_HH_MM);
+        return firstDate.before(secondDate);
+    }
     /**
      * kiểm tra giờ của datetime có <= hour, minute
      */

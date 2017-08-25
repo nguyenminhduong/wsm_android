@@ -217,7 +217,7 @@
     <string name="check_out_time_must_be_in_morning_shift">Check out time must be in morning shift</string>
     <string name="check_out_time_must_be_in_afternoon_shift">Check out time must be in afternoon shift</string>
     <string name="time_into_company_illegal">Time into company Illegal</string>
-    <string name="can_not_be_greater_than_0_5_hours_from_the_work_shift">The request for IL (woman only) can not be greater than 0.5 hours from the work shift</string>
+    <string formatted="false" name="can_not_be_greater_than_hours_from_the_work_shift">The minimum time to create a request %s is %.1f hour</string>
     <string name="your_time_can_not_be_sooner_than_time_in_of_company">Your time can not be sooner than time in of company</string>
     <string name="your_time_can_not_in_lunch_break_time_of_company">Your time can not in lunch break time of company</string>
     <string name="your_time_can_not_be_later_than_time_out_company">Your time can not be later than time out company</string>
