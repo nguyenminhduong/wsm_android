@@ -715,14 +715,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                     mContext.getString(R.string.check_in_time_must_be_in_afternoon_shift));
             return;
         }
-        String dateAfternoonAfterAddMinutes =
-                DateTimeUtils.addMinutesToStringDate(mCurrentShifts.getTimeAfternoon(),
-                        THIRDTY_MINUTES);
-        int hour = DateTimeUtils.getHourOfDay(dateAfternoonAfterAddMinutes);
-        int minute = DateTimeUtils.getMinute(dateAfternoonAfterAddMinutes);
-        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, hour, minute)) {
-            validateErrorDialog(mContext.getString(
-                    R.string.can_not_be_greater_than_0_5_hours_from_the_work_shift));
+        LeaveType leaveType = mLeaveTypes.get(mCurrentLeaveTypePosition);
+        if (DateTimeUtils.checkHourOfDateLessThanWithDuration(checkinTime,
+                mCurrentShifts.getTimeAfternoon(), leaveType.getMinimumPerOne())) {
+            validateErrorDialog(String.format(
+                    mContext.getString(R.string.can_not_be_greater_than_hours_from_the_work_shift),
+                    leaveType.getName(), leaveType.getMinimumPerOne()));
             return;
         }
         float maxDuration =
@@ -747,13 +745,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             validateErrorDialog(mContext.getString(R.string.time_into_company_illegal));
             return;
         }
-        String timeInAfterAddMinutes =
-                DateTimeUtils.addMinutesToStringDate(mCurrentShifts.getTimeIn(), THIRDTY_MINUTES);
-        int hour = DateTimeUtils.getHourOfDay(timeInAfterAddMinutes);
-        int minute = DateTimeUtils.getMinute(timeInAfterAddMinutes);
-        if (DateTimeUtils.checkHourOfDateLessThan(checkinTime, hour, minute)) {
-            validateErrorDialog(mContext.getString(
-                    R.string.can_not_be_greater_than_0_5_hours_from_the_work_shift));
+        LeaveType leaveType = mLeaveTypes.get(mCurrentLeaveTypePosition);
+        if (DateTimeUtils.checkHourOfDateLessThanWithDuration(checkinTime,
+                mCurrentShifts.getTimeIn(), leaveType.getMinimumPerOne())) {
+            validateErrorDialog(String.format(
+                    mContext.getString(R.string.can_not_be_greater_than_hours_from_the_work_shift),
+                    leaveType.getName(), leaveType.getMinimumPerOne()));
             return;
         }
         float maxDuration =
@@ -779,6 +776,14 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                     mContext.getString(R.string.check_in_time_must_be_in_afternoon_shift));
             return;
         }
+        LeaveType leaveType = mLeaveTypes.get(mCurrentLeaveTypePosition);
+        if (DateTimeUtils.checkHourOfDateLessThanWithDuration(checkinTime,
+                mCurrentShifts.getTimeAfternoon(), leaveType.getMinimumPerOne())) {
+            validateErrorDialog(String.format(
+                    mContext.getString(R.string.can_not_be_greater_than_hours_from_the_work_shift),
+                    leaveType.getName(), leaveType.getMinimumPerOne()));
+            return;
+        }
         float maxDuration =
                 mUser.getMaxDurationComeLate(mCurrentLeaveTypePosition, mCurrentBranchPosition);
         if (DateTimeUtils.checkHourOfDateLessThanOrEqualWithDuration(checkinTime,
@@ -802,6 +807,14 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 mMinuteOfTimeIn)) {
             validateErrorDialog(
                     mContext.getString(R.string.this_is_form_request_late_time_in_is_incorrect));
+            return;
+        }
+        LeaveType leaveType = mLeaveTypes.get(mCurrentLeaveTypePosition);
+        if (DateTimeUtils.checkHourOfDateLessThanWithDuration(checkinTime,
+                mCurrentShifts.getTimeIn(), leaveType.getMinimumPerOne())) {
+            validateErrorDialog(String.format(
+                    mContext.getString(R.string.can_not_be_greater_than_hours_from_the_work_shift),
+                    leaveType.getName(), leaveType.getMinimumPerOne()));
             return;
         }
         float maxDuration =
@@ -868,6 +881,14 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             validateErrorDialog(mContext.getString(R.string.time_must_be_is_in_a_day));
             return;
         }
+        LeaveType leaveType = mLeaveTypes.get(mCurrentLeaveTypePosition);
+        if (DateTimeUtils.checkHourOfDateLessThanWithDuration(checkoutTime, getCheckinTime(),
+                leaveType.getMinimumPerOne())) {
+            validateErrorDialog(String.format(
+                    mContext.getString(R.string.can_not_be_greater_than_hours_from_the_work_shift),
+                    leaveType.getName(), leaveType.getMinimumPerOne()));
+            return;
+        }
         float maxDuration =
                 mUser.getMaxDurationLeave(mCurrentLeaveTypePosition, mCurrentBranchPosition);
         if (!DateTimeUtils.checkHourOfDateLessThanOrEqualWithDuration(checkoutTime, mCheckinTime,
@@ -899,12 +920,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                     R.string.your_amount_tim_can_not_greater_than_max_allow_time));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeOut, mMinuteOfTimeOut)) {
-            setCheckoutTime(checkoutTime);
-            return;
-        }
-        validateErrorDialog(
-                mContext.getString(R.string.your_time_can_not_be_later_than_time_out_company));
+        setCheckoutTime(checkoutTime);
     }
 
     private boolean validateLeaveEarlyABase(String checkoutTime) {
@@ -919,10 +935,24 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                     mContext.getString(R.string.check_out_time_must_be_in_afternoon_shift));
             return true;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeAfternoon,
+        if (DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, mHourOfTimeAfternoon,
                 mMinuteOfTimeAfternoon)) {
             validateErrorDialog(
                     mContext.getString(R.string.your_time_can_not_in_lunch_break_time_of_company));
+            return true;
+        }
+        if (!DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeOut,
+                mMinuteOfTimeOut)) {
+            validateErrorDialog(
+                    mContext.getString(R.string.your_time_can_not_be_later_than_time_out_company));
+            return true;
+        }
+        LeaveType leaveType = mLeaveTypes.get(mCurrentLeaveTypePosition);
+        if (DateTimeUtils.checkHourOfDateLessThanWithDuration(mCurrentShifts.getTimeOut(),
+                checkoutTime, leaveType.getMinimumPerOne())) {
+            validateErrorDialog(String.format(
+                    mContext.getString(R.string.can_not_be_greater_than_hours_from_the_work_shift),
+                    leaveType.getName(), leaveType.getMinimumPerOne()));
             return true;
         }
         return false;
@@ -944,6 +974,16 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeIn, mMinuteOfTimeIn)) {
             validateErrorDialog(mContext.getString(
                     R.string.your_time_can_not_be_sooner_than_time_in_of_company));
+            return true;
+        }
+        LeaveType leaveType = mLeaveTypes.get(mCurrentLeaveTypePosition);
+        if (DateTimeUtils.checkHourOfDateLessThanWithDuration(mCurrentShifts.getTimeLunch(),
+                checkoutTime, leaveType.getMinimumPerOne())
+                && DateTimeUtils.checkHourOfDateLessThanOrEqual(checkoutTime, mHourOfTimeLunch,
+                mMinuteOfTimeLunch)) {
+            validateErrorDialog(String.format(
+                    mContext.getString(R.string.can_not_be_greater_than_hours_from_the_work_shift),
+                    leaveType.getName(), leaveType.getMinimumPerOne()));
             return true;
         }
         float maxDuration =
@@ -969,14 +1009,9 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                     R.string.your_amount_tim_can_not_greater_than_max_allow_time));
             return;
         }
-        if (DateTimeUtils.checkHourOfDateLessThan(checkoutTime, mHourOfTimeOut, mMinuteOfTimeOut)) {
-            setCheckoutTime(checkoutTime);
-            setCompensationTime(DateTimeUtils.changeTimeOfDateString(checkoutTime, mHourOfTimeOut,
-                    mMinuteOfTimeOut));
-            return;
-        }
-        validateErrorDialog(
-                mContext.getString(R.string.your_time_can_not_be_later_than_time_out_company));
+        setCheckoutTime(checkoutTime);
+        setCompensationTime(DateTimeUtils.changeTimeOfDateString(checkoutTime, mHourOfTimeOut,
+                mMinuteOfTimeOut));
     }
 
     private void validateLeaveEarlyM(String checkoutTime) {

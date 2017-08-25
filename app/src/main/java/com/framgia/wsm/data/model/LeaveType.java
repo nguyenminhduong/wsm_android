@@ -40,6 +40,9 @@ public class LeaveType extends BaseModel implements Parcelable {
     @Expose
     @SerializedName("is_follow_time_company")
     private boolean mIsFollowTimeCompany;
+    @Expose
+    @SerializedName("minimum_per_one")
+    private float mMinimumPerOne;
 
     public LeaveType() {
     }
@@ -51,6 +54,7 @@ public class LeaveType extends BaseModel implements Parcelable {
         mBlockMinutes = in.readInt();
         mMaxLeaveDuration = in.readFloat();
         mIsFollowTimeCompany = in.readByte() != 0;
+        mMinimumPerOne = in.readFloat();
     }
 
     public int getId() {
@@ -101,6 +105,14 @@ public class LeaveType extends BaseModel implements Parcelable {
         mIsFollowTimeCompany = followTimeCompany;
     }
 
+    public float getMinimumPerOne() {
+        return mMinimumPerOne;
+    }
+
+    public void setMinimumPerOne(float minimumPerOne) {
+        mMinimumPerOne = minimumPerOne;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -114,5 +126,6 @@ public class LeaveType extends BaseModel implements Parcelable {
         dest.writeInt(mBlockMinutes);
         dest.writeFloat(mMaxLeaveDuration);
         dest.writeByte((byte) (mIsFollowTimeCompany ? 1 : 0));
+        dest.writeFloat(mMinimumPerOne);
     }
 }
