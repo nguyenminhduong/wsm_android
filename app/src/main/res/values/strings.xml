@@ -230,6 +230,7 @@
     <string name="your_compensation_time_can_not_in_working_time">Your compensation time can not in working time of company</string>
     <string name="check_in_time">Checkin time</string>
     <string name="check_out_time">Checkout time</string>
+    <string name="time_of_creation">Time of creation</string>
 
     <!-- ValidLeaveRequestuest Off -->
     <string name="you_can_not_access">You can not access for this month!</string>

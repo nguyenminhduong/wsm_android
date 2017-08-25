@@ -126,6 +126,10 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
         return StatusCode.FORWARD_CODE.equals(mRequest.getStatus());
     }
 
+    public boolean isVisibleTimeOfCreation() {
+        return mActionType == ActionType.ACTION_DETAIL;
+    }
+
     @Override
     public void onStart() {
         mPresenter.onStart();
@@ -229,6 +233,14 @@ public class ConfirmRequestLeaveViewModel extends BaseObservable
     public boolean isVisibleButtonSubmit() {
         return mActionType == ActionType.ACTION_CONFIRM_CREATE || StatusCode.PENDING_CODE.equals(
                 mRequest.getStatus());
+    }
+
+    public String getTimeOfCreation() {
+        if (mRequest.getCreateAt() == null) {
+            return "";
+        }
+        return DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCreateAt(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
     }
 
     public String getCheckInTime() {

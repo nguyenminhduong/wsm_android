@@ -287,7 +287,39 @@
                                         />
                                 </LinearLayout>
                             </TableRow>
-
+                            <TableRow
+                                android:visibility="@{viewModel.visibleTimeOfCreation ? View.VISIBLE : View.GONE}"
+                                android:gravity="center_vertical"
+                                >
+                                <ImageView
+                                    app:srcCompat="@drawable/ic_clock"
+                                    tools:ignore="ContentDescription"
+                                    style="@style/StyleIconConfirm"
+                                    />
+                                <LinearLayout
+                                    android:layout_marginLeft="@dimen/dp_20"
+                                    android:layout_marginStart="@dimen/dp_20"
+                                    android:orientation="vertical"
+                                    >
+                                    <TextView
+                                        android:text="@string/time_of_creation"
+                                        style="@style/StyleTitleConfirm"
+                                        />
+                                    <TextView
+                                        android:ellipsize="end"
+                                        android:maxLines="1"
+                                        android:text="@{viewModel.timeOfCreation}"
+                                        style="@style/StyleTextConfirm"
+                                        />
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/dp_1"
+                                        android:layout_marginBottom="@dimen/dp_5"
+                                        android:layout_marginTop="@dimen/dp_5"
+                                        android:background="@color/colorPrimary"
+                                        />
+                                </LinearLayout>
+                            </TableRow>
                             <TableRow
                                 android:gravity="center_vertical"
                                 android:visibility="@{viewModel.visibleLayoutCheckin ? View.VISIBLE : View.GONE}"
