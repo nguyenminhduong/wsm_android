@@ -302,7 +302,8 @@ public class ListRequestViewModel extends BaseObservable
             @Override
             public void onRefresh() {
                 setLoading(true);
-                onReloadData(mRequestType);
+                setPage(PAGE_ONE);
+                mPresenter.getListAllRequestNoProgressDialog(mRequestType, mQueryRequest, false);
             }
         };
     }
