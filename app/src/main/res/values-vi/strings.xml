@@ -362,4 +362,6 @@
     <string name="confirm_edit_others_request">Xác nhận sửa yêu cầu</string>
     <string name="edit_request">Sửa yêu cầu</string>
     <string name="request_information">Chi tiết yêu cầu</string>
+    <string name="can_not_load_data">Không tải được dữ liệu. Vui lòng kiểm tra lại!</string>
+    <string name="can_not_find_request">Không tìm thấy yêu cầu!</string>
 </resources>

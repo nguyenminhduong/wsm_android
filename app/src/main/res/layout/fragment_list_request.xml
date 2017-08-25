@@ -30,31 +30,36 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 >
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    android:background="@color/color_green"
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_5"
-                    android:layout_marginTop="@dimen/dp_5"
+                    android:background="@color/colorPrimary"
                     android:baselineAligned="false"
                     android:orientation="horizontal"
+                    android:paddingBottom="@dimen/dp_7"
                     android:paddingEnd="@dimen/dp_10"
                     android:paddingLeft="@dimen/dp_10"
                     android:paddingRight="@dimen/dp_10"
                     android:paddingStart="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_5"
                     >
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_5"
                         android:layout_weight="0.3"
                         android:baselineAligned="false"
                         android:orientation="horizontal"
                         >
                         <Button
                             android:layout_width="0dp"
-                            android:layout_height="@dimen/dp_40"
+                            android:layout_height="@dimen/dp_35"
                             android:layout_marginEnd="@dimen/dp_5"
                             android:layout_marginRight="@dimen/dp_5"
                             android:layout_weight="1"
@@ -64,12 +69,12 @@
                             android:text="@{viewModel.currentStatus}"
                             android:textAllCaps="false"
                             android:textColor="@color/cardview_dark_background"
-                            android:textSize="@dimen/sp_17"
+                            android:textSize="@dimen/sp_15"
                             tools:ignore="ButtonStyle,NestedWeights,UnusedAttribute"
                             />
                         <Button
                             android:layout_width="0dp"
-                            android:layout_height="@dimen/dp_40"
+                            android:layout_height="@dimen/dp_35"
                             android:layout_marginLeft="@dimen/dp_5"
                             android:layout_marginStart="@dimen/dp_5"
                             android:layout_weight="1"
@@ -78,7 +83,7 @@
                             android:onClick="@{viewModel::onPickMonthYear}"
                             android:text="@{viewModel.monthYear}"
                             android:textColor="@color/cardview_dark_background"
-                            android:textSize="@dimen/sp_17"
+                            android:textSize="@dimen/sp_15"
                             tools:ignore="ButtonStyle"
                             />
                     </LinearLayout>
@@ -87,18 +92,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="@dimen/dp_5"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginTop="@dimen/dp_2"
+                        android:layout_marginLeft="@dimen/dp_3"
+                        android:layout_marginStart="@dimen/dp_3"
                         android:layout_weight="0.7"
                         android:gravity="center"
                         android:orientation="horizontal"
                         >
                         <ImageButton
                             android:layout_width="0dp"
-                            android:layout_height="@dimen/dp_40"
-                            android:layout_marginLeft="@dimen/dp_5"
-                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_height="@dimen/dp_35"
+                            android:layout_marginLeft="@dimen/dp_3"
+                            android:layout_marginStart="@dimen/dp_3"
                             android:layout_weight="1"
                             android:background="@drawable/border_button_red"
                             android:onClick="@{viewModel::onClearData}"
@@ -108,9 +112,9 @@
                             />
                         <ImageButton
                             android:layout_width="0dp"
-                            android:layout_height="@dimen/dp_40"
-                            android:layout_marginLeft="@dimen/dp_10"
-                            android:layout_marginStart="@dimen/dp_10"
+                            android:layout_height="@dimen/dp_35"
+                            android:layout_marginLeft="@dimen/dp_5"
+                            android:layout_marginStart="@dimen/dp_5"
                             android:layout_weight="1"
                             android:background="@drawable/border_button_blue"
                             android:onClick="@{viewModel::onSearchRequest}"
@@ -121,12 +125,7 @@
                     </LinearLayout>
 
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_1"
-                    android:layout_margin="@dimen/dp_3"
-                    android:background="@color/color_blue_green"
-                    />
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -150,7 +149,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp_10"
-                            android:text="@string/can_not_find_data"
+                            android:text="@={viewModel.notificationLoadData}"
                             android:textSize="@dimen/sp_17"
                             />
                     </LinearLayout>

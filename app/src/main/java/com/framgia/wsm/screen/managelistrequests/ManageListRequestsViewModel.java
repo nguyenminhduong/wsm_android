@@ -62,7 +62,6 @@ public class ManageListRequestsViewModel extends BaseObservable
     private String mFromTime;
     private String mToTime;
     private String mCurrentStatus;
-    private boolean mIsVisibleLayoutSearch;
     private boolean mIsFromTimeSelected;
     private int mCurrentPositionStatus;
     private String mUserName;
@@ -79,6 +78,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     private boolean mIsLoadDataFirstTime;
     private String mTotalRequestSelected;
     private int mCutOffDate;
+    private String mNotificationData;
 
     ManageListRequestsViewModel(Context context, ManageListRequestsContract.Presenter presenter,
             DialogManager dialogManager, ManageListRequestsAdapter manageListRequestsAdapter,
@@ -125,6 +125,7 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     @Override
     public void onGetListRequestManageError(BaseException exception) {
+        setNotificationData(mContext.getString(R.string.can_not_load_data));
         setShowProgress(false);
         setVisiableLayoutDataNotFound(true);
         mNavigator.showToastCustom(TypeToast.ERROR, exception.getMessage());
@@ -134,6 +135,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void onGetListRequestManageSuccess(Object object, boolean isLoadMore) {
         setLoading(false);
         setShowProgress(false);
+        setNotificationData(mContext.getString(R.string.can_not_find_request));
         switch (mRequestType) {
             case RequestType.REQUEST_OVERTIME:
                 List<RequestOverTime> listOverTime = (List<RequestOverTime>) object;
@@ -483,16 +485,6 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     @Bindable
-    public boolean isVisibleLayoutSearch() {
-        return mIsVisibleLayoutSearch;
-    }
-
-    private void setVisibleLayoutSearch(boolean visibleLayoutSearch) {
-        mIsVisibleLayoutSearch = visibleLayoutSearch;
-        notifyPropertyChanged(BR.visibleLayoutSearch);
-    }
-
-    @Bindable
     public String getFromTime() {
         return mFromTime;
     }
@@ -532,6 +524,16 @@ public class ManageListRequestsViewModel extends BaseObservable
     private void setCurrentStatus(String currentStatus) {
         mCurrentStatus = currentStatus;
         notifyPropertyChanged(BR.currentStatus);
+    }
+
+    @Bindable
+    public String getNotificationData() {
+        return mNotificationData;
+    }
+
+    public void setNotificationData(String notificationData) {
+        mNotificationData = notificationData;
+        notifyPropertyChanged(BR.notificationData);
     }
 
     @Bindable
@@ -722,14 +724,6 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void onCickToTime(View view) {
         mIsFromTimeSelected = false;
         mDialogManager.showDatePickerDialog();
-    }
-
-    public void onClickFloatingButtonSearch(View view) {
-        if (mIsVisibleLayoutSearch) {
-            setVisibleLayoutSearch(false);
-            return;
-        }
-        setVisibleLayoutSearch(true);
     }
 
     public void onClickClearDataFilter(View view) {

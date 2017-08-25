@@ -35,8 +35,8 @@
     <string name="manage_request_others">Manage request others</string>
     <string name="manage_request_leave">Manage request leave</string>
 
-    <string name="create_request_ot">Create request OT</string>
-    <string name="create_request_leave">Create request leave</string>
+    <string name="create_request_ot">Create Request OT</string>
+    <string name="create_request_leave">Create Request Leave</string>
     <string name="create_others_request">Create Other Request</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -374,5 +374,7 @@
     <string name="detail_others_request">Detail request others</string>
     <string name="confirm_edit_others_request">Confirm edit others request</string>
     <string name="edit_request">Edit request</string>
+    <string name="can_not_load_data">Can\'t load data. Please check again !</string>
+    <string name="can_not_find_request">Can\'t find request!</string>
 
 </resources>
