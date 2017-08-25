@@ -215,6 +215,7 @@
     <string name="your_compensation_time_can_not_in_working_time">Thời gian làm bù của bạn không thể nằm trong thời gian làm việc của công ty</string>
     <string name="check_in_time">Thời gian đến</string>
     <string name="check_out_time">Thời gian về</string>
+    <string name="time_of_creation">Thời gian tạo</string>
 
     <!-- ValidLeaveRequestuest Off -->
     <string name="you_can_not_access">Bạn không thể xử lý cho tháng này</string>
