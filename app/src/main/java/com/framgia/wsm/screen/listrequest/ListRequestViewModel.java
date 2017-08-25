@@ -67,6 +67,7 @@ public class ListRequestViewModel extends BaseObservable
     private boolean mIsLoadDataFirstTime;
     private int mPage;
     private int mCutOffDate;
+    private String mNotificationLoadData;
 
     ListRequestViewModel(Context context, ListRequestContract.Presenter presenter,
             DialogManager dialogManager, ListRequestAdapter listRequestAdapter,
@@ -167,6 +168,7 @@ public class ListRequestViewModel extends BaseObservable
 
     @Override
     public void onGetListRequestError(BaseException e) {
+        setNotificationLoadData(mContext.getString(R.string.can_not_load_data));
         setShowProgress(false);
         setVisiableLayoutDataNotFound(true);
         mNavigator.showToastCustom(TypeToast.ERROR, e.getMessage());
@@ -174,6 +176,7 @@ public class ListRequestViewModel extends BaseObservable
 
     @Override
     public void onGetListRequestSuccess(int requestType, Object object, boolean isLoadMore) {
+        setNotificationLoadData(mContext.getString(R.string.can_not_find_request));
         setLoading(false);
         setShowProgress(false);
         switch (requestType) {
@@ -295,6 +298,16 @@ public class ListRequestViewModel extends BaseObservable
         mMonthYear = monthYear;
         mQueryRequest.setMonthWorking(monthYear);
         notifyPropertyChanged(BR.monthYear);
+    }
+
+    @Bindable
+    public String getNotificationLoadData() {
+        return mNotificationLoadData;
+    }
+
+    public void setNotificationLoadData(String notificationLoadData) {
+        mNotificationLoadData = notificationLoadData;
+        notifyPropertyChanged(BR.notificationLoadData);
     }
 
     public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {

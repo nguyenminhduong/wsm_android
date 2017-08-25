@@ -248,21 +248,21 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     public void goNextFragmentManageListRequestOff() {
         setCurrentPage(Page.MANAGE_OFF);
         setCurrentItem(R.id.item_manage_off);
-        setCurrentTitleToolbar(mContext.getResources().getString(R.string.request_off));
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.manage_request_leave));
     }
 
     @Override
     public void goNextFragmentManageListRequestOverTime() {
         setCurrentPage(Page.MANAGE_OVERTIME);
         setCurrentItem(R.id.item_manage_overtime);
-        setCurrentTitleToolbar(mContext.getResources().getString(R.string.request_overtime));
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.manage_request_overtime));
     }
 
     @Override
     public void goNextFragmentManageListRequestLeave() {
         setCurrentPage(Page.MANAGE_COME_LATE_LEAVE_EARLY);
         setCurrentItem(R.id.item_manage_come_late_leave_early);
-        setCurrentTitleToolbar(mContext.getResources().getString(R.string.other_requests));
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.manage_request_others));
     }
 
     @Override
