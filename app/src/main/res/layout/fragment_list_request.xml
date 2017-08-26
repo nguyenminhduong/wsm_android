@@ -243,6 +243,15 @@
                 <com.github.clans.fab.FloatingActionButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:src="@drawable/ic_status_cancel"
+                    app:fab_colorNormal="@color/color_white"
+                    app:fab_label="@string/canceld"
+                    app:fab_size="mini"
+                    tools:ignore="VectorDrawableCompat"
+                    />
+                <com.github.clans.fab.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/ic_accept_circle"
                     app:fab_colorNormal="@color/color_white"
                     app:fab_label="@string/accepted"
