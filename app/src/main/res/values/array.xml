@@ -8,7 +8,7 @@
 
     <string-array name="status" translatable="false">
         <item>Pending</item>
-        <item>Aprroved</item>
+        <item>Approved</item>
         <item>Rejected</item>
         <item>Forwarded</item>
         <item>Canceled</item>
