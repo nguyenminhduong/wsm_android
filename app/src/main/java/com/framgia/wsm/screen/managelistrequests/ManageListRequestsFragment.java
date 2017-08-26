@@ -84,7 +84,7 @@ public class ManageListRequestsFragment extends BaseFragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy > 0) {
-                    mViewModel.hideLayoutFooter();
+                    mViewModel.showLayoutFooter();
                     return;
                 }
                 mViewModel.showLayoutFooter();
