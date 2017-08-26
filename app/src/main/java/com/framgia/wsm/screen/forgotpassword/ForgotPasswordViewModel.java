@@ -67,8 +67,9 @@ public class ForgotPasswordViewModel extends BaseObservable
 
     public void onSendEmailSuccess() {
         mDialogManager.dismissProgressDialog();
-        mDialogManager.dialogError(mContext.getString(R.string.message_send_email_success));
         setEmail("");
+        mNavigator.finishActivity();
+        mNavigator.showToast(mContext.getString(R.string.message_send_email_success));
     }
 
     @Override
