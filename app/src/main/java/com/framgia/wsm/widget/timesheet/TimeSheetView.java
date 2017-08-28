@@ -264,8 +264,7 @@ public class TimeSheetView extends View {
             } else {
                 mCurrentDayCirclePaint.setColor(Color.TRANSPARENT);
                 mMonthNumPaint.setColor(mDayNumColor);
-                mMonthNumPaint.setTypeface(
-                        Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
+                mMonthNumPaint.setTypeface(Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
             }
             if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
                     || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
@@ -279,17 +278,13 @@ public class TimeSheetView extends View {
             if (mTimeSheetDates != null && mTimeSheetDates.size() > 0) {
                 for (TimeSheetDate timeSheetDate : mTimeSheetDates) {
                     if (date.equals(timeSheetDate.getDate())) {
-                        if (isWeekend && StringUtils.isBlank(
-                                timeSheetDate.getCompensationHoliday())) {
-                            mMonthNumPaint.setColor(Color.WHITE);
-                            mMonthNumPaint.setTypeface(
-                                    Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
-                            mCircleMorningPaint.setColor(mDayWeekendColor);
-                            mCircleAfternoonPaint.setColor(mDayWeekendColor);
-                            timeSheetDate.setColorMorning(
-                                    String.format(FORMAT_COLOR_HEX, (0xFFFFFF & mDayWeekendColor)));
-                            timeSheetDate.setColorAfternoon(
-                                    String.format(FORMAT_COLOR_HEX, (0xFFFFFF & mDayWeekendColor)));
+                        if (isWeekend && !timeSheetDate.isCompensationHoliday()) {
+                            mCircleMorningPaint.setColor(
+                                    Color.parseColor(timeSheetDate.getColorSpecialDate()));
+                            mCircleAfternoonPaint.setColor(
+                                    Color.parseColor(timeSheetDate.getColorSpecialDate()));
+                            timeSheetDate.setColorMorning(timeSheetDate.getColorSpecialDate());
+                            timeSheetDate.setColorAfternoon(timeSheetDate.getColorSpecialDate());
                         } else {
                             mCircleMorningPaint.setColor(
                                     Color.parseColor(timeSheetDate.getColorMorning()));
@@ -678,7 +673,8 @@ public class TimeSheetView extends View {
             }
         }
 
-        if (isWorkAround()) {
+        // todo edit later
+        if (cutOffDate == 25 && month == 7 && year == 2017) {
             mNumCells++;
         }
     }

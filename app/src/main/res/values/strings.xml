@@ -265,6 +265,8 @@
     <string name="normal_holiday">Normal holiday</string>
     <string name="saturday_sunday">Saturday/sunday</string>
     <string name="your_notification">Your notification</string>
+    <string name="compensation_for">Compensation for:</string>
+    <string name="date_compensation">Date Compensation</string>
 
     <string name="total_of_days_off">Total of days off</string>
     <string name="total_of_paid_leave_of_absence">Total of paid leave of absence</string>

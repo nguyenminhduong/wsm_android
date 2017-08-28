@@ -250,6 +250,8 @@
     <string name="normal_holiday">Ngày nghỉ quốc gia</string>
     <string name="saturday_sunday">Thứ bảy/Chủ nhật</string>
     <string name="your_notification">Thông báo của bạn</string>
+    <string name="compensation_for">Làm bù ngày:</string>
+    <string name="date_compensation">Ngày làm bù</string>
 
     <string name="total_of_days_off">Tổng số ngày nghỉ</string>
     <string name="total_of_paid_leave_of_absence">Tổng ngày nghỉ có lương</string>
