@@ -6,7 +6,6 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.data.source.RequestRepository;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.error.RequestError;
-import com.framgia.wsm.data.source.remote.api.request.ResetPasswordRequest;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
 import com.framgia.wsm.utils.validator.Validator;
@@ -26,16 +25,15 @@ final class CreateNewPasswordPresenter implements CreateNewPasswordContract.Pres
     private final Context mContext;
     private CreateNewPasswordContract.ViewModel mViewModel;
     private final Validator mValidator;
-    private final BaseSchedulerProvider mBaseSchedulerProvider;
+    private BaseSchedulerProvider mBaseSchedulerProvider;
     private final CompositeDisposable mCompositeDisposable;
     private final RequestRepository mRequestRepository;
 
     CreateNewPasswordPresenter(Context context, RequestRepository requestRepository,
-            Validator validator, BaseSchedulerProvider baseSchedulerProvider) {
+            Validator validator) {
         mContext = context;
         mRequestRepository = requestRepository;
         mValidator = validator;
-        mBaseSchedulerProvider = baseSchedulerProvider;
         mCompositeDisposable = new CompositeDisposable();
     }
 
@@ -55,22 +53,21 @@ final class CreateNewPasswordPresenter implements CreateNewPasswordContract.Pres
     @Override
     public void resetPassword(String tokenResetPassword, String newPassword,
             String confirmPassword) {
-        ResetPasswordRequest resetPasswordRequest =
-                new ResetPasswordRequest(tokenResetPassword, newPassword, confirmPassword);
-        Disposable disposable = mRequestRepository.resetPassword(resetPasswordRequest)
-                .subscribeOn(mBaseSchedulerProvider.io())
-                .observeOn(mBaseSchedulerProvider.ui())
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(@NonNull Object o) throws Exception {
-                        mViewModel.onResetPasswordSuccess();
-                    }
-                }, new RequestError() {
-                    @Override
-                    public void onRequestError(BaseException error) {
-                        mViewModel.onResetPasswordError(error);
-                    }
-                });
+        Disposable disposable =
+                mRequestRepository.resetPassword(tokenResetPassword, newPassword, confirmPassword)
+                        .subscribeOn(mBaseSchedulerProvider.io())
+                        .observeOn(mBaseSchedulerProvider.ui())
+                        .subscribe(new Consumer<Object>() {
+                            @Override
+                            public void accept(@NonNull Object o) throws Exception {
+                                mViewModel.onResetPasswordSuccess();
+                            }
+                        }, new RequestError() {
+                            @Override
+                            public void onRequestError(BaseException error) {
+                                mViewModel.onResetPasswordError(error);
+                            }
+                        });
         mCompositeDisposable.add(disposable);
     }
 
@@ -122,5 +119,9 @@ final class CreateNewPasswordPresenter implements CreateNewPasswordContract.Pres
             isValid = true;
         }
         return isValid;
+    }
+
+    public void setBaseSchedulerProvider(BaseSchedulerProvider baseSchedulerProvider) {
+        mBaseSchedulerProvider = baseSchedulerProvider;
     }
 }

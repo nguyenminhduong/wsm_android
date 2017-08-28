@@ -106,7 +106,10 @@ public class RequestRepository {
         return mRemoteDataSource.sendEmail(email);
     }
 
-    public Single<Object> resetPassword(ResetPasswordRequest resetPasswordRequest) {
+    public Single<Object> resetPassword(String tokenReset, String newPassword,
+            String confirmPassword) {
+        ResetPasswordRequest resetPasswordRequest =
+                new ResetPasswordRequest(tokenReset, newPassword, confirmPassword);
         return mRemoteDataSource.resetPassword(resetPasswordRequest);
     }
 }
