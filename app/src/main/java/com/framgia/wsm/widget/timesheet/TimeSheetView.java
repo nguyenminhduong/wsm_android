@@ -217,6 +217,9 @@ public class TimeSheetView extends View {
 
     protected void drawMonthNums(Canvas canvas) {
         int y = (mRowHeight + mMiniDayNumberTextSize) / 2 - mDaySeparatorWidth + mMonthHeaderSize;
+        if (isWorkAround()) {
+            y -= mRowHeight;
+        }
         int paddingDay = (mWidth - 2) / (2 * mNumDays);
         int dayOffset = findDayOffset();
         int day = mFirstDateOfMonth;
@@ -260,17 +263,17 @@ public class TimeSheetView extends View {
                 mCurrentDayCirclePaint.setColor(mCurrentDayColor);
             } else {
                 mCurrentDayCirclePaint.setColor(Color.TRANSPARENT);
-                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
-                        || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                    isWeekend = true;
-                } else {
-                    mCircleMorningPaint.setColor(Color.TRANSPARENT);
-                    mCircleAfternoonPaint.setColor(Color.TRANSPARENT);
-                    mMonthNumPaint.setColor(mDayNumColor);
-                    mMonthNumPaint.setTypeface(
-                            Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
-                    isWeekend = false;
-                }
+                mMonthNumPaint.setColor(mDayNumColor);
+                mMonthNumPaint.setTypeface(
+                        Typeface.create(mDayOfMonthTypeface, Typeface.NORMAL));
+            }
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
+                    || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                isWeekend = true;
+            } else {
+                mCircleMorningPaint.setColor(Color.TRANSPARENT);
+                mCircleAfternoonPaint.setColor(Color.TRANSPARENT);
+                isWeekend = false;
             }
 
             if (mTimeSheetDates != null && mTimeSheetDates.size() > 0) {
@@ -403,6 +406,9 @@ public class TimeSheetView extends View {
     }
 
     public Date getDayFromLocation(float x, float y) {
+        if (isWorkAround()) {
+            y += mRowHeight;
+        }
         if ((x < 0) || (x > mWidth)) {
             return null;
         }
@@ -568,6 +574,9 @@ public class TimeSheetView extends View {
 
     public void reuse() {
         mNumRows = calculateNumRows();
+        if (isWorkAround()) {
+            mNumRows -= 1;
+        }
         requestLayout();
     }
 
@@ -668,6 +677,10 @@ public class TimeSheetView extends View {
                 mToday = day;
             }
         }
+
+        if (isWorkAround()) {
+            mNumCells++;
+        }
     }
 
     private boolean cutOffDateIsLessThanHalfTotalDateOfMonth(int month, int year) {
@@ -681,5 +694,10 @@ public class TimeSheetView extends View {
 
     public void setTimeSheetDates(List<TimeSheetDate> timeSheetDates) {
         mTimeSheetDates = timeSheetDates;
+    }
+
+    private boolean isWorkAround() {
+        // TODO fix later
+        return mCutOffDate == 25 && mMonth == 8 && mYear == 2017;
     }
 }
