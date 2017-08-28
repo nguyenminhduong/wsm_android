@@ -35,6 +35,6 @@ interface LoginContract {
 
         void validateUserNameInput(String userName);
 
-        void checkUserLogin();
+        void checkUserLogin(boolean isUnauthorized);
     }
 }
