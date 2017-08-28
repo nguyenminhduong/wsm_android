@@ -16,7 +16,6 @@ import android.view.View;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.TimeSheetDate;
 import com.framgia.wsm.utils.common.DateTimeUtils;
-import com.framgia.wsm.utils.common.StringUtils;
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
@@ -674,9 +673,9 @@ public class TimeSheetView extends View {
         }
 
         // todo edit later
-        if (cutOffDate == 25 && month == 7 && year == 2017) {
-            mNumCells++;
-        }
+        //        if (cutOffDate == 25 && month == 7 && year == 2017) {
+        //            mNumCells++;
+        //        }
     }
 
     private boolean cutOffDateIsLessThanHalfTotalDateOfMonth(int month, int year) {
@@ -694,6 +693,7 @@ public class TimeSheetView extends View {
 
     private boolean isWorkAround() {
         // TODO fix later
-        return mCutOffDate == 25 && mMonth == 8 && mYear == 2017;
+        //        return mCutOffDate == 25 && mMonth == 8 && mYear == 2017;
+        return false;
     }
 }
