@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "676601108834",
-    "firebase_url": "https://dn-wsm.firebaseio.com",
-    "project_id": "dn-wsm",
-    "storage_bucket": "dn-wsm.appspot.com"
+    "project_number": "406791119506",
+    "firebase_url": "https://testfirbase-17178.firebaseio.com",
+    "project_id": "testfirbase-17178",
+    "storage_bucket": "testfirbase-17178.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:676601108834:android:425fedd631defade",
+        "mobilesdk_app_id": "1:406791119506:android:425fedd631defade",
         "android_client_info": {
           "package_name": "com.framgia.wsm"
         }
       },
       "oauth_client": [
         {
-          "client_id": "676601108834-l0apnak19t0j1jc3iudrps241n9fh8tm.apps.googleusercontent.com",
+          "client_id": "406791119506-tmp22vsccjlh62o627j0jkvthtmq5vjt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.framgia.wsm",
+            "certificate_hash": "d9372b76d7597d077e8406671a77179bd7f079e3"
+          }
+        },
+        {
+          "client_id": "406791119506-cks9cgdcv14h47t3td6rntt4estq9t18.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCid7apyFI5mh-J-CpzKnz8hFG-IRKl_gI"
+          "current_key": "AIzaSyBlGsLipGEHL8tEpz__pITH46fe8xrmQqo"
         }
       ],
       "services": {
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "406791119506-cks9cgdcv14h47t3td6rntt4estq9t18.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
