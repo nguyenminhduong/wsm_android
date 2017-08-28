@@ -35,7 +35,8 @@ public class LoginModule {
     @Provides
     public LoginContract.ViewModel provideViewModel(Context context,
             LoginContract.Presenter presenter, Navigator navigator, DialogManager dialogManager) {
-        return new LoginViewModel(context, presenter, navigator, dialogManager);
+        Bundle bundle = mActivity.getIntent().getExtras();
+        return new LoginViewModel(context, presenter, navigator, dialogManager, bundle);
     }
 
     @ActivityScope
@@ -43,8 +44,7 @@ public class LoginModule {
     public LoginContract.Presenter providePresenter(UserRepository userRepository,
             TokenRepository tokenRepository, Validator validator,
             BaseSchedulerProvider baseSchedulerProvider) {
-        Bundle bundle = mActivity.getIntent().getExtras();
-        return new LoginPresenter(bundle, userRepository, tokenRepository, validator,
+        return new LoginPresenter(userRepository, tokenRepository, validator,
                 baseSchedulerProvider);
     }
 

@@ -3,6 +3,7 @@ package com.framgia.wsm.screen.login;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
@@ -11,6 +12,7 @@ import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.firebase.FireBaseInstanceIDService;
 import com.framgia.wsm.screen.forgotpassword.ForgotPasswordActivity;
 import com.framgia.wsm.screen.main.MainActivity;
+import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.validator.Rule;
 import com.framgia.wsm.utils.validator.ValidType;
@@ -31,6 +33,7 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
     private String mUsernameError;
     private String mPasswordError;
     private String mDeviceId;
+    private boolean mIsUnauthorized;
 
     @Validation({
             @Rule(types = ValidType.EMAIL_FORMAT, message = R.string.invalid_email_format),
@@ -44,15 +47,16 @@ public class LoginViewModel extends BaseObservable implements LoginContract.View
     })
     private String mPassword;
 
-    public LoginViewModel(Context context, LoginContract.Presenter presenter, Navigator navigator,
-            DialogManager dialogManager) {
+    LoginViewModel(Context context, LoginContract.Presenter presenter, Navigator navigator,
+            DialogManager dialogManager, Bundle bundle) {
         mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mNavigator = navigator;
         mDialogManager = dialogManager;
         onStartFireBaseServices();
-        mPresenter.checkUserLogin();
+        mIsUnauthorized = bundle != null && bundle.getBoolean(Constant.EXTRA_UNAUTHORIZED);
+        mPresenter.checkUserLogin(mIsUnauthorized);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.framgia.wsm.screen.login;
 
-import android.os.Bundle;
 import android.util.Log;
 import com.framgia.wsm.data.model.LeaveType;
 import com.framgia.wsm.data.model.OffType;
@@ -45,20 +44,18 @@ final class LoginPresenter implements LoginContract.Presenter {
     private TokenRepository mTokenRepository;
     private Validator mValidator;
     private CompositeDisposable mCompositeDisposable;
-    private BaseSchedulerProvider mSchedulerProvider;
+    private BaseSchedulerProvider mBaseSchedulerProvider;
     private User mUser;
     private boolean mIsManage;
-    private boolean mIsUnauthorized;
     private List<OffType> offTypesCompany;
 
-    LoginPresenter(Bundle bundle, UserRepository userRepository, TokenRepository tokenRepository,
-            Validator validator, BaseSchedulerProvider schedulerProvider) {
-        mIsUnauthorized = bundle != null && bundle.getBoolean(Constant.EXTRA_UNAUTHORIZED);
+    LoginPresenter(UserRepository userRepository, TokenRepository tokenRepository,
+            Validator validator, BaseSchedulerProvider baseSchedulerProvider) {
         mUserRepository = userRepository;
         mTokenRepository = tokenRepository;
         mValidator = validator;
         mCompositeDisposable = new CompositeDisposable();
-        mSchedulerProvider = schedulerProvider;
+        mBaseSchedulerProvider = baseSchedulerProvider;
         mUser = new User();
         offTypesCompany = new ArrayList<>();
     }
@@ -81,7 +78,7 @@ final class LoginPresenter implements LoginContract.Presenter {
     public void login(final String userName, String passWord, String deviceId) {
         validateUserNameInput(userName);
         mUserRepository.login(userName, passWord, deviceId)
-                .subscribeOn(mSchedulerProvider.io())
+                .subscribeOn(mBaseSchedulerProvider.io())
                 .flatMap(new Function<SignInDataResponse, ObservableSource<User>>() {
                     @Override
                     public ObservableSource<User> apply(
@@ -166,7 +163,7 @@ final class LoginPresenter implements LoginContract.Presenter {
                                 return mUserRepository.getRemainingDayOff();
                             }
                         })
-                .observeOn(mSchedulerProvider.ui())
+                .observeOn(mBaseSchedulerProvider.ui())
                 .subscribe(new Consumer<BaseResponse<OffTypeDay>>() {
                     @Override
                     public void accept(@NonNull BaseResponse<OffTypeDay> offTypeDayBaseResponse)
@@ -205,8 +202,8 @@ final class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void checkUserLogin() {
-        if (mIsUnauthorized) {
+    public void checkUserLogin(boolean isUnauthorized) {
+        if (isUnauthorized) {
             mUserRepository.clearData();
             return;
         }
@@ -233,7 +230,7 @@ final class LoginPresenter implements LoginContract.Presenter {
         }
     }
 
-    private void validatePasswordInput(String password) {
+    public void validatePasswordInput(String password) {
         String messagePassword = mValidator.validateValueNonEmpty(password);
         if (StringUtils.isBlank(messagePassword)) {
             messagePassword = mValidator.validateValueRangeMin6(password);
@@ -245,5 +242,9 @@ final class LoginPresenter implements LoginContract.Presenter {
         } else {
             mViewModel.onInputPasswordError(messagePassword);
         }
+    }
+
+    public void setBaseSchedulerProvider(BaseSchedulerProvider baseSchedulerProvider) {
+        mBaseSchedulerProvider = baseSchedulerProvider;
     }
 }
