@@ -27,11 +27,9 @@ final class ForgotPasswordPresenter implements ForgotPasswordContract.Presenter 
     private BaseSchedulerProvider mBaseSchedulerProvider;
     private CompositeDisposable mCompositeDisposable;
 
-    ForgotPasswordPresenter(RequestRepository requestRepository,
-            BaseSchedulerProvider baseSchedulerProvider, Validator validator) {
+    ForgotPasswordPresenter(RequestRepository requestRepository, Validator validator) {
         mRequestRepository = requestRepository;
         mValidator = validator;
-        mBaseSchedulerProvider = baseSchedulerProvider;
         mCompositeDisposable = new CompositeDisposable();
     }
 
@@ -94,5 +92,9 @@ final class ForgotPasswordPresenter implements ForgotPasswordContract.Presenter 
         } else {
             mViewModel.onInputEmailError(messageEmail);
         }
+    }
+
+    public void setBaseSchedulerProvider(BaseSchedulerProvider baseSchedulerProvider) {
+        mBaseSchedulerProvider = baseSchedulerProvider;
     }
 }

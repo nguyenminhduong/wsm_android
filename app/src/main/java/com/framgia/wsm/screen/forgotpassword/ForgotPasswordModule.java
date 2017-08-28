@@ -39,7 +39,10 @@ public class ForgotPasswordModule {
     @Provides
     public ForgotPasswordContract.Presenter providePresenter(RequestRepository requestRepository,
             BaseSchedulerProvider baseSchedulerProvider, Validator validator) {
-        return new ForgotPasswordPresenter(requestRepository, baseSchedulerProvider, validator);
+        ForgotPasswordPresenter presenter =
+                new ForgotPasswordPresenter(requestRepository, validator);
+        presenter.setBaseSchedulerProvider(baseSchedulerProvider);
+        return presenter;
     }
 
     @ActivityScope
