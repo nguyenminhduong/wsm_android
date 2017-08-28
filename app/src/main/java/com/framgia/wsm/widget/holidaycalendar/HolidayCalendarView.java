@@ -27,6 +27,7 @@ public class HolidayCalendarView extends View {
     private static final int DEFAULT_HEIGHT = 32;
     private static final String NORMAL_HOLIDAY = "normal_holiday";
     private static final String COMPANY_HOLIDAY = "company_holiday";
+    public static final String COMPENSATION_DAY = "compensation_day";
     private int mDaySelectedCircleSize;
     private int mDaySeparatorWidth = 1;
     private int mMiniDayNumberTextSize;
@@ -47,6 +48,7 @@ public class HolidayCalendarView extends View {
     private int mSaturdaySundayColor;
     private int mCompanyHoliday;
     private int mNormalHoliday;
+    private int mCompensationDay;
 
     private int mWeekStart = 1;
     private int mNumDays = 7;
@@ -98,6 +100,8 @@ public class HolidayCalendarView extends View {
                 resources.getColor(R.color.color_gray));
         mCompanyHoliday = typedArray.getColor(R.styleable.DatePickerView_colorMonthName,
                 resources.getColor(R.color.color_light_teal));
+        mCompensationDay = typedArray.getColor(R.styleable.DatePickerView_colorDayInLateLeaveEarly,
+                resources.getColor(R.color.color_orange_yellow));
 
         mMiniDayNumberTextSize =
                 typedArray.getDimensionPixelSize(R.styleable.DatePickerView_textSizeDay,
@@ -191,6 +195,10 @@ public class HolidayCalendarView extends View {
                             case COMPANY_HOLIDAY:
                                 mMonthNumPaint.setColor(Color.WHITE);
                                 mSelectedCirclePaint.setColor(mCompanyHoliday);
+                                break;
+                            case COMPENSATION_DAY:
+                                mMonthNumPaint.setColor(Color.WHITE);
+                                mSelectedCirclePaint.setColor(mCompensationDay);
                                 break;
                             default:
                                 break;

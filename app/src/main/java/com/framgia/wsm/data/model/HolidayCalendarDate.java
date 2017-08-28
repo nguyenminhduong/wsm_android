@@ -12,16 +12,23 @@ import java.util.Date;
 public class HolidayCalendarDate extends BaseModel {
     @Expose
     @SerializedName("date")
-    String mDate;
+    private String mDate;
     @Expose
     @SerializedName("name")
-    String mHolidayName;
+    private String mHolidayName;
     @Expose
     @SerializedName("holiday_type")
-    String mHolidayType;
+    private String mHolidayType;
+    @Expose
+    @SerializedName("date_compensation")
+    private String mDateCompensation;
 
     public Date getDate() {
         return DateTimeUtils.convertStringToDate(mDate, DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2);
+    }
+
+    public String getDateString() {
+        return mDate;
     }
 
     public void setDate(String date) {
@@ -42,5 +49,13 @@ public class HolidayCalendarDate extends BaseModel {
 
     public void setHolidayType(String holidayType) {
         mHolidayType = holidayType;
+    }
+
+    public String getDateCompensation() {
+        return mDateCompensation;
+    }
+
+    public void setDateCompensation(String dateCompensation) {
+        mDateCompensation = dateCompensation;
     }
 }

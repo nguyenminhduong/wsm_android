@@ -42,6 +42,7 @@
     <color name="color_yellow">#f4df42</color>
     <color name="color_green_transparent">#43009688</color>
     <color name="color_orange">#ff875b</color>
+    <color name="color_orange_yellow">#fda401</color>
     <color name="color_green_teal">#a2e796</color>
 
 </resources>

@@ -144,6 +144,13 @@
                 app:fab_label="@string/normal_holiday"
                 app:fab_size="mini"
                 />
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/color_orange_yellow"
+                app:fab_label="@string/date_compensation"
+                app:fab_size="mini"
+                />
         </com.github.clans.fab.FloatingActionMenu>
 
     </android.support.design.widget.CoordinatorLayout>

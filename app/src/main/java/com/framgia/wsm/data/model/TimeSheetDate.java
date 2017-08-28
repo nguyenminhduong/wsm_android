@@ -42,7 +42,10 @@ public class TimeSheetDate extends BaseModel {
     private float mNumberOfOvertime;
     @Expose
     @SerializedName("compensation_holiday")
-    private String mCompensationHoliday;
+    private boolean mCompensationHoliday;
+    @Expose
+    @SerializedName("color_special_date")
+    private String mColorSpecialDate;
 
     public TimeSheetDate() {
     }
@@ -154,12 +157,20 @@ public class TimeSheetDate extends BaseModel {
         return PREFIX_OT + mNumberOfOvertime;
     }
 
-    public String getCompensationHoliday() {
+    public boolean isCompensationHoliday() {
         return mCompensationHoliday;
     }
 
-    public void setCompensationHoliday(String compensationHoliday) {
+    public void setCompensationHoliday(boolean compensationHoliday) {
         mCompensationHoliday = compensationHoliday;
+    }
+
+    public String getColorSpecialDate() {
+        return mColorSpecialDate;
+    }
+
+    public void setColorSpecialDate(String colorSpecialDate) {
+        mColorSpecialDate = colorSpecialDate;
     }
 
     public boolean isSpecialCase() {

@@ -6,12 +6,16 @@ import android.databinding.Bindable;
 import android.util.Log;
 import android.widget.Toast;
 import com.android.databinding.library.baseAdapters.BR;
+import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.HolidayCalendar;
 import com.framgia.wsm.data.model.HolidayCalendarDate;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
+import com.framgia.wsm.utils.common.StringUtils;
+import com.framgia.wsm.widget.holidaycalendar.HolidayCalendarView;
 import com.framgia.wsm.widget.holidaycalendar.HolidayDateClickListener;
 import java.util.Calendar;
 import java.util.List;
+import java.util.ListIterator;
 
 import static android.content.ContentValues.TAG;
 
@@ -69,6 +73,21 @@ public class HolidayCalendarViewModel extends BaseObservable
     public void onGetHolidayCalendarSuccess(List<HolidayCalendar> list) {
         if (list == null) {
             return;
+        }
+        for (HolidayCalendar holidayCalendar : list) {
+            for (ListIterator<HolidayCalendarDate> iterator =
+                    holidayCalendar.getHolidayCalendarDates().listIterator();
+                    iterator.hasNext();) {
+                HolidayCalendarDate holidayCalendarDate = iterator.next();
+                if (StringUtils.isNotBlank(holidayCalendarDate.getDateCompensation())) {
+                    HolidayCalendarDate compensationDate = new HolidayCalendarDate();
+                    compensationDate.setDate(holidayCalendarDate.getDateCompensation());
+                    compensationDate.setHolidayType(HolidayCalendarView.COMPENSATION_DAY);
+                    compensationDate.setHolidayName(mContext.getString(R.string.compensation_for)
+                            + holidayCalendarDate.getDateString());
+                    iterator.add(compensationDate);
+                }
+            }
         }
         mHolidayCalendarAdapter.updateData(list);
         mIsLoadDataFirstTime = false;
