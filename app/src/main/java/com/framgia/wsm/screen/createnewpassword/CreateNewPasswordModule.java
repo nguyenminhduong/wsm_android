@@ -44,8 +44,10 @@ public class CreateNewPasswordModule {
     public CreateNewPasswordContract.Presenter providePresenter(Context context,
             RequestRepository requestRepository, Validator validator,
             BaseSchedulerProvider baseSchedulerProvider) {
-        return new CreateNewPasswordPresenter(context, requestRepository, validator,
-                baseSchedulerProvider);
+        CreateNewPasswordPresenter presenter =
+                new CreateNewPasswordPresenter(context, requestRepository, validator);
+        presenter.setBaseSchedulerProvider(baseSchedulerProvider);
+        return presenter;
     }
 
     @ActivityScope
