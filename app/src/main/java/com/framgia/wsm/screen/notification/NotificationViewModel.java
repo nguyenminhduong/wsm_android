@@ -1,16 +1,19 @@
 package com.framgia.wsm.screen.notification;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringDef;
 import android.util.Log;
 import com.framgia.wsm.BR;
+import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.Notification;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.NotificationRequest;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.utils.navigator.Navigator;
+import com.framgia.wsm.widget.dialog.DialogManager;
 import java.util.List;
 
 /**
@@ -28,9 +31,13 @@ public class NotificationViewModel extends BaseObservable implements Notificatio
     private Notification mNotification;
     private boolean mIsSetReadAll;
     private Navigator mNavigator;
+    private DialogManager mDialogManager;
+    private Context mContext;
 
-    NotificationViewModel(NotificationContract.Presenter presenter,
-            NotificationAdapter notificationAdapter, Navigator navigator) {
+    NotificationViewModel(Context context, NotificationContract.Presenter presenter,
+            NotificationAdapter notificationAdapter, Navigator navigator,
+            DialogManager dialogManager) {
+        mContext = context;
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mNotificationAdapter = notificationAdapter;
@@ -38,6 +45,7 @@ public class NotificationViewModel extends BaseObservable implements Notificatio
         mPage = 1;
         mPresenter.getNotification(mPage);
         mNavigator = navigator;
+        mDialogManager = dialogManager;
     }
 
     @Override
@@ -53,6 +61,9 @@ public class NotificationViewModel extends BaseObservable implements Notificatio
     @Override
     public void onItemRecyclerViewClick(Notification item) {
         if (item.getRead()) {
+            if (checkUnauthorizedToAccess(item)) {
+                return;
+            }
             mListener.onClickNotification(item.getTrackableType(), item.getPermission(),
                     item.getTrachableStatus());
             mNavigator.dismissDialogFragment(NotificationDialogFragment.TAG);
@@ -97,9 +108,22 @@ public class NotificationViewModel extends BaseObservable implements Notificatio
             return;
         }
         mNotificationAdapter.setReadOne(mNotification);
+        if (checkUnauthorizedToAccess(mNotification)) {
+            return;
+        }
         mListener.onClickNotification(mNotification.getTrackableType(),
                 mNotification.getPermission(), mNotification.getTrachableStatus());
         mNavigator.dismissDialogFragment(NotificationDialogFragment.TAG);
+    }
+
+    private boolean checkUnauthorizedToAccess(Notification notification) {
+        if (notification.getTrackableType().equals(TrackableType.GROUP)
+                || notification.getTrackableType().equals(TrackableType.USER_SPECIAL_TYPE)
+                || notification.getTrackableType().equals(TrackableType.WORKSPACE)) {
+            mDialogManager.dialogError(mContext.getString(R.string.you_are_unauthorized_to_access));
+            return true;
+        }
+        return false;
     }
 
     @Override
