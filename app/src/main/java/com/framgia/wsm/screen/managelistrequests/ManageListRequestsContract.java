@@ -34,10 +34,6 @@ interface ManageListRequestsContract {
 
         void onLoadMoreListRequest();
 
-        void showLayoutFooter();
-
-        void hideLayoutFooter();
-
         void onApproveAllRequestSuccess(List<ActionRequestResponse> actionRequestResponseList);
 
         void onApproveAllRequestError(BaseException exception);

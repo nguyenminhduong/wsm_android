@@ -78,19 +78,6 @@ public class ManageListRequestsFragment extends BaseFragment {
     private void initView(FragmentManageListRequestsBinding binding) {
         RecyclerView recyclerView = binding.recycleview;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0) {
-                    mViewModel.showLayoutFooter();
-                    return;
-                }
-                mViewModel.showLayoutFooter();
-            }
-        });
-
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
