@@ -216,9 +216,6 @@ public class TimeSheetView extends View {
 
     protected void drawMonthNums(Canvas canvas) {
         int y = (mRowHeight + mMiniDayNumberTextSize) / 2 - mDaySeparatorWidth + mMonthHeaderSize;
-        if (isWorkAround()) {
-            y -= mRowHeight;
-        }
         int paddingDay = (mWidth - 2) / (2 * mNumDays);
         int dayOffset = findDayOffset();
         int day = mFirstDateOfMonth;
@@ -400,9 +397,6 @@ public class TimeSheetView extends View {
     }
 
     public Date getDayFromLocation(float x, float y) {
-        if (isWorkAround()) {
-            y += mRowHeight;
-        }
         if ((x < 0) || (x > mWidth)) {
             return null;
         }
@@ -568,9 +562,6 @@ public class TimeSheetView extends View {
 
     public void reuse() {
         mNumRows = calculateNumRows();
-        if (isWorkAround()) {
-            mNumRows -= 1;
-        }
         requestLayout();
     }
 
@@ -607,7 +598,7 @@ public class TimeSheetView extends View {
         mFirstDateOfMonth = mCutOffDate + 1;
     }
 
-    public void setTime(int month, int year, int cutOffDate) {
+    public void setTime(int month, int year, int cutOffDate, boolean isCompensationMonth) {
 
         setCutOffDate(month, year, cutOffDate);
         setFirstDateOfMonth(month, year);
@@ -672,10 +663,9 @@ public class TimeSheetView extends View {
             }
         }
 
-        // todo edit later
-        //        if (cutOffDate == 25 && month == 7 && year == 2017) {
-        //            mNumCells++;
-        //        }
+        if (isCompensationMonth) {
+            mNumCells += 1;
+        }
     }
 
     private boolean cutOffDateIsLessThanHalfTotalDateOfMonth(int month, int year) {
@@ -689,11 +679,5 @@ public class TimeSheetView extends View {
 
     public void setTimeSheetDates(List<TimeSheetDate> timeSheetDates) {
         mTimeSheetDates = timeSheetDates;
-    }
-
-    private boolean isWorkAround() {
-        // TODO fix later
-        //        return mCutOffDate == 25 && mMonth == 8 && mYear == 2017;
-        return false;
     }
 }

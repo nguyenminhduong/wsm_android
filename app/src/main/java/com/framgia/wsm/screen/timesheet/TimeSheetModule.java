@@ -1,6 +1,5 @@
 package com.framgia.wsm.screen.timesheet;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import com.framgia.wsm.data.source.TimeSheetRepository;
@@ -30,10 +29,9 @@ public class TimeSheetModule {
 
     @FragmentScope
     @Provides
-    public TimeSheetContract.ViewModel provideViewModel(Context context,
-            TimeSheetContract.Presenter presenter, Navigator navigator,
-            DialogManager dialogManager) {
-        return new TimeSheetViewModel(context, presenter, navigator, dialogManager);
+    public TimeSheetContract.ViewModel provideViewModel(TimeSheetContract.Presenter presenter,
+             Navigator navigator, DialogManager dialogManager) {
+        return new TimeSheetViewModel(presenter, navigator, dialogManager);
     }
 
     @FragmentScope
@@ -53,7 +51,7 @@ public class TimeSheetModule {
     @FragmentScope
     @Provides
     public UserRepository provideUserRepository(UserLocalDataSource userLocalDataSource,
-            UserRemoteDataSource userRemoteDataSource) {
+             UserRemoteDataSource userRemoteDataSource) {
         return new UserRepository(userLocalDataSource, userRemoteDataSource);
     }
 
