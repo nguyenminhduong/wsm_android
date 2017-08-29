@@ -73,7 +73,6 @@ public class ManageListRequestsViewModel extends BaseObservable
     private int mPage;
     private boolean mIsShowProgress;
     private boolean mIsVisiableLayoutDataNotFound;
-    private boolean mIsVisiableLayoutFooter;
     private boolean mIsSelectAll;
     private boolean mIsLoadDataFirstTime;
     private String mTotalRequestSelected;
@@ -109,7 +108,6 @@ public class ManageListRequestsViewModel extends BaseObservable
         mQueryRequest.setToTime(mToTime);
         mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
         mQueryRequest.setPage(String.valueOf(mPage));
-        setVisiableLayoutFooter(true);
         setLoadDataFirstTime(true);
     }
 
@@ -244,16 +242,6 @@ public class ManageListRequestsViewModel extends BaseObservable
     public void onLoadMoreListRequest() {
         setShowProgress(true);
         mPresenter.getListAllRequestManageNoProgressDialog(mRequestType, mQueryRequest, true);
-    }
-
-    @Override
-    public void showLayoutFooter() {
-        setVisiableLayoutFooter(true);
-    }
-
-    @Override
-    public void hideLayoutFooter() {
-        setVisiableLayoutFooter(false);
     }
 
     @Override
@@ -576,6 +564,11 @@ public class ManageListRequestsViewModel extends BaseObservable
         return isRefreshEnable;
     }
 
+    private void setRefreshEnable(boolean refreshEnable) {
+        isRefreshEnable = refreshEnable;
+        notifyPropertyChanged(BR.refreshEnable);
+    }
+
     private void setFromTimeNotGetData(String fromTime) {
         mFromTime = fromTime;
         mQueryRequest.setFromTime(fromTime);
@@ -607,16 +600,6 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     @Bindable
-    public boolean isVisiableLayoutFooter() {
-        return mIsVisiableLayoutFooter;
-    }
-
-    private void setVisiableLayoutFooter(boolean visiableLayoutFooter) {
-        mIsVisiableLayoutFooter = visiableLayoutFooter;
-        notifyPropertyChanged(BR.visiableLayoutFooter);
-    }
-
-    @Bindable
     public boolean isVisiableLayoutDataNotFound() {
         return mIsVisiableLayoutDataNotFound;
     }
@@ -638,11 +621,6 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     private void setLoadDataFirstTime(boolean loadDataFirstTime) {
         mIsLoadDataFirstTime = loadDataFirstTime;
-    }
-
-    private void setRefreshEnable(boolean refreshEnable) {
-        isRefreshEnable = refreshEnable;
-        notifyPropertyChanged(BR.refreshEnable);
     }
 
     public AppBarLayout.OnOffsetChangedListener getOnOffsetChangedListener() {

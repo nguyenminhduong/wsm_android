@@ -1,5 +1,6 @@
 package com.framgia.wsm.screen.main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
@@ -369,6 +371,9 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     }
 
     public void onDrawerIsOpen(View view) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         setStatusDrawerLayout(Constant.DRAWER_IS_OPEN);
     }
 
