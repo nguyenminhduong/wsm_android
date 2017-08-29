@@ -1,5 +1,6 @@
 package com.framgia.wsm.screen.notification;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import com.framgia.wsm.data.source.NotificationRepository;
@@ -7,6 +8,7 @@ import com.framgia.wsm.data.source.remote.NotificationRemoteDataSource;
 import com.framgia.wsm.utils.dagger.FragmentScope;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.utils.rx.BaseSchedulerProvider;
+import com.framgia.wsm.widget.dialog.DialogManager;
 import dagger.Module;
 import dagger.Provides;
 
@@ -25,9 +27,11 @@ public class NotificationModule {
 
     @FragmentScope
     @Provides
-    public NotificationContract.ViewModel provideViewModel(NotificationContract.Presenter presenter,
-            NotificationAdapter notificationAdapter, Navigator navigator) {
-        return new NotificationViewModel(presenter, notificationAdapter, navigator);
+    public NotificationContract.ViewModel provideViewModel(Context context,
+            NotificationContract.Presenter presenter, NotificationAdapter notificationAdapter,
+            Navigator navigator, DialogManager dialogManager) {
+        return new NotificationViewModel(context, presenter, notificationAdapter, navigator,
+                dialogManager);
     }
 
     @FragmentScope
