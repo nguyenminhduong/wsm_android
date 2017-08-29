@@ -31,6 +31,7 @@ import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.TypeStatus;
 import com.framgia.wsm.utils.TypeToast;
 import com.framgia.wsm.utils.common.DateTimeUtils;
+import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.MaterialDialog;
@@ -82,7 +83,6 @@ public class ListRequestViewModel extends BaseObservable
         mCalendar = Calendar.getInstance();
         mYear = mCalendar.get(Calendar.YEAR);
         mMonth = mCalendar.get(Calendar.MONTH) + 1;
-        mDialogManager.dialogMonthYearPicker(this, mYear, mMonth);
         mListRequestAdapter = listRequestAdapter;
         mListRequestAdapter.setItemClickListener(this);
         mNavigator = navigator;
@@ -93,16 +93,12 @@ public class ListRequestViewModel extends BaseObservable
         mPresenter.getUser();
         mPage = PAGE_ONE;
         setLoading(false);
-        mMonthYear = DateTimeUtils.getMonthWorking(mCutOffDate);
         mQueryRequest = new QueryRequest();
-        mQueryRequest.setMonthWorking(mMonthYear);
-        mQueryRequest.setPage(String.valueOf(mPage));
         if (!mEventStatusFromNotifications) {
             mCurrentStatus = mContext.getString(R.string.pending);
             mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
             mCurrentPositionStatus = CURRRENT_STATUS;
         }
-        mEventStatusFromNotifications = false;
         setLoadDataFirstTime(true);
     }
 
@@ -138,45 +134,13 @@ public class ListRequestViewModel extends BaseObservable
             return;
         }
         mCutOffDate = user.getCompany().getCutOffDate();
+        setMonthYear(DateTimeUtils.getMonthWorking(mCutOffDate));
         mListRequestAdapter.updateUser(user);
     }
 
     @Override
     public void onGetUserError(BaseException exception) {
         Log.e(TAG, "onGetUserError", exception);
-    }
-
-    @Override
-    public void setCurrentStatusFromNotifications(int permissionType, String trackableStatus) {
-        if (permissionType == 0) {
-            return;
-        }
-        mEventStatusFromNotifications = true;
-        switch (trackableStatus) {
-            case StatusCode.PENDING_CODE:
-            case Constant.STATUS_CODE_EDIT:
-                mCurrentPositionStatus = TypeStatus.PENDING;
-                setCurrentStatus(mContext.getString(R.string.pending));
-                mQueryRequest.setStatus(String.valueOf(TypeStatus.PENDING));
-                break;
-            case StatusCode.CANCELED_CODE:
-                mCurrentPositionStatus = TypeStatus.CANCELED;
-                setCurrentStatus(mContext.getString(R.string.canceld));
-                mQueryRequest.setStatus(String.valueOf(TypeStatus.CANCELED));
-                break;
-            case StatusCode.REJECT_CODE:
-                mCurrentPositionStatus = TypeStatus.REJECTED;
-                setCurrentStatus(mContext.getString(R.string.rejected));
-                mQueryRequest.setStatus(String.valueOf(TypeStatus.REJECTED));
-                break;
-            case StatusCode.ACCEPT_CODE:
-                mCurrentPositionStatus = TypeStatus.APPROVE;
-                setCurrentStatus(mContext.getString(R.string.approved));
-                mQueryRequest.setStatus(String.valueOf(TypeStatus.APPROVE));
-                break;
-            default:
-                break;
-        }
     }
 
     @Override
@@ -242,17 +206,49 @@ public class ListRequestViewModel extends BaseObservable
     }
 
     @Override
+    public void setCurrentStatusFromNotifications(int permissionType, String trackableStatus) {
+        if (permissionType == 1) {
+            return;
+        }
+        mEventStatusFromNotifications = true;
+        switch (trackableStatus) {
+            case StatusCode.PENDING_CODE:
+            case Constant.STATUS_CODE_EDIT:
+                mCurrentPositionStatus = TypeStatus.PENDING;
+                setCurrentStatus(mContext.getString(R.string.pending));
+                break;
+            case StatusCode.CANCELED_CODE:
+                mCurrentPositionStatus = TypeStatus.CANCELED;
+                setCurrentStatus(mContext.getString(R.string.canceld));
+                break;
+            case StatusCode.REJECT_CODE:
+                mCurrentPositionStatus = TypeStatus.REJECTED;
+                setCurrentStatus(mContext.getString(R.string.rejected));
+                break;
+            case StatusCode.ACCEPT_CODE:
+                mCurrentPositionStatus = TypeStatus.APPROVE;
+                setCurrentStatus(mContext.getString(R.string.approved));
+                break;
+            default:
+                break;
+        }
+        mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+    }
+
+    @Override
     public void onReloadData(int requestType) {
         setPage(PAGE_ONE);
         mMonthYear = DateTimeUtils.getMonthWorking(mCutOffDate);
-        mQueryRequest = new QueryRequest();
-        mQueryRequest.setMonthWorking(mMonthYear);
-        mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
-        mQueryRequest.setPage(String.valueOf(mPage));
-        mCurrentStatus = mContext.getString(R.string.pending);
-        mCurrentPositionStatus = CURRRENT_STATUS;
+        setDialogManager(mMonthYear);
         setMonthYear(mMonthYear);
-        setCurrentStatus(mCurrentStatus);
+        mQueryRequest.setMonthWorking(mMonthYear);
+        mQueryRequest.setPage(String.valueOf(mPage));
+        if (!mEventStatusFromNotifications) {
+            setCurrentStatus(mContext.getString(R.string.pending));
+            mCurrentPositionStatus = CURRRENT_STATUS;
+            mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+        }
+        mEventStatusFromNotifications = false;
         if (mIsLoadDataFirstTime) {
             mPresenter.getListAllRequest(requestType, mQueryRequest, false);
             return;
@@ -363,6 +359,17 @@ public class ListRequestViewModel extends BaseObservable
 
     public ListRequestAdapter getListRequestAdapter() {
         return mListRequestAdapter;
+    }
+
+    private void setDialogManager(String monthYear) {
+        if (StringUtils.isBlank(monthYear)) {
+            return;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(
+                DateTimeUtils.convertStringToDate(monthYear, DateTimeUtils.DATE_FORMAT_YYYY_MM));
+        mDialogManager.dialogMonthYearPicker(this, calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH) + 1);
     }
 
     private void checkSizeListRequest(int size, boolean isLoadMore) {

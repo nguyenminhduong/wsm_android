@@ -307,13 +307,13 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
                     goNextFragmentListRequestLeave();
                     break;
                 case NotificationViewModel.TrackableType.REQUEST_OFF:
-                    setCurrentStatusListRequestFromNotifications(Page.COME_LATE_LEAVE_EARLY,
-                            permissionType, trackableStatus);
+                    setCurrentStatusListRequestFromNotifications(Page.OFF, permissionType,
+                            trackableStatus);
                     goNextFragmentListRequestOff();
                     break;
                 case NotificationViewModel.TrackableType.REQUEST_OT:
-                    setCurrentStatusListRequestFromNotifications(Page.COME_LATE_LEAVE_EARLY,
-                            permissionType, trackableStatus);
+                    setCurrentStatusListRequestFromNotifications(Page.OVERTIME, permissionType,
+                            trackableStatus);
                     goNextFragmentListRequestOverTime();
                     break;
                 default:
