@@ -9,122 +9,131 @@ apply from: '../checkci.gradle'
 def APP_ID = "com.framgia.wsm"
 
 buildscript {
-  repositories {
-    maven { url 'https://maven.fabric.io/public' }
-  }
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
 
-  dependencies {
-    classpath 'io.fabric.tools:gradle:1.+'
-  }
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
 }
 
 repositories {
-  maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 android {
-  compileSdkVersion rootProject.ext.compileSdkVersion
-  buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
-  defaultConfig {
-    applicationId "${APP_ID}"
-    minSdkVersion rootProject.ext.minSdkVersion
-    targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode rootProject.ext.versionCode
-    versionName rootProject.ext.versionName
+    defaultConfig {
+        applicationId "${APP_ID}"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
 
-    vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary = true
 
-    testApplicationId "${APP_ID + ".test"}"
-    testInstrumentationRunner "${APP_ID + ".test.Instrumentation"}"
-  }
-
-  sourceSets {
-    androidTest {
-      assets.srcDirs = ['src/androidTest/assets']
+        testApplicationId "${APP_ID + ".test"}"
+        testInstrumentationRunner "${APP_ID + ".test.Instrumentation"}"
     }
-  }
 
-  dataBinding {
-    enabled = true
-  }
-
-  lintOptions {
-    abortOnError false
-  }
-
-  signingConfigs {
-    debug {}
-
-    release {
-
-      if (!System.getenv('CI')) {
-        def signFile = file("../local.properties")
-        def signingProps = new Properties()
-
-        signingProps.load(new FileInputStream(signFile))
-
-        storeFile file("../keystores/keystore_release.keystore")
-        storePassword signingProps['storePassword']
-        keyAlias signingProps['keyAlias']
-        keyPassword signingProps['keyPassword']
-      }
+    sourceSets {
+        androidTest {
+            assets.srcDirs = ['src/androidTest/assets']
+        }
     }
-  }
 
-  buildTypes {
-    debug {
-      versionNameSuffix = "debug"
-      ext.betaDistributionReleaseNotesFilePath = "release_notes.txt"
-      ext.betaDistributionGroupAliases="QAFR"
+    dataBinding {
+        enabled = true
     }
-    release {
-      shrinkResources true
-      minifyEnabled true
-      signingConfig signingConfigs.release
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-     }
-  }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    signingConfigs {
+        debug {}
+
+        release {
+            if (!System.getenv('CI')) {
+                def signFile = file("../local.properties")
+                def signingProps = new Properties()
+
+                signingProps.load(new FileInputStream(signFile))
+
+                storeFile file("../keystores/wsm.keystore")
+                storePassword signingProps['storePassword']
+                keyAlias signingProps['keyAlias']
+                keyPassword signingProps['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            versionNameSuffix = "debug"
+            ext.betaDistributionReleaseNotesFilePath = "release_notes.txt"
+            ext.betaDistributionGroupAliases = "QAFR"
+        }
+        release {
+            shrinkResources true
+            minifyEnabled true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        def BASE_URL
+        if (variant.buildType.isDebuggable()) {
+            BASE_URL = "http://edev.framgia.vn"
+        } else {
+            BASE_URL = "https://wsm.framgia.vn"
+        }
+        variant.buildConfigField "String", "BASE_URL", "\"${BASE_URL}\""
+    }
 }
 
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 
-  Map<String, String> dependencies = rootProject.ext.dependencies;
+    Map<String, String> dependencies = rootProject.ext.dependencies;
 
-  compile dependencies.supportDesign
-  compile dependencies.constraintLayout
-  compile dependencies.dialog
+    compile dependencies.supportDesign
+    compile dependencies.constraintLayout
+    compile dependencies.dialog
 
-  compile dependencies.rxJava
-  compile dependencies.rxAndroid
+    compile dependencies.rxJava
+    compile dependencies.rxAndroid
 
-  compile dependencies.retrofit2
-  compile dependencies.retrofit2Adapter
-  compile dependencies.retrofitGson
-  compile dependencies.loggingInterceptor
-  compile dependencies.fab
-  compile dependencies.cardView
-  compile dependencies.glide
-  compile dependencies.fcm
-  compile dependencies.eventBus
-  compile dependencies.toastCustom
-  compile dependencies.MPAndroidChart
+    compile dependencies.retrofit2
+    compile dependencies.retrofit2Adapter
+    compile dependencies.retrofitGson
+    compile dependencies.loggingInterceptor
+    compile dependencies.fab
+    compile dependencies.cardView
+    compile dependencies.glide
+    compile dependencies.fcm
+    compile dependencies.eventBus
+    compile dependencies.toastCustom
+    compile dependencies.MPAndroidChart
 
-  annotationProcessor dependencies.dagger2Compile
-  compile dependencies.dagger2
-  provided dependencies.annotation
+    annotationProcessor dependencies.dagger2Compile
+    compile dependencies.dagger2
+    provided dependencies.annotation
 
-  testCompile dependencies.junit
-  testCompile dependencies.mockito
+    testCompile dependencies.junit
+    testCompile dependencies.mockito
 
-  androidTestCompile 'info.cukes:cucumber-android:1.2.0@jar'
-  androidTestCompile 'info.cukes:cucumber-picocontainer:1.2.0'
-  androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-    exclude group: 'com.android.support', module: 'support-annotations'
-  })
-  compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-    transitive = true
-  }
+    androidTestCompile 'info.cukes:cucumber-android:1.2.0@jar'
+    androidTestCompile 'info.cukes:cucumber-picocontainer:1.2.0'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true
+    }
 }
 apply plugin: 'com.google.gms.google-services'

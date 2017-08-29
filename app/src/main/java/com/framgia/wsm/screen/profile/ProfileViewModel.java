@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import com.framgia.wsm.BR;
+import com.framgia.wsm.BuildConfig;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
@@ -106,7 +107,7 @@ public class ProfileViewModel extends BaseObservable implements ProfileContract.
     }
 
     public void setAvatar(String avatar) {
-        mAvatar = Constant.END_POINT_URL + avatar;
+        mAvatar = BuildConfig.BASE_URL + avatar;
         mUser.setAvatar(mAvatar);
         notifyPropertyChanged(BR.avatar);
     }

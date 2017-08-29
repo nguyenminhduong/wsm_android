@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import com.framgia.wsm.BR;
+import com.framgia.wsm.BuildConfig;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
@@ -121,7 +122,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
 
     @Bindable
     public String getAvatar() {
-        return (mUser != null && mUser.getAvatar() != null) ? Constant.END_POINT_URL
+        return (mUser != null && mUser.getAvatar() != null) ? BuildConfig.BASE_URL
                 + mUser.getAvatar() : "";
     }
 
