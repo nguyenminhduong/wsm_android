@@ -5,12 +5,7 @@ package com.framgia.wsm.utils;
  */
 
 public final class Constant {
-
-    // TODO: 17/05/2017 update later
-    public static final String END_POINT_URL = "http://edev.framgia.vn";
     // For bundle
-    public static final String ARGUMENT_LIST_USER = "ARGUMENT_LIST_USER";
-    public static final String BREAK_LINE = "\n";
     public static final String DRAWER_IS_OPEN = "OPEN";
     public static final String DRAWER_IS_CLOSE = "CLOSE";
     public static final String EXTRA_REQUEST_TYPE = "EXTRA_REQUEST_TYPE";
@@ -28,8 +23,6 @@ public final class Constant {
     public static final String DEFAULT_DOUBLE_VALUE = "0.0";
     public static final String BEGIN_MORNING_TIME = "07:45";
     public static final String END_MORNING_TIME = "11:45";
-    public static final String BEGIN_AFTERNOON_TIME = "12:45";
-    public static final String END_AFTERNOON_TIME = "16:45";
     public static final String DATE_TIME_SPACE = " - ";
     public static final String EXTRA_REQUEST_TYPE_CODE = "EXTRA_REQUEST_TYPE_CODE";
     public static final String EXTRA_MEMBER_REQUEST = "EXTRA_MEMBER_REQUEST";

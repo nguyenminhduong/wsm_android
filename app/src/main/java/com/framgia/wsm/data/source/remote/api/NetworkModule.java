@@ -98,7 +98,7 @@ public class NetworkModule {
     @AppScope
     @Provides
     public Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
-        return new Retrofit.Builder().baseUrl(Constant.END_POINT_URL)
+        return new Retrofit.Builder().baseUrl(BuildConfig.BASE_URL)
                 .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)

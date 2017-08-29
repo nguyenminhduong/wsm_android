@@ -6,6 +6,7 @@ import android.databinding.Bindable;
 import android.util.Log;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
+import com.framgia.wsm.BuildConfig;
 import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
@@ -109,7 +110,7 @@ public class ChangePasswordViewModel extends BaseObservable
 
     @Bindable
     public String getAvatar() {
-        return mUser != null ? Constant.END_POINT_URL + mUser.getAvatar() : "";
+        return mUser != null ? BuildConfig.BASE_URL + mUser.getAvatar() : "";
     }
 
     @Bindable
