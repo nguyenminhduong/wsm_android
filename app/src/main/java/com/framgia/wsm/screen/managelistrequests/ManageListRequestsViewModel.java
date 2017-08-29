@@ -25,6 +25,7 @@ import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.screen.managelistrequests.memberrequestdetail
         .MemberRequestDetailDialogFragment;
 import com.framgia.wsm.screen.managelistrequests.memberrequestdetail.MemberRequestDetailViewModel;
+import com.framgia.wsm.screen.notification.NotificationViewModel;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
@@ -125,6 +126,7 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     @Override
     public void onGetListRequestManageError(BaseException exception) {
+        mEventStatusFromNotifications = false;
         setNotificationData(mContext.getString(R.string.can_not_load_data));
         setShowProgress(false);
         setVisiableLayoutDataNotFound(true);
@@ -133,6 +135,7 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     @Override
     public void onGetListRequestManageSuccess(Object object, boolean isLoadMore) {
+        mEventStatusFromNotifications = false;
         setLoading(false);
         setShowProgress(false);
         setNotificationData(mContext.getString(R.string.can_not_find_request));
@@ -159,7 +162,32 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     @Override
-    public void onReloadData() {
+    public void setCurrentStatusFromNotifications(int permissionType, String trackableStatus) {
+        if (permissionType == NotificationViewModel.PermissionType.USER) {
+            return;
+        }
+        mEventStatusFromNotifications = true;
+        switch (trackableStatus) {
+            case StatusCode.PENDING_CODE:
+            case Constant.STATUS_CODE_EDIT:
+                mCurrentPositionStatus = TypeStatus.PENDING;
+                setCurrentStatus(mContext.getString(R.string.pending));
+                break;
+            case StatusCode.CANCELED_CODE:
+                mCurrentPositionStatus = TypeStatus.CANCELED;
+                setCurrentStatus(mContext.getString(R.string.canceld));
+                break;
+            case StatusCode.REJECT_CODE:
+                mCurrentPositionStatus = TypeStatus.REJECTED;
+                setCurrentStatus(mContext.getString(R.string.rejected));
+                break;
+            case StatusCode.ACCEPT_CODE:
+                mCurrentPositionStatus = TypeStatus.APPROVE;
+                setCurrentStatus(mContext.getString(R.string.approved));
+                break;
+            default:
+                break;
+        }
         setPage(PAGE_ONE);
         mFromTime = formatDate(DateTimeUtils.dayFirstMonthWorking(mCutOffDate));
         mToTime = formatDate(DateTimeUtils.dayLastMonthWorking(mCutOffDate));
@@ -167,17 +195,29 @@ public class ManageListRequestsViewModel extends BaseObservable
         setToTimeNotGetData(mToTime);
         mQueryRequest.setFromTime(mFromTime);
         mQueryRequest.setToTime(mToTime);
+        mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+        mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
+    }
+
+    @Override
+    public void onReloadData() {
         if (!mEventStatusFromNotifications) {
+            setPage(PAGE_ONE);
+            mFromTime = formatDate(DateTimeUtils.dayFirstMonthWorking(mCutOffDate));
+            mToTime = formatDate(DateTimeUtils.dayLastMonthWorking(mCutOffDate));
+            setFromTimeNotGetData(mFromTime);
+            setToTimeNotGetData(mToTime);
+            mQueryRequest.setFromTime(mFromTime);
+            mQueryRequest.setToTime(mToTime);
             setCurrentStatus(mContext.getString(R.string.pending));
             mCurrentPositionStatus = CURRRENT_STATUS;
             mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+            if (mIsLoadDataFirstTime) {
+                mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
+                return;
+            }
+            mPresenter.getListAllRequestManageNoProgressDialog(mRequestType, mQueryRequest, false);
         }
-        mEventStatusFromNotifications = false;
-        if (mIsLoadDataFirstTime) {
-            mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
-            return;
-        }
-        mPresenter.getListAllRequestManageNoProgressDialog(mRequestType, mQueryRequest, false);
     }
 
     void setRequestType(@RequestType int requestType) {
@@ -326,39 +366,6 @@ public class ManageListRequestsViewModel extends BaseObservable
     @Override
     public void onGetUserError(BaseException exception) {
         Log.e(TAG, "onGetUserError", exception);
-    }
-
-    @Override
-    public void setCurrentStatusFromNotifications(int permissionType, String trackableStatus) {
-        if (permissionType == 0) {
-            return;
-        }
-        mEventStatusFromNotifications = true;
-        switch (trackableStatus) {
-            case StatusCode.PENDING_CODE:
-            case Constant.STATUS_CODE_EDIT:
-                mCurrentPositionStatus = TypeStatus.PENDING;
-                setCurrentStatus(mContext.getString(R.string.pending));
-                mQueryRequest.setStatus(String.valueOf(TypeStatus.PENDING));
-                break;
-            case StatusCode.CANCELED_CODE:
-                mCurrentPositionStatus = TypeStatus.CANCELED;
-                setCurrentStatus(mContext.getString(R.string.canceld));
-                mQueryRequest.setStatus(String.valueOf(TypeStatus.CANCELED));
-                break;
-            case StatusCode.REJECT_CODE:
-                mCurrentPositionStatus = TypeStatus.REJECTED;
-                setCurrentStatus(mContext.getString(R.string.rejected));
-                mQueryRequest.setStatus(String.valueOf(TypeStatus.REJECTED));
-                break;
-            case StatusCode.ACCEPT_CODE:
-                mCurrentPositionStatus = TypeStatus.APPROVE;
-                setCurrentStatus(mContext.getString(R.string.approved));
-                mQueryRequest.setStatus(String.valueOf(TypeStatus.APPROVE));
-                break;
-            default:
-                break;
-        }
     }
 
     @Override

@@ -20,6 +20,7 @@ import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.screen.confirmrequestleave.ConfirmRequestLeaveActivity;
 import com.framgia.wsm.screen.confirmrequestoff.ConfirmRequestOffActivity;
+import com.framgia.wsm.screen.notification.NotificationViewModel;
 import com.framgia.wsm.screen.requestleave.RequestLeaveActivity;
 import com.framgia.wsm.screen.requestoff.RequestOffActivity;
 import com.framgia.wsm.screen.requestovertime.RequestOvertimeActivity;
@@ -172,6 +173,7 @@ public class ListRequestViewModel extends BaseObservable
 
     @Override
     public void onGetListRequestError(BaseException e) {
+        mEventStatusFromNotifications = false;
         setNotificationLoadData(mContext.getString(R.string.can_not_load_data));
         setShowProgress(false);
         setVisiableLayoutDataNotFound(true);
@@ -180,6 +182,7 @@ public class ListRequestViewModel extends BaseObservable
 
     @Override
     public void onGetListRequestSuccess(int requestType, Object object, boolean isLoadMore) {
+        mEventStatusFromNotifications = false;
         setNotificationLoadData(mContext.getString(R.string.can_not_find_request));
         setLoading(false);
         setShowProgress(false);
@@ -207,7 +210,7 @@ public class ListRequestViewModel extends BaseObservable
 
     @Override
     public void setCurrentStatusFromNotifications(int permissionType, String trackableStatus) {
-        if (permissionType == 1) {
+        if (permissionType == NotificationViewModel.PermissionType.MANAGER) {
             return;
         }
         mEventStatusFromNotifications = true;
@@ -232,28 +235,32 @@ public class ListRequestViewModel extends BaseObservable
             default:
                 break;
         }
+        mMonthYear = DateTimeUtils.getMonthWorking(mCutOffDate);
+        setDialogManager(mMonthYear);
+        setMonthYear(mMonthYear);
+        setPage(PAGE_ONE);
+        mQueryRequest.setMonthWorking(mMonthYear);
         mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+        mPresenter.getListAllRequest(mRequestType, mQueryRequest, false);
     }
 
     @Override
     public void onReloadData(int requestType) {
-        setPage(PAGE_ONE);
-        mMonthYear = DateTimeUtils.getMonthWorking(mCutOffDate);
-        setDialogManager(mMonthYear);
-        setMonthYear(mMonthYear);
-        mQueryRequest.setMonthWorking(mMonthYear);
-        mQueryRequest.setPage(String.valueOf(mPage));
         if (!mEventStatusFromNotifications) {
+            setPage(PAGE_ONE);
+            mMonthYear = DateTimeUtils.getMonthWorking(mCutOffDate);
+            setDialogManager(mMonthYear);
+            setMonthYear(mMonthYear);
             setCurrentStatus(mContext.getString(R.string.pending));
             mCurrentPositionStatus = CURRRENT_STATUS;
+            mQueryRequest.setMonthWorking(mMonthYear);
             mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+            if (mIsLoadDataFirstTime) {
+                mPresenter.getListAllRequest(requestType, mQueryRequest, false);
+                return;
+            }
+            mPresenter.getListAllRequestNoProgressDialog(requestType, mQueryRequest, false);
         }
-        mEventStatusFromNotifications = false;
-        if (mIsLoadDataFirstTime) {
-            mPresenter.getListAllRequest(requestType, mQueryRequest, false);
-            return;
-        }
-        mPresenter.getListAllRequestNoProgressDialog(requestType, mQueryRequest, false);
     }
 
     @Override
