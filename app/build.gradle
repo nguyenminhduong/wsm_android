@@ -76,6 +76,7 @@ android {
             versionNameSuffix = "debug"
             ext.betaDistributionReleaseNotesFilePath = "release_notes.txt"
             ext.betaDistributionGroupAliases = "QAFR"
+            ext.betaDistributionNotifications = true
         }
         release {
             shrinkResources true
@@ -93,6 +94,13 @@ android {
             BASE_URL = "https://wsm.framgia.vn"
         }
         variant.buildConfigField "String", "BASE_URL", "\"${BASE_URL}\""
+    }
+
+    dexOptions {
+        if(System.getenv()["CIRCLECI"] as boolean) {
+            javaMaxHeapSize "2048M"
+            preDexLibraries false
+        }
     }
 }
 

@@ -41,7 +41,7 @@ ext {
 
   // Version code & name
   versionCode = 1
-  versionName = '0.0.1.28_07_2017'
+  versionName = '1.0'
   versionCodeRelease = 1
   versionNameRelease = '1.0.0'
 }

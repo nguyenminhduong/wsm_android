@@ -1,6 +1,5 @@
 package com.framgia.wsm.screen.timesheet;
 
-import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Bundle;
@@ -34,7 +33,6 @@ import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
 public class TimeSheetViewModel extends BaseObservable implements TimeSheetContract.ViewModel {
     private static final String TAG = "TimeSheetViewModel";
 
-    private Context mContext;
     private TimeSheetContract.Presenter mPresenter;
     private List<TimeSheetDate> mTimeSheetDates;
     private DialogManager mDialogManager;
@@ -50,10 +48,10 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     private boolean mIsEmployeeFullTime;
     private boolean mIsShowOvertime;
     private int mCutOffDate;
+    private boolean mMonthHaveCompensation;
 
-    public TimeSheetViewModel(Context context, TimeSheetContract.Presenter presenter,
-            Navigator navigator, DialogManager dialogManager) {
-        mContext = context;
+    public TimeSheetViewModel(TimeSheetContract.Presenter presenter,
+                              Navigator navigator, DialogManager dialogManager) {
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mTimeSheetDates = new ArrayList<>();
@@ -86,7 +84,10 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
 
     @Override
     public void onGetTimeSheetSuccess(UserTimeSheet userTimeSheet) {
+        setCutOffDate(userTimeSheet.getCutOffDate() == -1
+                ? mCutOffDate : userTimeSheet.getCutOffDate());
         setTimeSheetDates(userTimeSheet.getTimeSheetDates());
+        setCompensationMonth(userTimeSheet.isMonthHaveCompensation());
         setUserTimeSheet(userTimeSheet);
         mDialogManager.dismissProgressDialog();
         setLoading(false);
@@ -97,7 +98,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         if (user == null || user.getCompany() == null) {
             return;
         }
-        setCutOffDate(user.getCompany().getCutOffDate());
+        mCutOffDate = user.getCompany().getCutOffDate();
         mIsEmployeeFullTime = user.isFullTime();
         notifyPropertyChanged(BR.employeeFullTime);
     }
@@ -334,8 +335,18 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         return mCutOffDate;
     }
 
+    @Bindable
+    public boolean isMonthHaveCompensation() {
+        return mMonthHaveCompensation;
+    }
+
     private void setCutOffDate(int cutOffDate) {
         mCutOffDate = cutOffDate;
         notifyPropertyChanged(BR.cutOffDate);
+    }
+
+    private void setCompensationMonth(boolean monthHaveCompensation) {
+        this.mMonthHaveCompensation = monthHaveCompensation;
+        notifyPropertyChanged(BR.monthHaveCompensation);
     }
 }

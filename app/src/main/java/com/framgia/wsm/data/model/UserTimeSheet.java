@@ -1,5 +1,7 @@
 package com.framgia.wsm.data.model;
 
+import com.framgia.wsm.utils.common.DateTimeUtils;
+import com.framgia.wsm.utils.common.StringUtils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
@@ -30,6 +32,12 @@ public class UserTimeSheet {
     @Expose
     @SerializedName("timesheet")
     private List<TimeSheetDate> mTimeSheetDates;
+    @Expose
+    @SerializedName("start_date")
+    private String mStartDate;
+    @Expose
+    @SerializedName("end_date")
+    private String mEndDate;
 
     public String getMonth() {
         return mMonth;
@@ -85,5 +93,18 @@ public class UserTimeSheet {
 
     public void setTimeSheetDates(List<TimeSheetDate> timeSheetDates) {
         mTimeSheetDates = timeSheetDates;
+    }
+
+    public int getCutOffDate() {
+        if (StringUtils.isBlank(mStartDate)) {
+            return -1;
+        }
+        return DateTimeUtils.convertStringToDate(mStartDate,
+                DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2).getDate() - 1;
+    }
+
+    public boolean isMonthHaveCompensation() {
+        return !StringUtils.isBlank(mStartDate) && DateTimeUtils.convertStringToDate(
+                mEndDate, DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2).getDate() <= getCutOffDate();
     }
 }
