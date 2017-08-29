@@ -52,7 +52,8 @@ interface MainContract {
 
         void updateNotificationUnRead();
 
-        void handleClickNotification(String trackableType, int permissionType);
+        void handleClickNotification(String trackableType, int permissionType,
+                String trackableStatus);
     }
 
     /**

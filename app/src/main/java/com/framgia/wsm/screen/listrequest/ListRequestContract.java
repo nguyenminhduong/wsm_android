@@ -32,6 +32,9 @@ interface ListRequestContract {
         void onGetUserSuccess(User user);
 
         void onGetUserError(BaseException exception);
+
+        void setCurrentStatusFromNotifications(int permissionType, String trackableStatus);
+
     }
 
     /**

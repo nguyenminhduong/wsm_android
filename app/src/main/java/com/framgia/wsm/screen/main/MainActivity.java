@@ -141,8 +141,9 @@ public class MainActivity extends BaseActivity implements ProfileFragment.Update
     }
 
     @Override
-    public void onClickNotification(String trackableType, int permissionType) {
-        mViewModel.handleClickNotification(trackableType, permissionType);
+    public void onClickNotification(String trackableType, int permissionType,
+            String trackableStatus) {
+        mViewModel.handleClickNotification(trackableType, permissionType, trackableStatus);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

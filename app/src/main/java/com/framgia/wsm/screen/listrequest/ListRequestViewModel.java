@@ -27,6 +27,8 @@ import com.framgia.wsm.screen.requestovertime.confirmovertime.ConfirmOvertimeAct
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
+import com.framgia.wsm.utils.StatusCode;
+import com.framgia.wsm.utils.TypeStatus;
 import com.framgia.wsm.utils.TypeToast;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
@@ -68,6 +70,7 @@ public class ListRequestViewModel extends BaseObservable
     private int mPage;
     private int mCutOffDate;
     private String mNotificationLoadData;
+    private boolean mEventStatusFromNotifications;
 
     ListRequestViewModel(Context context, ListRequestContract.Presenter presenter,
             DialogManager dialogManager, ListRequestAdapter listRequestAdapter,
@@ -93,10 +96,13 @@ public class ListRequestViewModel extends BaseObservable
         mMonthYear = DateTimeUtils.getMonthWorking(mCutOffDate);
         mQueryRequest = new QueryRequest();
         mQueryRequest.setMonthWorking(mMonthYear);
-        mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
         mQueryRequest.setPage(String.valueOf(mPage));
-        mCurrentStatus = mContext.getString(R.string.pending);
-        mCurrentPositionStatus = CURRRENT_STATUS;
+        if (!mEventStatusFromNotifications) {
+            mCurrentStatus = mContext.getString(R.string.pending);
+            mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+            mCurrentPositionStatus = CURRRENT_STATUS;
+        }
+        mEventStatusFromNotifications = false;
         setLoadDataFirstTime(true);
     }
 
@@ -138,6 +144,39 @@ public class ListRequestViewModel extends BaseObservable
     @Override
     public void onGetUserError(BaseException exception) {
         Log.e(TAG, "onGetUserError", exception);
+    }
+
+    @Override
+    public void setCurrentStatusFromNotifications(int permissionType, String trackableStatus) {
+        if (permissionType == 0) {
+            return;
+        }
+        mEventStatusFromNotifications = true;
+        switch (trackableStatus) {
+            case StatusCode.PENDING_CODE:
+            case Constant.STATUS_CODE_EDIT:
+                mCurrentPositionStatus = TypeStatus.PENDING;
+                setCurrentStatus(mContext.getString(R.string.pending));
+                mQueryRequest.setStatus(String.valueOf(TypeStatus.PENDING));
+                break;
+            case StatusCode.CANCELED_CODE:
+                mCurrentPositionStatus = TypeStatus.CANCELED;
+                setCurrentStatus(mContext.getString(R.string.canceld));
+                mQueryRequest.setStatus(String.valueOf(TypeStatus.CANCELED));
+                break;
+            case StatusCode.REJECT_CODE:
+                mCurrentPositionStatus = TypeStatus.REJECTED;
+                setCurrentStatus(mContext.getString(R.string.rejected));
+                mQueryRequest.setStatus(String.valueOf(TypeStatus.REJECTED));
+                break;
+            case StatusCode.ACCEPT_CODE:
+                mCurrentPositionStatus = TypeStatus.APPROVE;
+                setCurrentStatus(mContext.getString(R.string.approved));
+                mQueryRequest.setStatus(String.valueOf(TypeStatus.APPROVE));
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

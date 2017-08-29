@@ -28,6 +28,7 @@ import com.framgia.wsm.screen.managelistrequests.memberrequestdetail.MemberReque
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
+import com.framgia.wsm.utils.TypeStatus;
 import com.framgia.wsm.utils.TypeToast;
 import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.common.StringUtils;
@@ -78,6 +79,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     private String mTotalRequestSelected;
     private int mCutOffDate;
     private String mNotificationData;
+    private boolean mEventStatusFromNotifications;
 
     ManageListRequestsViewModel(Context context, ManageListRequestsContract.Presenter presenter,
             DialogManager dialogManager, ManageListRequestsAdapter manageListRequestsAdapter,
@@ -165,9 +167,12 @@ public class ManageListRequestsViewModel extends BaseObservable
         setToTimeNotGetData(mToTime);
         mQueryRequest.setFromTime(mFromTime);
         mQueryRequest.setToTime(mToTime);
-        setCurrentStatus(mContext.getString(R.string.pending));
-        mCurrentPositionStatus = CURRRENT_STATUS;
-        mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+        if (!mEventStatusFromNotifications) {
+            setCurrentStatus(mContext.getString(R.string.pending));
+            mCurrentPositionStatus = CURRRENT_STATUS;
+            mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+        }
+        mEventStatusFromNotifications = false;
         if (mIsLoadDataFirstTime) {
             mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
             return;
@@ -324,6 +329,39 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     @Override
+    public void setCurrentStatusFromNotifications(int permissionType, String trackableStatus) {
+        if (permissionType == 0) {
+            return;
+        }
+        mEventStatusFromNotifications = true;
+        switch (trackableStatus) {
+            case StatusCode.PENDING_CODE:
+            case Constant.STATUS_CODE_EDIT:
+                mCurrentPositionStatus = TypeStatus.PENDING;
+                setCurrentStatus(mContext.getString(R.string.pending));
+                mQueryRequest.setStatus(String.valueOf(TypeStatus.PENDING));
+                break;
+            case StatusCode.CANCELED_CODE:
+                mCurrentPositionStatus = TypeStatus.CANCELED;
+                setCurrentStatus(mContext.getString(R.string.canceld));
+                mQueryRequest.setStatus(String.valueOf(TypeStatus.CANCELED));
+                break;
+            case StatusCode.REJECT_CODE:
+                mCurrentPositionStatus = TypeStatus.REJECTED;
+                setCurrentStatus(mContext.getString(R.string.rejected));
+                mQueryRequest.setStatus(String.valueOf(TypeStatus.REJECTED));
+                break;
+            case StatusCode.ACCEPT_CODE:
+                mCurrentPositionStatus = TypeStatus.APPROVE;
+                setCurrentStatus(mContext.getString(R.string.approved));
+                mQueryRequest.setStatus(String.valueOf(TypeStatus.APPROVE));
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
     public void onApproveRequest(int itemPosition, int requestId) {
         mAction = TypeAction.APPROVE;
         approveOrRejectRequest(itemPosition, requestId, StatusCode.ACCEPT_CODE);
@@ -352,7 +390,7 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String dateTime = DateTimeUtils.convertDateToString(year, month, dayOfMonth);
+        String dateTime = formatDate(DateTimeUtils.convertDateToString(year, month, dayOfMonth));
         if (year == 0) {
             if (mIsFromTimeSelected) {
                 setFromTimeNotGetData(null);
