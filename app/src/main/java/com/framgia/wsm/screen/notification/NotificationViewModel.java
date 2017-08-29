@@ -53,7 +53,8 @@ public class NotificationViewModel extends BaseObservable implements Notificatio
     @Override
     public void onItemRecyclerViewClick(Notification item) {
         if (item.getRead()) {
-            mListener.onClickNotification(item.getTrackableType(), item.getPermission());
+            mListener.onClickNotification(item.getTrackableType(), item.getPermission(),
+                    item.getTrachableStatus());
             mNavigator.dismissDialogFragment(NotificationDialogFragment.TAG);
             return;
         }
@@ -97,7 +98,7 @@ public class NotificationViewModel extends BaseObservable implements Notificatio
         }
         mNotificationAdapter.setReadOne(mNotification);
         mListener.onClickNotification(mNotification.getTrackableType(),
-                mNotification.getPermission());
+                mNotification.getPermission(), mNotification.getTrachableStatus());
         mNavigator.dismissDialogFragment(NotificationDialogFragment.TAG);
     }
 

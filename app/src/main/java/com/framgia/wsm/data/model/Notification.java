@@ -27,6 +27,9 @@ public class Notification extends BaseModel {
     @Expose
     private String mCreatedAt;
     private String mIcon;
+    @SerializedName("trackable_status")
+    @Expose
+    private String mTrachableStatus;
 
     public Integer getId() {
         return mId;
@@ -82,5 +85,13 @@ public class Notification extends BaseModel {
 
     public void setIcon(String icon) {
         mIcon = icon;
+    }
+
+    public String getTrachableStatus() {
+        return mTrachableStatus;
+    }
+
+    public void setTrachableStatus(String trachableStatus) {
+        mTrachableStatus = trachableStatus;
     }
 }

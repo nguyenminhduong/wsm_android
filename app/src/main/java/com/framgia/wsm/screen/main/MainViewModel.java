@@ -17,7 +17,9 @@ import com.framgia.wsm.R;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.response.NotificationResponse;
+import com.framgia.wsm.screen.listrequest.ListRequestFragment;
 import com.framgia.wsm.screen.login.LoginActivity;
+import com.framgia.wsm.screen.managelistrequests.ManageListRequestsFragment;
 import com.framgia.wsm.screen.notification.NotificationDialogFragment;
 import com.framgia.wsm.screen.notification.NotificationViewModel;
 import com.framgia.wsm.screen.timesheet.TimeSheetFragment;
@@ -224,7 +226,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     public void goNextFragmentListManageRequestOff() {
         setCurrentPage(Page.MANAGE_OFF);
         setCurrentItem(R.id.item_manage_off);
-        setCurrentTitleToolbar(mContext.getResources().getString(R.string.manage_request_others));
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.manage_request_leave));
     }
 
     @Override
@@ -238,7 +240,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     public void goNextFragmentListManageRequestLeave() {
         setCurrentPage(Page.MANAGE_COME_LATE_LEAVE_EARLY);
         setCurrentItem(R.id.item_manage_come_late_leave_early);
-        setCurrentTitleToolbar(mContext.getResources().getString(R.string.manage_request_leave));
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.manage_request_others));
     }
 
     @Override
@@ -294,17 +296,24 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     }
 
     @Override
-    public void handleClickNotification(String trackableType, int permissionType) {
+    public void handleClickNotification(String trackableType, int permissionType,
+            String trackableStatus) {
         mPresenter.getNotification();
         if (permissionType == NotificationViewModel.PermissionType.USER) {
             switch (trackableType) {
                 case NotificationViewModel.TrackableType.REQUEST_LEAVE:
+                    setCurrentStatusListRequestFromNotifications(Page.COME_LATE_LEAVE_EARLY,
+                            permissionType, trackableStatus);
                     goNextFragmentListRequestLeave();
                     break;
                 case NotificationViewModel.TrackableType.REQUEST_OFF:
+                    setCurrentStatusListRequestFromNotifications(Page.COME_LATE_LEAVE_EARLY,
+                            permissionType, trackableStatus);
                     goNextFragmentListRequestOff();
                     break;
                 case NotificationViewModel.TrackableType.REQUEST_OT:
+                    setCurrentStatusListRequestFromNotifications(Page.COME_LATE_LEAVE_EARLY,
+                            permissionType, trackableStatus);
                     goNextFragmentListRequestOverTime();
                     break;
                 default:
@@ -314,17 +323,48 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         }
         switch (trackableType) {
             case NotificationViewModel.TrackableType.REQUEST_LEAVE:
+                setCurrentStatusListRequestManagerFromNotifications(
+                        Page.MANAGE_COME_LATE_LEAVE_EARLY, permissionType, trackableStatus);
                 goNextFragmentListManageRequestLeave();
                 break;
             case NotificationViewModel.TrackableType.REQUEST_OFF:
+                setCurrentStatusListRequestManagerFromNotifications(Page.MANAGE_OFF, permissionType,
+                        trackableStatus);
                 goNextFragmentListManageRequestOff();
                 break;
             case NotificationViewModel.TrackableType.REQUEST_OT:
+                setCurrentStatusListRequestManagerFromNotifications(Page.MANAGE_OVERTIME,
+                        permissionType, trackableStatus);
                 goNextFragmentListManageRequestOverTime();
                 break;
             default:
                 break;
         }
+    }
+
+    private void setCurrentStatusListRequestManagerFromNotifications(int page, int permissionType,
+            String trackableStatus) {
+        Fragment fragment = mViewPagerAdapter.getFragment(page);
+        if (fragment == null) {
+            return;
+        }
+        ManageListRequestsFragment manageListRequestsFragment =
+                (ManageListRequestsFragment) fragment.getChildFragmentManager()
+                        .getFragments()
+                        .get(0);
+        manageListRequestsFragment.setCurrentStatusFromNotifications(permissionType,
+                trackableStatus);
+    }
+
+    private void setCurrentStatusListRequestFromNotifications(int page, int permissionType,
+            String trackableStatus) {
+        Fragment fragment = mViewPagerAdapter.getFragment(page);
+        if (fragment == null) {
+            return;
+        }
+        ListRequestFragment listRequestFragment =
+                (ListRequestFragment) fragment.getChildFragmentManager().getFragments().get(0);
+        listRequestFragment.setCurrentStatusFromNotifications(permissionType, trackableStatus);
     }
 
     @Override

@@ -35,6 +35,8 @@ public final class Constant {
     public static final String MANAGE_REQUEST_OFFS = "manage_request_offs";
     public static final String MANAGE_REQUEST_LEAVES = "manage_request_leaves";
     public static final String EXTRA_TOKEN_RESET_PASSWORD = "TokenResetPassword";
+    public static final String STATUS_CODE_EDIT = "edit";
+
 
     private Constant() {
         // No-op
