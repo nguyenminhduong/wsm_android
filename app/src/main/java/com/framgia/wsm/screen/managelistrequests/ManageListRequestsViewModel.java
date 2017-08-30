@@ -167,39 +167,15 @@ public class ManageListRequestsViewModel extends BaseObservable
             return;
         }
         mEventStatusFromNotifications = true;
-        switch (trackableStatus) {
-            case StatusCode.PENDING_CODE:
-                mCurrentPositionStatus = TypeStatus.PENDING;
-                setCurrentStatus(mContext.getString(R.string.pending));
-                break;
-            case StatusCode.CANCELED_CODE:
-                mCurrentPositionStatus = TypeStatus.CANCELED;
-                setCurrentStatus(mContext.getString(R.string.canceld));
-                break;
-            case StatusCode.REJECT_CODE:
-                mCurrentPositionStatus = TypeStatus.REJECTED;
-                setCurrentStatus(mContext.getString(R.string.rejected));
-                break;
-            case StatusCode.ACCEPT_CODE:
-                mCurrentPositionStatus = TypeStatus.APPROVE;
-                setCurrentStatus(mContext.getString(R.string.approved));
-                break;
-            default:
-                break;
-        }
         setPage(PAGE_ONE);
-        mFromTime = formatDate(DateTimeUtils.dayFirstMonthWorking(mCutOffDate));
-        mToTime = formatDate(DateTimeUtils.dayLastMonthWorking(mCutOffDate));
-        setFromTimeNotGetData(mFromTime);
-        setToTimeNotGetData(mToTime);
-        mQueryRequest.setFromTime(mFromTime);
-        mQueryRequest.setToTime(mToTime);
-        mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
-        if (Constant.STATUS_CODE_EDIT.equals(trackableStatus)) {
-            setCurrentStatus(null);
-            mQueryRequest.setStatus(null);
-            mCurrentPositionStatus = TypeStatus.NONE;
-        }
+        setUserName(null);
+        setCurrentStatus(null);
+        setFromTimeNotGetData(null);
+        setToTimeNotGetData(null);
+        mCurrentPositionStatus = TypeStatus.NONE;
+        mQueryRequest.setStatus(null);
+        mQueryRequest.setFromTime(null);
+        mQueryRequest.setToTime(null);
         mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
     }
 

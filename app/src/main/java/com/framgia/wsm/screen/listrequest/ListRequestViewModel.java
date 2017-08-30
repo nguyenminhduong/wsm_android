@@ -28,7 +28,6 @@ import com.framgia.wsm.screen.requestovertime.confirmovertime.ConfirmOvertimeAct
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
-import com.framgia.wsm.utils.StatusCode;
 import com.framgia.wsm.utils.TypeStatus;
 import com.framgia.wsm.utils.TypeToast;
 import com.framgia.wsm.utils.common.DateTimeUtils;
@@ -214,37 +213,16 @@ public class ListRequestViewModel extends BaseObservable
             return;
         }
         mEventStatusFromNotifications = true;
-        switch (trackableStatus) {
-            case StatusCode.PENDING_CODE:
-                mCurrentPositionStatus = TypeStatus.PENDING;
-                setCurrentStatus(mContext.getString(R.string.pending));
-                break;
-            case StatusCode.CANCELED_CODE:
-                mCurrentPositionStatus = TypeStatus.CANCELED;
-                setCurrentStatus(mContext.getString(R.string.canceld));
-                break;
-            case StatusCode.REJECT_CODE:
-                mCurrentPositionStatus = TypeStatus.REJECTED;
-                setCurrentStatus(mContext.getString(R.string.rejected));
-                break;
-            case StatusCode.ACCEPT_CODE:
-                mCurrentPositionStatus = TypeStatus.APPROVE;
-                setCurrentStatus(mContext.getString(R.string.approved));
-                break;
-            default:
-                break;
-        }
+
         mMonthYear = DateTimeUtils.getMonthWorking(mCutOffDate);
         setDialogManager(mMonthYear);
-        setMonthYear(mMonthYear);
+
         setPage(PAGE_ONE);
-        mQueryRequest.setMonthWorking(mMonthYear);
-        mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
-        if (Constant.STATUS_CODE_EDIT.equals(trackableStatus)) {
-            setCurrentStatus(null);
-            mQueryRequest.setStatus(null);
-            mCurrentPositionStatus = TypeStatus.NONE;
-        }
+        setCurrentStatus(null);
+        setMonthYearNotGetData(null);
+        mCurrentPositionStatus = TypeStatus.NONE;
+        mQueryRequest.setStatus(null);
+        mQueryRequest.setMonthWorking(null);
         mPresenter.getListAllRequest(mRequestType, mQueryRequest, false);
     }
 
