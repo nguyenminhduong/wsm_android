@@ -216,7 +216,6 @@ public class ListRequestViewModel extends BaseObservable
         mEventStatusFromNotifications = true;
         switch (trackableStatus) {
             case StatusCode.PENDING_CODE:
-            case Constant.STATUS_CODE_EDIT:
                 mCurrentPositionStatus = TypeStatus.PENDING;
                 setCurrentStatus(mContext.getString(R.string.pending));
                 break;
@@ -241,6 +240,11 @@ public class ListRequestViewModel extends BaseObservable
         setPage(PAGE_ONE);
         mQueryRequest.setMonthWorking(mMonthYear);
         mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+        if (Constant.STATUS_CODE_EDIT.equals(trackableStatus)) {
+            setCurrentStatus(null);
+            mQueryRequest.setStatus(null);
+            mCurrentPositionStatus = TypeStatus.NONE;
+        }
         mPresenter.getListAllRequest(mRequestType, mQueryRequest, false);
     }
 
@@ -452,6 +456,7 @@ public class ListRequestViewModel extends BaseObservable
         setPage(PAGE_ONE);
         setCurrentStatus(null);
         setMonthYearNotGetData(null);
+        mCurrentPositionStatus = TypeStatus.NONE;
         mQueryRequest.setStatus(null);
         mQueryRequest.setMonthWorking(null);
         mPresenter.getListAllRequest(mRequestType, mQueryRequest, false);
