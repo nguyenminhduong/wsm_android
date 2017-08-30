@@ -169,7 +169,6 @@ public class ManageListRequestsViewModel extends BaseObservable
         mEventStatusFromNotifications = true;
         switch (trackableStatus) {
             case StatusCode.PENDING_CODE:
-            case Constant.STATUS_CODE_EDIT:
                 mCurrentPositionStatus = TypeStatus.PENDING;
                 setCurrentStatus(mContext.getString(R.string.pending));
                 break;
@@ -196,6 +195,11 @@ public class ManageListRequestsViewModel extends BaseObservable
         mQueryRequest.setFromTime(mFromTime);
         mQueryRequest.setToTime(mToTime);
         mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+        if (Constant.STATUS_CODE_EDIT.equals(trackableStatus)) {
+            setCurrentStatus(null);
+            mQueryRequest.setStatus(null);
+            mCurrentPositionStatus = TypeStatus.NONE;
+        }
         mPresenter.getListAllRequestManage(mRequestType, mQueryRequest, false);
     }
 
@@ -755,6 +759,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         setCurrentStatus(null);
         setFromTimeNotGetData(null);
         setToTimeNotGetData(null);
+        mCurrentPositionStatus = TypeStatus.NONE;
         mQueryRequest.setStatus(null);
         mQueryRequest.setFromTime(null);
         mQueryRequest.setToTime(null);
