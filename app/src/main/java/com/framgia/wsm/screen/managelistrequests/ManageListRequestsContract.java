@@ -42,7 +42,7 @@ interface ManageListRequestsContract {
 
         void onGetUserError(BaseException exception);
 
-        void setCurrentStatusFromNotifications(int permissionType, String trackableStatus);
+        void setCurrentStatusFromNotifications();
     }
 
     /**

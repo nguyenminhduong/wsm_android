@@ -302,18 +302,15 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         if (permissionType == NotificationViewModel.PermissionType.USER) {
             switch (trackableType) {
                 case NotificationViewModel.TrackableType.REQUEST_LEAVE:
-                    setCurrentStatusListRequestFromNotifications(Page.COME_LATE_LEAVE_EARLY,
-                            permissionType, trackableStatus);
+                    setCurrentStatusListRequestFromNotifications(Page.COME_LATE_LEAVE_EARLY);
                     goNextFragmentListRequestLeave();
                     break;
                 case NotificationViewModel.TrackableType.REQUEST_OFF:
-                    setCurrentStatusListRequestFromNotifications(Page.OFF, permissionType,
-                            trackableStatus);
+                    setCurrentStatusListRequestFromNotifications(Page.OFF);
                     goNextFragmentListRequestOff();
                     break;
                 case NotificationViewModel.TrackableType.REQUEST_OT:
-                    setCurrentStatusListRequestFromNotifications(Page.OVERTIME, permissionType,
-                            trackableStatus);
+                    setCurrentStatusListRequestFromNotifications(Page.OVERTIME);
                     goNextFragmentListRequestOverTime();
                     break;
                 default:
@@ -324,17 +321,15 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         switch (trackableType) {
             case NotificationViewModel.TrackableType.REQUEST_LEAVE:
                 setCurrentStatusListRequestManagerFromNotifications(
-                        Page.MANAGE_COME_LATE_LEAVE_EARLY, permissionType, trackableStatus);
+                        Page.MANAGE_COME_LATE_LEAVE_EARLY);
                 goNextFragmentListManageRequestLeave();
                 break;
             case NotificationViewModel.TrackableType.REQUEST_OFF:
-                setCurrentStatusListRequestManagerFromNotifications(Page.MANAGE_OFF, permissionType,
-                        trackableStatus);
+                setCurrentStatusListRequestManagerFromNotifications(Page.MANAGE_OFF);
                 goNextFragmentListManageRequestOff();
                 break;
             case NotificationViewModel.TrackableType.REQUEST_OT:
-                setCurrentStatusListRequestManagerFromNotifications(Page.MANAGE_OVERTIME,
-                        permissionType, trackableStatus);
+                setCurrentStatusListRequestManagerFromNotifications(Page.MANAGE_OVERTIME);
                 goNextFragmentListManageRequestOverTime();
                 break;
             default:
@@ -342,8 +337,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
         }
     }
 
-    private void setCurrentStatusListRequestManagerFromNotifications(int page, int permissionType,
-            String trackableStatus) {
+    private void setCurrentStatusListRequestManagerFromNotifications(int page) {
         Fragment fragment = mViewPagerAdapter.getFragment(page);
         if (fragment == null) {
             return;
@@ -352,19 +346,17 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
                 (ManageListRequestsFragment) fragment.getChildFragmentManager()
                         .getFragments()
                         .get(0);
-        manageListRequestsFragment.setCurrentStatusFromNotifications(permissionType,
-                trackableStatus);
+        manageListRequestsFragment.setCurrentStatusFromNotifications();
     }
 
-    private void setCurrentStatusListRequestFromNotifications(int page, int permissionType,
-            String trackableStatus) {
+    private void setCurrentStatusListRequestFromNotifications(int page) {
         Fragment fragment = mViewPagerAdapter.getFragment(page);
         if (fragment == null) {
             return;
         }
         ListRequestFragment listRequestFragment =
                 (ListRequestFragment) fragment.getChildFragmentManager().getFragments().get(0);
-        listRequestFragment.setCurrentStatusFromNotifications(permissionType, trackableStatus);
+        listRequestFragment.setCurrentStatusFromNotifications();
     }
 
     @Override
@@ -489,21 +481,28 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
                         mContext.getString(R.string.you_are_unauthorized_to_access));
                 break;
             case Constant.REQUEST_OTS:
+                setCurrentStatusListRequestFromNotifications(Page.OVERTIME);
                 goNextFragmentListRequestOverTime();
                 break;
             case Constant.REQUEST_OFFS:
+                setCurrentStatusListRequestFromNotifications(Page.OFF);
                 goNextFragmentListRequestOff();
                 break;
             case Constant.REQUEST_LEAVES:
+                setCurrentStatusListRequestFromNotifications(Page.COME_LATE_LEAVE_EARLY);
                 goNextFragmentListRequestLeave();
                 break;
             case Constant.MANAGE_REQUEST_OTS:
+                setCurrentStatusListRequestManagerFromNotifications(Page.MANAGE_OVERTIME);
                 goNextFragmentManageListRequestOverTime();
                 break;
             case Constant.MANAGE_REQUEST_OFFS:
+                setCurrentStatusListRequestManagerFromNotifications(Page.MANAGE_OFF);
                 goNextFragmentManageListRequestOff();
                 break;
             case Constant.MANAGE_REQUEST_LEAVES:
+                setCurrentStatusListRequestManagerFromNotifications(
+                        Page.MANAGE_COME_LATE_LEAVE_EARLY);
                 goNextFragmentManageListRequestLeave();
                 break;
             default:
