@@ -214,7 +214,7 @@ public class RequestOvertimeViewModel extends BaseObservable
         if (user.getGroups() == null) {
             return;
         }
-        for (int i = 0; i < mUser.getBranches().size(); i++) {
+        for (int i = 0; i < mUser.getGroups().size(); i++) {
             if (groupdIdDefault == mUser.getGroups().get(i).getGroupId()) {
                 mCurrentGroupPosition = i;
                 mRequestOverTime.setGroupId(groupdIdDefault);
