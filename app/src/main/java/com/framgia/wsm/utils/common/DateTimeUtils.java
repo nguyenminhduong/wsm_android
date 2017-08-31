@@ -42,6 +42,7 @@ public final class DateTimeUtils {
     private static final int DAY_OF_YEAR = 365;
     private static final String TIME_ZONE_GMT = "GMT";
     private static final int MINUTES_OF_HOUR = 60;
+    private static final int FIRST_DAY_OF_MONTH = 1;
 
     private DateTimeUtils() {
         // No-op
@@ -380,6 +381,7 @@ public final class DateTimeUtils {
             calendar.set(Calendar.MONTH, currentMonth);
         }
         if (currentDate.after(getLastDateOfMonth(cutOffDate))) {
+            calendar.set(Calendar.DAY_OF_MONTH, FIRST_DAY_OF_MONTH);
             calendar.set(Calendar.MONTH, currentMonth + ONE_MONTH);
         }
         return DateTimeUtils.convertToString(calendar.getTime(), DateTimeUtils.DATE_FORMAT_YYYY_MM);
