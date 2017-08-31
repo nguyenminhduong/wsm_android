@@ -94,8 +94,19 @@ public class RequestOvertimeViewModel extends BaseObservable
         mUser = user;
         notifyPropertyChanged(BR.user);
         if (mActionType == ActionType.ACTION_CREATE) {
-            setCurrentBranch();
-            setCurrentGroup();
+            int branchIdDefault = mUser.getSetting().getWorkspaceDefault();
+            if (branchIdDefault == Constant.NO_GROUP_OR_BRANCH) {
+                setCurrentBranch();
+            } else {
+                setBranchDefault(mUser, branchIdDefault);
+            }
+
+            int groupIdDefault = mUser.getSetting().getGroupDefault();
+            if (groupIdDefault == Constant.NO_GROUP_OR_BRANCH) {
+                setCurrentGroup();
+            } else {
+                setGroupDefault(mUser, groupIdDefault);
+            }
             return;
         }
         setBranchAndGroupWhenEdit(mUser);
@@ -177,17 +188,47 @@ public class RequestOvertimeViewModel extends BaseObservable
         return mRequestOverTime;
     }
 
+    private void setBranchDefault(User user, int branchIdDefault) {
+        if (user.getBranches() == null) {
+            return;
+        }
+        for (int i = 0; i < user.getBranches().size(); i++) {
+            if (branchIdDefault == user.getBranches().get(i).getBranchId()) {
+                mCurrentBranchPosition = i;
+                mRequestOverTime.setBranchId(branchIdDefault);
+                mRequestOverTime.setBranch(user.getBranches().get(i));
+                break;
+            }
+        }
+        notifyPropertyChanged(BR.requestOverTime);
+    }
+
     private void setCurrentBranch() {
         Branch branch = mUser.getBranches().get(mCurrentBranchPosition);
-        mRequestOverTime.setBranchId(branch.getBranchId());
         mRequestOverTime.setBranch(branch);
+        mRequestOverTime.setBranchId(branch.getBranchId());
+        notifyPropertyChanged(BR.requestOverTime);
+    }
+
+    private void setGroupDefault(User user, int groupdIdDefault) {
+        if (user.getGroups() == null) {
+            return;
+        }
+        for (int i = 0; i < mUser.getBranches().size(); i++) {
+            if (groupdIdDefault == mUser.getGroups().get(i).getGroupId()) {
+                mCurrentGroupPosition = i;
+                mRequestOverTime.setGroupId(groupdIdDefault);
+                mRequestOverTime.setGroup(mUser.getGroups().get(i));
+                break;
+            }
+        }
         notifyPropertyChanged(BR.requestOverTime);
     }
 
     private void setCurrentGroup() {
         Group group = mUser.getGroups().get(mCurrentGroupPosition);
+        mRequestOverTime.setGroup(group);
         mRequestOverTime.setGroupId(group.getGroupId());
-        mRequestOverTime.setGroup(mUser.getGroups().get(mCurrentGroupPosition));
         notifyPropertyChanged(BR.requestOverTime);
     }
 

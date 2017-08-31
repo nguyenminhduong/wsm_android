@@ -271,15 +271,27 @@ public class RequestOffViewModel extends BaseRequestOff
         mUser = user;
         notifyPropertyChanged(BR.user);
         upDateRemainingDayOff(mUser);
-        if (mActionType == ActionType.ACTION_CREATE) {
-            setCurrentBranch();
-            setCurrentGroup();
-        }
         if (StringUtils.isBlank(mUser.getContractDate())) {
             setVisibleLayoutNoSalary(StringUtils.isBlank(mUser.getContractDate()));
             setCurrentPositionOffType(PositionOffType.OFF_NO_SALARY);
             setCurrentOffType(mContext.getString(R.string.off_no_salary));
             setLayoutOffType(PositionOffType.OFF_NO_SALARY);
+        }
+        if (mActionType == ActionType.ACTION_CREATE) {
+            int branchIdDefault = mUser.getSetting().getWorkspaceDefault();
+            if (branchIdDefault == Constant.NO_GROUP_OR_BRANCH) {
+                setCurrentBranch();
+            } else {
+                setBranchDefault(mUser, branchIdDefault);
+            }
+
+            int groupIdDefault = mUser.getSetting().getGroupDefault();
+            if (groupIdDefault == Constant.NO_GROUP_OR_BRANCH) {
+                setCurrentGroup();
+            } else {
+                setGroupDefault(mUser, groupIdDefault);
+            }
+            return;
         }
         setBranchAndGroupWhenEdit(mUser);
     }
@@ -466,11 +478,39 @@ public class RequestOffViewModel extends BaseRequestOff
         }
     }
 
+    private void setBranchDefault(User user, int branchIdDefault) {
+        if (user.getBranches() == null) {
+            return;
+        }
+        for (int i = 0; i < user.getBranches().size(); i++) {
+            if (branchIdDefault == user.getBranches().get(i).getBranchId()) {
+                mCurrentBranchPosition = i;
+                mRequestOff.setWorkSpaceId(branchIdDefault);
+                mRequestOff.setBranch(user.getBranches().get(i));
+            }
+        }
+        notifyPropertyChanged(BR.requestOff);
+    }
+
     private void setCurrentBranch() {
         Branch branch = mUser.getBranches().get(mCurrentBranchPosition);
         mRequestOff.setWorkSpaceId(branch.getBranchId());
         mRequestOff.setBranch(branch);
         notifyPropertyChanged(BR.requestOff);
+    }
+
+    private void setGroupDefault(User user, int groupdIdDefault) {
+        if (user.getGroups() == null) {
+            return;
+        }
+        for (int i = 0; i < mUser.getBranches().size(); i++) {
+            if (groupdIdDefault == mUser.getGroups().get(i).getGroupId()) {
+                mCurrentGroupPosition = i;
+                mRequestOff.setGroupId(groupdIdDefault);
+                mRequestOff.setGroup(mUser.getGroups().get(i));
+            }
+        }
+        notifyPropertyChanged(BR.requestOverTime);
     }
 
     private void setCurrentGroup() {

@@ -38,7 +38,6 @@ import java.util.List;
 
 import static com.framgia.wsm.utils.Constant.TimeConst.FIFTEEN_MINUTES;
 import static com.framgia.wsm.utils.Constant.TimeConst.SIXTY_MINUTES;
-import static com.framgia.wsm.utils.Constant.TimeConst.THIRDTY_MINUTES;
 import static com.framgia.wsm.utils.common.DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM;
 import static com.framgia.wsm.utils.common.DateTimeUtils.INPUT_TIME_FORMAT;
 
@@ -197,15 +196,24 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         notifyPropertyChanged(BR.user);
         if (mActionType == ActionType.ACTION_CREATE) {
             setCurrentLeaveType();
-            mCurrentBranchPosition =
-                    (searchBranchPosition(mUser.getBranches(), mRequest.getWorkspaceName()));
-            setCurrentGroup();
+
+            int branchIdDefault = mUser.getSetting().getWorkspaceDefault();
+            if (branchIdDefault == Constant.NO_GROUP_OR_BRANCH) {
+                setCurrentBranch();
+            } else {
+                setBranchDefault(mUser, branchIdDefault);
+            }
+
+            int groupIdDefault = mUser.getSetting().getGroupDefault();
+            if (groupIdDefault == Constant.NO_GROUP_OR_BRANCH) {
+                setCurrentGroup();
+            } else {
+                setGroupDefault(mUser, groupIdDefault);
+            }
         }
-        setCurrentBranch();
+
         setTitleExampleLeave();
         if (mActionType == ActionType.ACTION_EDIT) {
-            mCurrentBranchPosition = (searchBranchPosition(mUser.getBranches(),
-                    mRequest.getBranch().getBranchName()));
             mCurrentLeaveTypeId = mRequest.getLeaveTypeId();
         }
         mRequest.setCompanyId(mUser.getCompany().getId());
@@ -213,6 +221,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
                 (searchLeaveTypePosition(mUser.getLeaveTypes(), mCurrentLeaveType));
         if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
             mCurrentLeaveTypeId = mRequest.getLeaveTypeId();
+            mCurrentBranchPosition = (searchBranchPosition(mUser.getBranches(),
+                    mRequest.getBranch().getBranchName()));
         }
         if (mUser.getLeaveTypes() == null || mUser.getLeaveTypes().size() == 0) {
             return;
@@ -1282,6 +1292,22 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         notifyPropertyChanged(BR.currentLeaveType);
     }
 
+    private void setBranchDefault(User user, int branchIdDefault) {
+        if (user.getBranches() == null) {
+            return;
+        }
+        for (int i = 0; i < user.getBranches().size(); i++) {
+            if (branchIdDefault == user.getBranches().get(i).getBranchId()) {
+                mCurrentBranchPosition = i;
+                mCurrentBranch = user.getBranches().get(i).getBranchName();
+                mRequest.setWorkpaceId(branchIdDefault);
+                mRequest.setWorkspaceName(mCurrentBranch);
+                break;
+            }
+        }
+        notifyPropertyChanged(BR.currentBranch);
+    }
+
     private void setCurrentBranch() {
         if (mActionType == ActionType.ACTION_CREATE
                 || mActionType == ActionType.ACTION_CONFIRM_CREATE) {
@@ -1295,6 +1321,22 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         }
         mRequest.setWorkspaceName(mCurrentBranch);
         notifyPropertyChanged(BR.currentBranch);
+    }
+
+    private void setGroupDefault(User user, int groupdIdDefault) {
+        if (user.getGroups() == null) {
+            return;
+        }
+        for (int i = 0; i < mUser.getGroups().size(); i++) {
+            if (groupdIdDefault == mUser.getGroups().get(i).getGroupId()) {
+                mCurrentGroupPosition = i;
+                mCurrentGroup = user.getGroups().get(i).getFullName();
+                mRequest.setGroupId(groupdIdDefault);
+                mRequest.setCompanyName(mCurrentGroup);
+                break;
+            }
+        }
+        notifyPropertyChanged(BR.currentGroup);
     }
 
     private void setCurrentGroup() {

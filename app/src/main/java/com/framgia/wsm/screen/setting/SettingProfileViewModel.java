@@ -49,6 +49,7 @@ public class SettingProfileViewModel extends BaseObservable
         mDialogManager = dialogManager;
         mNavigator = navigator;
         mIsLoadDataFirstTime = true;
+        mPresenter.getUser();
     }
 
     @Override
@@ -73,7 +74,6 @@ public class SettingProfileViewModel extends BaseObservable
         }
         setUser(user);
         setNotificationAndEmailAll();
-        mIsLoadDataFirstTime = false;
     }
 
     @Override
@@ -94,6 +94,7 @@ public class SettingProfileViewModel extends BaseObservable
     @Override
     public void onGetSettingError(BaseException exception) {
         setRefreshing(false);
+        mIsLoadDataFirstTime = false;
         mNavigator.showToastCustom(TypeToast.ERROR,
                 mContext.getString(R.string.refresh_setting_error));
     }
@@ -105,12 +106,13 @@ public class SettingProfileViewModel extends BaseObservable
         mPresenter.saveUser(mUser);
         setNotificationAndEmailAll();
         notifyPropertyChanged(BR.user);
+        mIsLoadDataFirstTime = false;
     }
 
     @Override
     public void onReloadData() {
         if (mIsLoadDataFirstTime) {
-            mPresenter.getUser();
+            mPresenter.getSetting();
         }
     }
 

@@ -94,11 +94,6 @@ public class ListRequestViewModel extends BaseObservable
         mPage = PAGE_ONE;
         setLoading(false);
         mQueryRequest = new QueryRequest();
-        if (!mEventStatusFromNotifications) {
-            mCurrentStatus = mContext.getString(R.string.pending);
-            mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
-            mCurrentPositionStatus = CURRRENT_STATUS;
-        }
         setLoadDataFirstTime(true);
     }
 
@@ -134,7 +129,7 @@ public class ListRequestViewModel extends BaseObservable
             return;
         }
         mCutOffDate = user.getCompany().getCutOffDate();
-        setMonthYear(DateTimeUtils.getMonthWorking(mCutOffDate));
+        setMonthYearNotGetData(DateTimeUtils.getMonthWorking(mCutOffDate));
         mListRequestAdapter.updateUser(user);
     }
 
@@ -232,7 +227,7 @@ public class ListRequestViewModel extends BaseObservable
             setPage(PAGE_ONE);
             mMonthYear = DateTimeUtils.getMonthWorking(mCutOffDate);
             setDialogManager(mMonthYear);
-            setMonthYear(mMonthYear);
+            setMonthYearNotGetData(mMonthYear);
             setCurrentStatus(mContext.getString(R.string.pending));
             mCurrentPositionStatus = CURRRENT_STATUS;
             mQueryRequest.setMonthWorking(mMonthYear);
