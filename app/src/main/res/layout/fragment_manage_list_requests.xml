@@ -335,9 +335,8 @@
                     android:layout_weight="0.45"
                     android:background="@color/colorPrimary"
                     android:onClick="@{viewModel::onAcceptAll}"
-                    android:text="@string/approved"
+                    android:text="@string/approve"
                     android:textColor="@color/color_white"
-                    app:srcCompat="@drawable/ic_accept_all"
                     tools:ignore="ContentDescription"
                     />
             </LinearLayout>

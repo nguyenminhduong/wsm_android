@@ -30,14 +30,14 @@
     <string name="workspaces_data">WORKSPACES DATA</string>
     <string name="workspaces">Workspaces data</string>
     <string name="statistics_of_personal">Statistics of personal</string>
-    <string name="manage_requests">MANAGE REQUESTS</string>
-    <string name="manage_request_overtime">Manage request overtime</string>
-    <string name="manage_request_others">Manage request others</string>
-    <string name="manage_request_leave">Manage request leave</string>
+    <string name="manage_requests">MEMBER\'S REQUESTS</string>
+    <string name="manage_request_overtime">Overtime request</string>
+    <string name="manage_request_others">Others request</string>
+    <string name="manage_request_leave">Leave request</string>
 
-    <string name="create_request_ot">Create Request OT</string>
-    <string name="create_request_leave">Create Request Leave</string>
-    <string name="create_others_request">Create Other Request</string>
+    <string name="create_request_ot">Create Overtime Request</string>
+    <string name="create_request_leave">Create Leave Request</string>
+    <string name="create_others_request">Create Others Request</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="please_click_back_again_to_exit">Please click BACK again to exit!</string>
@@ -378,5 +378,6 @@
     <string name="edit_request">Edit request</string>
     <string name="can_not_load_data">Can\'t load data. Please check again !</string>
     <string name="can_not_find_request">Can\'t find request!</string>
+    <string name="approve">Approve</string>
 
 </resources>
