@@ -20,7 +20,6 @@ import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.BaseRecyclerViewAdapter;
 import com.framgia.wsm.screen.confirmrequestleave.ConfirmRequestLeaveActivity;
 import com.framgia.wsm.screen.confirmrequestoff.ConfirmRequestOffActivity;
-import com.framgia.wsm.screen.notification.NotificationViewModel;
 import com.framgia.wsm.screen.requestleave.RequestLeaveActivity;
 import com.framgia.wsm.screen.requestoff.RequestOffActivity;
 import com.framgia.wsm.screen.requestovertime.RequestOvertimeActivity;
@@ -203,10 +202,7 @@ public class ListRequestViewModel extends BaseObservable
     }
 
     @Override
-    public void setCurrentStatusFromNotifications(int permissionType, String trackableStatus) {
-        if (permissionType == NotificationViewModel.PermissionType.MANAGER) {
-            return;
-        }
+    public void setCurrentStatusFromNotifications() {
         mEventStatusFromNotifications = true;
 
         mMonthYear = DateTimeUtils.getMonthWorking(mCutOffDate);

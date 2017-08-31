@@ -118,7 +118,7 @@ public class ListRequestFragment extends BaseFragment {
         });
     }
 
-    public void setCurrentStatusFromNotifications(int permissionType, String trackableStatus) {
-        mViewModel.setCurrentStatusFromNotifications(permissionType, trackableStatus);
+    public void setCurrentStatusFromNotifications() {
+        mViewModel.setCurrentStatusFromNotifications();
     }
 }

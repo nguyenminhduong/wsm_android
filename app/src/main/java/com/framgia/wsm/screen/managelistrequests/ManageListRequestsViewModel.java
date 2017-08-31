@@ -25,7 +25,6 @@ import com.framgia.wsm.data.source.remote.api.response.ActionRequestResponse;
 import com.framgia.wsm.screen.managelistrequests.memberrequestdetail
         .MemberRequestDetailDialogFragment;
 import com.framgia.wsm.screen.managelistrequests.memberrequestdetail.MemberRequestDetailViewModel;
-import com.framgia.wsm.screen.notification.NotificationViewModel;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.RequestType;
 import com.framgia.wsm.utils.StatusCode;
@@ -162,10 +161,7 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     @Override
-    public void setCurrentStatusFromNotifications(int permissionType, String trackableStatus) {
-        if (permissionType == NotificationViewModel.PermissionType.USER) {
-            return;
-        }
+    public void setCurrentStatusFromNotifications() {
         mEventStatusFromNotifications = true;
         setPage(PAGE_ONE);
         setUserName(null);
