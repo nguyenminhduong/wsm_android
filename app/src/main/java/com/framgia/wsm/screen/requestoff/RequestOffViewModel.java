@@ -503,7 +503,7 @@ public class RequestOffViewModel extends BaseRequestOff
         if (user.getGroups() == null) {
             return;
         }
-        for (int i = 0; i < mUser.getBranches().size(); i++) {
+        for (int i = 0; i < mUser.getGroups().size(); i++) {
             if (groupdIdDefault == mUser.getGroups().get(i).getGroupId()) {
                 mCurrentGroupPosition = i;
                 mRequestOff.setGroupId(groupdIdDefault);
