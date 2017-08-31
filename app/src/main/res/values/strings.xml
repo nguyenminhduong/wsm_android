@@ -379,5 +379,5 @@
     <string name="can_not_load_data">Can\'t load data. Please check again !</string>
     <string name="can_not_find_request">Can\'t find request!</string>
     <string name="approve">Approve</string>
-
+    <string name="number_hour">Number hours</string>
 </resources>

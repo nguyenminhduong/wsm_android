@@ -157,6 +157,11 @@ public class ConfirmOvertimeViewModel extends BaseObservable
         return mUser;
     }
 
+    public String getNumberHour() {
+        return String.valueOf(DateTimeUtils.getHourBetweenTwoDate(mRequestOverTime.getToTime(),
+                mRequestOverTime.getFromTime(), DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
+    }
+
     public RequestOverTime getRequestOverTime() {
         return mRequestOverTime;
     }

@@ -50,8 +50,8 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     private int mCutOffDate;
     private boolean mMonthHaveCompensation;
 
-    public TimeSheetViewModel(TimeSheetContract.Presenter presenter,
-                              Navigator navigator, DialogManager dialogManager) {
+    public TimeSheetViewModel(TimeSheetContract.Presenter presenter, Navigator navigator,
+            DialogManager dialogManager) {
         mPresenter = presenter;
         mPresenter.setViewModel(this);
         mTimeSheetDates = new ArrayList<>();
@@ -84,11 +84,12 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
 
     @Override
     public void onGetTimeSheetSuccess(UserTimeSheet userTimeSheet) {
-        setCutOffDate(userTimeSheet.getCutOffDate() == -1
-                ? mCutOffDate : userTimeSheet.getCutOffDate());
+        setCutOffDate(
+                userTimeSheet.getCutOffDate() == -1 ? mCutOffDate : userTimeSheet.getCutOffDate());
         setTimeSheetDates(userTimeSheet.getTimeSheetDates());
         setCompensationMonth(userTimeSheet.isMonthHaveCompensation());
         setUserTimeSheet(userTimeSheet);
+        setShowInformation(false);
         mDialogManager.dismissProgressDialog();
         setLoading(false);
     }
@@ -335,14 +336,14 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         return mCutOffDate;
     }
 
-    @Bindable
-    public boolean isMonthHaveCompensation() {
-        return mMonthHaveCompensation;
-    }
-
     private void setCutOffDate(int cutOffDate) {
         mCutOffDate = cutOffDate;
         notifyPropertyChanged(BR.cutOffDate);
+    }
+
+    @Bindable
+    public boolean isMonthHaveCompensation() {
+        return mMonthHaveCompensation;
     }
 
     private void setCompensationMonth(boolean monthHaveCompensation) {
