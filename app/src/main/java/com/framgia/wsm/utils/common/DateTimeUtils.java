@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.framgia.wsm.utils.Constant.TimeConst.DAY_25_OF_MONTH;
 import static com.framgia.wsm.utils.Constant.TimeConst.ONE_MONTH;
+import static com.framgia.wsm.utils.Constant.TimeConst.SIXTY_MINUTES;
 
 /**
  * Created by framgia on 19/05/2017.
@@ -158,6 +159,12 @@ public final class DateTimeUtils {
         return (int) TimeUnit.MILLISECONDS.toMinutes(
                 convertStringToDateTime(dateFrom).getTime() - convertStringToDateTime(
                         dateTo).getTime());
+    }
+
+    public static float getHourBetweenTwoDate(String dateFrom, String dateTo, String format) {
+        return (float) TimeUnit.MILLISECONDS.toMinutes(
+                convertStringToDate(dateFrom, format).getTime() - convertStringToDate(dateTo,
+                        format).getTime()) / SIXTY_MINUTES;
     }
 
     public static String addMinutesToStringDate(String dateTime, int minutes) {

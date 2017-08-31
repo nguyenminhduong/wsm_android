@@ -242,6 +242,14 @@ public class MemberRequestDetailViewModel extends BaseObservable
                 DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
     }
 
+    public String getNumberHour() {
+        if (mOverTimeRequest.getFromTime() == null || mOverTimeRequest.getToTime() == null) {
+            return "";
+        }
+        return String.valueOf(DateTimeUtils.getHourBetweenTwoDate(getToTime(), getFromTime(),
+                DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY));
+    }
+
     @Bindable
     public boolean isVisibleApprove() {
         return mIsVisibleApprove;
