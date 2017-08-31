@@ -366,4 +366,6 @@
     <string name="request_information">Chi tiết yêu cầu</string>
     <string name="can_not_load_data">Không tải được dữ liệu. Vui lòng kiểm tra lại!</string>
     <string name="can_not_find_request">Không tìm thấy yêu cầu!</string>
+    <string name="approve">Chấp nhận</string>
+
 </resources>
