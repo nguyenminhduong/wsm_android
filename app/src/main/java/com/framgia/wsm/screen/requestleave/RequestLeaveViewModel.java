@@ -223,6 +223,7 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             mCurrentLeaveTypeId = mRequest.getLeaveTypeId();
             mCurrentBranchPosition = (searchBranchPosition(mUser.getBranches(),
                     mRequest.getBranch().getBranchName()));
+            setCurrentBranch();
         }
         if (mUser.getLeaveTypes() == null || mUser.getLeaveTypes().size() == 0) {
             return;
