@@ -176,11 +176,13 @@ public final class BindingUtils {
         cardView.setCardBackgroundColor(Color.parseColor(color));
     }
 
-    @BindingAdapter({ "timeSheetDates", "month", "year", "cutOffDate", "monthHaveCompensation" })
+    @BindingAdapter({
+            "timeSheetDates", "month", "year", "cutOffDate", "totalDateCompensationInMonth"
+    })
     public static void setTimeSheetDates(TimeSheetView timeSheetView,
-            List<TimeSheetDate> timeSheetDates, int month, int year,
-            int cutOffDate, boolean isCompensationMonth) {
-        timeSheetView.setTime(month, year, cutOffDate, isCompensationMonth);
+            List<TimeSheetDate> timeSheetDates, int month, int year, int cutOffDate,
+            int totalDateCompensationInMonth) {
+        timeSheetView.setTime(month, year, cutOffDate, totalDateCompensationInMonth);
         timeSheetView.reuse();
         timeSheetView.invalidate();
         timeSheetView.setTimeSheetDates(timeSheetDates);

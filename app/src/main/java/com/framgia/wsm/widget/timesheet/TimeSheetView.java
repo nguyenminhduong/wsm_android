@@ -539,9 +539,13 @@ public class TimeSheetView extends View {
                 return false;
             }
             for (TimeSheetDate timeSheetDate : mTimeSheetDates) {
+                if (timeSheetDate.getDate() == null) {
+                    return false;
+                }
                 if (date.equals(timeSheetDate.getDate())) {
                     if (mOnDayClickListener != null) {
                         mOnDayClickListener.onDayClick(timeSheetDate);
+                        break;
                     }
                 }
             }
@@ -598,7 +602,7 @@ public class TimeSheetView extends View {
         mFirstDateOfMonth = mCutOffDate + 1;
     }
 
-    public void setTime(int month, int year, int cutOffDate, boolean isCompensationMonth) {
+    public void setTime(int month, int year, int cutOffDate, int totalDateCompensationInMonth) {
 
         setCutOffDate(month, year, cutOffDate);
         setFirstDateOfMonth(month, year);
@@ -663,9 +667,7 @@ public class TimeSheetView extends View {
             }
         }
 
-        if (isCompensationMonth) {
-            mNumCells += 1;
-        }
+        mNumCells += totalDateCompensationInMonth;
     }
 
     private boolean cutOffDateIsLessThanHalfTotalDateOfMonth(int month, int year) {
