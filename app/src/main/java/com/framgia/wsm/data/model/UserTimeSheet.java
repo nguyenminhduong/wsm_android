@@ -99,12 +99,15 @@ public class UserTimeSheet {
         if (StringUtils.isBlank(mStartDate)) {
             return -1;
         }
-        return DateTimeUtils.convertStringToDate(mStartDate,
-                DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2).getDate() - 1;
+        return DateTimeUtils.convertStringToDate(mStartDate, DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2)
+                .getDate() - 1;
     }
 
-    public boolean isMonthHaveCompensation() {
-        return !StringUtils.isBlank(mStartDate) && DateTimeUtils.convertStringToDate(
-                mEndDate, DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2).getDate() <= getCutOffDate();
+    public int totalDateCompensationInMonth() {
+        if (StringUtils.isNotBlank((mStartDate))) {
+            return DateTimeUtils.convertStringToDate(mEndDate,
+                    DateTimeUtils.DATE_FORMAT_YYYY_MM_DD_2).getDate() - getCutOffDate();
+        }
+        return 0;
     }
 }

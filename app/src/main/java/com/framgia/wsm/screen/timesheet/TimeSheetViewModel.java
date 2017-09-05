@@ -48,7 +48,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     private boolean mIsEmployeeFullTime;
     private boolean mIsShowOvertime;
     private int mCutOffDate;
-    private boolean mMonthHaveCompensation;
+    private int totalDateCompensationInMonth;
 
     public TimeSheetViewModel(TimeSheetContract.Presenter presenter, Navigator navigator,
             DialogManager dialogManager) {
@@ -87,7 +87,7 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
         setCutOffDate(
                 userTimeSheet.getCutOffDate() == -1 ? mCutOffDate : userTimeSheet.getCutOffDate());
         setTimeSheetDates(userTimeSheet.getTimeSheetDates());
-        setCompensationMonth(userTimeSheet.isMonthHaveCompensation());
+        setTotalDateCompensationInMonth(userTimeSheet.totalDateCompensationInMonth());
         setUserTimeSheet(userTimeSheet);
         setShowInformation(false);
         mDialogManager.dismissProgressDialog();
@@ -342,12 +342,12 @@ public class TimeSheetViewModel extends BaseObservable implements TimeSheetContr
     }
 
     @Bindable
-    public boolean isMonthHaveCompensation() {
-        return mMonthHaveCompensation;
+    public int getTotalDateCompensationInMonth() {
+        return totalDateCompensationInMonth;
     }
 
-    private void setCompensationMonth(boolean monthHaveCompensation) {
-        this.mMonthHaveCompensation = monthHaveCompensation;
-        notifyPropertyChanged(BR.monthHaveCompensation);
+    public void setTotalDateCompensationInMonth(int totalDateCompensationInMonth) {
+        this.totalDateCompensationInMonth = totalDateCompensationInMonth;
+        notifyPropertyChanged(BR.totalDateCompensationInMonth);
     }
 }
