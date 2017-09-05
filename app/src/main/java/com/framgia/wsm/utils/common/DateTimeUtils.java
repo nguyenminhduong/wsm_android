@@ -31,6 +31,7 @@ public final class DateTimeUtils {
     public static final String DATE_FORMAT_EEE_D_MMM__YYYY = "EEE, d MMM yyyy";
     public static final String DATE_FORMAT_YYYY_MM_JAPANESE = "MM/yyyy";
     public static final String DATE_FORMAT_MMMM = "MMMM";
+    public static final String HOUR_FORMAT_2F = "%.2f";
     public static final String FORMAT_DATE = "dd/MM/yyyy";
     public static final String TIME_FORMAT_HH_MM = "HH:mm";
     public static final String DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM = "yyyy/MM/dd - HH:mm";

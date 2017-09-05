@@ -8,9 +8,11 @@ import android.support.annotation.StringDef;
 import android.support.v4.app.Fragment;
 import com.framgia.wsm.BR;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.model.Branch;
 import com.framgia.wsm.data.model.LeaveRequest;
 import com.framgia.wsm.data.model.OffRequest;
 import com.framgia.wsm.data.model.RequestOverTime;
+import com.framgia.wsm.data.model.Shifts;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.data.source.remote.api.request.ActionRequest;
@@ -23,6 +25,7 @@ import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
+import java.util.Locale;
 
 /**
  * Created by ths on 11/07/2017.
@@ -176,6 +179,7 @@ public class MemberRequestDetailViewModel extends BaseObservable
             return;
         }
         mUser = user;
+        notifyPropertyChanged(BR.numberHour);
     }
 
     public boolean isVisibleOffRequest() {
@@ -207,7 +211,7 @@ public class MemberRequestDetailViewModel extends BaseObservable
             return "";
         }
         return DateTimeUtils.convertUiFormatToDataFormat(mOffRequest.getCreatedAt(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
     }
 
     public String getCreateAtLeaveRequest() {
@@ -215,7 +219,7 @@ public class MemberRequestDetailViewModel extends BaseObservable
             return "";
         }
         return DateTimeUtils.convertUiFormatToDataFormat(mLeaveRequest.getCreateAt(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
     }
 
     public String getCreateAtOverTimeRequest() {
@@ -223,7 +227,7 @@ public class MemberRequestDetailViewModel extends BaseObservable
             return "";
         }
         return DateTimeUtils.convertUiFormatToDataFormat(mOverTimeRequest.getCreatedAt(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
     }
 
     public String getToTime() {
@@ -231,7 +235,7 @@ public class MemberRequestDetailViewModel extends BaseObservable
             return "";
         }
         return DateTimeUtils.convertUiFormatToDataFormat(mOverTimeRequest.getToTime(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
     }
 
     public String getFromTime() {
@@ -239,15 +243,46 @@ public class MemberRequestDetailViewModel extends BaseObservable
             return "";
         }
         return DateTimeUtils.convertUiFormatToDataFormat(mOverTimeRequest.getFromTime(),
-                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY);
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
     }
 
+    @Bindable
     public String getNumberHour() {
-        if (mOverTimeRequest.getFromTime() == null || mOverTimeRequest.getToTime() == null) {
+        if (mOverTimeRequest.getFromTime() == null
+                || mOverTimeRequest.getToTime() == null
+                || mUser == null) {
             return "";
         }
-        return String.valueOf(DateTimeUtils.getHourBetweenTwoDate(getToTime(), getFromTime(),
-                DateTimeUtils.DATE_TIME_FORMAT_HH_MM_DD_MM_YYYY));
+        Shifts shifts = new Shifts();
+        for (Branch branch : mUser.getBranches()) {
+            if (mOverTimeRequest.getBranch().getBranchName().equals(branch.getBranchName())) {
+                shifts = branch.getShifts().get(0);
+            }
+        }
+        float numberHourOvertime = DateTimeUtils.getHourBetweenTwoDate(getToTime(), getFromTime(),
+                DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+        if (isContainLunchBreak(shifts)) {
+            return String.format(Locale.getDefault(), DateTimeUtils.HOUR_FORMAT_2F,
+                    numberHourOvertime - shifts.getNumberHourLunch());
+        }
+        return String.format(Locale.getDefault(), DateTimeUtils.HOUR_FORMAT_2F, numberHourOvertime);
+    }
+
+    private boolean isContainLunchBreak(Shifts shifts) {
+        shifts.setTimeLunch(DateTimeUtils.convertUiFormatToDataFormat(shifts.getTimeLunch(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
+        shifts.setTimeAfternoon(DateTimeUtils.convertUiFormatToDataFormat(shifts.getTimeAfternoon(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
+        int hourOfTimeAfternoon = DateTimeUtils.getHourOfDay(shifts.getTimeAfternoon());
+        int minuteOfTimeAfternoon = DateTimeUtils.getMinute(shifts.getTimeAfternoon());
+        int hourOfTimeLunch = DateTimeUtils.getHourOfDay(shifts.getTimeLunch());
+        int minuteOfTimeLunch = DateTimeUtils.getMinute(shifts.getTimeLunch());
+        return DateTimeUtils.checkHourOfDateLessThanOrEqual(getFromTime(), hourOfTimeLunch,
+                minuteOfTimeLunch)
+                && !DateTimeUtils.checkHourOfDateLessThan(getToTime(), hourOfTimeAfternoon,
+                minuteOfTimeAfternoon)
+                && DateTimeUtils.getHourBetweenTwoDate(getToTime(), getFromTime(),
+                DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM) > Constant.TimeConst.FOUR_HOUR;
     }
 
     @Bindable
