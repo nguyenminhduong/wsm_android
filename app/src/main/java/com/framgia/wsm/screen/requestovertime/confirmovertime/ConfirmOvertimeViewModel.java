@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.framgia.wsm.R;
+import com.framgia.wsm.data.model.Branch;
 import com.framgia.wsm.data.model.RequestOverTime;
+import com.framgia.wsm.data.model.Shifts;
 import com.framgia.wsm.data.model.User;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.framgia.wsm.screen.requestovertime.RequestOvertimeActivity;
@@ -24,6 +26,10 @@ import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
+import java.util.Locale;
+
+import static com.framgia.wsm.utils.common.DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM;
+import static com.framgia.wsm.utils.common.DateTimeUtils.INPUT_TIME_FORMAT;
 
 /**
  * Exposes the data to be used in the ConfirmOvertime screen.
@@ -56,12 +62,10 @@ public class ConfirmOvertimeViewModel extends BaseObservable
     private void setTimeRequestOverTIme(RequestOverTime requestOverTime) {
         requestOverTime.setFromTime(
                 DateTimeUtils.convertUiFormatToDataFormat(requestOverTime.getFromTime(),
-                        DateTimeUtils.INPUT_TIME_FORMAT,
-                        DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
+                        INPUT_TIME_FORMAT, DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
         requestOverTime.setToTime(
                 DateTimeUtils.convertUiFormatToDataFormat(requestOverTime.getToTime(),
-                        DateTimeUtils.INPUT_TIME_FORMAT,
-                        DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
+                        INPUT_TIME_FORMAT, DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
     }
 
     @Override
@@ -81,6 +85,7 @@ public class ConfirmOvertimeViewModel extends BaseObservable
         }
         mUser = user;
         notifyPropertyChanged(BR.user);
+        notifyPropertyChanged(BR.numberHour);
     }
 
     @Override
@@ -157,9 +162,42 @@ public class ConfirmOvertimeViewModel extends BaseObservable
         return mUser;
     }
 
+    @Bindable
     public String getNumberHour() {
-        return String.valueOf(DateTimeUtils.getHourBetweenTwoDate(mRequestOverTime.getToTime(),
-                mRequestOverTime.getFromTime(), DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
+        if (mUser == null) {
+            return "";
+        }
+        Shifts shifts = new Shifts();
+        for (Branch branch : mUser.getBranches()) {
+            if (mRequestOverTime.getBranch().getBranchName().equals(branch.getBranchName())) {
+                shifts = branch.getShifts().get(0);
+            }
+        }
+        float numberHourOvertime = DateTimeUtils.getHourBetweenTwoDate(mRequestOverTime.getToTime(),
+                mRequestOverTime.getFromTime(), DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+        if (isContainLunchBreak(shifts)) {
+            return String.format(Locale.getDefault(), DateTimeUtils.HOUR_FORMAT_2F,
+                    numberHourOvertime - shifts.getNumberHourLunch());
+        }
+        return String.format(Locale.getDefault(), DateTimeUtils.HOUR_FORMAT_2F, numberHourOvertime);
+    }
+
+    private boolean isContainLunchBreak(Shifts shifts) {
+        shifts.setTimeLunch(DateTimeUtils.convertUiFormatToDataFormat(shifts.getTimeLunch(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
+        shifts.setTimeAfternoon(DateTimeUtils.convertUiFormatToDataFormat(shifts.getTimeAfternoon(),
+                DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM));
+        int hourOfTimeAfternoon = DateTimeUtils.getHourOfDay(shifts.getTimeAfternoon());
+        int minuteOfTimeAfternoon = DateTimeUtils.getMinute(shifts.getTimeAfternoon());
+        int hourOfTimeLunch = DateTimeUtils.getHourOfDay(shifts.getTimeLunch());
+        int minuteOfTimeLunch = DateTimeUtils.getMinute(shifts.getTimeLunch());
+        return DateTimeUtils.checkHourOfDateLessThanOrEqual(mRequestOverTime.getFromTime(),
+                hourOfTimeLunch, minuteOfTimeLunch)
+                && !DateTimeUtils.checkHourOfDateLessThan(mRequestOverTime.getToTime(),
+                hourOfTimeAfternoon, minuteOfTimeAfternoon)
+                && DateTimeUtils.getHourBetweenTwoDate(mRequestOverTime.getToTime(),
+                mRequestOverTime.getFromTime(), DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM)
+                > Constant.TimeConst.FOUR_HOUR;
     }
 
     public RequestOverTime getRequestOverTime() {

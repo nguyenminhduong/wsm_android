@@ -43,6 +43,7 @@ public final class Constant {
 
     public static class TimeConst {
         public static final int ONE_HOUR = 1;
+        public static final int FOUR_HOUR = 4;
         public static final int FIFTEEN_MINUTES = 15;
         public static final int THIRDTY_MINUTES = 30;
         public static final int ONE_MONTH = 1;

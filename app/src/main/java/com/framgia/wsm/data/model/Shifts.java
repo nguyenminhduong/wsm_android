@@ -2,6 +2,7 @@ package com.framgia.wsm.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.framgia.wsm.utils.common.DateTimeUtils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -51,6 +52,9 @@ public class Shifts extends BaseModel implements Parcelable {
         mTimeOut = in.readString();
         mMaxComeLate = in.readFloat();
         mMaxLevesEarly = in.readFloat();
+    }
+
+    public Shifts() {
     }
 
     public Integer getId() {
@@ -107,6 +111,11 @@ public class Shifts extends BaseModel implements Parcelable {
 
     public void setMaxLevesEarly(float maxLevesEarly) {
         mMaxLevesEarly = maxLevesEarly;
+    }
+
+    public float getNumberHourLunch() {
+        return DateTimeUtils.getHourBetweenTwoDate(mTimeAfternoon, mTimeLunch,
+                DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
     }
 
     @Override
