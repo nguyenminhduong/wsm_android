@@ -48,18 +48,20 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
                 ItemListRequestOvertimeBinding itemListRequestOvertimeBinding =
                         DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                                 R.layout.item_list_request_overtime, parent, false);
-                return new RequestOverTimeViewHolder(itemListRequestOvertimeBinding,
+                return new RequestOverTimeViewHolder(getContext(), itemListRequestOvertimeBinding,
                         mItemClickListener);
             case RequestType.REQUEST_OFF:
                 ItemListRequestOffBinding itemListRequestOffBinding =
                         DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                                 R.layout.item_list_request_off, parent, false);
-                return new RequestOffViewHolder(itemListRequestOffBinding, mItemClickListener);
+                return new RequestOffViewHolder(getContext(), itemListRequestOffBinding,
+                        mItemClickListener);
             case RequestType.REQUEST_LATE_EARLY:
                 ItemListRequestLeaveBinding itemListRequestLeaveBinding =
                         DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                                 R.layout.item_list_request_leave, parent, false);
-                return new RequestLeaveViewHolder(itemListRequestLeaveBinding, mItemClickListener);
+                return new RequestLeaveViewHolder(getContext(), itemListRequestLeaveBinding,
+                        mItemClickListener);
             default:
                 break;
         }
@@ -143,54 +145,62 @@ public class ListRequestAdapter extends BaseRecyclerViewAdapter<RecyclerView.Vie
     }
 
     private static class RequestOverTimeViewHolder extends RecyclerView.ViewHolder {
+        private Context mContext;
         private ItemListRequestOvertimeBinding mBinding;
         private OnRecyclerViewItemClickListener<Object> mItemClickListener;
 
-        RequestOverTimeViewHolder(ItemListRequestOvertimeBinding binding,
+        RequestOverTimeViewHolder(Context context, ItemListRequestOvertimeBinding binding,
                 BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> listener) {
             super(binding.getRoot());
+            mContext = context;
             mBinding = binding;
             mItemClickListener = listener;
         }
 
         void bind(RequestOverTime requestOverTime, User user) {
             mBinding.setViewModel(
-                    new ItemListRequestViewModel(requestOverTime, mItemClickListener, user));
+                    new ItemListRequestViewModel(mContext, requestOverTime, mItemClickListener,
+                            user));
             mBinding.executePendingBindings();
         }
     }
 
     private static class RequestOffViewHolder extends RecyclerView.ViewHolder {
+        private Context mContext;
         private ItemListRequestOffBinding mBinding;
         private OnRecyclerViewItemClickListener<Object> mItemClickListener;
 
-        RequestOffViewHolder(ItemListRequestOffBinding binding,
+        RequestOffViewHolder(Context context, ItemListRequestOffBinding binding,
                 BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> listener) {
             super(binding.getRoot());
+            mContext = context;
             mBinding = binding;
             mItemClickListener = listener;
         }
 
         void bind(OffRequest requestOff, User user) {
             mBinding.setViewModel(
-                    new ItemListRequestViewModel(requestOff, mItemClickListener, user));
+                    new ItemListRequestViewModel(mContext, requestOff, mItemClickListener, user));
             mBinding.executePendingBindings();
         }
     }
 
     private static class RequestLeaveViewHolder extends RecyclerView.ViewHolder {
+        private Context mContext;
         private ItemListRequestLeaveBinding mBinding;
         private OnRecyclerViewItemClickListener<Object> mItemClickListener;
 
-        RequestLeaveViewHolder(ItemListRequestLeaveBinding binding,
+        RequestLeaveViewHolder(Context context, ItemListRequestLeaveBinding binding,
                 BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> listener) {
             super(binding.getRoot());
+            mContext = context;
             mBinding = binding;
             mItemClickListener = listener;
         }
 
         void bind(LeaveRequest request, User user) {
-            mBinding.setViewModel(new ItemListRequestViewModel(request, mItemClickListener, user));
+            mBinding.setViewModel(
+                    new ItemListRequestViewModel(mContext, request, mItemClickListener, user));
             mBinding.executePendingBindings();
         }
     }
