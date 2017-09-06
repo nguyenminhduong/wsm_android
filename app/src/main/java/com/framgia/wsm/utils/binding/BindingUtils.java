@@ -167,6 +167,11 @@ public final class BindingUtils {
         Glide.with(imageView.getContext()).load(uri).dontAnimate().into(imageView);
     }
 
+    @BindingAdapter("imageResource")
+    public static void loadImageFromResource(ImageView imageView, int id) {
+        imageView.setImageResource(id);
+    }
+
     @BindingAdapter("cardBackground")
     public static void setBackground(CardView cardView, String color) {
         if (TextUtils.isEmpty(color)) {
