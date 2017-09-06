@@ -1,5 +1,6 @@
 package com.framgia.wsm.screen.listrequest;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.IntDef;
@@ -25,6 +26,7 @@ import java.util.List;
 
 public class ItemListRequestViewModel extends BaseObservable {
 
+    private Context mContext;
     private final Object mObject;
     private LeaveRequest mRequest;
     private OffRequest mRequestOff;
@@ -36,9 +38,10 @@ public class ItemListRequestViewModel extends BaseObservable {
     private User mUser;
     private int positionBranchLeaveRequest;
 
-    ItemListRequestViewModel(Object object,
+    ItemListRequestViewModel(Context context, Object object,
             BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object> itemClickListener,
             User user) {
+        mContext = context;
         mObject = object;
         mItemClickListener = itemClickListener;
         if (object instanceof LeaveRequest) {
@@ -101,17 +104,18 @@ public class ItemListRequestViewModel extends BaseObservable {
                             DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.TIME_FORMAT_HH_MM);
             final String requestCheckOutByDate =
                     DateTimeUtils.convertUiFormatToDataFormat(mRequest.getCheckOutTime(),
-                            DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.FORMAT_DATE);
+                            DateTimeUtils.INPUT_TIME_FORMAT,
+                            mContext.getString(R.string.format_date_mm_dd_yyyy));
             switch (mRequest.getLeaveType().getId()) {
                 case LeaveType.IN_LATE_A:
                 case LeaveType.IN_LATE_WOMAN_A:
                     return beginAfterTime + Constant.BLANK_DASH_BLANK + requestCheckInByTimeAndDate;
                 case LeaveType.IN_LATE_M:
                 case LeaveType.IN_LATE_WOMAN_M:
-                case LeaveType.LEAVE_EARLY_WOMAN_M:
                     return beginMorningTime
                             + Constant.BLANK_DASH_BLANK
                             + requestCheckInByTimeAndDate;
+                case LeaveType.LEAVE_EARLY_WOMAN_M:
                 case LeaveType.LEAVE_EARLY_M:
                     return requestCheckOutByTime
                             + Constant.BLANK_DASH_BLANK

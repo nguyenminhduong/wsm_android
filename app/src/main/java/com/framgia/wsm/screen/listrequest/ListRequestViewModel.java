@@ -224,10 +224,10 @@ public class ListRequestViewModel extends BaseObservable
             mMonthYear = DateTimeUtils.getMonthWorking(mCutOffDate);
             setDialogManager(mMonthYear);
             setMonthYearNotGetData(mMonthYear);
-            setCurrentStatus(mContext.getString(R.string.pending));
-            mCurrentPositionStatus = CURRRENT_STATUS;
+            setCurrentStatus(null);
+            mCurrentPositionStatus = TypeStatus.NONE;
             mQueryRequest.setMonthWorking(mMonthYear);
-            mQueryRequest.setStatus(String.valueOf(mCurrentPositionStatus));
+            mQueryRequest.setStatus(null);
             if (mIsLoadDataFirstTime) {
                 mPresenter.getListAllRequest(requestType, mQueryRequest, false);
                 return;
