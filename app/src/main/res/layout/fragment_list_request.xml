@@ -162,6 +162,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_above="@+id/progressBar"
+                            android:clipToPadding="false"
+                            android:paddingBottom="@dimen/dp_30"
                             app:layoutManager="LinearLayoutManager"
                             app:recyclerAdapter="@{viewModel.listRequestAdapter}"
                             />
@@ -178,7 +180,6 @@
             </LinearLayout>
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/floating_button_create"
                 android:layout_width="@dimen/dp_56"
                 android:layout_height="@dimen/dp_56"
                 android:layout_alignParentBottom="true"
