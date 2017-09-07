@@ -58,7 +58,6 @@ public class StatisticsViewModel extends BaseObservable
     private String mDataChartLeaveTime;
     private String mDataChartOverTime;
     private String mMonthSelected;
-    private boolean mIsFirstTimeLoad;
     private String mYearSelected;
     private int mYear;
     private int mMonth;
@@ -76,7 +75,6 @@ public class StatisticsViewModel extends BaseObservable
         setYear(String.valueOf(mYear));
         mMonth = mCalendar.get(Calendar.MONTH) + 1;
         mDialogManager.dialogYearPicker(this, mYear, mMonth);
-        mIsFirstTimeLoad = true;
     }
 
     @Override
@@ -209,10 +207,7 @@ public class StatisticsViewModel extends BaseObservable
 
     @Override
     public void onReloadData() {
-        if (mIsFirstTimeLoad) {
-            mPresenter.getStatistics(Integer.parseInt(mYearSelected));
-            mIsFirstTimeLoad = false;
-        }
+        mPresenter.getStatistics(Integer.parseInt(mYearSelected));
     }
 
     public OnChartValueSelectedListener getOnChartValueSelected() {
