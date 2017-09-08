@@ -210,10 +210,10 @@ public class ListRequestViewModel extends BaseObservable
 
         setPage(PAGE_ONE);
         setCurrentStatus(null);
-        setMonthYearNotGetData(null);
+        setMonthYearNotGetData(mMonthYear);
         mCurrentPositionStatus = TypeStatus.NONE;
         mQueryRequest.setStatus(null);
-        mQueryRequest.setMonthWorking(null);
+        mQueryRequest.setMonthWorking(mMonthYear);
         mPresenter.getListAllRequest(mRequestType, mQueryRequest, false);
     }
 
