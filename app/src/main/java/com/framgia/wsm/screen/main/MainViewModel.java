@@ -205,7 +205,7 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
     public void goNextFragmentListRequestOff() {
         setCurrentPage(Page.OFF);
         setCurrentItem(R.id.item_off);
-        setCurrentTitleToolbar(mContext.getResources().getString(R.string.request_off));
+        setCurrentTitleToolbar(mContext.getResources().getString(R.string.leave));
     }
 
     @Override

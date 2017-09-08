@@ -15,17 +15,19 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
     private static final int ITEM_NUMBER = 12;
 
     private Fragment mCurrentFragment;
-    private List<Fragment> mFragments;
+    private List<Fragment> mFragments = new ArrayList<>();
 
     MainViewPagerAdapter(FragmentManager fm) {
         super(fm);
-        mFragments = new ArrayList<>();
+        for (int i = 0; i < ITEM_NUMBER; i++) {
+            mFragments.add(null);
+        }
     }
 
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = MainContainerFragment.newInstance(position);
-        mFragments.add(fragment);
+        mFragments.set(position, fragment);
         return fragment;
     }
 
