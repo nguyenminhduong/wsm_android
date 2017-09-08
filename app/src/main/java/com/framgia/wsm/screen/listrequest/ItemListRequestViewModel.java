@@ -26,14 +26,14 @@ import java.util.List;
 
 public class ItemListRequestViewModel extends BaseObservable {
 
-    private Context mContext;
     private final Object mObject;
+    private final BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object>
+            mItemClickListener;
+    private Context mContext;
     private LeaveRequest mRequest;
     private OffRequest mRequestOff;
     private RequestOverTime mRequestOverTime;
     private int mStatusImage;
-    private final BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener<Object>
-            mItemClickListener;
     private int mExtraTime;
     private User mUser;
     private int positionBranchLeaveRequest;
@@ -79,12 +79,12 @@ public class ItemListRequestViewModel extends BaseObservable {
                     DateTimeUtils.convertUiFormatToDataFormatAndPlusExtraTime(
                             getCurrentShift().getTimeIn(), DateTimeUtils.INPUT_TIME_FORMAT,
                             DateTimeUtils.TIME_FORMAT_HH_MM, mExtraTime);
-            final String beginAfterTime = DateTimeUtils.convertUiFormatToDataFormatAndPlusExtraTime(
-                    getCurrentShift().getTimeAfternoon(), DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.TIME_FORMAT_HH_MM, mExtraTime);
-            final String timeLunch = DateTimeUtils.convertUiFormatToDataFormatAndPlusExtraTime(
-                    getCurrentShift().getTimeLunch(), DateTimeUtils.INPUT_TIME_FORMAT,
-                    DateTimeUtils.TIME_FORMAT_HH_MM, mExtraTime);
+            final String beginAfterTime =
+                    DateTimeUtils.convertUiFormatToDataFormat(getCurrentShift().getTimeAfternoon(),
+                            DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.TIME_FORMAT_HH_MM);
+            final String timeLunch =
+                    DateTimeUtils.convertUiFormatToDataFormat(getCurrentShift().getTimeLunch(),
+                            DateTimeUtils.INPUT_TIME_FORMAT, DateTimeUtils.TIME_FORMAT_HH_MM);
             final String timeOut = DateTimeUtils.convertUiFormatToDataFormatAndPlusExtraTime(
                     getCurrentShift().getTimeOut(), DateTimeUtils.INPUT_TIME_FORMAT,
                     DateTimeUtils.TIME_FORMAT_HH_MM, mExtraTime);
@@ -299,32 +299,6 @@ public class ItemListRequestViewModel extends BaseObservable {
         mItemClickListener.onItemRecyclerViewClick(mObject);
     }
 
-    @IntDef({
-            LeaveType.IN_LATE_M, LeaveType.IN_LATE_A, LeaveType.LEAVE_EARLY_M,
-            LeaveType.LEAVE_EARLY_A, LeaveType.LEAVE_OUT, LeaveType.FORGOT_CHECK_ALL_DAY,
-            LeaveType.FORGOT_TO_CHECK_IN, LeaveType.FORGOT_TO_CHECK_OUT,
-            LeaveType.FORGOT_CARD_ALL_DAY, LeaveType.FORGOT_CARD_IN, LeaveType.FORGOT_CARD_OUT,
-            LeaveType.IN_LATE_WOMAN_M, LeaveType.IN_LATE_WOMAN_A, LeaveType.LEAVE_EARLY_WOMAN_M,
-            LeaveType.LEAVE_EARLY_WOMAN_A
-    })
-    public @interface LeaveType {
-        int IN_LATE_M = 1;
-        int LEAVE_EARLY_M = 2;
-        int LEAVE_OUT = 3;
-        int IN_LATE_A = 4;
-        int IN_LATE_WOMAN_M = 5;
-        int FORGOT_CHECK_ALL_DAY = 7;
-        int FORGOT_TO_CHECK_IN = 12;
-        int FORGOT_TO_CHECK_OUT = 13;
-        int LEAVE_EARLY_A = 14;
-        int IN_LATE_WOMAN_A = 15;
-        int LEAVE_EARLY_WOMAN_M = 16;
-        int LEAVE_EARLY_WOMAN_A = 17;
-        int FORGOT_CARD_IN = 19;
-        int FORGOT_CARD_OUT = 20;
-        int FORGOT_CARD_ALL_DAY = 21;
-    }
-
     private void setStatus(String status) {
         switch (status) {
             case StatusCode.ACCEPT_CODE:
@@ -367,5 +341,31 @@ public class ItemListRequestViewModel extends BaseObservable {
     private void setStatusImage(int statusImage) {
         mStatusImage = statusImage;
         notifyPropertyChanged(BR.statusImage);
+    }
+
+    @IntDef({
+            LeaveType.IN_LATE_M, LeaveType.IN_LATE_A, LeaveType.LEAVE_EARLY_M,
+            LeaveType.LEAVE_EARLY_A, LeaveType.LEAVE_OUT, LeaveType.FORGOT_CHECK_ALL_DAY,
+            LeaveType.FORGOT_TO_CHECK_IN, LeaveType.FORGOT_TO_CHECK_OUT,
+            LeaveType.FORGOT_CARD_ALL_DAY, LeaveType.FORGOT_CARD_IN, LeaveType.FORGOT_CARD_OUT,
+            LeaveType.IN_LATE_WOMAN_M, LeaveType.IN_LATE_WOMAN_A, LeaveType.LEAVE_EARLY_WOMAN_M,
+            LeaveType.LEAVE_EARLY_WOMAN_A
+    })
+    public @interface LeaveType {
+        int IN_LATE_M = 1;
+        int LEAVE_EARLY_M = 2;
+        int LEAVE_OUT = 3;
+        int IN_LATE_A = 4;
+        int IN_LATE_WOMAN_M = 5;
+        int FORGOT_CHECK_ALL_DAY = 7;
+        int FORGOT_TO_CHECK_IN = 12;
+        int FORGOT_TO_CHECK_OUT = 13;
+        int LEAVE_EARLY_A = 14;
+        int IN_LATE_WOMAN_A = 15;
+        int LEAVE_EARLY_WOMAN_M = 16;
+        int LEAVE_EARLY_WOMAN_A = 17;
+        int FORGOT_CARD_IN = 19;
+        int FORGOT_CARD_OUT = 20;
+        int FORGOT_CARD_ALL_DAY = 21;
     }
 }
