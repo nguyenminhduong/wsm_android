@@ -36,6 +36,7 @@ public final class Constant {
     public static final String MANAGE_REQUEST_LEAVES = "manage_request_leaves";
     public static final String EXTRA_TOKEN_RESET_PASSWORD = "TokenResetPassword";
     public static final int NO_GROUP_OR_BRANCH = 0;
+    public static final String UPDATE_VERSION = "update_version";
 
     private Constant() {
         // No-op
