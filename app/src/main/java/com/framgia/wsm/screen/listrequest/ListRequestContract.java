@@ -43,6 +43,8 @@ interface ListRequestContract {
 
         void getUser();
 
+        User getUserLocal();
+
         void getListAllRequest(@RequestType int requestType, QueryRequest queryRequest,
                 boolean isLoadMore);
 

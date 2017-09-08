@@ -128,7 +128,6 @@ public class ListRequestViewModel extends BaseObservable
             return;
         }
         mCutOffDate = user.getCompany().getCutOffDate();
-        setMonthYearNotGetData(DateTimeUtils.getMonthWorking(mCutOffDate));
         mListRequestAdapter.updateUser(user);
     }
 
@@ -220,9 +219,13 @@ public class ListRequestViewModel extends BaseObservable
     @Override
     public void onReloadData(int requestType) {
         if (!mEventStatusFromNotifications) {
+
+            int cutOffDate = mPresenter.getUserLocal().getCompany().getCutOffDate();
+
             setPage(PAGE_ONE);
-            mMonthYear = DateTimeUtils.getMonthWorking(mCutOffDate);
+            mMonthYear = DateTimeUtils.getMonthWorking(cutOffDate);
             setDialogManager(mMonthYear);
+
             setMonthYearNotGetData(mMonthYear);
             setCurrentStatus(null);
             mCurrentPositionStatus = TypeStatus.NONE;

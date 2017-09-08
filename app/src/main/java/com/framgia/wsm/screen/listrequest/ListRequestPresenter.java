@@ -75,6 +75,11 @@ final class ListRequestPresenter implements ListRequestContract.Presenter {
     }
 
     @Override
+    public User getUserLocal() {
+        return mUserRepository.getUserCheckLogin();
+    }
+
+    @Override
     public void getListAllRequest(int requestType, QueryRequest queryRequest,
             final boolean isLoadMore) {
         Disposable disposable;
