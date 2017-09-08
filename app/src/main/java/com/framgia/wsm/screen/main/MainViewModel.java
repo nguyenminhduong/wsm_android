@@ -2,8 +2,10 @@ package com.framgia.wsm.screen.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.net.Uri;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -37,6 +39,8 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
 
     private static final String TAG = "MainActivity";
     private static final int PAGE_LIMIT = 12;
+    private static final String PATH_UPDATE_VERSION =
+            "https://play.google.com/store/apps/details?id=com.framgia.wsm";
 
     private MainContract.Presenter mPresenter;
     private String mStatusDrawerLayout;
@@ -476,6 +480,10 @@ public class MainViewModel extends BaseObservable implements MainContract.ViewMo
             return;
         }
         switch (notificationRequestType) {
+            case Constant.UPDATE_VERSION:
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(PATH_UPDATE_VERSION));
+                mContext.startActivity(intent);
+                break;
             case Constant.SILENT_NOTIFICATION:
                 mDialogManager.dialogError(
                         mContext.getString(R.string.you_are_unauthorized_to_access));
