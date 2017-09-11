@@ -82,12 +82,20 @@ public class FireBaseMessageService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             final String messageResponse = remoteMessage.getData().get(MESSAGE);
             String notificationType = remoteMessage.getData().get(TYPE);
-            String requestType =
-                    SHOW.equals(notificationType) ? remoteMessage.getData().get(PERMISSION)
-                            : Constant.BLANK;
-            if (SILENT.equals(remoteMessage.getData().get(TYPE))) {
-                updateUserProfile();
-                requestType = Constant.SILENT_NOTIFICATION;
+            String requestType = "";
+            switch (notificationType) {
+                case SHOW:
+                    requestType = remoteMessage.getData().get(PERMISSION);
+                    break;
+                case SILENT:
+                    updateUserProfile();
+                    requestType = Constant.SILENT_NOTIFICATION;
+                    break;
+                case Constant.UPDATE_VERSION:
+                    requestType = notificationType;
+                    break;
+                default:
+                    break;
             }
             sendNotification(messageResponse, requestType);
             updateRemainingDayOff(requestType);
