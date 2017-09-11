@@ -33,6 +33,7 @@ import com.framgia.wsm.utils.validator.Validation;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -122,8 +123,6 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mContext = context;
         mNavigator = navigator;
         mDialogManager = dialogManager;
-        mDialogManager.dialogDatePicker(this);
-        mDialogManager.dialogTimePicker(this);
         setVisibleLayoutCompensation(true);
         setVisibleLayoutCheckin(true);
         mPresenter.getUser();
@@ -132,6 +131,8 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         setVisibleGroup(mActionType == ActionType.ACTION_CREATE);
         if (mActionType == ActionType.ACTION_CREATE) {
             mCurrentLeaveTypeName = mContext.getString(R.string.leave_type_in_late_m);
+            mDialogManager.dialogDatePicker(this, Calendar.getInstance());
+            mDialogManager.dialogTimePicker(this, Calendar.getInstance());
         } else {
             mActionType = ActionType.ACTION_EDIT;
             mCurrentLeaveTypeName = mRequest.getLeaveType().getName();
@@ -505,6 +506,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mIsCheckInTimeSelected = true;
         mIsCheckOutTimeSelected = false;
         mIsCompensationFromTimeSelected = false;
+        if (StringUtils.isNotBlank(getCheckinTime())) {
+            Calendar calendar = DateTimeUtils.getCalendarFromDate(getCheckinTime(),
+                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+            mDialogManager.dialogDatePicker(this, calendar);
+            mDialogManager.dialogTimePicker(this, calendar);
+        }
         mCurrentTimeSelected = CurrentTimeSelected.CHECK_IN;
         mDialogManager.showDatePickerDialog();
         if (mActionType == ActionType.ACTION_CONFIRM_EDIT) {
@@ -516,6 +523,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mIsCheckInTimeSelected = false;
         mIsCheckOutTimeSelected = true;
         mIsCompensationFromTimeSelected = false;
+        if (StringUtils.isNotBlank(getCheckoutTime())) {
+            Calendar calendar = DateTimeUtils.getCalendarFromDate(getCheckoutTime(),
+                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+            mDialogManager.dialogDatePicker(this, calendar);
+            mDialogManager.dialogTimePicker(this, calendar);
+        }
         if (checkIfOnlyHaveCheckoutTime()) {
             mCurrentTimeSelected = CurrentTimeSelected.CHECK_OUT;
             mDialogManager.showDatePickerDialog();
@@ -536,6 +549,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
         mIsCheckInTimeSelected = false;
         mIsCheckOutTimeSelected = false;
         mIsCompensationFromTimeSelected = true;
+        if (StringUtils.isNotBlank(getCompensationFromTime())) {
+            Calendar calendar = DateTimeUtils.getCalendarFromDate(getCompensationFromTime(),
+                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+            mDialogManager.dialogDatePicker(this, calendar);
+            mDialogManager.dialogTimePicker(this, calendar);
+        }
         switch (mCurrentLeaveType) {
             case LeaveTypeId.IN_LATE_A:
             case LeaveTypeId.IN_LATE_M:
@@ -581,6 +600,12 @@ public class RequestLeaveViewModel extends BaseRequestLeave
             showDialogError(
                     mContext.getString(R.string.you_just_need_choose_the_compensation_from_time));
             return;
+        }
+        if (StringUtils.isNotBlank(getCompensationToTime())) {
+            Calendar calendar = DateTimeUtils.getCalendarFromDate(getCompensationToTime(),
+                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+            mDialogManager.dialogDatePicker(this, calendar);
+            mDialogManager.dialogTimePicker(this, calendar);
         }
         switch (mCurrentLeaveType) {
             case LeaveTypeId.IN_LATE_A:

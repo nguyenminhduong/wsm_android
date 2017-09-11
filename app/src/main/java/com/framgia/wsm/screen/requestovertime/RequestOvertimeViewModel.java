@@ -22,10 +22,12 @@ import com.framgia.wsm.screen.requestovertime.confirmovertime.ConfirmOvertimeAct
 import com.framgia.wsm.utils.ActionType;
 import com.framgia.wsm.utils.Constant;
 import com.framgia.wsm.utils.common.DateTimeUtils;
+import com.framgia.wsm.utils.common.StringUtils;
 import com.framgia.wsm.utils.navigator.Navigator;
 import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
+import java.util.Calendar;
 
 import static com.framgia.wsm.utils.Constant.EXTRA_REQUEST_OVERTIME;
 
@@ -63,8 +65,10 @@ public class RequestOvertimeViewModel extends BaseObservable
         mNavigator = navigator;
         mPresenter.getUser();
         mDialogManager = dialogManager;
-        mDialogManager.dialogDatePicker(this);
-        mDialogManager.dialogTimePicker(this);
+        if (mActionType == ActionType.ACTION_CREATE) {
+            mDialogManager.dialogDatePicker(this, Calendar.getInstance());
+            mDialogManager.dialogTimePicker(this, Calendar.getInstance());
+        }
         initRequest(requestOverTime);
     }
 
@@ -282,12 +286,24 @@ public class RequestOvertimeViewModel extends BaseObservable
 
     public void onCickFromTime(View view) {
         mIsFromTimeSelected = true;
+        if (StringUtils.isNotBlank(getFromTime())) {
+            Calendar calendar = DateTimeUtils.getCalendarFromDate(getFromTime(),
+                    DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+            mDialogManager.dialogDatePicker(this, calendar);
+            mDialogManager.dialogTimePicker(this, calendar);
+        }
         mDialogManager.showDatePickerDialog();
     }
 
     public void onCickToTime(View view) {
         if (mRequestOverTime.getFromTime() != null) {
             mIsFromTimeSelected = false;
+            if (StringUtils.isNotBlank(getFromTime())) {
+                Calendar calendar = DateTimeUtils.getCalendarFromDate(getFromTime(),
+                        DateTimeUtils.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MM);
+                mDialogManager.dialogDatePicker(this, calendar);
+                mDialogManager.dialogTimePicker(this, calendar);
+            }
             mDialogManager.showDatePickerDialog();
         } else {
             mDialogManager.dialogError(

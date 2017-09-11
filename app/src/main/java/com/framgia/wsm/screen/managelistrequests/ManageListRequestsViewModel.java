@@ -38,6 +38,7 @@ import com.framgia.wsm.widget.dialog.DialogManager;
 import com.fstyle.library.DialogAction;
 import com.fstyle.library.MaterialDialog;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -92,7 +93,7 @@ public class ManageListRequestsViewModel extends BaseObservable
         mManageListRequestsAdapter = manageListRequestsAdapter;
         mManageListRequestsAdapter.setItemClickListener(this);
         mManageListRequestsAdapter.setActionRequestListener(this);
-        mDialogManager.dialogDatePicker(this);
+        mDialogManager.dialogDatePicker(this, Calendar.getInstance());
         initData();
     }
 
@@ -717,11 +718,19 @@ public class ManageListRequestsViewModel extends BaseObservable
 
     public void onCickFromTime(View view) {
         mIsFromTimeSelected = true;
+        if (StringUtils.isNotBlank(getFromTime())) {
+            mDialogManager.dialogDatePicker(this, DateTimeUtils.getCalendarFromDate(getFromTime(),
+                    mContext.getString(R.string.format_date_yyyy_mm_dd)));
+        }
         mDialogManager.showDatePickerDialog();
     }
 
     public void onCickToTime(View view) {
         mIsFromTimeSelected = false;
+        if (StringUtils.isNotBlank(getToTime())) {
+            mDialogManager.dialogDatePicker(this, DateTimeUtils.getCalendarFromDate(getToTime(),
+                    mContext.getString(R.string.format_date_yyyy_mm_dd)));
+        }
         mDialogManager.showDatePickerDialog();
     }
 
