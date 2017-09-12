@@ -266,6 +266,12 @@ public final class DateTimeUtils {
         return calendar.get(dateOrTime);
     }
 
+    public static Calendar getCalendarFromDate(String dateTime, String format) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(convertStringToDate(dateTime, format));
+        return calendar;
+    }
+
     public static Date currentMonthWorking() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - ONE_MONTH);

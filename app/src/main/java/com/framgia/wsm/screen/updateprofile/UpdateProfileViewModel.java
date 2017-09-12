@@ -61,7 +61,7 @@ public class UpdateProfileViewModel extends BaseObservable
         mUser = user;
         mNavigator = navigator;
         mDialogManager = dialogManager;
-        mDialogManager.dialogDatePicker(this);
+        mDialogManager.dialogDatePicker(this, Calendar.getInstance());
         mPermissionManager = requestPermissionManager;
         initData(mUser);
     }

@@ -312,10 +312,10 @@ public class DialogManagerImpl implements DialogManager {
 
     @Override
     public DialogManager dialogDatePicker(
-            final DatePickerDialog.OnDateSetListener onDateSetListener) {
+            final DatePickerDialog.OnDateSetListener onDateSetListener, Calendar calendar) {
         mDatePickerDialog =
-                new DatePickerDialog(mContext, onDateSetListener, mCalendar.get(Calendar.YEAR),
-                        mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
+                new DatePickerDialog(mContext, onDateSetListener, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         mDatePickerDialog.setButton(DialogInterface.BUTTON_NEUTRAL,
                 mContext.getText(R.string.clear), new DialogInterface.OnClickListener() {
                     @Override
@@ -336,9 +336,10 @@ public class DialogManagerImpl implements DialogManager {
     }
 
     @Override
-    public DialogManager dialogTimePicker(TimePickerDialog.OnTimeSetListener onTimeSetListener) {
+    public DialogManager dialogTimePicker(TimePickerDialog.OnTimeSetListener onTimeSetListener,
+            Calendar calendar) {
         mTimePickerDialog = new TimePickerDialog(mContext, onTimeSetListener,
-                mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), true);
+                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
         return this;
     }
 
@@ -371,6 +372,28 @@ public class DialogManagerImpl implements DialogManager {
                     })
                     .cancelable(false)
                     .show();
+        }
+    }
+
+    private void customDatePicker(DatePicker datePicker, int year) {
+        int daySpinnerId = Resources.getSystem().getIdentifier(DAY_FIELD, ID, ANDROID);
+        int monthSpinnerId = Resources.getSystem().getIdentifier(MONTH_FIELD, ID, ANDROID);
+        if (year == MONTH_YEAR) {
+            if (daySpinnerId != 0) {
+                View daySpinner = datePicker.findViewById(daySpinnerId);
+                if (daySpinner != null) {
+                    daySpinner.setVisibility(View.GONE);
+                }
+            }
+        } else {
+            if (daySpinnerId != 0 && monthSpinnerId != 0) {
+                View daySpinner = datePicker.findViewById(daySpinnerId);
+                View monthSpinner = datePicker.findViewById(monthSpinnerId);
+                if (daySpinner != null && monthSpinner != null) {
+                    daySpinner.setVisibility(View.GONE);
+                    monthSpinner.setVisibility(View.GONE);
+                }
+            }
         }
     }
 
@@ -428,28 +451,6 @@ public class DialogManagerImpl implements DialogManager {
                 }
             }
             return null;
-        }
-    }
-
-    private void customDatePicker(DatePicker datePicker, int year) {
-        int daySpinnerId = Resources.getSystem().getIdentifier(DAY_FIELD, ID, ANDROID);
-        int monthSpinnerId = Resources.getSystem().getIdentifier(MONTH_FIELD, ID, ANDROID);
-        if (year == MONTH_YEAR) {
-            if (daySpinnerId != 0) {
-                View daySpinner = datePicker.findViewById(daySpinnerId);
-                if (daySpinner != null) {
-                    daySpinner.setVisibility(View.GONE);
-                }
-            }
-        } else {
-            if (daySpinnerId != 0 && monthSpinnerId != 0) {
-                View daySpinner = datePicker.findViewById(daySpinnerId);
-                View monthSpinner = datePicker.findViewById(monthSpinnerId);
-                if (daySpinner != null && monthSpinner != null) {
-                    daySpinner.setVisibility(View.GONE);
-                    monthSpinner.setVisibility(View.GONE);
-                }
-            }
         }
     }
 }

@@ -125,8 +125,10 @@ public class RequestOffViewModel extends BaseRequestOff
         mNavigator = navigator;
         mPresenter.getUser();
         mCalendar = Calendar.getInstance();
-        mDialogManager.dialogDatePicker(this);
         mActionType = actionType;
+        if (mActionType == ActionType.ACTION_CREATE) {
+            mDialogManager.dialogDatePicker(this, Calendar.getInstance());
+        }
         initData(requestOff);
     }
 
@@ -1379,6 +1381,10 @@ public class RequestOffViewModel extends BaseRequestOff
 
     public void onClickStartDate(View view) {
         mFlagDate = FLAG_START_DATE;
+        if (StringUtils.isNotBlank(getStartDate())) {
+            Calendar calendar = DateTimeUtils.getCalendarFromDate(getStartDate(), FORMAT_DATE);
+            mDialogManager.dialogDatePicker(this, calendar);
+        }
         mDialogManager.showDatePickerDialog();
     }
 
@@ -1386,6 +1392,11 @@ public class RequestOffViewModel extends BaseRequestOff
         mFlagDate = FLAG_END_DATE;
         if (mIsVisibleLayoutNoSalary) {
             if (mStartDateNoSalary != null) {
+                if (StringUtils.isNotBlank(getEndDate())) {
+                    Calendar calendar =
+                            DateTimeUtils.getCalendarFromDate(getEndDate(), FORMAT_DATE);
+                    mDialogManager.dialogDatePicker(this, calendar);
+                }
                 mDialogManager.showDatePickerDialog();
             } else {
                 showErrorDialog(mContext.getString(R.string.you_have_to_choose_start_date));
@@ -1393,6 +1404,10 @@ public class RequestOffViewModel extends BaseRequestOff
             return;
         }
         if (mStartDateHaveSalary != null) {
+            if (StringUtils.isNotBlank(getEndDate())) {
+                Calendar calendar = DateTimeUtils.getCalendarFromDate(getEndDate(), FORMAT_DATE);
+                mDialogManager.dialogDatePicker(this, calendar);
+            }
             mDialogManager.showDatePickerDialog();
         } else {
             showErrorDialog(mContext.getString(R.string.you_have_to_choose_start_date));

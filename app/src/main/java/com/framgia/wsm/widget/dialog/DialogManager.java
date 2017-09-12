@@ -6,6 +6,7 @@ import android.support.annotation.ArrayRes;
 import android.support.annotation.DrawableRes;
 import com.framgia.wsm.data.source.remote.api.error.BaseException;
 import com.fstyle.library.MaterialDialog;
+import java.util.Calendar;
 
 /**
  * Created by le.quang.dao on 14/03/2017.
@@ -120,18 +121,20 @@ public interface DialogManager {
     DialogManager dialogMonthYearPicker(DatePickerDialog.OnDateSetListener onDateSetListener,
             int year, int month);
 
-    DialogManager dialogYearPicker(DatePickerDialog.OnDateSetListener onDateSetListener,
-            int year, int month);
+    DialogManager dialogYearPicker(DatePickerDialog.OnDateSetListener onDateSetListener, int year,
+            int month);
 
     void showMonthYearPickerDialog();
 
     void showYearPickerDialog();
 
-    DialogManager dialogDatePicker(DatePickerDialog.OnDateSetListener onDateSetListener);
+    DialogManager dialogDatePicker(DatePickerDialog.OnDateSetListener onDateSetListener,
+            Calendar calendar);
 
     void showDatePickerDialog();
 
-    DialogManager dialogTimePicker(TimePickerDialog.OnTimeSetListener onTimeSetListener);
+    DialogManager dialogTimePicker(TimePickerDialog.OnTimeSetListener onTimeSetListener,
+            Calendar calendar);
 
     void showTimePickerDialog();
 
