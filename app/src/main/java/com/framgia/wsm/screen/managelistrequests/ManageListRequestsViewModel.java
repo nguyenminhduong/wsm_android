@@ -667,8 +667,9 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     private void validateFromTime(String fromTime) {
-        if (StringUtils.isNotBlank(mToTime) && DateTimeUtils.convertStringToDate(fromTime)
-                .after((DateTimeUtils.convertStringToDate(mToTime)))) {
+        String dateFormat = mContext.getString(R.string.format_date_yyyy_mm_dd);
+        if (StringUtils.isNotBlank(mToTime) && DateTimeUtils.convertStringToDate(fromTime,
+                dateFormat).after((DateTimeUtils.convertStringToDate(mToTime, dateFormat)))) {
             mDialogManager.dialogError(
                     mContext.getString(R.string.start_time_can_not_greater_than_end_time),
                     new MaterialDialog.SingleButtonCallback() {
@@ -684,8 +685,9 @@ public class ManageListRequestsViewModel extends BaseObservable
     }
 
     private void validateToTime(String toTime) {
-        if (StringUtils.isNotBlank(mFromTime) && DateTimeUtils.convertStringToDate(toTime)
-                .before((DateTimeUtils.convertStringToDate(mFromTime)))) {
+        String dateFormat = mContext.getString(R.string.format_date_yyyy_mm_dd);
+        if (StringUtils.isNotBlank(mFromTime) && DateTimeUtils.convertStringToDate(toTime,
+                dateFormat).before((DateTimeUtils.convertStringToDate(mFromTime, dateFormat)))) {
             mDialogManager.dialogError(
                     mContext.getString(R.string.end_time_can_not_greater_than_end_time),
                     new MaterialDialog.SingleButtonCallback() {
